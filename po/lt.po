@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-07 10:49+0000\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 12:51+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -69,10 +69,24 @@ msgstr "paketas %s neturi teisingos architektūros"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nepavyko patenkinti \"%s\" priklausomybių, kurių reikia paketui %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Įspėjimas"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "įdiegiant %s (%s) sugadinama \"%s\" priklausomybė, kurios reikia paketui %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "Pridėti %s į planuojamus šalinti"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "jei įmanoma, šalinti %s ir bandyti dar kartą"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -89,9 +103,14 @@ msgstr "%s ir %s tarpusavyje konfliktuoja"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s turi būti pašalintas, tačiau tai yra užrakintas paketas"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nėra ką atlikti"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr "šalinamas %s iš paskirties sąrašo"
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "Nepavyko inicijuoti AUR duomenų bazės"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -100,13 +119,40 @@ msgstr "%s yra abiejuose %s ir %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s: %s jau yra failų sistemoje (priklauso %s)"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s jau yra failų sistemoje"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "jei šio failo nebereikia, pašalinti jį ir bandyti dar kartą"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s: %s jau buvo failų sistemoje"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr "Jo atsarginė kopija buvo padaryta į %s"
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "Šalinami neteisingi failai ir bandoma iš naujo"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s yra neteisingas arba pažeistas"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "galite pašalinti šį failą ir bandyti dar kartą"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -178,10 +224,6 @@ msgstr "Klaida konfigūruojant %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Tikrinama prieinama vieta diske"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Įspėjimas"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -344,6 +386,10 @@ msgstr "Operacija sėkmingai užbaigta"
 msgid "Preparing"
 msgstr "Ruošiama"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nėra ką atlikti"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -373,8 +419,8 @@ msgid "Trust and Import"
 msgstr "Pasitikėti ir importuoti"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
@@ -657,6 +703,26 @@ msgstr "Izoliuota smėliadėžėje"
 msgid "Channels"
 msgstr "Kanalai"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Atitikimas"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Pavadinimas"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Dydis"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Oficialios saugyklos"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Naujinti"
@@ -859,6 +925,10 @@ msgid ""
 msgstr "ieškoti paketų, kuriems priklauso nurodyti failų pavadinimai (failų pavadinimai gali būti daliniai)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr "išvesti tik pavadinimus"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Rodyti išsamesnę paketo informaciją, gali būti nurodyti keli paketai"
 
@@ -923,6 +993,10 @@ msgid "also clone needed dependencies"
 msgstr "taip pat klonuoti reikiamas priklausomybes"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr "neišvesti jokios išvesties"
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "perrašyti esamus failus"
 
@@ -944,6 +1018,10 @@ msgstr "ir --no-clone parinktis bus naudojama priverstinai"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "įdiegus, laikyti sukompiliuotus paketus podėlyje"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr "išvesti tik tai, kas būtų atlikta, bet nevykdyti jokios operacijos"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1012,26 +1090,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Išėjimo kodas yra 100, jeigu yra prieinami atnaujinimai"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "taip pat tikrinti atnaujinimus AUR saugykloje"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "taip pat tikrinti plėtojimo paketų atnaujinimų (naudoti su --aur)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "kiekvienam atnaujinimui išvesti po vieną eilutę"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "kompiliavimo katalogas (naudoti su --devel), jei nėra nurodytas joks katalogas, bus naudojamas tas, kuris nurodytas pamac.conf faile"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "taip pat tikrinti atnaujinimus AUR saugykloje"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "kiekvienam atnaujinimui išvesti po vieną eilutę"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "taip pat tikrinti plėtojimo paketų atnaujinimų (naudoti su --aur)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Naujinti savo sistemą"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "priverstinai įkelti duomenų bazes iš naujo"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "įjungti paketų sendinimus"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1046,14 +1132,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "kompiliavimo katalogas (naudoti su --aur), jei nėra nurodytas joks katalogas, bus naudojamas tas, kuris nurodytas pamac.conf faile"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "priverstinai įkelti duomenų bazes iš naujo"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "įjungti paketų sendinimus"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1085,10 +1163,6 @@ msgstr "nešalinti failų, tik rasti potencialius paketus"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "taip pat rodyti visus failų pavadinimus"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Pavadinimas"
 
 #: src/cli.vala
 msgid "Version"
@@ -1139,6 +1213,11 @@ msgstr "Išvalyti kompiliavimo failus"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr "Pridėti %s į planuojamus įdiegti"
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s yra prieinamas tik iš AUR"
 
@@ -1159,6 +1238,11 @@ msgstr[3] "Grupėje %s yra %u narys"
 #: src/cli.vala
 msgid "all"
 msgstr "visi"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr "Pridėti %s į planuojamus įdiegti iš naujo"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1233,18 +1317,6 @@ msgid "Sort by"
 msgstr "Rikiuoti pagal"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Atitikimas"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Dydis"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Data"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Paleidimas"
 
@@ -1317,10 +1389,6 @@ msgid "Refresh Mirrors List"
 msgstr "Iš naujo įkelti tinklaviečių sąrašą"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Oficialios saugyklos"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1337,10 +1405,6 @@ msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Laikyti sukompiliuotus paketus podėlyje"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Tikrinti atnaujinimus iš AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

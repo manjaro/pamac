@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-08 15:51+0000\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-07 09:45+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -82,10 +82,24 @@ msgstr "paketet %s har inte en giltig arkitektur"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "kan ej möta beroende '%s' som krävs av %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Varning"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "installering av %s (%s) åsidosätter beroendet '%s' som krävs av %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "Lägg till %s till att ta bort"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "om möjligt, ta bort %s och försök igen"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -102,9 +116,14 @@ msgstr "%s och %s konflikterar"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s behöver tas bort, men är ett låst paket"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Inget att göra"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "Misslyckades med att läsa in AUR databas"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -113,13 +132,40 @@ msgstr "%s finns i både %s och %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s: %s finns redan i filsystemet (ägs av %s)"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s finns redan i filsystemet"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "om denna filen inte behövs, ta bort den och försök igen"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s: %s finns redan i filsystemet"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "Tar bort ogiltiga filer och försöker igen "
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s är ogiltig eller korrupt"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "du kan ta bort denna filen och försöka igen"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -191,10 +237,6 @@ msgstr "Fel vid konfigurering %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Kontrollerar tillgängligt diskutrymme"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Varning"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -355,6 +397,10 @@ msgstr "Överföring lyckades"
 msgid "Preparing"
 msgstr "Förbereder"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Inget att göra"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -384,8 +430,8 @@ msgid "Trust and Import"
 msgstr "Tilltro och Importera"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -664,6 +710,26 @@ msgstr "Instängd i en Sandlåda"
 msgid "Channels"
 msgstr "Kanaler"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevans"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Namn"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Storlek"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Officiella förråd"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Uppgradera"
@@ -864,6 +930,10 @@ msgid ""
 msgstr "sök efter paket som äger de angivna filnamnen (filnamn kan vara ofullständiga)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Visa paketdetajler, flera paket kan anges"
 
@@ -928,6 +998,10 @@ msgid "also clone needed dependencies"
 msgstr "klona även nödvändiga besittningar"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "skriv över befintliga filer"
 
@@ -949,6 +1023,10 @@ msgstr "och --no-clone alternativ kommer att verkställas"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "behåll byggda paket i cache efter installationen"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1017,26 +1095,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Avgångskoden är 100 om uppdateringar är tillgängliga"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "leta även efter uppdateringar i AUR"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "leta även efter uppdateringar för utvecklarpaket (använd med --aur)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "visa endast en rad per uppdatering"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "bygg katalogen (använd med --devel), om ingen katalog angetts, kommer en befintlig katalog i pamac.conf att användas istället"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "leta även efter uppdateringar i AUR"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "visa endast en rad per uppdatering"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "leta även efter uppdateringar för utvecklarpaket (använd med --aur)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Uppgradera ditt system"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "forcera en uppdatering av databaserna"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "aktivera paketnedgraderingar"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1051,14 +1137,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "bygg katalogen (använd med --aur), om ingen katalog angetts, kommer en befintlig katalog i pamac.conf att användas istället"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "forcera en uppdatering av databaserna"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "aktivera paketnedgraderingar"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1090,10 +1168,6 @@ msgstr "ta inte bort filer, bara hitta kandidatpaket"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "visar också alla filnamn"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Namn"
 
 #: src/cli.vala
 msgid "Version"
@@ -1142,6 +1216,11 @@ msgstr "Rensa byggfiler"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr "Lägg till %s till att installera"
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s är endast tillgängligt från AUR"
 
@@ -1160,6 +1239,11 @@ msgstr[1] "Det är %u medlemmar i grupp %s"
 #: src/cli.vala
 msgid "all"
 msgstr "alla"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr "Lägg till %s till att ominstallera"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1234,18 +1318,6 @@ msgid "Sort by"
 msgstr "Sortera efter"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevans"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Storlek"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Datum"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Starta"
 
@@ -1318,10 +1390,6 @@ msgid "Refresh Mirrors List"
 msgstr "Uppdatera spegellista"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Officiella förråd"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1338,10 +1406,6 @@ msgstr "Tillåt Pamac att söka och installera paket från AUR"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Behåll byggda paket i cache"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Leta efter uppdateringar i AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

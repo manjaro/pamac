@@ -6,8 +6,8 @@
 # Translators:
 # John Smith <aboutafteragain@gmail.com>, 2015
 # John Smith <aboutafteragain@gmail.com>, 2015
-# Gontzal Manuel Pujana Onaindia <juchuf@gmail.com>, 2020
-# Gontzal Manuel Pujana Onaindia <juchuf@gmail.com>, 2018-2019
+# Thadah D. Denyse <juchuf@gmail.com>, 2020
+# Thadah D. Denyse <juchuf@gmail.com>, 2018-2019
 # Osoitz <oelkoro@gmail.com>, 2015-2017
 # Sergio Moreno <semosa@gmail.com>, 2014
 # Sergio Moreno <semosa@gmail.com>, 2014
@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-06 19:52+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,10 +74,24 @@ msgstr "%s paketeak ez du baliozko arkitektura bat"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "ezin izan da '%s' beharrezko menpekotasuna asetu %s(e)n"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Oharra"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "%s(%s) instalatzeak '%s' menpekotasuna apurtzen du %s(e)n"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -94,9 +108,14 @@ msgstr "%s eta %s gatazkan daude"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s kendu behar da baina blokeatutako pakete bat da"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Ezer ez egiteko"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -105,13 +124,40 @@ msgstr "%s %s zein %s paketeetan existitzen da"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s badago aurretik fitxategi sisteman"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s baliogabea da edo hondatuta dago"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -183,10 +229,6 @@ msgstr "Errorea %s konfiguratzen"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Eskuragarri dagoen disko espazioa egiaztatzen"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Oharra"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -347,6 +389,10 @@ msgstr "Transakzioa ongi burutu da"
 msgid "Preparing"
 msgstr "Prestatzen"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Ezer ez egiteko"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -376,8 +422,8 @@ msgid "Trust and Import"
 msgstr "Fidatu eta inportatu"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Ezeztatu"
 
@@ -656,6 +702,26 @@ msgstr "Sandbox batean konfinatuta"
 msgid "Channels"
 msgstr "Kanalak"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Egokitasuna"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Izena"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Tamaina"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Biltegi ofizialak"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Bertsio-berritu"
@@ -856,6 +922,10 @@ msgid ""
 msgstr "bilatu fitxategi-izen hauen jabeak diren paketeak (fitxategi-izenak partzialak izan daitezke)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Erakutsi paketearen xehetasunak, hainbat pakete zehaztu daitezke"
 
@@ -920,6 +990,10 @@ msgid "also clone needed dependencies"
 msgstr "klonatu beharrezko menpekotasunak ere"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "gainitdatzi existitzen diren fitxategiak"
 
@@ -941,6 +1015,10 @@ msgstr "eta --no-clone aukera aplikatuko da"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "mantendu eraikitako paketeak cachean instalatu ondoren"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1009,26 +1087,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Irteera kodea 100 da eguneraketak eskuragarri badaude"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "AUR eguneraketak ere bilatu"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "Egiaztatu garapen paketeen eguneraketak ere (--aur erabili)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "eguneraketa bakoitzeko bakarrik lerro bat inprimatu"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "eraiketa direktorioa (erabili --devel), direktoriorik ematen ez bada pamac.conf fitxategian zehazten dena erabiliko da"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "AUR eguneraketak ere bilatu"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "eguneraketa bakoitzeko bakarrik lerro bat inprimatu"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "Egiaztatu garapen paketeen eguneraketak ere (--aur erabili)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Bertsio-berritu zure sistema"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "behartu datu-baseen freskatzea"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "gaitu paketeen bertsio zaharragoak"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1043,14 +1129,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "eraiketa direktorioa (erabili --aur), direktoriorik ematen ez bada pamac.conf fitxategian zehazten dena erabiliko da"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "behartu datu-baseen freskatzea"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "gaitu paketeen bertsio zaharragoak"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1082,10 +1160,6 @@ msgstr "ez kendu fitxategiak, bilatu pakete hautagaiak soilik"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "bistaratu fitxategi guztien izenak"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Izena"
 
 #: src/cli.vala
 msgid "Version"
@@ -1134,6 +1208,11 @@ msgstr "Garbitu eraiketa fitxategiak"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s AURen bidez soilik dago eskuragarri"
 
@@ -1152,6 +1231,11 @@ msgstr[1] "%u kide daude %s taldean"
 #: src/cli.vala
 msgid "all"
 msgstr "denak"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1226,18 +1310,6 @@ msgid "Sort by"
 msgstr "Ordenatu honen arabera"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Egokitasuna"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Tamaina"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Abiarazi"
 
@@ -1310,10 +1382,6 @@ msgid "Refresh Mirrors List"
 msgstr "Freskatu ispiluen zerrenda"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Biltegi ofizialak"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1330,10 +1398,6 @@ msgstr "Pamac AURtik paketeak bilatzeko eta instalatzeko baimendu"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Mantendu eraikitako paketeak cachean"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Egiaztatu AUReko eguneraketak"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

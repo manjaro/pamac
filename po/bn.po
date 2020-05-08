@@ -5,13 +5,14 @@
 # 
 # Translators:
 # Ashraful Islam <ashraful0103@gmail.com>, 2018
+# Atif Chy <iftakhar.awal@yahoo.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-06 19:52+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-07 07:02+0000\n"
+"Last-Translator: Atif Chy <iftakhar.awal@yahoo.com>\n"
 "Language-Team: Bengali (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "প্যাকেজ ইনস্টল করুন, আপডেট করুন বা অপসারণ করুন"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "প্যাকেজ ইনস্টল, আপডেট করতে বা অপসারণ করতে প্রমাণীকরণের প্রয়োজন"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -33,25 +34,25 @@ msgstr "alpm লাইব্রেরি চালু করতে ব্যা�
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "প্যাকেজ ডেটাবেস সিঙ্ক্রোনাইজ করা হচ্ছে"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "ডাটাবেসগুলি সিঙ্ক্রোনাইজ করতে ব্যর্থ হয়েছে"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
 msgid "AUR"
-msgstr ""
+msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "লেনদেন আরম্ভ করতে ব্যর্থ"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "লেনদেন প্রস্তুত করতে ব্যর্থ"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -68,9 +69,23 @@ msgstr ""
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr ""
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "সতর্কতাসূচক বিজ্ঞপ্তি"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
+msgstr ""
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -88,9 +103,14 @@ msgstr ""
 msgid "%s needs to be removed but it is a locked package"
 msgstr ""
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
 msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "Aur ডাটাবেস আরম্ভ করতে ব্যর্থ"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -99,12 +119,39 @@ msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
 msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -134,12 +181,12 @@ msgstr ""
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Installing %s"
-msgstr ""
+msgstr "ইনস্টল হচ্ছে %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Upgrading %s"
-msgstr ""
+msgstr "আপগ্রেড হচ্ছে %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -176,10 +223,6 @@ msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
-msgstr ""
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -341,6 +384,10 @@ msgstr ""
 msgid "Preparing"
 msgstr "প্রস্তুত করা হচ্ছে"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr ""
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -370,8 +417,8 @@ msgid "Trust and Import"
 msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr ""
 
@@ -650,6 +697,26 @@ msgstr ""
 msgid "Channels"
 msgstr ""
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr ""
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr ""
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr ""
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr ""
@@ -850,6 +917,10 @@ msgid ""
 msgstr ""
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr ""
 
@@ -914,6 +985,10 @@ msgid "also clone needed dependencies"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr ""
 
@@ -934,6 +1009,10 @@ msgstr ""
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
 #: src/cli.vala
@@ -1003,11 +1082,13 @@ msgid "Exit code is 100 if updates are available"
 msgstr ""
 
 #: src/cli.vala
-msgid "also check updates in AUR"
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
 msgstr ""
 
 #: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
+msgid "also check updates in AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -1015,13 +1096,19 @@ msgid "only print one line per update"
 msgstr ""
 
 #: src/cli.vala
-msgid ""
-"build directory (use with --devel), if no directory is given the one "
-"specified in pamac.conf file is used"
+msgid "also check development packages updates (use with --aur)"
 msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
+msgstr ""
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr ""
+
+#: src/cli.vala
+msgid "enable package downgrades"
 msgstr ""
 
 #: src/cli.vala
@@ -1036,14 +1123,6 @@ msgstr ""
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr ""
-
-#: src/cli.vala
-msgid "enable package downgrades"
 msgstr ""
 
 #: src/cli.vala
@@ -1075,10 +1154,6 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
 msgstr ""
 
 #: src/cli.vala
@@ -1128,6 +1203,11 @@ msgstr ""
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr ""
 
@@ -1145,6 +1225,11 @@ msgstr[1] ""
 
 #: src/cli.vala
 msgid "all"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
 msgstr ""
 
 #: resources/choose_provider_dialog.ui
@@ -1220,18 +1305,6 @@ msgid "Sort by"
 msgstr ""
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr ""
 
@@ -1304,10 +1377,6 @@ msgid "Refresh Mirrors List"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr ""
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1326,37 +1395,33 @@ msgid "Keep built packages in cache"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr ""
-
-#: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "স্ন্যাপ প্যাকেজগুলি তাদের প্রকাশক দ্বারা রক্ষণাবেক্ষণ করা হয়।"
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "স্ন্যাপ সমর্থন সক্ষম করুন"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "প্যামেককে স্ন্যাপগুলি অনুসন্ধান এবং ইনস্টল করার অনুমতি দিন"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "ফ্ল্যাটপ্যাক প্যাকেজগুলি তাদের প্রকাশক দ্বারা রক্ষণাবেক্ষণ করা হয়।"
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
-msgstr ""
+msgstr "ফ্ল্যাটপ্যাক সমর্থন সক্ষম করুন"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "প্যামেককে ফ্ল্যাটপ্যাকগুলি অনুসন্ধান এবং ইনস্টল করার অনুমতি দিন"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "ক্যাশ"

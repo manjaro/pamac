@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
+# Abidin <abidinkofficial@gmail.com>, 2020
 # Cihan Alkan <cihanalk@gmail.com>, 2018
 # Demiray Muhterem <mdemiray@msn.com>, 2013-2019
 # Demiray Muhterem <mdemiray@msn.com>, 2018
@@ -17,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-07 06:05+0000\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 20:18+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -76,10 +77,24 @@ msgstr "%s paketi uygun bir mimariye sahip değil"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "'%s' kurmak için %s bağımlılığının kurulu olması gerekir."
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Uyarı"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "%s (%s) yüklenirken '%s' bağılıkları %s gerektiği için kırılma yaşadı"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "Kaldırmak için %s ekleyin"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "eğer mümkünse, şunu kaldırıp yeniden deneyin: %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -96,9 +111,14 @@ msgstr "%s paketi %s ile çakışıyor"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s paketinin kaldırılması gerekiyor fakat paket kilitli"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Yapılacak Bir Şey Yok"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr "%s hedef listesinden kaldırılıyor"
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "AUR veritabanı başlatılamadı"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -107,13 +127,40 @@ msgstr "%s hem %s hemde %s içinde var"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s: %s dosya sisteminde zaten bulunuyor (sahibi %s)"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s dosya sisteminde zaten mevcut"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "bu dosya gerekli değilse, kaldırın ve yeniden deneyin"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s: %s dosya sisteminde zaten mevcut"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr "Şuraya yedeklendi: %s"
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "Geçersiz dosyalar kaldırılıyor ve yeniden deneniyor"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s geçersiz veya bozuk"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "bu dosyayı kaldırıp yeniden deneyebilirsiniz"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -185,10 +232,6 @@ msgstr "Yapılandırma hatası %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Kullanılabilir disk alanı kontrol ediliyor"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Uyarı"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -349,6 +392,10 @@ msgstr "Işlem Başarılı"
 msgid "Preparing"
 msgstr "Hazırlanıyor"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Yapılacak Bir Şey Yok"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -378,8 +425,8 @@ msgid "Trust and Import"
 msgstr "Güven ve İçe Aktar"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_İptal"
 
@@ -658,6 +705,26 @@ msgstr "Bir Sanal Alanda Sınırlı"
 msgid "Channels"
 msgstr "Kanallar"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Uyumluluk"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "İsim"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Boyut"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Tarih"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Resmi Depolar"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Güncelle"
@@ -858,6 +925,10 @@ msgid ""
 msgstr "Verilen dosya isimlerine sahip olan paketleri ara (dosya isimleri kısmi olabilir)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr "yalnızca isimleri yazdır"
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Paket ayrıntılarını göster, birden fazla paket belirlenebilir"
 
@@ -922,6 +993,10 @@ msgid "also clone needed dependencies"
 msgstr "ayrıca ihtiyaç duyulan bağımlılıkları klonla"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr "hiçbir çıktıyı yazdırma"
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "mevcut dosyaların üzerine yaz"
 
@@ -943,6 +1018,10 @@ msgstr "ve --no-clone seçeneği uygulanacak"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "kurulumdan sonra yerleşik paketleri önbellekte sakla"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr "yalnızca ne yapıldığını yazdır fakat işlemi gerçekleştirme"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1011,26 +1090,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Güncellemeler mevcutsa çıkış kodunuz 100"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "ayrıca AUR güncellemeleri kontrol et"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "ayrıca gelişim paketleri güncellemelerini de kontrol edin (--aur girdisi kullanın)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "her güncelleme için sadece bir satır göster"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "dizin oluşturma (--devel girdisi kullan), eğer pamac.conf dosyasında belirtilen özel bir dizin verilmediyse"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "ayrıca AUR güncellemeleri kontrol et"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "her güncelleme için sadece bir satır göster"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "ayrıca gelişim paketleri güncellemelerini de kontrol edin (--aur girdisi kullanın)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Sisteminizi yükseltin"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "veritabanlarını yenilenmeye zorla"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "paket sürüm düşürmelerini etkinleştir"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1045,14 +1132,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "inşa dizini (--aur ile kullanın), eğer pamac.conf dosyasında belirtilen bir dizin yoksa bu yol kullanılır."
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "veritabanlarını yenilenmeye zorla"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "paket sürüm düşürmelerini etkinleştir"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1084,10 +1163,6 @@ msgstr "dosyaları kaldırmayın, sadece aday paketleri bulun"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "tüm dosya adlarını da göster"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "İsim"
 
 #: src/cli.vala
 msgid "Version"
@@ -1136,6 +1211,11 @@ msgstr "Derleme dosyalarını temizle"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr "Kurmak için %s ekleyin"
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s sadece AUR'dan temin edilebilir."
 
@@ -1154,6 +1234,11 @@ msgstr[1] "%s grubunda %u üye var"
 #: src/cli.vala
 msgid "all"
 msgstr "tümü"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr "Yeniden kurmak için %s ekleyin"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1228,18 +1313,6 @@ msgid "Sort by"
 msgstr "Sırala"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Uyumluluk"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Boyut"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Tarih"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Başlat"
 
@@ -1312,10 +1385,6 @@ msgid "Refresh Mirrors List"
 msgstr "Yansıları Güncelle"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Resmi Depolar"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1332,10 +1401,6 @@ msgstr "AUR paketleri aramak ve kurmak için izin ver"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Yerleşik paketleri önbellekte sakla"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "AUR deposundaki güncellemelere bak"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

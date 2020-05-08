@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-06 19:52+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Estonian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,10 +73,24 @@ msgstr "paketil %s puudub tõene arhitektuuri spetsifikatsioon"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "ei saa rahuldada sõltuvust „%s“, mida vajab %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Hoiatus"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "%s (%s) paigaldamine lõhub sõltuvuse „%s“, mida vajab %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -93,9 +107,14 @@ msgstr "%s ning %s on üksteisega vastuolus"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s tuleb eemaldada aga see on lukustatud pakett"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Pole midagi teha"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -104,13 +123,40 @@ msgstr "%s eksisteerib nii asukohas %s kui ka %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s on juba failisüsteemis olemas"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s on kehtetu või rikutud"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -182,10 +228,6 @@ msgstr "%s seadistamisel esines viga"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Saadaoleva kettaruumi kontroll"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Hoiatus"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -346,6 +388,10 @@ msgstr "Tehingud edukalt lõpetatud"
 msgid "Preparing"
 msgstr "Ettevalmistamine"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Pole midagi teha"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -375,8 +421,8 @@ msgid "Trust and Import"
 msgstr "Usalda ja impordi"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Katkesta"
 
@@ -655,6 +701,26 @@ msgstr "Paigutatud liivakasti"
 msgid "Channels"
 msgstr "Kanalid"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Asjakohasus"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nimi"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Suurus"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Ametlikud hoidlad"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Täienda"
@@ -855,6 +921,10 @@ msgid ""
 msgstr "otsi pakette, millel on antud failinimed (failinimed võivad olla osalised)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Kuva paketi teave, määrata võib mitu paketti"
 
@@ -919,6 +989,10 @@ msgid "also clone needed dependencies"
 msgstr "klooni ka nõutud sõltuvused"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "kirjuta olemasolevad failid üle"
 
@@ -940,6 +1014,10 @@ msgstr "ning valik --no-clone jõustatakse"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "hoia ehitatud paketid peale paigaldust vahemälus"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1008,26 +1086,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Väljumiskood on 100, kui uuendused on saadaval"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "lisaks kontrolli AURist uuendusi"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "kontrolli ka arenduspakettide uuendusi (kasuta koos --aur)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "prindi vaid üks rida uuenduse kohta"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "kompileerimise kaust (kasuta koos --devel); kui kausta pole määratud, kasutatakse failis pamac.conf määratut"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "lisaks kontrolli AURist uuendusi"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "prindi vaid üks rida uuenduse kohta"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "kontrolli ka arenduspakettide uuendusi (kasuta koos --aur)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Täienda oma süsteemi"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "sunni kõikide andmebaaside värskendamine"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "luba pakettide vanandid"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1042,14 +1128,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "kompileerimise kaust (kasuta parameetriga --aur); kui kausta ei anta, valitakse failis pamac.conf määratu"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "sunni kõikide andmebaaside värskendamine"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "luba pakettide vanandid"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1081,10 +1159,6 @@ msgstr "ära eemalda faile, leia ainult kandidaatpaketid"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "kuva ka kõigi failide nimed"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nimi"
 
 #: src/cli.vala
 msgid "Version"
@@ -1133,6 +1207,11 @@ msgstr "Tühjenda ehitusfailid"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s on saadaval ainult AURist"
 
@@ -1151,6 +1230,11 @@ msgstr[1] "Grupis %s on %u liiget"
 #: src/cli.vala
 msgid "all"
 msgstr "kõik"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1225,18 +1309,6 @@ msgid "Sort by"
 msgstr "Sorteeri"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Asjakohasus"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Suurus"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Käivita"
 
@@ -1309,10 +1381,6 @@ msgid "Refresh Mirrors List"
 msgstr "Värskenda peegelsaitide nimistut"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Ametlikud hoidlad"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1329,10 +1397,6 @@ msgstr "Luba Pamacil otsida ning paigaldada pakette AURist"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Hoia ehitatud paketid vahemälus"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Kontrolli uuendusi AURist"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

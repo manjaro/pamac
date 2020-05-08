@@ -18,7 +18,7 @@
 # Ruochen Wang <wangkevin920@163.com>, 2018
 # song day <songday@yeah.net>, 2018
 # Tramsifex <sunnycode@protonmail.com>, 2019-2020
-# taotieren <admin@taotieren.com>, 2019
+# taotieren <admin@taotieren.com>, 2019-2020
 # Tramsifex <sunnycode@protonmail.com>, 2019
 # Zkdc, 2020
 # 吴会欢（Nicholas） <whhxp1028@gmail.com>, 2018
@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-21 06:55+0000\n"
-"Last-Translator: 家鳖大帝 <Z4HD@outlook.com>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,10 +86,24 @@ msgstr "软件包 %s 没有适用的架构"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "无法满足 %s 要求的依赖项 \"%s\""
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "警告"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "安装 %s (%s) 破坏了依赖关系，'%s' 被 %s 所需要"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -106,9 +120,14 @@ msgstr "%s 和 %s 有冲突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要移除但被锁定"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "无需做任何事"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -117,13 +136,40 @@ msgstr "%s 同时存在于 %s 和 %s 中"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s：%s 已经在文件系统中存在"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s 无效或已损坏"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -195,10 +241,6 @@ msgstr "配置 %s 时出错"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "正在检查可用磁盘空间"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "警告"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -358,6 +400,10 @@ msgstr "事务成功完成"
 msgid "Preparing"
 msgstr "正在准备"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "无事可做"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -387,8 +433,8 @@ msgid "Trust and Import"
 msgstr "信任并导入"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "取消 (_C)"
 
@@ -665,6 +711,26 @@ msgstr "被限制在沙盒中"
 msgid "Channels"
 msgstr "通道"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "相关性"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "名称"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "大小"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "日期"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "官方软件仓库"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "升级"
@@ -864,6 +930,10 @@ msgid ""
 msgstr "搜索包含给定文件名的包（可以使用部分文件名）"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "展示包的细节，可以指定多个包"
 
@@ -928,6 +998,10 @@ msgid "also clone needed dependencies"
 msgstr "同时克隆所需的依赖关系"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "覆盖已有文件"
 
@@ -949,6 +1023,10 @@ msgstr "并且 --no-clone 选项将被强制执行"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "安装后将构建出来的包保存在缓存中"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1017,26 +1095,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "若有更新退出代码为 100"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "同时检查 AUR 更新"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "同时检查开发软件包更新 (与 --aur 一起使用)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "每行仅打印一条更新"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "构建目录 (与 --devel 一起使用)，若未指定目录则使用 pamac.conf 中指定的目录"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "同时检查 AUR 更新"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "每行仅打印一条更新"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "同时检查开发软件包更新 (与 --aur 一起使用)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "升级系统"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "强制更新数据库"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "允许包降级"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1051,14 +1137,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "构建目录（与 --aur 一起使用），若未指定目录则使用 pamac.conf 中指定的"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "强制更新数据库"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "允许包降级"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1090,10 +1168,6 @@ msgstr "不移除文件，仅查找候选软件包"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "同时显示所有文件名称"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "名称"
 
 #: src/cli.vala
 msgid "Version"
@@ -1141,6 +1215,11 @@ msgstr "清理构建文件"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s 只能从 AUR 获得"
 
@@ -1158,6 +1237,11 @@ msgstr[0] "%s 组中有 %u 个成员"
 #: src/cli.vala
 msgid "all"
 msgstr "所有的"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1232,18 +1316,6 @@ msgid "Sort by"
 msgstr "排序依据"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "相关性"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "大小"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "日期"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "启动"
 
@@ -1316,10 +1388,6 @@ msgid "Refresh Mirrors List"
 msgstr "刷新镜像列表"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "官方软件仓库"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1335,11 +1403,7 @@ msgstr "允许 Pamac 从 AUR 中搜索并安装软件包"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr "将构建出来的保留在缓存中"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "从 AUR 检查更新"
+msgstr "将构建出来的包保留在缓存中"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

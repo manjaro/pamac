@@ -6,18 +6,18 @@
 # Translators:
 # enolp <enolp@softastur.org>, 2015-2016,2018-2020
 # enolp <enolp@softastur.org>, 2019
-# Ḷḷumex03 <tornes@opmbx.org>, 2013-2014
-# Ḷḷumex03 <tornes@opmbx.org>, 2014
-# Ḷḷumex03 <tornes@opmbx.org>, 2014-2015
+# Ḷḷumex03, 2013-2014
+# Ḷḷumex03, 2014
+# Ḷḷumex03, 2014-2015
 # philm <philm@manjaro.org>, 2015
 # Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-06 19:52+0000\n"
-"Last-Translator: philm <philm@manjaro.org>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Asturian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,10 +74,24 @@ msgstr "el paquete %s nun tien una arquiteutura válida"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nun pue satisfacese la dependencia «%s» riquida por %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Alvertencia"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "la instalación de %s (%s) ruempe la dependencia «%s» riquida por %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -94,9 +108,14 @@ msgstr "%s y %s tán en conflictu"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s ha desaniciase pero ye un paquete bloquiáu"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nun hai que facer nada"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -105,13 +124,40 @@ msgstr "%s esiste en %s y %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s yá esiste nel sistema de ficheros"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s nun val o toyóse"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -183,10 +229,6 @@ msgstr "Fallu mentanto se configuraba %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Comprobando l'espaciu disponible en discu"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Alvertencia"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -347,6 +389,10 @@ msgstr "La transaición finó con ésitu"
 msgid "Preparing"
 msgstr "Tresnando"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nun hai que facer nada"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -376,8 +422,8 @@ msgid "Trust and Import"
 msgstr "Enfotase ya importar"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Encaboxar"
 
@@ -522,7 +568,7 @@ msgstr "Paquetes foriatos"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -655,6 +701,26 @@ msgstr ""
 #: src/manager_window.vala
 msgid "Channels"
 msgstr "Canales"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevancia"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nome"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Tamañu"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Depósitos oficiales"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -812,7 +878,7 @@ msgstr "Nun se permite la compilación de paquetes como root"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr "Nun s'alcontró dengún ficheru PKGBUILD nel direutoriu actual"
+msgstr "Nun s'alcontró nengún ficheru PKGBUILD nel direutoriu actual"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
@@ -840,11 +906,11 @@ msgstr "ficheru(os)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "namás gueta los ficheros instalaos"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "namás gueta los paquetes de los depósitos"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -856,6 +922,10 @@ msgid ""
 msgstr "gueta paquetes que tengan los nomes apurriós (puen tar incompletos)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Amuesa detalles de los paquetes, puen especificase munchos paquetes"
 
@@ -865,7 +935,7 @@ msgstr "Llista paquetes, grupos, depósitos o ficheros"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr "grupu(os)"
+msgstr " grupu(os)"
 
 #: src/cli.vala
 msgid "repo(s)"
@@ -879,7 +949,7 @@ msgstr "llista los paquetes instalaos"
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr "llista los paquetes que s'instalaron como dependencies pero que dengún paquete instaláu rique yá"
+msgstr "llista los paquetes que s'instalaron como dependencies pero que nengún paquete instaláu rique yá"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
@@ -889,13 +959,13 @@ msgstr "llista los paquetes que nun s'alcontraron nos depósitos"
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr "llista tolos paquetes que son miembros de los grupos apurríos. Si nun s'apurre dengún grupu, llístense toos"
+msgstr "llista tolos paquetes que son miembros de los grupos apurríos. Si nun s'apurre nengún grupu, llístense toos"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr "llista tolos paquetes disponible de los depósitos apurríos. Si nun s'apurre dengún depósitu, llístense toos"
+msgstr "llista tolos paquetes disponible de los depósitos apurríos. Si nun s'apurre nengún depósitu, llístense toos"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
@@ -913,11 +983,15 @@ msgstr "direutoriu"
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr "direutoriu de compilación. Si nun s'apurrió dengún, va usase'l que s'especifique en pamac.conf"
+msgstr "direutoriu de compilación. Si nun s'apurrió nengún, va usase'l que s'especifique en pamac.conf"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
 msgstr "clona tamién les dependencies precises"
+
+#: src/cli.vala
+msgid "do not print any output"
+msgstr ""
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -943,8 +1017,12 @@ msgid "keep built packages in cache after installation"
 msgstr "caltién na caché los paquetes de compilación dempués de la instalación"
 
 #: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "nun clona los ficheros de compilación d'AUR, namái usa los llocales"
+msgstr "nun clona los ficheros de compilación d'AUR, namás usa los llocales"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
@@ -968,7 +1046,7 @@ msgstr "sobrescribe los ficheros conflictivos, puen especificase munchos patrone
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "baxa tolos paquete pero nun instala/anueva nada"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
@@ -980,7 +1058,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "nun comprueba anovamientos"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1009,26 +1087,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "El códigu de salida va ser 100 si hai anovamientos disponibles"
 
 #: src/cli.vala
+msgid ""
+"build directory (use with --devel), if no directory is given the one "
+"specified in pamac.conf file is used"
+msgstr "el direutoriu de compilación (usar con --devel). Si nun s'apurrió nengún, va usase'l que s'especifique en pamac.conf"
+
+#: src/cli.vala
 msgid "also check updates in AUR"
 msgstr "cumprueba tamién anovamientos n'AUR"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "amuesa namás una llinia per anovamientu"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "comprueba tamién los anovamientos de paquetes de desendolcu (usar con --aur)"
 
 #: src/cli.vala
-msgid "only print one line per update"
-msgstr "amuesa namái una llinia per anovamientu"
-
-#: src/cli.vala
-msgid ""
-"build directory (use with --devel), if no directory is given the one "
-"specified in pamac.conf file is used"
-msgstr "el direutoriu de compilación (usar con --devel). Si nun s'apurrió dengún, va usase'l que s'especifique en pamac.conf"
-
-#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Anueva'l sistema"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "forcia'l refrescu de les bases de datos"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "activa les baxaes de versiones de los paquetes"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1042,15 +1128,7 @@ msgstr "anueva tamién los paquetes «-git» (usar con --aur)"
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "el direutoriu de compilación (usar con --aur). Si nun s'apurrió dengún, va usase'l que s'especifique en pamac.conf"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "forcia'l refrescu de les bases de datos"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "activa les baxaes de versiones de los paquetes"
+msgstr "el direutoriu de compilación (usar con --aur). Si nun s'apurrió nengún, va usase'l que s'especifique en pamac.conf"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1067,7 +1145,7 @@ msgstr "especifica cuántes versiones de cada paquete se caltienen nel direutori
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr "céntrase namái nos paquetes desinstalaos"
+msgstr "céntrase namás nos paquetes desinstalaos"
 
 #: src/cli.vala
 msgid ""
@@ -1077,15 +1155,11 @@ msgstr "desanicia tolos ficheros de compilación, el direutoriu de compilación 
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr "nun desanicia ficheros, namái alcuentra paquetes candidatos"
+msgstr "nun desanicia ficheros, namás alcuentra paquetes candidatos"
 
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "amuesa tamién los nomes de tolos ficheros"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nome"
 
 #: src/cli.vala
 msgid "Version"
@@ -1106,7 +1180,7 @@ msgstr "Tamañu de la instalación"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr "%s nun pertenez a dengún paquete"
+msgstr "%s nun pertenez a engún paquete"
 
 #: src/cli.vala
 #, c-format
@@ -1122,7 +1196,7 @@ msgstr[1] ""
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Desaniciar namái les versiones de los paquetes desinstalaos"
+msgstr "Desaniciar namás les versiones de los paquetes desinstalaos"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean cache"
@@ -1134,8 +1208,13 @@ msgstr "Llimpiar los ficheros de compilación"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
-msgstr "%s namái ta disponible n'AUR"
+msgstr "%s namás ta disponible n'AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1152,6 +1231,11 @@ msgstr[1] "Hai %u miembros nel grupu %s"
 #: src/cli.vala
 msgid "all"
 msgstr "too"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1226,18 +1310,6 @@ msgid "Sort by"
 msgstr "Ordenar por"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevancia"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Tamañu"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Llanzar"
 
@@ -1269,7 +1341,7 @@ msgstr "Xeneral"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "La mala configuración d'estes opciones pue producir una rotura del sistema.\nModifícales namái si sabes lo que tas faciendo."
+msgstr "La mala configuración d'estes opciones pue producir una rotura del sistema.\nModifícales namás si sabes lo que tas faciendo."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1310,10 +1382,6 @@ msgid "Refresh Mirrors List"
 msgstr "Refrescar la llista d'espeyos"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Depósitos oficiales"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1330,10 +1398,6 @@ msgstr "Permite que Pamac guete ya instale paquetes d'AUR"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Caltener na caché los paquetes de compilación"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Comprobar anovamientos d'AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
@@ -1353,7 +1417,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Los paquetes Flatpak tán calteníos pol so espublizador."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"

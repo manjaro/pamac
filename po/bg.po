@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-10 14:14+0000\n"
-"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,10 +74,24 @@ msgstr "пакета %s няма валидна архитектура"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "не може да се изпълни зависимостта '%s' необходима на %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Внимание"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "инсталиране %s (%s) прекъсващи зависимости '%s' необходими на %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -94,9 +108,14 @@ msgstr "%s и %s са в конфликт"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s трябва да се премахне, но е заключен пакет"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Нищо за правене"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -105,13 +124,40 @@ msgstr "%s съществува в %s и в %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s вече съществува във файловата система"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s е невалиден или повреден"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -183,10 +229,6 @@ msgstr "Грешка при конфигуриране на %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Проверка за налично пространство на диска"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Внимание"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -347,6 +389,10 @@ msgstr "Успешно завършена транзакция"
 msgid "Preparing"
 msgstr "Подготвяне"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Нищо за правене"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -376,8 +422,8 @@ msgid "Trust and Import"
 msgstr "Доверяване и внасяне"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Отказ"
 
@@ -656,6 +702,26 @@ msgstr "Ограничен в пясъчника"
 msgid "Channels"
 msgstr "Канали"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Уместност"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Име"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Размер"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Дата"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Официални хранилища"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Надграждане"
@@ -856,6 +922,10 @@ msgid ""
 msgstr "търсене на пакети, които притежават дадените имена на файлове (имената на файловете могат да бъдат частични)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Показване на детайлите на пакета, могат да се посочат няколко пакета"
 
@@ -920,6 +990,10 @@ msgid "also clone needed dependencies"
 msgstr "нужна е клонираща нужда от зависимости"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "презаписване на съществуващи файлове"
 
@@ -941,6 +1015,10 @@ msgstr "и опцията --no-clone ще бъде изпълнена"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "запази построените пакети в кеша след инсталацията"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1009,26 +1087,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Изходния код е 100 ако има атуализации"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "също така проверка за актуализации в AUR"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "също така провери за актуализации на пакетите за разработки (използвай с --aur)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "отпечатва само един ред за актуализация"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "папка за изграждане (използвай с --devel), ако не е дадена директория, използва се тази в pamac.conf файла"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "също така проверка за актуализации в AUR"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "отпечатва само един ред за актуализация"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "също така провери за актуализации на пакетите за разработки (използвай с --aur)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Надстройте системата си"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "принудително опресняване на базите от данни"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "разрешено връщане в по-ниска версия на пакетите"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1043,14 +1129,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "build directory (използвайте с --aur), ако не се посочи директорията, ще се използва тази в pamac.conf"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "принудително опресняване на базите от данни"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "разрешено връщане в по-ниска версия на пакетите"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1082,10 +1160,6 @@ msgstr "без премахване на файлове, намиране сам
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "показва и всички имена на файлове"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Име"
 
 #: src/cli.vala
 msgid "Version"
@@ -1134,6 +1208,11 @@ msgstr "Почистване файловете за изграждане"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s е достъпен само от AUR"
 
@@ -1152,6 +1231,11 @@ msgstr[1] "Има %u члена в група %s"
 #: src/cli.vala
 msgid "all"
 msgstr "всичко"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1226,18 +1310,6 @@ msgid "Sort by"
 msgstr "Подреди по"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Уместност"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Размер"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Дата"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Пускане"
 
@@ -1310,10 +1382,6 @@ msgid "Refresh Mirrors List"
 msgstr "Обновяване на списъка с огледала"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Официални хранилища"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1330,10 +1398,6 @@ msgstr "Позволи на Pamac да търси и инсталира паке
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Запази построените пакети в кеша"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Проверка за актуализации от  AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-03-09 21:32+0000\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 18:47+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -74,10 +74,24 @@ msgstr "balík %s nie je platnej architektúry"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nie je možné vyriešiť závislosť „%s“ požadovanú balíkom %s"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Upozornenie"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "nainštalovaním balíka %s (%s) sa poruší závislosť „%s“ požadovaná balíkom %s"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr "Pridanie balíka %s na odstránenie"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr "ak je to možné, odstráňte %s a skúste to znovu"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -94,9 +108,14 @@ msgstr "Balíky %s a %s sú v konflikte"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "Balík %s sa musí odstrániť, ale je zablokovaný"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Nič na vykonanie"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr "odstraňuje sa %s z cieľového zoznamu"
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr "Zlyhala inicializácia databázy repozitára AUR"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -105,13 +124,40 @@ msgstr "%s existuje v %s aj v %s"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr "%s: %s už existuje v súborovom systéme (vlastník: %s)"
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s už existuje v systéme súborov"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr "ak tento súbor nie je potrebný, odstráňte ho a skúste to znovu"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr "%s: %s už existoval v súborovom systéme"
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr "Bol zálohovaný do %s"
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr "Odstraňujú sa neplatné súbory a skúša sa znovu"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s je neplatný alebo poškodený"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr "môžete odstrániť tento súbor a skúsiť to znovu"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -183,10 +229,6 @@ msgstr "Chyba počas konfigurácie %s"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Kontroluje sa dostupné miesto na disku"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Upozornenie"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -349,6 +391,10 @@ msgstr "Transakcia bola úspešná"
 msgid "Preparing"
 msgstr "Pripravuje sa"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Nič na vykonanie"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -378,8 +424,8 @@ msgid "Trust and Import"
 msgstr "Dôverovať a importovať"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
@@ -662,6 +708,26 @@ msgstr ""
 msgid "Channels"
 msgstr "Kanály"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevantnosť"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Názov"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Veľkosť"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Dátum"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Oficiálne repozitáre"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Aktualizovať"
@@ -864,6 +930,10 @@ msgid ""
 msgstr "vyhľadávať balíčky, ktoré obsahujú súbory s daným menom (stačí časť mena súboru)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Zobraziť podrobnosti o balíku. Možno uviesť aj viacero balíkov"
 
@@ -928,6 +998,10 @@ msgid "also clone needed dependencies"
 msgstr "tiež klonovať potrebné závislosti"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "prepísať existujúce súbory"
 
@@ -948,6 +1022,10 @@ msgstr ""
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
 #: src/cli.vala
@@ -1017,26 +1095,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Ak sú dostupné aktualizácie, vystupný kód je 100"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "skontrolovať aj aktualizácie v AUR"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr ""
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr ""
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr ""
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "skontrolovať aj aktualizácie v AUR"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr ""
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Povýšiť Váš systém"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "vynútiť obnovenie databáz"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "povoliť prechod na staršiu verziu balíkov"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1051,14 +1137,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "zostaviť priečinok (použi s --aur), ak nebol zadaný priečinok, použije sa ten, čo je určený v súbore pamac.conf"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "vynútiť obnovenie databáz"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "povoliť prechod na staršiu verziu balíkov"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1090,10 +1168,6 @@ msgstr ""
 #: src/cli.vala
 msgid "also display all files names"
 msgstr ""
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Názov"
 
 #: src/cli.vala
 msgid "Version"
@@ -1144,6 +1218,11 @@ msgstr "Vyčistiť súbory zostavení"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr ""
 
@@ -1164,6 +1243,11 @@ msgstr[3] "V skupine %s je %u členov"
 #: src/cli.vala
 msgid "all"
 msgstr "všetko"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1238,18 +1322,6 @@ msgid "Sort by"
 msgstr "Usporiadať podľa"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevantnosť"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Veľkosť"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Dátum"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Spustiť"
 
@@ -1281,7 +1353,7 @@ msgstr "Všeobecné"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "Nesprávna konfigurácia týchto volieb môže viesť k poškodeniu systému.\nUpravte ich, iba ak viete čo robíte."
+msgstr "Nesprávna konfigurácia týchto volieb môže viesť k poškodeniu systému.\nUpravte ich iba vtedy, keď viete čo robíte."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1322,10 +1394,6 @@ msgid "Refresh Mirrors List"
 msgstr "Obnoviť zoznam zrkadiel"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Oficiálne repozitáre"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1342,10 +1410,6 @@ msgstr "Umožní programu Pamac vyhľadať a inštalovať balíky z repozitára 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Ponechať zostavené balíky vo vyrovnávacej pamäti"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "Kontrolovať aktualizácie z repozitára AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
