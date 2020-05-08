@@ -541,16 +541,7 @@ namespace Pamac {
 			transaction.important_details_outpout.connect (on_important_details_outpout);
 			transaction.transaction_sum_populated.connect (() => {
 				// make buttons of pkgs in transaction unsensitive
-				packages_listbox.foreach ((row) => {
-					unowned PackageRow pamac_row = row as PackageRow;
-					if (pamac_row == null) {
-						return;
-					}
-					if (transaction.transaction_summary_contains (pamac_row.pkg.name)) {
-						pamac_row.action_togglebutton.active = false;
-						pamac_row.action_togglebutton.sensitive = false;
-					}
-				});
+				refresh_listbox_buttons ();
 			});
 			// in-app notification
 			notification_button.clicked.connect (close_in_app_notification);
@@ -2397,6 +2388,11 @@ namespace Pamac {
 					return;
 				}
 				Package pkg = pamac_row.pkg;
+				if (transaction.transaction_summary_contains (pkg.name)) {
+					pamac_row.action_togglebutton.active = false;
+					pamac_row.action_togglebutton.sensitive = false;
+					return;
+				}
 				if (!database.should_hold (pkg.name)) {
 					pamac_row.action_togglebutton.sensitive = true;
 				}
@@ -3741,7 +3737,7 @@ namespace Pamac {
 				"program_name", "Pamac",
 				"icon_name", "system-software-install",
 				"logo_icon_name", "system-software-install",
-				"comments", dgettext (null, "A Gtk3 frontend for libalpm"),
+				"comments", dgettext (null, "A Fast Package Manager"),
 				"copyright", "Copyright © 2020 Guillaume Benoit",
 				"authors", authors,
 				"version", VERSION,
