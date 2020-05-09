@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-03-06 17:13+0100\n"
-"PO-Revision-Date: 2020-04-07 13:05+0000\n"
-"Last-Translator: PB\n"
+"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,10 +81,24 @@ msgstr "a csomag %s nem tartalmaz megfelelő architektúrát"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nem lehet kielégíteni a \"%s\" függőséget, melyre a %s csomagnak szüksége van"
 
+#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+msgid "Warning"
+msgstr "Figyelem"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
 msgstr "%s (%s) telepítése függőséget okoz a(z) '%s' melyre a %s csomagnak szüksége van"
+
+#: src/alpm_utils.vala src/cli.vala
+#, c-format
+msgid "Add %s to remove"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "if possible, remove %s and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -101,9 +115,14 @@ msgstr "%s és %s konfliktusban van"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s -t el kell távolítani de a csomag zárolva van"
 
-#: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
-msgid "Nothing to do"
-msgstr "Semmi teendő"
+#: src/alpm_utils.vala
+#, c-format
+msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Failed to initialize AUR database"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
@@ -112,13 +131,40 @@ msgstr "%s előfordul %s és %s -ben is"
 
 #: src/alpm_utils.vala
 #, c-format
+msgid "%s: %s already exists in filesystem (owned by %s)"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
 msgid "%s: %s already exists in filesystem"
 msgstr "%s: %s már létezik a fájlrendszerben"
+
+#: src/alpm_utils.vala
+msgid "if this file is not needed, remove it and retry"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "%s: %s already existed in filesystem"
+msgstr ""
+
+#: src/alpm_utils.vala
+#, c-format
+msgid "It has been backup to %s"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "Removing invalid files and retrying"
+msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
 msgstr "%s hibás vagy sérült"
+
+#: src/alpm_utils.vala
+msgid "you can remove this file and retry"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -190,10 +236,6 @@ msgstr "Hiba a(z) %s konfigurálásakor"
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
 msgstr "Elérhető tárterület ellenőrzése"
-
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
-msgid "Warning"
-msgstr "Figyelem"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -354,6 +396,10 @@ msgstr "A tranzakció sikeresen végrehajtódott"
 msgid "Preparing"
 msgstr "Előkészítés"
 
+#: src/transaction.vala src/installer.vala src/cli.vala
+msgid "Nothing to do"
+msgstr "Semmi teendő"
+
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
@@ -383,8 +429,8 @@ msgid "Trust and Import"
 msgstr "Megbízom benne és betöltöm"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/transaction_sum_dialog.ui resources/manager_window.ui
-#: resources/choose_pkgs_dialog.ui
+#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
+#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "Mégse"
 
@@ -663,6 +709,26 @@ msgstr "Homokozóba (sandbox) zárva"
 msgid "Channels"
 msgstr "Csatornák"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Relevance"
+msgstr "Fontosság"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Név"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Size"
+msgstr "Méret"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Date"
+msgstr "Dátum"
+
+#: src/manager_window.vala resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Hivatalos tárolók"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Frissítés"
@@ -863,6 +929,10 @@ msgid ""
 msgstr "A megadott fájl névvel bíró csomagok keresése (fájlnév részlet is lehet)"
 
 #: src/cli.vala
+msgid "only print names"
+msgstr ""
+
+#: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
 msgstr "Csomag részletek megjelenítése, több csomag kiválasztása lehetséges"
 
@@ -927,6 +997,10 @@ msgid "also clone needed dependencies"
 msgstr "szükséges függőségek klónozása"
 
 #: src/cli.vala
+msgid "do not print any output"
+msgstr ""
+
+#: src/cli.vala
 msgid "overwrite existing files"
 msgstr "meglévő fájlok felülírása"
 
@@ -948,6 +1022,10 @@ msgstr "és a --no-clone opció aktiválva lesz"
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
 msgstr "tartsa a felépített csomagokat gyorsítótárban a telepítés után"
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr ""
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1016,26 +1094,34 @@ msgid "Exit code is 100 if updates are available"
 msgstr "Exit kód 100, ha frissítések elérhetőek"
 
 #: src/cli.vala
-msgid "also check updates in AUR"
-msgstr "frissítések keresése AUR-ban is"
-
-#: src/cli.vala
-msgid "also check development packages updates (use with --aur)"
-msgstr "ellenőrizze a fejlesztés alatt álló csomagok frissítéseit (--aur használattal)"
-
-#: src/cli.vala
-msgid "only print one line per update"
-msgstr "frissítésenként csak egy sort írjon ki"
-
-#: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
 msgstr "könyvtár építése (--devel használattal), ha nincs könyvtár megadva, akkor a pamac.conf- ban megadott lesz használva"
 
 #: src/cli.vala
+msgid "also check updates in AUR"
+msgstr "frissítések keresése AUR-ban is"
+
+#: src/cli.vala
+msgid "only print one line per update"
+msgstr "frissítésenként csak egy sort írjon ki"
+
+#: src/cli.vala
+msgid "also check development packages updates (use with --aur)"
+msgstr "ellenőrizze a fejlesztés alatt álló csomagok frissítéseit (--aur használattal)"
+
+#: src/cli.vala
 msgid "Upgrade your system"
 msgstr "Frissítsd a rendszered"
+
+#: src/cli.vala
+msgid "force the refresh of the databases"
+msgstr "adatbázisok frissítésének kényszerítése"
+
+#: src/cli.vala
+msgid "enable package downgrades"
+msgstr "csomag-visszaállítás engedélyezése"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1050,14 +1136,6 @@ msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
 msgstr "build könyvtár (--aur), ha nincs megadva könyvtár, akkor a pamac.conf fájlban lévő lesz használva"
-
-#: src/cli.vala
-msgid "force the refresh of the databases"
-msgstr "adatbázisok frissítésének kényszerítése"
-
-#: src/cli.vala
-msgid "enable package downgrades"
-msgstr "csomag-visszaállítás engedélyezése"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1089,10 +1167,6 @@ msgstr "ne távolítson el fájlokat, csak keresse a megfelelő csomagokat"
 #: src/cli.vala
 msgid "also display all files names"
 msgstr "jelenítse meg a fájl neveket"
-
-#: src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Név"
 
 #: src/cli.vala
 msgid "Version"
@@ -1141,6 +1215,11 @@ msgstr "Átmeneti telepítő fájlok tisztítása"
 
 #: src/cli.vala
 #, c-format
+msgid "Add %s to install"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
 msgid "%s is only available from AUR"
 msgstr "%s csak az AUR-ból érhető el."
 
@@ -1159,6 +1238,11 @@ msgstr[1] "%u tag van a(z) %s csoportban"
 #: src/cli.vala
 msgid "all"
 msgstr "mind"
+
+#: src/cli.vala
+#, c-format
+msgid "Add %s to reinstall"
+msgstr ""
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1233,18 +1317,6 @@ msgid "Sort by"
 msgstr "Sorrend"
 
 #: resources/manager_window.ui
-msgid "Relevance"
-msgstr "Fontosság"
-
-#: resources/manager_window.ui
-msgid "Size"
-msgstr "Méret"
-
-#: resources/manager_window.ui
-msgid "Date"
-msgstr "Dátum"
-
-#: resources/manager_window.ui
 msgid "Launch"
 msgstr "Indítás"
 
@@ -1317,10 +1389,6 @@ msgid "Refresh Mirrors List"
 msgstr "Tükrök listájának frissítése"
 
 #: resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Hivatalos tárolók"
-
-#: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
@@ -1337,10 +1405,6 @@ msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
 msgstr "Tartsa az összerakott csomagokat a gyorsítótárban"
-
-#: resources/preferences_dialog.ui
-msgid "Check for updates from AUR"
-msgstr "AUR frissítések keresése"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

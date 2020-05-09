@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-06 11:12+0200\n"
+"POT-Creation-Date: 2020-05-09 11:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -773,7 +773,7 @@ msgid "Alpm Package"
 msgstr ""
 
 #: src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui

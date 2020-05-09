@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-06 11:12+0200\n"
-"PO-Revision-Date: 2020-05-06 11:43+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-05-09 00:31+0000\n"
+"Last-Translator: Tramsifex <sunnycode@protonmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,12 +98,12 @@ msgstr "安装 %s (%s) 破坏了依赖关系，'%s' 被 %s 所需要"
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "添加%s以移除"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "如果可能，移除%s并重试"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -123,11 +123,11 @@ msgstr "%s 需要移除但被锁定"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "正在从目标列表移除%s"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "初始化AUR数据失败"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -137,30 +137,30 @@ msgstr "%s 同时存在于 %s 和 %s 中"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s：%s 已经存在于文件系统中（所有者为%s）"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem"
-msgstr "%s：%s 已经在文件系统中存在"
+msgstr "%s：%s 已经存在于文件系统中"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "如不需要此文件，将其移除并重试"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s：%s文件系统中已存在"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "已经备份至%s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "正在移除无效文件并重试"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -169,7 +169,7 @@ msgstr "%s 无效或已损坏"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "您可以移除此文件或重试"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -931,7 +931,7 @@ msgstr "搜索包含给定文件名的包（可以使用部分文件名）"
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "仅打印名称"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -999,7 +999,7 @@ msgstr "同时克隆所需的依赖关系"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "不打印输出"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1026,7 +1026,7 @@ msgstr "安装后将构建出来的包保存在缓存中"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "仅打印完成事项不运行事务"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1216,7 +1216,7 @@ msgstr "清理构建文件"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "添加%s以安装"
 
 #: src/cli.vala
 #, c-format
@@ -1241,7 +1241,7 @@ msgstr "所有的"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "添加%s以重新安装"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

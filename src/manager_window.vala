@@ -3737,7 +3737,7 @@ namespace Pamac {
 				"program_name", "Pamac",
 				"icon_name", "system-software-install",
 				"logo_icon_name", "system-software-install",
-				"comments", dgettext (null, "A Fast Package Manager"),
+				"comments", dgettext (null, "A Package Manager with Alpm, AUR, Flatpak and Snap support"),
 				"copyright", "Copyright © 2020 Guillaume Benoit",
 				"authors", authors,
 				"version", VERSION,
