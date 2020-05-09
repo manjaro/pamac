@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-06 11:12+0200\n"
-"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"POT-Creation-Date: 2020-05-09 11:58+0200\n"
+"PO-Revision-Date: 2020-05-09 11:10+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -781,7 +781,7 @@ msgid "Alpm Package"
 msgstr ""
 
 #: src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui

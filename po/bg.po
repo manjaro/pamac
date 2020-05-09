@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-06 11:12+0200\n"
-"PO-Revision-Date: 2020-05-06 11:43+0000\n"
+"POT-Creation-Date: 2020-05-09 11:58+0200\n"
+"PO-Revision-Date: 2020-05-09 11:10+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -86,12 +86,12 @@ msgstr "инсталиране %s (%s) прекъсващи зависимост
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "Добави %s за премахване"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "ако е възможно, премахни %s и опитай пак"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -111,11 +111,11 @@ msgstr "%s трябва да се премахне, но е заключен п�
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "премахване на %s от избрания списък"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Неуспешно стартиране на AUR базата от данни"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -125,7 +125,7 @@ msgstr "%s съществува в %s и в %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s: %s вече съществува в файлова система (собственост на %s)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -134,21 +134,21 @@ msgstr "%s: %s вече съществува във файловата сист�
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "ако не е необходим този файл, премахни го и опитай отново"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s вече съществува във файловата система"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "Беше архивиран в %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Премахване на невалидни файлове и нов опит"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -157,7 +157,7 @@ msgstr "%s е невалиден или повреден"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "можете да премахнете този файл и да опитате отново"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -783,8 +783,8 @@ msgid "Alpm Package"
 msgstr "Alpm Пакет"
 
 #: src/manager_window.vala
-msgid "A Gtk3 frontend for libalpm"
-msgstr "GTK3 интерфейс за libalpm"
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -923,7 +923,7 @@ msgstr "търсене на пакети, които притежават дад
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "само печат на имена "
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -991,7 +991,7 @@ msgstr "нужна е клонираща нужда от зависимости"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "не отпечатвай нищо"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1018,7 +1018,7 @@ msgstr "запази построените пакети в кеша след и
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "отпечатай какво ще се направи, но не прави транзакцията"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1209,7 +1209,7 @@ msgstr "Почистване файловете за изграждане"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Добави %s за инсталиране"
 
 #: src/cli.vala
 #, c-format
@@ -1235,7 +1235,7 @@ msgstr "всичко"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Добави %s за преинсталиране"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
