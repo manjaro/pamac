@@ -1064,30 +1064,36 @@ namespace Pamac {
 			box.hexpand = true;
 			foreach (unowned string dep in dep_list) {
 				if (add_install_button) {
-					var box2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-					box2.homogeneous = false;
+					var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+					box2.pack_start (new Gtk.Separator (Gtk.Orientation.VERTICAL));
+					var box3 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+					box3.homogeneous = false;
 					var dep_button = new Gtk.Button.with_label (dep);
 					dep_button.relief = Gtk.ReliefStyle.NONE;
 					dep_button.valign = Gtk.Align.CENTER;
 					dep_button.clicked.connect (on_dep_button_clicked);
-					box2.pack_start (dep_button, false);
+					box3.pack_start (dep_button, false);
 					if (!database.has_installed_satisfier (dep)) {
 						var install_dep_button = new Gtk.ToggleButton.with_label (dgettext (null, "Install"));
 						install_dep_button.always_show_image = true;
 						install_dep_button.margin = 3;
 						install_dep_button.toggled.connect (on_install_dep_button_toggled);
-						box2.pack_end (install_dep_button, false);
+						box3.pack_end (install_dep_button, false);
 						string dep_name = find_install_button_dep_name (install_dep_button);
 						install_dep_button.active = (dep_name in to_install);
 					}
+					box2.pack_start (box3);
 					box.pack_start (box2);
 				} else {
+					var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
+					box2.pack_start (new Gtk.Separator (Gtk.Orientation.VERTICAL));
 					var dep_button = new Gtk.Button.with_label (dep);
 					dep_button.relief = Gtk.ReliefStyle.NONE;
 					dep_button.halign = Gtk.Align.START;
 					dep_button.valign = Gtk.Align.CENTER;
 					dep_button.clicked.connect (on_dep_button_clicked);
-					box.pack_start (dep_button, false);
+					box2.pack_start (dep_button, false);
+					box.pack_start (box2);
 				}
 			}
 			deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
