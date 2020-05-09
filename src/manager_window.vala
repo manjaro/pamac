@@ -2150,7 +2150,7 @@ namespace Pamac {
 			if (pkg.app_name == "") {
 				row.name_label.set_markup ("<b>%s</b>".printf (pkg.name));
 			} else {
-				row.name_label.set_markup ("<b>%s</b>".printf (Markup.escape_text (pkg.app_name)));
+				row.name_label.set_markup ("<b>%s (%s)</b>".printf (Markup.escape_text (pkg.app_name), pkg.name));
 			}
 			row.desc_label.label = pkg.desc;
 			if (is_update) {
