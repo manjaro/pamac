@@ -1289,19 +1289,45 @@ namespace Pamac {
 			}
 		}
 
-		bool check_orphans_to_remove (Alpm.Handle alpm_handle, Alpm.List<unowned Alpm.Package> deps_to_check) {
-			bool found = false;
+		void check_orphans_to_remove (Alpm.Handle alpm_handle, Alpm.List<unowned Alpm.Package> deps_to_check) {
 			Alpm.List<unowned Alpm.Package> deps_to_check_next = null;
 			while (deps_to_check != null) {
 				unowned Alpm.Package alpm_pkg = deps_to_check.data;
 				if (!(alpm_pkg.name in checked_deps)) {
 					if (alpm_pkg.reason == Alpm.Package.Reason.DEPEND) {
+						// check if alpm_pkg is only required by package in to_remove
 						Alpm.List<string> requiredby = alpm_pkg.compute_requiredby ();
-						if (requiredby.length () == 1) {
+						unowned Alpm.List<string> list = requiredby;
+						bool extern_dep = false;
+						while (list != null) {
+							unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, list.data);
+							if (satisfier != null) {
+								if (!(satisfier.name in to_remove)) {
+									extern_dep = true;
+									break;
+								}
+							}
+							list.next ();
+						}
+						requiredby.free_inner (GLib.free);
+						if (!extern_dep) {
+							// check if alpm_pkg is only optional by package in to_remove
 							Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
-							if (optionalfor == null) {
-								found = true;
+							list = optionalfor;
+							while (list != null) {
+								unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, list.data);
+								if (satisfier != null) {
+									if (!(satisfier.name in to_remove)) {
+										extern_dep = true;
+										break;
+									}
+								}
+								list.next ();
+							}
+							optionalfor.free_inner (GLib.free);
+							if (!extern_dep) {
 								to_remove.add (alpm_pkg.name);
+								checked_deps.add (alpm_pkg.name);
 								unowned Alpm.List<unowned Alpm.Depend> depends = alpm_pkg.depends;
 								while (depends != null) {
 									unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
@@ -1312,32 +1338,7 @@ namespace Pamac {
 									}
 									depends.next ();
 								}
-							} else {
-								optionalfor.free_inner (GLib.free);
 							}
-						} else {
-							Alpm.List<string> optionalfor = alpm_pkg.compute_optionalfor ();
-							if (optionalfor == null) {
-								// check if alpm_pkg is only required by package in to_remove
-								unowned Alpm.List<string> requiredby_pass = requiredby;
-								bool extern_dep = false;
-								while (requiredby_pass != null) {
-									unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, requiredby_pass.data);
-									if (satisfier != null) {
-										if (!(satisfier.name in to_remove)) {
-											extern_dep = true;
-											break;
-										}
-									}
-									requiredby_pass.next ();
-								}
-								if (!extern_dep) {
-									to_remove.add (alpm_pkg.name);
-								}
-							} else {
-								optionalfor.free_inner (GLib.free);
-							}
-							requiredby.free_inner (GLib.free);
 						}
 					}
 				}
@@ -1346,7 +1347,6 @@ namespace Pamac {
 			if (deps_to_check_next != null) {
 				check_orphans_to_remove (alpm_handle, deps_to_check_next);
 			}
-			return found;
 		}
 
 		void intern_compute_orphans_to_remove (Alpm.Handle alpm_handle) {
@@ -1354,32 +1354,26 @@ namespace Pamac {
 			trans_flags &= ~Alpm.TransFlag.RECURSE;
 			checked_deps.remove_all ();
 			Alpm.List<unowned Alpm.Package> deps_to_check = null;
-			// need to check to_remove multiple times because it's populated by check_orphans_to_remove
-			bool found = true;
-			while (found) {
-				foreach (unowned string name in to_remove) {
-					unowned Alpm.Package? trans_pkg = alpm_handle.localdb.get_pkg (name);
-					if (trans_pkg != null) {
-						if (!(trans_pkg.name in checked_deps)) {
-							checked_deps.add (trans_pkg.name);
-							unowned Alpm.List<unowned Alpm.Depend> depends = trans_pkg.depends;
-							while (depends != null) {
-								unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
-								if (satisfier != null) {
-									if (!(satisfier.name in to_remove)) {
-										deps_to_check.add (satisfier);
-									}
+			foreach (unowned string name in to_remove) {
+				unowned Alpm.Package? trans_pkg = alpm_handle.localdb.get_pkg (name);
+				if (trans_pkg != null) {
+					if (!(trans_pkg.name in checked_deps)) {
+						checked_deps.add (trans_pkg.name);
+						unowned Alpm.List<unowned Alpm.Depend> depends = trans_pkg.depends;
+						while (depends != null) {
+							unowned Alpm.Package? satisfier = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, depends.data.compute_string ());
+							if (satisfier != null) {
+								if (!(satisfier.name in to_remove)) {
+									deps_to_check.add (satisfier);
 								}
-								depends.next ();
 							}
+							depends.next ();
 						}
 					}
 				}
-				if (deps_to_check == null) {
-					found = false;
-				} else {
-					found = check_orphans_to_remove (alpm_handle, deps_to_check);
-				}
+			}
+			if (deps_to_check != null) {
+				check_orphans_to_remove (alpm_handle, deps_to_check);
 			}
 		}
 
