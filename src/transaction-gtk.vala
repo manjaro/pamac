@@ -21,8 +21,8 @@ namespace Pamac {
 	public class TransactionGtk: Transaction {
 		//dialogs
 		TransactionSumDialog transaction_sum_dialog;
-		public GenericSet<string?> transaction_summary;
-		public StringBuilder warning_textbuffer;
+		GenericSet<string?> transaction_summary;
+		StringBuilder warning_textbuffer;
 		string current_action;
 		public ProgressBox progress_box;
 		uint pulse_timeout_id;
@@ -89,7 +89,9 @@ namespace Pamac {
 			emit_script_output.connect (show_details);
 			emit_warning.connect ((msg) => {
 				show_details (msg);
-				warning_textbuffer.append (msg + "\n");
+				lock (warning_textbuffer) {
+					warning_textbuffer.append (msg + "\n");
+				}
 			});
 			emit_error.connect (display_error);
 			start_downloading.connect (() => {progress_box.progressbar.visible = true;});
@@ -578,13 +580,15 @@ namespace Pamac {
 				// empty summary comes in case of transaction preparation failure
 				// with pkgs to build so we show warnings ans ask to edit build files
 				transaction_sum_dialog.edit_button.visible = true;
-				if (warning_textbuffer.len > 0) {
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, Markup.escape_text (warning_textbuffer.str));
-					warning_textbuffer = new StringBuilder ();
-				} else {
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, dgettext (null, "Failed to prepare transaction"));
+				lock (warning_textbuffer) {
+					if (warning_textbuffer.len > 0) {
+						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+													0, Markup.escape_text (warning_textbuffer.str));
+						warning_textbuffer = new StringBuilder ();
+					} else {
+						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
+													0, dgettext (null, "Failed to prepare transaction"));
+					}
 				}
 			} else {
 				show_warnings (true);
@@ -782,48 +786,56 @@ namespace Pamac {
 			}
 		}
 
-		public void show_warnings (bool block) {
-			if (warning_textbuffer.len > 0) {
-				var flags = Gtk.DialogFlags.MODAL;
-				int use_header_bar;
-				Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-				if (use_header_bar == 1) {
-					flags |= Gtk.DialogFlags.USE_HEADER_BAR;
-				}
-				var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
-														application_window,
-														flags);
-				dialog.border_width = 3;
-				dialog.icon_name = "system-software-install";
-				dialog.deletable = false;
-				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-				widget.can_focus = true;
-				widget.has_focus = true;
-				widget.can_default = true;
-				widget.has_default = true;
-				var scrolledwindow = new Gtk.ScrolledWindow (null, null);
-				var label = new Gtk.Label (warning_textbuffer.str);
-				label.selectable = true;
-				label.margin = 12;
-				scrolledwindow.visible = true;
-				label.visible = true;
-				scrolledwindow.add (label);
-				scrolledwindow.expand = true;
-				unowned Gtk.Box box = dialog.get_content_area ();
-				box.add (scrolledwindow);
-				box.spacing = 6;
-				dialog.default_width = 600;
-				dialog.default_height = 300;
-				if (block) {
-					dialog.run ();
-					dialog.destroy ();
-				} else {
-					dialog.response.connect (() => {
-						dialog.destroy ();
-					});
-					dialog.show ();
-				}
+		public void clear_warnings () {
+			lock (warning_textbuffer) {
 				warning_textbuffer = new StringBuilder ();
+			}
+		}
+
+		public void show_warnings (bool block) {
+			lock (warning_textbuffer) {
+				if (warning_textbuffer.len > 0) {
+					var flags = Gtk.DialogFlags.MODAL;
+					int use_header_bar;
+					Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+					if (use_header_bar == 1) {
+						flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+					}
+					var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
+															application_window,
+															flags);
+					dialog.border_width = 3;
+					dialog.icon_name = "system-software-install";
+					dialog.deletable = false;
+					unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
+					widget.can_focus = true;
+					widget.has_focus = true;
+					widget.can_default = true;
+					widget.has_default = true;
+					var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+					var label = new Gtk.Label (warning_textbuffer.str);
+					label.selectable = true;
+					label.margin = 12;
+					scrolledwindow.visible = true;
+					label.visible = true;
+					scrolledwindow.add (label);
+					scrolledwindow.expand = true;
+					unowned Gtk.Box box = dialog.get_content_area ();
+					box.add (scrolledwindow);
+					box.spacing = 6;
+					dialog.default_width = 600;
+					dialog.default_height = 300;
+					if (block) {
+						dialog.run ();
+						dialog.destroy ();
+					} else {
+						dialog.response.connect (() => {
+							dialog.destroy ();
+						});
+						dialog.show ();
+					}
+					warning_textbuffer = new StringBuilder ();
+				}
 			}
 		}
 

@@ -4057,7 +4057,7 @@ namespace Pamac {
 				}
 				transaction.show_warnings (false);
 			} else {
-				transaction.warning_textbuffer = new StringBuilder ();
+				transaction.clear_warnings ();
 				foreach (unowned string name in previous_to_install) {
 					if (!database.is_installed_pkg (name)) {
 						to_install.add (name);
