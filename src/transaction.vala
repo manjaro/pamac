@@ -1136,6 +1136,7 @@ namespace Pamac {
 							to_install_as_dep.add (pkg.name);
 						}
 					}
+					to_remove.remove_all ();
 					foreach (unowned Package pkg in summary.to_remove) {
 						to_remove.add (pkg.name);
 					}

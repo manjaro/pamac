@@ -375,6 +375,8 @@ namespace Pamac {
 			uint64 dsize = 0;
 			transaction_summary_remove_all ();
 			transaction_sum_dialog.sum_list.clear ();
+			// scroll to top
+			transaction_sum_dialog.scrolledwindow.vadjustment.value = 0;
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
 			unowned SList<Package> pkgs;
