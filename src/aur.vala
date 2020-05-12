@@ -35,8 +35,7 @@ namespace Pamac {
 		construct {
 			session = new Soup.Session ();
 			session.user_agent = "Pamac/%s".printf (VERSION);
-			// set a 15 seconds timeout because it is also the dbus daemon timeout
-			session.timeout = 15;
+			session.timeout = 30;
 			cached_infos = new HashTable<unowned string, Json.Object> (str_hash, str_equal);
 			search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 		}
@@ -196,6 +195,7 @@ namespace Pamac {
 						// a error occured, just continue
 						continue;
 					}
+					print("found %s\n", needle);
 					lock (search_results) {
 						search_results.insert (needle, found);
 					}
@@ -223,11 +223,11 @@ namespace Pamac {
 				for (i = 0; i < found_length; i++) {
 					check_set.add (found.get_object_element (i).get_string_member ("Name"));
 				}
-				var inter = new GenericSet<unowned string> (str_hash, str_equal);
 				// compare next array members with check_set
 				// and use inter as next check_set
 				uint all_found_length = all_found.length;
 				for (i = 1; i < all_found_length; i++) {
+					var inter = new GenericSet<unowned string> (str_hash, str_equal);
 					found = all_found[i];
 					found_length = found.get_length ();
 					for (uint j = 0; j < found_length; j++) {
