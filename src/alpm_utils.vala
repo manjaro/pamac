@@ -24,16 +24,16 @@ string current_action;
 uint64 total_download;
 Mutex multi_progress_mutex;
 HashTable<string, uint64?> multi_progress;
-HashTable<string, AsyncQueue> queues_table;
+HashTable<unowned string, AsyncQueue<unowned string>> queues_table;
 GenericArray<string> unresolvables;
 
 class DownloadServer: Object {
 	string cachedir;
 	string server_url;
-	GenericSet<string?> repos;
+	GenericArray<unowned string?> repos;
 	bool emit_signals;
 
-	public DownloadServer (Alpm.Handle handle, owned string server_url, owned GenericSet<string?> repos, bool emit_signals) {
+	public DownloadServer (Alpm.Handle handle, string server_url, GenericArray<unowned string?> repos, bool emit_signals) {
 		cachedir = handle.cachedirs.nth (0).data;
 		this.server_url = server_url;
 		this.repos = repos;
@@ -41,11 +41,14 @@ class DownloadServer: Object {
 	}
 
 	public void download_files () {
-		foreach (unowned string repo in repos) {
+		uint repos_length = repos.length;
+		uint i;
+		for (i = 0; i < repos_length; i++) {
+			unowned string repo = repos[i];
 			if (alpm_utils.cancellable.is_cancelled ()) {
 				return;
 			}
-			unowned AsyncQueue<string>? dload_queue = queues_table.lookup (repo);
+			unowned AsyncQueue<unowned string>? dload_queue = queues_table.lookup (repo);
 			if (dload_queue == null) {
 				continue;
 			}
@@ -141,7 +144,7 @@ namespace Pamac {
 			this.config = config;
 			multi_progress_mutex = Mutex ();
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
-			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
+			queues_table = new HashTable<unowned string, AsyncQueue<unowned string>> (str_hash, str_equal);
 			this.context = context;
 			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
@@ -1523,10 +1526,10 @@ namespace Pamac {
 					}
 					if (trans_pkg.db != null) {
 						if (queues_table.contains (trans_pkg.db.name)) {
-							unowned AsyncQueue<string> queue = queues_table.lookup (trans_pkg.db.name);
+							unowned AsyncQueue<unowned string> queue = queues_table.lookup (trans_pkg.db.name);
 							queue.push (trans_pkg.filename);
 						} else {
-							var queue = new AsyncQueue<string> ();
+							var queue = new AsyncQueue<unowned string> ();
 							queue.push (trans_pkg.filename);
 							queues_table.insert (trans_pkg.db.name, queue);
 						}
@@ -1534,22 +1537,27 @@ namespace Pamac {
 				}
 				pkgs_to_add.next ();
 			}
+			if (total_download == 0) {
+				return;
+			}
 			// compute the dbs available for each mirror
-			var mirrors_table = new HashTable<string, GenericSet<string>> (str_hash, str_equal);
+			var mirrors_table = new HashTable<string, GenericArray<unowned string>> (str_hash, str_equal);
+			var mirrors_list = new GenericArray<string> ();
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
 				unowned Alpm.List<unowned string> servers = db.servers;
 				while (servers != null) {
-					unowned string server_full = servers.data;
-					string server = server_full.replace (db.name, "$repo");
-					if (mirrors_table.contains (server)) {
-						unowned GenericSet<string> repos_set = mirrors_table.lookup (server);
-						repos_set.add (db.name);
+					unowned string server = servers.data;
+					string mirror = server.replace (db.name, "$repo");
+					if (mirrors_table.contains (mirror)) {
+						unowned GenericArray<unowned string> repos = mirrors_table.lookup (mirror);
+						repos.add (db.name);
 					} else {
-						var repos_set = new GenericSet<string> (str_hash, str_equal);
-						repos_set.add (db.name);
-						mirrors_table.insert (server, repos_set);
+						mirrors_list.add (mirror);
+						var repos = new GenericArray<unowned string> ();
+						repos.add (db.name);
+						mirrors_table.insert ((owned) mirror, (owned) repos);
 					}
 					servers.next ();
 				}
@@ -1566,7 +1574,6 @@ namespace Pamac {
 				timeout_id = timeout.attach (context);
 			}
 			// create a thread pool which will download files
-			// there will be two threads per mirror
 			try {
 				var dload_thread_pool = new ThreadPool<DownloadServer>.with_owned_data (
 					// call alpm_action.run () on thread start
@@ -1578,17 +1585,16 @@ namespace Pamac {
 					// exclusive threads
 					true
 				);
-				var iter = HashTableIter<string, GenericSet<string>> (mirrors_table);
-				unowned string mirror;
-				unowned GenericSet<string> repo_set;
-				while (iter.next (out mirror, out repo_set)) {
-					try {
-						// two connections per mirror
-						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set, emit_signals));
-						dload_thread_pool.add (new DownloadServer (handle, mirror, repo_set, emit_signals));
-					} catch (ThreadError e) {
-						warning (e.message);
-					}
+				uint mirrors_length = mirrors_list.length;
+				uint i;
+				for (i = 0; i < mirrors_length; i++) {
+					unowned string mirror = mirrors_list[i];
+					unowned GenericArray<unowned string> repos = mirrors_table.lookup (mirror);
+					// four connections per mirror
+					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
+					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
+					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
+					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
 				}
 				// wait for all thread to finish
 				ThreadPool.free ((owned) dload_thread_pool, false, true);
