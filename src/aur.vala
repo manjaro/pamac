@@ -195,7 +195,6 @@ namespace Pamac {
 						// a error occured, just continue
 						continue;
 					}
-					print("found %s\n", needle);
 					lock (search_results) {
 						search_results.insert (needle, found);
 					}
@@ -205,8 +204,13 @@ namespace Pamac {
 					}
 					all_found.add (found);
 				}
-				// in the case of errors occured and only one needle succeed
-				if (all_found.length == 1) {
+				uint all_found_length = all_found.length;
+				// case of all needle search failed
+				if (all_found_length == 0) {
+					return new GenericArray<unowned Json.Object> ();
+				}
+				// case of errors occured and only one needle succeed
+				if (all_found_length == 1) {
 					unowned Json.Array found = all_found[0];
 					var pkgnames = new GenericArray<unowned string> ();
 					uint found_length = found.get_length ();
@@ -225,7 +229,6 @@ namespace Pamac {
 				}
 				// compare next array members with check_set
 				// and use inter as next check_set
-				uint all_found_length = all_found.length;
 				for (i = 1; i < all_found_length; i++) {
 					var inter = new GenericSet<unowned string> (str_hash, str_equal);
 					found = all_found[i];
