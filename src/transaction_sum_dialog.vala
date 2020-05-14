@@ -27,8 +27,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.TreeView treeview;
 		[GtkChild]
-		public Gtk.ScrolledWindow scrolledwindow;
-		[GtkChild]
 		public Gtk.Button edit_button;
 		[GtkChild]
 		public Gtk.Button cancel_button;

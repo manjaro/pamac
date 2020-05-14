@@ -20,7 +20,6 @@
 namespace Pamac {
 	public class TransactionGtk: Transaction {
 		//dialogs
-		TransactionSumDialog transaction_sum_dialog;
 		GenericSet<string?> transaction_summary;
 		StringBuilder warning_textbuffer;
 		string current_action;
@@ -30,7 +29,6 @@ namespace Pamac {
 		double scroll_value;
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
-		public ChoosePkgsDialog choose_pkgs_dialog;
 		//parent window
 		public Gtk.ApplicationWindow? application_window { get; construct; }
 		// ask_confirmation option
@@ -46,14 +44,12 @@ namespace Pamac {
 
 		construct {
 			// create dialogs
-			transaction_sum_dialog = new TransactionSumDialog (application_window);
 			transaction_summary = new GenericSet<string?> (str_hash, str_equal);
 			warning_textbuffer = new StringBuilder ();
 			current_action = "";
 			progress_box = new ProgressBox ();
 			progress_box.progressbar.text = "";
 			progress_box.progressbar.visible = false;
-			choose_pkgs_dialog = new ChoosePkgsDialog (application_window);
 			// create details textview
 			details_window = new Gtk.ScrolledWindow (null, null);
 			details_window.visible = true;
@@ -198,8 +194,13 @@ namespace Pamac {
 			}
 		}
 
+		public ChoosePkgsDialog create_choose_pkgs_dialog () {
+			return new ChoosePkgsDialog (application_window);
+		}
+
 		protected override string[] choose_optdeps (string pkgname, string[] optdeps) {
 			var optdeps_to_install = new GenericArray<string> ();
+			var choose_pkgs_dialog = create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
 			choose_pkgs_dialog.pkgs_list.clear ();
 			foreach (unowned string name in optdeps) {
@@ -374,9 +375,7 @@ namespace Pamac {
 		int show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
 			transaction_summary_remove_all ();
-			transaction_sum_dialog.sum_list.clear ();
-			// scroll to top
-			transaction_sum_dialog.scrolledwindow.vadjustment.value = 0;
+			var transaction_sum_dialog = new TransactionSumDialog (application_window);
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
 			unowned SList<Package> pkgs;

@@ -388,29 +388,30 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_add_ignorepkgs_button_clicked () {
-			transaction.choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
+			var choose_pkgs_dialog = transaction.create_choose_pkgs_dialog ();
+			choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			while (Gtk.events_pending ()) {
 				Gtk.main_iteration ();
 			}
 			var pkgs = transaction.database.get_installed_pkgs ();
 			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
-			transaction.choose_pkgs_dialog.pkgs_list.clear ();
+			choose_pkgs_dialog.pkgs_list.clear ();
 			foreach (unowned Package pkg in pkgs) {
 				if (pkg.name in ignorepkgs_unique) {
 					continue;
 				}
 				ignorepkgs_unique.add (pkg.name);
 				if (pkg.name in transaction.database.config.ignorepkgs) {
-					transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
+					choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
 				} else {
-					transaction.choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
+					choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 				}
 			}
-			transaction.choose_pkgs_dialog.valid_button.grab_focus ();
+			choose_pkgs_dialog.valid_button.grab_focus ();
 			this.get_window ().set_cursor (null);
-			if (transaction.choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
-				transaction.choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+			if (choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
+				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
 					GLib.Value ign;
 					GLib.Value name;
 					// get value at column 0 to know if it is selected
@@ -427,7 +428,7 @@ namespace Pamac {
 				ignorepkgs_liststore.clear ();
 				populate_ignorepkgs_liststore ();
 			}
-			transaction.choose_pkgs_dialog.hide ();
+			choose_pkgs_dialog.hide ();
 		}
 
 		[GtkCallback]
