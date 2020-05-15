@@ -181,3 +181,10 @@ executable('dependency-checker',
 	vala_args: common_vala_args,
 	c_args: [common_c_args, alpm_c_args],
 	install : true)
+
+executable('outdated-checker',
+	sources: ['alpm_config.vala', 'outdated_checker.vala'],
+	dependencies: [vala_deps, alpm_deps],
+	vala_args: common_vala_args,
+	c_args: [common_c_args, alpm_c_args],
+	install : true)
