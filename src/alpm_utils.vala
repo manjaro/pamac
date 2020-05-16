@@ -24,7 +24,7 @@ string current_action;
 uint64 total_download;
 Mutex multi_progress_mutex;
 HashTable<string, uint64?> multi_progress;
-HashTable<unowned string, AsyncQueue<unowned string>> queues_table;
+HashTable<string, AsyncQueue<string>> queues_table;
 GenericArray<string> unresolvables;
 
 class DownloadServer: Object {
@@ -48,7 +48,7 @@ class DownloadServer: Object {
 			if (alpm_utils.cancellable.is_cancelled ()) {
 				return;
 			}
-			unowned AsyncQueue<unowned string>? dload_queue = queues_table.lookup (repo);
+			unowned AsyncQueue<string>? dload_queue = queues_table.lookup (repo);
 			if (dload_queue == null) {
 				continue;
 			}
@@ -144,7 +144,7 @@ namespace Pamac {
 			this.config = config;
 			multi_progress_mutex = Mutex ();
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
-			queues_table = new HashTable<unowned string, AsyncQueue<unowned string>> (str_hash, str_equal);
+			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
 			this.context = context;
 			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
@@ -164,6 +164,7 @@ namespace Pamac {
 			cancellable = new Cancellable ();
 			soup_session = new Soup.Session ();
 			soup_session.user_agent = "Pamac/%s".printf (VERSION);
+			soup_session.timeout = 30;
 			downloading_updates = false;
 			check_old_lock ();
 		}
@@ -1526,10 +1527,10 @@ namespace Pamac {
 					}
 					if (trans_pkg.db != null) {
 						if (queues_table.contains (trans_pkg.db.name)) {
-							unowned AsyncQueue<unowned string> queue = queues_table.lookup (trans_pkg.db.name);
+							unowned AsyncQueue<string> queue = queues_table.lookup (trans_pkg.db.name);
 							queue.push (trans_pkg.filename);
 						} else {
-							var queue = new AsyncQueue<unowned string> ();
+							var queue = new AsyncQueue<string> ();
 							queue.push (trans_pkg.filename);
 							queues_table.insert (trans_pkg.db.name, queue);
 						}
