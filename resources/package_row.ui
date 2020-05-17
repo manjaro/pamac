@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.36.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PamacPackageRow" parent="GtkListBoxRow">
@@ -9,8 +9,8 @@
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">18</property>
-        <property name="margin_right">18</property>
+        <property name="margin_start">18</property>
+        <property name="margin_end">18</property>
         <property name="margin_top">6</property>
         <property name="margin_bottom">6</property>
         <property name="spacing">12</property>
@@ -18,7 +18,7 @@
           <object class="GtkImage" id="app_icon">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
+            <property name="margin_start">12</property>
             <property name="icon_size">5</property>
           </object>
           <packing>
@@ -144,7 +144,7 @@
                 <property name="single_line_mode">True</property>
                 <property name="max_width_chars">8</property>
                 <property name="track_visited_links">False</property>
-                <property name="xalign">0.5</property>
+                <property name="xalign">0,50000000000000000000</property>
               </object>
               <packing>
                 <property name="expand">False</property>
