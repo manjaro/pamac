@@ -968,7 +968,7 @@ namespace Pamac {
 			bool check_aur_updates = false;
 			if (sysupgrading && database.config.check_aur_updates) {
 				// add all aur updates with also ignored pkgs
-				aur_updates = database.get_all_aur_updates ();
+				aur_updates = database.get_aur_updates (temporary_ignorepkgs);
 				if (aur_updates != null) {
 					check_aur_updates = true;
 				}

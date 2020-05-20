@@ -2221,7 +2221,7 @@ namespace Pamac {
 			return pkgnames;
 		}
 
-		internal SList<AURPackage> get_all_aur_updates () {
+		internal SList<AURPackage> get_aur_updates (GenericSet<string?> temporary_ignorepkgs) {
 			if (loop.is_running ()) {
 				loop.run ();
 			}
@@ -2235,6 +2235,10 @@ namespace Pamac {
 					unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 					while (pkgcache != null) {
 						unowned Alpm.Package installed_pkg = pkgcache.data;
+						if (alpm_handle.should_ignore (installed_pkg) == 1 || installed_pkg.name in temporary_ignorepkgs) {
+							pkgcache.next ();
+							continue;
+						}
 						// check if installed_pkg is a local pkg
 						unowned Alpm.Package? pkg = get_syncpkg (installed_pkg.name);
 						if (pkg == null) {
