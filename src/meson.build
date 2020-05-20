@@ -7,6 +7,7 @@ libsoup = dependency('libsoup-2.4')
 polkit = dependency('polkit-gobject-1')
 libnotify = dependency('libnotify')
 appstream = dependency('appstream-glib')
+gio_unix = dependency('gio-unix-2.0')
 
 gtk3 = dependency('gtk+-3.0', version : '>=3.22')
 gdk3 = dependency('gdk-3.0')
@@ -156,7 +157,7 @@ libpamac_gtk_dep = declare_dependency(link_with: libpamac_gtk)
 
 executable('pamac-manager',
 	sources: ['version.vala', 'history_dialog.vala', preferences_sources, 'local_config.vala', 'package_row.vala', 'manager_window.vala', 'manager.vala', 'search-provider.vala', manager_resources],
-	dependencies: [gtk3, libsoup, libpamac_dep, libpamac_gtk_dep],
+	dependencies: [gtk3, libsoup, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)
@@ -170,7 +171,7 @@ endif
 
 executable('pamac-installer',
 	sources: ['progress_dialog.vala', 'installer.vala', installer_resources],
-	dependencies: [gtk3, libpamac_dep, libpamac_gtk_dep],
+	dependencies: [gtk3, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)

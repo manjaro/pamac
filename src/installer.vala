@@ -49,6 +49,9 @@ namespace Pamac {
 			database = new Database (config);
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog (this);
+			// set translated title
+			var appinfo = new DesktopAppInfo ("pamac-installer.desktop");
+			progress_dialog.title = appinfo.get_name ();
 			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
@@ -74,10 +77,12 @@ namespace Pamac {
 			string[] to_build = {};
 			if (args.length == 1) {
 				display_help ();
+				this.release ();
 				return cmd.get_exit_status ();
 			}
 			if (args[1] == "--help" || args[1] == "-h") {
 				display_help ();
+				this.release ();
 				return cmd.get_exit_status ();
 			} else {
 				bool add_to_remove = false;

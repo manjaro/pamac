@@ -259,5 +259,8 @@ int main (string[] args) {
 	var config = new Pamac.Config ("/etc/pamac.conf");
 	var database = new Pamac.Database (config);
 	var manager = new Pamac.Manager (database);
+	// set translated app name
+	var appinfo = new DesktopAppInfo ("org.manjaro.pamac.manager.desktop");
+	Environment.set_application_name (appinfo.get_name ());
 	return manager.run (args);
 }

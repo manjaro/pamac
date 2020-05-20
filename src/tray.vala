@@ -181,7 +181,7 @@ namespace Pamac {
 		void show_notification (string info) {
 			try {
 				close_notification ();
-				notification = new Notify.Notification (_("Package Manager"), info, "system-software-update");
+				notification = new Notify.Notification (_("Package Manager"), info, "system-software-install-symbolic");
 				notification.set_timeout (Notify.EXPIRES_DEFAULT);
 				notification.add_action ("default", _("Details"), execute_updater);
 				notification.show ();
@@ -194,7 +194,7 @@ namespace Pamac {
 			try {
 				if (notification != null) {
 					if (notification.get_closed_reason () == -1 && notification.body != info) {
-						notification.update (_("Package Manager"), info, "system-software-update");
+						notification.update (_("Package Manager"), info, "system-software-install-symbolic");
 						notification.show ();
 					}
 				} else {
