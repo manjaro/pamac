@@ -347,6 +347,10 @@ namespace Pamac {
 			bool success = compute_aur_build_list_real ();
 			stop_building ();
 			building = false;
+			if (build_cancellable.is_cancelled ()) {
+				emit_script_output ("");
+				emit_action (dgettext (null, "Transaction cancelled") + ".");
+			}
 			return success;
 		}
 
@@ -969,17 +973,15 @@ namespace Pamac {
 					check_aur_updates = true;
 				}
 			}
+			bool success;
 			if (to_build.length > 0 || check_aur_updates) {
-				if (!compute_aur_build_list ()) {
-					//return false;
-				}
+				success = compute_aur_build_list ();
 				aur_updates = new SList<AURPackage> ();
-				if (build_cancellable.is_cancelled ()) {
+				if (!success) {
 					return false;
 				}
 			}
-			bool success =  trans_prepare_and_run (check_aur_updates);
-			return success;
+			return trans_prepare_and_run (check_aur_updates);
 		}
 
 		bool trans_prepare_and_run (bool check_aur_updates) {
@@ -1088,9 +1090,6 @@ namespace Pamac {
 						if (!compute_aur_build_list ()) {
 							return false;
 						}
-						if (build_cancellable.is_cancelled ()) {
-							return false;
-						}
 						success = trans_prepare (check_aur_updates, out summary);
 					} else {
 						emit_action (dgettext (null, "Transaction cancelled") + ".");
@@ -1110,9 +1109,6 @@ namespace Pamac {
 					edit_build_files (build_files.data);
 					emit_script_output ("");
 					if (!compute_aur_build_list ()) {
-						return false;
-					}
-					if (build_cancellable.is_cancelled ()) {
 						return false;
 					}
 					TransactionSummary new_summary;
@@ -1550,9 +1546,6 @@ namespace Pamac {
 					emit_error ("Daemon Error", {"trans_cancel: %s".printf (e.message)});
 				}
 			}
-			emit_script_output ("");
-			emit_action (dgettext (null, "Transaction cancelled") + ".");
-			emit_script_output ("");
 		}
 
 		int choose_provider_real (string depend, string[] providers) {

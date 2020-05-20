@@ -1766,6 +1766,8 @@ namespace Pamac {
 				download_files (alpm_handle, config.max_parallel_downloads);
 				if (cancellable.is_cancelled ()) {
 					trans_release (alpm_handle);
+					do_emit_script_output ("");
+					do_emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				}
 			}
@@ -1776,6 +1778,8 @@ namespace Pamac {
 				// cancel the download return an EXTERNAL_DOWNLOAD error
 				if (err_no == Alpm.Errno.EXTERNAL_DOWNLOAD && cancellable.is_cancelled ()) {
 					trans_release (alpm_handle);
+					do_emit_script_output ("");
+					do_emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				}
 				need_retry = false;
