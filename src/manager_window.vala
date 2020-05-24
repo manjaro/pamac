@@ -1058,7 +1058,7 @@ namespace Pamac {
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
-			label.margin_top = 6;
+			label.margin_top = 10;
 			deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 			var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
 			box.hexpand = true;
