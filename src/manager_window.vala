@@ -1418,22 +1418,7 @@ namespace Pamac {
 				previous_widget = populate_dep_grid (dgettext (null, "Optional For"), pkg.optionalfor, previous_widget);
 			}
 			if (pkg.provides != null) {
-				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
-				label.use_markup = true;
-				label.halign = Gtk.Align.START;
-				label.valign = Gtk.Align.START;
-				label.margin_top = 6;
-				deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-				box.margin = 3;
-				foreach (unowned string name in pkg.provides) {
-					var label2 = new Gtk.Label (name);
-					label2.halign = Gtk.Align.START;
-					label2.margin_start = 12;
-					box.pack_start (label2);
-				}
-				deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
-				previous_widget = label as Gtk.Widget;
+				previous_widget = populate_dep_grid (dgettext (null, "Provides"), pkg.provides, previous_widget);
 			}
 			if (pkg.replaces != null) {
 				previous_widget = populate_dep_grid (dgettext (null, "Replaces"), pkg.replaces, previous_widget);
