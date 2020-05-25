@@ -24,67 +24,46 @@ string current_action;
 uint64 total_download;
 Mutex multi_progress_mutex;
 HashTable<string, uint64?> multi_progress;
-HashTable<string, AsyncQueue<string>> queues_table;
 GenericArray<string> unresolvables;
 
-class DownloadServer: Object {
-	string cachedir;
-	string server_url;
-	GenericArray<unowned string?> repos;
+class Download: Object {
+	unowned string cachedir;
+	unowned Alpm.Package alpm_pkg;
 	bool emit_signals;
 
-	public DownloadServer (Alpm.Handle handle, string server_url, GenericArray<unowned string?> repos, bool emit_signals) {
-		cachedir = handle.cachedirs.nth (0).data;
-		this.server_url = server_url;
-		this.repos = repos;
+	public Download (string cachedir, Alpm.Package alpm_pkg, bool emit_signals) {
+		this.cachedir = cachedir;
+		this.alpm_pkg = alpm_pkg;
 		this.emit_signals = emit_signals;
 	}
 
-	public void download_files () {
-		uint repos_length = repos.length;
-		uint i;
-		for (i = 0; i < repos_length; i++) {
-			unowned string repo = repos[i];
+	public void run () {
+		unowned Alpm.DB? db = alpm_pkg.db;
+		if (db == null) {
+			return;
+		}
+		unowned Alpm.List<unowned string> servers = db.servers;
+		while (servers != null) {
+			int ret;
+			if (emit_signals) {
+				ret = dload ("%s/%s".printf (servers.data, alpm_pkg.filename),
+							cachedir,
+							0,
+							cb_multi_download);
+			} else {
+				ret = dload ("%s/%s".printf (servers.data, alpm_pkg.filename),
+							cachedir,
+							0,
+							null);
+			}
+			if (ret == 0) {
+				// success
+				return;
+			}
 			if (alpm_utils.cancellable.is_cancelled ()) {
 				return;
 			}
-			unowned AsyncQueue<string>? dload_queue = queues_table.lookup (repo);
-			if (dload_queue == null) {
-				continue;
-			}
-			// check if download are available
-			while (dload_queue.length () > 0) {
-				if (alpm_utils.cancellable.is_cancelled ()) {
-					return;
-				}
-				// wait for the lock
-				dload_queue.lock ();
-				string? filename = dload_queue.try_pop_unlocked ();
-				dload_queue.unlock ();
-				if (filename != null) {
-					current_filename = filename;
-					int ret;
-					if (emit_signals) {
-						ret = dload ("%s/%s".printf (server_url.replace ("$repo", repo), filename),
-									cachedir,
-									0,
-									cb_multi_download);
-					} else {
-						ret = dload ("%s/%s".printf (server_url.replace ("$repo", repo), filename),
-									cachedir,
-									0,
-									null);
-					}
-					if (ret == -1) {
-						// error
-						// re-add filename to queue and return to use another mirror
-						dload_queue.lock ();
-						dload_queue.push_front_unlocked (filename);
-						dload_queue.unlock ();
-						return;
-					}
-				}
-			}
+			servers.next ();
 		}
 	}
 }
@@ -144,7 +123,6 @@ namespace Pamac {
 			this.config = config;
 			multi_progress_mutex = Mutex ();
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
-			queues_table = new HashTable<string, AsyncQueue<string>> (str_hash, str_equal);
 			this.context = context;
 			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
@@ -1517,52 +1495,19 @@ namespace Pamac {
 			// create the table of async queues
 			// one queue per repo with files to download
 			total_download = 0;
+			var to_download = new GenericArray<unowned Alpm.Package> ();
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = handle.trans_to_add ();
 			while (pkgs_to_add != null) {
 				unowned Alpm.Package trans_pkg = pkgs_to_add.data;
 				uint64 download_size = trans_pkg.download_size;
 				if (download_size > 0) {
-					if (emit_signals) {
-						total_download += trans_pkg.download_size;
-					}
-					if (trans_pkg.db != null) {
-						if (queues_table.contains (trans_pkg.db.name)) {
-							unowned AsyncQueue<string> queue = queues_table.lookup (trans_pkg.db.name);
-							queue.push (trans_pkg.filename);
-						} else {
-							var queue = new AsyncQueue<string> ();
-							queue.push (trans_pkg.filename);
-							queues_table.insert (trans_pkg.db.name, queue);
-						}
-					}
+					total_download += trans_pkg.download_size;
+					to_download.add (trans_pkg);
 				}
 				pkgs_to_add.next ();
 			}
 			if (total_download == 0) {
 				return;
-			}
-			// compute the dbs available for each mirror
-			var mirrors_table = new HashTable<string, GenericArray<unowned string>> (str_hash, str_equal);
-			var mirrors_list = new GenericArray<string> ();
-			unowned Alpm.List<unowned Alpm.DB> syncdbs = handle.syncdbs;
-			while (syncdbs != null) {
-				unowned Alpm.DB db = syncdbs.data;
-				unowned Alpm.List<unowned string> servers = db.servers;
-				while (servers != null) {
-					unowned string server = servers.data;
-					string mirror = server.replace (db.name, "$repo");
-					if (mirrors_table.contains (mirror)) {
-						unowned GenericArray<unowned string> repos = mirrors_table.lookup (mirror);
-						repos.add (db.name);
-					} else {
-						mirrors_list.add (mirror);
-						var repos = new GenericArray<unowned string> ();
-						repos.add (db.name);
-						mirrors_table.insert ((owned) mirror, (owned) repos);
-					}
-					servers.next ();
-				}
-				syncdbs.next ();
 			}
 			uint timeout_id = 0;
 			if (emit_signals) {
@@ -1570,32 +1515,27 @@ namespace Pamac {
 				emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
 				current_filename = "";
 				// use to track downloads progress
-				var timeout = new TimeoutSource (500);
+				var timeout = new TimeoutSource (100);
 				timeout.set_callback (compute_multi_download_progress);
 				timeout_id = timeout.attach (context);
 			}
 			// create a thread pool which will download files
 			try {
-				var dload_thread_pool = new ThreadPool<DownloadServer>.with_owned_data (
+				var dload_thread_pool = new ThreadPool<Download>.with_owned_data (
 					// call alpm_action.run () on thread start
-					(download_server) => {
-						download_server.download_files ();
+					(download) => {
+						download.run ();
 					},
 					// max simultaneous threads = max simultaneous downloads
 					(int) max_parallel_downloads,
 					// exclusive threads
 					true
 				);
-				uint mirrors_length = mirrors_list.length;
+				unowned string cachedir = handle.cachedirs.nth (0).data;
+				uint length = to_download.length;
 				uint i;
-				for (i = 0; i < mirrors_length; i++) {
-					unowned string mirror = mirrors_list[i];
-					unowned GenericArray<unowned string> repos = mirrors_table.lookup (mirror);
-					// four connections per mirror
-					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
-					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
-					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
-					dload_thread_pool.add (new DownloadServer (handle, mirror, repos, emit_signals));
+				for (i = 0; i < length; i++) {
+					dload_thread_pool.add (new Download (cachedir, to_download[i], emit_signals));
 				}
 				// wait for all thread to finish
 				ThreadPool.free ((owned) dload_thread_pool, false, true);
@@ -1611,7 +1551,6 @@ namespace Pamac {
 				multi_progress.remove_all ();
 				multi_progress_mutex.unlock ();
 			}
-			queues_table.remove_all ();
 		}
 
 		bool trans_commit (Alpm.Handle alpm_handle) {
@@ -2091,7 +2030,7 @@ namespace Pamac {
 			var text = new StringBuilder ("");
 			double fraction;
 			if (total_download > 0) {
-				if (force_emit || timer.elapsed () > 0.5) {
+				if (force_emit || timer.elapsed () > 0.1) {
 					download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 					rates_nb++;
 				} else if (xfered != 0 && xfered != total) {
@@ -2108,16 +2047,17 @@ namespace Pamac {
 				fraction = (double) already_downloaded / total_download;
 				if (fraction <= 1) {
 					text.append ("%s/%s  ".printf (format_size (already_downloaded), format_size (total_download)));
-					uint64 remaining_seconds = 0;
+					uint remaining_seconds = 0;
 					if (download_rate > 0) {
-						remaining_seconds = (total_download - already_downloaded) / download_rate;
+						remaining_seconds = (uint) Math.roundf ((float) (total_download - already_downloaded) / download_rate);
 					}
-					// display remaining time after 5s and only if more than 10s are remaining
-					if (remaining_seconds > 9 && rates_nb > 9) {
-						if (remaining_seconds <= 50) {
-							text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
+					// display remaining time after 2s
+					if (remaining_seconds > 0 && rates_nb > 19) {
+						if (remaining_seconds < 60) {
+							text.append (dngettext (null, "About %lu second remaining",
+										"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
 						} else {
-							uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
+							uint remaining_minutes = (uint) Math.roundf ((float) remaining_seconds / 60);
 							text.append (dngettext (null, "About %lu minute remaining",
 										"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
 						}
@@ -2137,7 +2077,7 @@ namespace Pamac {
 					timer.stop ();
 					fraction = 1;
 				} else {
-					if (timer.elapsed () > 0.5) {
+					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 						rates_nb++;
 					} else {
@@ -2147,17 +2087,17 @@ namespace Pamac {
 					fraction = (double) xfered / total;
 					if (fraction <= 1) {
 						text.append ("%s/%s".printf (format_size (xfered), format_size (total)));
-						uint64 remaining_seconds = 0;
+						uint remaining_seconds = 0;
 						if (download_rate > 0) {
-							remaining_seconds = (total - xfered) / download_rate;
+							remaining_seconds = (uint) Math.roundf ((float) (total_download - already_downloaded) / download_rate);
 						}
-						// display remaining time after 5s and only if more than 10s are remaining
-						if (remaining_seconds > 9 && rates_nb > 9) {
-							text.append ("  ");
-							if (remaining_seconds <= 50) {
-								text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
+						// display remaining time after 2s
+						if (remaining_seconds > 0 && rates_nb > 19) {
+							if (remaining_seconds < 60) {
+								text.append (dngettext (null, "About %lu second remaining",
+											"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
 							} else {
-								uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
+								uint remaining_minutes = (uint) Math.roundf ((float) remaining_seconds / 60);
 								text.append (dngettext (null, "About %lu minute remaining",
 											"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
 							}
@@ -2378,18 +2318,7 @@ void cb_question (Alpm.Question.Data data) {
 }
 
 void cb_progress (Alpm.Progress progress, string pkgname, int percent, uint n_targets, uint current_target) {
-	if (percent == 0) {
 		alpm_utils.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		alpm_utils.timer.start ();
-	} else if (percent == 100) {
-		alpm_utils.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		alpm_utils.timer.stop ();
-	} else if (alpm_utils.timer.elapsed () < 0.5) {
-		return;
-	} else {
-		alpm_utils.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		alpm_utils.timer.start ();
-	}
 }
 
 delegate void DownloadCallback (string filename, uint64 xfered, uint64 total);
@@ -2588,7 +2517,7 @@ int dload (string url, string localpath, int force, DownloadCallback? dl_callbac
 		}
 
 		uint64 progress = 0;
-		uint8[] buf = new uint8[4096];
+		uint8[] buf = new uint8[8192];
 		// start download
 		if (dl_callback != null) {
 			dl_callback (filename, 0, size);

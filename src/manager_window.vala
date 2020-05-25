@@ -1058,7 +1058,7 @@ namespace Pamac {
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
-			label.margin_top = 6;
+			label.margin_top = 10;
 			deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 			var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
 			box.hexpand = true;
@@ -1418,28 +1418,21 @@ namespace Pamac {
 				previous_widget = populate_dep_grid (dgettext (null, "Optional For"), pkg.optionalfor, previous_widget);
 			}
 			if (pkg.provides != null) {
-				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Provides") + ":"));
-				label.use_markup = true;
-				label.halign = Gtk.Align.START;
-				label.valign = Gtk.Align.START;
-				label.margin_top = 6;
-				deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-				box.margin = 3;
-				foreach (unowned string name in pkg.provides) {
-					var label2 = new Gtk.Label (name);
-					label2.halign = Gtk.Align.START;
-					label2.margin_start = 12;
-					box.pack_start (label2);
-				}
-				deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
-				previous_widget = label as Gtk.Widget;
+				previous_widget = populate_dep_grid (dgettext (null, "Provides"), pkg.provides, previous_widget);
 			}
 			if (pkg.replaces != null) {
 				previous_widget = populate_dep_grid (dgettext (null, "Replaces"), pkg.replaces, previous_widget);
 			}
 			if (pkg.conflicts != null) {
 				previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), pkg.conflicts, previous_widget);
+			}
+			// add a bottom separator
+			if (previous_widget != null) {
+				var empty_label = new Gtk.Label ("");
+				deps_grid.attach_next_to (empty_label, previous_widget, Gtk.PositionType.BOTTOM);
+				var bottom_separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
+				bottom_separator.valign = Gtk.Align.START;
+				deps_grid.attach_next_to (bottom_separator, empty_label, Gtk.PositionType.RIGHT);
 			}
 			deps_grid.show_all ();
 			// files
@@ -2700,7 +2693,7 @@ namespace Pamac {
 					break;
 				case "details":
 					Package? pkg = display_package_queue.pop_tail ();
-					if (pkg != null) {
+					if (pkg != null && pkg.name != current_package_displayed.name) {
 						current_package_displayed = pkg;
 						refresh_details ();
 					} else {

@@ -98,16 +98,18 @@ namespace Pamac {
 					bool installed = false;
 					bool repos = false;
 					bool aur = false;
+					bool no_aur = false;
 					bool files = false;
 					bool quiet = false;
 					try {
-						var options = new OptionEntry[6];
+						var options = new OptionEntry[7];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "installed", 'i', 0, OptionArg.NONE, ref installed, null, null };
 						options[2] = { "repos", 'r', 0, OptionArg.NONE, ref repos, null, null };
 						options[3] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
-						options[4] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
-						options[5] = { "quiet", 'q', 0, OptionArg.NONE, ref quiet, null, null };
+						options[4] = { "no-aur", 0, 0, OptionArg.NONE, ref no_aur, null, null };
+						options[5] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
+						options[6] = { "quiet", 'q', 0, OptionArg.NONE, ref quiet, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -129,8 +131,16 @@ namespace Pamac {
 					if (files) {
 						search_files (args[2:args.length], quiet);
 						return;
-					} else if (aur) {
+					}
+					if (aur) {
+						if (no_aur) {
+							display_search_help ();
+							return;
+						}
 						database.config.enable_aur = true;
+					}
+					if (no_aur) {
+						database.config.enable_aur = false;
 					}
 					if (installed) {
 						if (repos) {
@@ -158,10 +168,12 @@ namespace Pamac {
 			} else if (args[1] == "info") {
 				if (args.length > 2) {
 					bool aur = false;
+					bool no_aur = false;
 					try {
-						var options = new OptionEntry[2];
+						var options = new OptionEntry[3];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
+						options[2] = { "no-aur", 0, 0, OptionArg.NONE, ref no_aur, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -181,7 +193,14 @@ namespace Pamac {
 					}
 					init_database ();
 					if (aur) {
+						if (no_aur) {
+							display_info_help ();
+							return;
+						}
 						database.config.enable_aur = true;
+					}
+					if (no_aur) {
+						database.config.enable_aur = false;
 					}
 					display_pkg_infos (args[2:args.length]);
 				} else {
@@ -314,17 +333,19 @@ namespace Pamac {
 				bool no_clone = false;
 				bool no_confirm = false;
 				bool keep = false;
+				bool no_keep = false;
 				bool dry_run = false;
 				string? builddir = null;
 				if (args.length > 2) {
 					try {
-						var options = new OptionEntry[6];
+						var options = new OptionEntry[7];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "no-clone", 0, 0, OptionArg.NONE, ref no_clone, null, null };
 						options[2] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
 						options[3] = { "keep", 'k', 0, OptionArg.NONE, ref keep, null, null };
-						options[4] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
-						options[5] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
+						options[4] = { "no-keep", 0, 0, OptionArg.NONE, ref no_keep, null, null };
+						options[5] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+						options[6] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -356,7 +377,14 @@ namespace Pamac {
 					transaction.dry_run = true;
 				}
 				if (keep) {
+					if (no_keep) {
+						display_build_help ();
+						return;
+					}
 					database.config.keep_built_pkgs = true;
+				}
+				if (no_keep) {
+					database.config.keep_built_pkgs = false;
 				}
 				if (builddir != null) {
 					database.config.aur_build_dir = builddir;
@@ -404,6 +432,7 @@ namespace Pamac {
 			} else if (args[1] == "install") {
 				if (args.length > 2) {
 					bool no_confirm = false;
+					bool upgrade = false;
 					bool no_upgrade = false;
 					bool download_only = false;
 					bool as_deps = false;
@@ -412,16 +441,17 @@ namespace Pamac {
 					string? overwrite = null;
 					string? ignore = null;
 					try {
-						var options = new OptionEntry[9];
+						var options = new OptionEntry[10];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
-						options[2] = { "no-upgrade", 0, 0, OptionArg.NONE, ref no_upgrade, null, null };
-						options[3] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
-						options[4] = { "as-deps", 0, 0, OptionArg.NONE, ref as_deps, null, null };
-						options[5] = { "as-explicit", 0, 0, OptionArg.NONE, ref as_explicit, null, null };
-						options[6] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
-						options[7] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
-						options[8] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
+						options[2] = { "upgrade", 0, 0, OptionArg.NONE, ref upgrade, null, null };
+						options[3] = { "no-upgrade", 0, 0, OptionArg.NONE, ref no_upgrade, null, null };
+						options[4] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
+						options[5] = { "as-deps", 0, 0, OptionArg.NONE, ref as_deps, null, null };
+						options[6] = { "as-explicit", 0, 0, OptionArg.NONE, ref as_explicit, null, null };
+						options[7] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
+						options[8] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
+						options[9] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -459,6 +489,13 @@ namespace Pamac {
 					}
 					if (dry_run) {
 						transaction.dry_run = true;
+					}
+					if (upgrade) {
+						if (no_upgrade) {
+							display_install_help ();
+							return;
+						}
+						transaction.database.config.simple_install = false;
 					}
 					if (no_upgrade) {
 						transaction.database.config.simple_install = true;
@@ -523,16 +560,18 @@ namespace Pamac {
 					bool no_confirm = false;
 					bool no_save = false;
 					bool orphans = false;
+					bool no_orphans = false;
 					bool unneeded = false;
 					bool dry_run = false;
 					try {
-						var options = new OptionEntry[6];
+						var options = new OptionEntry[7];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
 						options[2] = { "orphans", 'o', 0, OptionArg.NONE, ref orphans, null, null };
-						options[3] = { "unneeded", 'u', 0, OptionArg.NONE, ref unneeded, null, null };
-						options[4] = { "no-save", 'n', 0, OptionArg.NONE, ref no_save, null, null };
-						options[5] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
+						options[3] = { "no-orphans", 0, 0, OptionArg.NONE, ref no_orphans, null, null };
+						options[4] = { "unneeded", 'u', 0, OptionArg.NONE, ref unneeded, null, null };
+						options[5] = { "no-save", 'n', 0, OptionArg.NONE, ref no_save, null, null };
+						options[6] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -548,6 +587,10 @@ namespace Pamac {
 					if (args.length == 2) {
 						// no target
 						if (orphans) {
+							if (no_orphans) {
+								display_remove_help ();
+								return;
+							}
 							init_transaction ();
 							if (no_confirm) {
 								transaction.no_confirm = true;
@@ -564,10 +607,17 @@ namespace Pamac {
 						if (dry_run) {
 							transaction.dry_run = true;
 						}
-						if (database.config.recurse) {
-							orphans = true;
+						if (orphans) {
+							if (no_orphans) {
+								display_remove_help ();
+								return;
+							}
+							database.config.recurse = true;
 						}
-						remove_pkgs (args[2:args.length], orphans, unneeded, no_save);
+						if (no_orphans) {
+							database.config.recurse = false;
+						}
+						remove_pkgs (args[2:args.length], unneeded, no_save);
 					}
 				} else {
 					display_remove_help ();
@@ -575,19 +625,23 @@ namespace Pamac {
 			} else if (args[1] == "checkupdates") {
 				bool quiet = false;
 				bool aur = false;
+				bool no_aur = false;
 				bool devel = false;
+				bool no_devel = false;
 				bool refresh_tmp_files_dbs = false;
 				bool download_updates = false;
 				string? builddir = null;
 				try {
-					var options = new OptionEntry[7];
+					var options = new OptionEntry[9];
 					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 					options[1] = { "quiet", 'q', 0, OptionArg.NONE, ref quiet, null, null };
 					options[2] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
-					options[3] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
-					options[4] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
-					options[5] = { "refresh-tmp-files-dbs", 0, 0, OptionArg.NONE, ref refresh_tmp_files_dbs, null, null };
-					options[6] = { "download-updates", 0, 0, OptionArg.NONE, ref download_updates, null, null };
+					options[3] = { "no-aur", 0, 0, OptionArg.NONE, ref no_aur, null, null };
+					options[4] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
+					options[5] = { "no-devel", 0, 0, OptionArg.NONE, ref no_devel, null, null };
+					options[6] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+					options[7] = { "refresh-tmp-files-dbs", 0, 0, OptionArg.NONE, ref refresh_tmp_files_dbs, null, null };
+					options[8] = { "download-updates", 0, 0, OptionArg.NONE, ref download_updates, null, null };
 					var opt_context = new OptionContext (null);
 					opt_context.set_help_enabled (false);
 					opt_context.add_main_entries (options, null);
@@ -601,45 +655,73 @@ namespace Pamac {
 					return;
 				}
 				init_database ();
-				if (aur || database.config.check_aur_updates) {
+				if (aur) {
+					if (no_aur) {
+						display_checkupdates_help ();
+						return;
+					}
 					database.config.enable_aur = true;
 					database.config.check_aur_updates = true;
-					if (devel || database.config.check_aur_vcs_updates) {
-						if (Posix.geteuid () == 0) {
-							// can't check as root
-							stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Check development packages updates as root is not allowed"));
-							database.config.check_aur_vcs_updates = false;
-						} else {
-							database.config.check_aur_vcs_updates = true;
-							if (builddir != null) {
-								database.config.aur_build_dir = builddir;
-							}
+				}
+				if (no_aur) {
+					if (devel) {
+						display_checkupdates_help ();
+						return;
+					}
+					database.config.enable_aur = false;
+					database.config.check_aur_updates = false;
+					database.config.check_aur_vcs_updates = false;
+				}
+				if (devel) {
+					if (no_devel) {
+						display_checkupdates_help ();
+						return;
+					}
+					database.config.check_aur_vcs_updates = true;
+				}
+				if (no_devel) {
+					database.config.check_aur_vcs_updates = false;
+				}
+				if (database.config.check_aur_vcs_updates) {
+					if (Posix.geteuid () == 0) {
+						// can't check as root
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Check development packages updates as root is not allowed"));
+						database.config.check_aur_vcs_updates = false;
+					} else {
+						if (builddir != null) {
+							database.config.aur_build_dir = builddir;
 						}
 					}
 				}
 				checkupdates (quiet, refresh_tmp_files_dbs, download_updates);
 			} else if (args[1] == "update" || args[1] == "upgrade") {
 				bool aur = false;
+				bool no_aur = false;
 				bool devel = false;
+				bool no_devel = false;
 				bool no_confirm = false;
 				bool download_only = false;
 				bool force_refresh = false;
 				bool enable_downgrade = false;
+				bool disable_downgrade = false;
 				string? builddir = null;
 				string? overwrite = null;
 				string? ignore = null;
 				try {
-					var options = new OptionEntry[10];
+					var options = new OptionEntry[13];
 					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 					options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
-					options[2] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
-					options[3] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
-					options[4] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
-					options[5] = { "force-refresh", 0, 0, OptionArg.NONE, ref force_refresh, null, null };
-					options[6] = { "enable-downgrade", 0, 0, OptionArg.NONE, ref enable_downgrade, null, null };
-					options[7] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
-					options[8] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
-					options[9] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
+					options[2] = { "no-aur", 0, 0, OptionArg.NONE, ref no_aur, null, null };
+					options[3] = { "devel", 0, 0, OptionArg.NONE, ref devel, null, null };
+					options[4] = { "no-devel", 0, 0, OptionArg.NONE, ref no_devel, null, null };
+					options[5] = { "builddir", 0, 0, OptionArg.STRING, ref builddir, null, null };
+					options[6] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
+					options[7] = { "force-refresh", 0, 0, OptionArg.NONE, ref force_refresh, null, null };
+					options[8] = { "enable-downgrade", 0, 0, OptionArg.NONE, ref enable_downgrade, null, null };
+					options[9] = { "disable-downgrade", 0, 0, OptionArg.NONE, ref disable_downgrade, null, null };
+					options[10] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
+					options[11] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
+					options[12] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
 					var opt_context = new OptionContext (null);
 					opt_context.set_help_enabled (false);
 					opt_context.add_main_entries (options, null);
@@ -653,25 +735,55 @@ namespace Pamac {
 					return;
 				}
 				init_transaction ();
-				if (aur || database.config.enable_aur) {
+				if (aur) {
+					if (no_aur) {
+						display_upgrade_help ();
+						return;
+					}
+					database.config.enable_aur = true;
+					database.config.check_aur_updates = true;
+				}
+				if (no_aur) {
+					if (devel) {
+						display_upgrade_help ();
+						return;
+					}
+					database.config.enable_aur = false;
+					database.config.check_aur_updates = false;
+					database.config.check_aur_vcs_updates = false;
+				}
+				if (devel) {
+					if (no_devel) {
+						display_upgrade_help ();
+						return;
+					}
+					database.config.check_aur_vcs_updates = true;
+				}
+				if (no_devel) {
+					database.config.check_aur_vcs_updates = false;
+				}
+				if (database.config.check_aur_updates) {
 					if (Posix.geteuid () == 0) {
 						// can't build as root
 						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root is not allowed") + "\n");
 						database.config.enable_aur = false;
 						database.config.check_aur_updates = false;
+						database.config.check_aur_vcs_updates = false;
 					} else {
-						database.config.enable_aur = true;
-						database.config.check_aur_updates = true;
-						if (devel) {
-							database.config.check_aur_vcs_updates = true;
-						}
 						if (builddir != null) {
 							database.config.aur_build_dir = builddir;
 						}
 					}
 				}
 				if (enable_downgrade) {
+					if (disable_downgrade) {
+						display_upgrade_help ();
+						return;
+					}
 					database.config.enable_downgrade = true;
+				}
+				if (disable_downgrade) {
+					database.config.enable_downgrade = false;
 				}
 				if (ignore != null) {
 					foreach (unowned string name in ignore.split(",")) {
@@ -879,7 +991,7 @@ namespace Pamac {
 
 		void display_help () {
 			string[] actions = {"--version",
-								"--help,-h",
+								"--help, -h",
 								"search",
 								"list",
 								"info",
@@ -913,7 +1025,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "Available actions") + ":\n");
 			foreach (unowned string action in actions) {
 				stdout.printf ("  pamac %-14s".printf (action));
-				if (action == "--help,-h") {
+				if (action == "--help, -h") {
 					stdout.printf (" [%s]".printf (dgettext (null,  "action")));
 				}
 				if (action in options_actions) {
@@ -933,15 +1045,16 @@ namespace Pamac {
 		void display_search_help () {
 			stdout.printf (dgettext (null, "Search for packages or files, multiple search terms can be specified"));
 			stdout.printf ("\n\n");
-			stdout.printf ("pamac search [%s] <%s>".printf (dgettext (null, "options"), "%s,%s".printf (dgettext (null, "package(s)"), dgettext (null, "file(s)"))));
+			stdout.printf ("pamac search [%s] <%s>".printf (dgettext (null, "options"), "%s/%s".printf (dgettext (null, "package(s)"), dgettext (null, "file(s)"))));
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  -i, --installed",
-								"  -r, --repos",
-								"  -a, --aur",
-								"  -f, --files",
-								"  -q, --quiet"};
+			string[] options = {"  --installed, -i",
+								"  --repos, -r",
+								"  --aur, -a",
+								"  --no-aur",
+								"  --files, -f",
+								"  --quiet, -q"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -951,6 +1064,7 @@ namespace Pamac {
 			string[] details = {dgettext (null, "only search for installed packages"),
 								dgettext (null, "only search for packages in repositories"),
 								dgettext (null, "also search in AUR"),
+								dgettext (null, "do not search in AUR"),
 								dgettext (null, "search for packages which own the given filenames (filenames can be partial)"),
 								dgettext (null, "only print names")};
 			int i = 0;
@@ -974,14 +1088,16 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  -a, --aur"};
+			string[] options = {"  --aur, -a",
+								"  --no-aur",};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
 					max_length = length;
 				}
 			}
-			string[] details = {dgettext (null, "also search in AUR")};
+			string[] details = {dgettext (null, "also search in AUR"),
+								dgettext (null, "do not search in AUR")};
 			int i = 0;
 			foreach (unowned string option in options) {
 				GenericArray<string> cuts = split_string (details[i], max_length + 3);
@@ -1003,13 +1119,13 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  -i, --installed",
-								"  -o, --orphans",
-								"  -m, --foreign",
-								"  %s [%s]".printf ("-g, --groups", dgettext (null, "group(s)")),
-								"  %s [%s]".printf ("-r, --repos", dgettext (null, "repo(s)")),
-								"  %s <%s>".printf ("-f, --files", dgettext (null, "package(s)")),
-								"  -q, --quiet"};
+			string[] options = {"  --installed, -i",
+								"  --orphans, -o",
+								"  --foreign, -m",
+								"  --groups, -g [%s]".printf (dgettext (null, "group(s)")),
+								"  --repos, -r [%s]".printf (dgettext (null, "repo(s)")),
+								"  --files, -f <%s>".printf (dgettext (null, "package(s)")),
+								"  --quiet, -q"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -1044,9 +1160,9 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  %s <%s>".printf ("--builddir", dgettext (null, "dir")),
-								"  -r,--recurse",
-								"  -q, --quiet",
+			string[] options = {"  --builddir <%s>".printf (dgettext (null, "dir")),
+								"  --recurse, -r",
+								"  --quiet, -q",
 								"  --overwrite"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -1085,9 +1201,10 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  %s <%s>".printf ("--builddir", dgettext (null, "dir")),
-								"  -k, --keep",
-								"  -d, --dry-run",
+			string[] options = {"  --builddir <%s>".printf (dgettext (null, "dir")),
+								"  --keep, -k",
+								"  --no-keep",
+								"  --dry-run, -d",
 								"  --no-clone",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
@@ -1098,6 +1215,7 @@ namespace Pamac {
 			}
 			string[] details = {dgettext (null, "build directory, if no directory is given the one specified in pamac.conf file is used"),
 								dgettext (null, "keep built packages in cache after installation"),
+								dgettext (null, "do not keep built packages in cache after installation"),
 								dgettext (null, "only print what would be done but do not run the transaction"),
 								dgettext (null, "do not clone build files from AUR, only use local files"),
 								dgettext (null, "bypass any and all confirmation messages")};
@@ -1122,12 +1240,13 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
-								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
-								"  -w, --download-only",
-								"  -d, --dry-run",
+			string[] options = {"  --ignore <%s>".printf (dgettext (null, "package(s)")),
+								"  --overwrite <%s>".printf (dgettext (null, "glob")),
+								"  --download-only, -w",
+								"  --dry-run, -d",
 								"  --as-deps",
 								"  --as-explicit",
+								"  --upgrade",
 								"  --no-upgrade",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
@@ -1142,6 +1261,7 @@ namespace Pamac {
 								dgettext (null, "only print what would be done but do not run the transaction"),
 								dgettext (null, "mark all packages installed as a dependency"),
 								dgettext (null, "mark all packages explicitly installed"),
+								dgettext (null, "check for updates"),
 								dgettext (null, "do not check for updates"),
 								dgettext (null, "bypass any and all confirmation messages")};
 			int i = 0;
@@ -1165,8 +1285,8 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
-								"  -w, --download-only",
+			string[] options = {"  --overwrite <%s>".printf (dgettext (null, "glob")),
+								"  --download-only, -w",
 								"  --as-deps",
 								"  --as-explicit",
 								"  --no-confirm"};
@@ -1202,10 +1322,11 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  -u, --unneeded",
-								"  -o, --orphans",
-								"  -n, --no-save",
-								"  -d, --dry-run",
+			string[] options = {"  --unneeded, -u",
+								"  --orphans, -o",
+								"  --no-orphans",
+								"  --no-save, -n",
+								"  --dry-run, -d",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -1215,6 +1336,7 @@ namespace Pamac {
 			}
 			string[] details = {dgettext (null, "remove packages only if they are not required by any other packages"),
 								dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans"),
+								dgettext (null, "do not remove dependencies that are not required by other packages"),
 								dgettext (null, "ignore files backup"),
 								dgettext (null, "only print what would be done but do not run the transaction"),
 								dgettext (null, "bypass any and all confirmation messages")};
@@ -1241,10 +1363,12 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  %s <%s>".printf ("--builddir", dgettext (null, "dir")),
-								"  -a, --aur",
-								"  -q, --quiet",
-								"  --devel"};
+			string[] options = {"  --builddir <%s>".printf (dgettext (null, "dir")),
+								"  --aur, -a",
+								"  --no-aur",
+								"  --quiet, -q",
+								"  --devel",
+								"  --no-devel"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -1253,8 +1377,10 @@ namespace Pamac {
 			}
 			string[] details = {dgettext (null, "build directory (use with --devel), if no directory is given the one specified in pamac.conf file is used"),
 								dgettext (null, "also check updates in AUR"),
+								dgettext (null, "do not check updates in AUR"),
 								dgettext (null, "only print one line per update"),
-								dgettext (null, "also check development packages updates (use with --aur)")};
+								dgettext (null, "also check development packages updates (use with --aur)"),
+								dgettext (null, "do not check development packages updates")};
 			int i = 0;
 			foreach (unowned string option in options) {
 				GenericArray<string> cuts = split_string (details[i], max_length + 3);
@@ -1278,13 +1404,16 @@ namespace Pamac {
 			int max_length = 0;
 			string[] options = {"  --force-refresh",
 								"  --enable-downgrade",
-								"  -w, --download-only",
-								"  %s <%s>".printf ("--ignore", dgettext (null, "package(s)")),
-								"  %s <%s>".printf ("--overwrite", dgettext (null, "glob")),
+								"  --disable-downgrade",
+								"  --download-only, -w",
+								"  --ignore <%s>".printf (dgettext (null, "package(s)")),
+								"  --overwrite <%s>".printf (dgettext (null, "glob")),
 								"  --no-confirm",
-								"  -a, --aur",
+								"  --aur, -a",
+								"  --no-aur",
 								"  --devel",
-								"  %s <%s>".printf ("--builddir", dgettext (null, "dir"))};
+								"  --no-devel",
+								"  --builddir <%s>".printf (dgettext (null, "dir"))};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
 				if (length > max_length) {
@@ -1293,12 +1422,15 @@ namespace Pamac {
 			}
 			string[] details = {dgettext (null, "force the refresh of the databases"),
 								dgettext (null, "enable package downgrades"),
+								dgettext (null, "disable package downgrades"),
 								dgettext (null, "download all packages but do not install/upgrade anything"),
 								dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
 								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
 								dgettext (null, "bypass any and all confirmation messages"),
 								dgettext (null, "also upgrade packages installed from AUR"),
+								dgettext (null, "do not upgrade packages installed from AUR"),
 								dgettext (null, "also upgrade development packages (use with --aur)"),
+								dgettext (null, "do not upgrade development packages"),
 								dgettext (null, "build directory (use with --aur), if no directory is given the one specified in pamac.conf file is used")};
 			int i = 0;
 			foreach (unowned string option in options) {
@@ -1321,11 +1453,11 @@ namespace Pamac {
 			stdout.printf ("\n\n");
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
-			string[] options = {"  %s <%s>".printf ("-k, --keep", dgettext (null, "number")),
-								"  -u, --uninstalled",
-								"  -b, --build-files",
-								"  -d, --dry-run",
-								"  -v, --verbose",
+			string[] options = {"  --keep, -k <%s>".printf (dgettext (null, "number")),
+								"  --uninstalled, -u",
+								"  --build-files, -b",
+								"  --dry-run, -d",
+								"  --verbose, -v",
 								"  --no-confirm"};
 			foreach (unowned string option in options) {
 				int length = option.char_count ();
@@ -2482,7 +2614,7 @@ namespace Pamac {
 			}
 		}
 
-		void remove_pkgs (string[] names, bool recurse, bool unneeded, bool no_save) {
+		void remove_pkgs (string[] names, bool unneeded, bool no_save) {
 			var to_remove = new GenericArray<string> ();
 			bool group_found = false;
 			foreach (unowned string name in names) {
@@ -2529,7 +2661,7 @@ namespace Pamac {
 			} else {
 				flags = (1 << 4); //Alpm.TransFlag.CASCADE
 			}
-			if (recurse) {
+			if (database.config.recurse) {
 				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
 			}
 			if (no_save) {

@@ -658,7 +658,7 @@ namespace Pamac {
 					}
 				}
 			});
-			progress.set_update_frequency (500);
+			progress.set_update_frequency (100);
 		}
 
 		bool on_operation_error (Flatpak.TransactionOperation operation, Error error, Flatpak.TransactionErrorDetails detail) {
