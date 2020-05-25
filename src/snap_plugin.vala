@@ -534,7 +534,7 @@ namespace Pamac {
 				fraction = 0;
 				timer.start ();
 			} else {
-				if (timer.elapsed () > 0.5) {
+				if (timer.elapsed () > 0.1) {
 					download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 					rates_nb++;
 				} else {
@@ -544,16 +544,17 @@ namespace Pamac {
 				fraction = (double) xfered / total;
 				if (fraction <= 1) {
 					text.append ("%s/%s  ".printf (format_size (xfered), format_size (total)));
-					uint64 remaining_seconds = 0;
+					uint remaining_seconds = 0;
 					if (download_rate > 0) {
-						remaining_seconds = (total - xfered) / download_rate;
+						remaining_seconds = (uint) Math.roundf ((float) (total - xfered) / download_rate);
 					}
-					// display remaining time after 5s and only if more than 10s are remaining
-					if (remaining_seconds > 9 && rates_nb > 9) {
-						if (remaining_seconds <= 50) {
-							text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
+					// display remaining time after 2s
+					if (remaining_seconds > 0 && rates_nb > 19) {
+						if (remaining_seconds < 60) {
+							text.append (dngettext (null, "About %lu second remaining",
+										"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
 						} else {
-							uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
+							uint remaining_minutes = (uint) Math.roundf ((float) remaining_seconds / 60);
 							text.append (dngettext (null, "About %lu minute remaining",
 										"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
 						}

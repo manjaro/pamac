@@ -1515,7 +1515,7 @@ namespace Pamac {
 				emit_event (Alpm.Event.Type.RETRIEVE_START, 0, {});
 				current_filename = "";
 				// use to track downloads progress
-				var timeout = new TimeoutSource (500);
+				var timeout = new TimeoutSource (100);
 				timeout.set_callback (compute_multi_download_progress);
 				timeout_id = timeout.attach (context);
 			}
@@ -2030,7 +2030,7 @@ namespace Pamac {
 			var text = new StringBuilder ("");
 			double fraction;
 			if (total_download > 0) {
-				if (force_emit || timer.elapsed () > 0.5) {
+				if (force_emit || timer.elapsed () > 0.1) {
 					download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 					rates_nb++;
 				} else if (xfered != 0 && xfered != total) {
@@ -2047,16 +2047,17 @@ namespace Pamac {
 				fraction = (double) already_downloaded / total_download;
 				if (fraction <= 1) {
 					text.append ("%s/%s  ".printf (format_size (already_downloaded), format_size (total_download)));
-					uint64 remaining_seconds = 0;
+					uint remaining_seconds = 0;
 					if (download_rate > 0) {
-						remaining_seconds = (total_download - already_downloaded) / download_rate;
+						remaining_seconds = (uint) Math.roundf ((float) (total_download - already_downloaded) / download_rate);
 					}
-					// display remaining time after 5s and only if more than 10s are remaining
-					if (remaining_seconds > 9 && rates_nb > 9) {
-						if (remaining_seconds <= 50) {
-							text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
+					// display remaining time after 2s
+					if (remaining_seconds > 0 && rates_nb > 19) {
+						if (remaining_seconds < 60) {
+							text.append (dngettext (null, "About %lu second remaining",
+										"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
 						} else {
-							uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
+							uint remaining_minutes = (uint) Math.roundf ((float) remaining_seconds / 60);
 							text.append (dngettext (null, "About %lu minute remaining",
 										"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
 						}
@@ -2076,7 +2077,7 @@ namespace Pamac {
 					timer.stop ();
 					fraction = 1;
 				} else {
-					if (timer.elapsed () > 0.5) {
+					if (timer.elapsed () > 0.1) {
 						download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - previous_xfered) / timer.elapsed ())) / (rates_nb + 1);
 						rates_nb++;
 					} else {
@@ -2086,17 +2087,17 @@ namespace Pamac {
 					fraction = (double) xfered / total;
 					if (fraction <= 1) {
 						text.append ("%s/%s".printf (format_size (xfered), format_size (total)));
-						uint64 remaining_seconds = 0;
+						uint remaining_seconds = 0;
 						if (download_rate > 0) {
-							remaining_seconds = (total - xfered) / download_rate;
+							remaining_seconds = (uint) Math.roundf ((float) (total_download - already_downloaded) / download_rate);
 						}
-						// display remaining time after 5s and only if more than 10s are remaining
-						if (remaining_seconds > 9 && rates_nb > 9) {
-							text.append ("  ");
-							if (remaining_seconds <= 50) {
-								text.append (dgettext (null, "About %u seconds remaining").printf ((uint) Math.ceilf ((float) remaining_seconds / 10) * 10));
+						// display remaining time after 2s
+						if (remaining_seconds > 0 && rates_nb > 19) {
+							if (remaining_seconds < 60) {
+								text.append (dngettext (null, "About %lu second remaining",
+											"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
 							} else {
-								uint remaining_minutes = (uint) Math.ceilf ((float) remaining_seconds / 60);
+								uint remaining_minutes = (uint) Math.roundf ((float) remaining_seconds / 60);
 								text.append (dngettext (null, "About %lu minute remaining",
 											"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
 							}
@@ -2317,18 +2318,7 @@ void cb_question (Alpm.Question.Data data) {
 }
 
 void cb_progress (Alpm.Progress progress, string pkgname, int percent, uint n_targets, uint current_target) {
-	if (percent == 0) {
 		alpm_utils.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		alpm_utils.timer.start ();
-	} else if (percent == 100) {
-		alpm_utils.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		alpm_utils.timer.stop ();
-	} else if (alpm_utils.timer.elapsed () < 0.5) {
-		return;
-	} else {
-		alpm_utils.emit_progress ((uint) progress, pkgname, (uint) percent, n_targets, current_target);
-		alpm_utils.timer.start ();
-	}
 }
 
 delegate void DownloadCallback (string filename, uint64 xfered, uint64 total);
@@ -2527,7 +2517,7 @@ int dload (string url, string localpath, int force, DownloadCallback? dl_callbac
 		}
 
 		uint64 progress = 0;
-		uint8[] buf = new uint8[4096];
+		uint8[] buf = new uint8[8192];
 		// start download
 		if (dl_callback != null) {
 			dl_callback (filename, 0, size);
