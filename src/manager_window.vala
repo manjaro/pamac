@@ -1426,6 +1426,14 @@ namespace Pamac {
 			if (pkg.conflicts != null) {
 				previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), pkg.conflicts, previous_widget);
 			}
+			// add a bottom separator
+			if (previous_widget != null) {
+				var empty_label = new Gtk.Label ("");
+				deps_grid.attach_next_to (empty_label, previous_widget, Gtk.PositionType.BOTTOM);
+				var bottom_separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
+				bottom_separator.valign = Gtk.Align.START;
+				deps_grid.attach_next_to (bottom_separator, empty_label, Gtk.PositionType.RIGHT);
+			}
 			deps_grid.show_all ();
 			// files
 			// will be populated on properties_stack switch
@@ -2685,7 +2693,7 @@ namespace Pamac {
 					break;
 				case "details":
 					Package? pkg = display_package_queue.pop_tail ();
-					if (pkg != null) {
+					if (pkg != null && pkg.name != current_package_displayed.name) {
 						current_package_displayed = pkg;
 						refresh_details ();
 					} else {
