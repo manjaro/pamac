@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -115,6 +115,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "De overdracht is afgebroken"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -271,8 +275,10 @@ msgstr "Fout tijdens uitvoeren van hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Nog ongeveer %u seconden te gaan"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -312,10 +318,6 @@ msgstr "Authenticatie mislukt"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Bezig met wachten op het afsluiten van een andere pakketbeheerder"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "De overdracht is afgebroken"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -916,6 +918,10 @@ msgid "also search in AUR"
 msgstr "ook zoeken in AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "zoeken naar pakketten die overeenkomen met de opgegeven bestandsnamen (mag deels)"
@@ -1016,6 +1022,10 @@ msgid "keep built packages in cache after installation"
 msgstr "gebouwde pakketten bewaren in cache na installeren"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1056,6 +1066,10 @@ msgid "mark all packages explicitly installed"
 msgstr "alle pakketten markeren als expliciet geïnstalleerd"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "niet controleren op updates"
 
@@ -1072,6 +1086,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "afhankelijkheden verwijderen die niet vereist zijn door andere pakketten; als deze optie wordt gebruikt zonder pakketnaam, dan worden alle verouderde verwijderd"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1096,12 +1114,20 @@ msgid "also check updates in AUR"
 msgstr "ook controleren op AUR-updates"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "slechts één regel per update tonen"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "ook controleren op ontwikkelingspakketten-updates (gebruiken met --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1116,12 +1142,24 @@ msgid "enable package downgrades"
 msgstr "pakketten afwaarderen inschakelen"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "ook AUR-pakketten opwaarderen"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "ook ontwikkelingspakketten-updates (gebruiken met --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""

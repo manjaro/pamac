@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 13:29+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-26 05:14+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -143,6 +143,10 @@ msgstr "удаление %s из целевого списка"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "Не удалось инициализировать базу данных AUR"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Транзакция отменена"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -299,8 +303,12 @@ msgstr "Ошибка при выполнении обработчиков"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Осталось примерно %u секунд"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] "Осталась примерно %lu секунда"
+msgstr[1] "Осталось примерно %lu секунды"
+msgstr[2] "Осталось примерно %lu секунд"
+msgstr[3] "Осталось примерно %lu секунд"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -342,10 +350,6 @@ msgstr "Ошибка авторизации"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Ожидание выхода другого менеджера пакетов"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Транзакция отменена"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -952,6 +956,10 @@ msgid "also search in AUR"
 msgstr "также искать в AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr "не искать в AUR"
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "поиск пакетов, которые имеют данные имена (можно указывать часть имени)"
@@ -1052,6 +1060,10 @@ msgid "keep built packages in cache after installation"
 msgstr "хранить собранные пакеты в кэше после установки"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr "не хранить собранные пакеты в кэше после установки"
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr "вывести только то, что может быть сделано, но не запускать процесс"
 
@@ -1092,6 +1104,10 @@ msgid "mark all packages explicitly installed"
 msgstr "пометить все пакеты как специально установленные"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr "проверять обновления"
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "не проверять обновления"
 
@@ -1108,6 +1124,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "удалить зависимости, которые не требуются другим пакетам, если этот параметр не используется без имени пакета, удаление всех \"сирот\""
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr "не удалять зависимости, необходимые для других пакетов"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1132,12 +1152,20 @@ msgid "also check updates in AUR"
 msgstr "Также проверять обновления в пользовательских репозиториях AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr "не проверять обновления в AUR"
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "выводить только одну строку для каждого обновления"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "также проверять обновления пакетов в разработке (применять с параметром --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr "не проверять обновления пакетов в разработке"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1152,12 +1180,24 @@ msgid "enable package downgrades"
 msgstr "разрешить понижение версий пакетов"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr "отключить понижение версий пакетов"
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "также обновлять пакеты, установленные из AUR"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr "не обновлять пакеты, установленные из AUR"
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "также обновлять пакеты в разработке (применять с параметром --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr "не обновлять пакеты в разработке"
 
 #: src/cli.vala
 msgid ""

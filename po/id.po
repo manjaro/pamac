@@ -21,14 +21,14 @@
 # philm <philm@manjaro.org>, 2015
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015
 # Rizki Aulia Rachman <rizkiaulia.r@gmail.com>, 2013
-# wantoyo <inactive+wantoyo@transifex.com>, 2015
+# f4fa50e1921fb4273a514899ed633fda_b9e907e <fb7ca61b730a9d06962cf5749dc9f4d6_202334>, 2015
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -128,6 +128,10 @@ msgstr "menghapus 1%s dari daftar target"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "Gagal menginisialisasi database AUR"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transaksi dibatalkan"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,8 +288,9 @@ msgstr "Terdapat kesalahan saat menjalankan hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Tersisa sekitar %u detik"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -324,10 +329,6 @@ msgstr "Otentikasi gagal"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Menunggu package manager yang lain untuk keluar"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transaksi dibatalkan"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -925,6 +926,10 @@ msgid "also search in AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr ""
@@ -1025,6 +1030,10 @@ msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1065,6 +1074,10 @@ msgid "mark all packages explicitly installed"
 msgstr ""
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr ""
 
@@ -1080,6 +1093,10 @@ msgstr ""
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1105,11 +1122,19 @@ msgid "also check updates in AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr ""
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check development packages updates"
 msgstr ""
 
 #: src/cli.vala
@@ -1125,11 +1150,23 @@ msgid "enable package downgrades"
 msgstr ""
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
 msgstr ""
 
 #: src/cli.vala

@@ -8,17 +8,17 @@
 # ansich <mojmejlzaforume@gmail.com>, 2014
 # Arnold Marko <arnold.marko@gmail.com>, 2020
 # Boštjan Mejak <bostjan.xperia@gmail.com>, 2019
-# Nenad Latinović <inactive+holden1987@transifex.com>, 2013
+# 81bf57fa00e764cd1a86babbb15d8afe_973765f <6bc1770e567c243ec280bc3c26fe946f_125326>, 2013
 # ansich <mojmejlzaforume@gmail.com>, 2014-2015,2017
-# Nenad Latinović <inactive+holden1987@transifex.com>, 2013
-# Nenad Latinović <inactive+holden1987@transifex.com>, 2013
+# 81bf57fa00e764cd1a86babbb15d8afe_973765f <6bc1770e567c243ec280bc3c26fe946f_125326>, 2013
+# 81bf57fa00e764cd1a86babbb15d8afe_973765f <6bc1770e567c243ec280bc3c26fe946f_125326>, 2013
 # philm <philm@manjaro.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "Install, update, or remove packages"
+msgstr "Namesti, posodobi ali odstrani pakete"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
@@ -88,17 +88,17 @@ msgstr "namestitev %s (%s) razbije odvisnost '%s', ki jo zahteva %s"
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "Dodaj %s za odstranitev"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "Če je to mogoče, odstranite %s in ponovno poskusite"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "odstranitev %s razbije odvisnost '%s', ki jo zahteva %s"
+msgstr "odstranitev %s prekine odvisnost '%s', ki jo potrebuje %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -113,11 +113,15 @@ msgstr "%s je potrebno odstraniti, vendar je ta paket zaklenjen"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "odstranjevanje %s iz ciljnega seznama"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Neuspešna inicializacija AUR podatkovne baze"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Prenos je bil preklican"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -127,7 +131,7 @@ msgstr "%s obstoji tako v %s kot v %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s:%s že obstaja v datotečnem sistemu (lastnik je %s)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -136,21 +140,21 @@ msgstr "%s: %s že obstaja v datotečnem sistemu"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "Če ta datoteka ni potrebna, jo odstranite in znova poskusite"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s sta že obstajala v datotečnem sistemu"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "Ustvarjena je bila rezervna kopija %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Odstranjevanje pokvarjenih datotek in ponovni poskus"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -159,7 +163,7 @@ msgstr "%s je neveljaven ali pokvarjen"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "to datoteko lahko odstranite in poskusite ponovno"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -274,8 +278,12 @@ msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Preostalo približno %u sekund"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -317,10 +325,6 @@ msgstr "Potrditev identitete ni uspela"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čakanje na izhod drugega paketnega upravljalnika"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Prenos je bil preklican"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -927,6 +931,10 @@ msgid "also search in AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr ""
@@ -1027,6 +1035,10 @@ msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1067,6 +1079,10 @@ msgid "mark all packages explicitly installed"
 msgstr ""
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr ""
 
@@ -1082,6 +1098,10 @@ msgstr ""
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1107,11 +1127,19 @@ msgid "also check updates in AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr ""
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check development packages updates"
 msgstr ""
 
 #: src/cli.vala
@@ -1127,11 +1155,23 @@ msgid "enable package downgrades"
 msgstr ""
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
 msgstr ""
 
 #: src/cli.vala

@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -128,6 +128,10 @@ msgstr "正在从目标列表移除%s"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "初始化AUR数据失败"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "事务已经取消"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,8 +288,9 @@ msgstr "运行钩子时出错"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "大约剩余 %u 秒"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -324,10 +329,6 @@ msgstr "验证失败"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "正在等待另一包管理器退出"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "事务已经取消"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -925,6 +926,10 @@ msgid "also search in AUR"
 msgstr "同时在 AUR 中搜索"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "搜索包含给定文件名的包（可以使用部分文件名）"
@@ -1025,6 +1030,10 @@ msgid "keep built packages in cache after installation"
 msgstr "安装后将构建出来的包保存在缓存中"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr "仅打印完成事项不运行事务"
 
@@ -1065,6 +1074,10 @@ msgid "mark all packages explicitly installed"
 msgstr "将所有软件包标记为单独指定安装"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "不检查更新"
 
@@ -1081,6 +1094,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "移除所有未被其他包使用的依赖，若未指定包名则移除所有的孤包"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1105,12 +1122,20 @@ msgid "also check updates in AUR"
 msgstr "同时检查 AUR 更新"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "每行仅打印一条更新"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "同时检查开发软件包更新 (与 --aur 一起使用)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1125,12 +1150,24 @@ msgid "enable package downgrades"
 msgstr "允许包降级"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "同时更新从 AUR 安装的包"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "同时升级开发软件包 (与 --aur 一起使用)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""

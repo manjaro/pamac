@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -111,6 +111,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Транзакцыя скасаваная"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -267,8 +271,12 @@ msgstr "Падчас запуску апрацоўшчыкаў адбылася 
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Засталося прыкладна %u секунд"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -310,10 +318,6 @@ msgstr "Памылка аўтэнтыфікацыі"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Чаканне закрыцця іншага кіраўніка пакункаў"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Транзакцыя скасаваная"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -920,6 +924,10 @@ msgid "also search in AUR"
 msgstr "таксама шукаць у AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "пошук пакункаў, што маюць пададзеныя назвы (можна ўводзіць частку)"
@@ -1020,6 +1028,10 @@ msgid "keep built packages in cache after installation"
 msgstr "пакідаць у кэшы сабраныя пакункі пасля ўсталёўкі"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1060,6 +1072,10 @@ msgid "mark all packages explicitly installed"
 msgstr "пазначыць усе пакункі адмыслова ўсталяванымі"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "не правяраць на абнаўленні"
 
@@ -1076,6 +1092,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "выдаляць залежнасці, што не патрабуюцца іншым пакункам, калі гэты параметр выкарыстоўваецца без назвы пакунка"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1100,12 +1120,20 @@ msgid "also check updates in AUR"
 msgstr "таксама правяраць наяўнасць абнаўленняў у AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "выводзіць толькі адзін радок для кожнага абнаўлення"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "таксама правяраць наяўнасць абнаўленняў распрацоўваемых пакункаў (выкарыстоўваць з --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1120,12 +1148,24 @@ msgid "enable package downgrades"
 msgstr "уключыць паніжэнне версій пакункаў"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "таксама абнаўляць пакункі, ўсталяваныя з AUR"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "таксама палепшыць пакункі для распрацоўшчыкаў (выкарыстоўваць з  --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""

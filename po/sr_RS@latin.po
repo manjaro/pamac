@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-10 11:05+0000\n"
-"Last-Translator: Aleksandar Zarić <alexandarzaric@gmail.com>\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Serbian (Latin) (Serbia) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr_RS@latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,6 +111,10 @@ msgstr "uklanjanje %s iz ciljane liste"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "Neuspešna inicializacija AUR baze podataka"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Prenos otkazan"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -267,8 +271,11 @@ msgstr "Greška pri pokretanju kopči"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Preostalo %u sekundi"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -309,10 +316,6 @@ msgstr "Autentifikacija neuspela"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čekanje drugog upravnika paketa da završi"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Prenos otkazan"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -816,92 +819,92 @@ msgstr "Za brisanje"
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%u datoteka"
+msgstr[1] "%u datoteka"
+msgstr[2] "%u datoteke"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Izaberi Zanemarene  Nadogradnje"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Unesi odabir (podrazumevano=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "ništa"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Unesi broj (podrazumevano=%d)"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[d/N]"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "y"
-msgstr ""
+msgstr "d"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "yes"
-msgstr ""
+msgstr "da"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Izmeni gradivne datoteke"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Ukupna veličina instalacije"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Ukupna veličina uklonjenog"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr ""
+msgstr "Primeni transakciju"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Vidi %s razlike u gradivnim datotekama"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Izgradnja paketa kao root nije dozvojena"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "Nijedna PKGBUILD datoteka nije nađena u fascikli"
 
 #: src/cli.vala
 msgid "Check development packages updates as root is not allowed"
-msgstr ""
+msgstr "Obeležavanje nadogradnji razvojnih paketa kao root nije dozvoljeno"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "Dostupne akcije"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "akcija"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "opcije"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Pretraga paketa ili datoteka, može biti navedeno i više izraza za pretragu"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "datotek(a/e)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
@@ -913,6 +916,10 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also search in AUR"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not search in AUR"
 msgstr ""
 
 #: src/cli.vala
@@ -1016,6 +1023,10 @@ msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1056,6 +1067,10 @@ msgid "mark all packages explicitly installed"
 msgstr ""
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr ""
 
@@ -1071,6 +1086,10 @@ msgstr ""
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1096,11 +1115,19 @@ msgid "also check updates in AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr ""
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check development packages updates"
 msgstr ""
 
 #: src/cli.vala
@@ -1116,11 +1143,23 @@ msgid "enable package downgrades"
 msgstr ""
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1190,9 +1229,9 @@ msgstr ""
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%u zanemarena datoteka"
+msgstr[1] "%u zanemarenih datoteka"
+msgstr[2] "%u zanemarene datoteke"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1225,9 +1264,9 @@ msgstr ""
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Postoji %u član u grupi %s"
+msgstr[1] "Postoji %u člana u grupi %s"
+msgstr[2] "Postoji %u članova u grupi %s"
 
 #: src/cli.vala
 msgid "all"

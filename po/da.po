@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -126,6 +126,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Overførsel annulleret"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -282,8 +286,10 @@ msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Omkring %u sekunder tilbage"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -323,10 +329,6 @@ msgstr "Autentificering mislykket"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Venter på at en anden pakkehåndtering skal afslutte"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Overførsel annulleret"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -927,6 +929,10 @@ msgid "also search in AUR"
 msgstr "søg også i AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "søg efter pakker som ejer de givne filnavne (filnavne kan være delvise)"
@@ -1027,6 +1033,10 @@ msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1067,6 +1077,10 @@ msgid "mark all packages explicitly installed"
 msgstr ""
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr ""
 
@@ -1083,6 +1097,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "fjern afhængigheder som ikke kræves af andre pakker. Hvis tilvalget bruges uden pakkenavn, så fjern alle forælderløse"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1107,12 +1125,20 @@ msgid "also check updates in AUR"
 msgstr "tjek også opdateringer i AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "skriv kun en linje pr opdatering"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "tjek også udviklingspakker opdateringer (brug med --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1127,11 +1153,23 @@ msgid "enable package downgrades"
 msgstr "aktivér nedgradering af pakker"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "opgrader også pakker som er installeret fra AUR"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
 msgstr ""
 
 #: src/cli.vala
