@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 10:09+0000\n"
+"PO-Revision-Date: 2020-05-26 10:19+0000\n"
 "Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -1105,7 +1105,7 @@ msgstr "odstranit závislosti, které nejsou potřebné ostatními balíčky; po
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "neodstraňovat balíčky, které nejsou vyžadovány jinými balíčky"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1131,7 +1131,7 @@ msgstr "zkontrolovat také aktualizace AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "nekontrolovat aktualizace v AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1143,7 +1143,7 @@ msgstr "kontrolovat také vývojové balíčky (použito s --aur)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "nekontrolovat aktualizace vývojových verzí balíčků"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1159,7 +1159,7 @@ msgstr "umožnit návrat balíčků k předchozí verzi"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "neumožnit návrat ke starším verzím balíčků"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1167,7 +1167,7 @@ msgstr "automaticky aktualizovat balíčky instalované z AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "neaktualizovat balíčky instalované z AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1175,7 +1175,7 @@ msgstr "aktualizovat také vývojové balíčky (použito s --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "neaktualizovat vývojové verze balíčků"
 
 #: src/cli.vala
 msgid ""
