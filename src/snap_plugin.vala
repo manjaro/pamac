@@ -127,8 +127,11 @@ namespace Pamac {
 			//snap_pkg.download_size = snap.download_size;
 			Snapd.App? primary_app = get_primary_app (snap);
 			if (primary_app != null) {
-				snap_pkg.launchable = Path.get_basename (primary_app.desktop_file);
-				snap_pkg.app_id = Path.get_basename (primary_app.desktop_file);
+				unowned string? desktop_file = primary_app.desktop_file;
+				if (desktop_file != null) {
+					snap_pkg.launchable = Path.get_basename (desktop_file);
+					snap_pkg.app_id = Path.get_basename (desktop_file);
+				}
 			}
 			if (installed_snap != null) {
 				snap_pkg.installed_version = installed_snap.version;
@@ -238,8 +241,11 @@ namespace Pamac {
 					unowned Snapd.Snap snap = snaps[i];
 					if (snap.snap_type == Snapd.SnapType.APP) {
 						Snapd.App? primary_app = get_primary_app (snap);
-						if (primary_app != null && primary_app.desktop_file.has_suffix (app_id)) {
-							pkg = initialize_snap (snap);
+						if (primary_app != null) {
+							unowned string? desktop_file = primary_app.desktop_file;
+							if (desktop_file != null && desktop_file.has_suffix (app_id)) {
+								pkg = initialize_snap (snap);
+							}
 						}
 					}
 				}
