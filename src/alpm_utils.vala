@@ -888,7 +888,7 @@ namespace Pamac {
 		void remove_aur_db (Alpm.Handle alpm_handle) {
 			// remove fake aur db
 			try {
-				Process.spawn_command_line_sync ("rm -f %ssync/aur.db".printf (alpm_handle.dbpath));
+				Process.spawn_command_line_sync ("rm -f %ssync/pamac_aur.db".printf (alpm_handle.dbpath));
 			} catch (SpawnError e) {
 				warning (e.message);
 			}
