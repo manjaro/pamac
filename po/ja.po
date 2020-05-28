@@ -1157,6 +1157,10 @@ msgid "do not upgrade development packages"
 msgstr "開発用パッケージをアップグレードしない"
 
 #: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
