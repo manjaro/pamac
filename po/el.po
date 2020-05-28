@@ -16,9 +16,9 @@
 # Panagiotis Mantzios <pmantzios@hotmail.com>, 2017
 # Panagiotis Mantzios <pmantzios@hotmail.com>, 2018
 # philm <philm@manjaro.org>, 2014-2015
-# Savoritias <inactive+Savoritias@transifex.com>, 2014
-# Savoritias <inactive+Savoritias@transifex.com>, 2014
-# Savoritias <inactive+Savoritias@transifex.com>, 2014
+# a24aea7ffc84d2433b80f99f2fbaaa74_064c1cf <f35716e87b48e4f0b82a420d01c955ad_139079>, 2014
+# a24aea7ffc84d2433b80f99f2fbaaa74_064c1cf <f35716e87b48e4f0b82a420d01c955ad_139079>, 2014
+# a24aea7ffc84d2433b80f99f2fbaaa74_064c1cf <f35716e87b48e4f0b82a420d01c955ad_139079>, 2014
 # ΔΗΜΗΤΡΙΟΥ ΚΩΝΣΤΑΝΤΙΝΟΣ <gasdim@hotmail.gr>, 2013-2014
 # Μιχάλης <mikem132@protonmail.com>, 2017
 # Πέτρος Σαμαράς <psamaras1@gmail.com>, 2018
@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -127,6 +127,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Η διεργασία ακυρώθηκε"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -283,8 +287,10 @@ msgstr "Σφάλμα κατά την εκτέλεση hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Απομένουν περίπου %u δευτερόλεπτα"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -324,10 +330,6 @@ msgstr "Η πιστοποίηση απέτυχε"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Αναμονή τερματισμού ενός άλλου διαχειριστή πακέτων."
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Η διεργασία ακυρώθηκε"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -928,6 +930,10 @@ msgid "also search in AUR"
 msgstr "επιπλέον έλεγχος στο AUR "
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "αναζήτηση για πακέτα στα οποία ανήκουν τα δεδομένα ονόματα αρχείων (τα ονόματα αρχείων μπορούν να είναι ελλιπή)"
@@ -1028,6 +1034,10 @@ msgid "keep built packages in cache after installation"
 msgstr "διατήρησε τα κατασκευασμένα πακέτα στην αποθήκη μετά την εγκατάσταση"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1068,6 +1078,10 @@ msgid "mark all packages explicitly installed"
 msgstr "σημειώστε όλα τα πακέτα που έχουν εγκατασταθεί ρητά"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "μην ελέγχετε για ενημερώσεις"
 
@@ -1084,6 +1098,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "αφαίρεση εξαρτήσεων που δεν απαιτούνται από άλλα πακέτα, αν δεν δίνεται όνομα πακέτου, αφαίρεση όλων των ορφανών"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1108,12 +1126,20 @@ msgid "also check updates in AUR"
 msgstr "επιπλέον έλεγχος στο AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "εκτύπωσε μόνο μία γραμμή ανά ενημέρωση"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "επέλεξε επίσης την αναβάθμιση των development packages (χρήση με --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1128,12 +1154,24 @@ msgid "enable package downgrades"
 msgstr "να επιτρέπεται υποβάθμιση πακέτων"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "επιπλέον αναβάθμισε πακέτα εγκατεστημένα από το AUR"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "αναβάθμισε επίσης τα development packages (χρήση με --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""

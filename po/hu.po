@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -123,6 +123,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Művelet visszavonva"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -279,8 +283,10 @@ msgstr "Hiba az eseménykezelők (hook) futtatásakor"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Kb. %u másodperc van hátra"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -320,10 +326,6 @@ msgstr "Hitelesítés nem sikerült"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Várakozás másik csomagkezelő kilépésére"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Művelet visszavonva"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -924,6 +926,10 @@ msgid "also search in AUR"
 msgstr "keresés az AUR- ban is"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "A megadott fájl névvel bíró csomagok keresése (fájlnév részlet is lehet)"
@@ -1024,6 +1030,10 @@ msgid "keep built packages in cache after installation"
 msgstr "tartsa a felépített csomagokat gyorsítótárban a telepítés után"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1064,6 +1074,10 @@ msgid "mark all packages explicitly installed"
 msgstr "minden csomag megjelölése kézi telepítésűként"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "ne keressen frissítéseket"
 
@@ -1080,6 +1094,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "más csomag által nem igényelt függőségek eltávolítása, ha nincs csomagnév megadva, akkor az összes árva eltávolításra kerül"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1104,12 +1122,20 @@ msgid "also check updates in AUR"
 msgstr "frissítések keresése AUR-ban is"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "frissítésenként csak egy sort írjon ki"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "ellenőrizze a fejlesztés alatt álló csomagok frissítéseit (--aur használattal)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1124,12 +1150,24 @@ msgid "enable package downgrades"
 msgstr "csomag-visszaállítás engedélyezése"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "AUR-ból telepített csomagok frissítése"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "használja a fejlesztés alatt álló csomagok frissítéseit ( --aur használattal)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""

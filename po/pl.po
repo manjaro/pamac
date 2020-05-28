@@ -9,8 +9,8 @@
 # Dominik “Devhost97” G <devhost97@gmail.com>, 2016
 # Tomasz Przybył <fademind@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
-# Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
-# Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
+# 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
+# 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
 # Marcin Mikołajczak <me@mkljczk.pl>, 2017
 # Marcin Mikołajczak <me@mkljczk.pl>, 2017
 # Marcin Mikołajczak <me@mkljczk.pl>, 2018
@@ -19,7 +19,7 @@
 # Piotr Miller <nwg.piotr@gmail.com>, 2018
 # Piotr Strębski <strebski@gmail.com>, 2017-2019
 # Piotr Strębski <strebski@gmail.com>, 2013-2017
-# Kuba Kaczmarzyk <inactive+poker98face@transifex.com>, 2013
+# 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
 # Rafał Wiśniewski <wisniew99@gmail.com>, 2018
 # Rafał Wiśniewski <wisniew99@gmail.com>, 2018
 # Szymon Wenerski <szymon.wenerski@gmail.com>, 2020
@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -128,6 +128,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Operacja została anulowana"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,8 +288,12 @@ msgstr "Błąd podczas wykonywania hook-ów"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Pozostało około %u sekund"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -327,10 +335,6 @@ msgstr "Uwierzytelnianie nie powiodło się"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Oczekiwanie na zakończenie innego menedżera pakietów"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Operacja została anulowana"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -937,6 +941,10 @@ msgid "also search in AUR"
 msgstr "wyszukaj również w AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "wyszukuje pakiet, do którego należy podany plik (nazwa pliku może być niepełna)"
@@ -1037,6 +1045,10 @@ msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1077,6 +1089,10 @@ msgid "mark all packages explicitly installed"
 msgstr ""
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr ""
 
@@ -1093,6 +1109,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "usuń zależności, które nie są wymagane przez inne pakiety, jeśli ta opcja jest użyta bez podania nazwy pakietu - usunie wszystkie osierocone pakiety"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1117,12 +1137,20 @@ msgid "also check updates in AUR"
 msgstr "sprawdź także aktualizacje w AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "wypisz tylko jedną linię dla każdej aktualizacji"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "sprawdź też aktualizacje pakietów deweloperskich (użycie z --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1137,12 +1165,24 @@ msgid "enable package downgrades"
 msgstr "włącz obniżanie wersji pakietów"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "aktualizuje także pakiety zainstalowane z AUR"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "zaktualizuj także pakiety deweloperskie (użycie z --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""

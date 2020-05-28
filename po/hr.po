@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 14:31+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-26 05:20+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "paket %s nema valjanu arhitekturu"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "ne mogu ispuniti zavisnost '%s' koju zahtijeva %s"
+msgstr "ne mogu ispuniti ovisnost '%s' koju zahtijeva %s"
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
@@ -79,7 +79,7 @@ msgstr "Upozorenje"
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "instaliram %s (%s) uništava zavisnost '%s'  koju zahtijeva %s"
+msgstr "instaliram %s (%s) uništava ovisnost '%s'  koju zahtijeva %s"
 
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
@@ -94,7 +94,7 @@ msgstr "ako je moguće, uklonite %s i pokušajte ponovno"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "uklanjam %s uništava zavisnost '%s' koju zahtijeva %s"
+msgstr "uklanjam %s uništava ovisnost '%s' koju zahtijeva %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -114,6 +114,10 @@ msgstr "uklanjam %s s ciljanog popisa"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "Inicijalizacija AUR baze podataka nije uspjela"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transakcija prekinuta"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -167,7 +171,7 @@ msgstr "Izvršavanje transakcije nije uspjelo"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "Provjeravam zavisnosti"
+msgstr "Provjeravam ovisnosti"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
@@ -175,7 +179,7 @@ msgstr "Provjeravam sukobe datoteka"
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
-msgstr "Rješavam zavisnosti"
+msgstr "Rješavam ovisnosti"
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
@@ -270,8 +274,11 @@ msgstr "Pogreška tijekom pokretanja hooks"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Oko %u sekundi preostalo"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] "Oko %lu sekundu preostalo"
+msgstr[1] "Oko %lu sekundi preostalo"
+msgstr[2] "Oko %lu sekundi preostalo"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -313,10 +320,6 @@ msgstr "Autorizacija nije uspjela"
 msgid "Waiting for another package manager to quit"
 msgstr "Čekam na završetak drugog upravitelja paketa"
 
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transakcija prekinuta"
-
 #: src/daemon.vala
 msgid "Timeout expired"
 msgstr "Timeout je istekao"
@@ -327,7 +330,7 @@ msgstr "Eksplicitno instalirano"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "Instalirano kao zavisnost za drugi paket"
+msgstr "Instalirano kao ovisnost za drugi paket"
 
 #: src/database.vala
 msgid "Unknown"
@@ -348,12 +351,12 @@ msgstr "Osvježavam listu zrcalnih poslužitelja"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "Kloniram %s datoteke za stvaranje"
+msgstr "Kloniram %s datoteke za stvaranje paketa"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "Nije uspjelo kloniranje %s datoteka za stvaranje"
+msgstr "Nije uspjelo kloniranje %s datoteka za stvaranje paketa"
 
 #: src/transaction.vala
 #, c-format
@@ -368,7 +371,7 @@ msgstr "Nije uspjelo generiranje %s informacije"
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Provjeravam %s zavisnosti"
+msgstr "Provjeravam %s ovisnosti"
 
 #: src/transaction.vala
 #, c-format
@@ -405,7 +408,7 @@ msgstr "Nije uspjelo stvaranje %s"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "Odaberi neobavezne zavisnosti za %s"
+msgstr "Odaberi neobavezne ovisnosti za %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -446,7 +449,7 @@ msgstr "Vratiti paket na staru verziju"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
-msgstr "Za stvaranje"
+msgstr "Za stvaranje paketa"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -467,7 +470,7 @@ msgstr "Ukupna veličina za preuzimanje"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Uredi %s datoteke za stvaranje"
+msgstr "Uredi %s datoteke za stvaranje paketa"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -581,7 +584,7 @@ msgstr "Instalirano"
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr "Zavisnosti"
+msgstr "Ovisnosti"
 
 #: src/manager_window.vala
 msgid "Files"
@@ -589,7 +592,7 @@ msgstr "Datoteke"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr "Datoteke za stvaranje"
+msgstr "Datoteke za stvaranje paketa"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -641,7 +644,7 @@ msgstr "Pakiratelj"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
-msgstr "Datum stvaranja"
+msgstr "Datum stvaranja paketa"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Date"
@@ -657,11 +660,11 @@ msgstr "Pričuvne datoteke"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Depends On"
-msgstr "Zavisi o"
+msgstr "Ovisi o"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
-msgstr "Neobavezne zavisnosti"
+msgstr "Neobavezne ovisnosti"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Required By"
@@ -685,11 +688,11 @@ msgstr "U sukobu sa"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr "Zavisnosti za stvaranje paketa"
+msgstr "Ovisnosti za stvaranje paketa"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
-msgstr "Provjera zavisnosti"
+msgstr "Provjera ovisnosti"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -729,7 +732,7 @@ msgstr "Nadogradnja"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr "Stvori"
+msgstr "Stvori paket"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -855,7 +858,7 @@ msgstr "da"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr "Uredit datoteke za stvaranje"
+msgstr "Uredi datoteke za stvaranje paketa"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -872,7 +875,7 @@ msgstr "Primijeni transakciju"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "Pogledaj %s razlike datoteka za stvaranje"
+msgstr "Pogledaj %s razlike datoteka za stvaranje paketa"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
@@ -919,6 +922,10 @@ msgid "also search in AUR"
 msgstr "također traži u AUR-u"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr "ne traži u AUR-u"
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "traži pakete koji posjeduju dane nazive datoteka (imena datoteka mogu biti djelomična)"
@@ -951,7 +958,7 @@ msgstr "prikaži instalirane pakete"
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr "prikaži pakete koji su instalirani kao zavisnost, ali ih više ne zahtijeva niti jedan instalirani paket"
+msgstr "prikaži pakete koji su instalirani kao ovisnost, ali ih više ne zahtijeva niti jedan instalirani paket"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
@@ -989,7 +996,7 @@ msgstr "stvori direktorij, ako direktorij nije naveden, koristi se onaj koji je 
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr "također kloniraj potrebne zavisnosti"
+msgstr "također kloniraj potrebne ovisnosti"
 
 #: src/cli.vala
 msgid "do not print any output"
@@ -1008,7 +1015,7 @@ msgstr "Ako nije dodijeljen naziv paketa, koristi PKGBUILD datoteku u postojeće
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr "Direktorij za stvaranje će biti nadređeni direktorij; --builddir opcija će se ignorirati"
+msgstr "Direktorij za stvaranje paketa će biti nadređeni direktorij; --builddir opcija će se ignorirati"
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
@@ -1016,7 +1023,11 @@ msgstr "i --no-clone opcija će biti primijenjena"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr "zadrži izgrađene pakete u predmemoriji nakon instalacije"
+msgstr "zadrži stvorene pakete u predmemoriji nakon instalacije"
+
+#: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr "ne držite stvorene pakete u predmemoriji nakon instalacije"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1024,7 +1035,7 @@ msgstr "ispisati samo što bi bilo učinjeno, ali nemojte pokrenuti transakciju"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "nemoj klonirati datoteke za stvaranje iz AUR-a; koristi samo lokalne datoteke"
+msgstr "nemoj klonirati datoteke za stvaranje paketa iz AUR-a; koristi samo lokalne datoteke"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
@@ -1059,6 +1070,10 @@ msgid "mark all packages explicitly installed"
 msgstr "označi sve pakete kao eksplicitno instalirano"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr "provjeri ažuriranja"
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "nemoj provjeravati nadogradnje"
 
@@ -1074,7 +1089,11 @@ msgstr "ukloni pakete samo ako ih niti jedan drugi paket ne zahtijeva"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "ukloni zavisnosti koje drugi paketi ne zahtijevaju, ako se ta mogućnost upotrebljava bez naziva paketa ukloni sve nepotrebne pakete"
+msgstr "ukloni ovisnosti koje drugi paketi ne zahtijevaju, ako se ta mogućnost upotrebljava bez naziva paketa ukloni sve nepotrebne pakete"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr "ne uklanjajte ovisnosti koje drugi paketi ne zahtijevaju"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1099,12 +1118,20 @@ msgid "also check updates in AUR"
 msgstr "također provjeri ažuriranja iz AUR-a"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr "ne provjeravaj ažuriranja u AUR-u"
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "ispisuj samo jednu liniju po ažuriranju"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "također provjeri ažuriranja razvojnih paketa (koristiti naredbu --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr "ne provjeravaj ažuriranja razvojnih paketa"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1119,12 +1146,24 @@ msgid "enable package downgrades"
 msgstr "dopusti povratak na staru verziju paketa"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr "onemogući povratak na staru verziju paketa"
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "također nadogradi pakete instalirane iz AUR-a"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr "ne nadograđuj pakete instalirane iz AUR-a"
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "također nadogradi razvojne pakete (koristiti naredbu --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr "ne nadograđuj razvojne pakete"
 
 #: src/cli.vala
 msgid ""
@@ -1153,7 +1192,7 @@ msgstr "ciljajte samo deinstalirane pakete"
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "ukloniti sve datoteke stvaranja, direktorij je onaj naveden u pamac.conf"
+msgstr "ukloniti sve datoteke za stvaranje paketa, direktorij je onaj naveden u pamac.conf"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
@@ -1207,7 +1246,7 @@ msgstr "Očisti predmemoriju"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr "Očistite datoteke stvaranja"
+msgstr "Očistite datoteke za stvaranje paketa"
 
 #: src/cli.vala
 #, c-format
@@ -1323,7 +1362,7 @@ msgstr "Ponovno instaliraj"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr "Ponovno postavi datoteke za stvaranje"
+msgstr "Ponovno postavi datoteke za stvaranje paketa"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1353,13 +1392,13 @@ msgstr "Provjera dostupnog prostora na disku"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Ukloni nepotrebne zavisnosti"
+msgstr "Ukloni nepotrebne ovisnosti"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Prilikom uklanjanja paketa, ukloniti njegove zavisnosti koje ne zahtijevaju drugi paketi"
+msgstr "Prilikom uklanjanja paketa, ukloniti njegove ovisnosti koje ne zahtijevaju drugi paketi"
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
@@ -1401,7 +1440,7 @@ msgstr "Dozvoli Pamac-u da traži i instalira pakete iz AUR-a"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr "Zadrži izgrađene pakete u predmemoriji"
+msgstr "Zadrži stvorene pakete u predmemoriji"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

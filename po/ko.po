@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -89,12 +89,12 @@ msgstr "%s (%s)을(를) 설치하면 %s에 필요한 의존성 '%s'이(가) 깨�
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "제거할 %s 추가"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "가능하면 %s을(를) 제거하고 다시 시도하십시오"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -114,11 +114,15 @@ msgstr "%s을(를) 제거해야 하지만 잠긴 패키지입니다"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "대상 목록에서 %s 제거중"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "AUR 데이터베이스를 초기화하지 못했습니다"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "트랜잭션이 취소되었습니다"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -128,7 +132,7 @@ msgstr "%s은(는) %s과(와) %s 모두에 존재합니다"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s: %s이(가) 이미 파일 시스템에 존재합니다 (%s 소유)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -137,21 +141,21 @@ msgstr "%s: %s이(가) 파일 시스템에 이미 존재합니다"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "이 파일이 필요하지 않으면 파일을 제거하고 다시 시도하십시오"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s은(는) 이미 파일 시스템에 존재합니다"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "%s에 백업되었습니다"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "잘못된 파일을 제거하고 다시 시도하는 중"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -160,7 +164,7 @@ msgstr "%s이(가) 유효하지 않거나 손상되었습니다"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "이 파일을 제거하고 다시 시도하십시오"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -275,8 +279,9 @@ msgstr "후크 실행 중 오류"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "대략 %u 초 남음"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -315,10 +320,6 @@ msgstr "인증 실패"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "트랜잭션이 취소되었습니다"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -784,7 +785,7 @@ msgstr "Alpm 패키지"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Alpm, AUR, Flatpak 및 스냅 지원이 있는 패키지 관리자"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -916,13 +917,17 @@ msgid "also search in AUR"
 msgstr "AUR도 검색"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "지정된 파일 이름을 소유하는 패키지 검색 (파일명은 부분적으로도 가능)"
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "이름만 인쇄"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -990,7 +995,7 @@ msgstr "복제가 필요한 의존 패키지"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "출력을 인쇄하지 않습니다"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1016,8 +1021,12 @@ msgid "keep built packages in cache after installation"
 msgstr "설치후 빌드된 패키지를 캐시에 보관"
 
 #: src/cli.vala
-msgid "only print what would be done but do not run the transaction"
+msgid "do not keep built packages in cache after installation"
 msgstr ""
+
+#: src/cli.vala
+msgid "only print what would be done but do not run the transaction"
+msgstr "실행될 작업만 인쇄하고 트랜잭션을 실행하지 않습니다"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1056,6 +1065,10 @@ msgid "mark all packages explicitly installed"
 msgstr "완전히 설치된 모든 패키지 표시"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "업데이트를 확인하지 않습니다"
 
@@ -1072,6 +1085,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "다른 패키지에 필요하지 않은 의존성을 제거하고, 패키지 이름 없이 이 옵션을 사용하는 경우 모든 독립 패키지를 제거합니다"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1096,12 +1113,20 @@ msgid "also check updates in AUR"
 msgstr "AUR에서 패키지 업데이트도 확인"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "하나의 업데이트에 대해 하나의 행만 표시"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "개발 패키지 업데이트도 확인 (--aur와 함께 사용)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr ""
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1116,12 +1141,24 @@ msgid "enable package downgrades"
 msgstr "패키지 다운 그레이드 사용"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "AUR에서 설치된 패키지도 업그레이드"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "또한 개발 패키지 업그레이드 (--aur와 함께 사용)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1207,7 +1244,7 @@ msgstr "빌드 파일 정리"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "설치할 %s 추가"
 
 #: src/cli.vala
 #, c-format
@@ -1232,7 +1269,7 @@ msgstr "모두제공하는 것을 선택"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "재설치할 %s 추가"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

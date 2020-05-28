@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-11 04:32+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-26 10:19+0000\n"
 "Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -121,6 +121,10 @@ msgstr "odstraňování %s z cílového seznamu"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "Selhalo načtení AUR databáze"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transakce zrušena"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -277,8 +281,12 @@ msgstr "Chyba při nastavování"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Zbývá asi %u sekund"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] "Zbývá asi %lu sekunda"
+msgstr[1] "Zbývá asi %lu sekundy"
+msgstr[2] "Zbývá asi %lu sekund"
+msgstr[3] "Zbývá asi %lu sekund"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -320,10 +328,6 @@ msgstr "Ověření oprávnění selhalo"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Čekání na ukončení jiného správce balíčků"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transakce zrušena"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -930,6 +934,10 @@ msgid "also search in AUR"
 msgstr "hledat také v AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr "nehledat v AUR"
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "hledat balíčky, které obsahují dané názvy souborů (názvy souborů mohou být pouze částečné)"
@@ -1030,6 +1038,10 @@ msgid "keep built packages in cache after installation"
 msgstr "po instalaci ponechat sestavené balíčky v mezipaměti"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr "po instalaci nenechat sestavené balíčky v mezipaměti"
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr "zobrazit pouze to co by bylo provedeno, ale transakci neaplikovat"
 
@@ -1070,6 +1082,10 @@ msgid "mark all packages explicitly installed"
 msgstr "označit všechny instalované balíčky"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr "kontrolovat aktualizace"
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "nekontrolovat aktualizace"
 
@@ -1086,6 +1102,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "odstranit závislosti, které nejsou potřebné ostatními balíčky; pokud je tato možnost použita bez názvu balíčku, odstranit všechny nepotřebné balíčky"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr "neodstraňovat balíčky, které nejsou vyžadovány jinými balíčky"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1110,12 +1130,20 @@ msgid "also check updates in AUR"
 msgstr "zkontrolovat také aktualizace AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr "nekontrolovat aktualizace v AUR"
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "zobrazit pouze jednu řádku pro každou aktualizaci"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "kontrolovat také vývojové balíčky (použito s --aur)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr "nekontrolovat aktualizace vývojových verzí balíčků"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1130,12 +1158,24 @@ msgid "enable package downgrades"
 msgstr "umožnit návrat balíčků k předchozí verzi"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr "neumožnit návrat ke starším verzím balíčků"
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "automaticky aktualizovat balíčky instalované z AUR"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr "neaktualizovat balíčky instalované z AUR"
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "aktualizovat také vývojové balíčky (použito s --aur)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr "neaktualizovat vývojové verze balíčků"
 
 #: src/cli.vala
 msgid ""
@@ -1340,7 +1380,7 @@ msgstr "Obnovit sestavovací soubory"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Kontrola aktualizací"
+msgstr "Kontrolovat aktualizace"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
@@ -1366,7 +1406,7 @@ msgstr "Kontrolovat volné místo na disku"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
-msgstr "Odebrat nepotřebné závislosti"
+msgstr "Odstranit nepotřebné závislosti"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1380,11 +1420,11 @@ msgstr "Při instalaci nekontrolovat aktualizace"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr "Umožnit návrat k předchozím verzím balíčků"
+msgstr "Umožnit návrat ke starším verzím balíčků"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr "Ignorovat aktualizace u:"
+msgstr "Ignorovat aktualizace pro:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
@@ -1402,7 +1442,7 @@ msgstr "Obnovit seznam zrcadel"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je komunitně udržovaný repozitář. To sebou nese potencionální rizika a problémy.\nVšichni uživatelé AUR by měli znát postup vytváření balíčku neboli buildu."
+msgstr "AUR je komunitně udržovaný repozitář. To s sebou nese potencionální rizika a problémy.\nVšichni uživatelé AUR by měli znát postup vytváření balíčku neboli buildu."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -1418,7 +1458,7 @@ msgstr "Ponechat sestavené balíčky v mezipaměti"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Kontrolovat aktualizace vývojových balíčků"
+msgstr "Kontrolovat aktualizace vývojových verzí balíčků"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."

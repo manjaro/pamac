@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 15:10+0000\n"
-"Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-26 00:02+0000\n"
+"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,6 +119,10 @@ msgstr "%s hedef listesinden kaldırılıyor"
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr "AUR veritabanı başlatılamadı"
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "İşlemden vazgeçildi"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -275,8 +279,10 @@ msgstr "Yapılandırma çalışırken hata"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "%u saniyesi kaldı"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] "Yaklaşık %lu saniye kaldı"
+msgstr[1] "Yaklaşık %lu saniye kaldı"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -316,10 +322,6 @@ msgstr "Doğrulama başarısız"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Diğer paket yöneticisinin kapanması ya da durması bekleniyor"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "İşlemden vazgeçildi"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -723,7 +725,7 @@ msgstr "Tarih"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Resmi Depolar"
+msgstr "Resmi Depo"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -920,6 +922,10 @@ msgid "also search in AUR"
 msgstr "ayrıca AUR'da arama"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr "AUR deposunda arama yapma"
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "Verilen dosya isimlerine sahip olan paketleri ara (dosya isimleri kısmi olabilir)"
@@ -1020,6 +1026,10 @@ msgid "keep built packages in cache after installation"
 msgstr "kurulumdan sonra yerleşik paketleri önbellekte sakla"
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr "kurulumdan sonra yerleşik paketleri önbellekte tutma"
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr "yalnızca ne yapıldığını yazdır fakat işlemi gerçekleştirme"
 
@@ -1060,6 +1070,10 @@ msgid "mark all packages explicitly installed"
 msgstr "doğrudan yüklenen tüm paketleri işaretle"
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr "güncellemeleri kontrol et"
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr "güncellemeleri kontrol etme"
 
@@ -1076,6 +1090,10 @@ msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
 msgstr "diğer paketlerin gerektirmediği bağımlılıkları kaldır, paket adı olmadan bu seçenek kullanılıyorsa tüm sahipsiz paketleri kaldır"
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
+msgstr "diğer paketler için gerekli olmayan bağımlılıkları kaldırma"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1100,12 +1118,20 @@ msgid "also check updates in AUR"
 msgstr "ayrıca AUR güncellemeleri kontrol et"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr "AUR güncellemelerini kontrol etme"
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr "her güncelleme için sadece bir satır göster"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
 msgstr "ayrıca gelişim paketleri güncellemelerini de kontrol edin (--aur girdisi kullanın)"
+
+#: src/cli.vala
+msgid "do not check development packages updates"
+msgstr "gelişim paketleri güncellemelerini kontrol etme"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1120,12 +1146,24 @@ msgid "enable package downgrades"
 msgstr "paket sürüm düşürmelerini etkinleştir"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr "paket sürüm düşürmelerini devre dışı bırak"
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr "ayrıca AUR'dan yüklenen paketleri yükseltme"
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr "AUR deposundan yüklenen paketleri yükseltme"
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
 msgstr "ayrıca geliştirme paketlerini yükseltin (--aur girdisini kullanın)"
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
+msgstr "gelişim paketlerini yükseltme"
 
 #: src/cli.vala
 msgid ""

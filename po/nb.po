@@ -23,14 +23,14 @@
 # thomas <thomasbjornvold@gmail.com>, 2015-2016
 # Tom Eirik Flovik <tflovik@online.no>, 2013
 # 4ea9f8151a43bd83aa50e2a598f30349, 2019
-# Tyler Moss <inactive+lazerbeta@transifex.com>, 2017
+# 865ac004d9acf2568b2e4b389e0007c7_fba755c <3516cc82d94f87187da1e036e5f09e42_616112>, 2017
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-09 11:58+0200\n"
-"PO-Revision-Date: 2020-05-09 11:10+0000\n"
+"POT-Creation-Date: 2020-05-25 19:09+0200\n"
+"PO-Revision-Date: 2020-05-25 22:35+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -130,6 +130,10 @@ msgstr ""
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
 msgstr ""
+
+#: src/alpm_utils.vala src/daemon.vala src/transaction.vala
+msgid "Transaction cancelled"
+msgstr "Transaksjon avbrutt"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -286,8 +290,10 @@ msgstr ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
-msgid "About %u seconds remaining"
-msgstr "Ca %u sekunder gjenstår"
+msgid "About %lu second remaining"
+msgid_plural "About %lu seconds remaining"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -327,10 +333,6 @@ msgstr "Autentifisering feilet"
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
 msgstr "Venter på at en annen pakkebehandler skal avslutte"
-
-#: src/daemon.vala src/transaction.vala
-msgid "Transaction cancelled"
-msgstr "Transaksjon avbrutt"
 
 #: src/daemon.vala
 msgid "Timeout expired"
@@ -931,6 +933,10 @@ msgid "also search in AUR"
 msgstr "søk også i AUR"
 
 #: src/cli.vala
+msgid "do not search in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
 msgstr "søk etter pakker som er i besittelse av følgende filnavn (kan være segment av filnavnet)"
@@ -1031,6 +1037,10 @@ msgid "keep built packages in cache after installation"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not keep built packages in cache after installation"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
 msgstr ""
 
@@ -1071,6 +1081,10 @@ msgid "mark all packages explicitly installed"
 msgstr ""
 
 #: src/cli.vala
+msgid "check for updates"
+msgstr ""
+
+#: src/cli.vala
 msgid "do not check for updates"
 msgstr ""
 
@@ -1086,6 +1100,10 @@ msgstr ""
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not remove dependencies that are not required by other packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1111,11 +1129,19 @@ msgid "also check updates in AUR"
 msgstr "sjekk også oppdateringer i AUR"
 
 #: src/cli.vala
+msgid "do not check updates in AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "only print one line per update"
 msgstr ""
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not check development packages updates"
 msgstr ""
 
 #: src/cli.vala
@@ -1131,11 +1157,23 @@ msgid "enable package downgrades"
 msgstr "aktiver pakkenedgraderinger"
 
 #: src/cli.vala
+msgid "disable package downgrades"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade packages installed from AUR"
 msgstr ""
 
 #: src/cli.vala
+msgid "do not upgrade packages installed from AUR"
+msgstr ""
+
+#: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
+msgstr ""
+
+#: src/cli.vala
+msgid "do not upgrade development packages"
 msgstr ""
 
 #: src/cli.vala
