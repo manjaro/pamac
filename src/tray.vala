@@ -123,7 +123,7 @@ namespace Pamac {
 			var config = new Config ("/etc/pamac.conf");
 			if (config.refresh_period != 0) {
 				// get updates
-				string[] cmds = {"pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"};
+				string[] cmds = {"pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs", "--use-timestamp"};
 				if (config.download_updates) {
 					cmds+= "--download-updates";
 				}

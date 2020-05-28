@@ -271,7 +271,7 @@ const PamacUpdateIndicator = new Lang.Class({
 		}
 		// Run asynchronously, to avoid  shell freeze - even for a 1s check
 		try {
-			let check_cmd = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs"];
+			let check_cmd = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs", "--use-timestamp"];
 			if (this._config.download_updates) {
 				check_cmd.push ("--download-updates");
 			}
