@@ -37,7 +37,6 @@ namespace Pamac {
 	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
 		Daemon system_daemon;
-		Config config;
 		bool extern_lock;
 		uint check_lock_timeout_id;
 		GLib.File lockfile;
