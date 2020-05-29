@@ -2397,6 +2397,7 @@ namespace Pamac {
 				}
 				if (pkg is AURPackage) {
 					if (pkg.name in to_build ||
+						pkg.name in to_remove ||
 						pkg.name in to_update) {
 						pamac_row.action_togglebutton.active = true;
 						pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
@@ -3722,6 +3723,9 @@ namespace Pamac {
 				#if ENABLE_FLATPAK
 				check_flatpak_support ();
 				#endif
+				if (main_stack.visible_child_name == "details") {
+					refresh_details ();
+				}
 				refresh_packages_list ();
 			} else {
 				this.get_window ().set_cursor (null);
