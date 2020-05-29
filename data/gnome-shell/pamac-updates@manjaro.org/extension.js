@@ -46,7 +46,7 @@ const Pamac = imports.gi.Pamac;
 let HIDE_NO_UPDATE     = false;
 let SHOW_COUNT         = true;
 let BOOT_WAIT          = 30;  // 30s
-let CHECK_INTERVAL     = 6;   // 6h
+let CHECK_INTERVAL     = 1;   // 1h
 let NOTIFY             = true;
 let TRANSIENT          = false;
 let UPDATER_CMD        = "pamac-manager --updates";
@@ -150,12 +150,12 @@ const PamacUpdateIndicator = new Lang.Class({
 
 	_applyConfig: function() {
 		HIDE_NO_UPDATE = this._config.no_update_hide_icon;
-		CHECK_INTERVAL = this._config.refresh_period;
 		PACMAN_DIR = this._config.db_path + "local";
 		this._checkShowHide();
 		let that = this;
 		if (this._TimeoutId) GLib.source_remove(this._TimeoutId);
-		if (CHECK_INTERVAL > 0) {
+		if (this._config.refresh_period > 0) {
+			// check every hour if refresh_timestamp is older than config.refresh_period
 			this._TimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 3600 * CHECK_INTERVAL, function () {
 				that._checkUpdates();
 				return true;

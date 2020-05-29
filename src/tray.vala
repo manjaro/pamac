@@ -39,7 +39,6 @@ namespace Pamac {
 		Daemon system_daemon;
 		Config config;
 		bool extern_lock;
-		uint refresh_timeout_id;
 		uint check_lock_timeout_id;
 		GLib.File lockfile;
 		FileMonitor monitor;
@@ -161,8 +160,6 @@ namespace Pamac {
 		}
 
 		void on_write_pamac_config_finished () {
-			config.reload ();
-			launch_refresh_timeout (config.refresh_period);
 			check_updates ();
 		}
 
@@ -256,14 +253,9 @@ namespace Pamac {
 			}
 		}
 
-		void launch_refresh_timeout (uint64 refresh_period_in_hours) {
-			if (refresh_timeout_id != 0) {
-				Source.remove (refresh_timeout_id);
-				refresh_timeout_id = 0;
-			}
-			if (refresh_period_in_hours != 0) {
-				refresh_timeout_id = Timeout.add_seconds ((uint) refresh_period_in_hours*3600, check_updates);
-			}
+		void launch_refresh_timeout () {
+			// check every hour if refresh_timestamp is older than config.refresh_period
+			Timeout.add_seconds ((uint) 3600, check_updates);
 		}
 
 		void on_icon_theme_changed () {
@@ -280,7 +272,7 @@ namespace Pamac {
 			Intl.textdomain ("pamac");
 			Intl.setlocale (LocaleCategory.ALL, "");
 
-			config = new Config ("/etc/pamac.conf");
+			var config = new Config ("/etc/pamac.conf");
 			// if refresh period is 0, just return so tray will exit
 			if (config.refresh_period == 0) {
 				return;
@@ -289,7 +281,6 @@ namespace Pamac {
 			base.startup ();
 
 			extern_lock = false;
-			refresh_timeout_id = 0;
 
 			icon_theme = Gtk.IconTheme.get_default ();
 			icon_theme.changed.connect (on_icon_theme_changed);
@@ -321,7 +312,7 @@ namespace Pamac {
 				check_updates ();
 				return false;
 			});
-			launch_refresh_timeout (config.refresh_period);
+			launch_refresh_timeout ();
 
 			this.hold ();
 		}
