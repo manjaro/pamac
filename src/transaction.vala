@@ -774,6 +774,7 @@ namespace Pamac {
 				if (success) {
 					if (to_build_queue.get_length () != 0) {
 						success = build_aur_packages ();
+						build_cancellable.reset ();
 					}
 					#if ENABLE_SNAP
 					if (success) {
@@ -1424,10 +1425,10 @@ namespace Pamac {
 				}
 				important_details_outpout (false);
 				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
-				if (status == 1) {
-					emit_error (dgettext (null, "Failed to build %s").printf (pkgname), {});
-				} else if (build_cancellable.is_cancelled ()) {
+				if (build_cancellable.is_cancelled ()) {
 					status = 1;
+				} else if (status == 1) {
+					emit_error (dgettext (null, "Failed to build %s").printf (pkgname), {});
 				}
 				if (status == 0) {
 					// get built pkgs path

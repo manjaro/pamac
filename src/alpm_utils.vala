@@ -979,6 +979,9 @@ namespace Pamac {
 				// retry
 				commit_retries++;
 				if (commit_retries <= 1) {
+					if (to_build.length > 0 || check_aur_updates) {
+						remove_aur_db (tmp_handle);
+					}
 					success = trans_check_prepare_real (tmp_handle, ref summary);
 				}
 			}
@@ -1363,11 +1366,30 @@ namespace Pamac {
 			need_retry = false;
 			unowned Alpm.DB? aur_db = null;
 			if (to_build.length > 0 || check_aur_updates) {
-				// fake aur db
-				aur_db = alpm_handle.register_syncdb ("pamac_aur", 0);
-				if (aur_db == null) {
-					do_emit_error (_("Failed to initialize AUR database"), {});
-					return false;
+				if (to_remove.length == 0) {
+					// fake aur db
+					aur_db = alpm_handle.register_syncdb ("pamac_aur", 0);
+					if (aur_db == null) {
+						Alpm.Errno err_no = alpm_handle.errno ();
+						do_emit_error (_("Failed to initialize AUR database"), {Alpm.strerror (err_no)});
+						return false;
+					}
+				} else {
+					// aur db already registered
+					unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
+					while (syncdbs != null) {
+						unowned Alpm.DB db = syncdbs.data;
+						if (db.name == "pamac_aur") {
+							aur_db = db;
+							break;
+						}
+						syncdbs.next ();
+					}
+					if (aur_db == null) {
+						Alpm.Errno err_no = alpm_handle.errno ();
+						do_emit_error (_("Failed to initialize AUR database"), {});
+						return false;
+					}
 				}
 			}
 			bool success = trans_init (alpm_handle, trans_flags);
