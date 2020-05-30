@@ -7,13 +7,14 @@
 # Francisco Sánchez López de Lerma <fslopezlerma@gmail.com>, 2018
 # Francisco Torres <franute@gmail.com>, 2018
 # manueljlin <manueljlin@gmail.com>, 2019
+# Xema Fuentes <xemafuentes@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-05-28 19:20+0000\n"
+"Last-Translator: Xema Fuentes <xemafuentes@gmail.com>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr ""
+msgstr "Instala, actualiza o elimina paquetes"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
@@ -161,7 +162,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "error al recibir algunos archivos"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -291,12 +292,12 @@ msgstr "Error"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "Descarga de %siniciada"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "Descarga de %s finalizada"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -318,7 +319,7 @@ msgstr "Esperando a que otro gestor de paquetes salga..."
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Tiempo de espera agotado"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"

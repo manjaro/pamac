@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 05:20+0000\n"
+"PO-Revision-Date: 2020-05-29 17:18+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -804,7 +804,7 @@ msgstr "Maksimum paralelnih preuzimanja"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr "Broj različitih verzija paketa za spremiti u predmemoriju"
+msgstr "Broj različitih verzija paketa za zadržavanje u predmemoriji"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
@@ -1027,7 +1027,7 @@ msgstr "zadrži stvorene pakete u predmemoriji nakon instalacije"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr "ne držite stvorene pakete u predmemoriji nakon instalacije"
+msgstr "ne zadržavaj stvorene pakete u predmemoriji nakon instalacije"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"

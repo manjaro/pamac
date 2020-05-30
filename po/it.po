@@ -14,11 +14,14 @@
 # francesco <francesco987@gmail.com>, 2015
 # Guillaume Benoit <guillaume@manjaro.org>, 2013,2019
 # Italwizzie, 2014
+# l3nn4rt, 2017
 # l3nn4rt, 2018-2019
 # Luca Allulli <l.allulli@gmail.com>, 2015
 # Luca Allulli <l.allulli@gmail.com>, 2015
 # l3nn4rt, 2017
 # Leonardo Paffi <leonardopaffi@hotmail.it>, 2020
+# Lorthirk <cm0901@gmail.com>, 2019
+# Luca Allulli <l.allulli@gmail.com>, 2015
 # Luca Bandini <luca.vombato@gmail.com>, 2016
 # Massimo, 2015
 # Massimo, 2015-2016
@@ -27,17 +30,21 @@
 # Paolo Dongilli <paolo.dongilli@gmail.com>, 2013,2015
 # philm <philm@manjaro.org>, 2015
 # Pietro F. Fontana, 2020
+# Pietro F. Fontana, 2020
 # Pietro F. Fontana, 2017-2019
 # Samuele Cerini, 2020
+# Samuele Cerini, 2020
 # Saverio <saverio.brancaccio@gmail.com>, 2018-2019
+# Stefano Capitani <capitani74@gmail.com>, 2020
+# Trazalca <trazalca@hotmail.com>, 2019
 # Trazalca <trazalca@hotmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-05-28 20:09+0000\n"
+"Last-Translator: Stefano Capitani <capitani74@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -168,7 +175,7 @@ msgstr "%s: %s già esiste nel filesystem"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "E' stato eseguito il backup in %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -298,8 +305,8 @@ msgstr "Errore nell'esecuzione degli hooks"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%lu secondo rimanente"
+msgstr[1] "%lu secondi rimanenti"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -806,7 +813,7 @@ msgstr "Pacchetto Alpm"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Un Package Manager con supporto per Alpm, AUR, Flatpak, e Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -940,7 +947,7 @@ msgstr "cerca anche in AUR"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "non cercare in AUR"
 
 #: src/cli.vala
 msgid ""
@@ -949,7 +956,7 @@ msgstr "cerca pacchetti che possiedono il file indicato (il nome del file può e
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "mostra solo i nomi"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -1017,7 +1024,7 @@ msgstr "clona anche le dipendenze richieste"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "non mostrare nessun messaggio"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1044,11 +1051,11 @@ msgstr "Conserva i pacchetti creati nella cache dopo l'installazione"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "non mantenere i pacchetti costruiti nella cache dopo l'installazione"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "mostra solo ciò che verrà eseguito ma non eseguire la transazione"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1088,7 +1095,7 @@ msgstr "segna tutti i pacchetti come installati esplicitamente"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "controllo per aggiornamenti"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1110,7 +1117,7 @@ msgstr "rimuovi le dipendenze che non sono richieste da altri pacchetti, se ques
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "non rimuovere le dipendeze che non sono richieste da altri pacchetti"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1136,7 +1143,7 @@ msgstr "verifica la presenza di aggiornamenti anche in AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "non verificare la presenza di aggiornamenti anche da AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1148,7 +1155,7 @@ msgstr "cerca aggiornamenti anche per i pacchetti di sviluppo (da utilizzare con
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "non cercare aggiornamenti tra i pachhetti di sviluppo"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1164,7 +1171,7 @@ msgstr "abilita il downgrade dei pacchetti"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "disabilita  ilil downgrade dei pacchetti"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1172,7 +1179,7 @@ msgstr "aggiorna anche i pacchetti installati da AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "non aggiornare i pacchetti installati da AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1180,7 +1187,7 @@ msgstr "aggiorna anche i pacchetti di sviluppo (usa con --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "non aggiornare i pacchetti di sviluppo"
 
 #: src/cli.vala
 msgid ""
@@ -1283,7 +1290,7 @@ msgstr "Costruisci %s dall'AUR"
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] "Ci sono %u membri nel gruppo %s"
+msgstr[0] "C'è un %u membro nel gruppo %s"
 msgstr[1] "Ci sono %u membri nel gruppo %s"
 
 #: src/cli.vala

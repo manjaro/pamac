@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
+# Alexis Delgado, 2020
 # David Gallegos <davidmartingallegos@gmail.com>, 2019
 # Germán Leonardo Vaja <german.vaja@gmail.com>, 2018
 # Guillermo Schvartzman <guillermohs9@gmail.com>, 2018
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-05-28 15:26+0000\n"
+"Last-Translator: Alexis Delgado\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgstr "Instala, actualiza o remueve paquetes"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr ""
+msgstr "La autenticación es requerida para instalar, actualizar o remover paquetes"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -41,7 +42,7 @@ msgstr "Sincronizando bases de datos de paquetes"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Fallo al sincronizar bases de datos"
 
 #: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
 #: resources/preferences_dialog.ui
@@ -84,7 +85,7 @@ msgstr "instalar %s (%s) rompe dependencia ' %s ' requerida por %s"
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "Agregar %s para remover"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -109,11 +110,11 @@ msgstr "%s necesita ser removido pero es un paquete bloqueado"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "Removiendo%s de la lista de objetivos"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Fallo al iniciar la base de datos AUR"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -136,7 +137,7 @@ msgstr "%s: %s ya existe en el sistema de archivos"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "Si este archivo no es necesario, removelo e intentá nuevamente"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -150,7 +151,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Removiendo archivos invalidos y volviendo a intentar"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -159,7 +160,7 @@ msgstr "%s no es válido o está corrupto"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "Podes remover este archivo y volver a intentar"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -226,7 +227,7 @@ msgstr "Configurando %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Error mientras configura %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -253,12 +254,12 @@ msgstr "Descargando las claves requeridas"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr ""
+msgstr "%s instalado como %s.pacnew"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr ""
+msgstr "%s instalado como %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
@@ -293,12 +294,12 @@ msgstr "Error"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr ""
+msgstr "La descarga de %s ha comenzado"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr ""
+msgstr "La descarga de %s finalizó"
 
 #: src/alpm_utils.vala
 #, c-format

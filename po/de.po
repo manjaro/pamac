@@ -6,8 +6,8 @@
 # Translators:
 # Andreas Eitel, 2018
 # Andreas Eitel <github-aneitel@online.de>, 2019-2020
-# Bankman <inactive+dirktux@transifex.com>, 2016
-# Bankman <inactive+dirktux@transifex.com>, 2016
+# 648e277f97167f59ef328b92797eadf7_c5634e6 <912cc5563011f8895e5b3e89de9b39d7_237532>, 2016
+# 648e277f97167f59ef328b92797eadf7_c5634e6 <912cc5563011f8895e5b3e89de9b39d7_237532>, 2016
 # Christian G <geblerc@gmail.com>, 2018
 # Christian Spaan, 2016-2017,2020
 # Pux Tux <puxplaying@gmail.com>, 2019
@@ -37,8 +37,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-05-28 15:07+0000\n"
+"Last-Translator: philm <philm@manjaro.org>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -299,8 +299,8 @@ msgstr "Fehler beim Ausführen von Folgeaufträgen"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ca. %lu Sekunde noch"
+msgstr[1] "Ca. %lu Sekunden noch"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -807,7 +807,7 @@ msgstr "Alpm Paket"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Ein Paketmanager mit ALPM, AUR, Flatpak und Snap Support"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -941,7 +941,7 @@ msgstr "auch im AUR suchen"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "nicht im AUR suchen"
 
 #: src/cli.vala
 msgid ""
@@ -1045,7 +1045,7 @@ msgstr "Erstellte Pakete nach der Installation im Cache vorhalten"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "erstellte Pakete nach Installation nicht im Cache behalten"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1089,7 +1089,7 @@ msgstr "Alle Pakete als explizit installiert markieren"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "nach Updates überprüfen"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1111,7 +1111,7 @@ msgstr "entferne Abhängigkeiten, die nicht von anderen Paketen benötigt werden
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "Abhängigkeiten nicht entfernen, welche von anderen Paketen nicht benötigt werden"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1137,7 +1137,7 @@ msgstr "auch im AUR nach Aktualisierungen suchen"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "im AUR nicht nach Erneuerungen suchen"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1149,7 +1149,7 @@ msgstr "auch Entwicklungspakete auf Aktualisierungen prüfen (benutzen mit --aur
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "nicht nach Entwicklungspaket-Erneuerungen suchen"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1165,7 +1165,7 @@ msgstr "das Installieren vorheriger Paketversionen aktivieren"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "Paket-Herabstufungen deaktivieren"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1173,7 +1173,7 @@ msgstr "aktualisiere auch Pakete, die aus dem AUR installiert wurden"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "Pakete installiert aus dem AUR nicht erneuern"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1181,7 +1181,7 @@ msgstr "Auch Entwicklungspakete aktualisieren (Verwendung mit --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "Entwicklungspakete nicht erneuern"
 
 #: src/cli.vala
 msgid ""
