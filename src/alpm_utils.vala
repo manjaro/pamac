@@ -2041,13 +2041,6 @@ namespace Pamac {
 			}
 		}
 
-		public void emit_download_in_context (uint64 xfered, uint64 total, bool force_emit) {
-			context.invoke (() => {
-				emit_download (xfered, total, force_emit);
-				return false;
-			});
-		}
-
 		public void emit_download (uint64 xfered, uint64 total, bool force_emit = false) {
 			var text = new StringBuilder ("");
 			double fraction;
@@ -2371,7 +2364,7 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		multi_progress.foreach ((filename, progress) => {
 			total_progress += progress;
 		});
-		alpm_utils.emit_download_in_context (total_progress, total_download, true);
+		alpm_utils.emit_download (total_progress, total_download, true);
 		multi_progress_mutex.unlock ();
 	} else if (xfered == total) {
 		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
@@ -2398,7 +2391,7 @@ void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 		multi_progress.foreach ((filename, progress) => {
 			total_progress += progress;
 		});
-		alpm_utils.emit_download_in_context (total_progress, total_download, true);
+		alpm_utils.emit_download (total_progress, total_download, true);
 		multi_progress_mutex.unlock ();
 	} else {
 		multi_progress_mutex.lock ();
