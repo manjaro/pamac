@@ -1055,7 +1055,7 @@ namespace Pamac {
 								initialise_pkg_common (local_pkg, ref alpmpkg);
 								unowned Alpm.Package? sync_pkg = get_syncpkg (local_pkg.name);
 								if (sync_pkg != null) {
-									pkg.repo = sync_pkg.db.name;
+									alpmpkg.repo = sync_pkg.db.name;
 								}
 								pkg = alpmpkg;
 								break;
