@@ -37,6 +37,7 @@ namespace Pamac {
 	public abstract class TrayIcon: Gtk.Application {
 		Notify.Notification notification;
 		Daemon system_daemon;
+		Config config;
 		bool extern_lock;
 		uint check_lock_timeout_id;
 		GLib.File lockfile;
@@ -118,7 +119,7 @@ namespace Pamac {
 		public abstract void set_icon_visible (bool visible);
 
 		bool check_updates () {
-			var config = new Config ("/etc/pamac.conf");
+			config.reload ();
 			if (config.refresh_period != 0) {
 				// get updates
 				string[] cmds = {"pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs", "--use-timestamp"};
@@ -126,6 +127,7 @@ namespace Pamac {
 					cmds+= "--download-updates";
 				}
 				updates_nb = 0;
+				message ("check updates");
 				try {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
 					process.wait_async.begin (null, () => {
@@ -154,6 +156,7 @@ namespace Pamac {
 				} catch (Error e) {
 					warning (e.message);
 				}
+				message ("%u updates found", updates_nb);
 			}
 			return true;
 		}
@@ -254,7 +257,7 @@ namespace Pamac {
 
 		void launch_refresh_timeout () {
 			// check every hour if refresh_timestamp is older than config.refresh_period
-			Timeout.add_seconds ((uint) 3600, check_updates);
+			Timeout.add_seconds (3600, check_updates);
 		}
 
 		void on_icon_theme_changed () {
@@ -271,7 +274,7 @@ namespace Pamac {
 			Intl.textdomain ("pamac");
 			Intl.setlocale (LocaleCategory.ALL, "");
 
-			var config = new Config ("/etc/pamac.conf");
+			config = new Config ("/etc/pamac.conf");
 			// if refresh period is 0, just return so tray will exit
 			if (config.refresh_period == 0) {
 				return;
