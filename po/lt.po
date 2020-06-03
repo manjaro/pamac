@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-05-30 20:38+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -273,10 +273,10 @@ msgstr "Klaida vykdant gaudykles"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Liko maždaug %lu sekundė"
+msgstr[1] "Liko maždaug %lu sekundės"
+msgstr[2] "Liko maždaug %lu sekundžių"
+msgstr[3] "Liko maždaug %lu sekundė"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -543,7 +543,7 @@ msgstr "Paketas nerastas"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Tikrinama ar yra atnaujinimų"
+msgstr "Tikrinama, ar yra atnaujinimų"
 
 #: src/manager_window.vala
 #, c-format
@@ -925,7 +925,7 @@ msgstr "taip pat ieškoti AUR saugykloje"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "neieškoti AUR saugykloje"
 
 #: src/cli.vala
 msgid ""
@@ -1025,11 +1025,11 @@ msgstr "ir --no-clone parinktis bus naudojama priverstinai"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr "įdiegus, laikyti sukompiliuotus paketus podėlyje"
+msgstr "įdiegus, palikti sukompiliuotus paketus podėlyje"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "įdiegus, nepalikti sukompiliuotų paketų podėlyje"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1073,7 +1073,7 @@ msgstr "žymėti visus paketus kaip savarankiškai įdiegtus"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "tikrinti, ar yra atnaujinimų"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1095,7 +1095,7 @@ msgstr "šalinti priklausomybes, kurių nereikia jokiems kitiems paketams, jei �
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "nešalinti priklausomybių, kurios nėra reikalaujamos kitų paketų"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1121,7 +1121,7 @@ msgstr "taip pat tikrinti atnaujinimus AUR saugykloje"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "netikrinti, ar yra atnaujinimų AUR saugykloje"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1133,7 +1133,7 @@ msgstr "taip pat tikrinti plėtojimo paketų atnaujinimų (naudoti su --aur)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "netikrinti, ar yra plėtojimo paketų atnaujinimų"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1149,7 +1149,7 @@ msgstr "įjungti paketų sendinimus"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "išjungti paketų sendinimus"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1157,7 +1157,7 @@ msgstr "taip pat naujinti paketus, įdiegtus iš AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "nenaujinti paketus, įdiegtus iš AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1165,7 +1165,7 @@ msgstr "taip pat naujinti plėtojimo paketus (naudoti su --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "nenaujinti plėtojimo paketus"
 
 #: src/cli.vala
 msgid ""
@@ -1370,7 +1370,7 @@ msgstr "Atstatyti kompiliavimo failus"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Tikrinti ar yra atnaujinimų"
+msgstr "Tikrinti, ar yra atnaujinimų"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
@@ -1444,7 +1444,7 @@ msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr "Laikyti sukompiliuotus paketus podėlyje"
+msgstr "Palikti sukompiliuotus paketus podėlyje"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

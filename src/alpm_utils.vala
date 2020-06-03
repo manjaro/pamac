@@ -42,19 +42,16 @@ class Download: Object {
 		if (db == null) {
 			return;
 		}
+		// a copy is needed because trans pkg can be deleted when cancellation
+		string filename = alpm_pkg.filename;
 		unowned Alpm.List<unowned string> servers = db.servers;
 		while (servers != null) {
 			int ret;
+			unowned string mirror = servers.data;
 			if (emit_signals) {
-				ret = dload ("%s/%s".printf (servers.data, alpm_pkg.filename),
-							cachedir,
-							0,
-							cb_multi_download);
+				ret = dload (mirror, filename, cachedir, 0, cb_multi_download);
 			} else {
-				ret = dload ("%s/%s".printf (servers.data, alpm_pkg.filename),
-							cachedir,
-							0,
-							null);
+				ret = dload (mirror, filename, cachedir, 0, null);
 			}
 			if (ret == 0) {
 				// success
@@ -1386,7 +1383,6 @@ namespace Pamac {
 						syncdbs.next ();
 					}
 					if (aur_db == null) {
-						Alpm.Errno err_no = alpm_handle.errno ();
 						do_emit_error (_("Failed to initialize AUR database"), {});
 						return false;
 					}
@@ -1503,9 +1499,11 @@ namespace Pamac {
 			}
 			multi_progress_mutex.lock ();
 			uint64 total_progress = 0;
-			multi_progress.foreach ((filename, progress) => {
+			var iter = HashTableIter<string, uint64?> (multi_progress);
+			uint64? progress;
+			while (iter.next (null, out progress)) {
 				total_progress += progress;
-			});
+			}
 			if (total_progress > 0) {
 				emit_download (total_progress, total_download);
 			}
@@ -2159,7 +2157,7 @@ namespace Pamac {
 					line = dgettext (null, "Error") + ": " + msg;
 				}
 				do_important_details_outpout (false);
-				do_emit_warning (line.replace ("\n", ""));
+				do_emit_script_output (line.replace ("\n", ""));
 			} else if (level == (1 << 1)) { //Alpm.LogLevel.WARNING
 				// warnings when no_confirm_commit should already have been sent
 				if (alpm_utils.no_confirm_commit) {
@@ -2340,64 +2338,9 @@ delegate void DownloadCallback (string filename, uint64 xfered, uint64 total);
 
 void cb_multi_download (string filename, uint64 xfered, uint64 total) {
 	// this will be run in the threadpool
-	if (xfered == 0) {
-		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-		if (name_version_release == null) {
-			return;
-		}
-		string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-		if (name_version == null) {
-			return;
-		}
-		int version_index = name_version.last_index_of_char ('-');
-		string? name = name_version.slice (0, version_index);
-		if (name == null) {
-			return;
-		}
-		string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
-		if (version_release == null) {
-			return;
-		}
-		multi_progress_mutex.lock ();
-		current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
-		uint64 total_progress = 0;
-		multi_progress.foreach ((filename, progress) => {
-			total_progress += progress;
-		});
-		alpm_utils.emit_download (total_progress, total_download, true);
-		multi_progress_mutex.unlock ();
-	} else if (xfered == total) {
-		string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-		if (name_version_release == null) {
-			return;
-		}
-		string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-		if (name_version == null) {
-			return;
-		}
-		int version_index = name_version.last_index_of_char ('-');
-		string? name = name_version.slice (0, version_index);
-		if (name == null) {
-			return;
-		}
-		string? version_release = name_version_release.slice (version_index + 1, name_version_release.length);
-		if (version_release == null) {
-			return;
-		}
-		multi_progress_mutex.lock ();
-		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
-		uint64 total_progress = 0;
-		multi_progress.insert (filename, xfered);
-		multi_progress.foreach ((filename, progress) => {
-			total_progress += progress;
-		});
-		alpm_utils.emit_download (total_progress, total_download, true);
-		multi_progress_mutex.unlock ();
-	} else {
-		multi_progress_mutex.lock ();
-		multi_progress.insert (filename, xfered);
-		multi_progress_mutex.unlock ();
-	}
+	multi_progress_mutex.lock ();
+	multi_progress.insert (filename, xfered);
+	multi_progress_mutex.unlock ();
 }
 
 void cb_download (string filename, uint64 xfered, uint64 total) {
@@ -2429,18 +2372,21 @@ void cb_download (string filename, uint64 xfered, uint64 total) {
 }
 
 int cb_fetch (string fileurl, string localpath, int force) {
+	string mirror =  Path.get_dirname (fileurl);
 	current_filename = Path.get_basename (fileurl);
-	return dload (fileurl, localpath, force, cb_download);
+	return dload (mirror, current_filename, localpath, force, cb_download);
 }
 
-int dload (string url, string localpath, int force, DownloadCallback? dl_callback) {
+int dload (string mirror, string filename, string localpath, int force, DownloadCallback? dl_callback) {
 	if (alpm_utils.cancellable.is_cancelled ()) {
 		return -1;
 	}
 
-	string filename =  Path.get_basename (url);
-	var destfile = File.new_for_path (localpath + filename);
+	string url =  Path.build_filename (mirror, filename);
+	var destfile = File.new_for_path (Path.build_filename (localpath, filename));
 	var tempfile = File.new_for_path (destfile.get_path () + ".part");
+	string name = "";
+	string version_release = "";
 
 	bool remove_partial_download = true;
 	if (url.contains (".pkg.tar.") && !url.has_suffix (".sig")) {
@@ -2535,7 +2481,32 @@ int dload (string url, string localpath, int force, DownloadCallback? dl_callbac
 		uint8[] buf = new uint8[8192];
 		// start download
 		if (dl_callback != null) {
-			dl_callback (filename, 0, size);
+			// compute name and version_release
+			string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+			if (name_version_release != null) {
+				string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+				if (name_version != null) {
+					int version_index = name_version.last_index_of_char ('-');
+					string? tmp_name = name_version.slice (0, version_index);
+					if (tmp_name != null) {
+						name = tmp_name;
+						string? tmp_version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+						if (tmp_version_release != null) {
+							version_release = tmp_version_release;
+							multi_progress_mutex.lock ();
+							current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
+							uint64 total_progress = 0;
+							var iter = HashTableIter<string, uint64?> (multi_progress);
+							uint64? tmp_progress;
+							while (iter.next (null, out tmp_progress)) {
+								total_progress += tmp_progress;
+							}
+							alpm_utils.emit_download (total_progress, total_download, true);
+							multi_progress_mutex.unlock ();
+						}
+					}
+				}
+			}
 		}
 		while (true) {
 			ssize_t read = input.read (buf, alpm_utils.cancellable);
@@ -2571,7 +2542,17 @@ int dload (string url, string localpath, int force, DownloadCallback? dl_callbac
 
 	// download succeeded
 	if (dl_callback != null) {
-		dl_callback (filename, size, size);
+		multi_progress_mutex.lock ();
+		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
+		uint64 total_progress = 0;
+		multi_progress.insert (filename, size);
+		var iter = HashTableIter<string, uint64?> (multi_progress);
+		uint64? progress;
+		while (iter.next (null, out progress)) {
+			total_progress += progress;
+		}
+		alpm_utils.emit_download (total_progress, total_download, true);
+		multi_progress_mutex.unlock ();
 	}
 	try {
 		tempfile.move (destfile, FileCopyFlags.OVERWRITE);
