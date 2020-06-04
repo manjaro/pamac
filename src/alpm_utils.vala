@@ -2481,28 +2481,33 @@ int dload (string mirror, string filename, string localpath, int force, Download
 		uint8[] buf = new uint8[8192];
 		// start download
 		if (dl_callback != null) {
-			// compute name and version_release
-			string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
-			if (name_version_release != null) {
-				string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
-				if (name_version != null) {
-					int version_index = name_version.last_index_of_char ('-');
-					string? tmp_name = name_version.slice (0, version_index);
-					if (tmp_name != null) {
-						name = tmp_name;
-						string? tmp_version_release = name_version_release.slice (version_index + 1, name_version_release.length);
-						if (tmp_version_release != null) {
-							version_release = tmp_version_release;
-							multi_progress_mutex.lock ();
-							current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
-							uint64 total_progress = 0;
-							var iter = HashTableIter<string, uint64?> (multi_progress);
-							uint64? tmp_progress;
-							while (iter.next (null, out tmp_progress)) {
-								total_progress += tmp_progress;
+			if (filename.has_suffix (".db") || filename.has_suffix (".files")) {
+				string filename_copy = filename;
+				current_action = _("Refreshing %s").printf (filename_copy) + "...";
+			} else {
+				// compute name and version_release
+				string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
+				if (name_version_release != null) {
+					string? name_version = name_version_release.slice (0, name_version_release.last_index_of_char ('-'));
+					if (name_version != null) {
+						int version_index = name_version.last_index_of_char ('-');
+						string? tmp_name = name_version.slice (0, version_index);
+						if (tmp_name != null) {
+							name = tmp_name;
+							string? tmp_version_release = name_version_release.slice (version_index + 1, name_version_release.length);
+							if (tmp_version_release != null) {
+								version_release = tmp_version_release;
+								multi_progress_mutex.lock ();
+								current_action = _("Download of %s started").printf ("%s (%s)".printf (name, version_release));
+								uint64 total_progress = 0;
+								var iter = HashTableIter<string, uint64?> (multi_progress);
+								uint64? tmp_progress;
+								while (iter.next (null, out tmp_progress)) {
+									total_progress += tmp_progress;
+								}
+								alpm_utils.emit_download (total_progress, total_download, true);
+								multi_progress_mutex.unlock ();
 							}
-							alpm_utils.emit_download (total_progress, total_download, true);
-							multi_progress_mutex.unlock ();
 						}
 					}
 				}
@@ -2542,17 +2547,19 @@ int dload (string mirror, string filename, string localpath, int force, Download
 
 	// download succeeded
 	if (dl_callback != null) {
-		multi_progress_mutex.lock ();
-		current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
-		uint64 total_progress = 0;
-		multi_progress.insert (filename, size);
-		var iter = HashTableIter<string, uint64?> (multi_progress);
-		uint64? progress;
-		while (iter.next (null, out progress)) {
-			total_progress += progress;
+		if (name != "" && version_release != "") {
+			multi_progress_mutex.lock ();
+			current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
+			uint64 total_progress = 0;
+			multi_progress.insert (filename, size);
+			var iter = HashTableIter<string, uint64?> (multi_progress);
+			uint64? progress;
+			while (iter.next (null, out progress)) {
+				total_progress += progress;
+			}
+			alpm_utils.emit_download (total_progress, total_download, true);
+			multi_progress_mutex.unlock ();
 		}
-		alpm_utils.emit_download (total_progress, total_download, true);
-		multi_progress_mutex.unlock ();
 	}
 	try {
 		tempfile.move (destfile, FileCopyFlags.OVERWRITE);
