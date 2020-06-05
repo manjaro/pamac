@@ -144,7 +144,7 @@
                 <property name="single_line_mode">True</property>
                 <property name="max_width_chars">8</property>
                 <property name="track_visited_links">False</property>
-                <property name="xalign">0,50000000000000000000</property>
+                <property name="xalign">0.5</property>
               </object>
               <packing>
                 <property name="expand">False</property>
