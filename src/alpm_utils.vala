@@ -21,6 +21,7 @@ Pamac.AlpmUtils alpm_utils;
 
 string current_filename;
 string current_action;
+double current_progress;
 uint64 total_download;
 uint64 already_downloaded;
 Mutex multi_progress_mutex;
@@ -77,7 +78,6 @@ namespace Pamac {
 		// run transaction data
 		uint8 commit_retries;
 		string current_status;
-		double current_progress;
 		bool sysupgrade;
 		bool enable_downgrade;
 		bool simple_install;
@@ -98,9 +98,9 @@ namespace Pamac {
 		public bool downloading_updates;
 		// download data
 		public Soup.Session soup_session;
-		public Timer timer;
-		uint64 download_rate;
-		uint64 rates_nb;
+		public Timer rate_timer;
+		Queue<double?> download_rates;
+		double download_rate;
 
 		public signal int choose_provider (string depend, string[] providers);
 		public signal void start_downloading (string sender);
@@ -134,7 +134,8 @@ namespace Pamac {
 			current_filename = "";
 			current_action = "";
 			current_status = "";
-			timer = new Timer ();
+			rate_timer = new Timer ();
+			download_rates = new Queue<double?> ();
 			cancellable = new Cancellable ();
 			soup_session = new Soup.Session ();
 			soup_session.user_agent = "Pamac/%s".printf (VERSION);
@@ -2011,63 +2012,84 @@ namespace Pamac {
 
 		public void emit_download (uint64 xfered, uint64 total) {
 			// this will be run in the threadpool
-			var text = new StringBuilder ("");
-			double fraction;
 			if (xfered == 0) {
-				timer.start ();
+				rate_timer.start ();
 				if (total_download == 0) {
+					download_rates.clear ();
 					download_rate = 0;
-					rates_nb = 0;
 				}
 				return;
 			}
-			download_rate = ((download_rate * rates_nb) + (uint64) ((xfered - already_downloaded) / timer.elapsed ())) / (rates_nb + 1);
-			rates_nb++;
-			already_downloaded = xfered;
-			fraction = (double) xfered / total;
-			if (fraction <= 1) {
-				text.append ("%s/%s ".printf (format_size (xfered), format_size (total)));
-				uint remaining_seconds = 0;
-				if (download_rate > 0) {
-					remaining_seconds = (uint) Math.roundf ((float) (total - already_downloaded) / download_rate);
-				}
-				// display remaining time after 2s
-				if (remaining_seconds > 0 && rates_nb > 19) {
-					if (remaining_seconds < 60) {
-						text.append (dngettext (null, "About %lu second remaining",
-									"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
-					} else {
-						uint remaining_minutes = (uint) Math.roundf ((float) remaining_seconds / 60);
-						text.append (dngettext (null, "About %lu minute remaining",
-									"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
+			var text = new StringBuilder ("%s".printf (format_size (xfered)));
+			// if previous progress is out of limit no need to continue
+			if (current_progress < 1) {
+				double fraction = (double) xfered / total;
+				if (fraction <= 1) {
+					text.append ("/%s".printf (format_size (total)));
+					double elapsed = rate_timer.elapsed ();
+					if (elapsed > 1) {
+						double current_rate = (xfered - already_downloaded) / elapsed;
+						already_downloaded = xfered;
+						// only keep the last 10 rates
+						if (download_rates.length > 10) {
+							download_rates.pop_head ();
+						}
+						download_rates.push_tail (current_rate);
+						if (xfered == total) {
+							rate_timer.stop ();
+						} else {
+							// reinitialize rate_timer
+							rate_timer.start ();
+						}
+						// calculate download on the last 10 rates
+						if (download_rates.length == 10) {
+							double total_rates = 0;
+							foreach (double previous_rate in download_rates.head) {
+								total_rates += previous_rate;
+							}
+							download_rate = total_rates /10;
+						}
 					}
+					if (download_rate > 0) {
+						uint remaining_seconds = (uint) Math.round ((total - xfered) / download_rate);
+						// display remaining
+						text.append (" ");
+						if (remaining_seconds > 0) {
+							if (remaining_seconds < 60) {
+								text.append (dngettext (null, "About %lu second remaining",
+											"About %lu seconds remaining", remaining_seconds).printf (remaining_seconds));
+							} else {
+								uint remaining_minutes = (uint) Math.round (remaining_seconds / 60);
+								text.append (dngettext (null, "About %lu minute remaining",
+											"About %lu minutes remaining", remaining_minutes).printf (remaining_minutes));
+							}
+						}
+					}
+				} else {
+					fraction = 1;
+					// rate_timer no more needed
+					rate_timer.stop ();
 				}
-			} else {
-				text.append ("%s".printf (format_size (xfered)));
-			}
-			if (fraction != current_progress) {
-				current_progress = fraction;
+				if (fraction != current_progress) {
+					current_progress = fraction;
+				}
 			}
 			if (text.str != current_status) {
 				current_status = text.str;
 			}
-			// reinitialize timer
-			timer.start ();
 			do_emit_download_progress (current_action, current_status, current_progress);
 		}
 
 		public void emit_totaldownload (uint64 total) {
-			//  this is emitted at the end of the total download 
-			// with the value 0 so stop our timer
+			// this is emitted at the end of the total download with the value 0
 			if (total == 0) {
-				timer.stop ();
 				current_filename = "";
 				multi_progress_mutex.lock ();
 				multi_progress.remove_all ();
 				multi_progress_mutex.unlock ();
 			}
+			download_rates.clear ();
 			download_rate = 0;
-			rates_nb = 0;
 			current_progress = 0;
 			already_downloaded = 0;
 			current_status = "";
@@ -2292,6 +2314,7 @@ int cb_fetch (string fileurl, string localpath, int force) {
 	current_filename = Path.get_basename (fileurl);
 	int ret = dload (mirror, current_filename, localpath, force, false, true);
 	already_downloaded = 0;
+	current_progress = 0;
 	if (total_download == 0) {
 		multi_progress_mutex.lock ();
 		multi_progress.remove_all ();
@@ -2319,6 +2342,7 @@ int dload (string mirror, string filename, string localpath, int force, bool par
 	int64 size = 0;
 	string? last_modified = null;
 	bool continue_download = false;
+	var emit_timer = new Timer ();
 	try {
 		InputStream input;
 		if (url.has_prefix ("http")) {
@@ -2436,6 +2460,9 @@ int dload (string mirror, string filename, string localpath, int force, bool par
 			}
 			cb_download (filename, 0, size);
 		}
+		if (emit_signals) {
+			emit_timer.start ();
+		}
 		while (true) {
 			ssize_t read = input.read (buf, alpm_utils.cancellable);
 			if (read == 0) {
@@ -2447,7 +2474,7 @@ int dload (string mirror, string filename, string localpath, int force, bool par
 				break;
 			}
 			progress += read;
-			if (emit_signals) {
+			if (emit_signals && emit_timer.elapsed () > 0.1) {
 				cb_download (filename, progress, size);
 			}
 		}
@@ -2456,6 +2483,7 @@ int dload (string mirror, string filename, string localpath, int force, bool par
 		if (e.code != IOError.CANCELLED) {
 			alpm_utils.do_emit_script_output ("%s: %s".printf (url, e.message));
 		}
+		emit_timer.stop ();
 		if (remove_partial_download) {
 			try {
 				if (tempfile.query_exists ()) {
@@ -2470,6 +2498,7 @@ int dload (string mirror, string filename, string localpath, int force, bool par
 
 	// download succeeded
 	if (emit_signals) {
+		emit_timer.stop ();
 		if (parallel && name != "" && version_release != "") {
 			multi_progress_mutex.lock ();
 			current_action = _("Download of %s finished").printf ("%s (%s)".printf (name, version_release));
