@@ -2276,7 +2276,20 @@ namespace Pamac {
 			}
 		}
 
-		public Updates get_updates () {
+		int64 get_file_age (File file) {
+			try {
+				FileInfo info = file.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
+				DateTime last_modifed = info.get_modification_date_time ();
+				var now = new DateTime.now_utc ();
+				TimeSpan elapsed_time = now.difference (last_modifed);
+				return elapsed_time;
+			} catch (Error e) {
+				warning (e.message);
+				return int64.MAX;
+			}
+		}
+
+		public Updates get_updates (bool use_timestamp = false) {
 			if (loop.is_running ()) {
 				loop.run ();
 			}
@@ -2294,20 +2307,62 @@ namespace Pamac {
 						return false;
 					});
 					var tmp_handle = alpm_config.get_handle (false, true);
-					// refresh tmp dbs
-					// count this step as 90% of the total
-					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
-					size_t dbs_count = syncdbs.length ();
-					size_t i = 0;
-					while (syncdbs != null) {
-						unowned Alpm.DB db = syncdbs.data;
-						db.update (0);
-						syncdbs.next ();
-						i++;
-						context.invoke (() => {
-							get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
-							return false;
-						});
+					bool refresh_tmp_dbs = true;
+					if (use_timestamp) {
+						// check if last refresh is older than config.refresh_period
+						string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
+						var timestamp_file = File.new_for_path (timestamp_path);
+						if (timestamp_file.query_exists ()) {
+							int64 elapsed_time = get_file_age (timestamp_file);
+							if (elapsed_time < TimeSpan.HOUR) {
+								refresh_tmp_dbs = false;
+							} else {
+								int64 elapsed_hours = elapsed_time / TimeSpan.HOUR;
+								if (elapsed_hours < config.refresh_period) {
+									refresh_tmp_dbs = false;
+								}
+							}
+						} else {
+							// create config directory
+							try {
+								File? parent = timestamp_file.get_parent ();
+								if (parent != null && !parent.query_exists ()) {
+									parent.make_directory_with_parents ();
+								}
+							} catch (Error e) {
+								warning (e.message);
+							}
+						}
+						if (refresh_tmp_dbs) {
+							// save now as last refresh time
+							try {
+								// touch the file
+								Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
+							} catch (SpawnError e) {
+								warning (e.message);
+							}
+							// refresh tmp dbs
+							// count this step as 90% of the total
+							unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
+							size_t dbs_count = syncdbs.length ();
+							size_t i = 0;
+							while (syncdbs != null) {
+								unowned Alpm.DB db = syncdbs.data;
+								db.update (0);
+								syncdbs.next ();
+								i++;
+								context.invoke (() => {
+									get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
+									return false;
+								});
+							}
+						} else {
+							// refresh step skipped
+							context.invoke (() => {
+								get_updates_progress (90);
+								return false;
+							});
+						}
 					}
 					// check updates
 					// count this step as 5% of the total

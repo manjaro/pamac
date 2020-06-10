@@ -2024,59 +2024,8 @@ namespace Pamac {
 			}
 		}
 
-		int64 get_file_age (File file) {
-			try {
-				FileInfo info = file.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
-				DateTime last_modifed = info.get_modification_date_time ();
-				var now = new DateTime.now_utc ();
-				TimeSpan elapsed_time = now.difference (last_modifed);
-				return elapsed_time;
-			} catch (Error e) {
-				warning (e.message);
-				return int64.MAX;
-			}
-		}
-
 		void checkupdates (bool quiet, bool refresh_tmp_files_dbs, bool download_updates, bool use_timestamp) {
-			if (use_timestamp) {
-				// check if last refresh is older than config.refresh_period else return
-				string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
-				var timestamp_file = File.new_for_path (timestamp_path);
-				if (timestamp_file.query_exists ()) {
-					int64 elapsed_time = get_file_age (timestamp_file);
-					if (elapsed_time < TimeSpan.HOUR) {
-						if (!quiet) {
-							stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
-						}
-						return;
-					}
-					int64 elapsed_hours = elapsed_time / TimeSpan.HOUR;
-					if (elapsed_hours < database.config.refresh_period) {
-						if (!quiet) {
-							stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
-						}
-						return;
-					}
-				} else {
-					// create config directory
-					try {
-						File? parent = timestamp_file.get_parent ();
-						if (parent != null && !parent.query_exists ()) {
-							parent.make_directory_with_parents ();
-						}
-					} catch (Error e) {
-						warning (e.message);
-					}
-				}
-				// save now as last refresh time
-				try {
-					// touch the file
-					Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
-				} catch (SpawnError e) {
-					warning (e.message);
-				}
-			}
-			var updates = database.get_updates ();
+			var updates = database.get_updates (use_timestamp);
 			uint updates_nb = updates.repos_updates.length () + updates.aur_updates.length ();
 			#if ENABLE_FLATPAK
 			updates_nb += updates.flatpak_updates.length ();
