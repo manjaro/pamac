@@ -2422,11 +2422,27 @@ namespace Pamac {
 					}
 				#endif
 				} else if (pkg is AlpmPackage){
-					if (pkg.name in to_install && pkg.installed_version == "") {
-						pamac_row.action_togglebutton.active = true;
-						pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
-					} else if (pkg.name in to_update ||
-						pkg.name in to_remove) {
+					if (pkg.installed_version == "") {
+						if (pkg.name in to_install) {
+							pamac_row.action_togglebutton.active = true;
+							pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
+						} else {
+							pamac_row.action_togglebutton.active = false;
+							pamac_row.action_togglebutton.image = null;
+						}
+						return;
+					}
+					if (browse_stack.visible_child_name == "updates") {
+						if (pkg.name in to_update) {
+							pamac_row.action_togglebutton.active = true;
+							pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
+						} else {
+							pamac_row.action_togglebutton.active = false;
+							pamac_row.action_togglebutton.image = null;
+						}
+						return;
+					}
+					if (pkg.name in to_remove) {
 						pamac_row.action_togglebutton.active = true;
 						pamac_row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
 					} else {

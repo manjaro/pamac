@@ -405,7 +405,7 @@ namespace Pamac {
 				if (file.query_exists ()) {
 					try {
 						var alpm_handle = get_handle ();
-						Process.spawn_command_line_sync ("bash -c 'cp -u %s/dbs*/sync/*.{db,files} %ssync'".printf (tmp_path, alpm_handle.dbpath));
+						Process.spawn_command_line_sync ("bash -c 'cp -au %s/dbs*/sync/*.{db,files} %ssync'".printf (tmp_path, alpm_handle.dbpath));
 					} catch (SpawnError e) {
 						warning (e.message);
 					}
@@ -2476,6 +2476,8 @@ int dload (string mirror, string filename, string localpath, int force, bool par
 			progress += read;
 			if (emit_signals && emit_timer.elapsed () > 0.1) {
 				cb_download (filename, progress, size);
+				// reinitialize emit_timer
+				emit_timer.start ();
 			}
 		}
 	} catch (Error e) {
