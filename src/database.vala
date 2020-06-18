@@ -2307,10 +2307,10 @@ namespace Pamac {
 						return false;
 					});
 					var tmp_handle = alpm_config.get_handle (false, true);
+					string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
 					bool refresh_tmp_dbs = true;
 					if (use_timestamp) {
 						// check if last refresh is older than config.refresh_period
-						string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
 						var timestamp_file = File.new_for_path (timestamp_path);
 						if (timestamp_file.query_exists ()) {
 							int64 elapsed_time = get_file_age (timestamp_file);
@@ -2333,36 +2333,36 @@ namespace Pamac {
 								warning (e.message);
 							}
 						}
-						if (refresh_tmp_dbs) {
-							// save now as last refresh time
-							try {
-								// touch the file
-								Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
-							} catch (SpawnError e) {
-								warning (e.message);
-							}
-							// refresh tmp dbs
-							// count this step as 90% of the total
-							unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
-							size_t dbs_count = syncdbs.length ();
-							size_t i = 0;
-							while (syncdbs != null) {
-								unowned Alpm.DB db = syncdbs.data;
-								db.update (0);
-								syncdbs.next ();
-								i++;
-								context.invoke (() => {
-									get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
-									return false;
-								});
-							}
-						} else {
-							// refresh step skipped
+					}
+					if (refresh_tmp_dbs) {
+						// save now as last refresh time
+						try {
+							// touch the file
+							Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
+						} catch (SpawnError e) {
+							warning (e.message);
+						}
+						// refresh tmp dbs
+						// count this step as 90% of the total
+						unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
+						size_t dbs_count = syncdbs.length ();
+						size_t i = 0;
+						while (syncdbs != null) {
+							unowned Alpm.DB db = syncdbs.data;
+							db.update (0);
+							syncdbs.next ();
+							i++;
 							context.invoke (() => {
-								get_updates_progress (90);
+								get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
 								return false;
 							});
 						}
+					} else {
+						// refresh step skipped
+						context.invoke (() => {
+							get_updates_progress (90);
+							return false;
+						});
 					}
 					// check updates
 					// count this step as 5% of the total
