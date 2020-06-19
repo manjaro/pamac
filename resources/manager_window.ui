@@ -1557,6 +1557,7 @@
                 <property name="can_focus">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="receives_default">False</property>
+                <property name="valign">end</property>
                 <property name="relief">none</property>
                 <signal name="clicked" handler="on_details_button_clicked" swapped="no"/>
                 <child>
