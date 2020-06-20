@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 09:08+0000\n"
+"PO-Revision-Date: 2020-06-08 11:12+0000\n"
 "Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -119,11 +119,11 @@ msgstr "%s doit être supprimé mais c’est un paquet verrouillé"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr "Suppression %s de la liste de cible "
+msgstr "Suppression de %s de la liste cible"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr "Échec de l'initialisation de la base de données AUR"
+msgstr "Échec de l’initialisation de la base de données AUR"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -137,7 +137,7 @@ msgstr "%s est présent à la fois dans %s et %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr "%s : %s existe déjà dans le système de fichiers (appartient à %s)"
+msgstr "%s : %s existe déjà dans le système de fichiers (appartient à %s)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -146,12 +146,12 @@ msgstr "%s : %s est déjà présent dans le système de fichiers"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr "si ce fichier n'est pas nécessaire, supprimer le et réessayer"
+msgstr "si ce fichier n’est pas nécessaire, supprimez-le puis réessayez"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr "%s : %s existe déjà dans le système de fichiers"
+msgstr "%s : %s existe déjà dans le système de fichiers"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -303,7 +303,7 @@ msgstr "Erreur"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "Téléchargement de %s commencé"
+msgstr "Téléchargement de %s démarré"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -937,7 +937,7 @@ msgstr "rechercher les paquets auxquels appartiennent les noms de fichiers donn�
 
 #: src/cli.vala
 msgid "only print names"
-msgstr "seulement afficher les noms"
+msgstr "afficher seulement les noms"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -1036,7 +1036,7 @@ msgstr "ne pas garder les paquets construits dans le cache après l’installati
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr "seulement afficher ce qui serait fait et ne pas exécuter la transaction"
+msgstr "afficher seulement ce qui serait fait et ne pas exécuter la transaction"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1076,7 +1076,7 @@ msgstr "marquer tous les paquets explicitement installés"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr "vérifier les mises à jours"
+msgstr "vérifier les mises à jour"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1088,13 +1088,13 @@ msgstr "Réinstaller des paquets"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr "ne supprime les paquets que s’ils ne sont requis par aucun autre paquet"
+msgstr "supprimer les paquets uniquement s’ils ne sont requis par aucun autre paquet"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "supprime les dépendances qui ne sont pas requises par d’autres paquets, si cette option est utilisée sans nom de paquet, supprime tous les paquets orphelins"
+msgstr "supprimer les dépendances qui ne sont pas requises par d’autres paquets, si cette option est utilisée sans nom de paquet, supprime tous les paquets orphelins"
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"

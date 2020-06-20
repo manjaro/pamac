@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-01 16:41+0000\n"
+"PO-Revision-Date: 2020-06-15 19:26+0000\n"
 "Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
@@ -517,7 +517,7 @@ msgstr "Sisteminiz yenilənmışdir"
 
 #: src/tray.vala
 msgid "_Quit"
-msgstr "_Qurtarmaq"
+msgstr "_Bağlamaq"
 
 #: src/tray.vala src/cli.vala
 #, c-format
@@ -721,7 +721,7 @@ msgstr "Rəsmi Repositorilər"
 
 #: src/manager_window.vala
 msgid "Upgrade"
-msgstr "Yeniləşdirmə"
+msgstr "Yeniləmək"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
@@ -1408,7 +1408,7 @@ msgstr "Təkmilləşdirilmiş"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "Buradan güzgüləri istifadə etmək:"
+msgstr "Güzgülərin siyahısı:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

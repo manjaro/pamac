@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-27 18:06+0000\n"
+"PO-Revision-Date: 2020-06-16 13:36+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -653,39 +653,39 @@ msgstr "バックアップファイル"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Depends On"
-msgstr "必要なもの"
+msgstr "必要"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
-msgstr "オプションとして必要なもの"
+msgstr "オプション"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Required By"
-msgstr "次のものから必要とされる"
+msgstr "必要とされる"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "次のもののオプション"
+msgstr "オプションとされる"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
-msgstr "提供するもの"
+msgstr "提供"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Replaces"
-msgstr "置き換えるもの"
+msgstr "置換"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Conflicts With"
-msgstr "競合するもの"
+msgstr "競合"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr "必要なパッケージを作成"
+msgstr "Makeに必要なパッケージ"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
-msgstr "必要なパッケージを確認する"
+msgstr "必要なパッケージを確認"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -1160,7 +1160,7 @@ msgstr "開発用パッケージをアップグレードしない"
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr "ビルド用のディレクトリ (--aur とともに使う)。ディレクトリの指定がない場合は pamac.conf で指定されている場所を使う"
+msgstr "ビルドディレクトリ (--aur とともに使う)。ディレクトリの指定がない場合は pamac.conf で指定されている場所を使う"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1349,7 +1349,7 @@ msgstr "再インストール"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr "ビルド用のファイルをリセット"
+msgstr "ビルドファイルをリセット"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
