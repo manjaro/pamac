@@ -1499,6 +1499,9 @@ namespace Pamac {
 				}
 				// sort here with AUR packages
 				pkgs.sort (sort_search_pkgs_by_relevance);
+			} else {
+				// pkgs are already sorted by relevance
+				pkgs.reverse ();
 			}
 			print_search_pkgs (pkgs, true, quiet);
 		}

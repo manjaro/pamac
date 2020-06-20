@@ -36,7 +36,17 @@ namespace Pamac {
 	HashTable<string, FlatpakPackage> flatpak_to_remove;
 	#endif
 
-	int sort_search_pkgs_by_relevance (Pamac.Package pkg_a, Pamac.Package pkg_b) {
+	int sort_search_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
+		if (pkg_a is AURPackage) {
+			if (pkg_b is AURPackage) {
+				sort_aur_by_relevance (pkg_a, pkg_b);
+			} else {
+				return 1;
+			}
+		}
+		if (pkg_b is AURPackage) {
+			return -1;
+		}
 		if (search_string != null) {
 			// display exact match first
 			if (pkg_a.app_name.down () == search_string) {
@@ -202,7 +212,15 @@ namespace Pamac {
 		return sort_pkgs_by_name (pkg_a, pkg_b);
 	}
 
-	int sort_aur_by_relevance (AURPackage pkg_a, AURPackage pkg_b) {
+	int sort_aur_by_relevance (Package pkg_1, Package pkg_2) {
+		var pkg_a = pkg_1 as AURPackage;
+		if (pkg_a == null) {
+			return 1;
+		}
+		var pkg_b = pkg_2 as AURPackage;
+		if (pkg_b == null) {
+			return -1;
+		}
 		if (pkg_a.installed_version != "") {
 			if (pkg_b.installed_version != "") {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
@@ -251,7 +269,15 @@ namespace Pamac {
 		return sort_pkgs_by_name (pkg_a, pkg_b);
 	}
 
-	int sort_aur_by_date (AURPackage pkg_a, AURPackage pkg_b) {
+	int sort_aur_by_date (Package pkg_1, Package pkg_2) {
+		var pkg_a = pkg_1 as AURPackage;
+		if (pkg_a == null) {
+			return 1;
+		}
+		var pkg_b = pkg_2 as AURPackage;
+		if (pkg_b == null) {
+			return -1;
+		}
 		if (pkg_a.outofdate > pkg_b.outofdate) {
 			return 1;
 		}
@@ -2050,7 +2076,7 @@ namespace Pamac {
 			this.get_window ().set_cursor (null);
 		}
 
-		void sort_aur_list (ref SList<AURPackage> pkgs) {
+		void sort_aur_list (ref SList<Package> pkgs) {
 			unowned string sortby = sortby_button_label.label;
 			if (sortby == dgettext (null, "Relevance")) {
 				pkgs.sort (sort_aur_by_relevance);
@@ -2065,7 +2091,7 @@ namespace Pamac {
 			}
 		}
 
-		void populate_aur_list (owned SList<AURPackage> pkgs) {
+		void populate_aur_list (owned SList<Package> pkgs) {
 			sort_aur_list (ref pkgs);
 			populate_listbox ((owned) pkgs);
 		}
@@ -3461,6 +3487,28 @@ namespace Pamac {
 		[GtkCallback]
 		void on_relevance_button_clicked () {
 			sortby_button_label.label = dgettext (null, "Relevance");
+			// check if we need to sort aur packages
+			if (browse_stack.visible_child_name == "search") {
+				int index = search_listbox.get_selected_row ().get_index ();
+				if (index == 3) {
+					populate_aur_list ((owned) current_packages_list);
+					return;
+				}
+			}
+			if (browse_stack.visible_child_name == "updates") {
+				int index = updates_listbox.get_selected_row ().get_index ();
+				if (index == 2) {
+					populate_aur_list ((owned) current_packages_list);
+					return;
+				}
+			}
+			if (browse_stack.visible_child_name == "pending") {
+				int index = pending_listbox.get_selected_row ().get_index ();
+				if (index == 2) {
+					populate_aur_list ((owned) current_packages_list);
+					return;
+				}
+			}
 			populate_packages_list ((owned) current_packages_list);
 		}
 
@@ -3485,6 +3533,28 @@ namespace Pamac {
 		[GtkCallback]
 		void on_date_button_clicked () {
 			sortby_button_label.label = dgettext (null, "Date");
+			// check if we need to sort aur packages
+			if (browse_stack.visible_child_name == "search") {
+				int index = search_listbox.get_selected_row ().get_index ();
+				if (index == 3) {
+					populate_aur_list ((owned) current_packages_list);
+					return;
+				}
+			}
+			if (browse_stack.visible_child_name == "updates") {
+				int index = updates_listbox.get_selected_row ().get_index ();
+				if (index == 2) {
+					populate_aur_list ((owned) current_packages_list);
+					return;
+				}
+			}
+			if (browse_stack.visible_child_name == "pending") {
+				int index = pending_listbox.get_selected_row ().get_index ();
+				if (index == 2) {
+					populate_aur_list ((owned) current_packages_list);
+					return;
+				}
+			}
 			populate_packages_list ((owned) current_packages_list);
 		}
 
