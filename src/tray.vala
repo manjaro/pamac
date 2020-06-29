@@ -126,11 +126,11 @@ namespace Pamac {
 				if (config.download_updates) {
 					cmds+= "--download-updates";
 				}
-				updates_nb = 0;
 				message ("check updates");
 				try {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
 					process.wait_async.begin (null, () => {
+						updates_nb = 0;
 						if (process.get_if_exited ()) {
 							int status = process.get_exit_status ();
 							// status 100 means updates are available
@@ -144,7 +144,7 @@ namespace Pamac {
 								} catch (Error e) {
 									warning (e.message);
 								}
-								show_or_update_notification ();
+								show_or_update_notification (updates_nb);
 							} else {
 								set_icon (noupdate_icon_name);
 								set_tooltip (noupdate_info);
@@ -165,7 +165,7 @@ namespace Pamac {
 			check_updates ();
 		}
 
-		void show_or_update_notification () {
+		void show_or_update_notification (uint updates_nb) {
 			string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 			set_icon (update_icon_name);
 			set_tooltip (info);
