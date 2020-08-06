@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-08-05 15:15+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,12 +93,12 @@ msgstr "instalar %s (%s) quebra a dependência '%s' requerida por %s"
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "Adicionar %s para remoção"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "se possível, remover %s e tentar novamente"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -118,11 +118,11 @@ msgstr "%s necessita ser removido, mas é um pacote bloqueado"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "a remover %s da lista escolhida"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Falhou inicialização da base de dados do AUR"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -136,7 +136,7 @@ msgstr "%s existe tanto em %s como em %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s: %s já existe no sistema de ficheiros (propriedade de %s)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -145,21 +145,21 @@ msgstr "%s: %s já existe no sistema de ficheiros"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "se este ficheiro não for necessário, retire-o e tente novamente"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s já existe no sistema de ficheiros"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "Foi efetuada cópia de segurança para %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "A remover ficheiros inválidos e a tentar novamente"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -168,7 +168,7 @@ msgstr "%s é inválido ou está corrompido"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "pode remover este ficheiro e tentar novamente"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -285,8 +285,8 @@ msgstr "Erro ao executar o hooks"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cerca de %lu segundo restante"
+msgstr[1] "Cerca de %lu segundos restantes"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -517,7 +517,7 @@ msgstr "Remover pacotes"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "construir pacotes do AUR e instala-los com suas dependências"
+msgstr "Construir pacotes do AUR e instala-los com suas dependências"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -793,7 +793,7 @@ msgstr "Pacote alpm"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Um gestor de pacotes com suporte a Alpm, AUR, Flatpak e Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -866,7 +866,7 @@ msgstr "Editar ficheiros de compilação"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr "Tamanho total instalado:"
+msgstr "Tamanho total instalado"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
@@ -883,7 +883,7 @@ msgstr "Ver %s diferenças dos ficheiros de compilação"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr "construir pacotes como root não é permitido"
+msgstr "Construir pacotes como root não é permitido"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -923,11 +923,11 @@ msgstr "procurar apenas por pacotes nos repositórios"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr "Pesquisar também no AUR"
+msgstr "pesquisar também no AUR"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "não procurar no AUR"
 
 #: src/cli.vala
 msgid ""
@@ -936,7 +936,7 @@ msgstr "procurar por pacotes que contenham os nomes dados (os nomes podem ser pa
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "apenas publicar nomes"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -1004,7 +1004,7 @@ msgstr "clonar também dependências necessárias"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "não publicar qualquer resultado"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1031,11 +1031,11 @@ msgstr "manter os pacotes compilados em cache após a instalação"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "não manter os pacotes compilados em cache após a instalação"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "publicar apenas o que seria feito, mas não execute a transação"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1075,7 +1075,7 @@ msgstr "marcar todos os pacotes explicitamente instalados"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "procurar por atualizações"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1097,7 +1097,7 @@ msgstr "remover dependências que não são requeridas por outros pacotes, se es
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "não remover dependências que não são necessárias por outros pacotes"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1105,7 +1105,7 @@ msgstr "ignorar cópia de segurança de ficheiros"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr "verificação segura por atualizações sem alterar as bases de dados"
+msgstr "Verifique com segurança se há atualizações sem modificar as bases de dados"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
@@ -1123,7 +1123,7 @@ msgstr "procurar também atualizações no AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "não procurar por atualizações no AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1135,7 +1135,7 @@ msgstr "verificar também atualizações de pacotes de desenvolvimento (usar com
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "não procurar por atualizações de pacotes de desenvolvimento"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1151,7 +1151,7 @@ msgstr "ativar desatualização de pacotes"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "desativar desatualizações de pacotes"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1159,7 +1159,7 @@ msgstr "também atualizar pacotes instalados a partir do AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "não atualizar pacotes instalados do AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1167,7 +1167,7 @@ msgstr "também atualiza os pacotes de desenvolvimento (use com --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "não atualizar os pacotes de desenvolvimento"
 
 #: src/cli.vala
 msgid ""
@@ -1186,11 +1186,11 @@ msgstr "número"
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr "especifique quantas versões de cada pacote são mantidas no diretório da cache."
+msgstr "especifique quantas versões de cada pacote são mantidas no diretório da cache"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr "apenas visar pacotes desinstalados."
+msgstr "apenas visar pacotes desinstalados"
 
 #: src/cli.vala
 msgid ""
@@ -1254,7 +1254,7 @@ msgstr "Limpar ficheiros de compilação"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Adicionar %s para instalação"
 
 #: src/cli.vala
 #, c-format
@@ -1280,7 +1280,7 @@ msgstr "tudo"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Adicionar %s para reinstalação"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

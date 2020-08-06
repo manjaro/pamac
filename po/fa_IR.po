@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-02 11:28+0000\n"
+"PO-Revision-Date: 2020-06-22 09:49+0000\n"
 "Last-Translator: Seyed Mahdi Nagavi Kalajahi <smahdink@protonmail.com>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -848,7 +848,7 @@ msgstr "عددی را وارد کنید (پیش‌فرض=%d)"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
-msgstr "[بله/خیر]"
+msgstr "[بله(y)/خیر(N)]"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "y"

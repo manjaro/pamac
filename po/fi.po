@@ -13,6 +13,7 @@
 # Johannes Lakkisto <jclc@protonmail.com>, 2018
 # Luki <jbkammer@gmail.com>, 2013,2015
 # Miika Launiainen <miika.launiainen@gmail.com>, 2020
+# Oi Suomi On! <oisuomion@protonmail.com>, 2020
 # philm <philm@manjaro.org>, 2015
 # Riku Mellin <cloneof@gmail.com>, 2019
 # Sami Korkalainen, 2013-2014
@@ -25,8 +26,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-28 07:42+0000\n"
-"Last-Translator: Miika Launiainen <miika.launiainen@gmail.com>\n"
+"PO-Revision-Date: 2020-07-30 13:34+0000\n"
+"Last-Translator: Oi Suomi On! <oisuomion@protonmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,7 +121,7 @@ msgstr "%s täytyy poistaa mutta se on lukittu paketti"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "poistetaan %s kohdeluettelosta"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
@@ -157,7 +158,7 @@ msgstr "%s: %s löytyy jo tiedostojärjestelmästä"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "Se on ollut varmuuskopio kohteelle %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -237,7 +238,7 @@ msgstr "Konfiguroidaan %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Virhe määritettäessä %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -287,8 +288,8 @@ msgstr "Virhe suorittaessa töitä"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Arviolta %lu sekuntia jäljellä"
+msgstr[1] "Arviolta %lu sekuntia jäljellä"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -365,17 +366,17 @@ msgstr "Kloonataan %s koontitiedostoja"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "%s Koontitiedoston kloonaaminen epäonnistui "
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr ""
+msgstr "Luodaan %s tietoja"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr ""
+msgstr "Tietojen %s luominen epäonnistui"
 
 #: src/transaction.vala
 #, c-format
@@ -385,7 +386,7 @@ msgstr "Tarkistetaan %s riippuvuuksia"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Riippuvaisuuksien %s tarkistaminen epäonnistui"
 
 #: src/transaction.vala
 #, c-format
@@ -498,7 +499,7 @@ msgstr "Asenna"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "Snap %s julkistettiin käyttäen perinteistä luomismenetelmää"
 
 #: src/transaction-gtk.vala
 #, c-format
@@ -519,7 +520,7 @@ msgstr "Poista paketteja"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "Rakenna paketit AUR:ista asentaen ne riippuvaisuuksiensa kanssa"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -921,7 +922,7 @@ msgstr "hae vain asennetuista paketeista"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "etsi ainoastaan paketteja jotka ovat ohjelmavarastoissa"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -942,11 +943,11 @@ msgstr "tulosta vain nimet"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "Näytä paketin yksityiskohtaiset tiedot, useita paketteja voidaan määritellä"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Luetteloi paketit, ryhmät, ohjelmavarastot tai tiedostot"
 
 #: src/cli.vala
 msgid "group(s)"
@@ -964,49 +965,49 @@ msgstr "Listaa asennetut paketit"
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
+msgstr "luettele paketit jotka olivat asennetut riippuvaisuuksina mutta jotka eivät enää ole minkään asennetun paketin vaatimia"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr ""
+msgstr "luettele paketit joita ei löytynyt ohjelmavarastoista"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr ""
+msgstr "luettele kaikki paketit jotka kuuluvat määrättyyn ryhmään ja mikäli ryhmää ei ole määritelty, luettele kaikki ryhmät"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
+msgstr "luettele kaikki tarjolla olevat paketit ohjelmavarastoissa, mikäli mitään ohjelmavarastoa ei määritellä, luettele kaikki ohjelmavarastot "
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr ""
+msgstr "luettele tiedostot jotka ovat annettujen pakettien omistuksessa"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Yhdennä tai synkronisoi pakettien koontitiedostot AUR:ista"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "hak"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "koontihakemisto; mikäli hakemistoa ei anneta, käytetään pamac.conf:in sisältämää tiedostoa"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "yhdennä myös tarvittavat riippuvaisuudet"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "älä tulosta mitään ulosantia"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1015,17 +1016,17 @@ msgstr "ylikirjoita tiedostot"
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "mikäli pakettinimeä ei anneta, käytä PKGBUILD-tiedostoa tämänhetkisessä hakemistossa"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Koontihakemisto tulee olemaan emohakemisto, --builddir vaihtoehto tullaan sivuuttamaan"
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr ""
+msgstr "ja --no-clone vaihtoehto toimeenpannaan"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
@@ -1033,11 +1034,11 @@ msgstr "Pidä kasatut paketit välimuistissa asennuksen jälkeen"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "älä säilytä koontipaketteja välimuistissa asennuksen jälkeen"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "tulosta näytille mitä tultaisiin tekemään mutta älä aja toimitusta"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1049,19 +1050,19 @@ msgstr "ohittaa kaikki vahvistusviestit"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "loraus"
 
 #: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr ""
+msgstr "sivuuta pakettipäivitys, useita paketteja voidaan määritellä pilkuilla erottelun avulla"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr ""
+msgstr "ylikirjoita ristiriidassa olevat tiedostot, useita toimintamalleja voidaan määritellä pilkulla erottelun avulla"
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
@@ -1069,7 +1070,7 @@ msgstr "lataa kaikki paketit, mutta älä asenna/päivitä mitään"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "merkitse kaikki asennetut paketit riippuvaisuuksiksi "
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
@@ -1089,7 +1090,7 @@ msgstr "Asenna paketit uudelleen"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "poista paketit vain siinä tapauksessa että ne eivät ole minkään muiden pakettien vaatimia"
 
 #: src/cli.vala
 msgid ""
@@ -1099,7 +1100,7 @@ msgstr "poista riippuvuudet, joita muut paketit eivät vaadi, jos tätä vaihtoe
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "älä poista riippuvaisuuksia jotka eivät ole muiden pakettien vaatimia"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1107,17 +1108,17 @@ msgstr "ohita tiedostojen varmuuskopiointi"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "Tarkista päivitykset turvallisesti ilman tietokantojen muokkaamista"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "Poistumiskoodi on 100 mikäli päivityksiä on tarjolla"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "koontihakemisto (käytä --devel vivun kanssa). Mikäli hakemistoa ei anneta, käytetään pamac.conf:issa määriteltyä "
 
 #: src/cli.vala
 msgid "also check updates in AUR"
@@ -1137,7 +1138,7 @@ msgstr "tarkista myös kehityspakettien päivitykset (käytä --aur)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "älä tarkista kehityspakettipäivityksiä"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1153,7 +1154,7 @@ msgstr "ota pakettien vanhentaminen käyttöön"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "ota pois pakettien vanhentaminen"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1161,21 +1162,21 @@ msgstr "päivitä myös AUR:ista asennetut paketit"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "älä päivitä AUR:ista asennettuja paketteja"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "päivitä myös kehityspaketit (käytä --aur vivun kanssa)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "älä päivitä kehityspaketteja"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
+msgstr "koontihakemisto (käytä --aur vivun kanssa). Mikäli hakemistoa ei anneta, käytetään pamac.conf:issa määriteltyä "
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
@@ -1192,7 +1193,7 @@ msgstr "määritä, kuinka monta versiota kustakin paketista säilytetään väl
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "keskity vain poistettuihin paketteihin"
 
 #: src/cli.vala
 msgid ""
@@ -1227,19 +1228,19 @@ msgstr "Asennetun koko"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "%s :sta ei omista yksikään paketti"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "%s :n omistaa %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u sivuutti päivityksen "
+msgstr[1] "%u sivuutti päivitykset"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1256,17 +1257,17 @@ msgstr "Tyhjennä koontitiedostot"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Lisää %s asentaaksesi"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s on saatavilla vain AUR:ista"
 
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr ""
+msgstr "Kokoa %s AUR:ista"
 
 #: src/cli.vala
 #, c-format
@@ -1282,7 +1283,7 @@ msgstr "kaikki"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Lisää %s uudelleenasentamista varten"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1366,7 +1367,7 @@ msgstr "Asenna uudelleen"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Nollaa koontitiedostot"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

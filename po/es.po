@@ -23,15 +23,15 @@
 # Marchin, 2015
 # Noel Rodríguez Freire <noelrf.ou@gmail.com>, 2015-2016
 # philm <philm@manjaro.org>, 2015
-# Robert Schneider <robertschv@gmail.com>, 2019
+# Robert Schneider <robertschv@gmail.com>, 2019-2020
 # Jakeukalane <tuscriaturas@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-04 15:30+0000\n"
-"Last-Translator: Arley Perez <arley3013@gmail.com>\n"
+"PO-Revision-Date: 2020-07-06 20:46+0000\n"
+"Last-Translator: Robert Schneider <robertschv@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -800,7 +800,7 @@ msgstr "Paquete Alpm"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Un Administrador de Paquetes con soporte para Alpm, AUR, Flatpack y Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -934,7 +934,7 @@ msgstr "buscar tambien en AUR"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "no buscar en AUR"
 
 #: src/cli.vala
 msgid ""
@@ -1038,7 +1038,7 @@ msgstr "Mantener paquetes construidos en caché  después de la instlación"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "no mantener paquetes construidos en cache después de instalar"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1082,7 +1082,7 @@ msgstr "marcar todos los paquetes instalados explícitamente"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "comprobar actualizaciones"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1104,7 +1104,7 @@ msgstr "elimina las dependencias que no son requeridas por otros paquetes, si es
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "no eliminar dependencias que no son requeridos por otros paquetes"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1130,7 +1130,7 @@ msgstr "también comprueba actualizaciones en AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "no comprobar actualizaciones en AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1142,7 +1142,7 @@ msgstr "también comprobar actualizaciones de paquetes en desarrollo (usar con -
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "no comprobar actualizaciones de paquetes en desarrollo"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1158,7 +1158,7 @@ msgstr "habilita poder degradar paquetes"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "desactivar degradado de paquetes"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1166,7 +1166,7 @@ msgstr "también actualiza los paquetes instalados desde AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "no actualizar paquetes instalados desde AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1174,7 +1174,7 @@ msgstr "actualiza los paquetes en desarrollo también (agrega --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "no actualizar paquetes en desarrollo"
 
 #: src/cli.vala
 msgid ""

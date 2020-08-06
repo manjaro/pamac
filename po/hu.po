@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-14 16:57+0000\n"
+"PO-Revision-Date: 2020-07-18 21:01+0000\n"
 "Last-Translator: PB\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgstr "%s (%s) telepítése függőséget okoz a(z) '%s' melyre a %s csomagnak 
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "%shozzáadása az eltávolítandókhoz"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -122,7 +122,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Nem sikerült inicializálni az AUR adatbázist"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -145,12 +145,12 @@ msgstr "%s: %s már létezik a fájlrendszerben"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "ha ez a fájl nem szükséges, akkor távolítsd el, és próbáld újra"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s már létezett a fájlrendszerben"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -168,7 +168,7 @@ msgstr "%s hibás vagy sérült"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "eltávolíthatod a fájlt, és próbálkozhatsz újra"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -793,7 +793,7 @@ msgstr "Alpm csomag"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Csomagkezelő Alpm, AUR, Flatpak és Snap támogatással"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -927,7 +927,7 @@ msgstr "keresés az AUR- ban is"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "ne keressen az AUR-ban"
 
 #: src/cli.vala
 msgid ""
@@ -1004,7 +1004,7 @@ msgstr "szükséges függőségek klónozása"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "ne írjon ki semmit"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1031,11 +1031,11 @@ msgstr "tartsa a felépített csomagokat gyorsítótárban a telepítés után"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "ne tartsa az összerakott csomagot a gyorsítótárban telepítés után"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "csak azt írja ki, ami történne, de ne hajtsa végre a műveletet"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1159,7 +1159,7 @@ msgstr "AUR-ból telepített csomagok frissítése"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "ne frissítse az AUR-ból telepített csomagokat"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1254,7 +1254,7 @@ msgstr "Átmeneti telepítő fájlok tisztítása"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "%shozzáadása a telepítendőkhöz"
 
 #: src/cli.vala
 #, c-format
@@ -1280,7 +1280,7 @@ msgstr "mind"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "%shozzáadása az újratelepítendőkhöz"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"

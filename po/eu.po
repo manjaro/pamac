@@ -11,13 +11,14 @@
 # Osoitz <oelkoro@gmail.com>, 2015-2017
 # Sergio Moreno <semosa@gmail.com>, 2014
 # Sergio Moreno <semosa@gmail.com>, 2014
+# Thadah D. Denyse <juchuf@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-07-09 06:08+0000\n"
+"Last-Translator: Thadah D. Denyse <juchuf@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,12 +87,12 @@ msgstr "%s(%s) instalatzeak '%s' menpekotasuna apurtzen du %s(e)n"
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "Gehitu %s kentzeko"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "Posible bada, kendu %s eta berriro saiatu"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -111,11 +112,11 @@ msgstr "%s kendu behar da baina blokeatutako pakete bat da"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "%s helburu zerrendatik kentzen"
 
 #: src/alpm_utils.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Ezin izan da AUR datu-basea hasieratu"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -129,7 +130,7 @@ msgstr "%s %s zein %s paketeetan existitzen da"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s: %s fitxategi sisteman existitzen da dagoeneko (%s da jabea)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -138,12 +139,12 @@ msgstr "%s: %s badago aurretik fitxategi sisteman"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "fitxategi hau behar ez bada, kendu eta saiatu berriro"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s bazegoen aurretik fitxategi sisteman"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -570,7 +571,7 @@ msgstr "Arrotza"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -718,7 +719,7 @@ msgstr "Tamaina"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: src/manager_window.vala resources/preferences_dialog.ui
 msgid "Official Repositories"
@@ -920,7 +921,7 @@ msgstr "bilatu AURen ere"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "ez bilatu AURen"
 
 #: src/cli.vala
 msgid ""
@@ -929,7 +930,7 @@ msgstr "bilatu fitxategi-izen hauen jabeak diren paketeak (fitxategi-izenak part
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "idatzi izenak soilik"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -997,7 +998,7 @@ msgstr "klonatu beharrezko menpekotasunak ere"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "ez idatzi inolako irteerarik"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1068,7 +1069,7 @@ msgstr "markatu pakete guztiak esplizituki instalatuta gisa"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "Bilatu eguneraketak"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1116,7 +1117,7 @@ msgstr "AUR eguneraketak ere bilatu"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "ez bilatu eguneraketarik AURen"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1459,11 +1460,11 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
-msgstr ""
+msgstr "Gaitu Flatpak euskarria"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "Pamac flatpak-ak bilatu eta instalatzeko baimendu"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
