@@ -1125,18 +1125,19 @@ namespace Pamac {
 				summary.to_reinstall != null ||
 				summary.conflicts_to_remove != null ||
 				summary.to_remove != null) {
+				foreach (unowned Package pkg in summary.to_install) {
+					if (!to_install.contains (pkg.name) &&
+						summary.to_load_priv.find_custom (pkg.name, strcmp) == null) {
+						to_install.add (pkg.name);
+						to_install_as_dep.add (pkg.name);
+					}
+				}
+				to_remove.remove_all ();
+				foreach (unowned Package pkg in summary.to_remove) {
+					to_remove.add (pkg.name);
+				}
+				// ask_commit_real add flatpaks and snaps
 				if (ask_commit_real (summary)) {
-					foreach (unowned Package pkg in summary.to_install) {
-						if (!to_install.contains (pkg.name) &&
-							summary.to_load_priv.find_custom (pkg.name, strcmp) == null) {
-							to_install.add (pkg.name);
-							to_install_as_dep.add (pkg.name);
-						}
-					}
-					to_remove.remove_all ();
-					foreach (unowned Package pkg in summary.to_remove) {
-						to_remove.add (pkg.name);
-					}
 					var to_install_array = new GenericArray<string> (to_install.length);
 					var to_remove_array = new GenericArray<string> (to_remove.length);
 					var to_load_array = new GenericArray<string> (to_load.length);
