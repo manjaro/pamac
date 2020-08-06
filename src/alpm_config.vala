@@ -314,7 +314,7 @@ internal class AlpmConfig {
 							foreach (unowned string name in val.split (" ")) {
 								ignorepkgs.add (name);
 							}
-						} else if (key == "Noextract") {
+						} else if (key == "NoExtract") {
 							foreach (unowned string name in val.split (" ")) {
 								noextracts.add (name);
 							}
