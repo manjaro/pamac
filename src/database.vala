@@ -2060,8 +2060,9 @@ namespace Pamac {
 					var json_objects = aur.get_multi_infos (pkgnames_copy);
 					for (uint i = 0; i < json_objects.length; i++) {
 						unowned Json.Object json_object = json_objects[i];
-						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (json_object.get_string_member ("Name"));
-						data.insert (json_object.get_string_member ("Name"), initialise_aur_pkg (json_object, local_pkg));
+						unowned string name = json_object.get_string_member ("Name");
+						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
+						data.insert (name, initialise_aur_pkg (json_object, local_pkg));
 					}
 					loop.quit ();
 					return 0;

@@ -1408,7 +1408,8 @@ namespace Pamac {
 				emit_script_output ("");
 				emit_action (dgettext (null, "Building %s").printf (pkgname) + "...");
 				important_details_outpout (false);
-				var built_pkgs = new GenericSet<string?> (str_hash, str_equal);
+				var built_pkgs = new GenericArray<string> ();
+				var to_install_as_dep_array = new GenericArray<string> ();
 				string pkgdir;
 				if (database.config.aur_build_dir == "/var/tmp") {
 					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
@@ -1478,6 +1479,9 @@ namespace Pamac {
 								}
 								if (name in aur_pkgs_to_install) {
 									built_pkgs.add (line);
+									if (!(name in to_build)) {
+										to_install_as_dep_array.add (name);
+									}
 								}
 								dis.read_line_async.begin (Priority.DEFAULT, null, (obj, res) => {
 									try {
@@ -1498,14 +1502,6 @@ namespace Pamac {
 				stop_building ();
 				building = false;
 				if (status == 0 && built_pkgs.length > 0) {
-					var to_load_array = new GenericArray<string> (built_pkgs.length);
-					var to_install_as_dep_array = new GenericArray<string> ();
-					foreach (unowned string name in built_pkgs) {
-						to_load_array.add (name);
-						if (!(name in to_build)) {
-							to_install_as_dep_array.add (name);
-						}
-					}
 					try {
 						emit_script_output ("");
 						success = transaction_interface.trans_run (false, // sysupgrading,
@@ -1515,7 +1511,7 @@ namespace Pamac {
 																	0, // trans_flags,
 																	{}, // to_install
 																	{}, // to_remove
-																	to_load_array.data,
+																	built_pkgs.data,
 																	to_install_as_dep_array.data,
 																	{}, // temporary_ignorepkgs
 																	{}); // overwrite_files
