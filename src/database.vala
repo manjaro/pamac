@@ -133,6 +133,10 @@ namespace Pamac {
 			repos_pkgs.remove_all ();
 		}
 
+		internal Alpm.Handle? get_tmp_handle () {
+			return alpm_config.get_handle (false, true);
+		}
+
 		public SList<string> get_mirrors_countries () {
 			if (loop.is_running ()) {
 				loop.run ();
