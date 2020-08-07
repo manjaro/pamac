@@ -231,7 +231,18 @@ namespace Pamac {
 			box.vexpand = true;
 			Gtk.RadioButton? last_radiobutton = null;
 			Gtk.RadioButton? first_radiobutton = null;
+			var pkgs = new SList<Package> ();
 			foreach (unowned string provider in providers) {
+				var pkg = database.get_sync_pkg (provider);
+				if (pkg == null)  {
+					pkg = database.get_aur_pkg (provider);
+				}
+				if (pkg != null)  {
+					pkgs.append (pkg);
+				}
+			}
+			foreach (unowned Package pkg in pkgs) {
+				string provider = "%s  %s  %s".printf (pkg.name, pkg.version, pkg.repo);
 				var radiobutton = new Gtk.RadioButton.with_label_from_widget (last_radiobutton, provider);
 				radiobutton.visible = true;
 				// active first provider

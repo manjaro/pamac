@@ -420,8 +420,13 @@ namespace Pamac {
 				if (clone_build_files) {
 					unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg == null) {
+						// may be a virtual package
+						// use search and add results
+						foreach (unowned AURPackage found_pkg in database.search_aur_pkgs (pkgname)) {
+							dep_to_check.add (found_pkg.name);
+						}
+						already_checked_aur_dep.add (pkgname);
 						// make this error not fatal to propose to edit build files
-						emit_warning ("%s: %s".printf (dgettext (null, "Warning"), dgettext (null, "target not found: %s").printf (pkgname)));
 						continue;
 					}
 					// clone build files

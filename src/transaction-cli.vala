@@ -257,8 +257,11 @@ namespace Pamac {
 				return 0;
 			}
 			var pkgs = new SList<Package> ();
-			foreach (unowned string pkgname in providers) {
-				var pkg = database.get_sync_pkg (pkgname);
+			foreach (unowned string provider in providers) {
+				var pkg = database.get_sync_pkg (provider);
+				if (pkg == null)  {
+					pkg = database.get_aur_pkg (provider);
+				}
 				if (pkg != null)  {
 					pkgs.append (pkg);
 				}
