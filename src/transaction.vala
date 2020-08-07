@@ -51,6 +51,7 @@ namespace Pamac {
 		HashTable<string, FlatpakPackage> flatpak_to_upgrade;
 		#endif
 		// building data
+		string tmp_path;
 		string aurdb_path;
 		GenericSet<string?> already_checked_aur_dep;
 		GenericSet<string?> aur_desc_list;
@@ -157,6 +158,7 @@ namespace Pamac {
 			flatpak_to_upgrade = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			#endif
 			// building data
+			tmp_path = "/tmp/pamac";
 			aurdb_path = "/tmp/pamac/aur-%s".printf (Environment.get_user_name ());
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
 			aur_desc_list = new GenericSet<string?> (str_hash, str_equal);
@@ -369,7 +371,6 @@ namespace Pamac {
 		}
 
 		bool compute_aur_build_list_real () {
-			string tmp_path = "/tmp/pamac";
 			var file = GLib.File.new_for_path (tmp_path);
 			if (!file.query_exists ()) {
 				launch_subprocess ({"mkdir", "-p", tmp_path});
@@ -420,6 +421,7 @@ namespace Pamac {
 					unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg == null) {
 						// make this error not fatal to propose to edit build files
+						emit_warning ("%s: %s".printf (dgettext (null, "Warning"), dgettext (null, "target not found: %s").printf (pkgname)));
 						continue;
 					}
 					// clone build files
@@ -1402,14 +1404,29 @@ namespace Pamac {
 
 		bool build_aur_packages () {
 			bool success = true;
+			// get a fake aur db to check deps
+			unowned Alpm.DB? aur_db = null;
+			var tmp_handle = database.get_tmp_handle ();
+			if (tmp_handle != null) {
+				try {
+					Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
+					aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
+					if (aur_db == null) {
+						emit_warning (dgettext (null, "Failed to initialize AUR database"));
+					}
+				} catch (SpawnError e) {
+					warning (e.message);
+				}
+			}
+			var built_pkgs = new HashTable<string, string> (str_hash, str_equal);
+			var to_install_as_dep_array = new GenericArray<string> ();
 			while (to_build_queue.length > 0) {
 				string pkgname = to_build_queue.pop_head ();
 				build_cancellable.reset ();
 				emit_script_output ("");
 				emit_action (dgettext (null, "Building %s").printf (pkgname) + "...");
 				important_details_outpout (false);
-				var built_pkgs = new GenericArray<string> ();
-				var to_install_as_dep_array = new GenericArray<string> ();
+				var built_pkgs_path = new GenericArray<string> ();
 				string pkgdir;
 				if (database.config.aur_build_dir == "/var/tmp") {
 					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
@@ -1478,7 +1495,8 @@ namespace Pamac {
 									break;
 								}
 								if (name in aur_pkgs_to_install) {
-									built_pkgs.add (line);
+									built_pkgs_path.add (line);
+									built_pkgs.insert (name, line);
 									if (!(name in to_build)) {
 										to_install_as_dep_array.add (name);
 									}
@@ -1501,26 +1519,63 @@ namespace Pamac {
 				}
 				stop_building ();
 				building = false;
-				if (status == 0 && built_pkgs.length > 0) {
-					try {
-						emit_script_output ("");
-						success = transaction_interface.trans_run (false, // sysupgrading,
-																	false, // enable_downgrade
-																	false, // simple_install
-																	database.config.keep_built_pkgs,
-																	0, // trans_flags,
-																	{}, // to_install
-																	{}, // to_remove
-																	built_pkgs.data,
-																	to_install_as_dep_array.data,
-																	{}, // temporary_ignorepkgs
-																	{}); // overwrite_files
-					} catch (Error e) {
-						emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
-						success = false;
+				if (status == 0 && built_pkgs_path.length > 0) {
+					bool built_pkgs_needed = false;
+					if (to_build_queue.length == 0) {
+						// no more package to build
+						built_pkgs_needed = true;
+					} else if (aur_db == null) {
+						// error, can't check deps
+						built_pkgs_needed = true;
+					} else {
+						// check if built pkgs need to be installed
+						// because next pkg to build depends on one of them
+						unowned string next_pkg_name = to_build_queue.peek_head ();
+						unowned Alpm.Package? next_pkg = aur_db.get_pkg (next_pkg_name);
+						if (next_pkg == null) {
+							// error
+							built_pkgs_needed = true;
+						} else {
+							var iter = HashTableIter<string, string> (built_pkgs);
+							unowned string built_pkg_name;
+							unowned string built_pkg_path;
+							while (iter.next (out built_pkg_name, out built_pkg_path)) {
+								unowned Alpm.Package? built_pkg = aur_db.get_pkg (built_pkg_name);
+								if (built_pkg == null) {
+									// error
+									built_pkgs_needed = true;
+									break;
+								}
+								unowned Alpm.List<unowned Alpm.Depend> depends = next_pkg.depends;
+								while (depends != null) {
+									// check if built_pkg satisfy a dep of next_pkg
+									Alpm.List<unowned Alpm.Package> list = null;
+									list.add (built_pkg);
+									if (Alpm.find_satisfier (list, depends.data.compute_string ()) != null) {
+										built_pkgs_needed = true;
+										break;
+									}
+									depends.next ();
+								}
+								if (built_pkgs_needed) {
+									break;
+								}
+							}
+						}
 					}
-					if (!success) {
-						break;
+					if (built_pkgs_needed) {
+						var to_load_array = new GenericArray<string> ();
+						var iter = HashTableIter<string, string> (built_pkgs);
+						unowned string built_pkg_path;
+						while (iter.next (null, out built_pkg_path)) {
+							to_load_array.add (built_pkg_path);
+						}
+						success = install_built_pkgs (to_load_array, to_install_as_dep_array);
+						if (!success) {
+							break;
+						}
+						built_pkgs.remove_all ();
+						to_install_as_dep_array = new GenericArray<string> ();
 					}
 				} else {
 					important_details_outpout (true);
@@ -1528,6 +1583,28 @@ namespace Pamac {
 					success = false;
 					break;
 				}
+			}
+			return success;
+		}
+
+		bool install_built_pkgs (GenericArray<string> to_load_array, GenericArray<string> to_install_as_dep_array) {
+			bool success = false;
+			try {
+				emit_script_output ("");
+				success = transaction_interface.trans_run (false, // sysupgrading,
+															false, // enable_downgrade
+															false, // simple_install
+															database.config.keep_built_pkgs,
+															0, // trans_flags,
+															{}, // to_install
+															{}, // to_remove
+															to_load_array.data,
+															to_install_as_dep_array.data,
+															{}, // temporary_ignorepkgs
+															{}); // overwrite_files
+			} catch (Error e) {
+				emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
+				success = false;
 			}
 			return success;
 		}
