@@ -2620,7 +2620,7 @@ namespace Pamac {
 			return aur_vcs_pkgs.get_values ();
 		}
 
-		AURUpdates get_aur_updates_real (GenericArray<unowned Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, bool check_ignorepkgs) {
+		AURUpdates get_aur_updates_real (GenericArray<Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, bool check_ignorepkgs) {
 			var updates = new SList<AURPackage> ();
 			var outofdate = new SList<AURPackage> ();
 			var ignored_updates = new SList<AURPackage> ();

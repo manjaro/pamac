@@ -94,7 +94,7 @@ namespace Pamac {
 					if (array != null) {
 						uint array_length = array.get_length ();
 						for (uint i = 0; i < array_length; i++) {
-							result.add_element (array.get_element (i));
+							result.add_element (array.dup_element (i));
 						}
 					}
 				}
@@ -118,8 +118,8 @@ namespace Pamac {
 			return json_object;
 		}
 
-		public GenericArray<unowned Json.Object> get_multi_infos (string[] pkgnames) {
-			var result = new GenericArray<unowned Json.Object> ();
+		public GenericArray<Json.Object> get_multi_infos (string[] pkgnames) {
+			var result = new GenericArray<Json.Object> ();
 			var to_query = new GenericArray<string> ();
 			lock (cached_infos) {
 				foreach (unowned string pkgname in pkgnames) {
@@ -147,10 +147,10 @@ namespace Pamac {
 			return result;
 		}
 
-		public GenericArray<unowned Json.Object> search (string search_string) {
+		public GenericArray<Json.Object> search (string search_string) {
 			string[] needles = search_string.split (" ");
 			if (needles.length == 0) {
-				return new GenericArray<unowned Json.Object> ();
+				return new GenericArray<Json.Object> ();
 			} else if (needles.length == 1) {
 				unowned string needle = needles[0];
 				Json.Array? found;
@@ -165,7 +165,7 @@ namespace Pamac {
 				}
 				if (found == null) {
 					// a error occured, do not cache the result
-					return new GenericArray<unowned Json.Object> ();
+					return new GenericArray<Json.Object> ();
 				}
 				lock (search_results) {
 					search_results.insert (needle, found);
@@ -200,14 +200,14 @@ namespace Pamac {
 					}
 					if (found.get_length () == 0) {
 						// a zero length array mean the inter length will be zero
-						return new GenericArray<unowned Json.Object> ();
+						return new GenericArray<Json.Object> ();
 					}
 					all_found.add (found);
 				}
 				uint all_found_length = all_found.length;
 				// case of all needle search failed
 				if (all_found_length == 0) {
-					return new GenericArray<unowned Json.Object> ();
+					return new GenericArray<Json.Object> ();
 				}
 				// case of errors occured and only one needle succeed
 				if (all_found_length == 1) {
