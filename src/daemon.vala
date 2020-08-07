@@ -702,6 +702,11 @@ namespace Pamac {
 				snap_plugin.trans_cancel (sender);
 			}
 			#endif
+			#if ENABLE_FLATPAK
+			if (config.enable_flatpak) {
+				flatpak_plugin.trans_cancel (sender);
+			}
+			#endif
 			alpm_utils.trans_cancel (sender);
 		}
 
