@@ -611,8 +611,8 @@ namespace Pamac {
 							// to not add output lines to checkupdates -q
 							pkg.version = release.get_version ();
 						}
-						pkgs.prepend (pkg);
 					}
+					pkgs.prepend (pkg);
 				}
 			} catch (Error e) {
 				warning (e.message);

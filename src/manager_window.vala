@@ -1810,7 +1810,11 @@ namespace Pamac {
 				screenshots_stack.visible = false;
 			}
 			// infos
-			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (flatpak_pkg.app_name), flatpak_pkg.version));
+			if (flatpak_pkg.app_name == "") {
+				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (flatpak_pkg.name, flatpak_pkg.version));
+			} else {
+				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (flatpak_pkg.app_name), flatpak_pkg.version));
+			}
 			if (flatpak_pkg.icon != "") {
 				try {
 					var pixbuf = new Gdk.Pixbuf.from_file (flatpak_pkg.icon);
