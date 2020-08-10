@@ -365,33 +365,23 @@ namespace Pamac {
 				initialize_app_data (app, ref pkg);
 			} catch (Error e) {
 				if (e is Flatpak.Error.NOT_INSTALLED) {
-					// try remotes
-					string remote_id = "%s/%s".printf (remote, app.get_id_filename ());
-					Flatpak.RemoteRef? remote_ref;
 					try {
 						// try with id_filename
-						remote_ref = remote_refs_table.lookup (remote_id);
-						if (remote_ref == null) {
-							remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
-						}
-						if (remote_ref != null) {
-							remote_refs_table.insert ((owned) remote_id, remote_ref);
-							pkg = new FlatpakPackage ();
-							initialize_remote_ref (remote_ref, ref pkg);
-							As.Release? release = app.get_release_default ();
-							if (release != null) {
-								pkg.version = release.get_version ();
-							} else {
-								warning ("no version found for %s", app.get_id_filename ());
-							}
-							pkg.desc = get_app_summary (app);
-							initialize_app_data (app, ref pkg);
-						}
+						Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
+						pkg = new FlatpakPackage ();
+						initialize_installed_ref (installed_ref, ref pkg);
+						initialize_app_data (app, ref pkg);
 					} catch (Error e) {
-						if (e is Flatpak.Error.REF_NOT_FOUND) {
+						if (e is Flatpak.Error.NOT_INSTALLED) {
+							// try remotes
+							string remote_id = "%s/%s".printf (remote, app.get_id_filename ());
+							Flatpak.RemoteRef? remote_ref;
 							try {
-								// retry with id
-								remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id (), null, app.get_branch ());
+								// try with id_filename
+								remote_ref = remote_refs_table.lookup (remote_id);
+								if (remote_ref == null) {
+									remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
+								}
 								if (remote_ref != null) {
 									remote_refs_table.insert ((owned) remote_id, remote_ref);
 									pkg = new FlatpakPackage ();
@@ -406,7 +396,29 @@ namespace Pamac {
 									initialize_app_data (app, ref pkg);
 								}
 							} catch (Error e) {
-								warning (e.message);
+								if (e is Flatpak.Error.REF_NOT_FOUND) {
+									try {
+										// retry with id
+										remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id (), null, app.get_branch ());
+										if (remote_ref != null) {
+											remote_refs_table.insert ((owned) remote_id, remote_ref);
+											pkg = new FlatpakPackage ();
+											initialize_remote_ref (remote_ref, ref pkg);
+											As.Release? release = app.get_release_default ();
+											if (release != null) {
+												pkg.version = release.get_version ();
+											} else {
+												warning ("no version found for %s", app.get_id_filename ());
+											}
+											pkg.desc = get_app_summary (app);
+											initialize_app_data (app, ref pkg);
+										}
+									} catch (Error e) {
+										warning (e.message);
+									}
+								} else {
+									warning (e.message);
+								}
 							}
 						} else {
 							warning (e.message);
