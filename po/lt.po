@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-30 20:38+0000\n"
-"Last-Translator: Moo\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,8 +40,8 @@ msgstr "Sinchronizuojamos paketų duomenų bazės"
 msgid "Failed to synchronize databases"
 msgstr "Nepavyko sinchronizuoti duomenų bazių"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -103,14 +103,14 @@ msgstr "%s ir %s tarpusavyje konfliktuoja"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s turi būti pašalintas, tačiau tai yra užrakintas paketas"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Nepavyko inicijuoti AUR duomenų bazės"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "šalinamas %s iš paskirties sąrašo"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Nepavyko inicijuoti AUR duomenų bazės"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -291,25 +291,25 @@ msgstr[3] "Liko maždaug %lu minučių"
 msgid "Error"
 msgstr "Klaida"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s atsisiuntimas pradėtas"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s atsisiuntimas užbaigtas"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Įkeliama iš naujo %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s atsisiuntimas pradėtas"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Atsiunčiama %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s atsisiuntimas užbaigtas"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -438,17 +438,56 @@ msgstr "Reikalingas PGP raktas %s, kad būtų patvirtinti %s šaltinio failai"
 msgid "Trust %s and import the PGP key"
 msgstr "Pasitikėti %s ir importuoti PGP raktą"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Oficialios saugyklos"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Saugykla"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Priklauso nuo"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Planuojami pašalinti"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Konfliktuoja su"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Sendinti"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Reikalauja"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Kompiliuoti"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Pakeičia"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -571,10 +610,6 @@ msgstr "Liekamieji"
 msgid "Foreign"
 msgstr "Svetimi"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Saugyklos"
@@ -606,10 +641,6 @@ msgstr "Pažymėti kaip savarankiškai įdiegtą"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licencijos"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Saugykla"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -660,16 +691,8 @@ msgid "Backup files"
 msgstr "Atsarginės kopijos failai"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Priklauso nuo"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Pasirinktinės priklausomybės"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Reikalauja"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -678,14 +701,6 @@ msgstr "Neprivalomas paketams"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Tiekia"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Pakeičia"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Konfliktuoja su"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -722,10 +737,6 @@ msgstr "Dydis"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Data"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Oficialios saugyklos"
 
 #: src/manager_window.vala
 msgid "Upgrade"

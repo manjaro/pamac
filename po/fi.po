@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-07-30 13:34+0000\n"
-"Last-Translator: Oi Suomi On! <oisuomion@protonmail.com>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,8 +55,8 @@ msgstr "Synkronoidaan pakettitietokantoja"
 msgid "Failed to synchronize databases"
 msgstr "Tietokantojen synkronointi epäonnistui"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -118,14 +118,14 @@ msgstr "%s ja %s ovat ristiriidassa"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s täytyy poistaa mutta se on lukittu paketti"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "AUR-tietokannan alustaminen epäonnistui"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "poistetaan %s kohdeluettelosta"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "AUR-tietokannan alustaminen epäonnistui"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -302,25 +302,25 @@ msgstr[1] "Noin %lu minuuttia jäljellä"
 msgid "Error"
 msgstr "Virhe"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s lataus aloitettu"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s on ladattu"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Virkistetään %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s lataus aloitettu"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Ladataan %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s on ladattu"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -449,17 +449,56 @@ msgstr "PGP-avain %s vaaditaan lähdetiedostojen %s todentamiseksi"
 msgid "Trust %s and import the PGP key"
 msgstr "Merkitse luotetuksi, ja tuo PGP-avain %s"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Viralliset pakettilähteet"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Pakettivarasto"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak-paketit"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Riippuu paketeista"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Poistettavat"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Ristiriidat"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Varhennettavat"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Riippuvuutena paketeille"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Käännettävät"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Korvaa"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -578,10 +617,6 @@ msgstr "Orvot"
 msgid "Foreign"
 msgstr "Vieras"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak-paketit"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Pakettivarastot"
@@ -613,10 +648,6 @@ msgstr "Merkitse erikseen asennetuksi"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lisenssit"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Pakettivarasto"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -667,16 +698,8 @@ msgid "Backup files"
 msgstr "Varmuuskopiot"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Riippuu paketeista"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Valinnaiset riippuvuudet"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Riippuvuutena paketeille"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -685,14 +708,6 @@ msgstr "Valinnainen riippuvuus"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Tarjoaa"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Korvaa"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Ristiriidat"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -729,10 +744,6 @@ msgstr "Koko"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Päivämäärä"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Viralliset pakettilähteet"
 
 #: src/manager_window.vala
 msgid "Upgrade"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,8 @@ msgstr "Bezig met synchroniseren van pakketdatabanken"
 msgid "Failed to synchronize databases"
 msgstr "Het synchroniseren van de databanken is mislukt"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -107,13 +107,13 @@ msgstr "%s en %s conflicteren"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s moet worden verwijderd maar het pakket is vergrendeld"
 
-#: src/alpm_utils.vala
-#, c-format
-msgid "removing %s from target list"
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
 msgstr ""
 
 #: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
+#, c-format
+msgid "removing %s from target list"
 msgstr ""
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
@@ -291,25 +291,25 @@ msgstr[1] "Nog ongeveer %lu minuten te gaan"
 msgid "Error"
 msgstr "Fout"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s wordt gedownload"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s is gedownload"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Bezig met vernieuwen van %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s wordt gedownload"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Bezig met downloaden van %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s is gedownload"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -438,17 +438,56 @@ msgstr "De PGP-sleutel %s is benodigd om %s bronbestanden te verifiëren"
 msgid "Trust %s and import the PGP key"
 msgstr "%s vertrouwen en PGP-sleutel importeren"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Officiële pakketbronnen"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Pakketbron"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Is afhankelijk van"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Te verwijderen"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Conflicteert met"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Te verlagen in versie"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Vereist door"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Te bouwen"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Vervangt"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -567,10 +606,6 @@ msgstr "Weespakketten"
 msgid "Foreign"
 msgstr "Externe pakketten"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Pakketbronnen"
@@ -602,10 +637,6 @@ msgstr "Markeren als expliciet geïnstalleerd"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licenties"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Pakketbron"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -656,16 +687,8 @@ msgid "Backup files"
 msgstr "Back-upbestanden"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Is afhankelijk van"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Optionele afhankelijkheden"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Vereist door"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -674,14 +697,6 @@ msgstr "Optioneel voor"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Stelt beschikbaar"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Vervangt"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Conflicteert met"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -718,10 +733,6 @@ msgstr "Grootte"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Datum"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Officiële pakketbronnen"
 
 #: src/manager_window.vala
 msgid "Upgrade"

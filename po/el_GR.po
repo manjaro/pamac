@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-29 09:53+0000\n"
-"Last-Translator: Bill <billgameraek@gmail.com>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,8 +44,8 @@ msgstr "Συγχρονισμός της βάσης δεδομένων"
 msgid "Failed to synchronize databases"
 msgstr "Αποτυχία συγχρονισμού των βάσεων δεδομένων"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -107,14 +107,14 @@ msgstr "Το %s και το %s είναι σε διένεξη"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "Το %s χρειάζεται να διαγραφεί αλλά είναι ένα κλειδωμένο πακέτο"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Αποτυχία αρχικοποίησης βάσης AUR"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "αφαιρείται το %s από τη λίστα στόχων"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Αποτυχία αρχικοποίησης βάσης AUR"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -291,25 +291,25 @@ msgstr[1] "%lu λεπτά απομένουν"
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Λήψη %s ξεκίνησε"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Μεταφόρτωση %s τελείωσε"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Ανανέωση %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Λήψη %s ξεκίνησε"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Λήψη %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Μεταφόρτωση %s τελείωσε"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -438,17 +438,56 @@ msgstr "Το PGP κλειδί %s απαιτείται για να επικυρώ
 msgid "Trust %s and import the PGP key"
 msgstr "Εμπιστοσύνη %s και εισαγωγή του PGP κλειδιού"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Επίσημα αποθετήρια"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Αποθετήριο"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Εξαρτάται από"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Προς αφαίρεση"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Διένεξη με"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Υποβάθμιση"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Απαιτείται από"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Προετοιμασία για μεταγλώττιση"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Αντικαθιστά"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -567,10 +606,6 @@ msgstr "Ορφανά"
 msgid "Foreign"
 msgstr "Εξωτερικά (AUR)"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Αποθετήρια"
@@ -602,10 +637,6 @@ msgstr "Σήμανση ως ρητώς εγκατεστημένο"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Άδειες"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Αποθετήριο"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -656,16 +687,8 @@ msgid "Backup files"
 msgstr "Δημιουργία αντιγράφων ασφαλείας αρχείων"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Εξαρτάται από"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Προαιρετικές εξαρτήσεις"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Απαιτείται από"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -674,14 +697,6 @@ msgstr "Προαιρετικό Για"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Παρέχει"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Αντικαθιστά"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Διένεξη με"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -718,10 +733,6 @@ msgstr "Μέγεθος"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Ημερομηνία"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Επίσημα αποθετήρια"
 
 #: src/manager_window.vala
 msgid "Upgrade"

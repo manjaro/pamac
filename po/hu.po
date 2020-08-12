@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-07-18 21:01+0000\n"
-"Last-Translator: PB\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,8 +52,8 @@ msgstr "Csomag adatbázisok szinkronizálása"
 msgid "Failed to synchronize databases"
 msgstr "Nem sikerült az adatbázisok szinkronizálása"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -115,14 +115,14 @@ msgstr "%s és %s konfliktusban van"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s -t el kell távolítani de a csomag zárolva van"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Nem sikerült inicializálni az AUR adatbázist"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr ""
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Nem sikerült inicializálni az AUR adatbázist"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -299,25 +299,25 @@ msgstr[1] "Kb. %lu perc van hátra"
 msgid "Error"
 msgstr "Hiba"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "A %s letöltése megkezdődött"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "A %s letöltése befejeződött"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Frissítés %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "A %s letöltése megkezdődött"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Letöltés %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "A %s letöltése befejeződött"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -446,17 +446,56 @@ msgstr "A %s PGP kulcs szükséges a (z) %s forrásfájlok ellenőrzéséhez"
 msgid "Trust %s and import the PGP key"
 msgstr "Megbíz a(z) %s PGP kulcsban és importálja"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Hivatalos tárolók"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Tároló"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Függőségek"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Eltávolításra"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Ütközik vele"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Visszaállításra"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Igényelt"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Építeni"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Helyettesít"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -575,10 +614,6 @@ msgstr "Árvák"
 msgid "Foreign"
 msgstr "Külső"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Tárolók"
@@ -610,10 +645,6 @@ msgstr "Megjelölés kifejezett telepítésre"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licenszek"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Tároló"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -664,16 +695,8 @@ msgid "Backup files"
 msgstr "Mentett fájlok"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Függőségek"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Opcionális függőségek"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Igényelt"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -682,14 +705,6 @@ msgstr "Opcionális ehhez"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Szolgáltat"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Helyettesít"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Ütközik vele"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -726,10 +741,6 @@ msgstr "Méret"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Dátum"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Hivatalos tárolók"
 
 #: src/manager_window.vala
 msgid "Upgrade"

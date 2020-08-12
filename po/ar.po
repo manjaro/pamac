@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -48,8 +48,8 @@ msgstr "يزامن قاعدة بيانات الحزم"
 msgid "Failed to synchronize databases"
 msgstr "فشل في مزامنة قواعد البيانات"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr " مستودع العضو"
 
@@ -111,13 +111,13 @@ msgstr "%s و  %s في صراع"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s تحتاج إلى إزالة لكنها حزمة مقفلة"
 
-#: src/alpm_utils.vala
-#, c-format
-msgid "removing %s from target list"
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
 msgstr ""
 
 #: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
+#, c-format
+msgid "removing %s from target list"
 msgstr ""
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
@@ -303,25 +303,25 @@ msgstr[5] "الدقائق المتبقية حوالي %lu"
 msgid "Error"
 msgstr "خطأ"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "بدأ تحميل %s"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "تم تحميل %s"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "ينعش %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "بدأ تحميل %s"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "ينزّل %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "تم تحميل %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -450,17 +450,56 @@ msgstr ""
 msgid "Trust %s and import the PGP key"
 msgstr ""
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "مستودعات رسمية"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "مستودع"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "يعتمد على"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "للحذف"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "التعارض مع"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "للتثبيت النسخة الأقدم"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "مطلوب من طرف"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "للبناء"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "إستبدال"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -587,10 +626,6 @@ msgstr "أيتام"
 msgid "Foreign"
 msgstr "أجنبي"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr ""
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "مستودعات"
@@ -622,10 +657,6 @@ msgstr "علم مثبت  صراحة"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "الرخص"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "مستودع"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -676,16 +707,8 @@ msgid "Backup files"
 msgstr "ملفات النسخ الإحتياطية"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "يعتمد على"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "تبعيات اختيارية"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "مطلوب من طرف"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -694,14 +717,6 @@ msgstr "اختياري ل"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "المزود"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "إستبدال"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "التعارض مع"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -738,10 +753,6 @@ msgstr "حجم"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr ""
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "مستودعات رسمية"
 
 #: src/manager_window.vala
 msgid "Upgrade"

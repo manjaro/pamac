@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-22 09:49+0000\n"
-"Last-Translator: Seyed Mahdi Nagavi Kalajahi <smahdink@protonmail.com>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,8 +50,8 @@ msgstr "همگام‌سازی پایگاه داده‌های بسته‌ها"
 msgid "Failed to synchronize databases"
 msgstr "در همگام‌سازی پایگاه داده‌ها خطایی رخ داد"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -113,14 +113,14 @@ msgstr "%s و %s با هم تداخل دارند "
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s باید حذف شود اما آن یک بستهٔ قفل شده است"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "خطا در مقدار‌دهی اولیهٔ پایگاه دادهٔ AUR"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "حذف %s از لیست هدف"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "خطا در مقدار‌دهی اولیهٔ پایگاه دادهٔ AUR"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -297,25 +297,25 @@ msgstr[1] ""
 msgid "Error"
 msgstr "خطا"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "بارگیری %s شروع شد "
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "بارگیری %s پایان یافت"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "در حال بازآوری %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "بارگیری %s شروع شد "
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "در حال بارگیری %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "بارگیری %s پایان یافت"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -444,17 +444,56 @@ msgstr "کلید PGP %s برای تأیید پرونده‌های منبع %s م
 msgid "Trust %s and import the PGP key"
 msgstr "اعتماد به %s و وارد کردن کلید PGP"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "مخازن رسمی"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "مخزن"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "وابسته است به"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "برای حذف"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "ناسازگار با"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "برای به عقب برگرداندن"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "مورد‌نیاز برای"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "برای ساخت"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "جایگزین‌ها"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -573,10 +612,6 @@ msgstr "بی منبع"
 msgid "Foreign"
 msgstr "خارجی"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "مخازن"
@@ -608,10 +643,6 @@ msgstr "نشان‌دار کردن به عنوان صریحاً نصب شده"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "لایسنس‌ها"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "مخزن"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -662,16 +693,8 @@ msgid "Backup files"
 msgstr "پرونده‌های پشتیبان"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "وابسته است به"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "وابستگی‌های اختیاری"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "مورد‌نیاز برای"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -680,14 +703,6 @@ msgstr "اختیاری برای"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "ارائه می‌دهد"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "جایگزین‌ها"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "ناسازگار با"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -724,10 +739,6 @@ msgstr "حجم"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "تاریخ"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "مخازن رسمی"
 
 #: src/manager_window.vala
 msgid "Upgrade"

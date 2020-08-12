@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-04 07:30+0000\n"
-"Last-Translator: Dan Johansen\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Danish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,8 +55,8 @@ msgstr "Synkroniserer pakkedatabaser"
 msgid "Failed to synchronize databases"
 msgstr "Synkronisering af databaser fejlede"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -118,14 +118,14 @@ msgstr "%s og %s er i konflikt"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s skal fjernes, men den er en låst pakke"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Initialisering af AUR database fejlede"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "fjerner %s fra mål liste"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Initialisering af AUR database fejlede"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -302,25 +302,25 @@ msgstr[1] "Omkring %lu minutter tilbage"
 msgid "Error"
 msgstr "Fejl"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Hentning af %s startet"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Hentning af %s færdig"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Genopfrisker %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Hentning af %s startet"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Downloader %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Hentning af %s færdig"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -449,17 +449,56 @@ msgstr "PGP nøglen %s kræves for at verificere %s kildefiler"
 msgid "Trust %s and import the PGP key"
 msgstr "Stol på %s og importér PGP nøglen"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Officielle arkiver"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Arkiv"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Afhænger af"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Fjernes"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Er i konflikt med"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Nedgraderes"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Kræves af"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Bygges"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Erstatter"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -578,10 +617,6 @@ msgstr "Forældreløse"
 msgid "Foreign"
 msgstr "Fremmed"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Arkiver"
@@ -613,10 +648,6 @@ msgstr "Markér som udtrykkeligt installeret"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licenser"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Arkiv"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -667,16 +698,8 @@ msgid "Backup files"
 msgstr "Sikkerhedskopieringsfiler"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Afhænger af"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Valgfrie afhængigheder"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Kræves af"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -685,14 +708,6 @@ msgstr "Valgfri til"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Leverer"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Erstatter"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Er i konflikt med"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -729,10 +744,6 @@ msgstr "Størrelse"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Dato"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Officielle arkiver"
 
 #: src/manager_window.vala
 msgid "Upgrade"

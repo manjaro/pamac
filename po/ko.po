@@ -5,8 +5,8 @@
 # 
 # Translators:
 # Cybertramp <paran_son@outlook.com>, 2018
-# MarongHappy <daemul72@gmail.com>, 2020
-# MarongHappy <daemul72@gmail.com>, 2019-2020
+# JungHee Lee <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2019-2020
 # Dongyun KIm <104arb@gmail.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
 # lego37yoon <lego37yoon@outlook.com>, 2013
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -48,8 +48,8 @@ msgstr "패키지 데이터베이스 동기화중"
 msgid "Failed to synchronize databases"
 msgstr "데이터베이스를 동기화하지 못했습니다"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -111,14 +111,14 @@ msgstr "%s 및 %s이(가) 충돌합니다"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s을(를) 제거해야 하지만 잠긴 패키지입니다"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "AUR 데이터베이스를 초기화하지 못했습니다"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "대상 목록에서 %s 제거중"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "AUR 데이터베이스를 초기화하지 못했습니다"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -293,25 +293,25 @@ msgstr[0] "대략 %lu 분 남음"
 msgid "Error"
 msgstr "오류"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s의 다운로드가 시작되었습니다"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s 다운로드 완료"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s 새로 고치는중"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s의 다운로드가 시작되었습니다"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s 다운로드중"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s 다운로드 완료"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -440,17 +440,56 @@ msgstr "%s 소스 파일을 확인하려면 PGP 키 %s이(가) 필요합니다"
 msgid "Trust %s and import the PGP key"
 msgstr "%s을(를) 신용하고 PGP 키 가져 오기"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "공식 저장소"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "저장소"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "필요한 것"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "제거하기"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "충돌 :"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "다운그레이드하기"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "필요 항목 :"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "빌드하기"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "대체"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -567,10 +606,6 @@ msgstr "독립 패키지"
 msgid "Foreign"
 msgstr "외부 패키지"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "저장소"
@@ -602,10 +637,6 @@ msgstr "완전히 설치된 것으로 표시"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "라이센스"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "저장소"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -656,16 +687,8 @@ msgid "Backup files"
 msgstr "백업 파일"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "필요한 것"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "옵션으로 필요한 것"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "필요 항목 :"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -674,14 +697,6 @@ msgstr "선택 사항 :"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "제공"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "대체"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "충돌 :"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -718,10 +733,6 @@ msgstr "크기"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "날짜"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "공식 저장소"
 
 #: src/manager_window.vala
 msgid "Upgrade"

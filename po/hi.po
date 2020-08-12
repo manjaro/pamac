@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-21 06:14+0000\n"
-"Last-Translator: Panwar108 <caspian7pena@gmail.com>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,8 +44,8 @@ msgstr "पैकेज डेटाबेस समकालीन हो र�
 msgid "Failed to synchronize databases"
 msgstr "पैकेज डेटाबेस समकालीन करने में विफल"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -107,14 +107,14 @@ msgstr "%s व %s एक दूसरे के विरुद्ध हैं"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s हटाया जाना है परंतु यह पैकेज लॉक हो गया है"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "AUR डेटाबेस आरंभ करने में विफल"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "%s लक्षित सूची से हटाया जा रहा है"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "AUR डेटाबेस आरंभ करने में विफल"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -291,25 +291,25 @@ msgstr[1] "अनुमानतः %lu मिनट शेष"
 msgid "Error"
 msgstr "त्रुटि"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s का डाउनलोड आरंभ"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s का डाउनलोड पूर्ण"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s रिफ्रेश हो रहा है"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s का डाउनलोड आरंभ"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s डाउनलोड हो रहा है"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s का डाउनलोड पूर्ण"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -438,17 +438,56 @@ msgstr "%s स्रोत फ़ाइलों के प्रमाणीकर
 msgid "Trust %s and import the PGP key"
 msgstr "%s को स्वीकृत कर PGP कुंजी आयात करें"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "आधिकारिक पैकेज-संग्रह"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "पैकेज-संग्रह"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "फ्लैटपैक"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "इन पर आश्रित"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "हटाएँ जाएँगे"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "इनके विरुद्ध"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "डाउनग्रेड होंगे"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "इन हेतु आवश्यक"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "बिल्ड होंगे"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "इनका स्थान लेगा"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -567,10 +606,6 @@ msgstr "निरर्थक पैकेज"
 msgid "Foreign"
 msgstr "बाह्य पैकेज"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "फ्लैटपैक"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "पैकेज-संग्रह"
@@ -602,10 +637,6 @@ msgstr "स्पष्ट इंस्टॉल के रूप में च�
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "लाइसेंस"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "पैकेज-संग्रह"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -656,16 +687,8 @@ msgid "Backup files"
 msgstr "बैकअप फ़ाइलें"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "इन पर आश्रित"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "वैकल्पिक आश्रित पैकेज"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "इन हेतु आवश्यक"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -674,14 +697,6 @@ msgstr "इन हेतु वैकल्पिक"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "प्रदान करता है"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "इनका स्थान लेगा"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "इनके विरुद्ध"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -718,10 +733,6 @@ msgstr "आकार"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "दिनांक"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "आधिकारिक पैकेज-संग्रह"
 
 #: src/manager_window.vala
 msgid "Upgrade"

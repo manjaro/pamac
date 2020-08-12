@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-16 13:36+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-10 09:26+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,8 @@ msgstr "パッケージのデータベースを同期しています"
 msgid "Failed to synchronize databases"
 msgstr "データベースの同期に失敗しました"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -107,14 +107,14 @@ msgstr "%s と %s が競合しています"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s を削除する必要がありますが、ロックされています"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "AURデータベースの初期化に失敗しました"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "ターゲットリストから %s を削除しています"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "AURデータベースの初期化に失敗しました"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -289,25 +289,25 @@ msgstr[0] "残り約 %lu 分"
 msgid "Error"
 msgstr "エラー"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s のダウンロードを開始しました"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s のダウンロードを完了しました"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s をアップデートしています"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s のダウンロードを開始しました"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s をダウンロードしています"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s のダウンロードを完了しました"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -436,17 +436,56 @@ msgstr "%s ソースファイルを検証するにはPGP鍵 %s が必要です"
 msgid "Trust %s and import the PGP key"
 msgstr "%s を信用してPGP鍵をインポートしますか"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "公式リポジトリ"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "リポジトリ"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "必要"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "次から孤立したパッケージ"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "削除するもの"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "競合"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "ダウングレードするもの"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "必要とされる"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "ビルドするもの"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "置換"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -563,10 +602,6 @@ msgstr "孤立したパッケージ"
 msgid "Foreign"
 msgstr "外部のパッケージ"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "リポジトリ"
@@ -598,10 +633,6 @@ msgstr "明示的にインストールしたものとしてマーク"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "ライセンス"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "リポジトリ"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -652,16 +683,8 @@ msgid "Backup files"
 msgstr "バックアップファイル"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "必要"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "オプション"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "必要とされる"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -670,14 +693,6 @@ msgstr "オプションとされる"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "提供"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "置換"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "競合"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -714,10 +729,6 @@ msgstr "サイズ"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "日付"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "公式リポジトリ"
 
 #: src/manager_window.vala
 msgid "Upgrade"

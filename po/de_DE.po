@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -46,8 +46,8 @@ msgstr "Synchronisiere Paketdatenbanken"
 msgid "Failed to synchronize databases"
 msgstr "Fehler beim Synchronisieren der Datenbanken"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -109,14 +109,14 @@ msgstr " %s und %s stehen im Konflikt zueinander"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s muss entfernt werden, ist aber ein gesperrtes Paket "
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Konnte AUR Datenbank nicht initialisieren"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "entferne %s von der Zielliste"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Konnte AUR Datenbank nicht initialisieren"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -293,25 +293,25 @@ msgstr[1] "Noch %lu Minuten verbleibend"
 msgid "Error"
 msgstr "Fehler"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Herunterladen von %s gestartet"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Herunterladen von %s beendet"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Aktualisierung von %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Herunterladen von %s gestartet"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Herunterladen von %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Herunterladen von %s beendet"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -440,17 +440,56 @@ msgstr "Der PGP Schlüssel %s wird benötigt um %s Quellcode-Dateien zu verifizi
 msgid "Trust %s and import the PGP key"
 msgstr "Vertraue %s und importiere den PGP Schlüssel"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Offizielle Repositories"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Paketquelle"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Hängt ab von"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Wird entfernt"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Konflikt mit"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Wird zurückgestuft"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Benötigt von"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Zu erstellen"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Ersetzt"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -569,10 +608,6 @@ msgstr "Verwaist"
 msgid "Foreign"
 msgstr "Fremd"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repositories"
@@ -604,10 +639,6 @@ msgstr "Als ausdrücklich installiert markieren"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lizenzen"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Paketquelle"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -658,16 +689,8 @@ msgid "Backup files"
 msgstr "Dateisicherungen"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Hängt ab von"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Optionale Abhängigkeiten"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Benötigt von"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -676,14 +699,6 @@ msgstr "Optional für"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Stellt bereit"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Ersetzt"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Konflikt mit"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -720,10 +735,6 @@ msgstr "Größe"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Datum"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Offizielle Repositories"
 
 #: src/manager_window.vala
 msgid "Upgrade"

@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 10:19+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-10 05:03+0000\n"
 "Last-Translator: Tomáš Marhoun <tmarhoun@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/manjarolinux/manjaro-pamac/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -50,8 +50,8 @@ msgstr "Synchronizuji databáze balíčků"
 msgid "Failed to synchronize databases"
 msgstr "Selhala synchronizace databází"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -113,14 +113,14 @@ msgstr "%s a %s jsou v konfliktu"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "balíček %s je třeba odebrat ale je uzamčen"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Selhalo načtení AUR databáze"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "odstraňování %s z cílového seznamu"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Selhalo načtení AUR databáze"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -301,25 +301,25 @@ msgstr[3] "Zbývá asi %lu minut"
 msgid "Error"
 msgstr "Chyba"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Stahování %s zahájeno"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Stahování %s dokončeno"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Obnovování %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Stahování %s zahájeno"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Stahování %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Stahování %s dokončeno"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -448,17 +448,56 @@ msgstr "PGP klíč %s je třeba k ověření %s zdrojových souborů"
 msgid "Trust %s and import the PGP key"
 msgstr "Důvěřovat %s a importovat PGP klíč"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Oficiální repozitáře"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Repozitář"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Závisí na"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "Nepotřebný balíček od"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "K odstranění"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Konflikty s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "K downgrade \"nižší verzi\""
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Vyžadováno"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "K vytvoření"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Nahrazuje"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -581,10 +620,6 @@ msgstr "Nepotřebné balíčky"
 msgid "Foreign"
 msgstr "Cizí balíčky"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repozitáře"
@@ -616,10 +651,6 @@ msgstr "Označit jako nainstalované"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licence"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Repozitář"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -670,16 +701,8 @@ msgid "Backup files"
 msgstr "Záložní soubory"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Závisí na"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Volitelné závislosti"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Vyžadováno"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -688,14 +711,6 @@ msgstr "Doplňky pro"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Obsahuje"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Nahrazuje"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Konflikty s"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -732,10 +747,6 @@ msgstr "Velikost"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Datum"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Oficiální repozitáře"
 
 #: src/manager_window.vala
 msgid "Upgrade"

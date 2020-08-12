@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Serbian (Latin) (Serbia) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sr_RS@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -40,8 +40,8 @@ msgstr "Sinhronizacija baze podataka paketa"
 msgid "Failed to synchronize databases"
 msgstr "Neuspešna sinhronizacija baza podataka"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -103,14 +103,14 @@ msgstr "%s i %s su u sukobu"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "potrebno je ukoniti %s ali je paket zaključan"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Neuspešna inicializacija AUR baze podataka"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "uklanjanje %s iz ciljane liste"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Neuspešna inicializacija AUR baze podataka"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -289,25 +289,25 @@ msgstr[2] "Preostalo približno %lu minuta"
 msgid "Error"
 msgstr "Greška"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Preuzimanje %s je počelo"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Preuzimanje %s je završeno"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Osvežavanje %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Preuzimanje %s je počelo"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Preuzimanje %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Preuzimanje %s je završeno"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -436,17 +436,56 @@ msgstr "Ovaj PGP ključ %s je potreban da bi se proverile %s izvorne datoteke"
 msgid "Trust %s and import the PGP key"
 msgstr "Daj poverenje %s i uvezi ovaj PGP ključ"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Zvanična Skladišta"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Skladište"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Zavisi Od"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Za uklanjanje"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Sukobljava Sa"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Za vraćanje verzije"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Zahtevano Od"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Za gradnju"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Menja"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -567,10 +606,6 @@ msgstr "Siročići"
 msgid "Foreign"
 msgstr "Tuđi"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Skladišta"
@@ -602,10 +637,6 @@ msgstr "Označi kao izričito instalirano"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Dozvole"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Skladište"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -656,16 +687,8 @@ msgid "Backup files"
 msgstr "Datoteke rezerve"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Zavisi Od"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Opcione Zavisnosti"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Zahtevano Od"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -674,14 +697,6 @@ msgstr "Opciono Za"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Pribavlja"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Menja"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Sukobljava Sa"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -718,10 +733,6 @@ msgstr "Veličina"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Datum"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Zvanična Skladišta"
 
 #: src/manager_window.vala
 msgid "Upgrade"

@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 13:57+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-10 12:08+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -49,8 +49,8 @@ msgstr "Se sincronitzen les bases de dades dels paquets."
 msgid "Failed to synchronize databases"
 msgstr "Ha fallat sincronitzar les bases de dades."
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -112,14 +112,14 @@ msgstr "%s and %s tenen conflictes."
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s s'ha de suprimir però és un paquet blocat."
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Ha fallat iniciar la base de dades de l'AUR."
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "Se suprimeix %s de la llista d'objectius."
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Ha fallat iniciar la base de dades de l'AUR."
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -296,25 +296,25 @@ msgstr[1] "Manquen %lu minuts."
 msgid "Error"
 msgstr "Error"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Ha començat la baixada de %s."
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Ha acabat la baixada de %s."
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "S'actualitza %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Ha començat la baixada de %s."
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Es baixa %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Ha acabat la baixada de %s."
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -443,17 +443,56 @@ msgstr "La clau PGP %s és necessària per verificar %s fitxers de codi font."
 msgid "Trust %s and import the PGP key"
 msgstr "Confia en %s i importa'n la clau PGP."
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Repositoris oficials"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Repositori"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Depèn de"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "Orfe de"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Per suprimir"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Té conflicte amb"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Per desactualitzar"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Requerit per"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Per construir"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Reemplaça"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -572,10 +611,6 @@ msgstr "Orfes"
 msgid "Foreign"
 msgstr "Aliè"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repositoris"
@@ -607,10 +642,6 @@ msgstr "Marca'l com a instal·lat explícitament."
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Llicències"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Repositori"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -661,16 +692,8 @@ msgid "Backup files"
 msgstr "Fitxers de còpia de seguretat"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Depèn de"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Dependències opcionals"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Requerit per"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -679,14 +702,6 @@ msgstr "Opcional per a"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Proporciona"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Reemplaça"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Té conflicte amb"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -723,10 +738,6 @@ msgstr "Mida"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Data"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Repositoris oficials"
 
 #: src/manager_window.vala
 msgid "Upgrade"

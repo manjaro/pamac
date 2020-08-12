@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017,2019
-# Alexander Filev, 2015
+# AlexanderFilev, 2015
 # Alexey Ermakov <strangebrew@yandex.ru>, 2018
 # Andrei Stepanov <adem4ik@gmail.com>, 2019-2020
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
@@ -14,7 +14,7 @@
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
-# Alexander Filev, 2015
+# AlexanderFilev, 2015
 # Artalus, 2018
 # Kirill Virt <spakes1999@gmail.com>, 2018
 # Eugene <klyuchnikov.evgeny@gmail.com>, 2018-2019
@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 05:14+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-10 05:29+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -72,8 +72,8 @@ msgstr "Синхронизация баз данных пакетов"
 msgid "Failed to synchronize databases"
 msgstr "Не удалось синхронизировать базы данных"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -135,14 +135,14 @@ msgstr "конфликт между %s и %s"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s необходимо удалить, но пакет заблокирован"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Не удалось инициализировать базу данных AUR"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "удаление %s из целевого списка"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Не удалось инициализировать базу данных AUR"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -323,25 +323,25 @@ msgstr[3] "Осталось примерно %lu минут"
 msgid "Error"
 msgstr "Ошибка"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Загрузка %s началась"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Загрузка %s закончилась"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Обновление %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Загрузка %s началась"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Загрузка %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Загрузка %s закончилась"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -470,17 +470,56 @@ msgstr "PGP-ключ %s нужен для проверки исходных фа
 msgid "Trust %s and import the PGP key"
 msgstr "Довериться %s и импортировать PGP ключ"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Официальные репозитории"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Репозиторий"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Зависит от"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "Остался от"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "К удалению"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Конфликтует с"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "К понижению версии"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Требуется для"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "К сборке"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Заменяет"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -603,10 +642,6 @@ msgstr "Неиспользуемые"
 msgid "Foreign"
 msgstr "Сторонние"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Репозитории"
@@ -638,10 +673,6 @@ msgstr "Отметить как специально установленный"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Лицензии"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Репозиторий"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -692,16 +723,8 @@ msgid "Backup files"
 msgstr "Резервные файлы"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Зависит от"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Необязательные зависимости"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Требуется для"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -710,14 +733,6 @@ msgstr "Дополнительно для"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Предоставляет"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Заменяет"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Конфликтует с"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -754,10 +769,6 @@ msgstr "Размер"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Дата"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Официальные репозитории"
 
 #: src/manager_window.vala
 msgid "Upgrade"

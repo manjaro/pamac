@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-26 00:38+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-10 02:10+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,8 @@ msgstr "正在同步套件庫"
 msgid "Failed to synchronize databases"
 msgstr "同步資料庫失敗"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -107,14 +107,14 @@ msgstr "%s 及 %s 衝突"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s 需要被移除，但它是一個被鎖定的軟體包"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "初始化 AUR 資料庫失敗"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "正在從目標清單中移除 %s"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "初始化 AUR 資料庫失敗"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -289,25 +289,25 @@ msgstr[0] "大約剩餘 %lu 分鐘"
 msgid "Error"
 msgstr "錯誤"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s 的下載已開始"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s 的下載已結束"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "正在更新 %s 內容"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s 的下載已開始"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "正在下載 %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s 的下載已結束"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -436,17 +436,56 @@ msgstr "PGP 金鑰 %s 是驗證 %s 來源檔案所需的"
 msgid "Trust %s and import the PGP key"
 msgstr "信任 %s 並匯入 PGP 金鑰"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "官方套件庫"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "套件庫"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "依賴於"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "孤立"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "移除"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "與下列套件衝突"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "降級"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "被需要"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "構建"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "取代"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -563,10 +602,6 @@ msgstr "孤立的"
 msgid "Foreign"
 msgstr "外來的"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "套件庫"
@@ -598,10 +633,6 @@ msgstr "標示為單獨指定安裝"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "授權條款"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "套件庫"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -652,16 +683,8 @@ msgid "Backup files"
 msgstr "備份檔案"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "依賴於"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "選擇性依賴關係"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "被需要"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -670,14 +693,6 @@ msgstr "為後面這些軟體包的可選依賴"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "提供"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "取代"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "與下列套件衝突"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -714,10 +729,6 @@ msgstr "大小"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "日期"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "官方套件庫"
 
 #: src/manager_window.vala
 msgid "Upgrade"

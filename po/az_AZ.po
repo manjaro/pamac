@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-15 19:26+0000\n"
-"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,8 +40,8 @@ msgstr "Paket məlumat bazalarının eyniləşdirilməsi"
 msgid "Failed to synchronize databases"
 msgstr "Məlumat bazaları eyniləşdirilməsi alınmadı"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -103,14 +103,14 @@ msgstr "%s və %s aralarındakı ziddiyyət"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s silinməsi tələb olunur, ancaq bu kilidlənən paketdir"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "AUR verilənlər bazası işə salına bilmədi"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "%s hədəf siyahısından silinir"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "AUR verilənlər bazası işə salına bilmədi"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -287,25 +287,25 @@ msgstr[1] "Təxminən %lu dəqiqə qalır"
 msgid "Error"
 msgstr "Səhv"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s yüklənir"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s yükləndi"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s yenilənməsi"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s yüklənir"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s endirilir"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s yükləndi"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -434,17 +434,56 @@ msgstr "%s mənbə fayllarının yoxlanılması üçün %s PGP açar lazımdır"
 msgid "Trust %s and import the PGP key"
 msgstr "%s etibar etmək və PGP açarın idxalı"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Rəsmi Repositorilər"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Repositorilər"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Aslıdır"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Silmək üçün"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Ziddiyyətlidir"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Əvvəlki versiyaya endirmək"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Tələb olunur"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Qurmaq üçün"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Dəyişdirir"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -563,10 +602,6 @@ msgstr "Aid olmayan"
 msgid "Foreign"
 msgstr "Xarici"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repositorilər"
@@ -598,10 +633,6 @@ msgstr "Tam quraşdırılmış kimi işarələ"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lisenziyalar"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Repositorilər"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -652,16 +683,8 @@ msgid "Backup files"
 msgstr "Yedək fayllar"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Aslıdır"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Vacib olmayan asılılıqlar"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Tələb olunur"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -670,14 +693,6 @@ msgstr "Vacib olmayan"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Təqdim edir"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Dəyişdirir"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Ziddiyyətlidir"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -714,10 +729,6 @@ msgstr "Ölçü"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Tarix"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Rəsmi Repositorilər"
 
 #: src/manager_window.vala
 msgid "Upgrade"

@@ -5,9 +5,10 @@
 # 
 # Translators:
 # Adrian Grzemski <adrian.grzemski@gmail.com>, 2017
+# B.O.S.S <blazejsadowski2004@gmail.com>, 2020
 # Daniel Napora <napcok@gmail.com>, 2016-2020
 # Dominik “Devhost97” G <devhost97@gmail.com>, 2016
-# Tomasz Przybył <fademind@gmail.com>, 2013
+# FadeMind <fademind@gmail.com>, 2013
 # Guillaume Benoit <guillaume@manjaro.org>, 2013
 # 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
 # 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
@@ -28,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-23 13:58+0000\n"
-"Last-Translator: Michał Nowakowski <nowakowski@offshore.rocks>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,8 +59,8 @@ msgstr "Synchronizacja baz danych pakietów"
 msgid "Failed to synchronize databases"
 msgstr "Synchronizacja baz danych nie powiodła się"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "Repozytoria użytkowników Arch"
 
@@ -99,12 +100,12 @@ msgstr "instalacja %s (%s) uszkadza zależności '%s' wymagane przez %s"
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "Dodaj %s do usunięcia"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "Jeśli możliwe, usuń %s i spróbuj ponownie"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -121,14 +122,14 @@ msgstr "%s i %s są w konflikcie"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s musi zostać usunięte, jednakże jest pakietem zablokowanym"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Nie udało się zainicjować bazy danych AUR"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "usuwanie %s z listy celów"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -142,7 +143,7 @@ msgstr "%s występuje zarówno w %s i w %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s: %s już istnieje w systemie plików (posiadany przez %s)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -151,21 +152,21 @@ msgstr "%s: %s już występuje w systemie plików"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "jeśli ten plik nie jest potrzebny, usuń go i spróbuj ponownie"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s już istnieje w systemie plików"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "Kopia zapasowa została utworzona w %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Usuwanie nieprawidłowych plików i ponawianie"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -174,7 +175,7 @@ msgstr "%s jest nieprawidłowy lub uszkodzony"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "możesz usunąć ten plik i spróbować ponownie"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -291,10 +292,10 @@ msgstr "Błąd podczas wykonywania hook-ów"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pozostało około %lu sekunda"
+msgstr[1] "Pozostało około %lu sekund"
+msgstr[2] "Pozostało około %lu sekund"
+msgstr[3] "Pozostało około %lu sekund"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -309,25 +310,25 @@ msgstr[3] "Pozostało około %lu minut"
 msgid "Error"
 msgstr "Błąd"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Rozpoczęto pobieranie %s "
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Zakończono pobieranie %s "
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Odświeżanie %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Rozpoczęto pobieranie %s "
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Pobieranie %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Zakończono pobieranie %s "
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -339,7 +340,7 @@ msgstr "Oczekiwanie na zakończenie innego menedżera pakietów"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Limit czasu upłynął"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -373,7 +374,7 @@ msgstr "Kopiowanie %s plików kompilacji"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Nie udało się sklonować %s plików kompilacji"
 
 #: src/transaction.vala
 #, c-format
@@ -393,7 +394,7 @@ msgstr "Sprawdzanie %s zależności"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Nie udało się sprawdzić %s zależności"
 
 #: src/transaction.vala
 #, c-format
@@ -456,17 +457,56 @@ msgstr "Klucz PGP %s jest potrzebny do weryfikacji plików źródłowych %s"
 msgid "Trust %s and import the PGP key"
 msgstr "Zaufaj %s i importuj klucz PGP"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Repozytoria oficjalne"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Repozytorium"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Zależy od"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Do usunięcia"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "W konflikcie z"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Do obniżenia wersji"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Wymagany przez"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Do zbudowania"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Zamienia"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -506,12 +546,12 @@ msgstr "Zainstaluj"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "Snap %s został opublikowany przy użyciu klasycznego ograniczenia"
 
 #: src/transaction-gtk.vala
 #, c-format
 msgid "Install %s anyway"
-msgstr ""
+msgstr "Zainstaluj %s mimo to"
 
 #: src/transaction-gtk.vala src/tray.vala
 msgid "Package Manager"
@@ -589,10 +629,6 @@ msgstr "Osierocone"
 msgid "Foreign"
 msgstr "Obce"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Repozytoria"
@@ -624,10 +660,6 @@ msgstr "Zaznacz jako zainstalowany bezpośrednio"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licencje"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Repozytorium"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -678,16 +710,8 @@ msgid "Backup files"
 msgstr "Kopia zapasowa plików"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Zależy od"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Opcjonalne zależności"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Wymagany przez"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -696,14 +720,6 @@ msgstr "Opcjonalnie dla"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Dostarcza"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Zamienia"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "W konflikcie z"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -719,7 +735,7 @@ msgstr "Wydawca"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Zamknięty w piaskownicy"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -740,10 +756,6 @@ msgstr "Rozmiar"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Data"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Repozytoria oficjalne"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -807,7 +819,7 @@ msgstr "Pakiet Alpm"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Menedżer pakietów z obsługą Alpm, AUR, Flatpak i Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -931,11 +943,11 @@ msgstr "plik(i)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "szukaj tylko zainstalowanych pakietów"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "szukaj tylko pakietów w repozytoriach"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -943,7 +955,7 @@ msgstr "wyszukaj również w AUR"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "nie szukaj w AUR"
 
 #: src/cli.vala
 msgid ""
@@ -952,7 +964,7 @@ msgstr "wyszukuje pakiet, do którego należy podany plik (nazwa pliku może by�
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "wyświetlaj tylko nazwy"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -1020,7 +1032,7 @@ msgstr "pobierz także wymagane zależności"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "nie wyświetlaj żadnych wyników"
 
 #: src/cli.vala
 msgid "overwrite existing files"
@@ -1039,19 +1051,19 @@ msgstr "Katalog budowania będzie katalogiem nadrzędnym, opcja --builddir będz
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr ""
+msgstr "oraz opcja --no-clone zostanie wymuszona"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "zachowaj zbudowane pakiety w pamięci podręcznej po instalacji"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "nie zachowuj zbudowanych pakietów w pamięci podręcznej po instalacji"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "drukuj tylko to, co by się stało, ale nie uruchamiaj transakcji"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1079,23 +1091,23 @@ msgstr "nadpisuj konfliktujące pliki, wiele wzorców może zostać podanych pop
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "pobierz wszystkie pakiety, ale niczego nie instaluj/aktualizuj"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "zaznacz wszystkie zainstalowane pakiety jako zależność"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "zaznacz wszystkie pakiety jako zainstalowane bezpośrednio"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "sprawdzaj aktualizacje"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "nie sprawdzaj aktualizacji"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1103,7 +1115,7 @@ msgstr "Przeinstaluj pakiety"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "usuń pakiety tylko wtedy, gdy nie są wymagane przez inne pakiety"
 
 #: src/cli.vala
 msgid ""
@@ -1113,11 +1125,11 @@ msgstr "usuń zależności, które nie są wymagane przez inne pakiety, jeśli t
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "nie usuwaj zależności, które nie są wymagane przez inne pakiety"
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "ignoruj kopie zapasowe plików"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1139,7 +1151,7 @@ msgstr "sprawdź także aktualizacje w AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "nie sprawdzaj aktualizacji w AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1151,7 +1163,7 @@ msgstr "sprawdź też aktualizacje pakietów deweloperskich (użycie z --aur)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "nie sprawdzaj aktualizacji pakietów deweloperskich"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1167,7 +1179,7 @@ msgstr "włącz obniżanie wersji pakietów"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "wyłącz obniżanie wersji pakietów"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1175,7 +1187,7 @@ msgstr "aktualizuje także pakiety zainstalowane z AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "nie aktualizuj pakietów zainstalowanych z AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1183,7 +1195,7 @@ msgstr "zaktualizuj także pakiety deweloperskie (użycie z --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "nie aktualizuj pakietów deweloperskich"
 
 #: src/cli.vala
 msgid ""
@@ -1206,7 +1218,7 @@ msgstr "określ ile wersji każdego pakietu ma być przechowywanych w katalogu p
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "celuj tylko na odinstalowane pakiety"
 
 #: src/cli.vala
 msgid ""
@@ -1236,7 +1248,7 @@ msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Rozmiar zainstalowanego"
 
 #: src/cli.vala
 #, c-format
@@ -1252,10 +1264,10 @@ msgstr "%s jest posiadany przez %s"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%u zignorowana aktualizacja"
+msgstr[1] "%u zignorowanych aktualizacji"
+msgstr[2] "%u zignorowanych aktualizacji"
+msgstr[3] "%u zignorowanych aktualizacji"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1272,7 +1284,7 @@ msgstr "Wyczyść pliki kompilacji"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Dodaj %s do zainstalowania"
 
 #: src/cli.vala
 #, c-format
@@ -1300,7 +1312,7 @@ msgstr "wszystkie"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Dodaj %s do przeinstalowania"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1478,7 +1490,7 @@ msgstr "Włącz obsługę pakietów Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "Pozwól Pamac'owi wyszukiwać i instalować snap'y"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1490,7 +1502,7 @@ msgstr "Włącz obsługę pakietów Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "Pozwól Pamac'owi wyszukiwać i instalować flatpak'i"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

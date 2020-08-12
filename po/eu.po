@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-07-09 06:08+0000\n"
-"Last-Translator: Thadah D. Denyse <juchuf@gmail.com>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,8 +46,8 @@ msgstr "Pakete datu-baseak sinkronizatzen"
 msgid "Failed to synchronize databases"
 msgstr "Ezin izan dira datu-baseak sinkronizatu"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -109,14 +109,14 @@ msgstr "%s eta %s gatazkan daude"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s kendu behar da baina blokeatutako pakete bat da"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Ezin izan da AUR datu-basea hasieratu"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "%s helburu zerrendatik kentzen"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Ezin izan da AUR datu-basea hasieratu"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -293,25 +293,25 @@ msgstr[1] "%lu minutu inguru falta dira"
 msgid "Error"
 msgstr "Errorea"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "%s(r)en deskarga hasi da"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "%s(r)en deskarga bukatu da"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "%s freskatzen"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "%s(r)en deskarga hasi da"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "%s deskargatzen"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "%s(r)en deskarga bukatu da"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -440,17 +440,56 @@ msgstr "%s PGP gakoa beharrezkoa da %s(r)en iturburu fitxategiak egiaztatzeko"
 msgid "Trust %s and import the PGP key"
 msgstr "Fidatu %s(e)z eta inportatu PGP gakoa"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Biltegi ofizialak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Biltegia"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Menpekotasun hauek dauzka"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Kentzeko"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Gatazkan honekin"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Bertsio-zahartzeko"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Honen menpekotasuna"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Eraikitzeko"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Ordezten du"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -569,10 +608,6 @@ msgstr "Umezurtzak"
 msgid "Foreign"
 msgstr "Arrotza"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Biltegiak"
@@ -604,10 +639,6 @@ msgstr "Markatu esplizituki instalatutako gisa"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lizentziak"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Biltegia"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -658,16 +689,8 @@ msgid "Backup files"
 msgstr "Babeskopia fitxategiak"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Menpekotasun hauek dauzka"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Aukerazko menpekotasunak"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Honen menpekotasuna"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -676,14 +699,6 @@ msgstr "Honentzat aukerazkoa"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Hornitzen du"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Ordezten du"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Gatazkan honekin"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -720,10 +735,6 @@ msgstr "Tamaina"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Data"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Biltegi ofizialak"
 
 #: src/manager_window.vala
 msgid "Upgrade"

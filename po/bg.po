@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-07-19 13:55+0000\n"
-"Last-Translator: Georgi Georgiev <georgiev_1994@abv.bg>\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-11 13:21+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,8 +45,8 @@ msgstr "Синхронизиране на пакетната база"
 msgid "Failed to synchronize databases"
 msgstr "Не може да се синхронизира базата от данни"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -108,14 +108,14 @@ msgstr "%s и %s са в конфликт"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s трябва да се премахне, но е заключен пакет"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Неуспешно стартиране на AUR базата от данни"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "премахване на %s от избрания списък"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Неуспешно стартиране на AUR базата от данни"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -292,25 +292,25 @@ msgstr[1] "Остават още %lu минути"
 msgid "Error"
 msgstr "Грешка"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Изтегляне на %s започна"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Изтегляне на %s приключи"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Обновяване на %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Изтегляне на %s започна"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Изтегляне на %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Изтегляне на %s приключи"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -439,17 +439,56 @@ msgstr "PGP ключ %s е нужен за потвърждаване на со�
 msgid "Trust %s and import the PGP key"
 msgstr "Доверяване на %s и внасяне на PGP ключ"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Официални хранилища"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Хранилище"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Зависи от"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "Излишен от"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "За премахване"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Конфликт със"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "За понижаване"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Изискван от"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "За изграждане"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Заменя"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -568,10 +607,6 @@ msgstr "Излишни"
 msgid "Foreign"
 msgstr "Чужди"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Хранилища"
@@ -603,10 +638,6 @@ msgstr "Отбелязан като изрично инсталиран:"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Лицензи"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Хранилище"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -657,16 +688,8 @@ msgid "Backup files"
 msgstr "Архивни файлове"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Зависи от"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Допълнителни зависимости"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Изискван от"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -675,14 +698,6 @@ msgstr "Допълнително за"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Осигурява"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Заменя"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Конфликт със"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -719,10 +734,6 @@ msgstr "Размер"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Дата"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Официални хранилища"
 
 #: src/manager_window.vala
 msgid "Upgrade"

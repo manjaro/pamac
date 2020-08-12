@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-05-25 22:35+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-09 22:29+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -45,8 +45,8 @@ msgstr "כעת מסנכרן מסדי נתוני חבילה"
 msgid "Failed to synchronize databases"
 msgstr ""
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -108,13 +108,13 @@ msgstr "%s וגם %s נתונים להתנגשות"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s צריכה להיות מוסרת אך זוהי חבילה נעולה"
 
-#: src/alpm_utils.vala
-#, c-format
-msgid "removing %s from target list"
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
 msgstr ""
 
 #: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
+#, c-format
+msgid "removing %s from target list"
 msgstr ""
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
@@ -296,25 +296,25 @@ msgstr[3] "נותרו %lu דקות לערך"
 msgid "Error"
 msgstr "שגיאה"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "הורדה של %s החלה"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "הורדה של %s הסתיימה"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "כעת מרענן את %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "הורדה של %s החלה"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "כעת מוריד את %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "הורדה של %s הסתיימה"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -443,17 +443,56 @@ msgstr "מפתח ה-PGP %s דרוש על מנת לוודא %s קבצי מקור"
 msgid "Trust %s and import the PGP key"
 msgstr "אשר %s וייבא מפתח PGP"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "מאגרים רשמיים"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "מאגר"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr ""
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "תלויה על"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr ""
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "להסרה"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "מתנגשת עם"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "להנמכה"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "מחויבת על ידי"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "לבניה"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "מחליפה"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -576,10 +615,6 @@ msgstr "יתומות"
 msgid "Foreign"
 msgstr "זר"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr ""
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "מאגרים"
@@ -611,10 +646,6 @@ msgstr "סמן בתור מותקנת בברור"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "רשיונות"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "מאגר"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -665,16 +696,8 @@ msgid "Backup files"
 msgstr "קבצי גיבוי"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "תלויה על"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "תלויות רשות"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "מחויבת על ידי"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -683,14 +706,6 @@ msgstr "בגדר רשות עבור"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "מספקת"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "מחליפה"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "מתנגשת עם"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -727,10 +742,6 @@ msgstr "גודל"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr ""
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "מאגרים רשמיים"
 
 #: src/manager_window.vala
 msgid "Upgrade"

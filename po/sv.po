@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-05-25 19:09+0200\n"
-"PO-Revision-Date: 2020-06-01 06:45+0000\n"
+"POT-Creation-Date: 2020-08-09 15:33+0200\n"
+"PO-Revision-Date: 2020-08-12 09:05+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -53,8 +53,8 @@ msgstr "Synkroniserar paketdatabaser"
 msgid "Failed to synchronize databases"
 msgstr "Misslyckades med att synkronisera databas"
 
-#: src/alpm_utils.vala src/database.vala src/manager_window.vala src/cli.vala
-#: resources/preferences_dialog.ui
+#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
+#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -116,14 +116,14 @@ msgstr "%s och %s konflikterar"
 msgid "%s needs to be removed but it is a locked package"
 msgstr "%s behöver tas bort, men är ett låst paket"
 
+#: src/alpm_utils.vala src/transaction.vala
+msgid "Failed to initialize AUR database"
+msgstr "Misslyckades med att läsa in AUR databas"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "ta bort %s från mållista"
-
-#: src/alpm_utils.vala
-msgid "Failed to initialize AUR database"
-msgstr "Misslyckades med att läsa in AUR databas"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -300,25 +300,25 @@ msgstr[1] "Cirka %lu minuter återstår"
 msgid "Error"
 msgstr "Fel"
 
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s started"
-msgstr "Nedladdning av %s startad"
-
-#: src/alpm_utils.vala src/snap_plugin.vala
-#, c-format
-msgid "Download of %s finished"
-msgstr "Nedladdning av %s färdig"
-
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
 msgstr "Uppdaterar %s"
 
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s started"
+msgstr "Nedladdning av %s startad"
+
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downloading %s"
 msgstr "Laddar ner %s"
+
+#: src/alpm_utils.vala src/snap_plugin.vala
+#, c-format
+msgid "Download of %s finished"
+msgstr "Nedladdning av %s färdig"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -447,17 +447,56 @@ msgstr "PGP-nyckeln %s krävs för att verifiera %s källfiler"
 msgid "Trust %s and import the PGP key"
 msgstr "Tilltro %s och importera PGP-nyckel"
 
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Official Repositories"
+msgstr "Officiella förråd"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: resources/manager_window.ui
+msgid "Repository"
+msgstr "Förråd (repo)"
+
+#: src/transaction-gtk.vala src/manager_window.vala
+#: resources/preferences_dialog.ui
+msgid "Flatpak"
+msgstr "Flatpak"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Depends On"
+msgstr "Beroende av"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Orphan Of"
+msgstr "Föräldralösa av"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
 msgstr "Ta bort"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Conflicts With"
+msgstr "Konflikt med"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
 msgstr "Att nedgradera"
 
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Required By"
+msgstr "Krävs av"
+
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To build"
 msgstr "Att bygga"
+
+#: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
+#: src/cli.vala
+msgid "Replaces"
+msgstr "Ersätter"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -576,10 +615,6 @@ msgstr "Föräldralösa"
 msgid "Foreign"
 msgstr "Främmande"
 
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Flatpak"
-msgstr "Flatpak"
-
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
 msgstr "Förråd (repo)"
@@ -611,10 +646,6 @@ msgstr "Markera som särskilt installerad"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "LIcenser"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Repository"
-msgstr "Förråd (repo)"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -665,16 +696,8 @@ msgid "Backup files"
 msgstr "Backupfiler"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Depends On"
-msgstr "Beroende av"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
 msgstr "Valfria beroenden"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Required By"
-msgstr "Krävs av"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -683,14 +706,6 @@ msgstr "Frivilliga för"
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
 msgstr "Erbjuder"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Replaces"
-msgstr "Ersätter"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Conflicts With"
-msgstr "Konflikt med"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
@@ -727,10 +742,6 @@ msgstr "Storlek"
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
 msgstr "Datum"
-
-#: src/manager_window.vala resources/preferences_dialog.ui
-msgid "Official Repositories"
-msgstr "Officiella förråd"
 
 #: src/manager_window.vala
 msgid "Upgrade"
