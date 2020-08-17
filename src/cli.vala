@@ -687,7 +687,7 @@ namespace Pamac {
 				if (database.config.check_aur_vcs_updates) {
 					if (Posix.geteuid () == 0) {
 						// can't check as root
-						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Check development packages updates as root is not allowed"));
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Checking development packages updates as root is not allowed"));
 						database.config.check_aur_vcs_updates = false;
 					} else {
 						if (builddir != null) {
