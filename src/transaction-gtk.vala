@@ -407,7 +407,7 @@ namespace Pamac {
 
 		string get_pkgname_display_name (string pkgname) {
 			AlpmPackage? full_pkg = database.get_pkg (pkgname);
-			if (full_pkg != null) {
+			if (full_pkg != null && full_pkg.app_name != "") {
 				return full_pkg.app_name;
 			}
 			return pkgname;
