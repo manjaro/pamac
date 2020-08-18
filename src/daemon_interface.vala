@@ -21,6 +21,7 @@ namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.daemon")]
 	interface Daemon : Object {
 		public abstract string get_sender () throws Error;
+		public abstract string get_lockfile () throws Error;
 		public abstract void set_environment_variables (HashTable<string,string> variables) throws Error;
 		public abstract void start_get_authorization () throws Error;
 		public abstract void remove_authorization () throws Error;
