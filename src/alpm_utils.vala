@@ -81,7 +81,6 @@ namespace Pamac {
 		bool sysupgrade;
 		bool enable_downgrade;
 		bool simple_install;
-		bool check_aur_updates;
 		bool no_confirm_commit;
 		bool keep_built_pkgs;
 		int trans_flags;
@@ -918,7 +917,6 @@ namespace Pamac {
 		public bool trans_check_prepare (bool sysupgrade,
 										bool enable_downgrade,
 										bool simple_install,
-										bool check_aur_updates,
 										int trans_flags,
 										GenericSet<string?> to_install,
 										GenericSet<string?> to_remove,
@@ -940,7 +938,6 @@ namespace Pamac {
 			this.sysupgrade = sysupgrade;
 			this.enable_downgrade = enable_downgrade;
 			this.simple_install = simple_install;
-			this.check_aur_updates = check_aur_updates;
 			this.trans_flags = trans_flags | Alpm.TransFlag.NOLOCK;
 			foreach (unowned string name in to_install) {
 				this.to_install.add (name);
@@ -968,8 +965,8 @@ namespace Pamac {
 			if (to_remove.length > 0) {
 				intern_compute_pkgs_to_remove (tmp_handle);
 			}
-			if (to_install.length > 0 || sysupgrade || to_build.length > 0 || check_aur_updates|| to_load.length > 0) {
-				if (to_build.length > 0 || check_aur_updates) {
+			if (to_install.length > 0 || sysupgrade || to_build.length > 0 || to_load.length > 0) {
+				if (to_build.length > 0) {
 					prepare_aur_db (tmp_handle);
 					// fake aur db
 					aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
@@ -994,7 +991,7 @@ namespace Pamac {
 				summary = get_transaction_summary (tmp_handle);
 				trans_release (tmp_handle);
 			}
-			if (to_build.length > 0 || check_aur_updates) {
+			if (to_build.length > 0) {
 				remove_aur_db (tmp_handle);
 			}
 			trans_reset ();
@@ -1054,7 +1051,7 @@ namespace Pamac {
 			alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
 			// fake aur db
 			unowned Alpm.DB? aur_db = null;
-			if (to_build.length > 0 || check_aur_updates) {
+			if (to_build.length > 0) {
 				aur_db = alpm_handle.register_syncdb ("pamac_aur", 0);
 				if (aur_db == null) {
 					Alpm.Errno err_no = alpm_handle.errno ();

@@ -57,7 +57,6 @@ namespace Pamac {
 		GenericSet<string?> aur_desc_list;
 		Queue<string> to_build_queue;
 		GenericSet<string?> aur_pkgs_to_install;
-		SList<AURPackage> aur_updates;
 		bool building;
 		Cancellable build_cancellable;
 		// transaction options
@@ -382,9 +381,6 @@ namespace Pamac {
 			var to_build_array = new GenericArray<string> ();
 			foreach (unowned string pkgname in to_build) {
 				to_build_array.add (pkgname);
-			}
-			foreach (unowned AURPackage aur_update in aur_updates) {
-				to_build_array.add (aur_update.name);
 			}
 			if (!check_aur_dep_list (to_build_array.data)) {
 				return false;
@@ -973,26 +969,26 @@ namespace Pamac {
 		bool run_alpm_transaction () {
 			emit_action (dgettext (null, "Preparing") + "...");
 			add_optdeps ();
-			bool check_aur_updates = false;
 			if (sysupgrading && database.config.check_aur_updates) {
 				// add all aur updates with also ignored pkgs
-				aur_updates = database.get_aur_updates (temporary_ignorepkgs);
+				SList<AURPackage> aur_updates = database.get_aur_updates (temporary_ignorepkgs);
 				if (aur_updates != null) {
-					check_aur_updates = true;
+					foreach (unowned AURPackage aur_pkg in aur_updates) {
+						to_build.add (aur_pkg.name);
+					}
 				}
 			}
 			bool success;
-			if (to_build.length > 0 || check_aur_updates) {
+			if (to_build.length > 0) {
 				success = compute_aur_build_list ();
-				aur_updates = new SList<AURPackage> ();
 				if (!success) {
 					return false;
 				}
 			}
-			return trans_prepare_and_run (check_aur_updates);
+			return trans_prepare_and_run ();
 		}
 
-		bool trans_prepare_and_run (bool check_aur_updates) {
+		bool trans_prepare_and_run () {
 			// check if we need to sysupgrade
 			if (!sysupgrading && !database.config.simple_install && to_install.length > 0) {
 				foreach (unowned string name in to_install) {
@@ -1027,14 +1023,14 @@ namespace Pamac {
 				}
 			}
 			TransactionSummary summary;
-			success = trans_prepare (check_aur_updates, out summary);
+			success = trans_prepare (out summary);
 			if (success) {
-				success = trans_run (check_aur_updates, summary);
+				success = trans_run (summary);
 			}
 			return success;
 		}
 
-		bool trans_prepare (bool check_aur_updates, out TransactionSummary summary) {
+		bool trans_prepare (out TransactionSummary summary) {
 			// download urls provided in to_load if we are not root
 			if (to_load.length > 0 && Posix.geteuid () != 0) {
 				var to_load_real = new GenericSet<string?> (str_hash, str_equal);
@@ -1067,7 +1063,6 @@ namespace Pamac {
 			bool success = alpm_utils.trans_check_prepare (sysupgrading,
 													database.config.enable_downgrade,
 													database.config.simple_install,
-													check_aur_updates,
 													trans_flags,
 													to_install,
 													to_remove,
@@ -1098,7 +1093,7 @@ namespace Pamac {
 						if (!compute_aur_build_list ()) {
 							return false;
 						}
-						success = trans_prepare (check_aur_updates, out summary);
+						success = trans_prepare (out summary);
 					} else {
 						emit_action (dgettext (null, "Transaction cancelled") + ".");
 					}
@@ -1107,7 +1102,7 @@ namespace Pamac {
 			return success;
 		}
 
-		bool trans_run (bool check_aur_updates, TransactionSummary summary) {
+		bool trans_run (TransactionSummary summary) {
 			if (summary.aur_pkgbases_to_build != null) {
 				if (ask_edit_build_files_real (summary)) {
 					var build_files = new GenericArray<unowned string> (summary.aur_pkgbases_to_build.length ());
@@ -1120,9 +1115,9 @@ namespace Pamac {
 						return false;
 					}
 					TransactionSummary new_summary;
-					bool success = trans_prepare (check_aur_updates, out new_summary);
+					bool success = trans_prepare (out new_summary);
 					if (success) {
-						return trans_run (check_aur_updates, new_summary);
+						return trans_run (new_summary);
 					}
 				}
 			}
