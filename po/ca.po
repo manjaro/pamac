@@ -15,13 +15,14 @@
 # Ramon Buldó <rbuldo@gmail.com>, 2013,2016
 # Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2018
 # Tomàs Mallafré Gispert <tomas@mallafre.cat>, 2014-2015
+# Xema Fuentes, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-09 15:33+0200\n"
-"PO-Revision-Date: 2020-08-10 12:08+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>\n"
+"POT-Creation-Date: 2020-08-17 19:44+0200\n"
+"PO-Revision-Date: 2020-08-20 17:29+0000\n"
+"Last-Translator: Xema Fuentes\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +106,7 @@ msgstr "Suprimir %s trenca la dependència \"%s\" requerida per %s."
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s and %s are in conflict"
-msgstr "%s and %s tenen conflictes."
+msgstr "%s i %s tenen conflictes."
 
 #: src/alpm_utils.vala
 #, c-format
@@ -898,7 +899,7 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "No s'ha trobat cap fitxer PKGBUILD al directori actual."
 
 #: src/cli.vala
-msgid "Check development packages updates as root is not allowed"
+msgid "Checking development packages updates as root is not allowed"
 msgstr "No es permet comprovar si hi ha actualitzacions de paquets de desenvolupament com a usuari d'arrel."
 
 #: src/cli.vala

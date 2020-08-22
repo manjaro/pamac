@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-09 15:33+0200\n"
-"PO-Revision-Date: 2020-08-10 02:10+0000\n"
+"POT-Creation-Date: 2020-08-17 19:44+0200\n"
+"PO-Revision-Date: 2020-08-19 05:36+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -888,8 +888,8 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "在目前的目錄中找不到 PKGBUILD"
 
 #: src/cli.vala
-msgid "Check development packages updates as root is not allowed"
-msgstr "以 root 身份檢查開發軟體包更新是不允許的"
+msgid "Checking development packages updates as root is not allowed"
+msgstr "不允許以 root 身份檢查開發軟體包更新"
 
 #: src/cli.vala
 msgid "Available actions"

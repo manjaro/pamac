@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-09 15:33+0200\n"
-"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"POT-Creation-Date: 2020-08-17 19:44+0200\n"
+"PO-Revision-Date: 2020-08-18 22:21+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -921,8 +921,8 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Non è stato trovato alcun file PKGBUILD nella cartella attuale"
 
 #: src/cli.vala
-msgid "Check development packages updates as root is not allowed"
-msgstr "Non è permesso controllare la presenza di aggiornamenti per pacchetti di sviluppo come root"
+msgid "Checking development packages updates as root is not allowed"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"

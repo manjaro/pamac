@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-09 15:33+0200\n"
-"PO-Revision-Date: 2020-08-09 22:29+0000\n"
+"POT-Creation-Date: 2020-08-17 19:44+0200\n"
+"PO-Revision-Date: 2020-08-18 22:21+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Interlingue (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ie/)\n"
 "MIME-Version: 1.0\n"
@@ -888,7 +888,7 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Null file PKGBUILD esset trovat in li actual fólder"
 
 #: src/cli.vala
-msgid "Check development packages updates as root is not allowed"
+msgid "Checking development packages updates as root is not allowed"
 msgstr ""
 
 #: src/cli.vala

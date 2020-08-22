@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-09 15:33+0200\n"
-"PO-Revision-Date: 2020-08-09 22:29+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-08-17 19:44+0200\n"
+"PO-Revision-Date: 2020-08-20 17:50+0000\n"
+"Last-Translator: Xema Fuentes\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -458,7 +458,7 @@ msgstr "Depende De"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Orfe de"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -891,8 +891,8 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "No se pudo encontrar el archivo PKGBUILD en el directorio actual"
 
 #: src/cli.vala
-msgid "Check development packages updates as root is not allowed"
-msgstr "Buscar paquetes en desarrollo como root no está permitido"
+msgid "Checking development packages updates as root is not allowed"
+msgstr "No es permet comprovar si hi ha actualitzacions de paquets de desenvolupament com a usuari d'arrel."
 
 #: src/cli.vala
 msgid "Available actions"

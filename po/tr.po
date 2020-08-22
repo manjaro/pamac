@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-09 15:33+0200\n"
-"PO-Revision-Date: 2020-08-10 00:56+0000\n"
+"POT-Creation-Date: 2020-08-17 19:44+0200\n"
+"PO-Revision-Date: 2020-08-19 01:45+0000\n"
 "Last-Translator: Serdar Sağlam <teknomobil@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -897,8 +897,8 @@ msgid "No PKGBUILD file found in current directory"
 msgstr "Mevcut dizinde PKGBUILD dosyası bulunamadı"
 
 #: src/cli.vala
-msgid "Check development packages updates as root is not allowed"
-msgstr "Gelişim paketlerinin güncelleme kontrolüne kök yetkisi ile izin verilmedi"
+msgid "Checking development packages updates as root is not allowed"
+msgstr "Geliştirici paketlerinin güncelleme kontrolüne kök yetkisi ile izin verilmiyor"
 
 #: src/cli.vala
 msgid "Available actions"
