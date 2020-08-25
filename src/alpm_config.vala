@@ -193,9 +193,7 @@ internal class AlpmConfig {
 		for (i = 0; i < ignoregroups.length; i++) {
 			handle.add_ignoregroup (ignoregroups[i]);
 		}
-		foreach (unowned string ignorepkg in ignorepkgs) {
-			handle.add_ignorepkg (ignorepkg);
-		}
+		// ignorepkgs will be manually added in database and transaction
 		for (i = 0; i < noextracts.length; i++) {
 			handle.add_noextract (noextracts[i]);
 		}

@@ -37,7 +37,7 @@ namespace Pamac {
 										string[] to_remove,
 										string[] to_load,
 										string[] to_install_as_dep,
-										string[] temporary_ignorepkgs,
+										string[] ignorepkgs,
 										string[] overwrite_files) throws Error;
 		public abstract void trans_cancel () throws Error;
 		public abstract void quit_daemon () throws Error;

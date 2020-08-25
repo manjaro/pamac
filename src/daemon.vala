@@ -559,7 +559,7 @@ namespace Pamac {
 									string[] to_remove,
 									string[] to_load,
 									string[] to_install_as_dep,
-									string[] temporary_ignorepkgs,
+									string[] ignorepkgs,
 									string[] overwrite_files,
 									BusName sender) throws Error {
 			try {
@@ -567,7 +567,7 @@ namespace Pamac {
 				string[] to_remove_copy = to_remove;
 				string[] to_load_copy = to_load;
 				string[] to_install_as_dep_copy = to_install_as_dep;
-				string[] temporary_ignorepkgs_copy = temporary_ignorepkgs;
+				string[] ignorepkgs_copy = ignorepkgs;
 				string[] overwrite_files_copy = overwrite_files;
 				if (!cancellables_table.contains (sender)) {
 					cancellables_table.insert (sender, new Cancellable ());
@@ -591,7 +591,7 @@ namespace Pamac {
 													to_remove_copy,
 													to_load_copy,
 													to_install_as_dep_copy,
-													temporary_ignorepkgs_copy,
+													ignorepkgs_copy,
 													overwrite_files_copy);
 						lockfile_mutex.unlock ();
 					}

@@ -2226,21 +2226,20 @@ namespace Pamac {
 			return pkgnames;
 		}
 
-		internal SList<AURPackage> get_aur_updates (GenericSet<string?> temporary_ignorepkgs) {
+		internal SList<AURPackage> get_aur_updates (GenericSet<string?> ignorepkgs) {
 			if (loop.is_running ()) {
 				loop.run ();
 			}
-			// do not check for ignore pkgs here to have a warning in alpm_utils build_prepare
 			var pkgs = new SList<AURPackage> ();
 			var local_pkgs = new GenericArray<string> ();
 			var vcs_local_pkgs = new GenericArray<string> ();
 			try {
-				new Thread<int>.try ("get_all_aur_updates", () => {
+				new Thread<int>.try ("get_aur_updates", () => {
 					// get local pkgs
 					unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 					while (pkgcache != null) {
 						unowned Alpm.Package installed_pkg = pkgcache.data;
-						if (alpm_handle.should_ignore (installed_pkg) == 1 || installed_pkg.name in temporary_ignorepkgs) {
+						if (alpm_handle.should_ignore (installed_pkg) == 1 || installed_pkg.name in ignorepkgs) {
 							pkgcache.next ();
 							continue;
 						}
@@ -2259,7 +2258,7 @@ namespace Pamac {
 						}
 						pkgcache.next ();
 					}
-					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, false);
+					var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, null);
 					pkgs = (owned) aur_updates.updates;
 					loop.quit ();
 					return 0;
@@ -2312,6 +2311,10 @@ namespace Pamac {
 						return false;
 					});
 					var tmp_handle = alpm_config.get_handle (false, true);
+					// add config ignore_pkgs
+					foreach (unowned string name in config.ignorepkgs) {
+						tmp_handle.add_ignorepkg (name);
+					}
 					string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
 					bool refresh_tmp_dbs = true;
 					if (use_timestamp) {
@@ -2415,7 +2418,7 @@ namespace Pamac {
 							get_updates_progress (95);
 							return false;
 						});
-						var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, true);
+						var aur_updates = get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, tmp_handle);
 						context.invoke (() => {
 							get_updates_progress (100);
 							return false;
@@ -2624,7 +2627,7 @@ namespace Pamac {
 			return aur_vcs_pkgs.get_values ();
 		}
 
-		AURUpdates get_aur_updates_real (GenericArray<Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, bool check_ignorepkgs) {
+		AURUpdates get_aur_updates_real (GenericArray<Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, Alpm.Handle? handle) {
 			var updates = new SList<AURPackage> ();
 			var outofdate = new SList<AURPackage> ();
 			var ignored_updates = new SList<AURPackage> ();
@@ -2635,12 +2638,8 @@ namespace Pamac {
 				unowned Alpm.Package local_pkg = alpm_handle.localdb.get_pkg (name);
 				unowned string old_version = local_pkg.version;
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
-					if (check_ignorepkgs) {
-						if (alpm_handle.ignorepkgs.find_str (name) == null) {
-							updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
-						} else {
-							ignored_updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
-						}
+					if (handle != null && handle.should_ignore (local_pkg) == 1) {
+						ignored_updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
 					} else {
 						updates.prepend (initialise_aur_pkg (pkg_info, local_pkg, true));
 					}
@@ -2653,12 +2652,8 @@ namespace Pamac {
 				var vcs_updates = get_vcs_last_version (vcs_local_pkgs);
 				foreach (unowned AURPackage aur_pkg in vcs_updates) {
 					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
-						if (check_ignorepkgs) {
-							if (alpm_handle.ignorepkgs.find_str (aur_pkg.name) == null) {
-								updates.prepend (aur_pkg);
-							} else {
-								ignored_updates.prepend (aur_pkg);
-							}
+						if (handle != null && handle.ignorepkgs.find_str (aur_pkg.name) != null) {
+							ignored_updates.prepend (aur_pkg);
 						} else {
 							updates.prepend (aur_pkg);
 						}

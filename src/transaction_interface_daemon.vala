@@ -205,7 +205,7 @@ namespace Pamac {
 								string[] to_remove,
 								string[] to_load,
 								string[] to_install_as_dep,
-								string[] temporary_ignorepkgs,
+								string[] ignorepkgs,
 								string[] overwrite_files) throws Error {
 			try {
 				system_daemon.start_trans_run (sysupgrade,
@@ -217,7 +217,7 @@ namespace Pamac {
 												to_remove,
 												to_load,
 												to_install_as_dep,
-												temporary_ignorepkgs,
+												ignorepkgs,
 												overwrite_files);
 				loop.run ();
 				return trans_run_success;

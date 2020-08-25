@@ -2267,6 +2267,8 @@ namespace Pamac {
 					if (button.active) {
 						to_update.add (pkg.name);
 						temporary_ignorepkgs.remove (pkg.name);
+						// remove from config.ignorepkgs to override config
+						database.config.ignorepkgs.remove (pkg.name);
 					} else {
 						to_update.remove (pkg.name);
 						temporary_ignorepkgs.add (pkg.name);
@@ -2539,9 +2541,17 @@ namespace Pamac {
 				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
 					repos_updates.add (pkg);
 				}
+				foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+					repos_updates.add (pkg);
+					temporary_ignorepkgs.add (pkg.name);
+				}
 				aur_updates = new GenericArray<AURPackage> ();
 				foreach (unowned AURPackage pkg in updates.aur_updates) {
 					aur_updates.add (pkg);
+				}
+				foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+					aur_updates.add (pkg);
+					temporary_ignorepkgs.add (pkg.name);
 				}
 				#if ENABLE_FLATPAK
 				flatpak_updates = new GenericArray<FlatpakPackage> ();
@@ -2755,7 +2765,7 @@ namespace Pamac {
 			switch (index) {
 				case 0: // all
 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-					ignore_all_button.visible = false;
+					ignore_all_button.visible = true;
 					current_packages_list_name = "all_updates";
 					var pkgs = new SList<Package> ();
 					uint i;
@@ -2793,7 +2803,7 @@ namespace Pamac {
 					row.selectable = true;
 					row.can_focus = true;
 					row.get_child ().sensitive = true;
-					ignore_all_button.visible = false;
+					ignore_all_button.visible = true;
 					current_packages_list_name = "repos_updates";
 					var pkgs = new SList<AlpmPackage> ();
 					for (uint i = 0; i < repos_updates.length; i++) {

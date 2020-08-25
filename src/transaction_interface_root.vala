@@ -165,7 +165,7 @@ namespace Pamac {
 							string[] to_remove,
 							string[] to_load,
 							string[] to_install_as_dep,
-							string[] temporary_ignorepkgs,
+							string[] ignorepkgs,
 							string[] overwrite_files) {
 			if (!wait_for_lock ()) {
 				// cancelled
@@ -184,7 +184,7 @@ namespace Pamac {
 															to_remove,
 															to_load,
 															to_install_as_dep,
-															temporary_ignorepkgs,
+															ignorepkgs,
 															overwrite_files);
 					loop.quit ();
 					return 0;
@@ -205,14 +205,14 @@ namespace Pamac {
 								string[] to_remove,
 								string[] to_load,
 								string[] to_install_as_dep,
-								string[] temporary_ignorepkgs,
+								string[] ignorepkgs,
 								string[] overwrite_files) {
 			if (alpm_utils.downloading_updates) {
 				string[] to_install_copy = to_install;
 				string[] to_remove_copy = to_remove;
 				string[] to_load_copy = to_load;
 				string[] to_install_as_dep_copy = to_install_as_dep;
-				string[] temporary_ignorepkgs_copy = temporary_ignorepkgs;
+				string[] ignorepkgs_copy = ignorepkgs;
 				string[] overwrite_files_copy = overwrite_files;
 				alpm_utils.cancellable.cancel ();
 				// let time to cancel download updates
@@ -227,7 +227,7 @@ namespace Pamac {
 									to_remove_copy,
 									to_load_copy,
 									to_install_as_dep_copy,
-									temporary_ignorepkgs_copy,
+									ignorepkgs_copy,
 									overwrite_files_copy);
 					loop.quit ();
 					return false;
@@ -244,7 +244,7 @@ namespace Pamac {
 								to_remove,
 								to_load,
 								to_install_as_dep,
-								temporary_ignorepkgs,
+								ignorepkgs,
 								overwrite_files);
 			}
 			return trans_run_success;

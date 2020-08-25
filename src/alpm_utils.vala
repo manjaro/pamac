@@ -94,7 +94,7 @@ namespace Pamac {
 		GenericSet<string?> to_build;
 		GenericSet<string?> checked_deps;
 		HashTable<string, string> to_install_as_dep;
-		GenericSet<string?> temporary_ignorepkgs;
+		GenericSet<string?> ignorepkgs;
 		GenericSet<string?> overwrite_files;
 		GenericSet<string?> to_syncfirst;
 		public Cancellable cancellable;
@@ -136,7 +136,7 @@ namespace Pamac {
 			to_build = new GenericSet<string?> (str_hash, str_equal);
 			checked_deps = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new HashTable<string, string> (str_hash, str_equal);
-			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+			ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			current_filename = "";
 			current_action = "";
@@ -448,13 +448,13 @@ namespace Pamac {
 		}
 
 		void add_ignorepkgs (Alpm.Handle alpm_handle) {
-			foreach (unowned string pkgname in temporary_ignorepkgs) {
+			foreach (unowned string pkgname in ignorepkgs) {
 				alpm_handle.add_ignorepkg (pkgname);
 			}
 		}
 
 		void remove_ignorepkgs (Alpm.Handle alpm_handle) {
-			foreach (unowned string pkgname in temporary_ignorepkgs) {
+			foreach (unowned string pkgname in ignorepkgs) {
 				alpm_handle.remove_ignorepkg (pkgname);
 			}
 		}
@@ -922,7 +922,7 @@ namespace Pamac {
 										GenericSet<string?> to_remove,
 										GenericSet<string?> to_load,
 										GenericSet<string?> to_build,
-										GenericSet<string?> temporary_ignorepkgs,
+										GenericSet<string?> ignorepkgs,
 										GenericSet<string?> overwrite_files,
 										out TransactionSummary summary) {
 			summary = new TransactionSummary ();
@@ -951,8 +951,8 @@ namespace Pamac {
 			foreach (unowned string name in to_build) {
 				this.to_build.add (name);
 			}
-			foreach (unowned string name in temporary_ignorepkgs) {
-				this.temporary_ignorepkgs.add (name);
+			foreach (unowned string name in ignorepkgs) {
+				this.ignorepkgs.add (name);
 			}
 			foreach (unowned string name in overwrite_files) {
 				this.overwrite_files.add (name);
@@ -1008,7 +1008,7 @@ namespace Pamac {
 								string[] to_remove,
 								string[] to_load,
 								string[] to_install_as_dep,
-								string[] temporary_ignorepkgs,
+								string[] ignorepkgs,
 								string[] overwrite_files) {
 			this.sender = sender;
 			this.sysupgrade = sysupgrade;
@@ -1032,8 +1032,8 @@ namespace Pamac {
 			foreach (unowned string name in to_install_as_dep) {
 				this.to_install_as_dep.insert (name, name);
 			}
-			foreach (unowned string name in temporary_ignorepkgs) {
-				this.temporary_ignorepkgs.add (name);
+			foreach (unowned string name in ignorepkgs) {
+				this.ignorepkgs.add (name);
 			}
 			foreach (unowned string name in overwrite_files) {
 				this.overwrite_files.add (name);
@@ -1099,7 +1099,7 @@ namespace Pamac {
 			to_load.remove_all ();
 			to_build.remove_all ();
 			checked_deps.remove_all ();
-			temporary_ignorepkgs.remove_all ();
+			ignorepkgs.remove_all ();
 			overwrite_files.remove_all ();
 			to_install_as_dep.remove_all ();
 			no_confirm_commit = false;

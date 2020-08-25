@@ -38,7 +38,7 @@ namespace Pamac {
 		GenericSet<string?> to_remove;
 		GenericSet<string?> to_load;
 		GenericSet<string?> to_build;
-		GenericSet<string?> temporary_ignorepkgs;
+		GenericSet<string?> ignorepkgs;
 		GenericSet<string?> overwrite_files;
 		GenericSet<string?> to_install_as_dep;
 		#if ENABLE_SNAP
@@ -104,7 +104,7 @@ namespace Pamac {
 			to_remove = new GenericSet<string?> (str_hash, str_equal);
 			to_load = new GenericSet<string?> (str_hash, str_equal);
 			to_build = new GenericSet<string?> (str_hash, str_equal);
-			temporary_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+			ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new GenericSet<string?> (str_hash, str_equal);
 			// alpm_utils global variable declared in alpm_utils.vala
@@ -819,7 +819,7 @@ namespace Pamac {
 				to_remove.remove_all ();
 				to_load.remove_all ();
 				to_build.remove_all ();
-				temporary_ignorepkgs.remove_all ();
+				ignorepkgs.remove_all ();
 				overwrite_files.remove_all ();
 				to_install_as_dep.remove_all ();
 			#if ENABLE_SNAP || ENABLE_FLATPAK
@@ -938,6 +938,12 @@ namespace Pamac {
 			return success;
 		}
 
+		void add_config_ignore_pkgs () {
+			foreach (unowned string name in database.config.ignorepkgs) {
+				ignorepkgs.add (name);
+			}
+		}
+
 		void add_optdeps () {
 			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string name in to_install) {
@@ -970,8 +976,7 @@ namespace Pamac {
 			emit_action (dgettext (null, "Preparing") + "...");
 			add_optdeps ();
 			if (sysupgrading && database.config.check_aur_updates) {
-				// add all aur updates with also ignored pkgs
-				SList<AURPackage> aur_updates = database.get_aur_updates (temporary_ignorepkgs);
+				SList<AURPackage> aur_updates = database.get_aur_updates (ignorepkgs);
 				if (aur_updates != null) {
 					foreach (unowned AURPackage aur_pkg in aur_updates) {
 						to_build.add (aur_pkg.name);
@@ -1060,6 +1065,7 @@ namespace Pamac {
 				to_load = (owned) to_load_real;
 			}
 			start_preparing ();
+			add_config_ignore_pkgs ();
 			bool success = alpm_utils.trans_check_prepare (sysupgrading,
 													database.config.enable_downgrade,
 													database.config.simple_install,
@@ -1068,7 +1074,7 @@ namespace Pamac {
 													to_remove,
 													to_load,
 													to_build,
-													temporary_ignorepkgs,
+													ignorepkgs,
 													overwrite_files,
 													out summary);
 			stop_preparing ();
@@ -1144,7 +1150,7 @@ namespace Pamac {
 					var to_remove_array = new GenericArray<string> (to_remove.length);
 					var to_load_array = new GenericArray<string> (to_load.length);
 					var to_install_as_dep_array = new GenericArray<string> (to_install_as_dep.length);
-					var temporary_ignorepkgs_array = new GenericArray<string> (temporary_ignorepkgs.length);
+					var ignorepkgs_array = new GenericArray<string> (ignorepkgs.length);
 					var overwrite_files_array = new GenericArray<string> (overwrite_files.length);
 					foreach (unowned string name in to_install) {
 						to_install_array.add (name);
@@ -1158,8 +1164,8 @@ namespace Pamac {
 					foreach (unowned string name in to_install_as_dep) {
 						to_install_as_dep_array.add (name);
 					}
-					foreach (unowned string name in temporary_ignorepkgs) {
-						temporary_ignorepkgs_array.add (name);
+					foreach (unowned string name in ignorepkgs) {
+						ignorepkgs_array.add (name);
 					}
 					foreach (unowned string name in overwrite_files) {
 						overwrite_files_array.add (name);
@@ -1175,7 +1181,7 @@ namespace Pamac {
 																	to_remove_array.data,
 																	to_load_array.data,
 																	to_install_as_dep_array.data,
-																	temporary_ignorepkgs_array.data,
+																	ignorepkgs_array.data,
 																	overwrite_files_array.data);
 					} catch (Error e) {
 						emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
@@ -1221,7 +1227,7 @@ namespace Pamac {
 		}
 
 		public void add_temporary_ignore_pkg (string name) {
-			temporary_ignorepkgs.add (name);
+			ignorepkgs.add (name);
 		}
 
 		public void add_overwrite_file (string glob) {
@@ -1600,7 +1606,7 @@ namespace Pamac {
 															{}, // to_remove
 															to_load_array.data,
 															to_install_as_dep_array.data,
-															{}, // temporary_ignorepkgs
+															{}, // ignorepkgs
 															{}); // overwrite_files
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"trans_run: %s".printf (e.message)});
