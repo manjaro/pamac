@@ -2462,7 +2462,7 @@ namespace Pamac {
 					// no output to not pollute checkupdates output
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 					launcher.set_cwd (clone_dir.get_path ());
-					string[] cmds = {"makepkg", "--nobuild", "--noprepare"};
+					string[] cmds = {"makepkg", "--nobuild", "--noprepare", "--nodeps", "--skipinteg"};
 					int status = launch_subprocess (launcher, cmds);
 					if (status == 0) {
 						bool success = regenerate_srcinfo_real (clone_dir.get_basename (), null);

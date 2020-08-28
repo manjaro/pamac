@@ -158,6 +158,12 @@ namespace Pamac {
 
 			base.startup ();
 
+			// if refresh period is 0, just return so tray will exit
+			if (updates_checker.refresh_period == 0) {
+				message ("checking updates is not enabled, exiting");
+				return;
+			}
+
 			icon_theme = Gtk.IconTheme.get_default ();
 			icon_theme.changed.connect (on_icon_theme_changed);
 			init_status_icon ();

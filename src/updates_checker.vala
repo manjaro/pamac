@@ -28,6 +28,7 @@ namespace Pamac {
 		FileMonitor monitor;
 		uint16 _updates_nb;
 		public uint16 updates_nb { get { return _updates_nb; } }
+		public uint64 refresh_period { get { return config.refresh_period; } }
 		public bool no_update_hide_icon { get { return config.no_update_hide_icon; } }
 
 		public signal void updates_available (uint16 updates_nb);
@@ -35,10 +36,6 @@ namespace Pamac {
 		public UpdatesChecker () {
 			loop = new MainLoop ();
 			config = new Config ("/etc/pamac.conf");
-			// if refresh period is 0, just return so tray will exit
-			if (config.refresh_period == 0) {
-				return;
-			}
 			extern_lock = false;
 
 			start_system_daemon (config.environment_variables);
