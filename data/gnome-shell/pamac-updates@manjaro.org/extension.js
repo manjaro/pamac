@@ -51,8 +51,6 @@ let NOTIFY             = true;
 let TRANSIENT          = false;
 let UPDATER_CMD        = "pamac-manager --updates";
 let MANAGER_CMD        = "pamac-manager";
-let PACMAN_DIR         = "/var/lib/pacman/local";
-let STRIP_VERSIONS     = false;
 
 /* Variables we want to keep when extension is disabled (eg during screen lock) */
 let FIRST_BOOT         = 1;
@@ -69,12 +67,8 @@ const PamacUpdateIndicator = new Lang.Class({
 
 	_TimeoutId: null,
 	_FirstTimeoutId: null,
-	_updateProcess_sourceId: null,
-	_updateProcess_stream: null,
-	_updateProcess_pid: null,
 	_updateList: [],
-	_config: null,
-	_pacman_lock: null,
+	_updatesChecker: null,
 	//_icon_theme: null,
 
 	_init: function() {
@@ -117,7 +111,8 @@ const PamacUpdateIndicator = new Lang.Class({
 		this.managerMenuItem.connect('activate', Lang.bind(this, this._openManager));
 
 		// Load config
-		this._config = new Pamac.Config({conf_path: "/etc/pamac.conf"});
+		this._updatesChecker = new Pamac.UpdatesChecker();
+		this._updatesChecker.connect('updates-available', Lang.bind(this, this._onUpdatesAvailable));
 		this._applyConfig();
 		this._updateMenuExpander(false, _("Your system is up-to-date"));
 
@@ -129,14 +124,12 @@ const PamacUpdateIndicator = new Lang.Class({
 				that._checkUpdates();
 				that._FirstTimeoutId = null;
 				FIRST_BOOT = 0;
-				that._startFolderMonitor();
 				return false; // Run once
 			});
 		} else {
 			// Restore previous state
 			this._updateList = UPDATES_LIST;
 			this._updateStatus(UPDATES_PENDING);
-			this._startFolderMonitor();
 		}
 	},
 
@@ -149,12 +142,11 @@ const PamacUpdateIndicator = new Lang.Class({
 	},
 
 	_applyConfig: function() {
-		HIDE_NO_UPDATE = this._config.no_update_hide_icon;
-		PACMAN_DIR = this._config.db_path + "local";
+		HIDE_NO_UPDATE = this._updatesChecker.no_update_hide_icon;
 		this._checkShowHide();
 		let that = this;
 		if (this._TimeoutId) GLib.source_remove(this._TimeoutId);
-		if (this._config.refresh_period > 0) {
+		if (this._updatesChecker.refresh_period > 0) {
 			// check every hour if refresh_timestamp is older than config.refresh_period
 			this._TimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 3600 * CHECK_INTERVAL, function () {
 				that._checkUpdates();
@@ -169,17 +161,6 @@ const PamacUpdateIndicator = new Lang.Class({
 			this._notifSource.destroy();
 			this._notifSource = null;
 		};
-		if (this.monitor) {
-			// Stop spying on pacman local dir
-			this.monitor.cancel();
-			this.monitor = null;
-		}
-		if (this._updateProcess_sourceId) {
-			// We leave the checkupdate process end by itself but undef handles to avoid zombies
-			GLib.source_remove(this._updateProcess_sourceId);
-			this._updateProcess_sourceId = null;
-			this._updateProcess_stream = null;
-		}
 		if (this._FirstTimeoutId) {
 			GLib.source_remove(this._FirstTimeoutId);
 			this._FirstTimeoutId = null;
@@ -204,24 +185,6 @@ const PamacUpdateIndicator = new Lang.Class({
 		// This event is fired when menu is shown or hidden
 		// Close the submenu
 		this.menuExpander.setSubmenuShown(false);
-	},
-
-	_startFolderMonitor: function() {
-		if (PACMAN_DIR) {
-			this.pacman_dir = Gio.file_new_for_path(PACMAN_DIR);
-			this.monitor = this.pacman_dir.monitor_directory(0, null);
-			this.monitor.connect('changed', Lang.bind(this, this._onFolderChanged));
-		}
-	},
-	_onFolderChanged: function() {
-		// Folder have changed ! Let's schedule a check in a few seconds
-		let that = this;
-		if (this._FirstTimeoutId) GLib.source_remove(this._FirstTimeoutId);
-		this._FirstTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 5, function () {
-			that._checkUpdates();
-			that._FirstTimeoutId = null;
-			return false;
-		});
 	},
 
 	_updateStatus: function(updatesCount) {
@@ -265,71 +228,12 @@ const PamacUpdateIndicator = new Lang.Class({
 	},
 
 	_checkUpdates: function() {
-		if(this._updateProcess_sourceId) {
-			// A check is already running ! Maybe we should kill it and run another one ?
-			return;
-		}
-		// Run asynchronously, to avoid  shell freeze - even for a 1s check
-		try {
-			let check_cmd = ["pamac", "checkupdates", "-q", "--refresh-tmp-files-dbs", "--use-timestamp"];
-			if (this._config.download_updates) {
-				check_cmd.push ("--download-updates");
-			}
-			let [res, pid, in_fd, out_fd, err_fd]  = GLib.spawn_async_with_pipes(null, check_cmd, null, GLib.SpawnFlags.DO_NOT_REAP_CHILD | GLib.SpawnFlags.SEARCH_PATH, null);
-			// Let's buffer the command's output - that's a input for us !
-			this._updateProcess_stream = new Gio.DataInputStream({
-				base_stream: new Gio.UnixInputStream({fd: out_fd})
-			});
-			// We will process the output at once when it's done
-			this._updateProcess_sourceId = GLib.child_watch_add(0, pid, Lang.bind(this, function() {this._checkUpdatesRead()}));
-			this._updateProcess_pid = pid;
-		} catch (err) {
-			this._updateMenuExpander(false, _("Your system is up-to-date"));
-			this._updateStatus(0);
-		}
+		this._updatesChecker.check_updates();
 	},
 
-	_cancelCheck: function() {
-		if (this._updateProcess_pid == null) { return; };
-		Util.spawnCommandLine( "kill " + this._updateProcess_pid );
-		this._updateProcess_pid = null; // Prevent double kill
-		this._checkUpdatesEnd();
-	},
-
-	_checkUpdatesRead: function() {
-		// Read the buffered output
-		let updateList = [];
-		let out, size;
-		do {
-			[out, size] = this._updateProcess_stream.read_line_utf8(null);
-			if (out) updateList.push(out);
-		} while (out);
-		// If version numbers should be stripped, do it
-		if (STRIP_VERSIONS == true) {
-			updateList = updateList.map(function(p) {
-				// Try to keep only what's before the first space
-				var chunks = p.split(" ",2);
-				return chunks[0];
-			});
-		}
-		this._updateList = updateList;
-		this._checkUpdatesEnd();
-	},
-
-	_checkUpdatesEnd: function() {
-		// Free resources
-		this._updateProcess_stream.close(null);
-		this._updateProcess_stream = null;
-		GLib.source_remove(this._updateProcess_sourceId);
-		this._updateProcess_sourceId = null;
-		this._updateProcess_pid = null;
-		// Update indicator
-		this._updateStatus(this._updateList.length);
-		if (UPDATES_PENDING > 0) {
-			// Refresh files dbs in tmp
-			let database = new Pamac.Database({config: this._config});
-			database.start_refresh_tmp_files_dbs ();
-		}
+	_onUpdatesAvailable: function(obj, updatesCount) {
+		this._updateList = this._updatesChecker.updates_list;
+		this._updateStatus(updatesCount);
 	},
 
 	_showNotification: function(message) {

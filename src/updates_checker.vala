@@ -22,87 +22,36 @@ namespace Pamac {
 		MainLoop loop;
 		Daemon system_daemon;
 		Config config;
-		bool extern_lock;
-		uint check_lock_timeout_id;
-		GLib.File lockfile;
+		uint check_localdb_timeout_id;
+		GLib.File localdb;
 		FileMonitor monitor;
 		uint16 _updates_nb;
+		string[] _updates_list;
 		public uint16 updates_nb { get { return _updates_nb; } }
+		public string[] updates_list { get { return _updates_list; } }
 		public uint64 refresh_period { get { return config.refresh_period; } }
 		public bool no_update_hide_icon { get { return config.no_update_hide_icon; } }
 
 		public signal void updates_available (uint16 updates_nb);
 
 		public UpdatesChecker () {
+			Object ();
+		}
+
+		construct {
 			loop = new MainLoop ();
 			config = new Config ("/etc/pamac.conf");
-			extern_lock = false;
-
-			start_system_daemon (config.environment_variables);
-			string lockfile_str = "/var/lib/pacman/db.lck";
+			string localdb_str = Path.build_filename (config.db_path, "local");
+			localdb = GLib.File.new_for_path (localdb_str);
 			try {
-				lockfile_str = system_daemon.get_lockfile ();
-			} catch (Error e) {
-				warning (e.message);
-			}
-			stop_system_daemon ();
-
-			lockfile = GLib.File.new_for_path (lockfile_str);
-			try {
-				monitor = lockfile.monitor (FileMonitorFlags.NONE, null);
-				monitor.changed.connect (check_extern_lock);
+				monitor = localdb.monitor_directory (FileMonitorFlags.NONE);
+				monitor.changed.connect (on_localdb_changed);
 			} catch (Error e) {
 				warning (e.message);
 			}
 		}
 
-		bool check_pamac_running () {
-			Application app;
-			bool run = false;
-			app = new Application ("org.manjaro.pamac.manager", 0);
-			try {
-				app.register ();
-			} catch (GLib.Error e) {
-				warning (e.message);
-			}
-			run = app.get_is_remote ();
-			if (run) {
-				return run;
-			}
-			app = new Application ("org.manjaro.pamac.installer", 0);
-			try {
-				app.register ();
-			} catch (GLib.Error e) {
-				warning (e.message);
-			}
-			run = app.get_is_remote ();
-			return run;
-		}
-
-		void start_system_daemon (HashTable<string,string> environment_variables) {
-			if (system_daemon == null) {
-				try {
-					system_daemon = Bus.get_proxy_sync (BusType.SYSTEM, "org.manjaro.pamac.daemon", "/org/manjaro/pamac/daemon");
-					// Set environment variables
-					system_daemon.set_environment_variables (environment_variables);
-					system_daemon.write_pamac_config_finished.connect (on_write_pamac_config_finished);
-				} catch (Error e) {
-					warning (e.message);
-				}
-			}
-		}
-
-		void stop_system_daemon () {
-			if (!check_pamac_running ()) {
-				try {
-					system_daemon.quit ();
-				} catch (Error e) {
-					warning (e.message);
-				}
-			}
-		}
-
-		public bool check_updates () {
+		public void check_updates () {
 			if (loop.is_running ()) {
 				loop.run ();
 			}
@@ -125,8 +74,10 @@ namespace Pamac {
 								var dis = new DataInputStream (process.get_stdout_pipe ());
 								// count lines
 								try {
-									while (dis.read_line () != null) {
+									string line;
+									while ((line = dis.read_line ()) != null) {
 										_updates_nb++;
+										_updates_list += line;
 									}
 								} catch (Error e) {
 									warning (e.message);
@@ -142,28 +93,21 @@ namespace Pamac {
 				updates_available (_updates_nb);
 				message ("%u updates found", _updates_nb);
 			}
-			return true;
 		}
 
 		void on_write_pamac_config_finished () {
 			check_updates ();
 		}
 
-		bool check_lock_and_updates () {
-			if (!lockfile.query_exists ()) {
+		void on_localdb_changed (File src, File? dest, FileMonitorEvent event_type) {
+			if (check_localdb_timeout_id != 0) {
+				Source.remove (check_localdb_timeout_id);
+			}
+			check_localdb_timeout_id = Timeout.add (5000, () => {
 				check_updates ();
-			}
-			check_lock_timeout_id = 0;
-			return false;
-		}
-
-		void check_extern_lock (File src, File? dest, FileMonitorEvent event_type) {
-			if (event_type == FileMonitorEvent.DELETED) {
-				if (check_lock_timeout_id != 0) {
-					Source.remove (check_lock_timeout_id);
-				}
-				check_lock_timeout_id = Timeout.add (500, check_lock_and_updates);
-			}
+				check_localdb_timeout_id = 0;
+				return false;
+			});
 		}
 	}
 }

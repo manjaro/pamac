@@ -139,7 +139,10 @@ namespace Pamac {
 
 		void launch_refresh_timeout () {
 			// check every hour if refresh_timestamp is older than config.refresh_period
-			Timeout.add_seconds (3600, updates_checker.check_updates);
+			Timeout.add_seconds (3600, () => {
+				updates_checker.check_updates ();
+				return true;
+			});
 		}
 
 		void on_icon_theme_changed () {
