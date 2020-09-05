@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-19 12:30+0000\n"
+"PO-Revision-Date: 2020-08-29 01:02+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -885,7 +885,7 @@ msgstr "Ver archivos de construcción diff de %s"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr "Construir paquetes como root no esta permitido"
+msgstr "Construir paquetes como root no está permitido"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -893,7 +893,7 @@ msgstr "No se encontró el archivo PKGBUILD en el directorio actual"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root is not allowed"
-msgstr "Verificar actualizaciones de paquetes de desarrollo como root no esta permitido"
+msgstr "Verificar actualizaciones de paquetes de desarrollo como root no está permitido"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1330,7 +1330,7 @@ msgstr "Buscar"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "Buscar"
+msgstr "Explorar"
 
 #: resources/manager_window.ui
 msgid "Pending"
