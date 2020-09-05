@@ -26,8 +26,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="has_default">True</property>
-                <property name="receives_default">False</property>
+                <property name="receives_default">True</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -41,6 +40,8 @@
                 <property name="label" translatable="yes">_Apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
               </object>
