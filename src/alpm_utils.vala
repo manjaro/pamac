@@ -562,8 +562,18 @@ namespace Pamac {
 				}
 				return false;
 			}
+			// remove installed pkgs in to_build because they already have been added in transaction by trans_sysupgrade
+			string[] to_build_installed = {};
+			foreach (unowned string name in to_build) {
+				unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (name);
+				if (pkg != null) {
+					to_build_installed += name;
+				}
+			}
+			foreach (unowned string name in to_build_installed) {
+				to_build.remove (name);
+			}
 			// check syncfirsts
-			to_syncfirst.remove_all ();
 			foreach (unowned string name in alpm_config.syncfirsts) {
 				unowned Alpm.Package? pkg = Alpm.find_satisfier (alpm_handle.localdb.pkgcache, name);
 				if (pkg != null) {
@@ -971,6 +981,7 @@ namespace Pamac {
 					// fake aur db
 					aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
 					if (aur_db == null) {
+						remove_aur_db (tmp_handle);
 						Alpm.Errno err_no = tmp_handle.errno ();
 						do_emit_error (_("Failed to initialize AUR database"), {Alpm.strerror (err_no)});
 						return false;
@@ -991,7 +1002,7 @@ namespace Pamac {
 				summary = get_transaction_summary (tmp_handle);
 				trans_release (tmp_handle);
 			}
-			if (to_build.length > 0) {
+			if (aur_db != null) {
 				remove_aur_db (tmp_handle);
 			}
 			trans_reset ();
@@ -1049,16 +1060,8 @@ namespace Pamac {
 			}
 			// add question callback for replaces/conflicts/corrupted pkgs and import keys
 			alpm_handle.questioncb = (Alpm.QuestionCallBack) cb_question;
-			// fake aur db
+			// aur db not used
 			unowned Alpm.DB? aur_db = null;
-			if (to_build.length > 0) {
-				aur_db = alpm_handle.register_syncdb ("pamac_aur", 0);
-				if (aur_db == null) {
-					Alpm.Errno err_no = alpm_handle.errno ();
-					do_emit_error (_("Failed to initialize AUR database"), {Alpm.strerror (err_no)});
-					return false;
-				}
-			}
 			bool success = trans_prepare (alpm_handle, aur_db);
 			if (success) {
 				if (alpm_handle.trans_to_add () != null ||
@@ -1073,15 +1076,16 @@ namespace Pamac {
 						success = trans_commit (alpm_handle);
 					} else {
 						trans_release (alpm_handle);
+						trans_reset ();
 						success = false;
 					}
 				} else {
 					//do_emit_action (dgettext (null, "Nothing to do") + ".");
 					trans_release (alpm_handle);
+					trans_reset ();
 					success = true;
 				}
 			}
-			trans_reset ();
 			return success;
 		}
 
@@ -1090,6 +1094,7 @@ namespace Pamac {
 			total_download = 0;
 			already_downloaded = 0;
 			current_filename = "";
+			to_syncfirst.remove_all ();
 			to_install.remove_all ();
 			deps_to_install.remove_all ();
 			to_remove.remove_all ();
@@ -1841,6 +1846,7 @@ namespace Pamac {
 							// continue if needed
 							if (success && alpm_handle.trans_to_add () == null && alpm_handle.trans_to_remove () == null) {
 								trans_release (alpm_handle);
+								trans_reset ();
 								return true;
 							}
 						}
@@ -1856,6 +1862,7 @@ namespace Pamac {
 					}
 				}
 				if (!success) {
+					trans_reset ();
 					return false;
 				}
 			}
@@ -1901,6 +1908,7 @@ namespace Pamac {
 					success = trans_run_real ();
 				}
 			}
+			trans_reset ();
 			return success;
 		}
 
