@@ -2038,11 +2038,40 @@ namespace Pamac {
 					return;
 				}
 				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
-				if (updates.outofdate != null) {
-					// print out of date pkgs
-					stdout.printf ("\n%s:\n", dgettext (null, "Out of Date"));
+				// check if we have ignored pkgs or out of date
+				uint ignored_updates_nb = updates.ignored_repos_updates.length () + updates.ignored_aur_updates.length ();
+				if (ignored_updates_nb > 0 || updates.outofdate != null ) {
 					int name_length = 0;
+					int installed_version_length = 0;
 					int version_length = 0;
+					foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+						int pkg_name_length = pkg.name.length;
+						if (pkg_name_length > name_length) {
+							name_length = pkg_name_length;
+						}
+						int pkg_installed_version_length = pkg.installed_version.length;
+						if (pkg_installed_version_length > installed_version_length) {
+							installed_version_length = pkg_installed_version_length;
+						}
+						int pkg_version_length = pkg.version.length;
+						if (pkg_version_length > version_length) {
+							version_length = pkg_version_length;
+						}
+					}
+					foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+						int pkg_name_length = pkg.name.length;
+						if (pkg_name_length > name_length) {
+							name_length = pkg_name_length;
+						}
+						int pkg_installed_version_length = pkg.installed_version.length;
+						if (pkg_installed_version_length > installed_version_length) {
+							installed_version_length = pkg_installed_version_length;
+						}
+						int pkg_version_length = pkg.version.length;
+						if (pkg_version_length > version_length) {
+							version_length = pkg_version_length;
+						}
+					}
 					foreach (unowned AURPackage pkg in updates.outofdate) {
 						int pkg_name_length = pkg.name.length;
 						if (pkg_name_length > name_length) {
@@ -2053,11 +2082,34 @@ namespace Pamac {
 							version_length = pkg_version_length;
 						}
 					}
-					foreach (unowned AURPackage pkg in updates.outofdate) {
-						stdout.printf ("%-*s  %-*s  %s\n",
-										name_length, pkg.name,
-										version_length, pkg.version,
-										dgettext (null, "AUR"));
+					if (ignored_updates_nb > 0) {
+						// print ignored pkgs
+						string info = ngettext ("%u ignored update", "%u ignored updates", ignored_updates_nb).printf (ignored_updates_nb);
+						stdout.printf ("\n%s:\n", info);
+						foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+							stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
+											name_length, pkg.name,
+											installed_version_length, pkg.installed_version,
+											version_length, pkg.version,
+											pkg.repo);
+						}
+						foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+							stdout.printf ("%-*s  %-*s -> %-*s  %s\n",
+											name_length, pkg.name,
+											installed_version_length, pkg.installed_version,
+											version_length, pkg.version,
+											pkg.repo);
+						}
+					}
+					if (updates.outofdate != null) {
+						// print out of date pkgs
+						stdout.printf ("\n%s:\n", dgettext (null, "Out of Date"));
+						foreach (unowned AURPackage pkg in updates.outofdate) {
+							stdout.printf ("%-*s  %-*s  %s\n",
+											name_length, pkg.name,
+											version_length, pkg.version,
+											dgettext (null, "AUR"));
+						}
 					}
 				}
 			} else {
