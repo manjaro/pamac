@@ -67,6 +67,7 @@ namespace Pamac {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDOUT_PIPE);
 					process.wait_async.begin (null, () => {
 						_updates_nb = 0;
+						_updates_list = {};
 						if (process.get_if_exited ()) {
 							int status = process.get_exit_status ();
 							// status 100 means updates are available
