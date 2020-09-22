@@ -419,7 +419,12 @@ namespace Pamac {
 						// may be a virtual package
 						// use search and add results
 						foreach (unowned AURPackage found_pkg in database.search_aur_pkgs (pkgname)) {
-							dep_to_check.add (found_pkg.name);
+							foreach (unowned string dep_string in found_pkg.provides) {
+								string dep_name = database.get_alpm_dep_name (dep_string);
+								if (dep_name == pkgname) {
+									dep_to_check.add (found_pkg.name);
+								}
+							}
 						}
 						already_checked_aur_dep.add (pkgname);
 						// make this error not fatal to propose to edit build files
