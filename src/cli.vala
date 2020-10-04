@@ -1718,28 +1718,44 @@ namespace Pamac {
 						list = list.next;
 					}
 				}
-				if (aur_pkg != null) {
-					// Make Depends
-					if (aur_pkg.makedepends != null) {
-						cuts = split_string (concatenate_strings_list (aur_pkg.makedepends), max_length + 2);
-						print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						cuts_length = cuts.length;
-						while (i < cuts_length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				// Make Depends
+				if (pkg.makedepends != null) {
+					cuts = split_string (concatenate_strings_list (pkg.makedepends), max_length + 2);
+					print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					cuts_length = cuts.length;
+					while (i < cuts_length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
-					// Check Depends
-					if (aur_pkg.checkdepends != null) {
-						cuts = split_string (concatenate_strings_list (aur_pkg.checkdepends), max_length + 2);
-						print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
-						i = 1;
-						cuts_length = cuts.length;
-						while (i < cuts_length) {
-							print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
-							i++;
-						}
+				} else if (aur_pkg != null && aur_pkg.makedepends != null) {
+					cuts = split_string (concatenate_strings_list (aur_pkg.makedepends), max_length + 2);
+					print_aligned (properties[10], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					cuts_length = cuts.length;
+					while (i < cuts_length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
+					}
+				}
+				// Check Depends
+				if (pkg.checkdepends != null) {
+					cuts = split_string (concatenate_strings_list (pkg.checkdepends), max_length + 2);
+					print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					cuts_length = cuts.length;
+					while (i < cuts_length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
+					}
+				} else if (aur_pkg != null && aur_pkg.checkdepends != null) {
+					cuts = split_string (concatenate_strings_list (aur_pkg.checkdepends), max_length + 2);
+					print_aligned (properties[11], ": %s".printf (cuts[0]), max_length);
+					i = 1;
+					cuts_length = cuts.length;
+					while (i < cuts_length) {
+						print_aligned ("", "%s".printf (cuts[i]), max_length + 2);
+						i++;
 					}
 				}
 				// Required by

@@ -1438,6 +1438,12 @@ namespace Pamac {
 			if (pkg.optdepends != null) {
 				previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), pkg.optdepends, previous_widget, true);
 			}
+			if (pkg.makedepends != null) {
+				previous_widget = populate_dep_grid (dgettext (null, "Make Dependencies"), pkg.makedepends, previous_widget);
+			}
+			if (pkg.checkdepends != null) {
+				previous_widget = populate_dep_grid (dgettext (null, "Check Dependencies"), pkg.checkdepends, previous_widget);
+			}
 			if (pkg.requiredby != null) {
 				previous_widget = populate_dep_grid (dgettext (null, "Required By"), pkg.requiredby, previous_widget);
 			}

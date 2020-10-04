@@ -460,10 +460,10 @@ namespace Alpm {
 			[CCode (cname = "alpm_pkg_get_optdepends")] get;
 		}
 		public unowned Alpm.List<unowned Depend> checkdepends {
-			[CCode (cname = "alpm_pkg_get_depends")] get;
+			[CCode (cname = "alpm_pkg_get_checkdepends")] get;
 		}
 		public unowned Alpm.List<unowned Depend> makedepends {
-			[CCode (cname = "alpm_pkg_get_optdepends")] get;
+			[CCode (cname = "alpm_pkg_get_makedepends")] get;
 		}
 		public unowned Alpm.List<unowned Depend> conflicts {
 			[CCode (cname = "alpm_pkg_get_conflicts")] get;

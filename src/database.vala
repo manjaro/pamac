@@ -503,10 +503,12 @@ namespace Pamac {
 			initialise_pkg_common (alpm_pkg, ref pkg);
 			if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 				pkg.repo = alpm_pkg.db.name;
+				initialise_make_check_deps (alpm_pkg, ref pkg);
 			} else if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
 				unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
 				if (sync_pkg != null) {
 					pkg.repo = sync_pkg.db.name;
+					initialise_make_check_deps (sync_pkg, ref pkg);
 				} else if (config.enable_aur) {
 					if (aur.get_infos (alpm_pkg.name) != null) {
 						pkg.repo = dgettext (null, "AUR");
@@ -681,6 +683,23 @@ namespace Pamac {
 			pkg.conflicts_priv.reverse ();
 		}
 
+		void initialise_make_check_deps (Alpm.Package alpm_pkg, ref AlpmPackage pkg) {
+			// makedepends
+			unowned Alpm.List<unowned Alpm.Depend> depends_list = alpm_pkg.makedepends;
+			while (depends_list != null) {
+				pkg.makedepends_priv.prepend (depends_list.data.compute_string ());
+				depends_list.next ();
+			}
+			pkg.makedepends_priv.reverse ();
+			// checkdepends
+			depends_list = alpm_pkg.checkdepends;
+			while (depends_list != null) {
+				pkg.checkdepends_priv.prepend (depends_list.data.compute_string ());
+				depends_list.next ();
+			}
+			pkg.checkdepends_priv.reverse ();
+		}
+
 		void initialize_app_data (As.App app, ref AlpmPackage pkg) {
 			pkg.app_name = get_app_name (app);
 			pkg.app_id = app.get_id ();
@@ -706,11 +725,13 @@ namespace Pamac {
 					unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_pkg.name);
 					if (sync_pkg != null) {
 						pkg.repo = sync_pkg.db.name;
+						initialise_make_check_deps (sync_pkg, ref pkg);
 					} else if (config.enable_aur) {
 						foreign_pkgnames.add (alpm_pkg.name);
 					}
 				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
 					pkg.repo = alpm_pkg.db.name;
+					initialise_make_check_deps (alpm_pkg, ref pkg);
 				}
 				if (pkg.repo == "" ) {
 					if (config.enable_aur) {
@@ -789,6 +810,7 @@ namespace Pamac {
 							if (sync_pkg != null) {
 								var pkg = new AlpmPackage ();
 								initialise_pkg_common (local_pkg, ref pkg);
+								initialise_make_check_deps (sync_pkg, ref pkg);
 								pkg.repo = sync_pkg.db.name;
 								initialize_app_data (app, ref pkg);
 								pkgs.prepend (pkg);
@@ -1027,12 +1049,14 @@ namespace Pamac {
 								initialise_pkg_common (local_pkg, ref alpmpkg);
 								if (sync_pkg != null) {
 									alpmpkg.repo = sync_pkg.db.name;
+									initialise_make_check_deps (sync_pkg, ref alpmpkg);
 								}
 								initialize_app_data (app, ref alpmpkg);
 								pkg = alpmpkg;
 							} else if (sync_pkg != null) {
 								var alpmpkg = new AlpmPackage ();
 								initialise_pkg_common (sync_pkg, ref alpmpkg);
+								initialise_make_check_deps (sync_pkg, ref alpmpkg);
 								alpmpkg.repo = sync_pkg.db.name;
 								initialize_app_data (app, ref alpmpkg);
 								pkg = alpmpkg;
@@ -1060,6 +1084,7 @@ namespace Pamac {
 								unowned Alpm.Package? sync_pkg = get_syncpkg (local_pkg.name);
 								if (sync_pkg != null) {
 									alpmpkg.repo = sync_pkg.db.name;
+									initialise_make_check_deps (sync_pkg, ref alpmpkg);
 								}
 								pkg = alpmpkg;
 								break;
@@ -1547,6 +1572,7 @@ namespace Pamac {
 										} else {
 											initialise_pkg_common (sync_pkg, ref pkg);
 										}
+										initialise_make_check_deps (sync_pkg, ref pkg);
 										pkg.repo = sync_pkg.db.name;
 										initialize_app_data (app, ref pkg);
 										result.prepend (pkg);
@@ -1604,6 +1630,7 @@ namespace Pamac {
 										} else {
 											initialise_pkg_common (sync_pkg, ref pkg);
 										}
+										initialise_make_check_deps (sync_pkg, ref pkg);
 										pkg.repo = sync_pkg.db.name;
 										initialize_app_data (app, ref pkg);
 										result.prepend (pkg);

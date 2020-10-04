@@ -26,6 +26,8 @@ namespace Pamac {
 		internal SList<string> licenses_priv;
 		internal SList<string> depends_priv;
 		internal SList<string> optdepends_priv;
+		internal SList<string> makedepends_priv;
+		internal SList<string> checkdepends_priv;
 		internal SList<string> requiredby_priv;
 		internal SList<string> optionalfor_priv;
 		internal SList<string> provides_priv;
@@ -37,6 +39,8 @@ namespace Pamac {
 		public SList<string> licenses { get {return licenses_priv;} }
 		public SList<string> depends { get {return depends_priv;} }
 		public SList<string> optdepends { get {return optdepends_priv;} }
+		public SList<string> makedepends { get {return makedepends_priv;} }
+		public SList<string> checkdepends { get {return checkdepends_priv;} }
 		public SList<string> requiredby { get {return requiredby_priv;} }
 		public SList<string> optionalfor { get {return optionalfor_priv;} }
 		public SList<string> provides { get {return provides_priv;} }
@@ -71,6 +75,8 @@ namespace Pamac {
 			pkg.licenses_priv = this.licenses_priv.copy_deep (strdup);
 			pkg.depends_priv = this.depends_priv.copy_deep (strdup);
 			pkg.optdepends_priv = this.optdepends_priv.copy_deep (strdup);
+			pkg.makedepends_priv = this.makedepends_priv.copy_deep (strdup);
+			pkg.checkdepends_priv = this.checkdepends_priv.copy_deep (strdup);
 			pkg.requiredby_priv = this.requiredby_priv.copy_deep (strdup);
 			pkg.optionalfor_priv = this.optionalfor_priv.copy_deep (strdup);
 			pkg.provides_priv = this.provides_priv.copy_deep (strdup);
@@ -90,10 +96,6 @@ namespace Pamac {
 		public string maintainer { get; internal set; default = "";}
 		public uint64 firstsubmitted { get; internal set; }
 		public uint64 numvotes  { get; internal set; }
-		internal SList<string> makedepends_priv;
-		internal SList<string> checkdepends_priv;
-		public SList<string> makedepends { get {return makedepends_priv;} }
-		public SList<string> checkdepends { get {return checkdepends_priv;} }
 
 		internal AURPackage () {
 			repo = dgettext (null, "AUR");
