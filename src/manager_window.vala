@@ -2535,6 +2535,7 @@ namespace Pamac {
 				install_all_button.visible = false;
 				ignore_all_button.visible = false;
 				apply_button.sensitive = false;
+				cancel_button.sensitive = false;
 				var updates = database.get_updates ();
 				// copy updates in lists
 				repos_updates = new GenericArray<AlpmPackage> ();
