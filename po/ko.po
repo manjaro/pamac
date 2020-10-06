@@ -7,8 +7,10 @@
 # Cybertramp <paran_son@outlook.com>, 2018
 # JungHee Lee <daemul72@gmail.com>, 2020
 # JungHee Lee <daemul72@gmail.com>, 2019-2020
+# Daniel Ginovker <danielginovker@gmail.com>, 2020
 # Dongyun KIm <104arb@gmail.com>, 2018
 # Eric Park <ideamaneric@gmail.com>, 2017
+# JungHee Lee <daemul72@gmail.com>, 2020
 # lego37yoon <lego37yoon@outlook.com>, 2013
 # lego37yoon <lego37yoon@outlook.com>, 2013
 # Mine My <my2654jh@gmail.com>, 2018
@@ -19,8 +21,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-18 22:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-09-15 02:50+0000\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +77,7 @@ msgstr "%s 패키지에 올바른 아키텍처가 없습니다"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr "%s에 필요한 의존성 '%s'을(를) 충족시킬 수 없습니다"
+msgstr "%s에 필요한 종속성 '%s'을(를) 충족시킬 수 없습니다"
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
@@ -84,7 +86,7 @@ msgstr "경고"
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "%s (%s)을(를) 설치하면 %s에 필요한 의존성 '%s'이(가) 깨집니다"
+msgstr "%s (%s)을(를) 설치하면 %s에 필요한 '%s' 종속성이 깨집니다"
 
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
@@ -99,7 +101,7 @@ msgstr "가능하면 %s을(를) 제거하고 다시 시도하십시오"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "%s을(를) 제거하면 %s에 필요한 의존성 '%s'이(가) 깨집니다"
+msgstr "%s을(를) 제거하면 %s에 필요한 '%s' 종속성이 깨집니다"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -176,19 +178,19 @@ msgstr "트랜잭션을 커밋하지 못했습니다"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "의존성 확인중"
+msgstr "종속성 확인중"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr "파일결함 확인중"
+msgstr "파일 충돌 확인중"
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
-msgstr "의존성 해결"
+msgstr "종속성 해결"
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr "내부문제 확인중"
+msgstr "상호 충돌 확인중"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -240,7 +242,7 @@ msgstr "사용 가능한 디스크 공간 확인중"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s은(는) 선택적으로 %s이(가) 필요합니다"
+msgstr "%s은(는) 선택적으로 %s을(를) 필요로 합니다"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -281,7 +283,7 @@ msgstr "후크 실행 중 오류"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
+msgstr[0] "대략 %lu 초 남음"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -331,7 +333,7 @@ msgstr "완전히 설치됨"
 
 #: src/database.vala src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "다른 패키지에 대한 의존성으로 설치되었습니다"
+msgstr "다른 패키지에 대한 종속성으로 설치되었습니다"
 
 #: src/database.vala
 msgid "Unknown"
@@ -372,7 +374,7 @@ msgstr "%s 정보를 생성하지 못했습니다"
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "%s 의존성 확인중"
+msgstr "%s 종속성 확인중"
 
 #: src/transaction.vala
 #, c-format
@@ -409,7 +411,7 @@ msgstr "%s 빌드 실패"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "%s에 대한 선택적 의존성 선택"
+msgstr "%s에 대한 선택적 종속성 선택"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -433,7 +435,7 @@ msgstr "취소 (_C)"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr "%s 소스 파일을 확인하려면 PGP 키 %s이(가) 필요합니다"
+msgstr "%s PGP 키는 %s 소스 파일을 확인하기 위해 필요합니다"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -462,7 +464,7 @@ msgstr "필요한 것"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "독립 패키지:"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -471,7 +473,7 @@ msgstr "제거하기"
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
-msgstr "충돌 :"
+msgstr "충돌:"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To downgrade"
@@ -529,7 +531,7 @@ msgstr "설치"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr "스냅 %s이(가) 고전적인 제한을 사용하여 게시되었습니다"
+msgstr "%s 스냅은 고전적인 제한을 사용하여 게시되었습니다"
 
 #: src/transaction-gtk.vala
 #, c-format
@@ -550,7 +552,7 @@ msgstr "패키지 제거"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr "AUR에서 패키지를 빌드하고 의존성으로 설치합니다"
+msgstr "AUR에서 패키지를 빌드하고 종속성으로 설치합니다"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
@@ -616,7 +618,7 @@ msgstr "설치됨"
 
 #: src/manager_window.vala
 msgid "Dependencies"
-msgstr "의존성"
+msgstr "종속성"
 
 #: src/manager_window.vala
 msgid "Files"
@@ -893,7 +895,7 @@ msgstr "현재 디렉토리에서 PKGBUILD 파일을 찾을 수 없습니다"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root is not allowed"
-msgstr ""
+msgstr "루트 권한이 허용되지 않으므로 개발 패키지 업데이트를 확인합니다"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -929,7 +931,7 @@ msgstr "AUR도 검색"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "AUR에서 검색하지 않습니다"
 
 #: src/cli.vala
 msgid ""
@@ -1033,7 +1035,7 @@ msgstr "설치후 빌드된 패키지를 캐시에 보관"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "설치 후 빌드된 패키지를 캐시에 보관하지 않습니다"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1077,7 +1079,7 @@ msgstr "완전히 설치된 모든 패키지 표시"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "업데이트를 확인합니다"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1095,11 +1097,11 @@ msgstr "다른 패키지에 필요하지 않은 경우에만 패키지 제거"
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr "다른 패키지에 필요하지 않은 의존성을 제거하고, 패키지 이름 없이 이 옵션을 사용하는 경우 모든 독립 패키지를 제거합니다"
+msgstr "다른 패키지에 필요하지 않은 종속성을 제거하고, 패키지 이름 없이 이 옵션을 사용하는 경우 모든 독립 패키지를 제거합니다"
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "다른 패키지에 필요하지 않은 종속성을 제거하지 않습니다"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1125,7 +1127,7 @@ msgstr "AUR에서 패키지 업데이트도 확인"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "AUR에서 업데이트를 확인하지 않습니다"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1137,7 +1139,7 @@ msgstr "개발 패키지 업데이트도 확인 (--aur와 함께 사용)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "개발 패키지 업데이트를 확인하지 않습니다"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1153,7 +1155,7 @@ msgstr "패키지 다운 그레이드 사용"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "패키지 다운그레이드 사용안함"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1161,7 +1163,7 @@ msgstr "AUR에서 설치된 패키지도 업그레이드"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "AUR에서 설치된 패키지를 업그레이드하지 않습니다"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1169,7 +1171,7 @@ msgstr "또한 개발 패키지 업그레이드 (--aur와 함께 사용)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "개발 패키지를 업그레이드하지 않습니다"
 
 #: src/cli.vala
 msgid ""
@@ -1386,7 +1388,7 @@ msgstr "일반"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "이러한 옵션을 잘못 설정하면 시스템이 파손될 수 있습니다.\n자신이 현재 하고 있는 작업을 알고 있는 경우에만 수정하십시오."
+msgstr "이러한 옵션을 잘못 구성하면 시스템이 손상될 수 있습니다.\n수행중인 작업에 대해 자세히 알고있는 경우에만 수정하십시오"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1420,7 +1422,7 @@ msgstr "고급"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr "사용하는 미러 서버 :"
+msgstr "사용하는 미러 서버:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"

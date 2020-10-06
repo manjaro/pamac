@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-09-02 16:26+0000\n"
+"PO-Revision-Date: 2020-09-05 11:38+0000\n"
 "Last-Translator: nathan g <nathan95@live.it>\n"
 "Language-Team: Italian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -488,7 +488,7 @@ msgstr "Dipendenze necessarie"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Orfani "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"

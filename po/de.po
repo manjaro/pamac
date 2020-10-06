@@ -37,8 +37,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-18 22:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-09-12 18:50+0000\n"
+"Last-Translator: Andreas Eitel <github-aneitel@online.de>\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -482,7 +482,7 @@ msgstr "Hängt ab von"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Waise von"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -916,7 +916,7 @@ msgstr "Keine PKGBUILD-Datei im aktuellen Verzeichnis gefunden"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root is not allowed"
-msgstr ""
+msgstr "Das Suchen nach Aktualisierungen für Entwicklungspakete ist als Root-Benutzer nicht erlaubt"
 
 #: src/cli.vala
 msgid "Available actions"
