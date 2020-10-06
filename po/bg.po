@@ -5,12 +5,12 @@
 # 
 # Translators:
 # Galin Iskrenov <loot270@abv.bg>, 2013-2020
-# Georgi Georgiev <georgiev_1994@abv.bg>, 2014
-# Georgi Georgiev <georgiev_1994@abv.bg>, 2014,2016,2018
+# Georgi Georgiev, 2014
+# Georgi Georgiev, 2014,2016,2018
 # Galin Iskrenov <loot270@abv.bg>, 2013
 # Petko Ditchev <pditchev@gmail.com>, 2013
 # Petko Ditchev <pditchev@gmail.com>, 2013
-# Georgi Georgiev <georgiev_1994@abv.bg>, 2014
+# Georgi Georgiev, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
