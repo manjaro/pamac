@@ -20,12 +20,10 @@
 namespace Pamac {
 	public class Config: Object {
 		HashTable<string, string> environment_variables_priv;
-		internal AlpmConfig alpm_config;
 		Daemon system_daemon;
 		MainLoop loop;
 
 		public string conf_path { get; construct; }
-		public string db_path { get { return alpm_config.dbpath; } }
 		public bool recurse { get; set; }
 		public bool keep_built_pkgs { get; set; }
 		public bool enable_downgrade { get; set; }
@@ -53,9 +51,12 @@ namespace Pamac {
 		public bool clean_rm_only_uninstalled { get; set; }
 		public HashTable<string, string> environment_variables { get {return environment_variables_priv;} }
 		// Alpm Config
+		public string db_path { get { return alpm_config.dbpath; } }
 		public bool checkspace { get {return alpm_config.checkspace;}
 								set {alpm_config.checkspace = value;} }
 		public GenericSet<string?> ignorepkgs { get {return alpm_config.ignorepkgs;} }
+
+		internal AlpmConfig alpm_config { get; private set; }
 
 		public Config (string conf_path) {
 			Object(conf_path: conf_path);

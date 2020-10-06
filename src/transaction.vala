@@ -29,7 +29,6 @@ namespace Pamac {
 		delegate void TransactionAction ();
 		bool waiting;
 		MainContext context;
-		protected MainLoop loop;
 		// run transaction data
 		bool sysupgrading;
 		bool force_refresh;
@@ -62,6 +61,7 @@ namespace Pamac {
 		// transaction options
 		public Database database { get; construct set; }
 		public bool clone_build_files { get; set; }
+		public MainLoop loop { protected get; private set; }
 
 		public signal void emit_action (string action);
 		public signal void emit_action_progress (string action, string status, double progress);

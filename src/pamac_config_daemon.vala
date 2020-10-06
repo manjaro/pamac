@@ -19,8 +19,6 @@
 
 namespace Pamac {
 	public class Config: Object {
-		internal AlpmConfig alpm_config;
-
 		public string conf_path { get; construct; }
 		#if ENABLE_SNAP
 		public bool support_snap { get; set; }
@@ -34,6 +32,8 @@ namespace Pamac {
 		#endif
 		public string aur_build_dir { get; set; }
 		public uint64 max_parallel_downloads { get; set; }
+
+		internal AlpmConfig alpm_config { get; private set; }
 
 		public Config (string conf_path) {
 			Object(conf_path: conf_path);
