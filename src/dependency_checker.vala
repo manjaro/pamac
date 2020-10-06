@@ -50,7 +50,7 @@ int main (string[] args) {
 				while (depends != null) {
 					unowned Alpm.Depend dep = depends.data;
 					if (dep.name == depend) {
-						stdout.printf ("%s/%s optionnally depends on %s (built by %s)\n", db.name, pkg.name, dep.compute_string (), pkg.packager);
+						stdout.printf ("%s/%s optionally depends on %s (built by %s)\n", db.name, pkg.name, dep.compute_string (), pkg.packager);
 						found = true;
 					}
 					depends.next ();
