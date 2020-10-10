@@ -1503,6 +1503,7 @@ namespace Pamac {
 
 		TransactionSummary get_transaction_summary (Alpm.Handle alpm_handle) {
 			var summary = new TransactionSummary ();
+			var checked = new HashTable<string, int> (str_hash, str_equal);
 			// to_install
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
 			while (pkgs_to_add != null) {
@@ -1535,9 +1536,21 @@ namespace Pamac {
 												pkg.requiredby_priv.prepend ((owned) requiredby_list.data);
 												dep_found = true;
 											} else {
-												// check pkg_to_add requiredby
-												check_pkg = pkg_to_add;
-												check_pkg_found = true;
+												if (pkg_to_add_name in checked) {
+													int i = checked.lookup (pkg_to_add_name);
+													// security for dependency cycle
+													if (i < 100) {
+														// check pkg_to_add requiredby
+														check_pkg = pkg_to_add;
+														check_pkg_found = true;
+														checked.insert (pkg_to_add_name, i + 1);
+													}
+												} else {
+													// check pkg_to_add requiredby
+													check_pkg = pkg_to_add;
+													check_pkg_found = true;
+													checked.insert (pkg_to_add_name, 0);
+												}
 											}
 											break;
 										}
@@ -1579,9 +1592,21 @@ namespace Pamac {
 												pkg.requiredby_priv.prepend ((owned) requiredby_list.data);
 												dep_found = true;
 											} else {
-												// check pkg_to_add requiredby
-												check_pkg = pkg_to_add;
-												check_pkg_found = true;
+												if (pkg_to_add_name in checked) {
+													int i = checked.lookup (pkg_to_add_name);
+													// security for dependency cycle
+													if (i < 100) {
+														// check pkg_to_add requiredby
+														check_pkg = pkg_to_add;
+														check_pkg_found = true;
+														checked.insert (pkg_to_add_name, i + 1);
+													}
+												} else {
+													// check pkg_to_add requiredby
+													check_pkg = pkg_to_add;
+													check_pkg_found = true;
+													checked.insert (pkg_to_add_name, 0);
+												}
 											}
 											break;
 										}
