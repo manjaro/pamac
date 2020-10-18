@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-18 22:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-10-07 11:36+0000\n"
+"Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,11 +41,11 @@ msgstr "Zagon knjižnice alpm ni bilo uspešno"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Usklajevanje podatkovnih zbirk paketov"
+msgstr "Sinhronizacija podatkovnih zbirk paketov"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "Usklajevanje zbirk podatkov je spodletelo"
+msgstr "Sinhronizacija zbirk podatkov je spodletelo"
 
 #: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
 #: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
@@ -83,7 +83,7 @@ msgstr "Opozorilo"
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr "namestitev %s (%s) razbije odvisnost '%s', ki jo zahteva %s"
+msgstr "namestitev %s (%s) prekine odvisnost '%s', ki jo zahteva %s"
 
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
@@ -93,7 +93,7 @@ msgstr "Dodaj %s za odstranitev"
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr "Če je to mogoče, odstranite %s in ponovno poskusite"
+msgstr "Če je to mogoče, odstranite %s in poskusite znova"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -112,7 +112,7 @@ msgstr "%s je potrebno odstraniti, vendar je ta paket zaklenjen"
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Failed to initialize AUR database"
-msgstr "Neuspešna inicializacija AUR podatkovne baze"
+msgstr "Neuspešna inicializacija AUR podatkovne zbirke"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -126,7 +126,7 @@ msgstr "Prenos je bil preklican"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s exists in both %s and %s"
-msgstr "%s obstoji tako v %s kot v %s"
+msgstr "%s obstaja tako v %s, kot v %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -140,7 +140,7 @@ msgstr "%s: %s že obstaja v datotečnem sistemu"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr "Če ta datoteka ni potrebna, jo odstranite in znova poskusite"
+msgstr "Če ta datoteka ni potrebna, jo odstranite in poskusite znova"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -159,7 +159,7 @@ msgstr "Odstranjevanje pokvarjenih datotek in ponovni poskus"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s is invalid or corrupted"
-msgstr "%s je neveljaven ali pokvarjen"
+msgstr "%s je neustrezen ali pokvarjen"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
@@ -207,7 +207,7 @@ msgstr "Ponovno nameščanje %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Downgrading %s"
-msgstr "Podgrajevanje %s"
+msgstr "Namestitev starejše različice %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -239,51 +239,51 @@ msgstr "Preverjanje razpoložljivega prostora"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%s izbirno zahteva %s"
+msgstr "%s opcijsko zahteva %s"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Datoteka podatkovne baze za %s ne obstaja"
+msgstr "Datoteka podatkovne zbirke za %s ne obstaja"
 
 #: src/alpm_utils.vala
 msgid "Checking keyring"
-msgstr "Preverjanje obroča ključev"
+msgstr "Preverjanje zbirke ključev"
 
 #: src/alpm_utils.vala
 msgid "Downloading required keys"
-msgstr "Prenašanje zahtevanih ključev"
+msgstr "Prenašanje potrebnih ključev"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s nameščeno kot %s.pacnew"
+msgstr "%s je nameščen kot %s.pacnew"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s nameščeno kot %s.pacsave"
+msgstr "%s je nameščen kot %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr ""
+msgstr "Zagon pred-prenosnih spojev (hooks)"
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr ""
+msgstr "Zagon po-prenosnih spojev (hooks)"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr ""
+msgstr "Napaka pri zaganjanju spojev (hooks)"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Ostala je še približno %lu sekunda"
+msgstr[1] "Ostali sta še približno %lu sekundi"
+msgstr[2] "Ostale so še približno %lu sekunde"
+msgstr[3] "Ostalo je še približno %lu sekund"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -324,11 +324,11 @@ msgstr "Potrditev identitete ni uspela"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
-msgstr "Čakanje na izhod drugega paketnega upravljalnika"
+msgstr "Čakam, da se zapre drugi upravljalnik paketov"
 
 #: src/daemon.vala
 msgid "Timeout expired"
-msgstr ""
+msgstr "Časovna omejitev je potekla"
 
 #: src/database.vala src/manager_window.vala
 msgid "Explicitly installed"
@@ -352,42 +352,42 @@ msgstr "Ne"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr "Osveževanje seznama zrcal"
+msgstr "Osveževanje seznama zrcalnih strežnikov"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr ""
+msgstr "Kloniranje %s izgradnih datotek"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr ""
+msgstr "Neuspelo kloniranje %s izgradnih datotek"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr ""
+msgstr "Ustvarjanje %s podatkov"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr ""
+msgstr "Neuspelo ustvarjanje %s podatkov"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr ""
+msgstr "Preverjanje %s odvisnosti"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "Neuspelo preverjanje %s odvisnosti"
 
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "ključa %s ni bilo mogoče uvoziti"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
@@ -404,17 +404,17 @@ msgstr "Ni opravil"
 #: src/transaction.vala
 #, c-format
 msgid "Building %s"
-msgstr "Grajenje %s"
+msgstr "Izgradnja %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "Neuspešna izgradnja %s "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr ""
+msgstr "Izberite opcijske odvisnosti za %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -423,11 +423,11 @@ msgstr "Izberite ponudnika za %s"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
-msgstr ""
+msgstr "Uvozi PGP ključ"
 
 #: src/transaction-gtk.vala
 msgid "Trust and Import"
-msgstr ""
+msgstr "Zaupaj in uvozi"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
@@ -438,27 +438,27 @@ msgstr "_Prekliči"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "PGP ključ %s je potreben za overitev %s izvornih datotek"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Trust %s and import the PGP key"
-msgstr ""
+msgstr "Zaupaj %s in uvozi PGP ključ"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/preferences_dialog.ui
 msgid "Official Repositories"
-msgstr "Uradna skladišča"
+msgstr "Uradni repozitoriji"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
 #: resources/manager_window.ui
 msgid "Repository"
-msgstr "Skladišče"
+msgstr "Repozitorij"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/preferences_dialog.ui
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
@@ -467,7 +467,7 @@ msgstr "Odvisen od"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Sirota od "
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -515,7 +515,7 @@ msgstr "Celotna velikost prenosa"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr ""
+msgstr "Uredi %s izgradnih datotek"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -534,7 +534,7 @@ msgstr "Namesti"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "Snap posnetek %s je bil objavljen z uporabo klasične omejitve"
 
 #: src/transaction-gtk.vala
 #, c-format
@@ -555,11 +555,11 @@ msgstr "Odstrani pakete"
 
 #: src/installer.vala src/cli.vala
 msgid "Build packages from AUR and install them with their dependencies"
-msgstr ""
+msgstr "Izgradi pakete iz AUR in jih namesti z odvisnostmi"
 
 #: src/installer.vala src/cli.vala
 msgid "package(s)"
-msgstr ""
+msgstr "paket(i)"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -589,7 +589,7 @@ msgstr "Najden ni bil noben paket"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr ""
+msgstr "Iskanje posodobitev"
 
 #: src/manager_window.vala
 #, c-format
@@ -603,11 +603,11 @@ msgstr[3] "%u operacij na čakanju"
 #: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 #: src/manager_window.vala
 msgid "All"
-msgstr ""
+msgstr "Vse"
 
 #: src/manager_window.vala
 msgid "Orphans"
@@ -635,15 +635,15 @@ msgstr "Datoteke"
 
 #: src/manager_window.vala
 msgid "Build files"
-msgstr ""
+msgstr "Izgradne datoteke"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
-msgstr "Namestitveni razlog"
+msgstr "Razlog za namestitev"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "Označi kot izrecno nameščeno"
+msgstr "Označi kot eksplicitno nameščeno"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -651,7 +651,7 @@ msgstr "Licence"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
-msgstr "Paketna zbirka"
+msgstr "Zbirka paketov"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
@@ -659,7 +659,7 @@ msgstr "Vzdrževalec"
 
 #: src/manager_window.vala src/cli.vala
 msgid "First Submitted"
-msgstr ""
+msgstr "Prvič posredovane"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Last Modified"
@@ -679,7 +679,7 @@ msgstr "Skupine"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Packager"
-msgstr "Paketni program"
+msgstr "Zapakiral"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
@@ -699,11 +699,11 @@ msgstr "Varnostne datoteke"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
-msgstr "Izbirne odvisnosti"
+msgstr "Opcijske odvisnosti"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "Izbirno za"
+msgstr "Opcijsko za"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
@@ -711,7 +711,7 @@ msgstr "Zagotavlja"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr ""
+msgstr "Ustvari odvisnosti"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
@@ -719,19 +719,19 @@ msgstr "Preveri odvisnosti"
 
 #: src/manager_window.vala
 msgid "Publisher"
-msgstr ""
+msgstr "Izdajatelj"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Omejeno na peskovnik"
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Kanali"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Relevance"
-msgstr ""
+msgstr "Relevantnost"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Name"
@@ -743,7 +743,7 @@ msgstr "Velikost"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: src/manager_window.vala
 msgid "Upgrade"
@@ -751,7 +751,7 @@ msgstr "Nadgradi"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr ""
+msgstr "Izgradnja"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
@@ -759,27 +759,27 @@ msgstr "Odstrani"
 
 #: src/manager_window.vala
 msgid "Featured"
-msgstr ""
+msgstr "Izpostavljeno"
 
 #: src/manager_window.vala
 msgid "Photo & Video"
-msgstr ""
+msgstr "Fotografije in video"
 
 #: src/manager_window.vala
 msgid "Music & Audio"
-msgstr ""
+msgstr "Glasba in zvok"
 
 #: src/manager_window.vala
 msgid "Productivity"
-msgstr ""
+msgstr "Produktivnost"
 
 #: src/manager_window.vala
 msgid "Communication & News"
-msgstr ""
+msgstr "Komunikacija & novice"
 
 #: src/manager_window.vala
 msgid "Education & Science"
-msgstr ""
+msgstr "Izobraževanje in znanost"
 
 #: src/manager_window.vala
 msgid "Games"
@@ -787,7 +787,7 @@ msgstr "Igre"
 
 #: src/manager_window.vala
 msgid "Utilities"
-msgstr ""
+msgstr "Orodja"
 
 #: src/manager_window.vala
 msgid "Development"
@@ -795,7 +795,7 @@ msgstr "Razvoj"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
-msgstr "Namesti krajevne pakete"
+msgstr "Namesti lokalne pakete"
 
 #: src/manager_window.vala
 msgid "_Open"
@@ -807,7 +807,7 @@ msgstr "Paket Alpm"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Upravljalnik paketov s podporo za Alpm, AUR, Flatpak in Snap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -815,11 +815,11 @@ msgstr "Kategorije"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr "Kako pogosto naj se preverja za posodobitve, vrednost v urah"
+msgstr "Na koliko ur naj se išče posodobitve?"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Največje število hkratnih prenosov"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
@@ -827,66 +827,66 @@ msgstr "Število verzij za vsak paket shranjenih v predpomnilniku"
 
 #: src/preferences_dialog.vala
 msgid "Build directory"
-msgstr "Izgradi imenik"
+msgstr "Izgradi direktorij"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Svetovno"
+msgstr "Po celem svetu"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "Za brisanje"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
 msgid "%u file"
 msgid_plural "%u files"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%u datoteke"
+msgstr[1] " %u datotek"
+msgstr[2] "%u datotek"
+msgstr[3] "%u datotek"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Izberi prezrte nadgradnje"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr ""
+msgstr "Vnesite izbor (privzeto=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "brez"
 
 #: src/transaction-cli.vala
 #, c-format
 msgid "Enter a number (default=%d)"
-msgstr ""
+msgstr "Vnesite številko (privzeto=%d)"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[d/N]"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "y"
-msgstr ""
+msgstr "d"
 
 #: src/transaction-cli.vala src/cli.vala
 msgid "yes"
-msgstr ""
+msgstr "da"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
-msgstr ""
+msgstr "Uredi izgradne datoteke"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Skupna velikost namestitve"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
-msgstr ""
+msgstr "Skupna velikost odstranjenih podatkov"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -895,332 +895,332 @@ msgstr "Uveljavi prenos"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Prikaži razliko za %s izgradnih datotek"
 
 #: src/cli.vala
 msgid "Building packages as root is not allowed"
-msgstr ""
+msgstr "Izgradnja paketov kot korenski/root uporabnik ni dovoljena"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
-msgstr ""
+msgstr "V trenutnem direktoriju ni bilo mogoče najti PKGBUILD"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root is not allowed"
-msgstr ""
+msgstr "Preverjanje posodobitev razvojnih paketov kot korenski/root uporabnik ni dovoljeno"
 
 #: src/cli.vala
 msgid "Available actions"
-msgstr ""
+msgstr "Dejanja, ki so na voljo"
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "dejanje"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "opcije"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
-msgstr ""
+msgstr "Iskanje paketov ali datotek. Lahko določite več iskalnih pogojev"
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "datoteka/-e"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "išči le med nameščenimi paketi"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "išči le pakete v repozitorijih"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr ""
+msgstr "išči tudi po AUR"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "ne išči po AUR"
 
 #: src/cli.vala
 msgid ""
 "search for packages which own the given filenames (filenames can be partial)"
-msgstr ""
+msgstr "išči pakete, ki si lastijo podano ime datoteke (imena datotek so lahko delna)"
 
 #: src/cli.vala
 msgid "only print names"
-msgstr ""
+msgstr "izpiši le imena"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
-msgstr ""
+msgstr "prikaži podrobnosti paketov. Mogoče je določiti več paketov"
 
 #: src/cli.vala
 msgid "List packages, groups, repositories or files"
-msgstr ""
+msgstr "Seznam paketov, skupin, repozitorijev ali datotek"
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "skupina/-e"
 
 #: src/cli.vala
 msgid "repo(s)"
-msgstr ""
+msgstr "repozitorij(-i)"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr ""
+msgstr "seznam nameščenih paketov"
 
 #: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr ""
+msgstr "izpiši seznam paketov, ki so bili nameščeni kot odvisnosti, a niso več potrebni za delovanje nameščenih paketov"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
-msgstr ""
+msgstr "seznam paketov, ki niso bili najdeni v repozitorijih"
 
 #: src/cli.vala
 msgid ""
 "list all packages that are members of the given groups, if no group is given"
 " list all groups"
-msgstr ""
+msgstr "seznam vseh paketov, ki so člani podane skupine - če ta ni podana, izpiši seznam vseh skupin"
 
 #: src/cli.vala
 msgid ""
 "list all packages available in the given repos, if no repo is given list all"
 " repos"
-msgstr ""
+msgstr "seznam vseh paketov v podanem repozitoriju - če ta ni podan, izpiši seznam vseh repozitorijev"
 
 #: src/cli.vala
 msgid "list files owned by the given packages"
-msgstr ""
+msgstr "seznam datotek, ki si jih lastijo podani paketi"
 
 #: src/cli.vala
 msgid "Clone or sync packages build files from AUR"
-msgstr ""
+msgstr "Kloniraj ali sinhroniziraj datoteke izgradnje paketov iz AUR"
 
 #: src/cli.vala
 msgid "dir"
-msgstr ""
+msgstr "direktorij"
 
 #: src/cli.vala
 msgid ""
 "build directory, if no directory is given the one specified in pamac.conf "
 "file is used"
-msgstr ""
+msgstr "izgradi direktoriij - če ta ni podan, se uporabi tisti, ki je določen v pamac.conf datoteki"
 
 #: src/cli.vala
 msgid "also clone needed dependencies"
-msgstr ""
+msgstr "kloniraj tudi potrebne odvisnosti"
 
 #: src/cli.vala
 msgid "do not print any output"
-msgstr ""
+msgstr "ne izpiši ničesar"
 
 #: src/cli.vala
 msgid "overwrite existing files"
-msgstr ""
+msgstr "prepiši obstoječe datoteke"
 
 #: src/cli.vala
 msgid ""
 "If no package name is given, use the PKGBUILD file in the current directory"
-msgstr ""
+msgstr "Če ni podano ime paketa, uporabi PKGBUILD datoteko v trenutnem direktoriju"
 
 #: src/cli.vala
 msgid ""
 "The build directory will be the parent directory, --builddir option will be "
 "ignored"
-msgstr ""
+msgstr "Izgradni direktorij bo starševski direktorij, -builddir opcije bodo prezrte"
 
 #: src/cli.vala
 msgid "and --no-clone option will be enforced"
-msgstr ""
+msgstr "in --no-clone opcija bo prisilno uveljavljena"
 
 #: src/cli.vala
 msgid "keep built packages in cache after installation"
-msgstr ""
+msgstr "po namestitvi obdrži izgrajene pakete v medpomnilniku"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "po namestitvi ne obdrži izgrajenih paketov v medpomnilniku"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "izpiši le, kaj bi se zgodilo, a ne izvedi prenosa"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr ""
+msgstr "ne kloniraj izgradnih datotek iz AUR, uporabi le lokalne datoteke"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
-msgstr ""
+msgstr "izogni se vsem potrditvenim sporočilom"
 
 #: src/cli.vala
 msgid "glob"
-msgstr ""
+msgstr "glob"
 
 #: src/cli.vala
 msgid ""
 "ignore a package upgrade, multiple packages can be specified by separating "
 "them with a comma"
-msgstr ""
+msgstr "prezri posodobitev paketa - mogoče je določiti več paketov, ki jih ločite z vejico"
 
 #: src/cli.vala
 msgid ""
 "overwrite conflicting files, multiple patterns can be specified by "
 "separating them with a comma"
-msgstr ""
+msgstr "prepiši datoteke, ki so v sporu - določiti je mogoče več vzorcev, ki jih ločite z vejico"
 
 #: src/cli.vala
 msgid "download all packages but do not install/upgrade anything"
-msgstr ""
+msgstr "prenesi vse pakete, vendar ne namesti/posodobi ničesar"
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr ""
+msgstr "označi vse nameščen pakete kot odvisne"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
-msgstr ""
+msgstr "označi vse pakete kot eksplicitno nameščene"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "poišči posodobitve"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr " ne išči posodobitev"
 
 #: src/cli.vala
 msgid "Reinstall packages"
-msgstr ""
+msgstr "Ponovno namesti pakete"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr ""
+msgstr "odstrani pakete le v primeru, da jih ne potrebuje katerikoli drugi paket"
 
 #: src/cli.vala
 msgid ""
 "remove dependencies that are not required by other packages, if this option "
 "is used without package name remove all orphans"
-msgstr ""
+msgstr "odstrani odvisnosti, ki jih ne potrebujejo drugi paketi - če je ta opcija izbrana brez imena paketa, bodo odstranjene vse sirote"
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "ne odstrani odvisnosti, ki niso potrebne za delovanje drugih paketov"
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "prezri varnostno kopiranje datotek"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr ""
+msgstr "Varno preveri ali osbatajajo posodobitve, ne da bi spreminjal bazo podatkov"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
-msgstr ""
+msgstr "Izhodna koda je 100, kadar so na voljo posodobitve"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --devel), if no directory is given the one "
 "specified in pamac.conf file is used"
-msgstr ""
+msgstr "izgradni direktorij (uporaba z --devel) - če ta ni podan, bo uporabljen tisti, ki je določen v pamac.conf"
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr ""
+msgstr "išči posodobitve tudi v AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "ne išči posodobitev v AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "izpiši le eno vrstico za posamično posodobitev"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr ""
+msgstr "preveri tudi posodobitve v razvojnih paketih (uporaba z --aur)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "ne išči posodobitev v razvojnih paketih"
 
 #: src/cli.vala
 msgid "Upgrade your system"
-msgstr ""
+msgstr "Nadgraditev sistema"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr ""
+msgstr "prisilna osvežitev baz podatkov"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
+msgstr "omogoči posodobitev na starejšo različico"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "onemogoči posodobitev na starejšo različico"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
-msgstr ""
+msgstr "posodobi tudi pakete nameščene iz AUR"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "ne posodobi paketov nameščenih iz AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr ""
+msgstr "posodobi tudi razvojne pakete (uporaba z --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "ne posodobi razvojnih paketov"
 
 #: src/cli.vala
 msgid ""
 "build directory (use with --aur), if no directory is given the one specified"
 " in pamac.conf file is used"
-msgstr ""
+msgstr "izgradni direktorij (uporaba z --aur) - če ta ni podan, bo uporabljen tisti, ki je določen v pamac.conf"
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr ""
+msgstr "Pobriši medpomnilnik paketov ali izgradnih datotek"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "število"
 
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr ""
+msgstr "določi, koliko različic vsakega paketa naj se shrani v direktoriju vmesnega pomnilnika"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr ""
+msgstr "upoštevaj le nenameščene pakete"
 
 #: src/cli.vala
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr ""
+msgstr "odstrani vse izgradne datoteke, izgradni direktorij je določen v pamac.conf "
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr ""
+msgstr "ne odstrani datotek, zgolj poišči kandidate paketov"
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "prikaži tudi vsa imena datotek"
 
 #: src/cli.vala
 msgid "Version"
@@ -1228,34 +1228,34 @@ msgstr "Različica"
 
 #: src/cli.vala
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 #: src/cli.vala
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "Velikost namestitve"
 
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "Noben paket si ne lasti %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is owned by %s"
-msgstr ""
+msgstr "%s si lasti %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%u prezrta posodobitev"
+msgstr[1] "%u prezrti posodobitvi"
+msgstr[2] "%u  prezrte posodobitve"
+msgstr[3] "%u prezrtih posodobitev"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
@@ -1267,40 +1267,40 @@ msgstr "Izbriši predpomnilnik"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean build files"
-msgstr ""
+msgstr "Počisti izgradne datoteke"
 
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Za namestitev dodaj %s"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s je na voljo le iz AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "Build %s from AUR"
-msgstr ""
+msgstr "Izgradi %s iz AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "V skupini %s je %u član"
+msgstr[1] "V skupini %s sta %u člana"
+msgstr[2] "V skupini %s so %u člani"
+msgstr[3] "V skupini %s je %u članov"
 
 #: src/cli.vala
 msgid "all"
-msgstr ""
+msgstr "vse"
 
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Dodaj %s za ponovno namestitev"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1312,11 +1312,11 @@ msgstr "Izberite"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
-msgstr "Potek"
+msgstr "Napredek"
 
 #: resources/history_dialog.ui
 msgid "Pamac History"
-msgstr "Zgodovina Pamac"
+msgstr "Pamac zgodovina"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
@@ -1352,7 +1352,7 @@ msgstr "Brskaj"
 
 #: resources/manager_window.ui
 msgid "Pending"
-msgstr "V čakanju"
+msgstr "Na čakanju"
 
 #: resources/manager_window.ui
 msgid "Updates"
@@ -1360,23 +1360,23 @@ msgstr "Posodobitve"
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Odstrani vse"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Namesti vse"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Prezri vse"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr ""
+msgstr "Sortiraj po"
 
 #: resources/manager_window.ui
 msgid "Launch"
-msgstr ""
+msgstr "Zaženi"
 
 #: resources/manager_window.ui
 msgid "Reinstall"
@@ -1384,7 +1384,7 @@ msgstr "Ponovno namesti"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Ponastavi izgradne datoteke"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1392,7 +1392,7 @@ msgstr "Preveri za posodobitve"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Samodejno prenesi posodobitve"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
@@ -1406,11 +1406,11 @@ msgstr "Splošno"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Napačna nastavitev teh opcij lahko pokvari sistem.\nSpreminjajte jih le, če veste, kaj delate."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Preveri prostor na disku"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
@@ -1424,19 +1424,19 @@ msgstr "Ob odstranjevanju paketov odstrani tudi tiste odvisnosti, ki niso zahtev
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Ne išči posodobitev med nameščanjem"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
-msgstr ""
+msgstr "Omogoči posodobitev na starejšo različico"
 
 #: resources/preferences_dialog.ui
 msgid "Ignore upgrades for:"
-msgstr ""
+msgstr "Prezri nadgradnje za:"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
-msgstr ""
+msgstr "Napredno"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
@@ -1450,7 +1450,7 @@ msgstr "Osveži seznam zrcal"
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr "AUR je skladišče, ki ga urejajo uporabniki, zaradi česar je lahko potencialni vir tveganj in težav.\nPriporočljivo je, da so vsi uporabniki AUR seznanjeni s procesom izgradnje programov."
+msgstr "AUR je repoziroij, ki ga urejajo uporabniki, zaradi česar je lahko potencialni vir tveganj in težav.\nPriporočljivo je, da so vsi uporabniki AUR seznanjeni s procesom izgradnje programov."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -1462,35 +1462,35 @@ msgstr "Dovoli Pamacu da išče in namešča pakete iz AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
-msgstr ""
+msgstr "Obdrži izgrajene pakete v medpomnilniku"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Išči posodobitve za razvojne pakete"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Snap paketi so vzdrževani s strani njihovih izdajateljev."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
-msgstr ""
+msgstr "Omogoči podporo za Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "Dovoli Pamac-u iskanje in nameščanje snapov"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Flatpak paketi so vzdrževani s strani njihovih izdajateljev."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
-msgstr ""
+msgstr "Omogoči podporo za Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "Dovoli Pamac-u iskanje in nameščanje flatpakov"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

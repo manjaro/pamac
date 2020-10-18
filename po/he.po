@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-10-06 11:23+0000\n"
+"PO-Revision-Date: 2020-10-09 13:08+0000\n"
 "Last-Translator: Omer I.S.\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "התקן, עדכן, או מחק חבילות"
+msgstr "להתקין, לעדכן, או להסיר חבילות"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
-msgstr "אימות נדרש להתקנה, עדכון, או הסרת חבילות"
+msgstr "נדרש אימות כדי להתקין, לעדכן, או להסיר חבילות"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
@@ -376,12 +376,12 @@ msgstr ""
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "בודק %s תלויות"
+msgstr "בוחן %s תלויות"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr ""
+msgstr "כשל בבחינת %s תלויות"
 
 #: src/transaction.vala
 #, c-format
@@ -408,7 +408,7 @@ msgstr "בונה %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr ""
+msgstr "כשל בבניית %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -588,7 +588,7 @@ msgstr "לא נמצאה חבילה"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "בודק עדכונים"
+msgstr "בודק אם יש עדכונים"
 
 #: src/manager_window.vala
 #, c-format
@@ -1090,11 +1090,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "בדוק אם יש עדכונים"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr "אל תחפש עדכונים"
+msgstr "לא לבדוק אם יש עדכונים"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1134,7 +1134,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "בנוסף בדוק עדכונים בAUR"
+msgstr "בנוסף לבדוק אם יש עדכונים ב־AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
@@ -1347,7 +1347,7 @@ msgstr "חיפוש"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "עיין"
+msgstr "עיון"
 
 #: resources/manager_window.ui
 msgid "Pending"
@@ -1409,7 +1409,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "בדוק שטח פנוי בכונן"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
