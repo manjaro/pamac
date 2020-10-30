@@ -20,7 +20,6 @@
 namespace Pamac {
 	public class UpdatesChecker : Object {
 		MainLoop loop;
-		Daemon system_daemon;
 		Config config;
 		uint check_localdb_timeout_id;
 		GLib.File localdb;
@@ -94,10 +93,6 @@ namespace Pamac {
 				updates_available (_updates_nb);
 				message ("%u updates found", _updates_nb);
 			}
-		}
-
-		void on_write_pamac_config_finished () {
-			check_updates ();
 		}
 
 		void on_localdb_changed (File src, File? dest, FileMonitorEvent event_type) {

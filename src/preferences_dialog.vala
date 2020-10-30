@@ -155,14 +155,19 @@ namespace Pamac {
 				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
 				mirrors_country_comboboxtext.active = 0;
 				int index = 1;
-				preferences_choosen_country = transaction.database.get_mirrors_choosen_country ();
-				foreach (unowned string country in transaction.database.get_mirrors_countries ()) {
-					mirrors_country_comboboxtext.append_text (country);
-					if (country == preferences_choosen_country) {
-						mirrors_country_comboboxtext.active = index;
-					}
-					index += 1;
-				}
+				transaction.database.get_mirrors_choosen_country_async.begin ((obj, res) => {
+					preferences_choosen_country = transaction.database.get_mirrors_choosen_country_async.end (res);
+					transaction.database.get_mirrors_countries_async.begin ((obj, res) => {
+						var countries = transaction.database.get_mirrors_countries_async.end (res);
+						foreach (unowned string country in countries) {
+							mirrors_country_comboboxtext.append_text (country);
+							if (country == preferences_choosen_country) {
+								mirrors_country_comboboxtext.active = index;
+							}
+							index += 1;
+						}
+					});
+				});
 				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 			}
 
@@ -458,22 +463,25 @@ namespace Pamac {
 			manager_window.generate_mirrors_list = true;
 			manager_window.apply_button.sensitive = false;
 			manager_window.details_button.sensitive = true;
-			transaction.generate_mirrors_list (preferences_choosen_country);
-			manager_window.generate_mirrors_list = false;
-			transaction.reset_progress_box ();
-			generate_mirrors_list_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			transaction.generate_mirrors_list_async.begin (preferences_choosen_country, (obj, res) => {
+				manager_window.generate_mirrors_list = false;
+				transaction.reset_progress_box ();
+				generate_mirrors_list_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			});
 		}
 
 		[GtkCallback]
 		void on_clean_cache_button_clicked () {
-			transaction.clean_cache ();
-			refresh_clean_cache_button.begin ();
+			transaction.clean_cache_async.begin (() => {
+				refresh_clean_cache_button.begin ();
+			});
 		}
 
 		[GtkCallback]
 		void on_clean_build_files_button_clicked () {
-			transaction.clean_build_files ();
-			refresh_clean_build_files_button.begin ();
+			transaction.clean_build_files_async.begin (() => {
+				refresh_clean_build_files_button.begin ();
+			});
 		}
 	}
 }

@@ -18,7 +18,7 @@
  */
 
 namespace Pamac {
-	internal interface FlatpakPlugin: Object {
+	internal interface FlatpakPlugin : Object {
 		public abstract uint64 refresh_period { get; set; }
 		public abstract MainContext context { get; set; }
 
@@ -28,28 +28,20 @@ namespace Pamac {
 		public signal void emit_error (string sender, string message, string[] details);
 
 		public abstract void load_appstream_data ();
-		public abstract SList<string> get_remotes_names ();
-		public abstract void search_flatpaks (string search_string, ref SList<FlatpakPackage> pkgs);
-		public abstract void search_uninstalled_flatpaks_sync (string[] search_terms, ref SList<FlatpakPackage> pkgs);
+		public abstract void get_remotes_names (ref GenericArray<unowned string> remotes_names);
+		public abstract void search_flatpaks (string search_string, ref GenericArray<unowned FlatpakPackage> pkgs);
+		public abstract void search_uninstalled_flatpaks_sync (string[] search_terms, ref GenericArray<unowned FlatpakPackage> pkgs);
 		public abstract bool is_installed_flatpak (string name);
 		public abstract FlatpakPackage? get_flatpak_by_app_id (string app_id);
 		public abstract FlatpakPackage? get_flatpak (string id);
-		public abstract void get_installed_flatpaks (ref SList<FlatpakPackage> pkgs);
-		public abstract void get_category_flatpaks (string category, ref SList<FlatpakPackage> pkgs);
-		public abstract void get_flatpak_updates (ref SList<FlatpakPackage> pkgs);
+		public abstract void get_installed_flatpaks (ref GenericArray<unowned FlatpakPackage> pkgs);
+		public abstract void get_category_flatpaks (string category, ref GenericArray<unowned FlatpakPackage> pkgs);
+		public abstract void get_flatpak_updates (ref GenericArray<unowned FlatpakPackage> pkgs);
 		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade);
 		public abstract void trans_cancel (string sender);
 	}
 
-	public class FlatpakPackage: Package {
-		public string id { get; internal set; default = "";}
-		public string branch { get; internal set; default = "";}
-		public string license { get; internal set; default = "";}
-		internal SList<string> screenshots_priv;
-		public SList<string> screenshots { get {return screenshots_priv;} }
-
-		internal FlatpakPackage () {
-			screenshots_priv = new SList<string> ();
-		}
+	public abstract class FlatpakPackage : Package {
+		internal FlatpakPackage () {}
 	}
 }

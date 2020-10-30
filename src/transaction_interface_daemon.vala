@@ -21,24 +21,36 @@ namespace Pamac {
 	internal class TransactionInterfaceDaemon: Object, TransactionInterface {
 		Daemon system_daemon;
 		string sender;
-		MainLoop loop;
+		MainContext context;
+		SourceFunc generate_mirrors_list_callback;
+		SourceFunc download_updates_callback;
+		SourceFunc get_authorization_callback;
 		bool get_authorization_authorized;
+		SourceFunc clean_cache_callback;
 		bool clean_cache_success;
+		SourceFunc clean_build_files_callback;
 		bool clean_build_files_success;
+		SourceFunc set_pkgreason_callback;
 		bool set_pkgreason_success;
+		SourceFunc download_pkg_callback;
 		string download_pkg_path;
+		SourceFunc trans_refresh_callback;
 		bool trans_refresh_success;
+		SourceFunc trans_run_callback;
 		bool trans_run_success;
 		#if ENABLE_SNAP
+		SourceFunc snap_trans_run_callback;
 		bool snap_trans_run_success;
+		SourceFunc snap_switch_channel_callback;
 		bool snap_switch_channel_success;
 		#endif
 		#if ENABLE_FLATPAK
+		SourceFunc flatpak_trans_run_callback;
 		bool flatpak_trans_run_success;
 		#endif
 
-		public TransactionInterfaceDaemon (Config config, MainLoop loop) {
-			this.loop = loop;
+		public TransactionInterfaceDaemon (Config config, MainContext context) {
+			this.context = context;
 			try {
 				connecting_system_daemon (config);
 				connecting_dbus_signals ();
@@ -48,10 +60,11 @@ namespace Pamac {
 			}
 		}
 
-		public bool get_authorization () throws Error {
+		public async bool get_authorization () throws Error {
+			get_authorization_callback = get_authorization.callback;
 			try {
 				system_daemon.start_get_authorization ();
-				loop.run ();
+				yield;
 				return get_authorization_authorized;
 			} catch (Error e) {
 				throw e;
@@ -61,7 +74,7 @@ namespace Pamac {
 		void on_get_authorization_finished (string sender, bool authorized) {
 			if (sender == this.sender) {
 				get_authorization_authorized = authorized;
-				loop.quit ();
+				context.invoke ((owned) get_authorization_callback);
 			}
 		}
 
@@ -73,10 +86,11 @@ namespace Pamac {
 			}
 		}
 
-		public void generate_mirrors_list (string country) throws Error {
+		public async void generate_mirrors_list (string country) throws Error {
+			generate_mirrors_list_callback = generate_mirrors_list.callback;
 			try {
 				system_daemon.start_generate_mirrors_list (country);
-				loop.run ();
+				yield;
 			} catch (Error e) {
 				throw e;
 			}
@@ -84,7 +98,7 @@ namespace Pamac {
 
 		void on_generate_mirrors_list_finished (string sender) {
 			if (sender == this.sender) {
-				loop.quit ();
+				context.invoke ((owned) generate_mirrors_list_callback);
 			}
 		}
 
@@ -94,10 +108,11 @@ namespace Pamac {
 			}
 		}
 
-		public bool clean_cache (string[] filenames) throws Error {
+		public async bool clean_cache (string[] filenames) throws Error {
+			clean_cache_callback = clean_cache.callback;
 			try {
 				system_daemon.start_clean_cache (filenames);
-				loop.run ();
+				yield;
 				return clean_cache_success;
 			} catch (Error e) {
 				throw e;
@@ -107,14 +122,15 @@ namespace Pamac {
 		void on_clean_cache_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				clean_cache_success = success;
-				loop.quit ();
+				context.invoke ((owned) clean_cache_callback);
 			}
 		}
 
-		public bool clean_build_files (string aur_build_dir) throws Error {
+		public async bool clean_build_files (string aur_build_dir) throws Error {
+			clean_build_files_callback = clean_build_files.callback;
 			try {
 				system_daemon.start_clean_build_files (aur_build_dir);
-				loop.run ();
+				yield;
 				return clean_build_files_success;
 			} catch (Error e) {
 				throw e;
@@ -124,14 +140,15 @@ namespace Pamac {
 		void on_clean_clean_build_files_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				clean_build_files_success = success;
-				loop.quit ();
+				context.invoke ((owned) clean_build_files_callback);
 			}
 		}
 
-		public bool set_pkgreason (string pkgname, uint reason) throws Error {
+		public async bool set_pkgreason (string pkgname, uint reason) throws Error {
+			set_pkgreason_callback = set_pkgreason.callback;
 			try {
 				system_daemon.start_set_pkgreason (pkgname, reason);
-				loop.run ();
+				yield;
 				return set_pkgreason_success;
 			} catch (Error e) {
 				throw e;
@@ -141,14 +158,15 @@ namespace Pamac {
 		void on_set_pkgreason_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				set_pkgreason_success = success;
-				loop.quit ();
+				context.invoke ((owned) clean_build_files_callback);
 			}
 		}
 
-		public void download_updates () throws Error {
+		public async void download_updates () throws Error {
+			download_updates_callback = download_updates.callback;
 			try {
 				system_daemon.start_download_updates ();
-				loop.run ();
+				yield;
 			} catch (Error e) {
 				throw e;
 			}
@@ -156,14 +174,15 @@ namespace Pamac {
 
 		void on_download_updates_finished (string sender) {
 			if (sender == this.sender) {
-				loop.quit ();
+				context.invoke ((owned) download_updates_callback);
 			}
 		}
 
-		public string download_pkg (string url) throws Error {
+		public async string download_pkg (string url) throws Error {
+			download_pkg_callback = download_pkg.callback;
 			try {
 				system_daemon.start_download_pkg (url);
-				loop.run ();
+				yield;
 				return download_pkg_path;
 			} catch (Error e) {
 				throw e;
@@ -175,13 +194,14 @@ namespace Pamac {
 				return;
 			}
 			download_pkg_path = path;
-			loop.quit ();
+			context.invoke ((owned) download_pkg_callback);
 		}
 
-		public bool trans_refresh (bool force) throws Error {
+		public async bool trans_refresh (bool force) throws Error {
+			trans_refresh_callback = trans_refresh.callback;
 			try {
 				system_daemon.start_trans_refresh (force);
-				loop.run ();
+				yield;
 				return trans_refresh_success;
 			} catch (Error e) {
 				throw e;
@@ -193,10 +213,10 @@ namespace Pamac {
 				return;
 			}
 			trans_refresh_success = success;
-			loop.quit ();
+			context.invoke ((owned) trans_refresh_callback);
 		}
 
-		public bool trans_run (bool sysupgrade,
+		public async bool trans_run (bool sysupgrade,
 								bool enable_downgrade,
 								bool simple_install,
 								bool keep_built_pkgs,
@@ -207,6 +227,7 @@ namespace Pamac {
 								string[] to_install_as_dep,
 								string[] ignorepkgs,
 								string[] overwrite_files) throws Error {
+			trans_run_callback = trans_run.callback;
 			try {
 				system_daemon.start_trans_run (sysupgrade,
 												enable_downgrade,
@@ -219,7 +240,7 @@ namespace Pamac {
 												to_install_as_dep,
 												ignorepkgs,
 												overwrite_files);
-				loop.run ();
+				yield;
 				return trans_run_success;
 			} catch (Error e) {
 				throw e;
@@ -231,7 +252,7 @@ namespace Pamac {
 				return;
 			}
 			trans_run_success = success;
-			loop.quit ();
+			context.invoke ((owned) trans_run_callback);
 		}
 
 		public void trans_cancel () throws Error {
@@ -243,10 +264,11 @@ namespace Pamac {
 		}
 
 		#if ENABLE_SNAP
-		public bool snap_trans_run (string[] to_install, string[] to_remove) throws Error {
+		public async bool snap_trans_run (string[] to_install, string[] to_remove) throws Error {
+			snap_trans_run_callback = snap_trans_run.callback;
 			try {
 				system_daemon.start_snap_trans_run (to_install, to_remove);
-				loop.run ();
+				yield;
 				return snap_trans_run_success;
 			} catch (Error e) {
 				throw e;
@@ -258,13 +280,14 @@ namespace Pamac {
 				return;
 			}
 			snap_trans_run_success = success;
-			loop.quit ();
+			context.invoke ((owned) snap_trans_run_callback);
 		}
 
-		public bool snap_switch_channel (string snap_name, string channel) throws Error {
+		public async bool snap_switch_channel (string snap_name, string channel) throws Error {
+			snap_switch_channel_callback = snap_switch_channel.callback;
 			try {
 				system_daemon.start_snap_switch_channel (snap_name, channel);
-				loop.run ();
+				yield;
 				return snap_switch_channel_success;
 			} catch (Error e) {
 				throw e;
@@ -276,15 +299,16 @@ namespace Pamac {
 				return;
 			}
 			snap_switch_channel_success = success;
-			loop.quit ();
+			context.invoke ((owned) snap_switch_channel_callback);
 		}
 		#endif
 
 		#if ENABLE_FLATPAK
-		public bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error {
+		public async bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error {
+			flatpak_trans_run_callback = flatpak_trans_run.callback;
 			try {
 				system_daemon.start_flatpak_trans_run (to_install, to_remove, to_upgrade);
-				loop.run ();
+				yield;
 				return flatpak_trans_run_success;
 			} catch (Error e) {
 				throw e;
@@ -296,7 +320,7 @@ namespace Pamac {
 				return;
 			}
 			flatpak_trans_run_success = success;
-			loop.quit ();
+			context.invoke ((owned) flatpak_trans_run_callback);
 		}
 		#endif
 

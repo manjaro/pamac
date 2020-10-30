@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import gi
-gi.require_version('Pamac', '9.0')
+gi.require_version('Pamac', '10.0')
 from gi.repository import Pamac
 
 def print_pkg_details (details):

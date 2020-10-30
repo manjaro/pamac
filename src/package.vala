@@ -18,21 +18,24 @@
  */
 
 namespace Pamac {
-	public class Package: Object {
-		public string name { get; internal set; default = "";}
-		public string app_name { get; internal set; default = "";}
-		public string app_id { get; internal set; default = "";}
-		public string version { get; internal set; default = "";}
-		public string installed_version { get; internal set; default = "";}
-		public string desc { get; internal set; default = "";}
-		public string long_desc { get; internal set; default = "";}
-		public string repo { get; internal set; default = "";}
-		public string launchable { get; internal set; default = "";}
-		public uint64 installed_size { get; internal set; }
-		public uint64 download_size { get; internal set; }
-		public string url { get; internal set; default = "";}
-		public string icon { get; internal set; default = "";}
-		public uint64 installdate { get; internal set; }
+	public abstract class Package : Object {
+		public abstract string name { get; internal set; }
+		public abstract string id { get; }
+		public abstract string? app_name { get; }
+		public abstract string? app_id { get; }
+		public abstract string version { get; internal set; }
+		public abstract string? installed_version { get; internal set; }
+		public abstract string? desc { get; internal set; }
+		public abstract string? long_desc { get; }
+		public abstract string? repo { get; internal set; }
+		public abstract string? launchable { get; }
+		public abstract string? license { get; }
+		public abstract string? url { get; }
+		public abstract string? icon { get; }
+		public abstract uint64 installed_size { get; }
+		public abstract uint64 download_size { get; }
+		public abstract uint64 install_date { get; }
+		public abstract GenericArray<string> screenshots { get; }
 
 		internal Package () {}
 	}

@@ -28,7 +28,6 @@ namespace Pamac {
 		TransactionInterface transaction_interface;
 		delegate void TransactionAction ();
 		bool waiting;
-		MainContext context;
 		// run transaction data
 		bool sysupgrading;
 		bool force_refresh;
@@ -61,7 +60,7 @@ namespace Pamac {
 		// transaction options
 		public Database database { get; construct set; }
 		public bool clone_build_files { get; set; }
-		public MainLoop loop { protected get; private set; }
+		public MainContext context { protected get; private set; }
 
 		public signal void emit_action (string action);
 		public signal void emit_action_progress (string action, string status, double progress);
@@ -86,13 +85,12 @@ namespace Pamac {
 
 		construct {
 			context = MainContext.ref_thread_default ();
-			loop = new MainLoop (context);
 			if (Posix.geteuid () == 0) {
 				// we are root
-				transaction_interface = new TransactionInterfaceRoot (loop);
+				transaction_interface = new TransactionInterfaceRoot (context);
 			} else {
 				// use dbus daemon
-				transaction_interface = new TransactionInterfaceDaemon (database.config, loop);
+				transaction_interface = new TransactionInterfaceDaemon (database.config, context);
 			}
 			waiting = false;
 			// transaction options
@@ -186,7 +184,7 @@ namespace Pamac {
 			return false;
 		}
 
-		protected virtual void edit_build_files (string[] pkgnames) {
+		protected virtual async void edit_build_files (string[] pkgnames) {
 			// do nothing
 		}
 
@@ -195,7 +193,7 @@ namespace Pamac {
 			return false;
 		}
 
-		protected async GenericArray<string> get_build_files (string pkgname) {
+		protected async GenericArray<string> get_build_files_async (string pkgname) {
 			string pkgdir_name;
 			if (database.config.aur_build_dir == "/var/tmp") {
 				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
@@ -209,7 +207,7 @@ namespace Pamac {
 			try {
 				// read .SRCINFO
 				var dis = new DataInputStream (yield srcinfo.read_async ());
-				string line;
+				string? line;
 				while ((line = yield dis.read_line_async ()) != null) {
 					if ("source = " in line) {
 						string source = line.split (" = ", 2)[1];
@@ -252,9 +250,9 @@ namespace Pamac {
 		}
 		#endif
 
-		public bool get_authorization () {
+		public async bool get_authorization_async () {
 			try {
-				return transaction_interface.get_authorization ();
+				return yield transaction_interface.get_authorization ();
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"get_authorization: %s".printf (e.message)});
 			}
@@ -269,12 +267,12 @@ namespace Pamac {
 			}
 		}
 
-		public void generate_mirrors_list (string country) {
+		public async void generate_mirrors_list_async (string country) {
 			emit_action (dgettext (null, "Refreshing mirrors list") + "...");
 			important_details_outpout (false);
 			transaction_interface.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
 			try {
-				transaction_interface.generate_mirrors_list (country);
+				yield transaction_interface.generate_mirrors_list (country);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"generate_mirrors_list: %s".printf (e.message)});
 			}
@@ -286,8 +284,8 @@ namespace Pamac {
 			emit_script_output (line);
 		}
 
-		public void clean_cache () {
-			HashTable<string, uint64?> details = database.get_clean_cache_details ();
+		public async void clean_cache_async () {
+			HashTable<string, uint64?> details = yield database.get_clean_cache_details_async ();
 			var iter = HashTableIter<string, uint64?> (details);
 			var array = new GenericArray<string> (details.length);
 			unowned string name;
@@ -295,13 +293,13 @@ namespace Pamac {
 				array.add (name);
 			}
 			try {
-				transaction_interface.clean_cache (array.data);
+				yield transaction_interface.clean_cache (array.data);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"clean_cache: %s".printf (e.message)});
 			}
 		}
 
-		public void clean_build_files () {
+		public async void clean_build_files_async () {
 			string real_aur_build_dir;
 			if (database.config.aur_build_dir == "/var/tmp") {
 				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
@@ -309,22 +307,22 @@ namespace Pamac {
 				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
 			}
 			try {
-				transaction_interface.clean_build_files (real_aur_build_dir);
+				yield transaction_interface.clean_build_files (real_aur_build_dir);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"clean_build_files: %s".printf (e.message)});
 			}
 			// recreate buildir here to have good permissions
 			try {
-				Process.spawn_command_line_sync ("mkdir -p %s".printf (database.config.aur_build_dir));
+				Process.spawn_command_line_async ("mkdir -p %s".printf (database.config.aur_build_dir));
 			} catch (SpawnError e) {
 				emit_error ("SpawnError: %s".printf (e.message), {});
 			}
 		}
 
-		public bool set_pkgreason (string pkgname, uint reason) {
+		public async bool set_pkgreason_async (string pkgname, uint reason) {
 			bool success = false;
 			try {
-				success = transaction_interface.set_pkgreason (pkgname, reason);
+				success = yield transaction_interface.set_pkgreason (pkgname, reason);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"set_pkgreason: %s".printf (e.message)});
 			}
@@ -332,20 +330,20 @@ namespace Pamac {
 			return success;
 		}
 
-		public void download_updates () {
+		public async void download_updates_async () {
 			try {
-				transaction_interface.download_updates ();
+				yield transaction_interface.download_updates ();
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"download_updates: %s".printf (e.message)});
 			}
 		}
 
-		bool compute_aur_build_list () {
+		async bool compute_aur_build_list () {
 			// set building to allow cancellation
 			building = true;
 			build_cancellable.reset ();
 			start_building ();
-			bool success = compute_aur_build_list_real ();
+			bool success = yield compute_aur_build_list_real ();
 			stop_building ();
 			building = false;
 			if (build_cancellable.is_cancelled ()) {
@@ -355,11 +353,11 @@ namespace Pamac {
 			return success;
 		}
 
-		int launch_subprocess (string[] cmds) {
+		async int launch_subprocess (string[] cmds) {
 			int status = 1;
 			try {
 				var process = new Subprocess.newv (cmds, SubprocessFlags.NONE);
-				process.wait ();
+				yield process.wait_async ();
 				if (process.get_if_exited ()) {
 					status = process.get_exit_status ();
 				}
@@ -369,41 +367,40 @@ namespace Pamac {
 			return status;
 		}
 
-		bool compute_aur_build_list_real () {
+		async bool compute_aur_build_list_real () {
 			var file = GLib.File.new_for_path (tmp_path);
 			if (!file.query_exists ()) {
-				launch_subprocess ({"mkdir", "-p", tmp_path});
-				launch_subprocess ({"chmod", "a+w", tmp_path});
+				yield launch_subprocess ({"mkdir", "-p", tmp_path});
+				yield launch_subprocess ({"chmod", "a+w", tmp_path});
 			}
-			launch_subprocess ({"mkdir", "-p", aurdb_path});
+			yield launch_subprocess ({"mkdir", "-p", aurdb_path});
 			aur_desc_list.remove_all ();
 			already_checked_aur_dep.remove_all ();
 			var to_build_array = new GenericArray<string> ();
 			foreach (unowned string pkgname in to_build) {
 				to_build_array.add (pkgname);
 			}
-			if (!check_aur_dep_list (to_build_array.data)) {
-				return false;
-			}
-			if (aur_desc_list.length > 0) {
+			bool success = yield check_aur_dep_list (to_build_array.data);
+			if (success && aur_desc_list.length > 0) {
 				// create a fake aur db
-				launch_subprocess ({"rm", "-f", "%s/pamac_aur.db".printf (tmp_path)});
+				yield launch_subprocess ({"rm", "-f", "%s/pamac_aur.db".printf (tmp_path)});
 				string[] cmds = {"bsdtar", "-cf", "%s/pamac_aur.db".printf (tmp_path), "-C", aurdb_path};
 				foreach (unowned string name_version in aur_desc_list) {
 					cmds += name_version;
 				}
-				if (launch_subprocess (cmds) != 0) {
-					return false;
+				int ret = yield launch_subprocess (cmds);
+				if (ret != 0) {
+					success = false;
 				}
 			}
-			return true;
+			return success;
 		}
 
-		bool check_aur_dep_list (string[] pkgnames) {
+		async bool check_aur_dep_list (string[] pkgnames) {
 			var dep_to_check = new GenericArray<string> ();
-			var aur_pkgs = new HashTable<string, AURPackage?> (str_hash, str_equal);
+			var aur_pkgs = new HashTable<string, unowned AURPackage?> (str_hash, str_equal);
 			if (clone_build_files) {
-				aur_pkgs = database.get_aur_pkgs (pkgnames);
+				aur_pkgs = yield database.get_aur_pkgs_async (pkgnames);
 			}
 			foreach (unowned string pkgname in pkgnames) {
 				if (build_cancellable.is_cancelled ()) {
@@ -418,7 +415,8 @@ namespace Pamac {
 					if (aur_pkg == null) {
 						// may be a virtual package
 						// use search and add results
-						foreach (unowned AURPackage found_pkg in database.search_aur_pkgs (pkgname)) {
+						var search_aur_pkgs = yield database.search_aur_pkgs_async (pkgname);
+						foreach (unowned AURPackage found_pkg in search_aur_pkgs) {
 							foreach (unowned string dep_string in found_pkg.provides) {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (dep_name == pkgname) {
@@ -433,7 +431,7 @@ namespace Pamac {
 					// clone build files
 					// use packagebase in case of split package
 					emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
-					clone_dir = database.clone_build_files (aur_pkg.packagebase, false, build_cancellable);
+					clone_dir = yield database.clone_build_files_async (aur_pkg.packagebase, false, build_cancellable);
 					if (build_cancellable.is_cancelled ()) {
 						return false;
 					}
@@ -471,7 +469,8 @@ namespace Pamac {
 						continue;
 					}
 					emit_action (dgettext (null, "Generating %s information").printf (pkgname) + "...");
-					if (!(database.regenerate_srcinfo (pkgname, build_cancellable))) {
+					bool success = yield database.regenerate_srcinfo_async (pkgname, build_cancellable);
+					if (!success) {
 						// error
 						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to generate %s information").printf (pkgname)});
 						return false;
@@ -484,7 +483,7 @@ namespace Pamac {
 				var srcinfo = clone_dir.get_child (".SRCINFO");
 				try {
 					// read .SRCINFO
-					var dis = new DataInputStream (srcinfo.read ());
+					var dis = new DataInputStream (yield srcinfo.read_async ());
 					string? line;
 					string current_section = "";
 					bool current_section_is_pkgbase = true;
@@ -493,15 +492,15 @@ namespace Pamac {
 					string desc = "";
 					string arch = Posix.utsname ().machine;
 					var pkgnames_found = new GenericArray<string> ();
-					var global_depends = new SList<string> ();
+					var global_depends = new GenericArray<string> ();
 					var global_checkdepends = new GenericArray<string> ();
 					var global_makedepends = new GenericArray<string> ();
-					var global_conflicts = new SList<string> ();
-					var global_provides = new SList<string> ();
-					var global_replaces = new SList<string> ();
+					var global_conflicts = new GenericArray<string> ();
+					var global_provides = new GenericArray<string> ();
+					var global_replaces = new GenericArray<string> ();
 					var global_validpgpkeys = new GenericArray<string> ();
 					var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
-					while ((line = dis.read_line ()) != null) {
+					while ((line = yield dis.read_line_async ()) != null) {
 						if ("pkgbase = " in line) {
 							pkgbase = line.split (" = ", 2)[1];
 						} else if ("pkgdesc = " in line) {
@@ -538,12 +537,12 @@ namespace Pamac {
 									} else if ("makedepends" in line) {
 										global_makedepends.add ((owned) depend);
 									} else {
-										global_depends.prepend ((owned) depend);
+										global_depends.add ((owned) depend);
 									}
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.depends_priv.prepend ((owned) depend);
+										aur_pkg.depends.add ((owned) depend);
 									}
 								}
 							}
@@ -551,11 +550,11 @@ namespace Pamac {
 							if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
 								string provide = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_provides.prepend ((owned) provide);
+									global_provides.add ((owned) provide);
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.provides_priv.prepend ((owned) provide);
+										aur_pkg.provides.add ((owned) provide);
 									}
 								}
 							}
@@ -563,11 +562,11 @@ namespace Pamac {
 							if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
 								string conflict = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_conflicts.prepend ((owned) conflict);
+									global_conflicts.add ((owned) conflict);
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.conflicts_priv.prepend ((owned) conflict);
+										aur_pkg.conflicts.add ((owned) conflict);
 									}
 								}
 							}
@@ -575,11 +574,11 @@ namespace Pamac {
 							if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
 								string replace = line.split (" = ", 2)[1];
 								if (current_section_is_pkgbase) {
-									global_replaces.prepend ((owned) replace);
+									global_replaces.add ((owned) replace);
 								} else {
 									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
 									if (aur_pkg != null) {
-										aur_pkg.replaces_priv.prepend ((owned) replace);
+										aur_pkg.replaces.add ((owned) replace);
 									}
 								}
 							}
@@ -593,7 +592,7 @@ namespace Pamac {
 							current_section = pkgname_found;
 							current_section_is_pkgbase = false;
 							if (!pkgnames_table.contains (pkgname_found)) {
-								var aur_pkg = new AURPackage ();
+								var aur_pkg = new AURPackageData ();
 								aur_pkg.name = pkgname_found;
 								aur_pkg.version = version.str;
 								aur_pkg.desc = desc;
@@ -603,34 +602,31 @@ namespace Pamac {
 							}
 						}
 					}
-					uint i;
-					for (i = 0; i < pkgnames_found.length; i++) {
-						already_checked_aur_dep.add (pkgnames_found[i]);
+					foreach (unowned string pkgname_found in pkgnames_found) {
+						already_checked_aur_dep.add (pkgname_found);
 					}
 					// create fake aur db entries
-					for (i = 0; i < pkgnames_found.length; i++) {
-						unowned string pkgname_found = pkgnames_found[i];
+					foreach (unowned string pkgname_found in pkgnames_found) {
 						unowned AURPackage? aur_pkg = pkgnames_table.get (pkgname_found);
 						// populate empty list will global ones
-						if (global_depends != null && aur_pkg.depends == null) {
-							aur_pkg.depends_priv = (owned) global_depends;
+						if (global_depends.length != 0 && aur_pkg.depends.length == 0) {
+							aur_pkg.depends = (owned) global_depends;
 						}
-						if (global_provides != null && aur_pkg.provides == null) {
-							aur_pkg.provides_priv = (owned) global_provides;
+						if (global_provides.length != 0 && aur_pkg.provides.length == 0) {
+							aur_pkg.provides = (owned) global_provides;
 						}
-						if (global_conflicts != null && aur_pkg.conflicts == null) {
-							aur_pkg.conflicts_priv = (owned) global_conflicts;
+						if (global_conflicts.length != 0 && aur_pkg.conflicts.length == 0) {
+							aur_pkg.conflicts = (owned) global_conflicts;
 						}
-						if (global_replaces != null && aur_pkg.replaces == null) {
-							aur_pkg.replaces_priv = (owned) global_replaces;
+						if (global_replaces.length != 0 && aur_pkg.replaces.length == 0) {
+							aur_pkg.replaces = (owned) global_replaces;
 						}
 						// add checkdepends and makedepends in depends
-						uint j;
-						for (j = 0; j < global_checkdepends.length; j++) {
-							aur_pkg.depends_priv.prepend (global_checkdepends[j]);
+						foreach (unowned string global_checkdepend in global_checkdepends) {
+							aur_pkg.depends.add (global_checkdepend);
 						}
-						for (j = 0; j < global_makedepends.length; j++) {
-							aur_pkg.depends_priv.prepend (global_makedepends[j]);
+						foreach (unowned string global_makedepend in global_makedepends) {
+							aur_pkg.depends.add (global_makedepend);
 						}
 						// check deps
 						foreach (unowned string dep_string in aur_pkg.depends) {
@@ -653,15 +649,15 @@ namespace Pamac {
 						aur_desc_list.add (pkgdir);
 						var file = GLib.File.new_for_path (pkgdir_path);
 						if (!file.query_exists ()) {
-							file.make_directory ();
+							yield file.make_directory_async ();
 						}
 						file = GLib.File.new_for_path ("%s/desc".printf (pkgdir_path));
 						FileOutputStream fos;
 						// always recreate desc in case of .SRCINFO modifications
 						if (file.query_exists ()) {
-							fos = file.replace (null, false, FileCreateFlags.NONE);
+							fos = yield file.replace_async (null, false, FileCreateFlags.NONE);
 						} else {
-							fos = file.create (FileCreateFlags.NONE);
+							fos = yield file.create_async (FileCreateFlags.NONE);
 						}
 						// creating a DataOutputStream to the file
 						var dos = new DataOutputStream (fos);
@@ -678,7 +674,7 @@ namespace Pamac {
 						// arch (double %% before ARCH to escape %A)
 						dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
 						// depends
-						if (aur_pkg.depends != null) {
+						if (aur_pkg.depends.length != 0) {
 							dos.put_string ("%DEPENDS%\n");
 							foreach (unowned string name in aur_pkg.depends) {
 								dos.put_string ("%s\n".printf (name));
@@ -686,7 +682,7 @@ namespace Pamac {
 							dos.put_string ("\n");
 						}
 						// conflicts
-						if (aur_pkg.conflicts != null) {
+						if (aur_pkg.conflicts.length != 0) {
 							dos.put_string ("%CONFLICTS%\n");
 							foreach (unowned string name in aur_pkg.conflicts) {
 								dos.put_string ("%s\n".printf (name));
@@ -694,7 +690,7 @@ namespace Pamac {
 							dos.put_string ("\n");
 						}
 						// provides
-						if (aur_pkg.provides != null) {
+						if (aur_pkg.provides.length != 0) {
 							dos.put_string ("%PROVIDES%\n");
 							foreach (unowned string name in aur_pkg.provides) {
 								dos.put_string ("%s\n".printf (name));
@@ -702,7 +698,7 @@ namespace Pamac {
 							dos.put_string ("\n");
 						}
 						// replaces
-						if (aur_pkg.replaces != null) {
+						if (aur_pkg.replaces.length != 0) {
 							dos.put_string ("%REPLACES%\n");
 							foreach (unowned string name in aur_pkg.replaces) {
 								dos.put_string ("%s\n".printf (name));
@@ -712,7 +708,7 @@ namespace Pamac {
 					}
 					// check signature
 					if (global_validpgpkeys.length > 0) {
-						check_signature (pkgname, global_validpgpkeys);
+						yield check_signature (pkgname, global_validpgpkeys);
 					}
 				} catch (Error e) {
 					emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to check %s dependencies").printf (pkgname)});
@@ -720,35 +716,34 @@ namespace Pamac {
 				}
 			}
 			if (dep_to_check.length > 0) {
-				return check_aur_dep_list (dep_to_check.data);
+				return yield check_aur_dep_list (dep_to_check.data);
 			}
 			return true;
 		}
 
-		void check_signature (string pkgname, GenericArray<string> keys) {
-			for (uint i = 0; i < keys.length; i++) {
-				unowned string key = keys[i];
+		async void check_signature (string pkgname, GenericArray<string> keys) {
+			foreach (unowned string key in keys) {
 				var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 				try {
 					var process = launcher.spawnv ({"gpg", "--with-colons", "--batch", "--list-keys", key});
-					process.wait ();
+					yield process.wait_async ();
 					if (process.get_if_exited ()) {
 						if (process.get_exit_status () != 0) {
 							// key is not imported in keyring
 							// try to get key infos
 							launcher.set_flags (SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 							process = launcher.spawnv ({"gpg", "--with-colons", "--batch", "--search-keys", key});
-							process.wait ();
+							yield process.wait_async ();
 							if (process.get_if_exited ()) {
 								if (process.get_exit_status () == 0) {
 									var dis = new DataInputStream (process.get_stdout_pipe ());
 									string? line;
-									while ((line = dis.read_line ()) != null) {
+									while ((line = yield dis.read_line_async ()) != null) {
 										// get first uid line
 										if ("uid:" in line) {
 											string owner = line.split (":", 3)[1];
 											if (ask_import_key (pkgname, key, owner)) {
-												int status = run_cmd_line ({"gpg", "--with-colons", "--batch", "--recv-keys", key}, null, build_cancellable);
+												int status = yield run_cmd_line_async ({"gpg", "--with-colons", "--batch", "--recv-keys", key}, null, build_cancellable);
 												emit_script_output ("");
 												if (status != 0) {
 													emit_error (dgettext (null, "key %s could not be imported").printf (key), {});
@@ -767,7 +762,7 @@ namespace Pamac {
 			}
 		}
 
-		public bool run () {
+		public async bool run_async () {
 			if (transaction_interface == null) {
 				emit_error ("Daemon Error", {"failed to connect to dbus daemon"});
 				return false;
@@ -778,17 +773,17 @@ namespace Pamac {
 				to_remove.length > 0 ||
 				to_load.length > 0 ||
 				to_build.length > 0) {
-				success = run_alpm_transaction ();
+				success = yield run_alpm_transaction ();
 				if (success) {
 					if (to_build_queue.get_length () != 0) {
-						success = build_aur_packages ();
+						success = yield build_aur_packages ();
 						build_cancellable.reset ();
 					}
 					#if ENABLE_SNAP
 					if (success) {
 						if (snap_to_install.length > 0 ||
 							snap_to_remove.length > 0) {
-							success = run_snap_transaction ();
+							success = yield run_snap_transaction ();
 						}
 					}
 					#endif
@@ -797,7 +792,7 @@ namespace Pamac {
 						if (flatpak_to_install.length > 0 ||
 							flatpak_to_remove.length > 0 ||
 							flatpak_to_upgrade.length > 0) {
-							success = run_flatpak_transaction ();
+							success = yield run_flatpak_transaction ();
 						}
 					}
 					#endif
@@ -846,8 +841,8 @@ namespace Pamac {
 							}
 						}
 					}
-					for (uint i = 0; i < not_install.length; i++) {
-						snap_to_install.remove (not_install[i]);
+					foreach (unowned string name in not_install) {
+						snap_to_install.remove (name);
 					}
 					stop_preparing ();
 				}
@@ -863,11 +858,11 @@ namespace Pamac {
 					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 					SnapPackage pkg;
 					while (iter.next (null, out pkg)) {
-						summary.to_install_priv.append (pkg);
+						summary.to_install.add (pkg);
 					}
 					iter = HashTableIter<string, SnapPackage> (snap_to_remove);
 					while (iter.next (null, out pkg)) {
-						summary.to_remove_priv.append (pkg);
+						summary.to_remove.add (pkg);
 					}
 					stop_preparing ();
 				}
@@ -880,23 +875,23 @@ namespace Pamac {
 					var iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
 					FlatpakPackage pkg;
 					while (iter.next (null, out pkg)) {
-						summary.to_install_priv.append (pkg);
+						summary.to_install.add (pkg);
 					}
 					iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
 					while (iter.next (null, out pkg)) {
-						summary.to_remove_priv.append (pkg);
+						summary.to_remove.add (pkg);
 					}
 					iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
 					while (iter.next (null, out pkg)) {
-						summary.to_upgrade_priv.append (pkg);
+						summary.to_upgrade.add (pkg);
 					}
 					stop_preparing ();
 				}
 				#endif
 				#if ENABLE_SNAP || ENABLE_FLATPAK
-				if (summary.to_install_priv == null &&
-					summary.to_remove_priv == null &&
-					summary.to_upgrade_priv == null) {
+				if (summary.to_install.length == 0 &&
+					summary.to_remove.length == 0 &&
+					summary.to_upgrade.length == 0) {
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					return false;
 				} else if (ask_commit (summary)) {
@@ -904,14 +899,14 @@ namespace Pamac {
 					#if ENABLE_SNAP
 					if (snap_to_install.length > 0 ||
 						snap_to_remove.length > 0) {
-						success = run_snap_transaction ();
+						success = yield run_snap_transaction ();
 					}
 					#endif
 					#if ENABLE_FLATPAK
 					if (flatpak_to_install.length > 0 ||
 						flatpak_to_remove.length > 0 ||
 						flatpak_to_upgrade.length > 0) {
-						success = run_flatpak_transaction ();
+						success = yield run_flatpak_transaction ();
 					}
 					#endif
 					#if ENABLE_SNAP || ENABLE_FLATPAK
@@ -949,12 +944,12 @@ namespace Pamac {
 			}
 		}
 
-		void add_optdeps () {
+		async void add_optdeps () {
 			var to_add_to_install = new GenericSet<string?> (str_hash, str_equal);
 			foreach (unowned string name in to_install) {
 				// do not check if reinstall
 				if (!database.is_installed_pkg (name)) {
-					SList<string> uninstalled_optdeps = database.get_uninstalled_optdeps (name);
+					var uninstalled_optdeps = yield database.get_uninstalled_optdeps_async (name);
 					var real_uninstalled_optdeps = new GenericArray<unowned string> ();
 					foreach (unowned string optdep in uninstalled_optdeps) {
 						string[] splitted = optdep.split (": ", 2);
@@ -977,28 +972,27 @@ namespace Pamac {
 			}
 		}
 
-		bool run_alpm_transaction () {
+		async bool run_alpm_transaction () {
 			emit_action (dgettext (null, "Preparing") + "...");
-			add_optdeps ();
+			yield add_optdeps ();
 			if (sysupgrading && database.config.check_aur_updates) {
-				SList<AURPackage> aur_updates = database.get_aur_updates (ignorepkgs);
-				if (aur_updates != null) {
+				GenericArray<AURPackage> aur_updates = yield database.get_aur_updates_async (ignorepkgs);
+				if (aur_updates.length != 0) {
 					foreach (unowned AURPackage aur_pkg in aur_updates) {
 						to_build.add (aur_pkg.name);
 					}
 				}
 			}
-			bool success;
 			if (to_build.length > 0) {
-				success = compute_aur_build_list ();
+				bool success = yield compute_aur_build_list ();
 				if (!success) {
 					return false;
 				}
 			}
-			return trans_prepare_and_run ();
+			return yield trans_prepare_and_run ();
 		}
 
-		bool trans_prepare_and_run () {
+		async bool trans_prepare_and_run () {
 			// check if we need to sysupgrade
 			if (!sysupgrading && !database.config.simple_install && to_install.length > 0) {
 				foreach (unowned string name in to_install) {
@@ -1019,12 +1013,12 @@ namespace Pamac {
 			}
 			bool success = false;
 			if (sysupgrading) {
-				success = get_authorization ();
+				success = yield get_authorization_async ();
 				if (!success) {
 					return false;
 				}
 				try {
-					success = transaction_interface.trans_refresh (force_refresh);
+					success = yield transaction_interface.trans_refresh (force_refresh);
 				} catch (Error e) {
 					emit_error ("Daemon Error", {"trans_refresh: %s".printf (e.message)});
 				}
@@ -1033,25 +1027,26 @@ namespace Pamac {
 				}
 			}
 			TransactionSummary summary;
-			success = trans_prepare (out summary);
+			success = yield trans_prepare (out summary);
 			if (success) {
-				success = trans_run (summary);
+				success = yield trans_run (summary);
 			}
 			return success;
 		}
 
-		bool trans_prepare (out TransactionSummary summary) {
+		async bool trans_prepare (out TransactionSummary summary) {
 			// download urls provided in to_load if we are not root
 			if (to_load.length > 0 && Posix.geteuid () != 0) {
 				var to_load_real = new GenericSet<string?> (str_hash, str_equal);
 				foreach (unowned string path in to_load) {
 					if ("://" in path) {
-						if (!get_authorization ()) {
+						bool success = yield get_authorization_async ();
+						if (!success) {
 							summary = new TransactionSummary ();
 							return false;
 						}
 						try {
-							string downloaded_path = transaction_interface.download_pkg (path);
+							string downloaded_path = yield transaction_interface.download_pkg (path);
 							if (downloaded_path != "") {
 								to_load_real.add ((owned) downloaded_path);
 							} else {
@@ -1098,13 +1093,14 @@ namespace Pamac {
 								unresolvables.add (name);
 							}
 						}
-						edit_build_files (unresolvables.data);
+						yield edit_build_files (unresolvables.data);
 						unresolvables = new GenericArray<string> ();
 						emit_script_output ("");
-						if (!compute_aur_build_list ()) {
+						success = yield compute_aur_build_list ();
+						if (!success) {
 							return false;
 						}
-						success = trans_prepare (out summary);
+						success = yield trans_prepare (out summary);
 					} else {
 						emit_action (dgettext (null, "Transaction cancelled") + ".");
 					}
@@ -1113,34 +1109,28 @@ namespace Pamac {
 			return success;
 		}
 
-		bool trans_run (TransactionSummary summary) {
-			if (summary.aur_pkgbases_to_build != null) {
+		async bool trans_run (TransactionSummary summary) {
+			if (summary.aur_pkgbases_to_build.length != 0) {
 				if (ask_edit_build_files_real (summary)) {
-					var build_files = new GenericArray<unowned string> (summary.aur_pkgbases_to_build.length ());
-					foreach (unowned string name in summary.aur_pkgbases_to_build) {
-						build_files.add (name);
-					}
-					edit_build_files (build_files.data);
+					yield edit_build_files (summary.aur_pkgbases_to_build.data);
 					emit_script_output ("");
-					if (!compute_aur_build_list ()) {
-						return false;
-					}
+					bool success = yield compute_aur_build_list ();
 					TransactionSummary new_summary;
-					bool success = trans_prepare (out new_summary);
+					success = yield trans_prepare (out new_summary);
 					if (success) {
-						return trans_run (new_summary);
+						return yield trans_run (new_summary);
 					}
 				}
 			}
-			if (summary.to_install != null ||
-				summary.to_upgrade != null ||
-				summary.to_downgrade != null ||
-				summary.to_reinstall != null ||
-				summary.conflicts_to_remove != null ||
-				summary.to_remove != null) {
+			if (summary.to_install.length != 0 ||
+				summary.to_upgrade.length != 0 ||
+				summary.to_downgrade.length != 0 ||
+				summary.to_reinstall.length != 0 ||
+				summary.conflicts_to_remove.length != 0 ||
+				summary.to_remove.length != 0) {
 				foreach (unowned Package pkg in summary.to_install) {
 					if (!to_install.contains (pkg.name) &&
-						summary.to_load_priv.find_custom (pkg.name, strcmp) == null) {
+						!summary.to_load.find_with_equal_func (pkg.name, str_equal)) {
 						to_install.add (pkg.name);
 						to_install_as_dep.add (pkg.name);
 					}
@@ -1177,7 +1167,7 @@ namespace Pamac {
 					}
 					bool success = false;
 					try {
-						success = transaction_interface.trans_run (sysupgrading,
+						success = yield transaction_interface.trans_run (sysupgrading,
 																	database.config.enable_downgrade,
 																	database.config.simple_install,
 																	database.config.keep_built_pkgs,
@@ -1196,11 +1186,11 @@ namespace Pamac {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
 				}
-			} else if (summary.to_build != null) {
+			} else if (summary.to_build.length != 0) {
 				// only AUR packages to build
 				if (ask_commit_real (summary)) {
 					// get_authorization here before building
-					return get_authorization ();
+					return yield get_authorization_async ();
 				} else {
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					return false;
@@ -1257,7 +1247,7 @@ namespace Pamac {
 			snap_to_remove.insert (pkg.name, pkg);
 		}
 
-		bool run_snap_transaction () {
+		async bool run_snap_transaction () {
 			var snap_to_install_array = new GenericArray<string> (snap_to_install.length);
 			var snap_to_remove_array = new GenericArray<string> (snap_to_remove.length);
 			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
@@ -1274,7 +1264,7 @@ namespace Pamac {
 			try {
 				// emit download signal to allow cancellation
 				start_downloading ();
-				bool success = transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
+				bool success = yield transaction_interface.snap_trans_run (snap_to_install_array.data, snap_to_remove_array.data);
 				stop_downloading ();
 				return success;
 			} catch (Error e) {
@@ -1283,9 +1273,9 @@ namespace Pamac {
 			}
 		}
 
-		public bool snap_switch_channel (string snap_name, string channel) {
+		public async bool snap_switch_channel_async (string snap_name, string channel) {
 			try {
-				return transaction_interface.snap_switch_channel (snap_name, channel);
+				return yield transaction_interface.snap_switch_channel (snap_name, channel);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"snap_switch_channel: %s".printf (e.message)});
 			}
@@ -1306,7 +1296,7 @@ namespace Pamac {
 			flatpak_to_upgrade.insert (pkg.id, pkg);
 		}
 
-		bool run_flatpak_transaction () {
+		async bool run_flatpak_transaction () {
 			var flatpak_to_install_array = new GenericArray<string> (flatpak_to_install.length);
 			var flatpak_to_remove_array = new GenericArray<string> (flatpak_to_remove.length);
 			var flatpak_to_upgrade_array = new GenericArray<string> (flatpak_to_upgrade.length);
@@ -1329,7 +1319,7 @@ namespace Pamac {
 			try {
 				// emit download signal to allow cancellation
 				start_downloading ();
-				bool success = transaction_interface.flatpak_trans_run (flatpak_to_install_array.data,
+				bool success = yield transaction_interface.flatpak_trans_run (flatpak_to_install_array.data,
 																flatpak_to_remove_array.data,
 																flatpak_to_upgrade_array.data);
 				stop_downloading ();
@@ -1350,7 +1340,7 @@ namespace Pamac {
 			}
 		}
 
-		public virtual int run_cmd_line (string[] args, string? working_directory, Cancellable cancellable) {
+		public async virtual int run_cmd_line_async (string[] args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDIN_INHERIT | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
 			if (working_directory != null) {
@@ -1360,72 +1350,47 @@ namespace Pamac {
 			try {
 				Subprocess process = launcher.spawnv (args);
 				var dis = new DataInputStream (process.get_stdout_pipe ());
-				string? line = null;
-				dis.read_line_async.begin (Priority.DEFAULT, cancellable, (obj, res) => {
-					try {
-						line = dis.read_line_async.end (res);
-					} catch (Error e) {
-						if (!cancellable.is_cancelled ()) {
-							warning (e.message);
-						}
-					}
-					loop.quit ();
-				});
-				loop.run ();
-				while (line != null) {
+				string? line;
+				while ((line = yield dis.read_line_async ()) != null) {
 					if (cancellable.is_cancelled ()) {
 						break;
 					}
 					emit_script_output (remove_bash_colors (line));
-					dis.read_line_async.begin (Priority.DEFAULT, cancellable, (obj, res) => {
-						try {
-							line = dis.read_line_async.end (res);
-						} catch (Error e) {
-							if (!cancellable.is_cancelled ()) {
-								warning (e.message);
-							}
-						}
-						loop.quit ();
-					});
-					loop.run ();
 				}
 				if (cancellable.is_cancelled ()) {
 					process.send_signal (Posix.Signal.INT);
 					process.send_signal (Posix.Signal.KILL);
 				}
-				process.wait_async.begin (cancellable, (obj, res) => {
-					try {
-						process.wait_async.end (res);
-						if (process.get_if_exited ()) {
-							status = process.get_exit_status ();
-						}
-					} catch (Error e) {
-						// cancelled
-						process.send_signal (Posix.Signal.INT);
-						process.send_signal (Posix.Signal.KILL);
+				try {
+					yield process.wait_async (cancellable);
+					if (process.get_if_exited ()) {
+						status = process.get_exit_status ();
 					}
-					loop.quit ();
-				});
-				loop.run ();
+				} catch (Error e) {
+					// cancelled
+					process.send_signal (Posix.Signal.INT);
+					process.send_signal (Posix.Signal.KILL);
+				}
 			} catch (Error e) {
 				warning (e.message);
 			}
 			return status;
 		}
 
-		bool build_aur_packages () {
+		async bool build_aur_packages () {
 			bool success = true;
 			// get a fake aur db to check deps
 			unowned Alpm.DB? aur_db = null;
 			var tmp_handle = database.get_tmp_handle ();
 			if (tmp_handle != null) {
 				try {
-					Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, tmp_handle.dbpath));
+					var process = new Subprocess.newv ({"cp", "%s/pamac_aur.db".printf (tmp_path), "%ssync".printf (tmp_handle.dbpath)}, SubprocessFlags.NONE);
+					yield process.wait_async ();
 					aur_db = tmp_handle.register_syncdb ("pamac_aur", 0);
 					if (aur_db == null) {
 						emit_warning (dgettext (null, "Failed to initialize AUR database"));
 					}
-				} catch (SpawnError e) {
+				} catch (Error e) {
 					warning (e.message);
 				}
 			}
@@ -1454,7 +1419,7 @@ namespace Pamac {
 					cmdline += "PKGEXT=.pkg.tar";
 				}
 				important_details_outpout (false);
-				int status = run_cmd_line (cmdline, pkgdir, build_cancellable);
+				int status = yield run_cmd_line_async (cmdline, pkgdir, build_cancellable);
 				if (build_cancellable.is_cancelled ()) {
 					status = 1;
 				} else if (status == 1) {
@@ -1471,26 +1436,14 @@ namespace Pamac {
 							cmdline += "PKGEXT=.pkg.tar";
 						}
 						Subprocess process = launcher.spawnv (cmdline);
-						process.wait_async.begin (null, () => {
-							loop.quit ();
-						});
-						loop.run ();
+						yield process.wait_async ();
 						if (process.get_if_exited ()) {
 							status = process.get_exit_status ();
 						}
 						if (status == 0) {
 							var dis = new DataInputStream (process.get_stdout_pipe ());
 							string? line = null;
-							dis.read_line_async.begin (Priority.DEFAULT, null, (obj, res) => {
-								try {
-									line = dis.read_line_async.end (res);
-								} catch (Error e) {
-									warning (e.message);
-								}
-								loop.quit ();
-							});
-							loop.run ();
-							while (line != null) {
+							while ((line = yield dis.read_line_async ()) != null) {
 								var file = GLib.File.new_for_path (line);
 								string filename = file.get_basename ();
 								string? name_version_release = filename.slice (0, filename.last_index_of_char ('-'));
@@ -1512,15 +1465,6 @@ namespace Pamac {
 										to_install_as_dep_array.add (name);
 									}
 								}
-								dis.read_line_async.begin (Priority.DEFAULT, null, (obj, res) => {
-									try {
-										line = dis.read_line_async.end (res);
-									} catch (Error e) {
-										warning (e.message);
-									}
-									loop.quit ();
-								});
-								loop.run ();
 							}
 						}
 					} catch (Error e) {
@@ -1581,7 +1525,7 @@ namespace Pamac {
 						while (iter.next (null, out built_pkg_path)) {
 							to_load_array.add (built_pkg_path);
 						}
-						success = install_built_pkgs (to_load_array, to_install_as_dep_array);
+						success = yield install_built_pkgs (to_load_array, to_install_as_dep_array);
 						if (!success) {
 							break;
 						}
@@ -1598,11 +1542,11 @@ namespace Pamac {
 			return success;
 		}
 
-		bool install_built_pkgs (GenericArray<string> to_load_array, GenericArray<string> to_install_as_dep_array) {
+		async bool install_built_pkgs (GenericArray<string> to_load_array, GenericArray<string> to_install_as_dep_array) {
 			bool success = false;
 			try {
 				emit_script_output ("");
-				success = transaction_interface.trans_run (false, // sysupgrading,
+				success = yield transaction_interface.trans_run (false, // sysupgrading,
 															false, // enable_downgrade
 															false, // simple_install
 															database.config.keep_built_pkgs,
@@ -1660,19 +1604,19 @@ namespace Pamac {
 							}
 						}
 					}
-					for (uint i = 0; i < not_install.length; i++) {
-						snap_to_install.remove (not_install[i]);
+					foreach (unowned string name in not_install) {
+						snap_to_install.remove (name);
 					}
 				}
 				// add snaps to summary
 				var snap_iter = HashTableIter<string, SnapPackage> (snap_to_install);
 				SnapPackage snap_pkg;
 				while (snap_iter.next (null, out snap_pkg)) {
-					summary.to_install_priv.append (snap_pkg);
+					summary.to_install.add (snap_pkg);
 				}
 				snap_iter = HashTableIter<string, SnapPackage> (snap_to_remove);
 				while (snap_iter.next (null, out snap_pkg)) {
-					summary.to_remove_priv.append (snap_pkg);
+					summary.to_remove.add (snap_pkg);
 				}
 				#endif
 				#if ENABLE_FLATPAK
@@ -1680,15 +1624,15 @@ namespace Pamac {
 				var flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
 				FlatpakPackage flatpak_pkg;
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-					summary.to_install_priv.append (flatpak_pkg);
+					summary.to_install.add (flatpak_pkg);
 				}
 				flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_remove);
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-					summary.to_remove_priv.append (flatpak_pkg);
+					summary.to_remove.add (flatpak_pkg);
 				}
 				flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_upgrade);
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-					summary.to_upgrade_priv.append (flatpak_pkg);
+					summary.to_upgrade.add (flatpak_pkg);
 				}
 				#endif
 				return ask_commit (summary);
@@ -1700,11 +1644,11 @@ namespace Pamac {
 			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 			SnapPackage pkg;
 			while (iter.next (null, out pkg)) {
-				summary.to_install_priv.append (pkg);
+				summary.to_install.add (pkg);
 			}
 			iter = HashTableIter<string, SnapPackage> (snap_to_remove);
 			while (iter.next (null, out pkg)) {
-				summary.to_remove_priv.append (pkg);
+				summary.to_remove.add (pkg);
 			}
 			#endif
 			// populate build queue

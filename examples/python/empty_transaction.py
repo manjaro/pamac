@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import gi
-gi.require_version('Pamac', '9.0')
+gi.require_version('Pamac', '10.0')
 from gi.repository import GLib, Pamac
 
 def on_emit_action (transaction, action, data):
@@ -24,13 +24,25 @@ def on_emit_error (transaction, message, details, details_length, data):
 	else:
 		print(message)
 
+def on_transaction_finished_callback(source_object, result, user_data):
+	try:
+		success = source_object.run_finish(result)
+	except GLib.GError as e:
+		print("Error: ", e.message)
+	else:
+		print("Success :", success)
+	finally:
+		loop.quit()
+		transaction.quit_daemon()
+
 def run_transaction():
 	# /!\ the transaction will run without confirmation /!\
 	# you need to override Transaction.ask_confirmation() method
 	# in order to implement your own confirmation step
 	transaction.add_pkg_to_install ("pkgname");
-	transaction.run ()
-	transaction.quit_daemon()
+	transaction.run_async (on_transaction_finished_callback, None)
+	# launch a loop to wait for the callback to be called
+	loop.run()
 
 if __name__ == "__main__":
 	loop = GLib.MainLoop()

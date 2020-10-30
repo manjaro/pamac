@@ -19,16 +19,16 @@
 
 namespace Pamac {
 	internal interface TransactionInterface : Object {
-		public abstract bool get_authorization () throws Error;
+		public abstract async bool get_authorization () throws Error;
 		public abstract void remove_authorization () throws Error;
-		public abstract void generate_mirrors_list (string country) throws Error;
-		public abstract bool clean_cache (string[] filenames) throws Error;
-		public abstract bool clean_build_files (string aur_build_dir) throws Error;
-		public abstract bool set_pkgreason (string pkgname, uint reason) throws Error;
-		public abstract void download_updates () throws Error;
-		public abstract string download_pkg (string url) throws Error;
-		public abstract bool trans_refresh (bool force) throws Error;
-		public abstract bool trans_run (bool sysupgrade,
+		public abstract async void generate_mirrors_list (string country) throws Error;
+		public abstract async bool clean_cache (string[] filenames) throws Error;
+		public abstract async bool clean_build_files (string aur_build_dir) throws Error;
+		public abstract async bool set_pkgreason (string pkgname, uint reason) throws Error;
+		public abstract async void download_updates () throws Error;
+		public abstract async string download_pkg (string url) throws Error;
+		public abstract async bool trans_refresh (bool force) throws Error;
+		public abstract async bool trans_run (bool sysupgrade,
 										bool enable_downgrade,
 										bool simple_install,
 										bool keep_built_pkgs,
@@ -55,11 +55,11 @@ namespace Pamac {
 		public signal void important_details_outpout (bool must_show);
 		public signal void generate_mirrors_list_data (string line);
 		#if ENABLE_SNAP
-		public abstract bool snap_trans_run (string[] to_install, string[] to_remove) throws Error;
-		public abstract bool snap_switch_channel (string snap_name, string channel) throws Error;
+		public abstract async bool snap_trans_run (string[] to_install, string[] to_remove) throws Error;
+		public abstract async bool snap_switch_channel (string snap_name, string channel) throws Error;
 		#endif
 		#if ENABLE_FLATPAK
-		public abstract bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error;
+		public abstract async bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error;
 		#endif
 	}
 }

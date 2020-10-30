@@ -116,12 +116,15 @@ namespace Pamac {
 					manager_window.refresh_packages_list ();
 				}
 				app_id = parameter.get_string ();
-				Package? pkg = this.database.get_app_by_id (app_id);
-				if (pkg != null) {
-					manager_window.display_details (pkg);
-					manager_window.main_stack.visible_child_name = "details";
-				}
-				manager_window.present ();
+				Package? pkg = null;
+				this.database.get_app_by_id_async.begin (app_id, (obj, res) => {
+					this.database.get_app_by_id_async.end (res);
+					if (pkg != null) {
+						manager_window.display_details (pkg);
+						manager_window.main_stack.visible_child_name = "details";
+					}
+					manager_window.present ();
+				});
 			});
 			this.add_action (action);
 		}
@@ -241,9 +244,9 @@ namespace Pamac {
 		}
 
 		bool check_pamac_running () {
-			Application app;
+			GLib.Application app;
 			bool run = false;
-			app = new Application ("org.manjaro.pamac.installer", 0);
+			app = new GLib.Application ("org.manjaro.pamac.installer", 0);
 			try {
 				app.register ();
 			} catch (Error e) {

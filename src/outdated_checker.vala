@@ -74,10 +74,7 @@ int main (string[] args) {
 		return 0;
 	});
 	stdout.printf ("Packages built over %u years ago:\n", years);
-	uint i;
-	uint found_length = found.length;
-	for (i = 0; i < found_length; i++) {
-		unowned Alpm.Package pkg = found[i];
+	foreach (unowned Alpm.Package pkg in found) {
 		var build_time = new DateTime.from_unix_utc ((int64) pkg.builddate);
 		stdout.printf ("%s/%s: built the %s by %s\n", pkg.db.name, pkg.name, build_time.format ("%x"), pkg.packager);
 		Alpm.List<string> requiredby = pkg.compute_requiredby ();

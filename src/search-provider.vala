@@ -42,7 +42,7 @@ namespace Pamac {
 		}
 
 		string[] search_pkgs (string[] normalized_terms) {
-			SList<Package> pkgs = database.search_uninstalled_apps_sync (normalized_terms);
+			GenericArray<unowned Package> pkgs = database.search_uninstalled_apps (normalized_terms);
 			var result = new GenericArray<string> ();
 			foreach (unowned Package pkg in pkgs) {
 				// concat data into a string
@@ -50,7 +50,7 @@ namespace Pamac {
 				data_builder.append (";");
 				data_builder.append (pkg.app_name);
 				data_builder.append (";");
-				data_builder.append (pkg.desc);
+				data_builder.append (pkg.long_desc);
 				data_builder.append (";");
 				data_builder.append (pkg.icon);
 				result.add (data_builder.str);

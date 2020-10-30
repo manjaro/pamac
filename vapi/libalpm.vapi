@@ -23,7 +23,7 @@ namespace Alpm {
 
 	[SimpleType]
 	[CCode (cname = "alpm_time_t", has_type_id = false)]
-	public struct Time : uint64 {}
+	public struct Time : int64 {}
 
 	/**
 	* Library

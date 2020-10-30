@@ -647,7 +647,7 @@ namespace Pamac {
 			try {
 				new Thread<int>.try ("snap_switch_channel", () => {
 					AtomicInt.inc (ref running_threads);
-					bool success = snap_plugin.switch_channel (snap_name, snap_channel, sender);
+					bool success = snap_plugin.switch_channel (sender, snap_name, snap_channel);
 					snap_switch_channel_finished (sender, success);
 					AtomicInt.dec_and_test (ref running_threads);
 					return 0;

@@ -160,23 +160,25 @@ namespace Pamac {
 				progress_dialog.cancel_button.sensitive = false;
 				progress_dialog.close_button.visible = false;
 				progress_dialog.show ();
-				bool success = transaction.run ();
-				if ((!success && transaction.commit_transaction_answer && !cancelled) || important_details) {
-					progress_dialog.expander.expanded = true;
-					progress_dialog.close_button.visible = true;
-				} else {
-					this.release ();
-				}
-				if (!success) {
-					cmd.set_exit_status (1);
-				}
+				transaction.run_async.begin ((obj, res) => {
+					bool success = transaction.run_async.end (res);
+					if ((!success && transaction.commit_transaction_answer && !cancelled) || important_details) {
+						progress_dialog.expander.expanded = true;
+						progress_dialog.close_button.visible = true;
+					} else {
+						this.release ();
+					}
+					if (!success) {
+						cmd.set_exit_status (1);
+					}
+				});
 			}
 			return cmd.get_exit_status ();
 		}
 
 		bool check_build_pkgs (string[] targets) {
 			var aur_pkgs = database.get_aur_pkgs (targets);
-			var iter = HashTableIter<string, AURPackage?> (aur_pkgs);
+			var iter = HashTableIter<string, unowned AURPackage?> (aur_pkgs);
 			unowned string pkgname;
 			unowned AURPackage? aur_pkg;
 			while (iter.next (out pkgname, out aur_pkg)) {
@@ -253,9 +255,9 @@ namespace Pamac {
 		}
 
 		bool check_pamac_running () {
-			Application app;
+			GLib.Application app;
 			bool run = false;
-			app = new Application ("org.manjaro.pamac.manager", 0);
+			app = new GLib.Application ("org.manjaro.pamac.manager", 0);
 			try {
 				app.register ();
 			} catch (Error e) {

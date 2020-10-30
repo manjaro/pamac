@@ -183,30 +183,27 @@ internal class AlpmConfig {
 		remotefilesiglevel = merge_siglevel (siglevel, remotefilesiglevel, remotefilesiglevel_mask);
 		handle.localfilesiglevel = localfilesiglevel;
 		handle.remotefilesiglevel = remotefilesiglevel;
-		uint i;
-		for (i = 0; i < cachedirs.length; i++) {
-			handle.add_cachedir (cachedirs[i]);
+		foreach (unowned string cachedir in cachedirs) {
+			handle.add_cachedir (cachedir);
 		}
-		for (i = 0; i < hookdirs.length; i++) {
-			handle.add_hookdir (hookdirs[i]);
+		foreach (unowned string hookdir in hookdirs) {
+			handle.add_hookdir (hookdir);
 		}
-		for (i = 0; i < ignoregroups.length; i++) {
-			handle.add_ignoregroup (ignoregroups[i]);
+		foreach (unowned string ignoregroup in ignoregroups) {
+			handle.add_ignoregroup (ignoregroup);
 		}
 		// ignorepkgs will be manually added in database and transaction
-		for (i = 0; i < noextracts.length; i++) {
-			handle.add_noextract (noextracts[i]);
+		foreach (unowned string noextract in noextracts) {
+			handle.add_noextract (noextract);
 		}
-		for (i = 0; i < noupgrades.length; i++) {
-			handle.add_noupgrade (noupgrades[i]);
+		foreach (unowned string noupgrade in noupgrades) {
+			handle.add_noupgrade (noupgrade);
 		}
 		// register dbs
-		for (i = 0; i < repo_order.length; i++) {
-			unowned AlpmRepo repo = repo_order[i];
+		foreach (unowned AlpmRepo repo in repo_order) {
 			repo.siglevel = merge_siglevel (siglevel, repo.siglevel, repo.siglevel_mask);
 			unowned Alpm.DB db = handle.register_syncdb (repo.name, repo.siglevel);
-			for (uint j = 0; j < repo.urls.length; j++) {
-				unowned string url = repo.urls[j];
+			foreach (unowned string url in repo.urls) {
 				db.add_server (url.replace ("$repo", repo.name).replace ("$arch", handle.arch));
 			}
 			if (repo.usage == 0) {
@@ -322,8 +319,7 @@ internal class AlpmConfig {
 							}
 						}
 					} else {
-						for (uint i = 0; i < repo_order.length; i++) {
-							unowned AlpmRepo repo = repo_order[i];
+						foreach (unowned AlpmRepo repo in repo_order) {
 							if (repo.name == current_section) {
 								if (key == "Server") {
 									repo.urls.add (val);
