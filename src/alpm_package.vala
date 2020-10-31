@@ -285,8 +285,7 @@ namespace Pamac {
 			get {
 				if (_installed_size == 0 && !installed_size_set) {
 					installed_size_set = true;
-					found_local_pkg ();
-					_installed_size = local_pkg.isize;
+					_installed_size = alpm_pkg.isize;
 				}
 				return _installed_size;
 			}

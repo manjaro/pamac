@@ -914,8 +914,7 @@ namespace Pamac {
 										GenericSet<string?> to_build,
 										GenericSet<string?> ignorepkgs,
 										GenericSet<string?> overwrite_files,
-										out TransactionSummary summary) {
-			summary = new TransactionSummary ();
+										ref TransactionSummary summary) {
 			// use an tmp handle with no callback to avoid double prepare signals
 			var tmp_handle = get_handle (false, true, false);
 			if (tmp_handle == null) {
@@ -979,7 +978,7 @@ namespace Pamac {
 			tmp_handle.logcb = (Alpm.LogCallBack) cb_log;
 			bool success = trans_prepare (tmp_handle, aur_db);
 			if (success) {
-				summary = get_transaction_summary (tmp_handle);
+				get_transaction_summary (tmp_handle, ref summary);
 				trans_release (tmp_handle);
 			}
 			if (aur_db != null) {
@@ -1481,8 +1480,7 @@ namespace Pamac {
 			return success;
 		}
 
-		TransactionSummary get_transaction_summary (Alpm.Handle alpm_handle) {
-			var summary = new TransactionSummary ();
+		TransactionSummary get_transaction_summary (Alpm.Handle alpm_handle, ref TransactionSummary summary) {
 			var checked = new HashTable<string, int> (str_hash, str_equal);
 			// to_install
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();

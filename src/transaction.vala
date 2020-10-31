@@ -1034,6 +1034,43 @@ namespace Pamac {
 			return success;
 		}
 
+		async bool trans_check_prepare (bool sysupgrade,
+										bool enable_downgrade,
+										bool simple_install,
+										int trans_flags,
+										GenericSet<string?> to_install,
+										GenericSet<string?> to_remove,
+										GenericSet<string?> to_load,
+										GenericSet<string?> to_build,
+										GenericSet<string?> ignorepkgs,
+										GenericSet<string?> overwrite_files,
+										out TransactionSummary summary) {
+			bool success = false;
+			var new_summary = new TransactionSummary ();
+			try {
+				new Thread<int>.try ("trans_check_prepare", () => {
+					success = alpm_utils.trans_check_prepare (sysupgrade,
+															enable_downgrade,
+															simple_install,
+															trans_flags,
+															to_install,
+															to_remove,
+															to_load,
+															to_build,
+															ignorepkgs,
+															overwrite_files,
+															ref new_summary);
+					context.invoke (trans_check_prepare.callback);
+					return 0;
+				});
+				yield;
+			} catch (Error e) {
+				warning (e.message);
+			}
+			summary = new_summary;
+			return success;
+		}
+
 		async bool trans_prepare (out TransactionSummary summary) {
 			// download urls provided in to_load if we are not root
 			if (to_load.length > 0 && Posix.geteuid () != 0) {
@@ -1066,7 +1103,7 @@ namespace Pamac {
 			}
 			start_preparing ();
 			add_config_ignore_pkgs ();
-			bool success = alpm_utils.trans_check_prepare (sysupgrading,
+			bool success = yield trans_check_prepare (sysupgrading,
 													database.config.enable_downgrade,
 													database.config.simple_install,
 													trans_flags,

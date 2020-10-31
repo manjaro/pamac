@@ -1795,7 +1795,7 @@ namespace Pamac {
 				return;
 			}
 			foreach (unowned string name in names) {
-				var pkgs = database.get_group_pkgs (name);
+				var pkgs = database.get_repo_pkgs (name);
 				if (pkgs == null) {
 					if (!quiet) {
 						print_error (dgettext (null, "target not found: %s").printf (name));
