@@ -22,6 +22,7 @@ namespace Pamac {
 		string current_line;
 		string current_action;
 		bool summary_shown;
+		bool commit_transaction_answer;
 		public bool no_confirm { get; set; }
 		public bool dry_run { get; set; }
 
@@ -35,6 +36,7 @@ namespace Pamac {
 			summary_shown = false;
 			no_confirm = false;
 			dry_run = false;
+			commit_transaction_answer = false;
 			// connect to signal
 			emit_action.connect (print_action);
 			emit_action_progress.connect (print_action_progress);
@@ -187,6 +189,7 @@ namespace Pamac {
 			if (no_confirm) {
 				return {};
 			}
+			stdout.printf ("\n");
 			// print pkgs
 			int num_length = optdeps.length.to_string ().length + 1;
 			stdout.printf ("%s:\n".printf (dgettext (null, "Choose optional dependencies for %s").printf (pkgname)));
@@ -314,9 +317,9 @@ namespace Pamac {
 			}
 		}
 
-		bool ask_user (string question) {
+		public bool ask_user (string question) {
 			// ask user confirmation
-			stdout.printf ("%s %s ", question, dgettext (null, "[y/N]"));
+			stdout.printf ("%s ? %s ", question, dgettext (null, "[y/N]"));
 			char buf[32];
 			if (stdin.gets (buf) != null) {
 				string ans = (string) buf;
@@ -341,19 +344,45 @@ namespace Pamac {
 			if (no_confirm) {
 				return true;
 			}
-			return ask_user ("%s ?".printf (dgettext (null, "Trust %s and import the PGP key").printf (owner)));
+			return ask_user (dgettext (null, "Trust %s and import the PGP key").printf (owner));
 		}
 
 		protected override bool ask_edit_build_files (TransactionSummary summary) {
 			show_summary (summary);
 			summary_shown = true;
 			if (dry_run) {
+				commit_transaction_answer = false;
 				return false;
 			}
 			if (no_confirm) {
+				commit_transaction_answer = true;
 				return false;
 			}
-			return ask_user ("%s ?".printf (dgettext (null, "Edit build files")));
+			bool answer = false;
+			// ask user
+			stdout.printf ("%s ? %s ", dgettext (null, "Edit build files"), dgettext (null, "[e]"));
+			stdout.printf ("\n");
+			stdout.printf ("%s ? %s ", dgettext (null, "Apply transaction"), dgettext (null, "[y/N]"));
+			char buf[32];
+			if (stdin.gets (buf) != null) {
+				string ans = (string) buf;
+				// remove trailing newline and uppercase
+				ans = ans.replace ("\n", "").down ();
+				// just return use default
+				if (ans != "") {
+					if (ans == dgettext (null, "y") ||
+						ans == dgettext (null, "yes") ||
+						ans == "y" ||
+						ans == "yes") {
+						commit_transaction_answer = true;
+					} else if (ans == dgettext (null, "e") ||
+								ans == "e") {
+						answer = true;
+					}
+				}
+			}
+			stdout.printf ("\n");
+			return answer;
 		}
 
 		void show_summary (TransactionSummary summary) {
@@ -612,6 +641,7 @@ namespace Pamac {
 				}
 			}
 			// second pass to print details
+			stdout.printf ("\n");
 			if (summary.to_upgrade.length != 0) {
 				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length));
 				foreach (unowned Package pkg in summary.to_upgrade) {
@@ -784,10 +814,13 @@ namespace Pamac {
 			if (rsize > 0) {
 				stdout.printf ("%s: %s\n", dgettext (null, "Total removed size"), format_size (rsize));
 			}
+			stdout.printf ("\n");
 		}
 
 		protected override bool ask_commit (TransactionSummary summary) {
-			if (!summary_shown) {
+			if (summary_shown) {
+				return commit_transaction_answer;
+			} else {
 				show_summary (summary);
 			}
 			if (dry_run) {
@@ -796,19 +829,19 @@ namespace Pamac {
 			if (no_confirm) {
 				return true;
 			}
-			return ask_user ("%s ?".printf (dgettext (null, "Apply transaction")));
+			return ask_user (dgettext (null, "Apply transaction"));
 		}
 
 		void ask_view_diff (string pkgname) {
 			string diff_path;
-			if (database.config.aur_build_dir == "/var/tmp") {
+			if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
 				diff_path = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
 			} else {
-				diff_path = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname, "diff");
+				diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
 			}
 			var diff_file = File.new_for_path (diff_path);
 			if (diff_file.query_exists ()) {
-				if (ask_user ("%s ?".printf (dgettext (null, "View %s build files diff").printf (pkgname)))) {
+				if (ask_user (dgettext (null, "View %s build files diff").printf (pkgname))) {
 					string[] cmds = {};
 					unowned string? editor = Environment.get_variable ("EDITOR");
 					if (editor == null || editor == "nano") {
@@ -869,7 +902,7 @@ namespace Pamac {
 			} else {
 				foreach (unowned string pkgname in pkgnames) {
 					ask_view_diff (pkgname);
-					if (ask_user ("%s ?".printf (dgettext (null, "Edit %s build files".printf (pkgname))))) {
+					if (ask_user (dgettext (null, "Edit %s build files".printf (pkgname)))) {
 						yield edit_single_build_files (pkgname);
 					}
 				}

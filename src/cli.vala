@@ -26,12 +26,19 @@ namespace Pamac {
 		bool cloning;
 		Cancellable cancellable;
 		GenericSet<string?> already_checked_aur_dep;
+		bool need_pktty;
 		public Subprocess pkttyagent;
 
 		public Cli () {
 			exit_status = 0;
 			trans_cancellable = false;
 			cloning = false;
+			need_pktty = false;
+			// check if we are in a desktop session
+			unowned string? desktop_session = Environment.get_variable ("DESKTOP_SESSION");
+			if (desktop_session == null) {
+				need_pktty = true;
+			}
 			cancellable = new Cancellable ();
 			// watch CTRl + C
 			Unix.signal_add (Posix.Signal.INT, trans_cancel, Priority.HIGH);
@@ -322,6 +329,7 @@ namespace Pamac {
 					}
 					init_database ();
 					database.config.enable_aur = true;
+					get_aur_dest_variable ();
 					if (builddir != null) {
 						database.config.aur_build_dir = builddir;
 					}
@@ -386,6 +394,7 @@ namespace Pamac {
 				if (no_keep) {
 					database.config.keep_built_pkgs = false;
 				}
+				get_aur_dest_variable ();
 				if (builddir != null) {
 					database.config.aur_build_dir = builddir;
 					// keep built pkgs in the custom build dir
@@ -407,6 +416,8 @@ namespace Pamac {
 					File? parent = current_dir.get_parent ();
 					if (parent != null) {
 						database.config.aur_build_dir = parent.get_path ();
+						// keep built pkgs in the custom build dir
+						database.config.keep_built_pkgs = true;
 					}
 					string? pkgbase = current_dir.get_basename ();
 					if (pkgbase != null) {
@@ -474,6 +485,7 @@ namespace Pamac {
 						return;
 					}
 					init_transaction ();
+					get_aur_dest_variable ();
 					if (overwrite != null) {
 						foreach (unowned string glob in overwrite.split(",")) {
 							transaction.add_overwrite_file (glob);
@@ -690,6 +702,7 @@ namespace Pamac {
 						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Checking development packages updates as root is not allowed"));
 						database.config.check_aur_vcs_updates = false;
 					} else {
+						get_aur_dest_variable ();
 						if (builddir != null) {
 							database.config.aur_build_dir = builddir;
 						}
@@ -772,6 +785,7 @@ namespace Pamac {
 						database.config.check_aur_updates = false;
 						database.config.check_aur_vcs_updates = false;
 					} else {
+						get_aur_dest_variable ();
 						if (builddir != null) {
 							database.config.aur_build_dir = builddir;
 						}
@@ -830,6 +844,7 @@ namespace Pamac {
 					return;
 				}
 				init_transaction ();
+				get_aur_dest_variable ();
 				if (keep >= 0) {
 					database.config.clean_keep_num_pkgs = keep;
 				}
@@ -855,6 +870,16 @@ namespace Pamac {
 			database = new Database (config);
 		}
 
+		void get_aur_dest_variable () {
+			unowned string? aurdest = Environment.get_variable ("AURDEST");
+			if (aurdest != null) {
+				//compute absolute file path
+				var aurdest_file = File.new_for_path (aurdest);
+				database.config.aur_build_dir = aurdest_file.get_path ();
+				database.config.keep_built_pkgs = true;
+			}
+		}
+
 		void init_transaction () {
 			if (database == null) {
 				init_database ();
@@ -878,7 +903,7 @@ namespace Pamac {
 			transaction.stop_building.connect (() => {
 				trans_cancellable = false;
 			});
-			if (Posix.geteuid () != 0) {
+			if (Posix.geteuid () != 0 && need_pktty) {
 				// Use tty polkit authentication agent
 				try {
 					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
@@ -2123,27 +2148,6 @@ namespace Pamac {
 			}
 		}
 
-		bool ask_user (string question) {
-			// ask user confirmation
-			stdout.printf ("%s %s ", question, dgettext (null, "[y/N]"));
-			char buf[32];
-			if (stdin.gets (buf) != null) {
-				string ans = (string) buf;
-				// remove trailing newline and uppercase
-				ans = ans.replace ("\n", "").down ();
-				// just return use default
-				if (ans != "") {
-					if (ans == dgettext (null, "y") ||
-						ans == dgettext (null, "yes") ||
-						ans == "y" ||
-						ans == "yes") {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
 		void clean_cache (bool dry_run, bool verbose, bool no_confirm) {
 			HashTable<string, uint64?> details = database.get_clean_cache_details ();
 			uint length = details.size ();
@@ -2176,8 +2180,12 @@ namespace Pamac {
 				if (dry_run) {
 					return;
 				}
-				if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean cache")))) {
-					transaction.clean_cache_async.begin ();
+				if (no_confirm || transaction.ask_user (dgettext (null, "Clean cache"))) {
+					var loop = new MainLoop ();
+					transaction.clean_cache_async.begin (() => {
+						loop.quit ();
+					});
+					loop.run ();
 				}
 			}
 		}
@@ -2214,8 +2222,12 @@ namespace Pamac {
 				if (dry_run) {
 					return;
 				}
-				if (no_confirm || ask_user ("%s ?".printf (dgettext (null, "Clean build files")))) {
-					transaction.clean_build_files_async.begin ();
+				if (no_confirm || transaction.ask_user (dgettext (null, "Clean build files"))) {
+					var loop = new MainLoop ();
+					transaction.clean_build_files_async.begin (() => {
+						loop.quit ();
+					});
+					loop.run ();
 				}
 			}
 		}
@@ -2278,11 +2290,8 @@ namespace Pamac {
 					AURPackage? aur_pkg = database.get_aur_pkg (target);
 					if (aur_pkg != null) {
 						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "%s is only available from AUR").printf (target));
-						if (!transaction.no_confirm && ask_user ("%s ?".printf (dgettext (null, "Build %s from AUR").printf (target)))) {
-							stdout.printf ("\n");
-							to_build.add (target);
-							found = true;
-						}
+						to_build.add (target);
+						found = true;
 					}
 				}
 				if (!found) {
@@ -2669,8 +2678,19 @@ namespace Pamac {
 
 		void run_transaction () {
 			var loop = new MainLoop ();
-			// let's time to pkttyagent to get registred
-			Timeout.add (200, () => {
+			if (need_pktty) {
+				// let's time to pkttyagent to get registred
+				Timeout.add (200, () => {
+					transaction.run_async.begin ((obj, res) => {
+						bool success = transaction.run_async.end (res);
+						if (!success) {
+							exit_status = 1;
+						}
+						loop.quit ();
+					});
+					return false;
+				});
+			} else {
 				transaction.run_async.begin ((obj, res) => {
 					bool success = transaction.run_async.end (res);
 					if (!success) {
@@ -2678,8 +2698,7 @@ namespace Pamac {
 					}
 					loop.quit ();
 				});
-				return false;
-			});
+			}
 			loop.run ();
 		}
 

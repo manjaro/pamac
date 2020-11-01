@@ -329,13 +329,12 @@ namespace Pamac {
 		}
 
 		void get_build_files_details_real (ref HashTable<string, uint64?> filenames_size) {
-			string real_aur_build_dir;
-			if (config.aur_build_dir == "/var/tmp") {
-				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			File build_directory;
+			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				build_directory = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ())));
 			} else {
-				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build");
+				build_directory = File.new_for_path (config.aur_build_dir);
 			}
-			var build_directory = GLib.File.new_for_path (real_aur_build_dir);
 			if (!build_directory.query_exists ()) {
 				return;
 			}
@@ -1849,10 +1848,10 @@ namespace Pamac {
 			string[] cmds;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
 			string real_aur_build_dir;
-			if (config.aur_build_dir == "/var/tmp") {
+			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
 				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 			} else {
-				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build");
+				real_aur_build_dir = config.aur_build_dir;
 			}
 			var builddir = File.new_for_path (real_aur_build_dir);
 			if (!builddir.query_exists ()) {
@@ -1959,10 +1958,10 @@ namespace Pamac {
 
 		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable) {
 			string pkgdir_name;
-			if (config.aur_build_dir == "/var/tmp") {
+			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
 				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 			} else {
-				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build", pkgname);
+				pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
 			}
 			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
 			var pkgbuild = File.new_for_path (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
@@ -2037,15 +2036,17 @@ namespace Pamac {
 
 		public AURPackage? get_aur_pkg (string pkgname) {
 			AURPackageLinked? pkg = null;
-			lock (alpm_config) {
-				pkg = aur_pkgs_cache.lookup (pkgname);
-				if (pkg == null) {
-					unowned Json.Object? json_object = aur.get_infos (pkgname);
-					if (json_object != null) {
-						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
-						pkg = new AURPackageLinked ();
-						pkg.initialise_from_json (json_object, local_pkg);
-						aur_pkgs_cache.replace (pkg.id, pkg);
+			if (config.enable_aur) {
+				lock (alpm_config) {
+					pkg = aur_pkgs_cache.lookup (pkgname);
+					if (pkg == null) {
+						unowned Json.Object? json_object = aur.get_infos (pkgname);
+						if (json_object != null) {
+							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
+							pkg = new AURPackageLinked ();
+							pkg.initialise_from_json (json_object, local_pkg);
+							aur_pkgs_cache.replace (pkg.id, pkg);
+						}
 					}
 				}
 			}
@@ -2118,10 +2119,10 @@ namespace Pamac {
 		public string[] get_srcinfo_pkgnames (string pkgdir) {
 			var pkgnames = new GenericArray<string> ();
 			File srcinfo;
-			if (config.aur_build_dir == "/var/tmp") {
+			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
 				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgdir, ".SRCINFO"));
 			} else {
-				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build", pkgdir, ".SRCINFO"));
+				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, pkgdir, ".SRCINFO"));
 			}
 			if (srcinfo.query_exists ()) {
 				try {

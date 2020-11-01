@@ -341,7 +341,7 @@ namespace Pamac {
 
 		internal bool clean_build_files (string aur_build_dir) {
 			try {
-				Process.spawn_command_line_sync ("rm -rf %s".printf (aur_build_dir));
+				Process.spawn_command_line_sync ("bash -c 'rm -rf %s/*'".printf (aur_build_dir));
 				return true;
 			} catch (SpawnError e) {
 				warning (e.message);
@@ -1871,7 +1871,9 @@ namespace Pamac {
 					// check for "/var/tmp/pamac-build" because
 					// default aur_build_dir is "/var/tmp/pamac-build-root" here
 					// if a custom PKGDEST is set in makepkg.conf, package won't be moved or deleted
-					if (path.has_prefix ("/var/tmp/pamac-build") || path.has_prefix (config.aur_build_dir)) {
+					if (path.has_prefix ("/var/tmp/pamac-build")
+						|| path.has_prefix ("/tmp/pamac-build")
+						|| path.has_prefix (config.aur_build_dir)) {
 						if (keep_built_pkgs) {
 							// get first cachedir
 							unowned Alpm.List<unowned string> cachedirs = alpm_handle.cachedirs;

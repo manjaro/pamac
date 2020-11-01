@@ -195,10 +195,10 @@ namespace Pamac {
 
 		protected async GenericArray<string> get_build_files_async (string pkgname) {
 			string pkgdir_name;
-			if (database.config.aur_build_dir == "/var/tmp") {
+			if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
 				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 			} else {
-				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
 			}
 			var files = new GenericArray<string> ();
 			// PKGBUILD
@@ -301,21 +301,15 @@ namespace Pamac {
 
 		public async void clean_build_files_async () {
 			string real_aur_build_dir;
-			if (database.config.aur_build_dir == "/var/tmp") {
+			if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
 				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 			} else {
-				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
+				real_aur_build_dir = database.config.aur_build_dir;
 			}
 			try {
 				yield transaction_interface.clean_build_files (real_aur_build_dir);
 			} catch (Error e) {
 				emit_error ("Daemon Error", {"clean_build_files: %s".printf (e.message)});
-			}
-			// recreate buildir here to have good permissions
-			try {
-				Process.spawn_command_line_async ("mkdir -p %s".printf (database.config.aur_build_dir));
-			} catch (SpawnError e) {
-				emit_error ("SpawnError: %s".printf (e.message), {});
 			}
 		}
 
@@ -443,10 +437,10 @@ namespace Pamac {
 					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
 					string real_aur_build_dir;
-					if (database.config.aur_build_dir == "/var/tmp") {
+					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
 						real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 					} else {
-						real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build");
+						real_aur_build_dir = database.config.aur_build_dir;
 					}
 					clone_dir = File.new_for_path (Path.build_path ("/", real_aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
@@ -974,7 +968,9 @@ namespace Pamac {
 
 		async bool run_alpm_transaction () {
 			emit_action (dgettext (null, "Preparing") + "...");
-			yield add_optdeps ();
+			if (to_install.length > 0) {
+				yield add_optdeps ();
+			}
 			if (sysupgrading && database.config.check_aur_updates) {
 				GenericArray<AURPackage> aur_updates = yield database.get_aur_updates_async (ignorepkgs);
 				if (aur_updates.length != 0) {
@@ -1441,10 +1437,10 @@ namespace Pamac {
 				important_details_outpout (false);
 				var built_pkgs_path = new GenericArray<string> ();
 				string pkgdir;
-				if (database.config.aur_build_dir == "/var/tmp") {
+				if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
 					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 				} else {
-					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build", pkgname);
+					pkgdir = Path.build_path ("/", database.config.aur_build_dir, pkgname);
 				}
 				// building
 				building = true;
