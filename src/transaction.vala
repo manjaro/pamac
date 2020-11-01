@@ -28,6 +28,7 @@ namespace Pamac {
 		TransactionInterface transaction_interface;
 		delegate void TransactionAction ();
 		bool waiting;
+		unowned Config config;
 		// run transaction data
 		bool sysupgrading;
 		bool force_refresh;
@@ -84,13 +85,14 @@ namespace Pamac {
 		}
 
 		construct {
+			config = database.config;
 			context = MainContext.ref_thread_default ();
 			if (Posix.geteuid () == 0) {
 				// we are root
 				transaction_interface = new TransactionInterfaceRoot (context);
 			} else {
 				// use dbus daemon
-				transaction_interface = new TransactionInterfaceDaemon (database.config, context);
+				transaction_interface = new TransactionInterfaceDaemon (config, context);
 			}
 			waiting = false;
 			// transaction options
@@ -106,7 +108,7 @@ namespace Pamac {
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new GenericSet<string?> (str_hash, str_equal);
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (database.config, context);
+			alpm_utils = new AlpmUtils (config, context);
 			alpm_utils.choose_provider.connect (choose_provider_real);
 			alpm_utils.emit_action.connect ((sender, action) => {
 				emit_action (action);
@@ -195,10 +197,10 @@ namespace Pamac {
 
 		protected async GenericArray<string> get_build_files_async (string pkgname) {
 			string pkgdir_name;
-			if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 			} else {
-				pkgdir_name = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+				pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
 			}
 			var files = new GenericArray<string> ();
 			// PKGBUILD
@@ -301,10 +303,10 @@ namespace Pamac {
 
 		public async void clean_build_files_async () {
 			string real_aur_build_dir;
-			if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-				real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 			} else {
-				real_aur_build_dir = database.config.aur_build_dir;
+				real_aur_build_dir = config.aur_build_dir;
 			}
 			try {
 				yield transaction_interface.clean_build_files (real_aur_build_dir);
@@ -437,10 +439,10 @@ namespace Pamac {
 					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
 					string real_aur_build_dir;
-					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						real_aur_build_dir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+					if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+						real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 					} else {
-						real_aur_build_dir = database.config.aur_build_dir;
+						real_aur_build_dir = config.aur_build_dir;
 					}
 					clone_dir = File.new_for_path (Path.build_path ("/", real_aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
@@ -624,13 +626,8 @@ namespace Pamac {
 						}
 						// check deps
 						foreach (unowned string dep_string in aur_pkg.depends) {
-							Package? pkg = null;
-							if (database.has_installed_satisfier (dep_string)) {
-								pkg = database.get_installed_satisfier (dep_string);
-							} else if (database.has_sync_satisfier (dep_string)) {
-								pkg = database.get_sync_satisfier (dep_string);
-							}
-							if (pkg == null) {
+							if (!database.has_installed_satisfier (dep_string) &&
+								!database.has_sync_satisfier (dep_string)) {
 								string dep_name = database.get_alpm_dep_name (dep_string);
 								if (!(dep_name in already_checked_aur_dep)) {
 									dep_to_check.add ((owned) dep_name);
@@ -933,7 +930,7 @@ namespace Pamac {
 		}
 
 		void add_config_ignore_pkgs () {
-			foreach (unowned string name in database.config.ignorepkgs) {
+			foreach (unowned string name in config.ignorepkgs) {
 				ignorepkgs.add (name);
 			}
 		}
@@ -971,7 +968,7 @@ namespace Pamac {
 			if (to_install.length > 0) {
 				yield add_optdeps ();
 			}
-			if (sysupgrading && database.config.check_aur_updates) {
+			if (sysupgrading && config.check_aur_updates) {
 				GenericArray<AURPackage> aur_updates = yield database.get_aur_updates_async (ignorepkgs);
 				if (aur_updates.length != 0) {
 					foreach (unowned AURPackage aur_pkg in aur_updates) {
@@ -990,7 +987,7 @@ namespace Pamac {
 
 		async bool trans_prepare_and_run () {
 			// check if we need to sysupgrade
-			if (!sysupgrading && !database.config.simple_install && to_install.length > 0) {
+			if (!sysupgrading && !config.simple_install && to_install.length > 0) {
 				foreach (unowned string name in to_install) {
 					if (database.is_installed_pkg (name)) {
 						if (database.is_sync_pkg (name)) {
@@ -1100,8 +1097,8 @@ namespace Pamac {
 			start_preparing ();
 			add_config_ignore_pkgs ();
 			bool success = yield trans_check_prepare (sysupgrading,
-													database.config.enable_downgrade,
-													database.config.simple_install,
+													config.enable_downgrade,
+													config.simple_install,
 													trans_flags,
 													to_install,
 													to_remove,
@@ -1201,9 +1198,9 @@ namespace Pamac {
 					bool success = false;
 					try {
 						success = yield transaction_interface.trans_run (sysupgrading,
-																	database.config.enable_downgrade,
-																	database.config.simple_install,
-																	database.config.keep_built_pkgs,
+																	config.enable_downgrade,
+																	config.simple_install,
+																	config.keep_built_pkgs,
 																	trans_flags,
 																	to_install_array.data,
 																	to_remove_array.data,
@@ -1437,16 +1434,16 @@ namespace Pamac {
 				important_details_outpout (false);
 				var built_pkgs_path = new GenericArray<string> ();
 				string pkgdir;
-				if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-					pkgdir = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+				if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+					pkgdir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 				} else {
-					pkgdir = Path.build_path ("/", database.config.aur_build_dir, pkgname);
+					pkgdir = Path.build_path ("/", config.aur_build_dir, pkgname);
 				}
 				// building
 				building = true;
 				start_building ();
 				string[] cmdline = {"makepkg", "-cCf"};
-				if (!database.config.keep_built_pkgs) {
+				if (!config.keep_built_pkgs) {
 					cmdline += "--nosign";
 					cmdline += "PKGDEST=%s".printf (pkgdir);
 					cmdline += "PKGEXT=.pkg.tar";
@@ -1464,7 +1461,7 @@ namespace Pamac {
 					launcher.set_cwd (pkgdir);
 					try {
 						cmdline = {"makepkg", "--packagelist"};
-						if (!database.config.keep_built_pkgs) {
+						if (!config.keep_built_pkgs) {
 							cmdline += "PKGDEST=%s".printf (pkgdir);
 							cmdline += "PKGEXT=.pkg.tar";
 						}
@@ -1582,7 +1579,7 @@ namespace Pamac {
 				success = yield transaction_interface.trans_run (false, // sysupgrading,
 															false, // enable_downgrade
 															false, // simple_install
-															database.config.keep_built_pkgs,
+															config.keep_built_pkgs,
 															0, // trans_flags,
 															{}, // to_install
 															{}, // to_remove

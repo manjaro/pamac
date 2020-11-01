@@ -3480,7 +3480,7 @@ namespace Pamac {
 					if (search_entry_timeout_id != 0) {
 						Source.remove (search_entry_timeout_id);
 					}
-					search_entry_timeout_id = Timeout.add (500, search_entry_timeout_callback);
+					search_entry_timeout_id = Timeout.add (150, search_entry_timeout_callback);
 				}
 			} else {
 				// a history line was choosen

@@ -26,7 +26,6 @@ namespace Pamac {
 		AUR aur;
 		As.Store app_store;
 		HashTable<string, AURPackageData> aur_vcs_pkgs;
-		HashTable<unowned string, unowned Alpm.Package> repos_pkgs;
 		HashTable<unowned string, AlpmPackageLinked> pkgs_cache;
 		HashTable<unowned string, AURPackageLinked> aur_pkgs_cache;
 		GenericArray<string> mirrors_countries;
@@ -54,7 +53,6 @@ namespace Pamac {
 			alpm_config = config.alpm_config;
 			context = MainContext.ref_thread_default ();
 			aur_vcs_pkgs = new HashTable<string, AURPackageData> (str_hash, str_equal);
-			repos_pkgs = new HashTable<unowned string, unowned Alpm.Package> (str_hash, str_equal);
 			pkgs_cache = new HashTable<unowned string, AlpmPackageLinked> (str_hash, str_equal);
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);
 			refresh ();
@@ -126,7 +124,6 @@ namespace Pamac {
 				} else {
 					files_handle = alpm_config.get_handle (true);
 				}
-				repos_pkgs.remove_all ();
 				aur_vcs_pkgs.remove_all ();
 				pkgs_cache.remove_all ();
 			}
@@ -830,7 +827,7 @@ namespace Pamac {
 				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 				while (pkgcache != null) {
 					unowned Alpm.Package alpm_pkg = pkgcache.data;
-					if (!is_sync_pkg (alpm_pkg.name)) {
+					if (!is_syncpkg (alpm_pkg.name)) {
 						alpm_pkgs.add (alpm_pkg);
 					}
 					pkgcache.next ();
@@ -907,12 +904,7 @@ namespace Pamac {
 		}
 
 		unowned Alpm.Package? get_syncpkg (string pkgname) {
-			// check repos_pkgs first
-			unowned Alpm.Package? pkg;
-			if (repos_pkgs.lookup_extended (pkgname, null, out pkg)) {
-				return pkg;
-			}
-			// parse dbs and add pkg in repos_pkgs
+			unowned Alpm.Package? pkg = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				unowned Alpm.DB db = syncdbs.data;
@@ -922,36 +914,21 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			repos_pkgs.insert (pkgname, pkg);
 			return pkg;
 		}
 
-		public bool is_sync_pkg (string pkgname) {
-			// check repos_pkgs first
-			unowned Alpm.Package? pkg;
-			lock (alpm_config) {
-				if (repos_pkgs.lookup_extended (pkgname, null, out pkg)) {
-					if (pkg != null) {
-						return true;
-					}
-					return false;
-				}
-				// parse dbs and add pkg in repos_pkgs
-				unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
-				while (syncdbs != null) {
-					unowned Alpm.DB db = syncdbs.data;
-					pkg = db.get_pkg (pkgname);
-					if (pkg != null) {
-						break;
-					}
-					syncdbs.next ();
-				}
-				repos_pkgs.insert (pkgname, pkg);
-			}
+		bool is_syncpkg (string pkgname) {
+			unowned Alpm.Package? pkg = get_syncpkg (pkgname);
 			if (pkg != null) {
 				return true;
 			}
 			return false;
+		}
+
+		public bool is_sync_pkg (string pkgname) {
+			lock (alpm_config) {
+				return is_syncpkg (pkgname);
+			}
 		}
 
 		public AlpmPackage? get_sync_pkg (string pkgname) {
@@ -989,7 +966,6 @@ namespace Pamac {
 		public GenericArray<unowned AlpmPackage> get_sync_pkgs_by_glob (string glob) {
 			var pkgs = new GenericArray<unowned AlpmPackage> ();
 			lock (alpm_config) {
-				// populate complete repos_pkgs
 				unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 				syncdbs.reverse ();
 				while (syncdbs != null) {
@@ -997,18 +973,13 @@ namespace Pamac {
 					unowned Alpm.List<unowned Alpm.Package> pkgcache = db.pkgcache;
 					while (pkgcache != null) {
 						unowned Alpm.Package sync_pkg = pkgcache.data;
-						repos_pkgs.replace (sync_pkg.name, sync_pkg);
+						// only check by name
+						if (Posix.fnmatch (glob, sync_pkg.name) == 0) {
+							pkgs.add (initialise_pkg (sync_pkg));
+						}
 						pkgcache.next ();
 					}
 					syncdbs.next ();
-				}
-				var iter = HashTableIter<unowned string, unowned Alpm.Package> (repos_pkgs);
-				unowned Alpm.Package sync_pkg;
-				while (iter.next (null, out sync_pkg)) {
-					// only check by name
-					if (Posix.fnmatch (glob, sync_pkg.name) == 0) {
-						pkgs.add (initialise_pkg (sync_pkg));
-					}
 				}
 			}
 			return pkgs;
