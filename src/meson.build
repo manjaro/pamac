@@ -135,16 +135,6 @@ executable('pamac-tray',
 	c_args: common_c_args,
 	install: true)
 
-if get_option('enable-appindicator')
-	appindicator = dependency('appindicator3-0.1')
-	executable('pamac-tray-appindicator',
-		sources: ['tray.vala', 'tray-appindicator.vala'],
-		dependencies: [gtk3, libnotify, appindicator, libpamac_dep],
-		vala_args: common_vala_args,
-		c_args: common_c_args,
-		install: true)
-endif
-
 libpamac_gtk = library('pamac-gtk',
 	sources: [transaction_gtk_sources, transaction_resources],
 	dependencies: [gio, gtk3, posix, math, libpamac_dep],
