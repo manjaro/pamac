@@ -37,9 +37,9 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.ToggleButton action_togglebutton;
 
-		public Package pkg;
+		public Package? pkg;
 
-		public PackageRow (Package pkg) {
+		public PackageRow (Package? pkg) {
 			this.pkg = pkg;
 		}
 

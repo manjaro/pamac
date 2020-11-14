@@ -23,15 +23,7 @@ namespace Pamac {
 	class PreferencesDialog : Gtk.Dialog {
 
 		[GtkChild]
-		Gtk.Switch remove_unrequired_deps_button;
-		[GtkChild]
-		Gtk.Switch check_space_button;
-		[GtkChild]
-		Gtk.Switch simple_install_button;
-		[GtkChild]
 		Gtk.Switch check_updates_button;
-		[GtkChild]
-		Gtk.Switch enable_downgrade_button;
 		[GtkChild]
 		Gtk.Label refresh_period_label;
 		[GtkChild]
@@ -45,6 +37,16 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CheckButton download_updates_checkbutton;
 		[GtkChild]
+		Gtk.Box advanced_config_box;
+		[GtkChild]
+		Gtk.Switch check_space_button;
+		[GtkChild]
+		Gtk.Switch remove_unrequired_deps_button;
+		[GtkChild]
+		Gtk.Switch simple_install_button;
+		[GtkChild]
+		Gtk.Switch enable_downgrade_button;
+		[GtkChild]
 		Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
 		Gtk.Box mirrors_config_box;
@@ -52,6 +54,8 @@ namespace Pamac {
 		Gtk.ComboBoxText mirrors_country_comboboxtext;
 		[GtkChild]
 		Gtk.Button generate_mirrors_list_button;
+		[GtkChild]
+		Gtk.Box aur_config_box;
 		[GtkChild]
 		Gtk.Switch enable_aur_button;
 		[GtkChild]
@@ -98,7 +102,7 @@ namespace Pamac {
 		uint64 previous_refresh_period;
 		string preferences_choosen_country;
 
-		public PreferencesDialog (TransactionGtk transaction) {
+		public PreferencesDialog (TransactionGtk transaction, LocalConfig local_config) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: transaction.application_window, use_header_bar: use_header_bar);
@@ -107,11 +111,6 @@ namespace Pamac {
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			max_parallel_downloads_label.set_markup (dgettext (null, "Maximum parallel downloads") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
-			aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
-			remove_unrequired_deps_button.active = transaction.database.config.recurse;
-			check_space_button.active = transaction.database.config.checkspace;
-			simple_install_button.active = transaction.database.config.simple_install;
-			enable_downgrade_button.active = transaction.database.config.enable_downgrade;
 			if (transaction.database.config.refresh_period == 0) {
 				check_updates_button.active = false;
 				refresh_period_label.sensitive = false;
@@ -131,23 +130,34 @@ namespace Pamac {
 			download_updates_checkbutton.active = transaction.database.config.download_updates;
 			cache_keep_nb_spin_button.value = transaction.database.config.clean_keep_num_pkgs;
 			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
-			refresh_clean_cache_button.begin ();
 
-			// populate ignorepkgs_liststore
-			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
-			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
-			populate_ignorepkgs_liststore ();
-			check_space_button.state_set.connect (on_check_space_button_state_set);
-			simple_install_button.state_set.connect (on_simple_install_button_state_set);
-			remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
-			check_updates_button.state_set.connect (on_check_updates_button_state_set);
-			enable_downgrade_button.state_set.connect (on_enable_downgrade_button_state_set);
 			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
-			max_parallel_downloads_spin_button.value_changed.connect (on_max_parallel_downloads_spin_button_value_changed);
-			no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
-			download_updates_checkbutton.toggled.connect (on_download_updates_checkbutton_toggled);
 			cache_keep_nb_spin_button.value_changed.connect (on_cache_keep_nb_spin_button_value_changed);
 			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
+			refresh_clean_cache_button.begin ();
+
+			if (local_config.software_mode) {
+				advanced_config_box.visible = false;
+			} else {
+				remove_unrequired_deps_button.active = transaction.database.config.recurse;
+				check_space_button.active = transaction.database.config.checkspace;
+				simple_install_button.active = transaction.database.config.simple_install;
+				enable_downgrade_button.active = transaction.database.config.enable_downgrade;
+
+				// populate ignorepkgs_liststore
+				ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
+				ignorepkgs_treeview.set_model (ignorepkgs_liststore);
+				populate_ignorepkgs_liststore ();
+
+				check_space_button.state_set.connect (on_check_space_button_state_set);
+				simple_install_button.state_set.connect (on_simple_install_button_state_set);
+				remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
+				check_updates_button.state_set.connect (on_check_updates_button_state_set);
+				enable_downgrade_button.state_set.connect (on_enable_downgrade_button_state_set);
+				max_parallel_downloads_spin_button.value_changed.connect (on_max_parallel_downloads_spin_button_value_changed);
+				no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
+				download_updates_checkbutton.toggled.connect (on_download_updates_checkbutton_toggled);
+			}
 
 			if (!transaction.database.has_installed_satisfier ("pacman-mirrors")) {
 				mirrors_config_box.visible = false;
@@ -171,32 +181,37 @@ namespace Pamac {
 				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 			}
 
-			enable_aur_button.active = transaction.database.config.enable_aur;
-			aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
-			aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
-			string default_build_dir = "/var/tmp";
-			try {
-				aur_build_dir_file_chooser.add_shortcut_folder (default_build_dir);
-				if (transaction.database.config.aur_build_dir != default_build_dir) {
-					aur_build_dir_file_chooser.add_shortcut_folder (transaction.database.config.aur_build_dir);
+			if (local_config.software_mode) {
+				aur_config_box.visible = false;
+			} else {
+				enable_aur_button.active = transaction.database.config.enable_aur;
+				aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
+				aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
+				aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
+				string default_build_dir = "/var/tmp";
+				try {
+					aur_build_dir_file_chooser.add_shortcut_folder (default_build_dir);
+					if (transaction.database.config.aur_build_dir != default_build_dir) {
+						aur_build_dir_file_chooser.add_shortcut_folder (transaction.database.config.aur_build_dir);
+					}
+				} catch (Error e) {
+					warning (e.message);
 				}
-			} catch (Error e) {
-				warning (e.message);
+				aur_build_dir_file_chooser.select_filename (transaction.database.config.aur_build_dir);
+				refresh_clean_build_files_button.begin ();
+				keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
+				keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
+				check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
+				check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
+				check_aur_vcs_updates_checkbutton.active = transaction.database.config.check_aur_vcs_updates;
+				check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur
+															&& transaction.database.config.check_aur_updates;
+				enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
+				aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
+				keep_built_pkgs_checkbutton.toggled.connect (on_keep_built_pkgs_checkbutton_toggled);
+				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
+				check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
 			}
-			aur_build_dir_file_chooser.select_filename (transaction.database.config.aur_build_dir);
-			refresh_clean_build_files_button.begin ();
-			keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
-			keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
-			check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
-			check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
-			check_aur_vcs_updates_checkbutton.active = transaction.database.config.check_aur_vcs_updates;
-			check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur
-														&& transaction.database.config.check_aur_updates;
-			enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
-			aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
-			keep_built_pkgs_checkbutton.toggled.connect (on_keep_built_pkgs_checkbutton_toggled);
-			check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
-			check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
 
 			#if ENABLE_SNAP
 			if (transaction.database.config.support_snap) {
@@ -226,7 +241,7 @@ namespace Pamac {
 		}
 
 		async void refresh_clean_cache_button () {
-			HashTable<string, uint64?> details = transaction.database.get_clean_cache_details ();
+			HashTable<string, uint64?> details = yield transaction.database.get_clean_cache_details_async ();
 			var iter = HashTableIter<string, uint64?> (details);
 			uint64 total_size = 0;
 			uint files_nb = 0;

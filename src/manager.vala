@@ -67,9 +67,8 @@ namespace Pamac {
 					create_manager_window ();
 				}
 				manager_window.display_package_queue.clear ();
-				manager_window.search_button.active = true;
-				var entry = manager_window.search_comboboxtext.get_child () as Gtk.Entry;
-				entry.set_text (str_builder.str);
+				manager_window.search_togglebutton.active = true;
+				manager_window.search_entry.set_text (str_builder.str);
 				manager_window.present_with_time (timestamp);
 			});
 		}
@@ -88,7 +87,7 @@ namespace Pamac {
 				}
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
-				manager_window.browse_stack.visible_child_name = "updates";
+				manager_window.main_updates_togglebutton.active = true;
 				manager_window.present ();
 			});
 			this.add_action (action);
@@ -116,15 +115,25 @@ namespace Pamac {
 					manager_window.refresh_packages_list ();
 				}
 				app_id = parameter.get_string ();
-				Package? pkg = null;
-				this.database.get_app_by_id_async.begin (app_id, (obj, res) => {
-					this.database.get_app_by_id_async.end (res);
-					if (pkg != null) {
-						manager_window.display_details (pkg);
-						manager_window.main_stack.visible_child_name = "details";
-					}
-					manager_window.present ();
-				});
+				Package? pkg = this.database.get_app_by_id (app_id);
+				if (pkg != null) {
+					manager_window.display_details (pkg);
+					manager_window.main_stack.visible_child_name = "details";
+				}
+				manager_window.present ();
+			});
+			this.add_action (action);
+			// search
+			action = new SimpleAction ("search", new VariantType ("s"));
+			action.activate.connect  ((parameter) => {
+				if (manager_window == null) {
+					create_manager_window ();
+				}
+				search = parameter.get_string ();
+				manager_window.display_package_queue.clear ();
+				manager_window.search_togglebutton.active = true;
+				manager_window.search_entry.set_text (search);
+				manager_window.present ();
 			});
 			this.add_action (action);
 		}
@@ -145,7 +154,7 @@ namespace Pamac {
 			this.set_accels_for_action ("app.back", accels);
 			// search accel
 			action =  new SimpleAction ("search_accel", null);
-			action.activate.connect  (() => {manager_window.search_button.activate ();});
+			action.activate.connect  (() => {manager_window.search_togglebutton.activate ();});
 			this.add_action (action);
 			accels = {"<Ctrl>F"};
 			this.set_accels_for_action ("app.search_accel", accels);

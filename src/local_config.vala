@@ -23,6 +23,7 @@ namespace Pamac {
 		public uint64 width { get; private set; }
 		public uint64 height { get; private set; }
 		public bool maximized { get; private set; }
+		public bool software_mode { get; set; }
 
 		public LocalConfig (string conf_path) {
 			Object (conf_path: conf_path);
@@ -37,6 +38,7 @@ namespace Pamac {
 			width = 950;
 			height = 550;
 			maximized = false;
+			software_mode = false;
 			parse_file ();
 		}
 
@@ -75,6 +77,11 @@ namespace Pamac {
 							if (splitted.length == 2) {
 								unowned string val = splitted[1]._strip ();
 								maximized = bool.parse (val);
+							}
+						} else if (key == "software_mode") {
+							if (splitted.length == 2) {
+								unowned string val = splitted[1]._strip ();
+								software_mode = bool.parse (val);
 							}
 						}
 					}
@@ -128,6 +135,18 @@ namespace Pamac {
 								data.append (line);
 								data.append ("\n");
 							}
+						} else if (line.contains ("software_mode")) {
+							if (new_conf.lookup_extended ("software_mode", null, out variant)) {
+								if (variant.get_boolean ()) {
+									data.append ("software_mode = true\n");
+								} else {
+									data.append ("software_mode = false\n");
+								}
+								new_conf.remove ("software_mode");
+							} else {
+								data.append (line);
+								data.append ("\n");
+							}
 						} else {
 							data.append (line);
 							data.append ("\n");
@@ -163,6 +182,12 @@ namespace Pamac {
 							data.append ("maximized = true\n");
 						} else {
 							data.append ("maximized = false\n");
+						}
+					} else if (key == "software_mode") {
+						if (val.get_boolean ()) {
+							data.append ("software_mode = true\n");
+						} else {
+							data.append ("software_mode = false\n");
 						}
 					}
 				}

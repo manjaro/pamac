@@ -512,12 +512,10 @@ namespace Pamac {
 				}
 			}
 			if (appstream_enabled) {
-				if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
-					// find if pkgname provides only one app
-					var matching_apps = get_pkgname_matching_apps (pkgname);
-					if (matching_apps.length == 1) {
-						pkg.set_as_app (matching_apps[0]);
-					}
+				// find if pkgname provides only one app
+				var matching_apps = get_pkgname_matching_apps (pkgname);
+				if (matching_apps.length == 1) {
+					pkg.set_as_app (matching_apps[0]);
 				}
 			}
 			pkgs_cache.replace (pkg.id, pkg);
