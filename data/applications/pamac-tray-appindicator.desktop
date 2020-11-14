@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Update Notifier Appindicator
-Icon=update-notifier
-Exec=pamac-tray-appindicator
-Terminal=false
-Type=Application
-StartupNotify=true
-OnlyShowIn=KDE;
