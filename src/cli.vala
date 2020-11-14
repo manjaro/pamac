@@ -2707,11 +2707,7 @@ namespace Pamac {
 				transaction.set_flags ((1 << 9)); //Alpm.TransFlag.DOWNLOADONLY
 			}
 			transaction.add_pkgs_to_upgrade (force_refresh);
-			if (Posix.geteuid () != 0) {
-				
-			} else {
-				run_transaction ();
-			}
+			run_transaction ();
 		}
 
 		public static int main (string[] args) {
