@@ -333,7 +333,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.CheckButton software_mode_checkbutton;
 		[GtkChild]
-		Gtk.ModelButton refresh_button;
+		Gtk.ModelButton refresh_databases_button;
 		[GtkChild]
 		Gtk.ModelButton local_button;
 		[GtkChild]
@@ -616,6 +616,7 @@ namespace Pamac {
 			// integrate progress box and term widget
 			main_stack.add_named (transaction.details_window, "term");
 			transaction_infobox.pack_start (transaction.progress_box);
+			transaction_infobox.reorder_child (transaction.progress_box, 0);
 			// integrate build files notebook
 			build_files_box.add (transaction.build_files_notebook);
 
@@ -2583,7 +2584,15 @@ namespace Pamac {
 					browse_stack.visible_child_name = "checking";
 				}
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				// don't check devel updates here because it could be very long
+				bool check_aur_vcs_updates = database.config.check_aur_vcs_updates;
+				if (check_aur_vcs_updates) {
+					database.config.check_aur_vcs_updates = false;
+				}
 				database.get_updates_async.begin (true, (obj, res) => {
+					if (check_aur_vcs_updates) {
+						database.config.check_aur_vcs_updates = check_aur_vcs_updates;
+					}
 					var updates = database.get_updates_async.end (res);
 					// copy updates in lists
 					repos_updates = new GenericArray<AlpmPackage> ();
@@ -3574,7 +3583,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_menu_button_toggled () {
 			preferences_button.sensitive = !(transaction_running || sysupgrade_running);
-			refresh_button.sensitive = !(transaction_running || sysupgrade_running);
+			refresh_databases_button.sensitive = !(transaction_running || sysupgrade_running);
 			local_button.sensitive = !(transaction_running || sysupgrade_running);
 		}
 
@@ -3885,9 +3894,54 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_refresh_button_clicked () {
+		void on_refresh_databases_button_clicked () {
 			transaction.no_confirm_upgrade = false;
 			run_sysupgrade (true);
+		}
+
+		[GtkCallback]
+		void on_refresh_button_clicked () {
+			browse_stack.visible_child_name = "checking";
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			// don't check devel updates here because it could be very long
+			bool check_aur_vcs_updates = database.config.check_aur_vcs_updates;
+			if (check_aur_vcs_updates) {
+				database.config.check_aur_vcs_updates = false;
+			}
+			database.get_updates_async.begin (false, (obj, res) => {
+				if (check_aur_vcs_updates) {
+					database.config.check_aur_vcs_updates = check_aur_vcs_updates;
+				}
+				var updates = database.get_updates_async.end (res);
+				// copy updates in lists
+				repos_updates = new GenericArray<AlpmPackage> ();
+				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
+					repos_updates.add (pkg);
+				}
+				foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+					repos_updates.add (pkg);
+					temporary_ignorepkgs.add (pkg.name);
+				}
+				aur_updates = new GenericArray<AURPackage> ();
+				foreach (unowned AURPackage pkg in updates.aur_updates) {
+					aur_updates.add (pkg);
+				}
+				foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+					aur_updates.add (pkg);
+					temporary_ignorepkgs.add (pkg.name);
+				}
+				#if ENABLE_FLATPAK
+				flatpak_updates = new GenericArray<FlatpakPackage> ();
+				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
+					flatpak_updates.add (pkg);
+				}
+				#endif
+				if (main_updates_togglebutton.active) {
+					populate_updates ();
+				} else {
+					this.get_window ().set_cursor (null);
+				}
+			});
 		}
 
 		void on_get_updates_progress (uint percent) {

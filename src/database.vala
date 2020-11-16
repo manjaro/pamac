@@ -2121,7 +2121,7 @@ namespace Pamac {
 			var timestamp_file = File.new_for_path (timestamp_path);
 			if (timestamp_file.query_exists ()) {
 				FileInfo info = timestamp_file.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
-				return info.get_modification_date_time ();
+				return info.get_modification_date_time ().to_local ();
 			} else {
 				// create config directory
 				try {

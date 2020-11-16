@@ -44,6 +44,7 @@
                   <object class="GtkLabel" id="name_label">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="ellipsize">end</property>
                     <property name="width-chars">20</property>
                     <property name="single-line-mode">True</property>
                     <property name="track-visited-links">False</property>
@@ -59,7 +60,7 @@
                   <object class="GtkLabel" id="version_label">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="ellipsize">middle</property>
+                    <property name="ellipsize">end</property>
                     <property name="single-line-mode">True</property>
                     <property name="track-visited-links">False</property>
                     <property name="xalign">0</property>
@@ -84,9 +85,7 @@
                 <property name="use-markup">True</property>
                 <property name="wrap">True</property>
                 <property name="ellipsize">end</property>
-                <property name="max-width-chars">80</property>
                 <property name="track-visited-links">False</property>
-                <property name="lines">2</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -99,6 +98,7 @@
               <object class="GtkLabel" id="repo_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="ellipsize">end</property>
                 <property name="single-line-mode">True</property>
                 <property name="track-visited-links">False</property>
                 <property name="xalign">0</property>
@@ -143,9 +143,9 @@
               <object class="GtkLabel" id="size_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="ellipsize">middle</property>
                 <property name="width-chars">8</property>
                 <property name="single-line-mode">True</property>
-                <property name="max-width-chars">8</property>
                 <property name="track-visited-links">False</property>
                 <property name="xalign">0.5</property>
               </object>
