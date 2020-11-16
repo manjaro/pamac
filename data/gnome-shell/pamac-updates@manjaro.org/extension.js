@@ -44,7 +44,7 @@ const Pamac = imports.gi.Pamac;
 
 /* Options */
 let HIDE_NO_UPDATE     = false;
-let SHOW_COUNT         = true;
+let SHOW_COUNT         = false;
 let BOOT_WAIT          = 30;  // 30s
 let CHECK_INTERVAL     = 1;   // 1h
 let NOTIFY             = true;
@@ -197,7 +197,7 @@ const PamacUpdateIndicator = new Lang.Class({
 			this.label.set_text(updatesCount.toString());
 			if (NOTIFY && UPDATES_PENDING < updatesCount) {
 				this._showNotification(
-					Gettext.ngettext( "%u available update", "%u available updates", updatesCount ).replace("%u", updatesCount.toString())
+					_("Updates Available")
 				);
 			}
 			// Store the new list

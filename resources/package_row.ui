@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <template class="PamacPackageRow" parent="GtkListBoxRow">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
+    <property name="can-focus">True</property>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_start">18</property>
-        <property name="margin_end">18</property>
-        <property name="margin_top">6</property>
-        <property name="margin_bottom">6</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">18</property>
+        <property name="margin-end">18</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkImage" id="app_icon">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_start">12</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">12</property>
             <property name="icon_size">5</property>
           </object>
           <packing>
@@ -30,7 +30,7 @@
         <child>
           <object class="GtkBox" id="second_box">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="hexpand">True</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
@@ -38,15 +38,15 @@
             <child>
               <object class="GtkBox" id="name_box">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="name_label">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="width_chars">20</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="track_visited_links">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="width-chars">20</property>
+                    <property name="single-line-mode">True</property>
+                    <property name="track-visited-links">False</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>
@@ -58,10 +58,10 @@
                 <child>
                   <object class="GtkLabel" id="version_label">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="track_visited_links">False</property>
+                    <property name="single-line-mode">True</property>
+                    <property name="track-visited-links">False</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>
@@ -80,10 +80,13 @@
             <child>
               <object class="GtkLabel" id="desc_label">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
+                <property name="use-markup">True</property>
+                <property name="wrap">True</property>
                 <property name="ellipsize">end</property>
-                <property name="single_line_mode">True</property>
-                <property name="track_visited_links">False</property>
+                <property name="max-width-chars">80</property>
+                <property name="track-visited-links">False</property>
+                <property name="lines">2</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -95,9 +98,9 @@
             <child>
               <object class="GtkLabel" id="repo_label">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="single_line_mode">True</property>
-                <property name="track_visited_links">False</property>
+                <property name="can-focus">False</property>
+                <property name="single-line-mode">True</property>
+                <property name="track-visited-links">False</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -116,19 +119,19 @@
         <child>
           <object class="GtkBox" id="button_box">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkToggleButton" id="action_togglebutton">
-                <property name="width_request">110</property>
+                <property name="width-request">110</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="receives_default">True</property>
+                <property name="can-focus">True</property>
+                <property name="focus-on-click">False</property>
+                <property name="receives-default">True</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="always_show_image">True</property>
+                <property name="always-show-image">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -139,11 +142,11 @@
             <child>
               <object class="GtkLabel" id="size_label">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="width_chars">8</property>
-                <property name="single_line_mode">True</property>
-                <property name="max_width_chars">8</property>
-                <property name="track_visited_links">False</property>
+                <property name="can-focus">False</property>
+                <property name="width-chars">8</property>
+                <property name="single-line-mode">True</property>
+                <property name="max-width-chars">8</property>
+                <property name="track-visited-links">False</property>
                 <property name="xalign">0.5</property>
               </object>
               <packing>

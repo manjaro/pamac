@@ -20,12 +20,12 @@
 // i18n
 const string GETTEXT_PACKAGE = "pamac";
 
-const string update_icon_name = "pamac-tray-update";
-const string noupdate_icon_name = "pamac-tray-no-update";
-const string noupdate_info = _("Your system is up-to-date");
-
 namespace Pamac {
 	public abstract class TrayIcon: Gtk.Application {
+		string update_icon_name = "pamac-tray-update";
+		string noupdate_icon_name = "pamac-tray-no-update";
+		unowned string update_info = _("Updates Available");
+		unowned string noupdate_info = _("Your system is up-to-date");
 		Notify.Notification notification;
 		Gtk.IconTheme icon_theme;
 		protected UpdatesChecker updates_checker;
@@ -96,7 +96,7 @@ namespace Pamac {
 			set_icon (update_icon_name);
 			set_tooltip (info);
 			set_icon_visible (true);
-			update_notification (info);
+			update_notification (update_info);
 		}
 
 		void show_notification (string info) {
