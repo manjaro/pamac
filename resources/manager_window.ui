@@ -780,77 +780,72 @@
                             <property name="position">2</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkBox" id="list_button_box">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">center</property>
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkButton" id="remove_all_button">
+                                <property name="label" translatable="yes">Remove all</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="focus-on-click">False</property>
+                                <property name="receives-default">True</property>
+                                <property name="valign">center</property>
+                                <signal name="clicked" handler="on_remove_all_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="install_all_button">
+                                <property name="label" translatable="yes">Install all</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="focus-on-click">False</property>
+                                <property name="receives-default">False</property>
+                                <property name="valign">center</property>
+                                <signal name="clicked" handler="on_install_all_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="ignore_all_button">
+                                <property name="label" translatable="yes">Ignore all</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="focus-on-click">False</property>
+                                <property name="receives-default">True</property>
+                                <property name="valign">center</property>
+                                <signal name="clicked" handler="on_ignore_all_button_clicked" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="list_button_box">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-end">12</property>
-                        <property name="spacing">12</property>
-                        <child>
-                          <object class="GtkButton" id="remove_all_button">
-                            <property name="label" translatable="yes">Remove all</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="focus-on-click">False</property>
-                            <property name="receives-default">True</property>
-                            <property name="valign">center</property>
-                            <property name="margin-bottom">12</property>
-                            <signal name="clicked" handler="on_remove_all_button_clicked" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="install_all_button">
-                            <property name="label" translatable="yes">Install all</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="focus-on-click">False</property>
-                            <property name="receives-default">False</property>
-                            <property name="valign">center</property>
-                            <property name="margin-bottom">12</property>
-                            <signal name="clicked" handler="on_install_all_button_clicked" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="ignore_all_button">
-                            <property name="label" translatable="yes">Ignore all</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="focus-on-click">False</property>
-                            <property name="receives-default">True</property>
-                            <property name="valign">center</property>
-                            <property name="margin-bottom">13</property>
-                            <signal name="clicked" handler="on_ignore_all_button_clicked" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -879,36 +874,11 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <child>
-                                  <object class="GtkBox" id="packages_box">
+                                  <object class="GtkListBox" id="packages_listbox">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="orientation">vertical</property>
-                                    <child>
-                                      <object class="GtkFrame" id="packages_frame">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="halign">center</property>
-                                        <property name="label-xalign">0</property>
-                                        <property name="shadow-type">in</property>
-                                        <child>
-                                          <object class="GtkListBox" id="packages_listbox">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="halign">center</property>
-                                            <property name="selection-mode">none</property>
-                                            <signal name="row-activated" handler="on_packages_listbox_row_activated" swapped="no"/>
-                                          </object>
-                                        </child>
-                                        <child type="label_item">
-                                          <placeholder/>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
+                                    <property name="selection-mode">none</property>
+                                    <signal name="row-activated" handler="on_packages_listbox_row_activated" swapped="no"/>
                                   </object>
                                 </child>
                               </object>
@@ -1824,6 +1794,7 @@
                 <property name="primary-icon-name">edit-find-symbolic</property>
                 <property name="primary-icon-activatable">False</property>
                 <property name="primary-icon-sensitive">False</property>
+                <property name="placeholder-text" translatable="yes">Search</property>
                 <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
               </object>
               <packing>

@@ -1265,6 +1265,8 @@ namespace Pamac {
 			Gtk.Widget? previous_widget = null;
 			if (pkg.license != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), pkg.license, previous_widget);
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
 			if (pkg.repo != null) {
 				if (software_mode) {
@@ -1438,6 +1440,8 @@ namespace Pamac {
 			Gtk.Widget? previous_widget = null;
 			if (aur_pkg.license != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), aur_pkg.license, previous_widget);
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
 			if (aur_pkg.repo != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Repository"), aur_pkg.repo, previous_widget);
@@ -1605,6 +1609,8 @@ namespace Pamac {
 			Gtk.Widget? previous_widget = null;
 			if (snap_pkg.license != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), snap_pkg.license, previous_widget);
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
 			previous_widget = populate_details_grid (dgettext (null, "Repository"), snap_pkg.repo, previous_widget);
 			// make packager mail clickable
@@ -1737,6 +1743,8 @@ namespace Pamac {
 			Gtk.Widget? previous_widget = null;
 			if (flatpak_pkg.license != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), flatpak_pkg.license, previous_widget);
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
 			previous_widget = populate_details_grid (dgettext (null, "Repository"), flatpak_pkg.repo, previous_widget);
 			details_grid.show_all ();
@@ -2027,7 +2035,8 @@ namespace Pamac {
 				while (i < 20) {
 					unowned Package pkg = current_packages_list[current_packages_list_index];
 					if (!local_config.software_mode || pkg.app_name != null) {
-						create_packagelist_row (pkg);
+						var row = create_packagelist_row (pkg);
+						packages_listbox.add (row);
 						i++;
 					}
 					current_packages_list_index++;
@@ -2038,7 +2047,7 @@ namespace Pamac {
 			}
 		}
 
-		void create_packagelist_row (Package pkg) {
+		PackageRow create_packagelist_row (Package pkg) {
 			bool is_update = main_updates_togglebutton.active;
 			var row = new PackageRow (pkg);
 			//populate info
@@ -2297,8 +2306,7 @@ namespace Pamac {
 					set_pendings_operations ();
 				});
 			}
-			// insert
-			packages_listbox.add (row);
+			return row;
 		}
 
 		void create_os_updates_row (uint64 download_size) {
@@ -2321,6 +2329,117 @@ namespace Pamac {
 			row.action_togglebutton.sensitive = false;
 			// insert
 			packages_listbox.add (row);
+		}
+
+		PackageRow create_update_row (Package pkg) {
+			var row = new PackageRow (pkg);
+			//populate info
+			unowned string? app_name = pkg.app_name;
+			AlpmPackage? alpm_pkg = pkg as AlpmPackage;
+			bool software_mode = local_config.software_mode;
+			if (app_name == null) {
+				row.name_label.set_markup ("<b>%s</b>".printf (pkg.name));
+			} else if (alpm_pkg != null && !software_mode) {
+				row.name_label.set_markup ("<b>%s (%s)</b>".printf (Markup.escape_text (app_name), pkg.name));
+			} else {
+				row.name_label.set_markup ("<b>%s</b>".printf (Markup.escape_text (app_name)));
+			}
+			unowned string? desc = pkg.desc;
+			if (desc != null) {
+				row.desc_label.label = Markup.escape_text (desc);
+			} else {
+				row.desc_label.label = "";
+			}
+			#if ENABLE_FLATPAK
+			if (pkg is FlatpakPackage)
+				row.version_label.set_markup ("<b>%s</b>".printf (pkg.version));
+			else
+			#endif
+			row.version_label.set_markup ("<b>%s  (%s)</b>".printf (pkg.version, pkg.installed_version));
+			if (pkg.download_size == 0) {
+				row.size_label.label = "";
+			} else {
+				row.size_label.set_markup ("<span foreground='grey'>%s</span>".printf (GLib.format_size (pkg.download_size)));
+			}
+			if (alpm_pkg != null && pkg.repo != null) {
+				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
+					if (software_mode) {
+						row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
+					} else {
+						row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Official Repositories"), pkg.repo));
+					}
+				} else if (pkg.repo == dgettext (null, "AUR")) {
+					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+				} else if (pkg.repo != null) {
+					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repositories"), pkg.repo));
+				}
+			#if ENABLE_FLATPAK
+			} else if (pkg is FlatpakPackage) {
+				row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
+			#endif
+			} else {
+				row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+			}
+			Gdk.Pixbuf pixbuf;
+			unowned string? icon = pkg.icon;
+			if (icon != null) {
+				if ("http" in icon) {
+					pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+					get_icon_pixbuf.begin (icon, (obj, res) => {
+						var downloaded_pixbuf = get_icon_pixbuf.end (res);
+						if (downloaded_pixbuf != null) {
+							row.app_icon.pixbuf = downloaded_pixbuf.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+						}
+					});
+				} else {
+					try {
+						pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 48, 48, true);
+					} catch (Error e) {
+						// some icons are not in the right repo
+						string new_icon = icon;
+						if ("extra" in icon) {
+							new_icon = icon.replace ("extra", "community");
+						} else if ("community" in icon) {
+							new_icon = icon.replace ("community", "extra");
+						}
+						try {
+							pixbuf = new Gdk.Pixbuf.from_file_at_scale (new_icon, 48, 48, true);
+						} catch (Error e) {
+							pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+							warning ("%s: %s", icon, e.message);
+						}
+					}
+				}
+			} else {
+				pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+			}
+			row.app_icon.pixbuf = pixbuf;
+			if (transaction.transaction_summary_contains (pkg.name)) {
+				row.action_togglebutton.sensitive = false;
+			}
+			row.action_togglebutton.label = dgettext (null, "Upgrade");
+			row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+			if (!(pkg.name in temporary_ignorepkgs)) {
+				row.action_togglebutton.active = true;
+				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
+			}
+			row.action_togglebutton.toggled.connect ((button) => {
+				if (button.active) {
+					row.action_togglebutton.active = true;
+					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
+					to_update.add (pkg.name);
+					temporary_ignorepkgs.remove (pkg.name);
+					// remove from config.ignorepkgs to override config
+					database.config.ignorepkgs.remove (pkg.name);
+				} else {
+					row.action_togglebutton.active = false;
+					row.action_togglebutton.image = null;
+					to_update.remove (pkg.name);
+					temporary_ignorepkgs.add (pkg.name);
+				}
+				set_pendings_operations ();
+			});
+			return row;
 		}
 
 		void refresh_listbox_buttons () {
@@ -2814,6 +2933,22 @@ namespace Pamac {
 			if (pkg != null) {
 				display_details (pkg);
 				main_stack.visible_child_name = "details";
+			} else {
+				// check for OS Updates row
+				if (pamac_row.name_label.label == "<b>%s</b>".printf (dgettext (null, "OS Updates"))) {
+					var updates_dialog = new UpdatesDialog (this);
+					// populates updates
+					foreach (unowned Package update_pkg in current_packages_list) {
+						if (update_pkg.app_name == null) {
+							var update_row = create_update_row (update_pkg);
+							updates_dialog.listbox.add (update_row);
+						}
+					}
+					updates_dialog.show ();
+					updates_dialog.response.connect (() => {
+						updates_dialog.destroy ();
+					});
+				}
 			}
 		}
 

@@ -3,6 +3,7 @@
   <gresource prefix="/org/manjaro/pamac/manager">
     <file preprocess="xml-stripblanks">manager_window.ui</file>
     <file preprocess="xml-stripblanks">history_dialog.ui</file>
+    <file preprocess="xml-stripblanks">updates_dialog.ui</file>
     <file preprocess="xml-stripblanks">package_row.ui</file>
   </gresource>
   <gresource prefix="/org/manjaro/pamac/preferences">
