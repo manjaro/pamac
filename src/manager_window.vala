@@ -2323,7 +2323,6 @@ namespace Pamac {
 			row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
 			row.app_icon.pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
 			row.action_togglebutton.label = dgettext (null, "Upgrade");
-			row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 			row.action_togglebutton.active = true;
 			row.action_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
 			row.action_togglebutton.sensitive = false;
