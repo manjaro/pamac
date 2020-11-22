@@ -127,6 +127,30 @@ namespace Pamac {
 	}
 
 	int sort_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
+		if (pkg_a.name in to_remove) {
+			if (pkg_b.name in to_remove) {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			}
+			return -1;
+		}
+		if (pkg_b.name in to_remove) {
+			return 1;
+		}
+		if (pkg_a.name in to_install ||
+			pkg_a.name in to_build ||
+			pkg_a.name in temporary_ignorepkgs) {
+			if (pkg_b.name in to_install ||
+				pkg_b.name in to_build ||
+				pkg_b.name in temporary_ignorepkgs) {
+				return sort_pkgs_by_name (pkg_a, pkg_b);
+			}
+			return -1;
+		}
+		if (pkg_b.name in to_install ||
+			pkg_b.name in to_build ||
+			pkg_b.name in temporary_ignorepkgs) {
+			return 1;
+		}
 		if (pkg_a.installed_version == null) {
 			if (pkg_b.installed_version == null) {
 				return sort_pkgs_by_name (pkg_a, pkg_b);
@@ -1563,15 +1587,14 @@ namespace Pamac {
 					} catch (Error e) {
 						app_image.pixbuf = package_icon;
 						// try to retrieve icon
-						
-							database.get_installed_snap_icon_async.begin (snap_pkg.name, (obj, res) => {
-								string downloaded_pixbuf_path = database.get_installed_snap_icon_async.end (res);
-								try {
-									app_image.pixbuf = new Gdk.Pixbuf.from_file_at_scale (downloaded_pixbuf_path, 64, 64, true);
-								} catch (Error e) {
-									warning ("%s: %s", snap_pkg.name, e.message);
-								}
-							});
+						database.get_installed_snap_icon_async.begin (snap_pkg.name, (obj, res) => {
+							string downloaded_pixbuf_path = database.get_installed_snap_icon_async.end (res);
+							try {
+								app_image.pixbuf = new Gdk.Pixbuf.from_file_at_scale (downloaded_pixbuf_path, 64, 64, true);
+							} catch (Error e) {
+								warning ("%s: %s", snap_pkg.name, e.message);
+							}
+						});
 					}
 				}
 			} else {
@@ -4019,10 +4042,17 @@ namespace Pamac {
 			} else {
 				clear_lists ();
 				set_pendings_operations ();
-				scroll_to_top = false;
-				refresh_packages_list ();
+				refresh_listbox_buttons ();
 				if (main_stack.visible_child_name == "details") {
-					refresh_details ();
+					if (install_togglebutton.active) {
+						install_togglebutton.active = false;
+					} else if (remove_togglebutton.active) {
+						remove_togglebutton.active = false;
+					} else if (build_togglebutton.active) {
+						build_togglebutton.active = false;
+					} else if (reinstall_togglebutton.active) {
+						reinstall_togglebutton.active = false;
+					}
 				}
 			}
 		}
