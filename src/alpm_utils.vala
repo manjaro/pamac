@@ -1785,10 +1785,31 @@ namespace Pamac {
 			}
 		}
 
+		bool need_reboot (Alpm.Handle alpm_handle) {
+			bool reboot_needed = false;
+			string[] check_pkgs = {"firefox", "ucode", "cryptsetup", "linux", "nvidia", "mesa", "systemd", "wayland", "xf86-video", "xorg"};
+			unowned Alpm.List<unowned Alpm.Package> to_add = alpm_handle.trans_to_add ();
+			while (to_add != null) {
+				unowned Alpm.Package pkg = to_add.data;
+				foreach (unowned string check_pkg in check_pkgs) {
+					if (check_pkg in pkg.name) {
+						reboot_needed = true;
+						break;
+					}
+				}
+				if (reboot_needed) {
+					break;
+				}
+				to_add.next ();
+			}
+			return reboot_needed;
+		}
+
 		bool trans_commit (Alpm.Handle alpm_handle) {
 			add_overwrite_files (alpm_handle);
 			bool need_retry = false;
 			bool success = false;
+			bool reboot_needed = false;
 			if (to_syncfirst.length > 0) {
 				trans_release (alpm_handle);
 				success = trans_init (alpm_handle, trans_flags);
@@ -1803,6 +1824,8 @@ namespace Pamac {
 						success = trans_prepare_real (alpm_handle);
 					}
 					if (success) {
+						// check if reboot needed
+						reboot_needed = need_reboot (alpm_handle);
 						success = trans_commit_real (alpm_handle, ref need_retry);
 					}
 					trans_release (alpm_handle);
@@ -1864,6 +1887,10 @@ namespace Pamac {
 					return false;
 				}
 			}
+			if (!reboot_needed) {
+				// check if reboot needed
+				reboot_needed = need_reboot (alpm_handle);
+			}
 			success = trans_commit_real (alpm_handle, ref need_retry);
 			if (success) {
 				foreach (unowned string path in to_load) {
@@ -1901,6 +1928,9 @@ namespace Pamac {
 					}
 					return false;
 				});
+				if (reboot_needed) {
+					do_emit_warning (dgettext (null, "A restart is required for the changes to take effect") + ".");
+				}
 			} else if (need_retry) {
 				// retry
 				if (commit_retries < 1) {
