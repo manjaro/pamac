@@ -2118,37 +2118,32 @@ namespace Pamac {
 		public DateTime? get_last_refresh_time () {
 			string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
 			// check if last refresh is older than config.refresh_period
-			var timestamp_file = File.new_for_path (timestamp_path);
-			if (timestamp_file.query_exists ()) {
-				FileInfo info = timestamp_file.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
-				return info.get_modification_date_time ().to_local ();
-			} else {
-				// create config directory
-				try {
+			try {
+				var timestamp_file = File.new_for_path (timestamp_path);
+				if (timestamp_file.query_exists ()) {
+					FileInfo info = timestamp_file.query_info (FileAttribute.TIME_MODIFIED, FileQueryInfoFlags.NONE);
+					return info.get_modification_date_time ().to_local ();
+				} else {
+					// create config directory
 					File? parent = timestamp_file.get_parent ();
 					if (parent != null && !parent.query_exists ()) {
 						parent.make_directory_with_parents ();
 					}
-				} catch (Error e) {
-					warning (e.message);
 				}
+			} catch (Error e) {
+				warning (e.message);
 			}
 			return null;
 		}
 
 		int64 get_last_refresh_age () {
-			try {
-				DateTime? last_modifed = get_last_refresh_time ();
-				if (last_modifed == null) {
-					return int64.MAX;
-				}
-				var now = new DateTime.now_utc ();
-				TimeSpan elapsed_time = now.difference (last_modifed);
-				return elapsed_time;
-			} catch (Error e) {
-				warning (e.message);
+			DateTime? last_modifed = get_last_refresh_time ();
+			if (last_modifed == null) {
 				return int64.MAX;
 			}
+			var now = new DateTime.now_utc ();
+			TimeSpan elapsed_time = now.difference (last_modifed);
+			return elapsed_time;
 		}
 
 		public bool need_refresh () {
