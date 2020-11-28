@@ -95,7 +95,7 @@ custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'lib
 
 libpamac_dep = declare_dependency(link_with: libpamac)
 
-daemon_sources = ['version.vala', 'package.vala', 'alpm_package.vala', 'alpm_utils.vala', 'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala']
+daemon_sources = ['version.vala', 'package.vala', 'alpm_package.vala', 'aur.vala', 'alpm_utils.vala', 'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala']
 daemon_dependencies = [vala_deps, alpm_deps, json, math, libsoup, polkit, appstream]
 
 if get_option('enable-snap')

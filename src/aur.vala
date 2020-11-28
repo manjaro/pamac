@@ -153,6 +153,10 @@ namespace Pamac {
 				return new GenericArray<Json.Object> ();
 			} else if (needles.length == 1) {
 				unowned string needle = needles[0];
+				if (needle.length < 2) {
+					// query arg too small
+					return new GenericArray<Json.Object> ();
+				}
 				Json.Array? found;
 				lock (search_results) {
 					found = search_results.lookup (needle);
@@ -170,18 +174,22 @@ namespace Pamac {
 				lock (search_results) {
 					search_results.insert (needle, found);
 				}
-				var pkgnames = new GenericArray<unowned string> ();
+				var objects = new GenericArray<Json.Object> ();
 				uint found_length = found.get_length ();
 				for (uint i = 0; i < found_length; i++) {
-					pkgnames.add (found.get_object_element (i).get_string_member ("Name"));
+					objects.add (found.get_object_element (i));
 				}
-				return get_multi_infos (pkgnames.data);
+				return objects;
 			} else {
 				// compute the intersection of all found packages
 				var builder = new StringBuilder (rpc_url);
 				builder.append (rpc_search);
 				var all_found = new GenericArray<Json.Array> ();
 				foreach (unowned string needle in needles) {
+					if (needle.length < 2) {
+						// query arg too small
+						continue;
+					}
 					Json.Array? found;
 					lock (search_results) {
 						found = search_results.lookup (needle);
@@ -212,40 +220,44 @@ namespace Pamac {
 				// case of errors occured and only one needle succeed
 				if (all_found_length == 1) {
 					unowned Json.Array found = all_found[0];
-					var pkgnames = new GenericArray<unowned string> ();
+					var objects = new GenericArray<Json.Object> ();
 					uint found_length = found.get_length ();
 					for (uint i = 0; i < found_length; i++) {
-						pkgnames.add (found.get_object_element (i).get_string_member ("Name"));
+						objects.add (found.get_object_element (i));
 					}
-					return get_multi_infos (pkgnames.data);
+					return objects;
 				}
 				// add first array member in a hash set
-				var check_set = new GenericSet<unowned string?> (str_hash, str_equal);
+				var check_set = new HashTable<unowned string, Json.Object> (str_hash, str_equal);
 				unowned Json.Array found = all_found[0];
 				uint found_length = found.get_length ();
 				uint i;
 				for (i = 0; i < found_length; i++) {
-					check_set.add (found.get_object_element (i).get_string_member ("Name"));
+					unowned Json.Object object = found.get_object_element (i);
+					check_set.insert (object.get_string_member ("Name"), object);
 				}
 				// compare next array members with check_set
 				// and use inter as next check_set
 				for (i = 1; i < all_found_length; i++) {
-					var inter = new GenericSet<unowned string> (str_hash, str_equal);
+					var inter = new HashTable<unowned string, Json.Object> (str_hash, str_equal);
 					found = all_found[i];
 					found_length = found.get_length ();
 					for (uint j = 0; j < found_length; j++) {
-						unowned string pkgname = found.get_object_element (j).get_string_member ("Name");
+						unowned Json.Object object = found.get_object_element (j);
+						unowned string pkgname = object.get_string_member ("Name");
 						if (pkgname in check_set) {
-							inter.add (pkgname);
+							inter.insert (pkgname, object);
 						}
 					}
 					check_set = (owned) inter;
 				}
-				var pkgnames = new GenericArray<unowned string> ();
-				foreach (unowned string pkgname in check_set) {
-					pkgnames.add (pkgname);
+				var objects = new GenericArray<Json.Object> ();
+				var iter = HashTableIter<unowned string, Json.Object> (check_set);
+				unowned Json.Object object;
+				while (iter.next (null, out object)) {
+					objects.add (object);
 				}
-				return get_multi_infos (pkgnames.data);
+				return objects;
 			}
 		}
 	}

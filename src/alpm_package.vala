@@ -737,6 +737,7 @@ namespace Pamac {
 	internal class AURPackageLinked : AURPackage {
 		// common
 		Json.Object? json_object;
+		AUR? aur;
 		unowned Alpm.Package? local_pkg;
 		bool is_update;
 		bool installed_version_set;
@@ -867,22 +868,24 @@ namespace Pamac {
 							}
 							_license = (owned) license_str.str;
 						}
-					} else if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("License");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							var license_str = new StringBuilder (json_array.get_string_element (0));
-							uint json_array_length = json_array.get_length ();
-							for (uint i = 1; i < json_array_length; i++) {
-								license_str.append (" ");
-								license_str.append (json_array.get_string_element (i));
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("License");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								var license_str = new StringBuilder (json_array.get_string_element (0));
+								uint json_array_length = json_array.get_length ();
+								for (uint i = 1; i < json_array_length; i++) {
+									license_str.append (" ");
+									license_str.append (json_array.get_string_element (i));
+								}
+								_license = (owned) license_str.str;
+							} else {
+								_license = dgettext (null, "Unknown");
 							}
-							_license = (owned) license_str.str;
-						} else {
-							_license = dgettext (null, "Unknown");
 						}
 					}
-					
 				}
 				return _license;
 			}
@@ -978,11 +981,20 @@ namespace Pamac {
 			get {
 				if (_groups == null) {
 					_groups = new GenericArray<string> ();
-					if (local_pkg != null) {
+					if (!is_update && local_pkg != null) {
 						unowned Alpm.List<unowned string> list = local_pkg.groups;
 						while (list != null) {
 							_groups.add (list.data);
 							list.next ();
+						}
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("Groups");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _depends);
+							}
 						}
 					}
 				}
@@ -999,11 +1011,14 @@ namespace Pamac {
 							_depends.add (list.data.compute_string ());
 							list.next ();
 						}
-					} else if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("Depends");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							populate_array (json_array, ref _depends);
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("Depends");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _depends);
+							}
 						}
 					}
 				}
@@ -1021,11 +1036,14 @@ namespace Pamac {
 							_optdepends.add (list.data.compute_string ());
 							list.next ();
 						}
-					} else if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("OptDepends");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							populate_array (json_array, ref _optdepends);
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("OptDepends");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _optdepends);
+							}
 						}
 					}
 				}
@@ -1036,11 +1054,14 @@ namespace Pamac {
 			get {
 				if (_makedepends == null) {
 					_makedepends = new GenericArray<string> ();
-					if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("MakeDepends");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							populate_array (json_array, ref _makedepends);
+					if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("MakeDepends");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _makedepends);
+							}
 						}
 					}
 				}
@@ -1104,11 +1125,14 @@ namespace Pamac {
 							_provides.add (list.data.compute_string ());
 							list.next ();
 						}
-					} else if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("Provides");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							populate_array (json_array, ref _provides);
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("Provides");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _provides);
+							}
 						}
 					}
 				}
@@ -1126,11 +1150,14 @@ namespace Pamac {
 							_replaces.add (list.data.compute_string ());
 							list.next ();
 						}
-					} else if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("Replaces");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							populate_array (json_array, ref _replaces);
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("Replaces");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _replaces);
+							}
 						}
 					}
 				}
@@ -1148,11 +1175,14 @@ namespace Pamac {
 							_conflicts.add (list.data.compute_string ());
 							list.next ();
 						}
-					} else if (json_object != null) {
-						unowned Json.Node? node = json_object.get_member ("Conflicts");
-						if (node != null) {
-							unowned Json.Array json_array = node.get_array ();
-							populate_array (json_array, ref _conflicts);
+					} else if (aur != null) {
+						unowned Json.Object? full_json_object = aur.get_infos (name);
+						if (full_json_object != null) {
+							unowned Json.Node? node = full_json_object.get_member ("Conflicts");
+							if (node != null) {
+								unowned Json.Array json_array = node.get_array ();
+								populate_array (json_array, ref _conflicts);
+							}
 						}
 					}
 				}
@@ -1241,8 +1271,9 @@ namespace Pamac {
 
 		internal AURPackageLinked () {}
 
-		internal void initialise_from_json (Json.Object? json_object, Alpm.Package? local_pkg, bool is_update = false) {
+		internal void initialise_from_json (Json.Object? json_object, AUR? aur, Alpm.Package? local_pkg, bool is_update = false) {
 			this.json_object = json_object;
+			this.aur = aur;
 			this.is_update = is_update;
 			if (local_pkg != null) {
 				set_local_pkg (local_pkg);

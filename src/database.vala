@@ -1334,7 +1334,7 @@ namespace Pamac {
 					if (pkg == null) {
 						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
 						pkg = new AURPackageLinked ();
-						pkg.initialise_from_json (json_object, local_pkg);
+						pkg.initialise_from_json (json_object, aur, local_pkg);
 						aur_pkgs_cache.replace (pkg.id, pkg);
 					}
 					pkgs.add (pkg);
@@ -2005,7 +2005,7 @@ namespace Pamac {
 						if (json_object != null) {
 							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 							pkg = new AURPackageLinked ();
-							pkg.initialise_from_json (json_object, local_pkg);
+							pkg.initialise_from_json (json_object, aur, local_pkg);
 							aur_pkgs_cache.replace (pkg.id, pkg);
 						}
 					}
@@ -2041,7 +2041,7 @@ namespace Pamac {
 					if (pkg == null) {
 						unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (name);
 						pkg = new AURPackageLinked ();
-						pkg.initialise_from_json (json_object, local_pkg);
+						pkg.initialise_from_json (json_object, aur, local_pkg);
 						aur_pkgs_cache.replace (pkg.id, pkg);
 					}
 					data.insert (name, pkg);
@@ -2485,7 +2485,7 @@ namespace Pamac {
 				unowned Alpm.Package local_pkg = alpm_handle.localdb.get_pkg (name);
 				unowned string old_version = local_pkg.version;
 				var pkg = new AURPackageLinked ();
-				pkg.initialise_from_json (json_object, local_pkg, true);
+				pkg.initialise_from_json (json_object, aur, local_pkg, true);
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
 					if (handle.should_ignore (local_pkg) == 1) {
 						ignored_aur_updates.add (pkg);
