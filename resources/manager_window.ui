@@ -1752,6 +1752,7 @@
                 <property name="can-focus">True</property>
                 <property name="focus-on-click">False</property>
                 <property name="receives-default">False</property>
+                <property name="valign">center</property>
                 <property name="relief">none</property>
                 <signal name="clicked" handler="on_details_button_clicked" swapped="no"/>
                 <child>

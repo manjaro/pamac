@@ -1787,7 +1787,7 @@ namespace Pamac {
 
 		bool need_reboot (Alpm.Handle alpm_handle) {
 			bool reboot_needed = false;
-			string[] check_pkgs = {"firefox", "ucode", "cryptsetup", "linux", "nvidia", "mesa", "systemd", "wayland", "xf86-video", "xorg"};
+			string[] check_pkgs = {"ucode", "cryptsetup", "linux", "nvidia", "mesa", "systemd", "wayland", "xf86-video", "xorg"};
 			unowned Alpm.List<unowned Alpm.Package> to_add = alpm_handle.trans_to_add ();
 			while (to_add != null) {
 				unowned Alpm.Package pkg = to_add.data;
