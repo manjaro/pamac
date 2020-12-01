@@ -1796,7 +1796,7 @@
                 <property name="primary-icon-activatable">False</property>
                 <property name="primary-icon-sensitive">False</property>
                 <property name="placeholder-text" translatable="yes">Search</property>
-                <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
+                <signal name="changed" handler="on_search_entry_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

@@ -525,6 +525,7 @@ namespace Pamac {
 		GenericArray<Gdk.Pixbuf> current_screenshots;
 		int current_screenshots_index;
 
+		uint search_entry_timeout_id;
 		bool scroll_to_top;
 		uint in_app_notification_timeout_id;
 
@@ -574,12 +575,16 @@ namespace Pamac {
 			packages_scrolledwindow.vadjustment.value_changed.connect (() => {
 				double max_value = (packages_scrolledwindow.vadjustment.upper - packages_scrolledwindow.vadjustment.page_size) * 0.8;
 				if (packages_scrolledwindow.vadjustment.value >= max_value) {
-					complete_packages_list ();
+					lock (current_packages_list) {
+						complete_packages_list ();
+					}
 				}
 			});
 			packages_scrolledwindow.vadjustment.changed.connect (() => {
-				while (need_more_packages ()) {
-					complete_packages_list ();
+				lock (current_packages_list) {
+					while (need_more_packages ()) {
+						complete_packages_list ();
+					}
 				}
 			});
 
@@ -2002,11 +2007,13 @@ namespace Pamac {
 		}
 
 		void populate_aur_list (GenericArray<unowned Package> pkgs) {
-			current_packages_list = pkgs;
-			current_packages_list_index = 0;
-			current_packages_list_length = current_packages_list.length;
-			sort_aur_list (ref current_packages_list);
-			populate_listbox ();
+			lock (current_packages_list) {
+				current_packages_list = pkgs;
+				current_packages_list_index = 0;
+				current_packages_list_length = current_packages_list.length;
+				sort_aur_list (ref current_packages_list);
+				populate_listbox ();
+			}
 		}
 
 		void sort_packages_list (ref GenericArray<unowned Package> pkgs) {
@@ -2033,11 +2040,13 @@ namespace Pamac {
 		}
 
 		void populate_packages_list (GenericArray<unowned Package> pkgs) {
-			current_packages_list = pkgs;
-			current_packages_list_index = 0;
-			current_packages_list_length = current_packages_list.length;
-			sort_packages_list (ref current_packages_list);
-			populate_listbox ();
+			lock (current_packages_list) {
+				current_packages_list = pkgs;
+				current_packages_list_index = 0;
+				current_packages_list_length = current_packages_list.length;
+				sort_packages_list (ref current_packages_list);
+				populate_listbox ();
+			}
 		}
 
 		bool need_more_packages () {
@@ -2960,10 +2969,12 @@ namespace Pamac {
 				if (pamac_row.name_label.label == "<b>%s</b>".printf (dgettext (null, "OS Updates"))) {
 					var updates_dialog = new UpdatesDialog (this);
 					// populates updates
-					foreach (unowned Package update_pkg in current_packages_list) {
-						if (update_pkg.app_name == null) {
-							var update_row = create_update_row (update_pkg);
-							updates_dialog.listbox.add (update_row);
+					lock (current_packages_list) {
+						foreach (unowned Package update_pkg in current_packages_list) {
+							if (update_pkg.app_name == null) {
+								var update_row = create_update_row (update_pkg);
+								updates_dialog.listbox.add (update_row);
+							}
 						}
 					}
 					updates_dialog.show ();
@@ -3066,11 +3077,13 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_remove_all_button_clicked () {
-			foreach (unowned Package pkg in current_packages_list) {
-				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version != null
-					&& !database.should_hold (pkg.name)) {
-					to_install.remove (pkg.name);
-					to_remove.add (pkg.name);
+			lock (current_packages_list) {
+				foreach (unowned Package pkg in current_packages_list) {
+					if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version != null
+						&& !database.should_hold (pkg.name)) {
+						to_install.remove (pkg.name);
+						to_remove.add (pkg.name);
+					}
 				}
 			}
 			refresh_listbox_buttons ();
@@ -3079,9 +3092,11 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_install_all_button_clicked () {
-			foreach (unowned Package pkg in current_packages_list) {
-				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version == null) {
-					to_install.add (pkg.name);
+			lock (current_packages_list) {
+				foreach (unowned Package pkg in current_packages_list) {
+					if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version == null) {
+						to_install.add (pkg.name);
+					}
 				}
 			}
 			refresh_listbox_buttons ();
@@ -3090,9 +3105,11 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_ignore_all_button_clicked () {
-			foreach (unowned Package pkg in current_packages_list) {
-				to_update.remove (pkg.name);
-				temporary_ignorepkgs.add (pkg.name);
+			lock (current_packages_list) {
+				foreach (unowned Package pkg in current_packages_list) {
+					to_update.remove (pkg.name);
+					temporary_ignorepkgs.add (pkg.name);
+				}
 			}
 			refresh_listbox_buttons ();
 			set_pendings_operations ();
@@ -3108,18 +3125,29 @@ namespace Pamac {
 				if (search_string != null) {
 					search_entry.set_text (search_string);
 					search_entry.set_position (-1);
-					on_search_entry_search_changed ();
+					on_search_entry_changed ();
 				}
 				search_entry.grab_focus_without_selecting ();
 			}
 		}
 
-		[GtkCallback]
-		void on_search_entry_search_changed () {
-			search_string = search_entry.get_text ().strip ();
-			if (search_string.char_count () > 1) {
+		bool search_entry_timeout_callback () {
+			string tmp_search_string = search_entry.get_text ().strip ();
+			if (tmp_search_string != "" && tmp_search_string.char_count () > 1) {
+				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				search_string = (owned) tmp_search_string;
 				refresh_packages_list ();
 			}
+			search_entry_timeout_id = 0;
+			return false;
+		}
+
+		[GtkCallback]
+		void on_search_entry_changed () {
+			if (search_entry_timeout_id != 0) {
+				Source.remove (search_entry_timeout_id);
+			}
+			search_entry_timeout_id = Timeout.add (500, search_entry_timeout_callback);
 		}
 
 		[GtkCallback]
@@ -3219,7 +3247,6 @@ namespace Pamac {
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
 				search_entry.grab_focus_without_selecting ();
-				search_entry.set_position (-1);
 				if (search_string == null) {
 					return;
 				}
@@ -3337,7 +3364,6 @@ namespace Pamac {
 			view_button_label.label = dgettext (null, "Installed");
 			current_search_view = view_button_label.label;
 			search_entry.grab_focus_without_selecting ();
-			search_entry.set_position (-1);
 			if (search_string == null) {
 				return;
 			}
@@ -3406,7 +3432,6 @@ namespace Pamac {
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
 				search_entry.grab_focus_without_selecting ();
-				search_entry.set_position (-1);
 				if (search_string == null) {
 					return;
 				}
@@ -3469,7 +3494,6 @@ namespace Pamac {
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
 				search_entry.grab_focus_without_selecting ();
-				search_entry.set_position (-1);
 				if (search_string == null) {
 					return;
 				}
@@ -3522,7 +3546,6 @@ namespace Pamac {
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
 				search_entry.grab_focus_without_selecting ();
-				search_entry.set_position (-1);
 				if (search_string == null) {
 					return;
 				}
@@ -3575,7 +3598,6 @@ namespace Pamac {
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
 				search_entry.grab_focus_without_selecting ();
-				search_entry.set_position (-1);
 				if (search_string == null) {
 					return;
 				}

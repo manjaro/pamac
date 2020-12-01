@@ -201,7 +201,7 @@ namespace Pamac {
 			return mirrors_choosen_country;
 		}
 
-		public unowned string get_alpm_dep_name (string dep_string) {
+		public string get_alpm_dep_name (string dep_string) {
 			return Alpm.Depend.from_string (dep_string).name;
 		}
 

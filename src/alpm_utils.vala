@@ -1787,12 +1787,43 @@ namespace Pamac {
 
 		bool need_reboot (Alpm.Handle alpm_handle) {
 			bool reboot_needed = false;
-			string[] check_pkgs = {"ucode", "cryptsetup", "linux", "nvidia", "mesa", "systemd", "wayland", "xf86-video", "xorg"};
+			string[] prefix = {"linux-", "nvidia-", "lib32-nvidia-", "systemd", "xf86-", "xorg-"};
+			string[] contains = {"mesa", "wayland"};
+			string[] full = {"cryptsetup"};
+			string[] suffix = {"-ucode"};
 			unowned Alpm.List<unowned Alpm.Package> to_add = alpm_handle.trans_to_add ();
 			while (to_add != null) {
 				unowned Alpm.Package pkg = to_add.data;
-				foreach (unowned string check_pkg in check_pkgs) {
-					if (check_pkg in pkg.name) {
+				foreach (unowned string str in prefix) {
+					if (pkg.name.has_prefix (str)) {
+						print ("prefix %s in %s\n", str, pkg.name);
+						reboot_needed = true;
+						break;
+					}
+				}
+				if (reboot_needed) {
+					break;
+				}
+				foreach (unowned string str in contains) {
+					if (str in pkg.name) {
+						reboot_needed = true;
+						break;
+					}
+				}
+				if (reboot_needed) {
+					break;
+				}
+				foreach (unowned string str in full) {
+					if (str == pkg.name) {
+						reboot_needed = true;
+						break;
+					}
+				}
+				if (reboot_needed) {
+					break;
+				}
+				foreach (unowned string str in suffix) {
+					if (pkg.name.has_suffix (str)) {
 						reboot_needed = true;
 						break;
 					}
