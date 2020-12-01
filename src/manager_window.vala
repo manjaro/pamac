@@ -3188,7 +3188,7 @@ namespace Pamac {
 					}
 				}
 				remove_all_button.visible = found;
-				if (current_packages_list_name == "group_%s".printf (group_name)) {
+				if (main_browse_togglebutton.active && current_packages_list_name == "group_%s".printf (group_name)) {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3227,7 +3227,7 @@ namespace Pamac {
 				current_packages_list_name = "search_all_%s".printf (search_string);
 				search_all_pkgs.begin ((obj, res) => {
 					var pkgs = search_all_pkgs.end (res);
-					if (current_packages_list_name == "search_all_%s".printf (search_string)) {
+					if (search_togglebutton.active && current_packages_list_name == "search_all_%s".printf (search_string)) {
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3240,7 +3240,7 @@ namespace Pamac {
 				current_packages_list_name = "installed_all";
 				get_all_installed.begin ((obj, res) => {
 					var pkgs = get_all_installed.end (res);
-					if (current_packages_list_name == "installed_all") {
+					if (main_installed_togglebutton.active && current_packages_list_name == "installed_all") {
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3263,7 +3263,7 @@ namespace Pamac {
 					pkgs.add (pkg);
 				}
 				#endif
-				if (current_packages_list_name == "all_updates") {
+				if (main_updates_togglebutton.active && current_packages_list_name == "all_updates") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3316,14 +3316,14 @@ namespace Pamac {
 						foreach (unowned AURPackage pkg in aur_pkgs) {
 							pkgs.add (pkg);
 						}
-						if (current_packages_list_name == "all_pending") {
+						if (main_pending_togglebutton.active && current_packages_list_name == "all_pending") {
 							populate_packages_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
 						}
 					});
 				} else {
-					if (current_packages_list_name == "all_pending") {
+					if (main_pending_togglebutton.active && current_packages_list_name == "all_pending") {
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3345,7 +3345,7 @@ namespace Pamac {
 			current_packages_list_name = "search_installed_%s".printf (search_string);
 			database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
 				var pkgs = database.search_installed_pkgs_async.end (res);
-				if (current_packages_list_name == "search_installed_%s".printf (search_string)) {
+				if (search_togglebutton.active && current_packages_list_name == "search_installed_%s".printf (search_string)) {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3359,7 +3359,7 @@ namespace Pamac {
 			current_packages_list_name = "explicitly_installed";
 			database.get_explicitly_installed_pkgs_async.begin ((obj, res) => {
 				var pkgs = database.get_explicitly_installed_pkgs_async.end (res);
-				if (current_packages_list_name == "explicitly_installed") {
+				if (main_installed_togglebutton.active && current_packages_list_name == "explicitly_installed") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3374,7 +3374,7 @@ namespace Pamac {
 			current_packages_list_name = "orphans";
 			database.get_orphans_async.begin ((obj, res) => {
 				var pkgs = database.get_orphans_async.end (res);
-				if (current_packages_list_name == "orphans") {
+				if (main_installed_togglebutton.active && current_packages_list_name == "orphans") {
 					populate_packages_list (pkgs);
 					remove_all_button.visible = pkgs != null;
 				} else {
@@ -3391,7 +3391,7 @@ namespace Pamac {
 			current_packages_list_name = "foreign";
 			database.get_foreign_pkgs_async.begin ((obj, res) => {
 				var pkgs = database.get_foreign_pkgs_async.end (res);
-				if (current_packages_list_name == "foreign") {
+				if (main_installed_togglebutton.active && current_packages_list_name == "foreign") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3413,7 +3413,7 @@ namespace Pamac {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				current_packages_list_name = "search_repos_%s".printf (search_string);
 				database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
-					if (current_packages_list_name == "search_repos_%s".printf (search_string)) {
+					if (search_togglebutton.active && current_packages_list_name == "search_repos_%s".printf (search_string)) {
 						var pkgs = database.search_repos_pkgs_async.end (res);
 						populate_packages_list (pkgs);
 					} else {
@@ -3429,7 +3429,7 @@ namespace Pamac {
 				foreach (unowned AlpmPackage pkg in repos_updates) {
 					pkgs.add (pkg);
 				}
-				if (current_packages_list_name == "repos_updates") {
+				if (main_updates_togglebutton.active && current_packages_list_name == "repos_updates") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3454,7 +3454,7 @@ namespace Pamac {
 							pkgs.add (pkg);
 						}
 					}
-					if (current_packages_list_name == "repos_pending") {
+					if (main_pending_togglebutton.active && current_packages_list_name == "repos_pending") {
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3476,7 +3476,7 @@ namespace Pamac {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				current_packages_list_name = "search_aur_%s".printf (search_string);
 				database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
-					if (current_packages_list_name == "search_aur_%s".printf (search_string)) {
+					if (search_togglebutton.active && current_packages_list_name == "search_aur_%s".printf (search_string)) {
 						var pkgs = database.search_aur_pkgs_async.end (res);
 						populate_aur_list (pkgs);
 					} else {
@@ -3491,7 +3491,7 @@ namespace Pamac {
 				foreach (unowned AURPackage pkg in aur_updates) {
 					pkgs.add (pkg);
 				}
-				if (current_packages_list_name == "aur_updates") {
+				if (main_updates_togglebutton.active && current_packages_list_name == "aur_updates") {
 					populate_aur_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3505,7 +3505,7 @@ namespace Pamac {
 					current_packages_list_name = "aur_pending";
 					get_pendings_aur_pkgs.begin ((obj, res) => {
 						var pkgs = get_pendings_aur_pkgs.end (res);
-						if (current_packages_list_name == "aur_pending") {
+						if (main_pending_togglebutton.active && current_packages_list_name == "aur_pending") {
 							populate_aur_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
@@ -3529,7 +3529,7 @@ namespace Pamac {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				current_packages_list_name = "search_snap_%s".printf (search_string);
 				database.search_snaps_async.begin (search_string, (obj, res) => {
-					if (current_packages_list_name == "search_snap_%s".printf (search_string)) {
+					if (search_togglebutton.active && current_packages_list_name == "search_snap_%s".printf (search_string)) {
 						var pkgs = database.search_snaps_async.end (res);
 						populate_packages_list (pkgs);
 					} else {
@@ -3540,7 +3540,7 @@ namespace Pamac {
 				current_packages_list_name = "installed_snaps";
 				database.get_installed_snaps_async.begin ((obj, res) => {
 					var pkgs = database.get_installed_snaps_async.end (res);
-					if (current_packages_list_name == "installed_snaps") {
+					if (main_installed_togglebutton.active && current_packages_list_name == "installed_snaps") {
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3559,7 +3559,7 @@ namespace Pamac {
 				while (snap_iter.next (null, out pkg)) {
 					pkgs.add (pkg);
 				}
-				if (current_packages_list_name == "snap_pending") {
+				if (main_pending_togglebutton.active && current_packages_list_name == "snap_pending") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3582,7 +3582,7 @@ namespace Pamac {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 				current_packages_list_name = "search_flatpak_%s".printf (search_string);
 				database.search_flatpaks_async.begin (search_string, (obj, res) => {
-					if (current_packages_list_name == "search_flatpak_%s".printf (search_string)) {
+					if (search_togglebutton.active && current_packages_list_name == "search_flatpak_%s".printf (search_string)) {
 						var pkgs = database.search_flatpaks_async.end (res);
 						populate_packages_list (pkgs);
 					} else {
@@ -3597,7 +3597,7 @@ namespace Pamac {
 				foreach (unowned FlatpakPackage pkg in flatpak_updates) {
 					pkgs.add (pkg);
 				}
-				if (current_packages_list_name == "flatpak_updates") {
+				if (main_updates_togglebutton.active && current_packages_list_name == "flatpak_updates") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3609,7 +3609,7 @@ namespace Pamac {
 				current_packages_list_name = "installed_flatpaks";
 				database.get_installed_flatpaks_async.begin ((obj, res) => {
 					var pkgs = database.get_installed_flatpaks_async.end (res);
-					if (current_packages_list_name == "installed_flatpaks") {
+					if (main_installed_togglebutton.active && current_packages_list_name == "installed_flatpaks") {
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3628,7 +3628,7 @@ namespace Pamac {
 				while (flatpak_iter.next (null, out pkg)) {
 					pkgs.add (pkg);
 				}
-				if (current_packages_list_name == "flatpak_pending") {
+				if (main_pending_togglebutton.active && current_packages_list_name == "flatpak_pending") {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3647,7 +3647,7 @@ namespace Pamac {
 			current_packages_list_name = "repo_%s".printf (repo);
 			database.get_repo_pkgs_async.begin (repo, (obj, res) => {
 				var pkgs = database.get_repo_pkgs_async.end (res);
-				if (current_packages_list_name == "repo_%s".printf (repo)) {
+				if (main_browse_togglebutton.active && current_packages_list_name == "repo_%s".printf (repo)) {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3881,7 +3881,7 @@ namespace Pamac {
 			current_packages_list_name = "category_%s".printf (category);
 			get_category_pkgs.begin (category, (obj, res) => {
 				var pkgs = get_category_pkgs.end (res);
-				if (current_packages_list_name == "category_%s".printf (category)) {
+				if (main_browse_togglebutton.active && current_packages_list_name == "category_%s".printf (category)) {
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
