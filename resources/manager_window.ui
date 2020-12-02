@@ -284,7 +284,6 @@
             <property name="can-focus">False</property>
             <property name="receives-default">False</property>
             <property name="draw-indicator">True</property>
-            <signal name="toggled" handler="on_software_mode_checkbutton_toggled" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>

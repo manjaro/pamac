@@ -409,16 +409,18 @@ namespace Pamac {
 
 		public void get_installed_flatpaks (ref GenericArray<unowned FlatpakPackage> pkgs) {
 			try {
-				GenericArray<unowned Flatpak.InstalledRef> installed_apps = installation.list_installed_refs_by_kind (Flatpak.RefKind.APP);
-				foreach (unowned Flatpak.InstalledRef installed_ref in installed_apps) {
-					string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
-					FlatpakPackageLinked? pkg = pkgs_cache.lookup (id);
-					if (pkg == null) {
-						unowned As.App? app = get_installed_ref_matching_app (installed_ref);
-						pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
-						pkgs_cache.insert (id, pkg);
+				lock (pkgs_cache)  {
+					GenericArray<unowned Flatpak.InstalledRef> installed_apps = installation.list_installed_refs_by_kind (Flatpak.RefKind.APP);
+					foreach (unowned Flatpak.InstalledRef installed_ref in installed_apps) {
+						string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
+						FlatpakPackageLinked? pkg = pkgs_cache.lookup (id);
+						if (pkg == null) {
+							unowned As.App? app = get_installed_ref_matching_app (installed_ref);
+							pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
+							pkgs_cache.insert (id, pkg);
+						}
+						pkgs.add (pkg);
 					}
-					pkgs.add (pkg);
 				}
 			} catch (Error e) {
 				warning (e.message);
@@ -460,73 +462,76 @@ namespace Pamac {
 
 		FlatpakPackageLinked? get_flatpak_from_app (string remote, As.App app) {
 			FlatpakPackageLinked? pkg = null;
-			try {
-				Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, app.get_id (), null, app.get_branch ());
-				string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
-				pkg = pkgs_cache.lookup (id);
-				if (pkg == null) {
-					pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
-					pkgs_cache.insert (id, pkg);
-				}
-			} catch (Error e) {
-				if (e is Flatpak.Error.NOT_INSTALLED) {
-					try {
-						// try with id_filename
-						Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
-						string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
-						pkg = pkgs_cache.lookup (id);
-						if (pkg == null) {
-							pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
-							pkgs_cache.insert (id, pkg);
-						}
-					} catch (Error e) {
-						if (e is Flatpak.Error.NOT_INSTALLED) {
-							// try remotes
-							string id = "%s/%s".printf (remote, app.get_id_filename ());
+			lock (pkgs_cache)  {
+				try {
+					Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, app.get_id (), null, app.get_branch ());
+					string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
+					pkg = pkgs_cache.lookup (id);
+					if (pkg == null) {
+						pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
+						pkgs_cache.insert (id, pkg);
+					}
+				} catch (Error e) {
+					if (e is Flatpak.Error.NOT_INSTALLED) {
+						try {
+							// try with id_filename
+							Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
+							string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
 							pkg = pkgs_cache.lookup (id);
 							if (pkg == null) {
-								Flatpak.RemoteRef? remote_ref;
-								try {
-									// try with id_filename
-									remote_ref = remote_refs_table.lookup (id);
-									if (remote_ref == null) {
-										remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
-									}
-									if (remote_ref != null) {
-										remote_refs_table.insert (id, remote_ref);
-										pkg = new FlatpakPackageLinked (null, remote_ref, app, installation);
-										pkgs_cache.insert (id, pkg);
-									}
-								} catch (Error e) {
-									if (e is Flatpak.Error.REF_NOT_FOUND) {
-										try {
-											// retry with id
-											remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id (), null, app.get_branch ());
-											if (remote_ref != null) {
-												remote_refs_table.insert (id, remote_ref);
-												pkg = new FlatpakPackageLinked (null, remote_ref, app, installation);
-												pkgs_cache.insert (id, pkg);
+								pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
+								pkgs_cache.insert (id, pkg);
+							}
+						} catch (Error e) {
+							if (e is Flatpak.Error.NOT_INSTALLED) {
+								// try remotes
+								string id = "%s/%s".printf (remote, app.get_id_filename ());
+								pkg = pkgs_cache.lookup (id);
+								if (pkg == null) {
+									Flatpak.RemoteRef? remote_ref;
+									try {
+										// try with id_filename
+										remote_ref = remote_refs_table.lookup (id);
+										if (remote_ref == null) {
+											remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id_filename (), null, app.get_branch ());
+										}
+										if (remote_ref != null) {
+											remote_refs_table.insert (id, remote_ref);
+											pkg = new FlatpakPackageLinked (null, remote_ref, app, installation);
+											pkgs_cache.insert (id, pkg);
+										}
+									} catch (Error e) {
+										if (e is Flatpak.Error.REF_NOT_FOUND) {
+											try {
+												// retry with id
+												remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, app.get_id (), null, app.get_branch ());
+												if (remote_ref != null) {
+													remote_refs_table.insert (id, remote_ref);
+													pkg = new FlatpakPackageLinked (null, remote_ref, app, installation);
+													pkgs_cache.insert (id, pkg);
+												}
+											} catch (Error e) {
+												warning (e.message);
 											}
-										} catch (Error e) {
+										} else {
 											warning (e.message);
 										}
-									} else {
-										warning (e.message);
 									}
 								}
+							} else {
+								warning (e.message);
 							}
-						} else {
-							warning (e.message);
 						}
+					} else {
+						warning (e.message);
 					}
-				} else {
-					warning (e.message);
 				}
 			}
 			return pkg;
 		}
 
 		public FlatpakPackage? get_flatpak (string id) {
+			FlatpakPackageLinked? pkg = null;
 			string[] splitted = id.split ("/", 5);
 			unowned string remote = splitted[0];
 			//unowned string kind = splitted[1];
@@ -534,35 +539,37 @@ namespace Pamac {
 			unowned string arch = splitted[3];
 			unowned string branch = splitted[4];
 			string pkg_id = "%s/%s".printf (remote, name);
-			FlatpakPackageLinked? pkg = pkgs_cache.lookup (pkg_id);
-			if (pkg != null) {
-				return pkg;
-			}
-			try {
-				Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, name, arch, branch);
-				unowned As.App? app = get_installed_ref_matching_app (installed_ref);
-				pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
-				pkgs_cache.insert (pkg_id, pkg);
-			} catch (Error e) {
-				if (e is Flatpak.Error.NOT_INSTALLED) {
-					// try remotes
-					try {
-						string remote_id = "%s/%s".printf (remote, name);
-						Flatpak.RemoteRef? remote_ref = remote_refs_table.lookup (remote_id);
-						if (remote_ref == null) {
-							remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, name, arch, branch);
+			lock (pkgs_cache)  {
+				pkg = pkgs_cache.lookup (pkg_id);
+				if (pkg != null) {
+					return pkg;
+				}
+				try {
+					Flatpak.InstalledRef? installed_ref = installation.get_installed_ref (Flatpak.RefKind.APP, name, arch, branch);
+					unowned As.App? app = get_installed_ref_matching_app (installed_ref);
+					pkg = new FlatpakPackageLinked (installed_ref, null, app, installation);
+					pkgs_cache.insert (pkg_id, pkg);
+				} catch (Error e) {
+					if (e is Flatpak.Error.NOT_INSTALLED) {
+						// try remotes
+						try {
+							string remote_id = "%s/%s".printf (remote, name);
+							Flatpak.RemoteRef? remote_ref = remote_refs_table.lookup (remote_id);
+							if (remote_ref == null) {
+								remote_ref = installation.fetch_remote_ref_sync (remote, Flatpak.RefKind.APP, name, arch, branch);
+							}
+							if (remote_ref != null) {
+								remote_refs_table.insert ((owned) remote_id, remote_ref);
+								As.App? app = get_remote_ref_matching_app (remote_ref);
+								pkg = new FlatpakPackageLinked (null, remote_ref, app, installation);
+								pkgs_cache.insert (pkg_id, pkg);
+							}
+						} catch (Error e) {
+							warning (e.message);
 						}
-						if (remote_ref != null) {
-							remote_refs_table.insert ((owned) remote_id, remote_ref);
-							As.App? app = get_remote_ref_matching_app (remote_ref);
-							pkg = new FlatpakPackageLinked (null, remote_ref, app, installation);
-							pkgs_cache.insert (pkg_id, pkg);
-						}
-					} catch (Error e) {
+					} else {
 						warning (e.message);
 					}
-				} else {
-					warning (e.message);
 				}
 			}
 			return pkg;
@@ -689,17 +696,19 @@ namespace Pamac {
 		public void get_flatpak_updates (ref GenericArray<unowned FlatpakPackage> pkgs) {
 			//refresh_appstream_data ();
 			try {
-				GenericArray<unowned Flatpak.InstalledRef> update_apps = installation.list_installed_refs_for_update ();
-				foreach (unowned Flatpak.InstalledRef installed_ref in update_apps) {
-					if (installed_ref.kind == Flatpak.RefKind.APP) {
-						string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
-						FlatpakPackageLinked? pkg = pkgs_cache.lookup (id);
-						if (pkg == null) {
-							unowned As.App? app = get_installed_ref_matching_app (installed_ref);
-							pkg = new FlatpakPackageLinked (installed_ref, null, app, installation, true);
-							pkgs_cache.insert (id, pkg);
+				lock (pkgs_cache)  {
+					GenericArray<unowned Flatpak.InstalledRef> update_apps = installation.list_installed_refs_for_update ();
+					foreach (unowned Flatpak.InstalledRef installed_ref in update_apps) {
+						if (installed_ref.kind == Flatpak.RefKind.APP) {
+							string id =  "%s/%s".printf (installed_ref.origin, installed_ref.format_ref ());
+							FlatpakPackageLinked? pkg = pkgs_cache.lookup (id);
+							if (pkg == null) {
+								unowned As.App? app = get_installed_ref_matching_app (installed_ref);
+								pkg = new FlatpakPackageLinked (installed_ref, null, app, installation, true);
+								pkgs_cache.insert (id, pkg);
+							}
+							pkgs.add (pkg);
 						}
-						pkgs.add (pkg);
 					}
 				}
 			} catch (Error e) {

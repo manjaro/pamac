@@ -575,16 +575,12 @@ namespace Pamac {
 			packages_scrolledwindow.vadjustment.value_changed.connect (() => {
 				double max_value = (packages_scrolledwindow.vadjustment.upper - packages_scrolledwindow.vadjustment.page_size) * 0.8;
 				if (packages_scrolledwindow.vadjustment.value >= max_value) {
-					lock (current_packages_list) {
-						complete_packages_list ();
-					}
+					complete_packages_list ();
 				}
 			});
 			packages_scrolledwindow.vadjustment.changed.connect (() => {
-				lock (current_packages_list) {
-					while (need_more_packages ()) {
-						complete_packages_list ();
-					}
+				while (need_more_packages ()) {
+					complete_packages_list ();
 				}
 			});
 
@@ -692,6 +688,8 @@ namespace Pamac {
 
 			// check software mode
 			check_software_mode ();
+			// connect after check_software_mode to not refresh packages twice
+			software_mode_checkbutton.toggled.connect (on_software_mode_checkbutton_toggled);
 		}
 
 		void set_header_func (Gtk.ListBoxRow row, Gtk.ListBoxRow? row_before) {
@@ -733,7 +731,6 @@ namespace Pamac {
 			}
 		}
 
-		[GtkCallback]
 		void on_software_mode_checkbutton_toggled () {
 			bool enabled = software_mode_checkbutton.active;
 			local_config.software_mode = enabled;
@@ -2007,13 +2004,11 @@ namespace Pamac {
 		}
 
 		void populate_aur_list (GenericArray<unowned Package> pkgs) {
-			lock (current_packages_list) {
-				current_packages_list = pkgs;
-				current_packages_list_index = 0;
-				current_packages_list_length = current_packages_list.length;
-				sort_aur_list (ref current_packages_list);
-				populate_listbox ();
-			}
+			current_packages_list = pkgs;
+			current_packages_list_index = 0;
+			current_packages_list_length = current_packages_list.length;
+			sort_aur_list (ref current_packages_list);
+			populate_listbox ();
 		}
 
 		void sort_packages_list (ref GenericArray<unowned Package> pkgs) {
@@ -2040,13 +2035,11 @@ namespace Pamac {
 		}
 
 		void populate_packages_list (GenericArray<unowned Package> pkgs) {
-			lock (current_packages_list) {
-				current_packages_list = pkgs;
-				current_packages_list_index = 0;
-				current_packages_list_length = current_packages_list.length;
-				sort_packages_list (ref current_packages_list);
-				populate_listbox ();
-			}
+			current_packages_list = pkgs;
+			current_packages_list_index = 0;
+			current_packages_list_length = current_packages_list.length;
+			sort_packages_list (ref current_packages_list);
+			populate_listbox ();
 		}
 
 		bool need_more_packages () {
@@ -2969,12 +2962,10 @@ namespace Pamac {
 				if (pamac_row.name_label.label == "<b>%s</b>".printf (dgettext (null, "OS Updates"))) {
 					var updates_dialog = new UpdatesDialog (this);
 					// populates updates
-					lock (current_packages_list) {
-						foreach (unowned Package update_pkg in current_packages_list) {
-							if (update_pkg.app_name == null) {
-								var update_row = create_update_row (update_pkg);
-								updates_dialog.listbox.add (update_row);
-							}
+					foreach (unowned Package update_pkg in current_packages_list) {
+						if (update_pkg.app_name == null) {
+							var update_row = create_update_row (update_pkg);
+							updates_dialog.listbox.add (update_row);
 						}
 					}
 					updates_dialog.show ();
@@ -3077,13 +3068,11 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_remove_all_button_clicked () {
-			lock (current_packages_list) {
-				foreach (unowned Package pkg in current_packages_list) {
-					if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version != null
-						&& !database.should_hold (pkg.name)) {
-						to_install.remove (pkg.name);
-						to_remove.add (pkg.name);
-					}
+			foreach (unowned Package pkg in current_packages_list) {
+				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version != null
+					&& !database.should_hold (pkg.name)) {
+					to_install.remove (pkg.name);
+					to_remove.add (pkg.name);
 				}
 			}
 			refresh_listbox_buttons ();
@@ -3092,11 +3081,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_install_all_button_clicked () {
-			lock (current_packages_list) {
-				foreach (unowned Package pkg in current_packages_list) {
-					if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version == null) {
-						to_install.add (pkg.name);
-					}
+			foreach (unowned Package pkg in current_packages_list) {
+				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version == null) {
+					to_install.add (pkg.name);
 				}
 			}
 			refresh_listbox_buttons ();
@@ -3105,11 +3092,9 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_ignore_all_button_clicked () {
-			lock (current_packages_list) {
-				foreach (unowned Package pkg in current_packages_list) {
-					to_update.remove (pkg.name);
-					temporary_ignorepkgs.add (pkg.name);
-				}
+			foreach (unowned Package pkg in current_packages_list) {
+				to_update.remove (pkg.name);
+				temporary_ignorepkgs.add (pkg.name);
 			}
 			refresh_listbox_buttons ();
 			set_pendings_operations ();

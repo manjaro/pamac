@@ -250,21 +250,24 @@ namespace Pamac {
 		}
 
 		SnapPackage initialize_snap (Snapd.Snap snap) {
-			SnapPackageLinked? pkg = pkgs_cache.lookup (snap.name);
-			if (pkg != null) {
-				return pkg;
-			}
-			Snapd.Snap? store_snap;
-			Snapd.Snap? installed_snap;
-			if (snap.install_date != null) {
-				installed_snap = snap;
-				store_snap = get_store_snap (snap.name);
-			} else {
-				installed_snap = get_local_snap (snap.name);
-				store_snap = snap;
-			}
-			pkg = new SnapPackageLinked (snap, installed_snap, store_snap);
-			pkgs_cache.insert (pkg.id, pkg); 
+			SnapPackageLinked? pkg = null;
+			lock (pkgs_cache) {
+				pkg = pkgs_cache.lookup (snap.name);
+				if (pkg != null) {
+					return pkg;
+				}
+				Snapd.Snap? store_snap;
+				Snapd.Snap? installed_snap;
+				if (snap.install_date != null) {
+					installed_snap = snap;
+					store_snap = get_store_snap (snap.name);
+				} else {
+					installed_snap = get_local_snap (snap.name);
+					store_snap = snap;
+				}
+				pkg = new SnapPackageLinked (snap, installed_snap, store_snap);
+				pkgs_cache.insert (pkg.id, pkg);
+			} 
 			return pkg;
 		}
 
