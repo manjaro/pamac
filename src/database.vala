@@ -522,7 +522,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		void initialise_search_pkgs (string search_string, Alpm.List<unowned Alpm.Package>? alpm_pkgs, ref GenericArray<unowned AlpmPackage> pkgs) {
+		void initialise_search_pkgs (string search_string, Alpm.List<unowned Alpm.Package>? alpm_pkgs, bool installed, bool repos, ref GenericArray<unowned AlpmPackage> pkgs) {
 			var data = new HashTable<unowned string, AlpmPackageLinked> (str_hash, str_equal);
 			var foreign_pkgnames = new GenericArray<unowned string> ();
 			// search in appstream
@@ -562,10 +562,10 @@ namespace Pamac {
 						if (match_score > 0) {
 							unowned Alpm.Package? local_pkg = alpm_handle.localdb.get_pkg (pkgname);
 							unowned Alpm.Package? sync_pkg = null;
-							if (local_pkg == null) {
+							if (local_pkg == null && repos) {
 								sync_pkg = get_syncpkg (alpm_handle, pkgname);
 								alpm_pkg = sync_pkg;
-							} else {
+							} else if (installed) {
 								alpm_pkg = local_pkg;
 							}
 							if (alpm_pkg != null) {
@@ -1164,7 +1164,7 @@ namespace Pamac {
 			string search_string_down = search_string.down ();
 			var pkgs = new GenericArray<unowned AlpmPackage> ();
 			lock (alpm_config) {
-				initialise_search_pkgs (search_string_down, search_local_db (search_string_down), ref pkgs);
+				initialise_search_pkgs (search_string_down, search_local_db (search_string_down), true, false, ref pkgs);
 			}
 			return pkgs;
 		}
@@ -1175,7 +1175,7 @@ namespace Pamac {
 			try {
 				new Thread<int>.try ("search_installed_pkgs", () => {
 					lock (alpm_config) {
-						initialise_search_pkgs (search_string_down, search_local_db (search_string_down), ref pkgs);
+						initialise_search_pkgs (search_string_down, search_local_db (search_string_down), true, false, ref pkgs);
 					}
 					context.invoke (search_installed_pkgs_async.callback);
 					return 0;
@@ -1191,7 +1191,7 @@ namespace Pamac {
 			string search_string_down = search_string.down ();
 			var pkgs = new GenericArray<unowned AlpmPackage> ();
 			lock (alpm_config) {
-				initialise_search_pkgs (search_string_down, search_sync_dbs (search_string_down), ref pkgs);
+				initialise_search_pkgs (search_string_down, search_sync_dbs (search_string_down), false, true, ref pkgs);
 			}
 			return pkgs;
 		}
@@ -1202,7 +1202,7 @@ namespace Pamac {
 			try {
 				new Thread<int>.try ("search_repos_pkgs", () => {
 					lock (alpm_config) {
-						initialise_search_pkgs (search_string_down, search_sync_dbs (search_string_down), ref pkgs);
+						initialise_search_pkgs (search_string_down, search_sync_dbs (search_string_down), false, true, ref pkgs);
 					}
 					context.invoke (search_repos_pkgs_async.callback);
 					return 0;
@@ -1302,7 +1302,7 @@ namespace Pamac {
 			string search_string_down = search_string.down ();
 			var pkgs = new GenericArray<unowned AlpmPackage> ();
 			lock (alpm_config) {
-				initialise_search_pkgs (search_string_down, search_all_dbs (search_string_down), ref pkgs);
+				initialise_search_pkgs (search_string_down, search_all_dbs (search_string_down), true, true, ref pkgs);
 			}
 			return pkgs;
 		}
@@ -1313,7 +1313,7 @@ namespace Pamac {
 			try {
 				new Thread<int>.try ("search_pkgs", () => {
 					lock (alpm_config) {
-						initialise_search_pkgs (search_string_down, search_all_dbs (search_string_down), ref pkgs);
+						initialise_search_pkgs (search_string_down, search_all_dbs (search_string_down), true, true, ref pkgs);
 					}
 					context.invoke (search_pkgs_async.callback);
 					return 0;
