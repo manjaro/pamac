@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-18 22:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-11-22 15:48+0100\n"
+"PO-Revision-Date: 2020-11-26 15:06+0000\n"
+"Last-Translator: Thadah D. Denyse <juchuf@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr "Autentifikazioa behar da paketeak instalatu, eguneratu edo kentzeko"
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Ezin izan da alpm liburutegia hasieratu"
+msgstr "alpm liburutegia hasieratzeak huts egin du"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
@@ -44,12 +44,7 @@ msgstr "Pakete datu-baseak sinkronizatzen"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr "Ezin izan dira datu-baseak sinkronizatu"
-
-#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
+msgstr "Datu-baseen sinkronizazioak huts egin du"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -92,7 +87,7 @@ msgstr "Gehitu %s kentzeko"
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr "Posible bada, kendu %s eta berriro saiatu"
+msgstr "posible bada, kendu %s eta saiatu berriro"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -111,12 +106,16 @@ msgstr "%s kendu behar da baina blokeatutako pakete bat da"
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Failed to initialize AUR database"
-msgstr "Ezin izan da AUR datu-basea hasieratu"
+msgstr "AUR datu-basea hasieratzeak huts egin du"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
 msgstr "%s helburu zerrendatik kentzen"
+
+#: src/alpm_utils.vala
+msgid "A restart is required for the changes to take effect"
+msgstr "Berrabiarazi aldaketek eragina izateko"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -149,11 +148,11 @@ msgstr "%s: %s bazegoen aurretik fitxategi sisteman"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backup to %s"
-msgstr ""
+msgstr "Babeskopia egin da %s-(e)n"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Fitxategi baliogabeak kentzen eta berriro saiatzen"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -162,7 +161,7 @@ msgstr "%s baliogabea da edo hondatuta dago"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "fitxategi hau ezabatu dezakezu eta berriro saiatu"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -243,7 +242,7 @@ msgstr "%s: aukeran %s behar du"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Database file for %s does not exist"
-msgstr "Ez dago %s datu-base fitxategia"
+msgstr "%s(r)en datu-base fitxategia ez dago"
 
 #: src/alpm_utils.vala
 msgid "Checking keyring"
@@ -279,8 +278,8 @@ msgstr "Errorea amuak exekutatzerakoan"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Segundu %lu inguru falta da"
+msgstr[1] "%lu segundu inguru falta dira"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -319,31 +318,16 @@ msgstr "Autentifikazioak huts egin du"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
-msgstr "BEste pakete kudeatzaile bat irten dadin zai"
+msgstr "Beste pakete kudeatzaile bat irten dadin zain"
 
 #: src/daemon.vala
 msgid "Timeout expired"
 msgstr "Denbora-muga iraungi da"
 
-#: src/database.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Esplizituki instalatuta"
-
-#: src/database.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Beste pakete baten menpekotasun gisa instalatuta"
-
-#: src/database.vala
-msgid "Unknown"
-msgstr "Ezezaguna"
-
-#: src/database.vala src/transaction.vala src/snap_plugin.vala
-msgid "Yes"
-msgstr "Bai"
-
-#: src/database.vala src/snap_plugin.vala
-msgid "No"
-msgstr "Ez"
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -362,12 +346,12 @@ msgstr "%s eraiketa fitxategiak klonatzeak huts egin du"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr ""
+msgstr "%s informazioa sortzen"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr ""
+msgstr "%s informazioa sortzeak huts egin du"
 
 #: src/transaction.vala
 #, c-format
@@ -391,6 +375,10 @@ msgstr "Transakzioa ongi burutu da"
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "Prestatzen"
+
+#: src/transaction.vala src/snap_plugin.vala
+msgid "Yes"
+msgstr "Bai"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
@@ -428,7 +416,7 @@ msgstr "Fidatu eta inportatu"
 #: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
 #: resources/manager_window.ui resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
-msgstr "_Ezeztatu"
+msgstr "_Utzi"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -451,7 +439,7 @@ msgid "Repository"
 msgstr "Biltegia"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/preferences_dialog.ui
+#: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -462,7 +450,7 @@ msgstr "Menpekotasun hauek dauzka"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Honen umezurtza"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To remove"
@@ -489,7 +477,7 @@ msgstr "Eraikitzeko"
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
-msgstr "Ordezten du"
+msgstr "Hau ordezten du"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "To install"
@@ -529,7 +517,7 @@ msgstr "Instalatu"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr "%s snapa konfinatze klasikoa erabiliz argitaratu da"
+msgstr "%s snap-a konfinatze klasikoa erabiliz argitaratu da"
 
 #: src/transaction-gtk.vala
 #, c-format
@@ -556,6 +544,10 @@ msgstr "Eraiki paketeak AURetik eta instalatu menpekotasunekin"
 msgid "package(s)"
 msgstr "paketea(k)"
 
+#: src/tray.vala
+msgid "Updates Available"
+msgstr "Eguneraketak eskuragarri"
+
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Zure sistema eguneratuta dago"
@@ -571,8 +563,7 @@ msgid_plural "%u available updates"
 msgstr[0] "Eguneraketa %u eskuragarri"
 msgstr[1] "%u eguneraketa eskuragarri"
 
-#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
-#: resources/manager_window.ui
+#: src/tray.vala resources/progress_dialog.ui resources/manager_window.ui
 msgid "Details"
 msgstr "Xehetasunak"
 
@@ -584,6 +575,18 @@ msgstr "Ez da paketerik aurkitu"
 msgid "Checking for Updates"
 msgstr "Eguneraketak bilatzen"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Featured"
+msgstr "Aipagarriak"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Denak"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategoriak"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -591,46 +594,18 @@ msgid_plural "%u pending operations"
 msgstr[0] "Eragiketa %u egiteke"
 msgstr[1] "%u eragiketa egiteke"
 
-#: src/manager_window.vala src/snap_plugin.vala
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
 
-#: src/manager_window.vala
-msgid "All"
-msgstr "Denak"
-
-#: src/manager_window.vala
-msgid "Orphans"
-msgstr "Umezurtzak"
-
-#: src/manager_window.vala
-msgid "Foreign"
-msgstr "Arrotza"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Biltegiak"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instalatuta"
-
-#: src/manager_window.vala
-msgid "Dependencies"
-msgstr "Menpekotasunak"
-
-#: src/manager_window.vala
-msgid "Files"
-msgstr "Fitxategiak"
-
-#: src/manager_window.vala
-msgid "Build files"
-msgstr "Eraiketa fitxategiak"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Instalatzeko arrazoia"
+
+#: src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Beste pakete baten menpekotasun gisa instalatuta"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -639,6 +614,10 @@ msgstr "Markatu esplizituki instalatutako gisa"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lizentziak"
+
+#: src/manager_window.vala
+msgid "Unknown"
+msgstr "Ezezaguna"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -693,20 +672,20 @@ msgid "Optional Dependencies"
 msgstr "Aukerazko menpekotasunak"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Optional For"
-msgstr "Honentzat aukerazkoa"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Provides"
-msgstr "Hornitzen du"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Konpilatu menpekotasunak"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Egiaztatu menpekotasunak"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Optional For"
+msgstr "Honentzat aukerazkoa"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Provides"
+msgstr "Hornitzen du"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -736,6 +715,10 @@ msgstr "Tamaina"
 msgid "Date"
 msgstr "Data"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Biltegiak"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Bertsio-berritu"
@@ -749,40 +732,60 @@ msgid "Remove"
 msgstr "Kendu"
 
 #: src/manager_window.vala
-msgid "Featured"
-msgstr "Aipagarriak"
+msgid "OS Updates"
+msgstr "SE eguneraketak"
 
 #: src/manager_window.vala
+msgid "Includes performance, stability and security improvements"
+msgstr "Errendimendu, egonkortasun eta segurtasun hobekuntzak dakartza"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instalatuta"
+
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
 msgstr "Argazki eta Bideoa"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Music & Audio"
 msgstr "Musika eta Bideoa"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Productivity"
 msgstr "Produktibitatea"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Communication & News"
 msgstr "Komunikazioa eta Albisteak"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Education & Science"
 msgstr "Hezkuntza eta Zientzia"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Games"
 msgstr "Bideojokoak"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Utilities"
 msgstr "Utilitateak"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
 msgstr "Garapena"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Explicitly installed"
+msgstr "Esplizituki instalatuta"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Orphans"
+msgstr "Umezurtzak"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Foreign"
+msgstr "Arrotza"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -798,11 +801,11 @@ msgstr "Alpm paketea"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
+msgstr "Pakete kudeatzailea, Alpm, AUR, Flatpak eta Snap bateragarritasunarekin"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategoriak"
+#: src/manager_window.vala
+msgid "Last refresh"
+msgstr "Azken freskatzea"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -817,12 +820,12 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Katxean gorde beharreko pakete bakotzeko bertsio kopurua"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Eraiketa direktorioa"
-
-#: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Mundu mailakoa"
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Eraiketa direktorioa"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -853,15 +856,15 @@ msgstr "bat ere ez"
 msgid "Enter a number (default=%d)"
 msgstr "Sartu zenbaki bat (lehenetsia=%d)"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "[y/N]"
 msgstr "[b/E]"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "y"
 msgstr "b"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "yes"
 msgstr "bai"
 
@@ -870,16 +873,24 @@ msgid "Edit build files"
 msgstr "Editatu eraiketa fitxategiak"
 
 #: src/transaction-cli.vala
+msgid "[e]"
+msgstr "[e]"
+
+#: src/transaction-cli.vala
+msgid "Apply transaction"
+msgstr "Aplikatu transakzioa"
+
+#: src/transaction-cli.vala
+msgid "e"
+msgstr "e"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Instalazio tamaina guztira"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
 msgstr "Kendutako tamaina guztira"
-
-#: src/transaction-cli.vala
-msgid "Apply transaction"
-msgstr "Aplikatu transakzioa"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -896,7 +907,7 @@ msgstr "Ez da PKGBUILD fitxategirik aurkitu direktorio honetan"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root is not allowed"
-msgstr ""
+msgstr "Garapen paketeen eguneraketen egiaztapena root bezala ez dago baimenduta"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1036,11 +1047,11 @@ msgstr "mantendu eraikitako paketeak cachean instalatu ondoren"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "ez mantendu eraikitako paketeak cachean instalatu ostean"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr ""
+msgstr "idatzi zer egingo zen baina ez exekutatu transakzioa"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1102,7 +1113,7 @@ msgstr "kendu beste paketeek beharrezko ez dituzten menpekotasunak, aukera hau p
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "ez ezabatu beste paketeek behar ez dituzten dependentziak"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1140,7 +1151,7 @@ msgstr "Egiaztatu garapen paketeen eguneraketak ere (--aur erabili)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "ez egiaztatu garapen paketeen eguneraketak"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1156,7 +1167,7 @@ msgstr "gaitu paketeen bertsio zaharragoak"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "desgaitu paketeen bertsio-zaharketa"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1164,7 +1175,7 @@ msgstr "Bertsio-berritu AURen bidez instalatutako paketeak ere"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr ""
+msgstr "ez bertsio-berritu AURen bidez instalatutako paketeak"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1172,7 +1183,7 @@ msgstr "garapen paketeak ere bertsio-berritu (--aur erabili)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "ez bertsio-berritu garapen paketeak"
 
 #: src/cli.vala
 msgid ""
@@ -1259,17 +1270,12 @@ msgstr "Garbitu eraiketa fitxategiak"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Gehitu %s instalatzeko"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
 msgstr "%s AURen bidez soilik dago eskuragarri"
-
-#: src/cli.vala
-#, c-format
-msgid "Build %s from AUR"
-msgstr "Eraiki %s AURetik"
 
 #: src/cli.vala
 #, c-format
@@ -1285,7 +1291,11 @@ msgstr "denak"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Gehitu %s berriro instalatzeko"
+
+#: src/snap_plugin.vala
+msgid "No"
+msgstr "Ez"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1312,6 +1322,10 @@ msgid "_Apply"
 msgstr "_Aplikatu"
 
 #: resources/manager_window.ui
+msgid "Software Mode"
+msgstr "Software modua"
+
+#: resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Freskatu datu-baseak"
 
@@ -1328,20 +1342,16 @@ msgid "About"
 msgstr "Honi buruz"
 
 #: resources/manager_window.ui
-msgid "Search"
-msgstr "Bilatu"
+msgid "Browse by"
+msgstr "Arakatu honen arabera"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "Arakatu"
+msgid "View"
+msgstr "Ikusi"
 
 #: resources/manager_window.ui
-msgid "Pending"
-msgstr "Egiteke"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Eguneraketak"
+msgid "Sort by"
+msgstr "Ordenatu honen arabera"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1356,8 +1366,12 @@ msgid "Ignore all"
 msgstr "Ezikusi guztiak"
 
 #: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Ordenatu honen arabera"
+msgid "Refresh"
+msgstr "Freskatu"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "Arakatu"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1368,8 +1382,32 @@ msgid "Reinstall"
 msgstr "Berrinstalatu"
 
 #: resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Menpekotasunak"
+
+#: resources/manager_window.ui
+msgid "Files"
+msgstr "Fitxategiak"
+
+#: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Berezarri eraiketa fitxategiak"
+
+#: resources/manager_window.ui
+msgid "Build files"
+msgstr "Eraiketa fitxategiak"
+
+#: resources/manager_window.ui
+msgid "Search"
+msgstr "Bilatu"
+
+#: resources/manager_window.ui
+msgid "Pending"
+msgstr "Egiteke"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Eguneraketak"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1463,11 +1501,11 @@ msgstr "Gaitu Snap euskarria"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "Pamac snap-ak bilatu eta instalatzeko baimendu"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Flatpak paketeak haien argitaratzaileak mantentzen dituzte."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"

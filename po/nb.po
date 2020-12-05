@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-18 22:21+0000\n"
+"POT-Creation-Date: 2020-11-22 15:48+0100\n"
+"PO-Revision-Date: 2020-11-22 16:24+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -58,11 +58,6 @@ msgstr "Synkroniserer pakkedatabaser"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Mislyktes i å synkronisere dataaser"
-
-#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -129,6 +124,10 @@ msgstr ""
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
+msgstr ""
+
+#: src/alpm_utils.vala
+msgid "A restart is required for the changes to take effect"
 msgstr ""
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
@@ -338,25 +337,10 @@ msgstr "Venter på at en annen pakkebehandler skal avslutte"
 msgid "Timeout expired"
 msgstr ""
 
-#: src/database.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Explisitt installert"
-
-#: src/database.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Installert som en avhengighet for en annen pakke"
-
-#: src/database.vala
-msgid "Unknown"
-msgstr "Ukjent"
-
-#: src/database.vala src/transaction.vala src/snap_plugin.vala
-msgid "Yes"
-msgstr "Ja"
-
-#: src/database.vala src/snap_plugin.vala
-msgid "No"
-msgstr "Nei"
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -404,6 +388,10 @@ msgstr "Transaksjonen avsluttet vellykket"
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "Forbereder"
+
+#: src/transaction.vala src/snap_plugin.vala
+msgid "Yes"
+msgstr "Ja"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
@@ -464,7 +452,7 @@ msgid "Repository"
 msgstr "Arkiv"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/preferences_dialog.ui
+#: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr ""
 
@@ -569,6 +557,10 @@ msgstr "Bygg pakkene fra AUR og installer de med deres avhengigheter"
 msgid "package(s)"
 msgstr "pakke(r)"
 
+#: src/tray.vala
+msgid "Updates Available"
+msgstr ""
+
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Systemet ditt er oppdatert"
@@ -584,8 +576,7 @@ msgid_plural "%u available updates"
 msgstr[0] "%u tilgjengelige oppdatering"
 msgstr[1] "%u tilgjengelige oppdateringer"
 
-#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
-#: resources/manager_window.ui
+#: src/tray.vala resources/progress_dialog.ui resources/manager_window.ui
 msgid "Details"
 msgstr "Detaljer"
 
@@ -597,6 +588,18 @@ msgstr "Ingen pakke funnet"
 msgid "Checking for Updates"
 msgstr "Ser etter oppdateringer"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Featured"
+msgstr ""
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Alle"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategorier"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -604,46 +607,18 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operasjoner venter"
 msgstr[1] "%u operasjoner venter"
 
-#: src/manager_window.vala src/snap_plugin.vala
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr ""
 
-#: src/manager_window.vala
-msgid "All"
-msgstr "Alle"
-
-#: src/manager_window.vala
-msgid "Orphans"
-msgstr "Foreldreløs"
-
-#: src/manager_window.vala
-msgid "Foreign"
-msgstr "Fremmed"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Pakkebrønner"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Installert"
-
-#: src/manager_window.vala
-msgid "Dependencies"
-msgstr "Avhengigheter"
-
-#: src/manager_window.vala
-msgid "Files"
-msgstr "Filer"
-
-#: src/manager_window.vala
-msgid "Build files"
-msgstr "Byggefiler"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Grunn til Installasjon"
+
+#: src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Installert som en avhengighet for en annen pakke"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -652,6 +627,10 @@ msgstr "Marker som eksplisitt installert"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Lisenser"
+
+#: src/manager_window.vala
+msgid "Unknown"
+msgstr "Ukjent"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -706,20 +685,20 @@ msgid "Optional Dependencies"
 msgstr "Valgfrie avhengigheter"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Optional For"
-msgstr "Valgfri for"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Provides"
-msgstr "Tilbyr"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Lag avhengigheter"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Sjekk avhengigheter"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Optional For"
+msgstr "Valgfri for"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Provides"
+msgstr "Tilbyr"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -749,6 +728,10 @@ msgstr "Størrelse"
 msgid "Date"
 msgstr ""
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Pakkebrønner"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Oppgrader"
@@ -762,40 +745,60 @@ msgid "Remove"
 msgstr "Fjern"
 
 #: src/manager_window.vala
-msgid "Featured"
+msgid "OS Updates"
 msgstr ""
 
 #: src/manager_window.vala
+msgid "Includes performance, stability and security improvements"
+msgstr ""
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Installert"
+
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
 msgstr "Bilde og Video"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Music & Audio"
 msgstr "Musikk og Audio"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Productivity"
 msgstr "Produktivitet"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Communication & News"
 msgstr "Kommunikasjon og Nyheter"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Education & Science"
 msgstr "Undervisning og Vitenskap"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Games"
 msgstr "Spill"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Utilities"
 msgstr ""
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
 msgstr "Utvikling"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Explicitly installed"
+msgstr "Explisitt installert"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Orphans"
+msgstr "Foreldreløs"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Foreign"
+msgstr "Fremmed"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -813,9 +816,9 @@ msgstr "Alpm-pakke"
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategorier"
+#: src/manager_window.vala
+msgid "Last refresh"
+msgstr ""
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -830,12 +833,12 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Antall versjoner av hver pakke som skal beholdes i hurtiglageret"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Byggkatalog"
-
-#: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Verdensomspennende"
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Byggkatalog"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -866,15 +869,15 @@ msgstr "ingen"
 msgid "Enter a number (default=%d)"
 msgstr ""
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "[y/N]"
 msgstr "[j/N]"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "y"
 msgstr "j"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "yes"
 msgstr "ja"
 
@@ -883,16 +886,24 @@ msgid "Edit build files"
 msgstr "Rediger byggefiler"
 
 #: src/transaction-cli.vala
+msgid "[e]"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "Apply transaction"
+msgstr "Gjennomfør transaksjon"
+
+#: src/transaction-cli.vala
+msgid "e"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Total mengde installert"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
 msgstr "Total mengde fjernet"
-
-#: src/transaction-cli.vala
-msgid "Apply transaction"
-msgstr "Gjennomfør transaksjon"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -1281,11 +1292,6 @@ msgstr ""
 
 #: src/cli.vala
 #, c-format
-msgid "Build %s from AUR"
-msgstr ""
-
-#: src/cli.vala
-#, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
 msgstr[0] "Der er 1%u medlem i gruppen 2%s"
@@ -1299,6 +1305,10 @@ msgstr "alle"
 #, c-format
 msgid "Add %s to reinstall"
 msgstr ""
+
+#: src/snap_plugin.vala
+msgid "No"
+msgstr "Nei"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1325,6 +1335,10 @@ msgid "_Apply"
 msgstr "_Utfør"
 
 #: resources/manager_window.ui
+msgid "Software Mode"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Oppdater databaser"
 
@@ -1341,20 +1355,16 @@ msgid "About"
 msgstr "Om"
 
 #: resources/manager_window.ui
-msgid "Search"
-msgstr "Søk"
+msgid "Browse by"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "Bla"
+msgid "View"
+msgstr ""
 
 #: resources/manager_window.ui
-msgid "Pending"
-msgstr "Venter på behandling"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Oppdateringer"
+msgid "Sort by"
+msgstr "Sorter etter"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1369,8 +1379,12 @@ msgid "Ignore all"
 msgstr "Ignorer alle"
 
 #: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Sorter etter"
+msgid "Refresh"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "Bla"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1381,8 +1395,32 @@ msgid "Reinstall"
 msgstr "Installer på nytt"
 
 #: resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Avhengigheter"
+
+#: resources/manager_window.ui
+msgid "Files"
+msgstr "Filer"
+
+#: resources/manager_window.ui
 msgid "Reset build files"
 msgstr ""
+
+#: resources/manager_window.ui
+msgid "Build files"
+msgstr "Byggefiler"
+
+#: resources/manager_window.ui
+msgid "Search"
+msgstr "Søk"
+
+#: resources/manager_window.ui
+msgid "Pending"
+msgstr "Venter på behandling"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Oppdateringer"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

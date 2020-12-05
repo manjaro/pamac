@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-29 01:02+0000\n"
+"POT-Creation-Date: 2020-11-22 15:48+0100\n"
+"PO-Revision-Date: 2020-11-23 00:21+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -42,11 +42,6 @@ msgstr "Sincronizando bases de datos de paquetes"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "Fallo al sincronizar las bases de datos"
-
-#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -114,6 +109,10 @@ msgstr "Fallo al inicializar la base de datos del AUR"
 #, c-format
 msgid "removing %s from target list"
 msgstr "remover %s de la lista de objetivos"
+
+#: src/alpm_utils.vala
+msgid "A restart is required for the changes to take effect"
+msgstr "Es necesario reiniciar para que los cambios surtan efecto"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -322,25 +321,10 @@ msgstr "Esperando a que salga de otro gestor de paquetes"
 msgid "Timeout expired"
 msgstr "Tiempo agotado"
 
-#: src/database.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "Instalado explícitamente"
-
-#: src/database.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "Instalado como una dependencia para otro paquete"
-
-#: src/database.vala
-msgid "Unknown"
-msgstr "Desconocido"
-
-#: src/database.vala src/transaction.vala src/snap_plugin.vala
-msgid "Yes"
-msgstr "Sí"
-
-#: src/database.vala src/snap_plugin.vala
-msgid "No"
-msgstr "No"
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -388,6 +372,10 @@ msgstr "Transacción finalizada con éxito"
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "Preparando"
+
+#: src/transaction.vala src/snap_plugin.vala
+msgid "Yes"
+msgstr "Sí"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
@@ -448,7 +436,7 @@ msgid "Repository"
 msgstr "Repositorio"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/preferences_dialog.ui
+#: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -553,6 +541,10 @@ msgstr "Construir paquetes del AUR e instalarlos con sus dependencias"
 msgid "package(s)"
 msgstr "paquete(s)"
 
+#: src/tray.vala
+msgid "Updates Available"
+msgstr "Actualizaciones disponibles"
+
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "Su sistema está actualizado"
@@ -568,8 +560,7 @@ msgid_plural "%u available updates"
 msgstr[0] "%u actualización disponible"
 msgstr[1] "%u actualizaciones disponibles"
 
-#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
-#: resources/manager_window.ui
+#: src/tray.vala resources/progress_dialog.ui resources/manager_window.ui
 msgid "Details"
 msgstr "Detalles"
 
@@ -581,6 +572,18 @@ msgstr "Paquete no encontrado"
 msgid "Checking for Updates"
 msgstr "Verificando actualizaciones"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Featured"
+msgstr "Destacado"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "Todo"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "Categorías"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -588,46 +591,18 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operación pendiente"
 msgstr[1] "%u operaciones pendientes"
 
-#: src/manager_window.vala src/snap_plugin.vala
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
 
-#: src/manager_window.vala
-msgid "All"
-msgstr "Todo"
-
-#: src/manager_window.vala
-msgid "Orphans"
-msgstr "Huérfano"
-
-#: src/manager_window.vala
-msgid "Foreign"
-msgstr "Externo"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repositorios"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instalado"
-
-#: src/manager_window.vala
-msgid "Dependencies"
-msgstr "Dependencias"
-
-#: src/manager_window.vala
-msgid "Files"
-msgstr "Archivos"
-
-#: src/manager_window.vala
-msgid "Build files"
-msgstr "Archivos de construcción"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "Razón de la instalación"
+
+#: src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "Instalado como una dependencia para otro paquete"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -636,6 +611,10 @@ msgstr "Marcar como instalado explícitamente"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "Licencias"
+
+#: src/manager_window.vala
+msgid "Unknown"
+msgstr "Desconocido"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -690,20 +669,20 @@ msgid "Optional Dependencies"
 msgstr "Dependencias opcionales"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Optional For"
-msgstr "Opcional para"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Provides"
-msgstr "Proporciona"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "Crear dependencias"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "Verificar dependencias"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Optional For"
+msgstr "Opcional para"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Provides"
+msgstr "Proporciona"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -733,6 +712,10 @@ msgstr "Tamaño"
 msgid "Date"
 msgstr "Fecha"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "Repositorios"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "Actualizar"
@@ -746,40 +729,60 @@ msgid "Remove"
 msgstr "Remover"
 
 #: src/manager_window.vala
-msgid "Featured"
-msgstr "Destacado"
+msgid "OS Updates"
+msgstr "Actualizaciones del S.O."
 
 #: src/manager_window.vala
+msgid "Includes performance, stability and security improvements"
+msgstr "Incluye mejoras de rendimiento, estabilidad y seguridad"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instalado"
+
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
 msgstr "Foto y Video"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Music & Audio"
 msgstr "Música y Audio"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Productivity"
 msgstr "Productividad"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Communication & News"
 msgstr "Comunicación y Noticias"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Education & Science"
 msgstr "Educación y Ciencia"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Games"
 msgstr "Juegos"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Utilities"
 msgstr "Utilidades"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
 msgstr "Desarrollo"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Explicitly installed"
+msgstr "Instalado explícitamente"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Orphans"
+msgstr "Huérfano"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Foreign"
+msgstr "Externo"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -797,9 +800,9 @@ msgstr "Paquete Almp"
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr "Un gestor de paquetes con soporte para Alpm, AUR, Flatpak y Snap"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Categorías"
+#: src/manager_window.vala
+msgid "Last refresh"
+msgstr "Último refresco"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -814,12 +817,12 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "Número de versiones de cada paquete para mantener en la caché"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Directorio de construcción"
-
-#: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "todo el mundo"
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "Directorio de construcción"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -850,15 +853,15 @@ msgstr "ninguna"
 msgid "Enter a number (default=%d)"
 msgstr "Introduzca un número (default=%d)"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "[y/N]"
 msgstr "[s/N]"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "y"
 msgstr "s"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "yes"
 msgstr "sí"
 
@@ -867,16 +870,24 @@ msgid "Edit build files"
 msgstr "Editar archivos de construcción"
 
 #: src/transaction-cli.vala
+msgid "[e]"
+msgstr "[e]"
+
+#: src/transaction-cli.vala
+msgid "Apply transaction"
+msgstr "Aplicar transacción"
+
+#: src/transaction-cli.vala
+msgid "e"
+msgstr "e"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Tamaño total instalado"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
 msgstr "Tamaño total removido"
-
-#: src/transaction-cli.vala
-msgid "Apply transaction"
-msgstr "Aplicar transacción"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -1265,11 +1276,6 @@ msgstr "%s sólo disponible del AUR"
 
 #: src/cli.vala
 #, c-format
-msgid "Build %s from AUR"
-msgstr "Construir %s del AUR"
-
-#: src/cli.vala
-#, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
 msgstr[0] "Hay %u miembro en el grupo %s"
@@ -1283,6 +1289,10 @@ msgstr "todo"
 #, c-format
 msgid "Add %s to reinstall"
 msgstr "Agregar %s para reinstalar"
+
+#: src/snap_plugin.vala
+msgid "No"
+msgstr "No"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1309,6 +1319,10 @@ msgid "_Apply"
 msgstr "_Aplicar"
 
 #: resources/manager_window.ui
+msgid "Software Mode"
+msgstr "Modo software"
+
+#: resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "Refrescar bases de datos"
 
@@ -1325,20 +1339,16 @@ msgid "About"
 msgstr "Acerca de"
 
 #: resources/manager_window.ui
-msgid "Search"
-msgstr "Buscar"
+msgid "Browse by"
+msgstr "Explorar por"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "Explorar"
+msgid "View"
+msgstr "Vista"
 
 #: resources/manager_window.ui
-msgid "Pending"
-msgstr "Pendiente"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Actualizaciones"
+msgid "Sort by"
+msgstr "Ordenar por"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1353,8 +1363,12 @@ msgid "Ignore all"
 msgstr "Ignorar todo"
 
 #: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Ordenar por"
+msgid "Refresh"
+msgstr "Refrescar"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "Explorar"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1365,8 +1379,32 @@ msgid "Reinstall"
 msgstr "Reinstalar"
 
 #: resources/manager_window.ui
+msgid "Dependencies"
+msgstr "Dependencias"
+
+#: resources/manager_window.ui
+msgid "Files"
+msgstr "Archivos"
+
+#: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "Restablecer (reset) archivos de construcción"
+
+#: resources/manager_window.ui
+msgid "Build files"
+msgstr "Archivos de construcción"
+
+#: resources/manager_window.ui
+msgid "Search"
+msgstr "Buscar"
+
+#: resources/manager_window.ui
+msgid "Pending"
+msgstr "Pendiente"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "Actualizaciones"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
