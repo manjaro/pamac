@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-08-30 10:34+0000\n"
+"POT-Creation-Date: 2020-11-22 15:48+0100\n"
+"PO-Revision-Date: 2020-12-02 08:20+0000\n"
 "Last-Translator: Panwar108 <caspian7pena@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -43,11 +43,6 @@ msgstr "पैकेज डेटाबेस समकालीन हो र�
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "पैकेज डेटाबेस समकालीन करने में विफल"
-
-#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -115,6 +110,10 @@ msgstr "AUR डेटाबेस आरंभ करने में विफ�
 #, c-format
 msgid "removing %s from target list"
 msgstr "%s लक्षित सूची से हटाया जा रहा है"
+
+#: src/alpm_utils.vala
+msgid "A restart is required for the changes to take effect"
+msgstr "परिवर्तन लागू करने हेतु पुनः आरंभ आवश्यक है"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -323,25 +322,10 @@ msgstr "अन्य पैकेज प्रबंधक के बंद ह�
 msgid "Timeout expired"
 msgstr "समय अवधि समाप्त"
 
-#: src/database.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "स्पष्ट रूप से इंस्टॉल"
-
-#: src/database.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "अन्य पैकेज हेतु आश्रित पैकेज के रूप से इंस्टॉल"
-
-#: src/database.vala
-msgid "Unknown"
-msgstr "अज्ञात"
-
-#: src/database.vala src/transaction.vala src/snap_plugin.vala
-msgid "Yes"
-msgstr "हाँ"
-
-#: src/database.vala src/snap_plugin.vala
-msgid "No"
-msgstr "नहीं"
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -389,6 +373,10 @@ msgstr "संचालन सफलतापूर्वक पूर्ण ह
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "तैयारी हो रही है"
+
+#: src/transaction.vala src/snap_plugin.vala
+msgid "Yes"
+msgstr "हाँ"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
@@ -449,7 +437,7 @@ msgid "Repository"
 msgstr "पैकेज-संग्रह"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/preferences_dialog.ui
+#: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "फ्लैटपैक"
 
@@ -554,6 +542,10 @@ msgstr "AUR से पैकेज बिल्ड कर, उन्हें �
 msgid "package(s)"
 msgstr "पैकेज"
 
+#: src/tray.vala
+msgid "Updates Available"
+msgstr "अपडेट उपलब्ध हैं"
+
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "आपका सिस्टम नवीनतम है"
@@ -569,8 +561,7 @@ msgid_plural "%u available updates"
 msgstr[0] "%u अपडेट उपलब्ध"
 msgstr[1] "%u अपडेट उपलब्ध"
 
-#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
-#: resources/manager_window.ui
+#: src/tray.vala resources/progress_dialog.ui resources/manager_window.ui
 msgid "Details"
 msgstr "विवरण"
 
@@ -582,6 +573,18 @@ msgstr "कोई पैकेज नहीं मिला"
 msgid "Checking for Updates"
 msgstr "अपडेट खोजी जा रही हैं"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Featured"
+msgstr "विशिष्ट"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "सभी"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "श्रेणियाँ"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -589,46 +592,18 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u कार्य शेष"
 msgstr[1] "%u कार्य शेष"
 
-#: src/manager_window.vala src/snap_plugin.vala
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "स्नैप"
 
-#: src/manager_window.vala
-msgid "All"
-msgstr "सभी"
-
-#: src/manager_window.vala
-msgid "Orphans"
-msgstr "निरर्थक पैकेज"
-
-#: src/manager_window.vala
-msgid "Foreign"
-msgstr "बाह्य पैकेज"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "पैकेज-संग्रह"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "इंस्टॉल हैं"
-
-#: src/manager_window.vala
-msgid "Dependencies"
-msgstr "आश्रित पैकेज"
-
-#: src/manager_window.vala
-msgid "Files"
-msgstr "फ़ाइलें"
-
-#: src/manager_window.vala
-msgid "Build files"
-msgstr "बिल्ड फ़ाइलें"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "इंस्टॉल हेतु कारण"
+
+#: src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "अन्य पैकेज हेतु आश्रित पैकेज के रूप से इंस्टॉल"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -637,6 +612,10 @@ msgstr "स्पष्ट इंस्टॉल के रूप में च�
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "लाइसेंस"
+
+#: src/manager_window.vala
+msgid "Unknown"
+msgstr "अज्ञात"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -691,20 +670,20 @@ msgid "Optional Dependencies"
 msgstr "वैकल्पिक आश्रित पैकेज"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Optional For"
-msgstr "इन हेतु वैकल्पिक"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Provides"
-msgstr "प्रदान करता है"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "आश्रित पैकेज कार्यरत करें"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "आश्रित पैकेज जाँचें"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Optional For"
+msgstr "इन हेतु वैकल्पिक"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Provides"
+msgstr "प्रदान करता है"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -734,6 +713,10 @@ msgstr "आकार"
 msgid "Date"
 msgstr "दिनांक"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "पैकेज-संग्रह"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "अपग्रेड करें"
@@ -747,40 +730,60 @@ msgid "Remove"
 msgstr "हटाएँ"
 
 #: src/manager_window.vala
-msgid "Featured"
-msgstr "विशिष्ट"
+msgid "OS Updates"
+msgstr "ओएस अपडेट"
 
 #: src/manager_window.vala
+msgid "Includes performance, stability and security improvements"
+msgstr "कार्यक्षमता, स्थिरता एवं सुरक्षा संबंधी सुधार सम्मिलित हैं"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "इंस्टॉल हैं"
+
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
 msgstr "चित्र व वीडियो"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Music & Audio"
 msgstr "संगीत व वीडियो"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Productivity"
 msgstr "कार्यकुशलता"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Communication & News"
 msgstr "संचार व समाचार"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Education & Science"
 msgstr "शिक्षा व विज्ञान"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Games"
 msgstr "खेल"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Utilities"
 msgstr "साधन"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
 msgstr "सॉफ्टवेयर विकास"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Explicitly installed"
+msgstr "स्पष्ट रूप से इंस्टॉल"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Orphans"
+msgstr "निरर्थक पैकेज"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Foreign"
+msgstr "बाह्य पैकेज"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -798,9 +801,9 @@ msgstr "Alpm पैकेज"
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr "Alpm, AUR, फ्लैटपैक व स्नैप समर्थित पैकेज प्रबंधक"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "श्रेणियाँ"
+#: src/manager_window.vala
+msgid "Last refresh"
+msgstr "अंतिम रिफ्रेश"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -815,12 +818,12 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "कैश में संचित करने हेतु प्रत्येक पैकेज की संस्करण संख्या"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "बिल्ड डायरेक्टरी"
-
-#: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "वैश्विक"
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "बिल्ड डायरेक्टरी"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -851,15 +854,15 @@ msgstr "कुछ नहीं"
 msgid "Enter a number (default=%d)"
 msgstr "संख्या दर्ज करें (डिफ़ॉल्ट =%d) "
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "y"
 msgstr "y"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "yes"
 msgstr "हाँ"
 
@@ -868,16 +871,24 @@ msgid "Edit build files"
 msgstr "बिल्ड फ़ाइलें संपादित करें "
 
 #: src/transaction-cli.vala
+msgid "[e]"
+msgstr "[e]"
+
+#: src/transaction-cli.vala
+msgid "Apply transaction"
+msgstr "संचालन लागू करें"
+
+#: src/transaction-cli.vala
+msgid "e"
+msgstr "e"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "कुल इंस्टॉल आकार"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
 msgstr "कुल हटने वाले पैकेज का आकार"
-
-#: src/transaction-cli.vala
-msgid "Apply transaction"
-msgstr "संचालन लागू करें"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -1266,11 +1277,6 @@ msgstr "%s केवल AUR से उपलब्ध है"
 
 #: src/cli.vala
 #, c-format
-msgid "Build %s from AUR"
-msgstr "%s को AUR से बिल्ड करें"
-
-#: src/cli.vala
-#, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
 msgstr[0] "समूह %s में %u सदस्य है"
@@ -1284,6 +1290,10 @@ msgstr "सभी"
 #, c-format
 msgid "Add %s to reinstall"
 msgstr "पुनः इंस्टॉल हेतु %s जोड़ें"
+
+#: src/snap_plugin.vala
+msgid "No"
+msgstr "नहीं"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1310,6 +1320,10 @@ msgid "_Apply"
 msgstr "लागू करें (_A)"
 
 #: resources/manager_window.ui
+msgid "Software Mode"
+msgstr "सॉफ्टवेयर मोड"
+
+#: resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "डेटाबेस रिफ्रेश करें"
 
@@ -1326,20 +1340,16 @@ msgid "About"
 msgstr "बारे में"
 
 #: resources/manager_window.ui
-msgid "Search"
-msgstr "खोजें"
+msgid "Browse by"
+msgstr "अनुक्रमण प्रकार"
 
 #: resources/manager_window.ui
-msgid "Browse"
+msgid "View"
 msgstr "देखें"
 
 #: resources/manager_window.ui
-msgid "Pending"
-msgstr "शेष"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "अपडेट"
+msgid "Sort by"
+msgstr "क्रमबद्ध करें"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1354,8 +1364,12 @@ msgid "Ignore all"
 msgstr "सभी को अनदेखा करें"
 
 #: resources/manager_window.ui
-msgid "Sort by"
-msgstr "क्रमबद्ध करें"
+msgid "Refresh"
+msgstr "रिफ्रेश"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "देखें"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1366,8 +1380,32 @@ msgid "Reinstall"
 msgstr "पुनः इंस्टॉल करें"
 
 #: resources/manager_window.ui
+msgid "Dependencies"
+msgstr "आश्रित पैकेज"
+
+#: resources/manager_window.ui
+msgid "Files"
+msgstr "फ़ाइलें"
+
+#: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "बिल्ड फ़ाइलें पुनः सेट करें"
+
+#: resources/manager_window.ui
+msgid "Build files"
+msgstr "बिल्ड फ़ाइलें"
+
+#: resources/manager_window.ui
+msgid "Search"
+msgstr "खोजें"
+
+#: resources/manager_window.ui
+msgid "Pending"
+msgstr "शेष"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "अपडेट"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"

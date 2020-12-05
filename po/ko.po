@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-08-17 19:44+0200\n"
-"PO-Revision-Date: 2020-09-15 02:50+0000\n"
+"POT-Creation-Date: 2020-11-22 15:48+0100\n"
+"PO-Revision-Date: 2020-12-02 07:08+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -49,11 +49,6 @@ msgstr "패키지 데이터베이스 동기화중"
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
 msgstr "데이터베이스를 동기화하지 못했습니다"
-
-#: src/alpm_utils.vala src/database.vala src/transaction-gtk.vala
-#: src/manager_window.vala src/cli.vala resources/preferences_dialog.ui
-msgid "AUR"
-msgstr "AUR"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
@@ -121,6 +116,10 @@ msgstr "AUR 데이터베이스를 초기화하지 못했습니다"
 #, c-format
 msgid "removing %s from target list"
 msgstr "대상 목록에서 %s 제거중"
+
+#: src/alpm_utils.vala
+msgid "A restart is required for the changes to take effect"
+msgstr "변경 사항을 적용하려면 다시 시작해야합니다"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -327,25 +326,10 @@ msgstr "다른 패키지 관리자가 종료되기를 기다리는 중"
 msgid "Timeout expired"
 msgstr "시간초과로 만료되었습니다"
 
-#: src/database.vala src/manager_window.vala
-msgid "Explicitly installed"
-msgstr "완전히 설치됨"
-
-#: src/database.vala src/manager_window.vala
-msgid "Installed as a dependency for another package"
-msgstr "다른 패키지에 대한 종속성으로 설치되었습니다"
-
-#: src/database.vala
-msgid "Unknown"
-msgstr "알 수 없음"
-
-#: src/database.vala src/transaction.vala src/snap_plugin.vala
-msgid "Yes"
-msgstr "네"
-
-#: src/database.vala src/snap_plugin.vala
-msgid "No"
-msgstr "아니요"
+#: src/database.vala src/transaction-gtk.vala src/manager_window.vala
+#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+msgid "AUR"
+msgstr "AUR"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
@@ -393,6 +377,10 @@ msgstr "트랜잭션이 성공적으로 완료되었습니다"
 #: src/transaction.vala
 msgid "Preparing"
 msgstr "준비중"
+
+#: src/transaction.vala src/snap_plugin.vala
+msgid "Yes"
+msgstr "네"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
@@ -453,7 +441,7 @@ msgid "Repository"
 msgstr "저장소"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/preferences_dialog.ui
+#: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -558,6 +546,10 @@ msgstr "AUR에서 패키지를 빌드하고 종속성으로 설치합니다"
 msgid "package(s)"
 msgstr "패키지"
 
+#: src/tray.vala
+msgid "Updates Available"
+msgstr "사용 가능한 업데이트"
+
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
 msgstr "시스템이 최신 버전입니다"
@@ -572,8 +564,7 @@ msgid "%u available update"
 msgid_plural "%u available updates"
 msgstr[0] "%u 사용 가능한 업데이트"
 
-#: src/tray.vala src/manager_window.vala resources/progress_dialog.ui
-#: resources/manager_window.ui
+#: src/tray.vala resources/progress_dialog.ui resources/manager_window.ui
 msgid "Details"
 msgstr "세부 정보"
 
@@ -585,52 +576,36 @@ msgstr "패키지를 찾을 수 없습니다"
 msgid "Checking for Updates"
 msgstr "업데이트 확인중"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Featured"
+msgstr "추천"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "All"
+msgstr "모두"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Categories"
+msgstr "카테고리"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "보류중인 작업 %u 개"
 
-#: src/manager_window.vala src/snap_plugin.vala
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "스냅"
 
-#: src/manager_window.vala
-msgid "All"
-msgstr "모두"
-
-#: src/manager_window.vala
-msgid "Orphans"
-msgstr "독립 패키지"
-
-#: src/manager_window.vala
-msgid "Foreign"
-msgstr "외부 패키지"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "저장소"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "설치됨"
-
-#: src/manager_window.vala
-msgid "Dependencies"
-msgstr "종속성"
-
-#: src/manager_window.vala
-msgid "Files"
-msgstr "파일"
-
-#: src/manager_window.vala
-msgid "Build files"
-msgstr "빌드 파일"
-
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
 msgstr "설치 근거"
+
+#: src/manager_window.vala
+msgid "Installed as a dependency for another package"
+msgstr "다른 패키지에 대한 종속성으로 설치되었습니다"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
@@ -639,6 +614,10 @@ msgstr "완전히 설치된 것으로 표시"
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
 msgstr "라이센스"
+
+#: src/manager_window.vala
+msgid "Unknown"
+msgstr "알 수 없음"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -693,20 +672,20 @@ msgid "Optional Dependencies"
 msgstr "옵션으로 필요한 것"
 
 #: src/manager_window.vala src/cli.vala
-msgid "Optional For"
-msgstr "선택 사항 :"
-
-#: src/manager_window.vala src/cli.vala
-msgid "Provides"
-msgstr "제공"
-
-#: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
 msgstr "필요한 패키지 만들기"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
 msgstr "필요한 패키지 확인"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Optional For"
+msgstr "선택 사항 :"
+
+#: src/manager_window.vala src/cli.vala
+msgid "Provides"
+msgstr "제공"
 
 #: src/manager_window.vala
 msgid "Publisher"
@@ -736,6 +715,10 @@ msgstr "크기"
 msgid "Date"
 msgstr "날짜"
 
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Repositories"
+msgstr "저장소"
+
 #: src/manager_window.vala
 msgid "Upgrade"
 msgstr "업그레이드"
@@ -749,40 +732,60 @@ msgid "Remove"
 msgstr "제거"
 
 #: src/manager_window.vala
-msgid "Featured"
-msgstr "추천"
+msgid "OS Updates"
+msgstr "OS 업데이트"
 
 #: src/manager_window.vala
+msgid "Includes performance, stability and security improvements"
+msgstr "성능, 안정성 및 보안 개선사항 포함"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "설치됨"
+
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
 msgstr "사진 및 비디오"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Music & Audio"
 msgstr "음악 및 오디오"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Productivity"
 msgstr "생산성"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Communication & News"
 msgstr "통신 및 뉴스"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Education & Science"
 msgstr "교육 및 과학"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Games"
 msgstr "게임"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Utilities"
 msgstr "유틸리티"
 
-#: src/manager_window.vala
+#: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
 msgstr "개발"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Explicitly installed"
+msgstr "완전히 설치됨"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Orphans"
+msgstr "독립 패키지"
+
+#: src/manager_window.vala resources/manager_window.ui
+msgid "Foreign"
+msgstr "외부 패키지"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -800,9 +803,9 @@ msgstr "Alpm 패키지"
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr "Alpm, AUR, Flatpak 및 스냅 지원이 있는 패키지 관리자"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "카테고리"
+#: src/manager_window.vala
+msgid "Last refresh"
+msgstr "마지막 새로고침"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -817,12 +820,12 @@ msgid "Number of versions of each package to keep in the cache"
 msgstr "캐시에 저장된 패키지 버전 번호"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "빌드 디렉토리"
-
-#: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "월드와이드"
+
+#: src/preferences_dialog.vala
+msgid "Build directory"
+msgstr "빌드 디렉토리"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -852,15 +855,15 @@ msgstr "없음"
 msgid "Enter a number (default=%d)"
 msgstr "번호 입력 (기본값 = %d)"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "y"
 msgstr "y"
 
-#: src/transaction-cli.vala src/cli.vala
+#: src/transaction-cli.vala
 msgid "yes"
 msgstr "yes"
 
@@ -869,16 +872,24 @@ msgid "Edit build files"
 msgstr "빌드 파일 편집"
 
 #: src/transaction-cli.vala
+msgid "[e]"
+msgstr "[e]"
+
+#: src/transaction-cli.vala
+msgid "Apply transaction"
+msgstr "트랜잭션 적용"
+
+#: src/transaction-cli.vala
+msgid "e"
+msgstr "e"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "설치된 패키지의 전체 크기"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
 msgstr "제거된 패키지의 전체 크기"
-
-#: src/transaction-cli.vala
-msgid "Apply transaction"
-msgstr "트랜잭션 적용"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -1266,11 +1277,6 @@ msgstr "%s는 AUR에서만 이용 가능"
 
 #: src/cli.vala
 #, c-format
-msgid "Build %s from AUR"
-msgstr "AUR에서 %s 빌드"
-
-#: src/cli.vala
-#, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
 msgstr[0] "%u 개의 패키지가 %s 그룹에 있습니다"
@@ -1283,6 +1289,10 @@ msgstr "모두제공하는 것을 선택"
 #, c-format
 msgid "Add %s to reinstall"
 msgstr "재설치할 %s 추가"
+
+#: src/snap_plugin.vala
+msgid "No"
+msgstr "아니요"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
@@ -1309,6 +1319,10 @@ msgid "_Apply"
 msgstr "적용 (_A)"
 
 #: resources/manager_window.ui
+msgid "Software Mode"
+msgstr "소프트웨어 모드"
+
+#: resources/manager_window.ui
 msgid "Refresh databases"
 msgstr "데이터베이스 새로고침"
 
@@ -1325,20 +1339,16 @@ msgid "About"
 msgstr "프로그램 소개"
 
 #: resources/manager_window.ui
-msgid "Search"
-msgstr "검색"
+msgid "Browse by"
+msgstr "찾아보기:"
 
 #: resources/manager_window.ui
-msgid "Browse"
-msgstr "찾아보기"
+msgid "View"
+msgstr "보기"
 
 #: resources/manager_window.ui
-msgid "Pending"
-msgstr "보류중"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "업데이트"
+msgid "Sort by"
+msgstr "정렬:"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1353,8 +1363,12 @@ msgid "Ignore all"
 msgstr "모두 무시"
 
 #: resources/manager_window.ui
-msgid "Sort by"
-msgstr "정렬:"
+msgid "Refresh"
+msgstr "새로고침"
+
+#: resources/manager_window.ui
+msgid "Browse"
+msgstr "찾아보기"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1365,8 +1379,32 @@ msgid "Reinstall"
 msgstr "재설치"
 
 #: resources/manager_window.ui
+msgid "Dependencies"
+msgstr "종속성"
+
+#: resources/manager_window.ui
+msgid "Files"
+msgstr "파일"
+
+#: resources/manager_window.ui
 msgid "Reset build files"
 msgstr "빌드 파일 재설정"
+
+#: resources/manager_window.ui
+msgid "Build files"
+msgstr "빌드 파일"
+
+#: resources/manager_window.ui
+msgid "Search"
+msgstr "검색"
+
+#: resources/manager_window.ui
+msgid "Pending"
+msgstr "보류중"
+
+#: resources/manager_window.ui
+msgid "Updates"
+msgstr "업데이트"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
