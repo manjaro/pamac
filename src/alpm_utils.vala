@@ -2195,8 +2195,11 @@ namespace Pamac {
 				case 17: //Alpm.Event.Type.SCRIPTLET_INFO
 					// hooks output are also emitted as SCRIPTLET_INFO
 					if (current_filename != "") {
-						do_emit_action (dgettext (null, "Configuring %s").printf (current_filename) + "...");
-						current_filename = "";
+						string action = dgettext (null, "Configuring %s").printf (current_filename) + "...";
+						if (action != current_action) {
+							current_action = (owned) action;
+						}
+						do_emit_action (current_action);
 					}
 					string msg = remove_bash_colors (details[0]).replace ("\n", "");
 					do_emit_script_output (msg);
@@ -2257,7 +2260,7 @@ namespace Pamac {
 						changed = true;
 					}
 					if (status != current_status) {
-						current_status = status;
+						current_status = (owned) status;
 						changed = true;
 					}
 					if (changed) {
@@ -2307,7 +2310,7 @@ namespace Pamac {
 				changed = true;
 			}
 			if (status != current_status) {
-				current_status = status;
+				current_status = (owned) status;
 				changed = true;
 			}
 			if (changed) {
@@ -2382,7 +2385,7 @@ namespace Pamac {
 				}
 			}
 			if (text.str != current_status) {
-				current_status = text.str;
+				current_status = (owned) text.str;
 			}
 			do_emit_download_progress (current_action, current_status, current_progress);
 		}
