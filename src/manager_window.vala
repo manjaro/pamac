@@ -2112,24 +2112,26 @@ namespace Pamac {
 					row.size_label.set_markup ("<span foreground='grey'>%s</span>".printf (GLib.format_size (pkg.installed_size)));
 				}
 			}
-			if (alpm_pkg != null && pkg.repo != null) {
-				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-					if (software_mode) {
-						row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
+			if (pkg.repo != null) {
+				if (alpm_pkg != null) {
+					if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
+						if (software_mode) {
+							row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
+						} else {
+							row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Official Repositories"), pkg.repo));
+						}
+					} else if (pkg.repo == dgettext (null, "AUR")) {
+						row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
 					} else {
-						row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Official Repositories"), pkg.repo));
+						row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repositories"), pkg.repo));
 					}
-				} else if (pkg.repo == dgettext (null, "AUR")) {
+				#if ENABLE_FLATPAK
+				} else if (pkg is FlatpakPackage) {
+					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
+				#endif
+				} else {
 					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
-				} else if (pkg.repo != null) {
-					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repositories"), pkg.repo));
 				}
-			#if ENABLE_FLATPAK
-			} else if (pkg is FlatpakPackage) {
-				row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
-			#endif
-			} else {
-				row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
 			}
 			Gdk.Pixbuf pixbuf;
 			unowned string? icon = pkg.icon;
