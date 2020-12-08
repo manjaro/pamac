@@ -360,9 +360,9 @@ namespace Pamac {
 			}
 			bool answer = false;
 			// ask user
-			stdout.printf ("%s ? %s ", dgettext (null, "Edit build files"), dgettext (null, "[e]"));
+			stdout.printf ("%s : %s ", dgettext (null, "Edit build files"), dgettext (null, "[e]"));
 			stdout.printf ("\n");
-			stdout.printf ("%s ? %s ", dgettext (null, "Apply transaction"), dgettext (null, "[y/N]"));
+			stdout.printf ("%s ? %s ", dgettext (null, "Apply transaction"), dgettext (null, "[e/y/N]"));
 			char buf[32];
 			if (stdin.gets (buf) != null) {
 				string ans = (string) buf;
