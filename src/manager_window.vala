@@ -765,7 +765,9 @@ namespace Pamac {
 			if (enable_aur) {
 				view_aur_button.visible = true;
 			} else {
-				current_updates_view = dgettext (null, "All");
+				if (current_updates_view == dgettext (null, "AUR")) {
+					current_updates_view = dgettext (null, "All");
+				}
 				view_aur_button.visible = false;
 			}
 		}
@@ -775,7 +777,9 @@ namespace Pamac {
 			if (database.config.enable_snap) {
 				view_snap_button.visible = true;
 			} else {
-				current_installed_view = dgettext (null, "All");
+				if (current_installed_view == dgettext (null, "Snap")) {
+					current_installed_view = dgettext (null, "All");
+				}
 				view_snap_button.visible = false;
 			}
 		}
@@ -786,8 +790,12 @@ namespace Pamac {
 			if (database.config.enable_flatpak) {
 				view_flatpak_button.visible = true;
 			} else {
-				current_updates_view = dgettext (null, "All");
-				current_installed_view = dgettext (null, "All");
+				if (current_updates_view == dgettext (null, "Flatpak")) {
+					current_updates_view = dgettext (null, "All");
+				}
+				if (current_installed_view == dgettext (null, "Flatpak")) {
+					current_installed_view = dgettext (null, "All");
+				}
 				view_flatpak_button.visible = false;
 			}
 		}
