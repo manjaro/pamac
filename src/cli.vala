@@ -699,7 +699,7 @@ namespace Pamac {
 				if (database.config.check_aur_vcs_updates) {
 					if (Posix.geteuid () == 0) {
 						// checking as root
-						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root"));
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Checking development packages updates as root"));
 						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Setting build directory to %s").printf ("/var/cache/pamac"));
 					} else {
 						get_aur_dest_variable ();
