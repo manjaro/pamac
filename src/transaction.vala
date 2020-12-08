@@ -197,15 +197,19 @@ namespace Pamac {
 
 		protected async GenericArray<string> get_build_files_async (string pkgname) {
 			string pkgdir_name;
-			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				pkgdir_name = Path.build_filename ("/var/cache/pamac", pkgname);
+			} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				pkgdir_name = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 			} else {
-				pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
+				pkgdir_name = Path.build_filename (config.aur_build_dir, pkgname);
 			}
 			var files = new GenericArray<string> ();
 			// PKGBUILD
-			files.add (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
-			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
+			files.add (Path.build_filename (pkgdir_name, "PKGBUILD"));
+			var srcinfo = File.new_for_path (Path.build_filename (pkgdir_name, ".SRCINFO"));
 			try {
 				// read .SRCINFO
 				var dis = new DataInputStream (yield srcinfo.read_async ());
@@ -214,7 +218,7 @@ namespace Pamac {
 					if ("source = " in line) {
 						string source = line.split (" = ", 2)[1];
 						if (!("://" in source)) {
-							string source_path = Path.build_path ("/", pkgdir_name, source);
+							string source_path = Path.build_filename (pkgdir_name, source);
 							var source_file = File.new_for_path (source_path);
 							if (source_file.query_exists ()) {
 								files.add ((owned) source_path);
@@ -222,7 +226,7 @@ namespace Pamac {
 						}
 					} else if ("install = " in line) {
 						string install = line.split (" = ", 2)[1];
-						string install_path = Path.build_path ("/", pkgdir_name, install);
+						string install_path = Path.build_filename (pkgdir_name, install);
 						var install_file = File.new_for_path (install_path);
 						if (install_file.query_exists ()) {
 							files.add ((owned) install_path);
@@ -303,8 +307,13 @@ namespace Pamac {
 
 		public async void clean_build_files_async () {
 			string real_aur_build_dir;
-			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				// use private here to get ride of the symlink
+				real_aur_build_dir = "/var/cache/pamac";
+			} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				real_aur_build_dir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 			} else {
 				real_aur_build_dir = config.aur_build_dir;
 			}
@@ -439,12 +448,16 @@ namespace Pamac {
 					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
 					string real_aur_build_dir;
-					if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-						real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+					if (Posix.geteuid () == 0) {
+						// build as root with systemd-run
+						// set aur_build_dir to "/var/cache/pamac"
+						real_aur_build_dir = "/var/cache/pamac";
+					} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+						real_aur_build_dir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 					} else {
 						real_aur_build_dir = config.aur_build_dir;
 					}
-					clone_dir = File.new_for_path (Path.build_path ("/", real_aur_build_dir, pkgname));
+					clone_dir = File.new_for_path (Path.build_filename (real_aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
 						// didn't find the target
 						// parse all builddir to be sure to find it
@@ -1434,15 +1447,32 @@ namespace Pamac {
 				important_details_outpout (false);
 				var built_pkgs_path = new GenericArray<string> ();
 				string pkgdir;
-				if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-					pkgdir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+				bool as_root = Posix.geteuid () == 0;
+				if (as_root) {
+					// build as root with systemd-run
+					// set aur_build_dir to "/var/cache/pamac"
+					pkgdir = Path.build_filename ("/var/cache/pamac", pkgname);
+				} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+					pkgdir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 				} else {
-					pkgdir = Path.build_path ("/", config.aur_build_dir, pkgname);
+					pkgdir = Path.build_filename (config.aur_build_dir, pkgname);
 				}
 				// building
 				building = true;
 				start_building ();
-				string[] cmdline = {"makepkg", "-cCf"};
+				string[] cmdline = {};
+				if (as_root) {
+					cmdline += "systemd-run";
+					cmdline += "--service-type=oneshot";
+					cmdline += "--pipe";
+					cmdline += "--wait";
+					cmdline += "--pty";
+					cmdline += "--property=DynamicUser=yes";
+					cmdline += "--property=CacheDirectory=pamac";
+					cmdline += "--property=WorkingDirectory=/var/cache/pamac/%s".printf (pkgname);
+				}
+				cmdline += "makepkg";
+				cmdline += "-cCf";
 				if (!config.keep_built_pkgs) {
 					cmdline += "--nosign";
 					cmdline += "PKGDEST=%s".printf (pkgdir);
@@ -1460,7 +1490,19 @@ namespace Pamac {
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 					launcher.set_cwd (pkgdir);
 					try {
-						cmdline = {"makepkg", "--packagelist"};
+						cmdline = {};
+						if (as_root) {
+							cmdline += "systemd-run";
+							cmdline += "--service-type=oneshot";
+							cmdline += "--pipe";
+							cmdline += "--wait";
+							cmdline += "--pty";
+							cmdline += "--property=DynamicUser=yes";
+							cmdline += "--property=CacheDirectory=pamac";
+							cmdline += "--property=WorkingDirectory=/var/cache/pamac/%s".printf (pkgname);
+						}
+						cmdline += "makepkg";
+						cmdline += "--packagelist";
 						if (!config.keep_built_pkgs) {
 							cmdline += "PKGDEST=%s".printf (pkgdir);
 							cmdline += "PKGEXT=.pkg.tar";

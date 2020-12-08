@@ -162,7 +162,7 @@ namespace Pamac {
 										}
 										if (remote.name == repo) {
 											File appstream_dir = remote.get_appstream_dir (null);
-											_icon = Path.build_path ("/", appstream_dir.get_path (), "icons", "64x64", as_icon.get_name ());
+											_icon = Path.build_filename (appstream_dir.get_path (), "icons", "64x64", as_icon.get_name ());
 											break;
 										}
 									}
@@ -293,7 +293,7 @@ namespace Pamac {
 					if (!appstream_xml.query_exists ()) {
 						return;
 					}
-					string appstream_icons = Path.build_path ("/", appstream_dir.get_path (), "icons");
+					string appstream_icons = Path.build_filename (appstream_dir.get_path (), "icons");
 					try {
 						app_store.from_file (appstream_xml, appstream_icons);
 					} catch (Error e) {

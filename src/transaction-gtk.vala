@@ -919,9 +919,9 @@ namespace Pamac {
 					// add diff after PKGBUILD, do not failed if no diff
 					string diff_path;
 					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						diff_path = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
+						diff_path = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
 					} else {
-						diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
+						diff_path = Path.build_filename (database.config.aur_build_dir, pkgname, "diff");
 					}
 					var diff_file = File.new_for_path (diff_path);
 					if (diff_file.query_exists ()) {
@@ -945,9 +945,9 @@ namespace Pamac {
 				if (textview.buffer.get_modified () == true) {
 					string file_name;
 					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						file_name = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, build_files_notebook.get_tab_label_text (child));
+						file_name = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, build_files_notebook.get_tab_label_text (child));
 					} else {
-						file_name = Path.build_path ("/", database.config.aur_build_dir, pkgname, build_files_notebook.get_tab_label_text (child));
+						file_name = Path.build_filename (database.config.aur_build_dir, pkgname, build_files_notebook.get_tab_label_text (child));
 					}
 					var file = File.new_for_path (file_name);
 					Gtk.TextIter start_iter;

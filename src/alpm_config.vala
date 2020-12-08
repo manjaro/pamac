@@ -89,10 +89,10 @@ internal class AlpmConfig {
 		// set, then set those as well to reside under the root.
 		if (rootdir != null) {
 			if (dbpath == null) {
-				dbpath = Path.build_path ("/", rootdir, "var/lib/pacman/");
+				dbpath = Path.build_filename (rootdir, "var/lib/pacman/");
 			}
 			if (logfile == null) {
-				logfile = Path.build_path ("/", rootdir, "var/log/pacman.log");
+				logfile = Path.build_filename (rootdir, "var/log/pacman.log");
 			}
 		} else {
 			rootdir = "/";
@@ -127,7 +127,7 @@ internal class AlpmConfig {
 		Alpm.Handle? handle = null;
 		if (tmp_db) {
 			string tmp_path = "/tmp/pamac";
-			string tmp_dbpath = "/tmp/pamac/dbs-%s".printf (Environment.get_user_name ());
+			string tmp_dbpath = "/tmp/pamac/dbs";
 			try {
 				var file = GLib.File.new_for_path (tmp_path);
 				if (!file.query_exists ()) {
@@ -137,9 +137,13 @@ internal class AlpmConfig {
 				file = GLib.File.new_for_path (tmp_dbpath);
 				if (!file.query_exists ()) {
 					Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dbpath));
+					Process.spawn_command_line_sync ("chmod a+w %s".printf (tmp_dbpath));
 					Process.spawn_command_line_sync ("ln -s %slocal %s".printf (dbpath, tmp_dbpath));
+					Process.spawn_command_line_sync ("cp --preserve=timestamps -ru %ssync %s".printf (dbpath, tmp_dbpath));
+					Process.spawn_command_line_sync ("chmod -R a+w %s/sync".printf (tmp_dbpath));
+				} else {
+					Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %ssync/*.{db,files} %s/sync'".printf (dbpath, tmp_dbpath));
 				}
-				Process.spawn_command_line_sync ("cp -au %ssync %s".printf (dbpath, tmp_dbpath));
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {
 					try {

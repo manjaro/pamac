@@ -367,12 +367,6 @@ namespace Pamac {
 						return;
 					}
 				}
-				if (Posix.geteuid () == 0) {
-					// can't build as root
-					stdout.printf ("%s: %s\n", dgettext (null, "Error"), dgettext (null, "Building packages as root is not allowed"));
-					exit_status = 1;
-					return;
-				}
 				init_transaction ();
 				database.config.enable_aur = true;
 				if (no_clone) {
@@ -394,11 +388,17 @@ namespace Pamac {
 				if (no_keep) {
 					database.config.keep_built_pkgs = false;
 				}
-				get_aur_dest_variable ();
-				if (builddir != null) {
-					database.config.aur_build_dir = builddir;
-					// keep built pkgs in the custom build dir
-					database.config.keep_built_pkgs = true;
+				if (Posix.geteuid () == 0) {
+					// building as root
+					stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root"));
+					stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Setting build directory to %s").printf ("/var/cache/pamac"));
+				} else {
+					get_aur_dest_variable ();
+					if (builddir != null) {
+						database.config.aur_build_dir = builddir;
+						// keep built pkgs in the custom build dir
+						database.config.keep_built_pkgs = true;
+					}
 				}
 				if (args.length == 2) {
 					// no target
@@ -698,9 +698,9 @@ namespace Pamac {
 				}
 				if (database.config.check_aur_vcs_updates) {
 					if (Posix.geteuid () == 0) {
-						// can't check as root
-						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Checking development packages updates as root is not allowed"));
-						database.config.check_aur_vcs_updates = false;
+						// checking as root
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root"));
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Setting build directory to %s").printf ("/var/cache/pamac"));
 					} else {
 						get_aur_dest_variable ();
 						if (builddir != null) {
@@ -779,11 +779,9 @@ namespace Pamac {
 				}
 				if (database.config.check_aur_updates) {
 					if (Posix.geteuid () == 0) {
-						// can't build as root
-						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root is not allowed") + "\n");
-						database.config.enable_aur = false;
-						database.config.check_aur_updates = false;
-						database.config.check_aur_vcs_updates = false;
+						// building as root
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root"));
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Setting build directory to %s").printf ("/var/cache/pamac"));
 					} else {
 						get_aur_dest_variable ();
 						if (builddir != null) {
@@ -1767,10 +1765,20 @@ namespace Pamac {
 					str_builder.append (installed);
 					str_builder.append (" ");
 				}
+				string? repo = pkg.repo;
+				if (repo == null) {
+					repo = "";
+				}
+				string installed_size;
+				if (pkg.installed_size == 0) {
+					installed_size = "";
+				} else {
+					installed_size = format_size (pkg.installed_size);
+				}
 				str_builder.append ("%-*s  %-*s  %s\n".printf (
 									version_length, pkg.version,
-									repo_length, pkg.repo,
-									format_size (pkg.installed_size)));
+									repo_length, repo,
+									installed_size));
 				stdout.printf (str_builder.str);
 			}
 		}
@@ -2193,10 +2201,6 @@ namespace Pamac {
 		void clean_build_files (bool dry_run, bool verbose, bool no_confirm) {
 			HashTable<string, uint64?> details = database.get_build_files_details ();
 			uint length = details.size ();
-			if (database.config.clean_rm_only_uninstalled) {
-				stdout.printf ("%s\n", dgettext (null, "Remove only the versions of uninstalled packages"));
-			}
-			stdout.printf ("%s: %llu\n\n", dgettext (null, "Number of versions of each package to keep in the cache"), database.config.clean_keep_num_pkgs);
 			if (length == 0) {
 				stdout.printf ("%s: %s\n".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", length).printf (length)));
 			} else {

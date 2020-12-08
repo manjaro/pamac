@@ -834,10 +834,14 @@ namespace Pamac {
 
 		void ask_view_diff (string pkgname) {
 			string diff_path;
-			if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-				diff_path = Path.build_path ("/", database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				diff_path = diff_path = Path.build_filename ("/var/cache/pamac", pkgname, "diff");
+			} else if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
+				diff_path = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
 			} else {
-				diff_path = Path.build_path ("/", database.config.aur_build_dir, pkgname, "diff");
+				diff_path = Path.build_filename (database.config.aur_build_dir, pkgname, "diff");
 			}
 			var diff_file = File.new_for_path (diff_path);
 			if (diff_file.query_exists ()) {

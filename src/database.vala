@@ -328,8 +328,12 @@ namespace Pamac {
 
 		void get_build_files_details_real (ref HashTable<string, uint64?> filenames_size) {
 			File build_directory;
-			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-				build_directory = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ())));
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				build_directory = File.new_for_path ("/var/cache/pamac");
+			} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				build_directory = File.new_for_path (Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ())));
 			} else {
 				build_directory = File.new_for_path (config.aur_build_dir);
 			}
@@ -340,7 +344,7 @@ namespace Pamac {
 				FileEnumerator enumerator = build_directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
 				FileInfo info;
 				while ((info = enumerator.next_file (null)) != null) {
-					string absolute_filename = Path.build_path ("/", build_directory.get_path (), info.get_name ());
+					string absolute_filename = Path.build_filename (build_directory.get_path (), info.get_name ());
 					var child = GLib.File.new_for_path (absolute_filename);
 					uint64 disk_usage;
 					child.measure_disk_usage (FileMeasureFlags.NONE, null, null, out disk_usage, null, null);
@@ -1809,8 +1813,12 @@ namespace Pamac {
 			string[] cmds;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
 			string real_aur_build_dir;
-			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-				real_aur_build_dir = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				real_aur_build_dir = "/var/cache/pamac";
+			} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				real_aur_build_dir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
 			} else {
 				real_aur_build_dir = config.aur_build_dir;
 			}
@@ -1842,7 +1850,7 @@ namespace Pamac {
 					if (status == 0) {
 						launcher.set_flags (SubprocessFlags.STDOUT_PIPE);
 						try {
-							var file = File.new_for_path (Path.build_path ("/", pkgdir.get_path (), "diff"));
+							var file = File.new_for_path (Path.build_filename (pkgdir.get_path (), "diff"));
 							if (file.query_exists ()) {
 								// delete the file before rewrite it
 								file.delete ();
@@ -1919,13 +1927,17 @@ namespace Pamac {
 
 		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable) {
 			string pkgdir_name;
-			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-				pkgdir_name = Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				pkgdir_name = Path.build_filename ("/var/cache/pamac", pkgname);
+			} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				pkgdir_name = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 			} else {
-				pkgdir_name = Path.build_path ("/", config.aur_build_dir, pkgname);
+				pkgdir_name = Path.build_filename (config.aur_build_dir, pkgname);
 			}
-			var srcinfo = File.new_for_path (Path.build_path ("/", pkgdir_name, ".SRCINFO"));
-			var pkgbuild = File.new_for_path (Path.build_path ("/", pkgdir_name, "PKGBUILD"));
+			var srcinfo = File.new_for_path (Path.build_filename (pkgdir_name, ".SRCINFO"));
+			var pkgbuild = File.new_for_path (Path.build_filename (pkgdir_name, "PKGBUILD"));
 			if (srcinfo.query_exists ()) {
 				// check if PKGBUILD was modified after .SRCINFO
 				try {
@@ -1945,7 +1957,20 @@ namespace Pamac {
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 			launcher.set_cwd (pkgdir_name);
 			try {
-				Subprocess process = launcher.spawnv ({"makepkg", "--printsrcinfo"});
+				string[] cmdline = {};
+				if (Posix.geteuid () == 0) {
+					cmdline += "systemd-run";
+					cmdline += "--service-type=oneshot";
+					cmdline += "--pipe";
+					cmdline += "--wait";
+					cmdline += "--pty";
+					cmdline += "--property=DynamicUser=yes";
+					cmdline += "--property=CacheDirectory=pamac";
+					cmdline += "--property=WorkingDirectory=/var/cache/pamac/%s".printf (pkgname);
+				}
+				cmdline += "makepkg";
+				cmdline += "--printsrcinfo";
+				Subprocess process = launcher.spawnv (cmdline);
 				try {
 					process.wait (cancellable);
 					if (process.get_if_exited ()) {
@@ -2080,10 +2105,14 @@ namespace Pamac {
 		public string[] get_srcinfo_pkgnames (string pkgdir) {
 			var pkgnames = new GenericArray<string> ();
 			File srcinfo;
-			if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgdir, ".SRCINFO"));
+			if (Posix.geteuid () == 0) {
+				// build as root with systemd-run
+				// set aur_build_dir to "/var/cache/pamac"
+				srcinfo = File.new_for_path (Path.build_filename ("/var/cache/pamac", pkgdir, ".SRCINFO"));
+			} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+				srcinfo = File.new_for_path (Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgdir, ".SRCINFO"));
 			} else {
-				srcinfo = File.new_for_path (Path.build_path ("/", config.aur_build_dir, pkgdir, ".SRCINFO"));
+				srcinfo = File.new_for_path (Path.build_filename (config.aur_build_dir, pkgdir, ".SRCINFO"));
 			}
 			if (srcinfo.query_exists ()) {
 				try {
@@ -2116,7 +2145,7 @@ namespace Pamac {
 		}
 
 		public DateTime? get_last_refresh_time () {
-			string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
+			string timestamp_path = "/tmp/pamac/dbs/sync/refresh_timestamp";
 			// check if last refresh is older than config.refresh_period
 			try {
 				var timestamp_file = File.new_for_path (timestamp_path);
@@ -2178,14 +2207,6 @@ namespace Pamac {
 					refresh_tmp_dbs = need_refresh ();
 				}
 				if (refresh_tmp_dbs) {
-					// save now as last refresh time
-					try {
-						// touch the file
-						string timestamp_path = "%s/pamac/refresh_timestamp".printf (Environment.get_user_config_dir ());
-						Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
-					} catch (SpawnError e) {
-						warning (e.message);
-					}
 					// refresh tmp dbs
 					// count this step as 90% of the total
 					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
@@ -2200,6 +2221,14 @@ namespace Pamac {
 							get_updates_progress ((uint) ((double) i / dbs_count * (double) 90));
 							return false;
 						});
+					}
+					// save now as last refresh time
+					try {
+						// touch the file
+						string timestamp_path = "/tmp/pamac/dbs/sync/refresh_timestamp";
+						Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
+					} catch (SpawnError e) {
+						warning (e.message);
 					}
 				} else {
 					// refresh step skipped
@@ -2312,8 +2341,23 @@ namespace Pamac {
 					// no output to not pollute checkupdates output
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
 					launcher.set_cwd (clone_dir.get_path ());
-					string[] cmds = {"makepkg", "--nobuild", "--noprepare", "--nodeps", "--skipinteg"};
-					int status = launch_subprocess (launcher, cmds);
+					string[] cmdline = {};
+					if (Posix.geteuid () == 0) {
+						cmdline += "systemd-run";
+						cmdline += "--service-type=oneshot";
+						cmdline += "--pipe";
+						cmdline += "--wait";
+						cmdline += "--pty";
+						cmdline += "--property=DynamicUser=yes";
+						cmdline += "--property=CacheDirectory=pamac";
+						cmdline += "--property=WorkingDirectory=/var/cache/pamac/%s".printf (pkgname);
+					}
+					cmdline += "makepkg";
+					cmdline += "--nobuild";
+					cmdline += "--noprepare";
+					cmdline += "--nodeps";
+					cmdline += "--skipinteg";
+					int status = launch_subprocess (launcher, cmdline);
 					if (status == 0) {
 						bool success = regenerate_srcinfo (clone_dir.get_basename (), null);
 						if (success) {

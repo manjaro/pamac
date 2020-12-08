@@ -341,7 +341,15 @@ namespace Pamac {
 
 		internal bool clean_build_files (string aur_build_dir) {
 			try {
-				Process.spawn_command_line_sync ("bash -c 'rm -rf %s/*'".printf (aur_build_dir));
+				// check if build aur_build_dir is "/var/cache/pamac"
+				// in this case remove "/var/cache/pamac" symlink
+				// and "/var/cache/private/pamac" directory
+				if (aur_build_dir == "/var/cache/pamac") {
+					Process.spawn_command_line_sync ("rm -rf /var/cache/pamac");
+					Process.spawn_command_line_sync ("rm -rf /var/cache/private/pamac");
+				} else {
+					Process.spawn_command_line_sync ("bash -c 'rm -rf %s/*'".printf (aur_build_dir));
+				}
 				return true;
 			} catch (SpawnError e) {
 				warning (e.message);
@@ -402,17 +410,17 @@ namespace Pamac {
 			if (force_refresh) {
 				// remove dbs in tmp
 				try {
-					Process.spawn_command_line_sync ("bash -c 'rm -rf %s/dbs*'".printf (tmp_path));
+					Process.spawn_command_line_sync ("bash -c 'rm -rf %s/dbs'".printf (tmp_path));
 				} catch (SpawnError e) {
 					warning (e.message);
 				}
 			} else {
-				// try to copy refresh dbs in tmp
+				// try to copy refresh dbs from tmp
 				var file = File.new_for_path (tmp_path);
 				if (file.query_exists ()) {
 					try {
 						var alpm_handle = get_handle ();
-						Process.spawn_command_line_sync ("bash -c 'cp -au %s/dbs*/sync/*.{db,files} %ssync'".printf (tmp_path, alpm_handle.dbpath));
+						Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %s/dbs/sync/* %ssync'".printf (tmp_path, alpm_handle.dbpath));
 					} catch (SpawnError e) {
 						warning (e.message);
 					}
@@ -439,7 +447,16 @@ namespace Pamac {
 			do_stop_downloading ();
 			if (cancellable.is_cancelled ()) {
 				return false;
-			} else if (!success) {
+			} else if (success) {
+				// save now as last refresh time
+				try {
+					// touch the file
+					string timestamp_path = "%ssync/refresh_timestamp".printf (alpm_handle.dbpath);
+					Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
+				} catch (SpawnError e) {
+					warning (e.message);
+				}
+			} else {
 				do_emit_warning (_("Failed to synchronize databases"));
 			}
 			current_filename = "";
@@ -507,12 +524,6 @@ namespace Pamac {
 					}
 				}
 				alpm_handle.trans_release ();
-			}
-			// remove dbs in tmp
-			try {
-				Process.spawn_command_line_sync ("rm -rf %s/dbs-root".printf (tmp_path));
-			} catch (SpawnError e) {
-				warning (e.message);
 			}
 			downloading_updates = false;
 		}
