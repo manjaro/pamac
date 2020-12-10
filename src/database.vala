@@ -1808,9 +1808,9 @@ namespace Pamac {
 			return status;
 		}
 
-		public File? clone_build_files (string pkgname, bool overwrite_files, Cancellable? cancellable) {
+		public File? clone_build_files (string pkgname, bool overwrite_files, Cancellable? cancellable = null) {
 			int status = 1;
-			string[] cmds;
+			string[] cmdline;
 			var launcher = new SubprocessLauncher (SubprocessFlags.NONE);
 			string real_aur_build_dir;
 			if (Posix.geteuid () == 0) {
@@ -1835,14 +1835,28 @@ namespace Pamac {
 			if (pkgdir.query_exists ()) {
 				if (overwrite_files) {
 					launcher.set_cwd (real_aur_build_dir);
-					cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
-					launch_subprocess (launcher, cmds);
-					cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
+					string[] dynamic_user_cmdline = get_dynamic_user_cmdline (real_aur_build_dir);
+					cmdline = dynamic_user_cmdline;
+					cmdline += "rm";
+					cmdline += "-rf";
+					cmdline += "%s".printf (pkgdir.get_path ());
+					launch_subprocess (launcher, cmdline);
+					cmdline = dynamic_user_cmdline;
+					cmdline += "git";
+					cmdline += "clone";
+					cmdline += "-q";
+					cmdline += "--depth=1";
+					cmdline += "https://aur.archlinux.org/%s.git".printf (pkgname);
 				} else {
 					// fetch modifications
-					launcher.set_cwd (pkgdir.get_path ());
-					cmds = {"git", "fetch", "-q"};
-					status = launch_subprocess (launcher, cmds, cancellable);
+					string cwd = pkgdir.get_path ();
+					launcher.set_cwd (cwd);
+					string[] dynamic_user_cmdline = get_dynamic_user_cmdline (cwd);
+					cmdline = dynamic_user_cmdline;
+					cmdline += "git";
+					cmdline += "fetch";
+					cmdline += "-q";
+					status = launch_subprocess (launcher, cmdline, cancellable);
 					if (cancellable.is_cancelled ()) {
 						return null;
 					}
@@ -1850,22 +1864,26 @@ namespace Pamac {
 					if (status == 0) {
 						launcher.set_flags (SubprocessFlags.STDOUT_PIPE);
 						try {
-							var file = File.new_for_path (Path.build_filename (pkgdir.get_path (), "diff"));
+							var file = File.new_for_path (Path.build_filename (cwd, "diff"));
 							if (file.query_exists ()) {
 								// delete the file before rewrite it
 								file.delete ();
 							}
-							cmds = {"git", "diff", "--exit-code", "origin/master"};
+							cmdline = dynamic_user_cmdline;
+							cmdline += "git";
+							cmdline += "diff";
+							//cmdline += "--exit-code";
+							cmdline += "origin/master";
 							FileEnumerator enumerator = pkgdir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
 							FileInfo info;
 							// don't show .SRCINFO diff
 							while ((info = enumerator.next_file (null)) != null) {
 								unowned string filename = info.get_name ();
 								if (filename != ".SRCINFO") {
-									cmds += filename;
+									cmdline += filename;
 								}
 							}
-							Subprocess process = launcher.spawnv (cmds);
+							Subprocess process = launcher.spawnv (cmdline);
 							process.wait ();
 							if (process.get_if_exited ()) {
 								status = process.get_exit_status ();
@@ -1886,24 +1904,44 @@ namespace Pamac {
 					// merge modifications
 					if (status == 0) {
 						launcher.set_flags (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
-						cmds = {"git", "merge", "-q"};
-						status = launch_subprocess (launcher, cmds);
+						cmdline = dynamic_user_cmdline;
+						cmdline += "git";
+						cmdline += "merge";
+						cmdline += "-q";
+						status = launch_subprocess (launcher, cmdline);
 					}
 					if (status == 0) {
 						return pkgdir;
 					} else {
 						launcher.set_cwd (real_aur_build_dir);
-						cmds = {"rm", "-rf", "%s".printf (pkgdir.get_path ())};
-						launch_subprocess (launcher, cmds);
-						cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
+						dynamic_user_cmdline = get_dynamic_user_cmdline (real_aur_build_dir);
+						cmdline = dynamic_user_cmdline;
+						cmdline += "rm";
+						cmdline += "-rf";
+						cmdline += "%s".printf (pkgdir.get_path ());
+						launch_subprocess (launcher, cmdline);
+						cmdline = dynamic_user_cmdline;
+						cmdline += "git";
+						cmdline += "clone";
+						cmdline += "-q";
+						cmdline += "--depth=1";
+						cmdline += "https://aur.archlinux.org/%s.git".printf (pkgname);
 					}
 				}
 			} else {
 				launcher.set_cwd (real_aur_build_dir);
-				cmds = {"git", "clone", "-q", "--depth=1", "https://aur.archlinux.org/%s.git".printf (pkgname)};
+				string[] dynamic_user_cmdline = get_dynamic_user_cmdline (real_aur_build_dir);
+				print ("clone\n");
+				cmdline = dynamic_user_cmdline;
+				cmdline += "git";
+				cmdline += "clone";
+				cmdline += "-q";
+				cmdline += "--depth=1";
+				cmdline += "https://aur.archlinux.org/%s.git".printf (pkgname);
 			}
-			status = launch_subprocess (launcher, cmds, cancellable);
+			status = launch_subprocess (launcher, cmdline, cancellable);
 			if (status == 0) {
+				print ("done\n");
 				return pkgdir;
 			}
 			return null;
@@ -1925,7 +1963,22 @@ namespace Pamac {
 			return file;
 		}
 
-		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable) {
+		string[] get_dynamic_user_cmdline (string cwd) {
+			string[] cmdline = {};
+			if (Posix.geteuid () == 0) {
+				cmdline += "systemd-run";
+				cmdline += "--service-type=oneshot";
+				cmdline += "--pipe";
+				cmdline += "--wait";
+				cmdline += "--pty";
+				cmdline += "--property=DynamicUser=yes";
+				cmdline += "--property=CacheDirectory=pamac";
+				cmdline += "--property=WorkingDirectory=%s".printf (cwd);
+			}
+			return cmdline;
+		}
+
+		public bool regenerate_srcinfo (string pkgname, Cancellable? cancellable = null) {
 			string pkgdir_name;
 			if (Posix.geteuid () == 0) {
 				// build as root with systemd-run
@@ -1957,17 +2010,7 @@ namespace Pamac {
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_PIPE);
 			launcher.set_cwd (pkgdir_name);
 			try {
-				string[] cmdline = {};
-				if (Posix.geteuid () == 0) {
-					cmdline += "systemd-run";
-					cmdline += "--service-type=oneshot";
-					cmdline += "--pipe";
-					cmdline += "--wait";
-					cmdline += "--pty";
-					cmdline += "--property=DynamicUser=yes";
-					cmdline += "--property=CacheDirectory=pamac";
-					cmdline += "--property=WorkingDirectory=/var/cache/pamac/%s".printf (pkgname);
-				}
+				string[] cmdline = get_dynamic_user_cmdline (pkgdir_name);
 				cmdline += "makepkg";
 				cmdline += "--printsrcinfo";
 				Subprocess process = launcher.spawnv (cmdline);
@@ -2340,18 +2383,9 @@ namespace Pamac {
 					// get last sources
 					// no output to not pollute checkupdates output
 					var launcher = new SubprocessLauncher (SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
-					launcher.set_cwd (clone_dir.get_path ());
-					string[] cmdline = {};
-					if (Posix.geteuid () == 0) {
-						cmdline += "systemd-run";
-						cmdline += "--service-type=oneshot";
-						cmdline += "--pipe";
-						cmdline += "--wait";
-						cmdline += "--pty";
-						cmdline += "--property=DynamicUser=yes";
-						cmdline += "--property=CacheDirectory=pamac";
-						cmdline += "--property=WorkingDirectory=/var/cache/pamac/%s".printf (pkgname);
-					}
+					string cwd = clone_dir.get_path ();
+					launcher.set_cwd (cwd);
+					string[] cmdline = get_dynamic_user_cmdline (cwd);
 					cmdline += "makepkg";
 					cmdline += "--nobuild";
 					cmdline += "--noprepare";

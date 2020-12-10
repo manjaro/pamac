@@ -341,15 +341,7 @@ namespace Pamac {
 
 		internal bool clean_build_files (string aur_build_dir) {
 			try {
-				// check if build aur_build_dir is "/var/cache/pamac"
-				// in this case remove "/var/cache/pamac" symlink
-				// and "/var/cache/private/pamac" directory
-				if (aur_build_dir == "/var/cache/pamac") {
-					Process.spawn_command_line_sync ("rm -rf /var/cache/pamac");
-					Process.spawn_command_line_sync ("rm -rf /var/cache/private/pamac");
-				} else {
-					Process.spawn_command_line_sync ("bash -c 'rm -rf %s/*'".printf (aur_build_dir));
-				}
+				Process.spawn_command_line_sync ("bash -c 'rm -rf %s/*'".printf (aur_build_dir));
 				return true;
 			} catch (SpawnError e) {
 				warning (e.message);
