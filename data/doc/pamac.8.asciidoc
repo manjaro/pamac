@@ -1,0 +1,313 @@
+= pamac(8) =
+
+== NAME ==
+pamac - package manager utility
+
+== SYNOPSIS ==
+*pamac* <operation> [options] [targets]
+
+== DESCRIPTION ==
+*pamac* is a libalpm(3) front-end with AUR support. 
+
+== OPERATIONS ==
+*pamac --version*::
+Display current pamac version
+
+*pamac --help, -h* [operation]::
+Display pamac help
+
+*pamac <<_search,search>>* [options] <package(s)>::
+Search for packages or files, multiple search terms can be specified
+
+*pamac <<_list,list>>* [options] <package(s)>::
+List packages, groups, repositories or files
+
+*pamac <<_info,info>>* [options] <package(s)>::
+Display package details, multiple packages can be specified
+
+*pamac <<_install,install>>* [options] <package(s)>::
+Install packages from repositories, path or url
+
+*pamac <<_reinstall,reinstall>>* [options] <package(s)>::
+Reinstall packages
+
+*pamac <<_remove,remove>>* [options] [package(s)]::
+Remove packages
+
+*pamac <<_checkupdates,checkupdates>>* [options]::
+Safely check for updates without modifiying the databases
+
+*pamac <<_upgrade,upgrade>>* [options]::
+Upgrade your system
+
+*pamac <<_upgrade,update>>* [options]::
+Upgrade your system
+
+*pamac <<_clone,clone>>* [options] <package(s)>::
+Clone or sync packages build files from AUR
+
+*pamac <<_build,build>>* [options] [package(s)]::
+Build packages from AUR and install them with their dependencies
+
+*pamac <<_clean,clean>>* [options]::
+Clean packages cache or build files
+
+== OPERATION OPTIONS ==
+
+[[_search]]
+=== SEARCH ===
+Search for packages or files, multiple search terms can be specified
+
+*pamac search* [options] <package(s)/file(s)>)::
+
+*--installed, -i* ::: only search for installed packages
+*--repos, -r* ::: only search for packages in repositories
+*--aur, -a* ::: also search in AUR
+*--no-aur* ::: do not search in AUR
+*--files, -f* ::: search for packages which own the given filenames (filenames
+can be partial)
+*--quiet, -q* ::: only print names
+
+[[_list]]
+=== LIST ===
+List packages, groups, repositories or files
+
+*pamac list* [options]::
+
+*--installed, -i* ::: list installed packages
+*--orphans, -o* ::: list packages that were installed as dependencies but are no
+longer required by any installed package
+*--foreign, -m* ::: list packages that were not found in the repositories
+*--groups, -g* [group(s)] ::: list all packages that are members of the given
+groups, if no group is given list all groups
+*--repos, -r* [repo(s)] ::: list all packages available in the given repos, if
+no repo is given list all repos
+*--files, -f* <package(s)> ::: list files owned by the given packages
+*--quiet, -q* ::: only print names
+
+[[_info]]
+=== INFO ===
+Display package details, multiple packages can be specified
+
+*pamac info* [options] <package(s)>::
+
+*--aur, -a* ::: also search in AUR
+*--no-aur* ::: do not search in AUR
+
+[[_install]]
+=== INSTALL ===
+Install packages from repositories, path or url
+
+*pamac install* [options] <package(s),group(s)>::
+
+*--ignore* <package(s)> ::: ignore a package upgrade, multiple packages can be
+specified by separating them with a comma
+*--overwrite* <glob> ::: overwrite conflicting files, multiple patterns can be
+specified by separating them with  comma
+*--download-only, -w* ::: download all packages but do not install/upgrade
+anything
+*--dry-run, -d* ::: only print what would be done but do not run the transaction
+*--as-deps* ::: mark all packages installed as a dependency
+*--as-explicit* ::: mark all packages explicitly installed
+*--upgrade* ::: check for updates
+*--no-upgrade* ::: do not check for updates
+*--no-confirm* ::: bypass any and all confirmation messages
+
+[[_reinstall]]
+=== REINSTALL ===
+Reinstall packages
+
+*pamac reinstall* <package(s),group(s)>::
+
+*--overwrite* <glob>  ::: overwrite conflicting files, multiple patterns can be
+specified by separating them with a comma
+*--download-only, -w* ::: download all packages but do not install/upgrade
+anything
+*--as-deps* ::: mark all packages installed as a dependency
+*--as-explicit* ::: mark all packages explicitly installed
+*--no-confirm* ::: bypass any and all confirmation messages
+
+[[_remove]]
+=== REMOVE ===
+Remove packages
+
+*pamac remove* [options] [package(s),group(s)]::
+
+*--unneeded, -u* ::: remove packages only if they are not required by any other
+packages
+*--orphans, -o* ::: remove dependencies that are not required by other packages,qq
+if this option is used without package name remove all orphans
+*--no-orphans* ::: do not remove dependencies that are not required by other
+packages
+*--no-save, -n* ::: ignore files backup
+*--dry-run, -d* ::: only print what would be done but do not run the transaction
+*--no-confirm* ::: bypass any and all confirmation messages
+
+[[_checkupdates]]
+=== CHECKUPDATES ===
+Safely check for updates without modifiying the databases
+
+*pamac checkupdates* [options]::
+
+*--builddir* <dir> ::: build directory (use with *--devel*), if no directory is
+given the one specified in `pamac.conf` is used
+*--aur, -a* ::: also check updates in AUR
+*--no-aur* ::: do not check updates in AUR
+*--quiet, -q* ::: only print one line per update
+*--devel* ::: also check development packages updates (use with *--aur*)
+*--no-devel* ::: do not check development packages updates
+
+Exit code is 100 if updates are available.
+
+[[_upgrade]]
+=== UPGRADE, UPDATE ===
+Upgrade your system
+
+*pamac upgrade*,*update* [options]::
+
+*--force-refresh* ::: force the refresh of the databases
+*--enable-downgrade* ::: enable package downgrades
+*--disable-downgrade* ::: disable package downgrades
+*--download-only, -w* ::: download all packages but do not install/upgrade
+anything
+*--ignore* <package(s)> ::: ignore a package upgrade, multiple packages can be
+specified by separating them with comma
+*--overwrite* <glob> ::: overwrite conflicting files, multiple patterns can be
+specified by separating them with comma
+*--no-confirm* ::: bypass any and all confirmation messages
+*--aur, -a* ::: also upgrade packages installed from AUR
+*--no-aur* ::: do not upgrade packages installed from AUR
+*--devel* ::: also upgrade development packages (use with *--aur*)
+*--no-devel* ::: do not upgrade development packages
+*--builddir* <dir> ::: build directory (use with *--aur*), if no directory is
+given the one specified in `pamac.conf` file is used
+
+[[_clone]]
+=== CLONE ===
+Clone or sync packages build files from AUR
+
+*pamac clone* [options] <package(s)>::
+
+*--builddir* <dir> ::: build directory, if no directory is given the one specified
+in `pamac.conf` file is used
+*--recurse, -r* ::: also clone needed dependencies
+*--quiet, -q* ::: do not print any output
+*--overwrite* ::: overwrite existing files
+
+[[_build]]
+=== BUILD ===
+Build packages from AUR and install them with their dependencies
+
+*pamac build* [options] [package(s)]::
+
+*--builddir* <dir> ::: build directory, if no directory is given the one specified
+in `pamac.conf` file is used
+*--keep, -k* ::: keep built packages in cache after installation
+*--no-keep* ::: do not keep built packages in cache after installation
+*--dry-run, -d* ::: only print what would be done but do not run the transaction
+*--no-clone* ::: do not clone build files from AUR, only use local files
+*--no-confirm* ::: bypass any and all confirmation messages
+
+If no package name is given, use the `PKGBUILD` file in the current directory.
+The build directory will be the parent directory, *--builddir* option will be
+ignored and *--no-clone* option will be enforced.
+
+[[_clean]]
+=== CLEAN ===
+Clean packages cache or build files
+
+*pamac clean* [options]::
+
+*--keep, -k* <number> ::: specify how many versions of each package are kept in
+the cache directory
+*--uninstalled, -u* ::: only target uninstalled packages
+*--build-files, -b* ::: remove all build files, the build directory is the one
+specified in `pamac.conf`
+*--dry-run, -d* ::: do not remove files, only find candidate packages
+*--verbose, -v* ::: also display all files names
+*--no-confirm* ::: bypass any and all confirmation messages
+
+== EXAMPLES ==
+`pamac search smplayer`::
+Search for packages in repos containing the word smplayer
+
+`pamac search -a smplayer`::
+Search for packages in repos and AUR containing the word smplayer
+
+`pamac install smplayer smplayer-themes`::
+Install smplayer and themes from the repos
+
+`pamac reinstall smplayer`::
+Force a package to be installed even if it is already installed
+
+`pamac build umplayer`::
+Compile and install umplayer from AUR
+
+`pamac clone umplayer ~/Download`::
+Clone umplayer from AUR in Download folder
+
+`pamac remove smplayer smplayer-themes umplayer`::
+Uninstall smplayer, smplayer-themes and umplayer
+
+`pamac list -i`::
+Display a list of all installed packages
+
+`pamac info -a smplayer`::
+Display information about a package in repos, AUR or installed
+
+`pamac checkupdates -a`::
+Check if updates are available in repos and AUR
+
+`pamac upgrade -a` or `pamac update -a`::
+Upgrade all packages installed from the repos or AUR
+
+`pamac list -o`::
+Check if there are any orphaned packages installed
+
+`pamac remove -o`::
+Remove all orphans
+
+`pamac clean --keep 3`::
+Clear the cache except for the latest three package versions
+
+== ENVIRONMENT VARIABLES ==
+*AURDEST*::
+Can be set to configure the build directory.
+Overridden by --builddir.
+
+*EDITOR*::
+When editor is not configured, use these variables to pick what editor 
+to use when editing PKGBUILDS.
+
+== CONFIGURATION ==
+See *pamac.conf*(5) for more details on configuring pamac using the
+`/etc/pamac.conf` file.
+
+== SEE ALSO ==
+*pamac.conf*(5)
+
+== BUGS ==
+Please report bugs to our Gitlab page
+https://gitlab.manjaro.org/applications/pamac/-/issues.
+
+== AUTHORS ==
+Guillaume Benoit
+
+// Asciidoc Notes:
+// *               - bold/strong
+// ' _             - underline/emphasized
+// `               - monospace/literal/no process
+// =={1,5}         - titles
+// link            - <<X4,*OUTPUT FILES*>>
+// label           - [[X4]]
+// number list     - .
+// bullet list     - -
+// definition list - some_text:: more text (nested: :::, ;;)
+// list block      - ----{4,} \ntext\n ----{4,}
+//
+// Basic Commands:
+// manpage: a2x --verbose --doctype manpage --format manpage pamac-manpage.asciidoc
+// html: asciidoc pamac-manpage.asciidoc
+// pdf: a2x --verbose --doctype manpage --fop --format pdf pamac-manpage.asciidoc
+//
+// https://asciidoc.org/

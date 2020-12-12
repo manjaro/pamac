@@ -1,0 +1,73 @@
+pamac.conf(5)
+==============
+
+Name
+----
+pamac.conf - pamac package manager configuration file
+
+
+Synopsis
+--------
+/etc/pamac.conf
+
+
+Description
+-----------
+pamac will attempt to read pamac.conf each time it is invoked.
+It will also read pacman.conf(5) for libalpm and repositories configuration.
+
+Comments are only supported by beginning a line with the hash (#) symbol.
+Comments cannot begin in the middle of a line.
+
+
+Options
+-------
+*RemoveUnrequiredDeps*::
+	When removing a package, also remove those dependencies
+	that are not required by other packages.
+
+*RefreshPeriod =* number::
+	How often to check for updates, value in hours.
+	If set to 0 checking for updates is disabled.
+
+*NoUpdateHideIcon*::
+	When there are no updates available, hide the tray icon.
+
+*EnableDowngrade*::
+	When applying updates, enable packages downgrade.
+
+*SimpleInstall*::
+	When installing packages, do not check for updates.
+
+*EnableAUR*::
+	Allow Pamac to search and install packages from AUR.
+
+*KeepBuiltPkgs*::
+	Keep built packages from AUR in cache after installation.
+
+*CheckAURUpdates*::
+	When AUR support is enabled check for updates from AUR.
+
+*CheckAURVCSUpdates*::
+	When check updates from AUR support is enabled check for vcs updates.
+
+*BuildDirectory =* /path/to/builddir::
+	The location of the directory where AUR build files are cloned and packages built.
+	This configuration is overriden by the AURDEST environment variable.
+
+*KeepNumPackages =* number::
+	Number of versions of each package to keep in the cache when invoking the *clean* operation.
+
+*OnlyRmUninstalled*::
+	Remove only the versions of uninstalled packages when invoking the *clean* operation.
+
+*DownloadUpdates*::
+	Download updates in background.
+
+*MaxParallelDownloads =* number::
+	Maximum Parallel Downloads.
+	If set to 0 or 1 parallel downloads are disabled.
+
+See Also
+--------
+*pamac*[8], *pacman.conf*[5]
