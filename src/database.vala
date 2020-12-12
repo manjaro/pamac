@@ -57,6 +57,9 @@ namespace Pamac {
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);
 			refresh ();
 			aur = new AUR ();
+			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
+			string user_agent = "Pamac/%s".printf (VERSION);
+			Environment.set_variable ("HTTP_USER_AGENT", user_agent, true);
 			// init appstream
 			app_store = new As.Store ();
 			app_store.add_filter (As.AppKind.DESKTOP);
