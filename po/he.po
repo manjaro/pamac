@@ -9,15 +9,16 @@
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
 # Ido Dana <idodana01@gmail.com>, 2019
 # Xc Vb <kassavlt@gmail.com>, 2014
-# Omeritzics Games <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 # philm <philm@manjaro.org>, 2015
 # Xc Vb <kassavlt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 16:24+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-08 13:32+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hebrew (http://www.transifex.com/manjarolinux/manjaro-pamac/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +29,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "להתקין, לעדכן, או להסיר חבילות"
+msgstr "התקנה, עדכון, או הסרת חבילות"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
@@ -593,6 +594,11 @@ msgstr "הכל"
 msgid "Categories"
 msgstr "קטגוריות"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "‏Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -601,11 +607,6 @@ msgstr[0] "פעולה %u ממתינה"
 msgstr[1] "%u פעולות ממתינות"
 msgstr[2] "%u פעולות ממתינות"
 msgstr[3] "%u פעולות ממתינות"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "‏Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -891,6 +892,10 @@ msgid "Apply transaction"
 msgstr ""
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr ""
 
@@ -908,15 +913,20 @@ msgid "View %s build files diff"
 msgstr "עיין %s בהבדלי קבצי ההתקנה"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "בניית חבילות התקנה כמשתמש ROOT איננה מותרת"
+msgid "Building packages as root"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "לא נמצא קובץ PKGBUILD בספרייה הנוכחית"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
+msgid "Checking development packages updates as root"
 msgstr ""
 
 #: src/cli.vala
@@ -1417,7 +1427,7 @@ msgstr "חיפוש"
 
 #: resources/manager_window.ui
 msgid "Pending"
-msgstr "ממתינות"
+msgstr "בהמתנה"
 
 #: resources/manager_window.ui
 msgid "Updates"

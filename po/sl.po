@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 16:24+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-08 13:32+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "odstranjevanje %s iz ciljnega seznama"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "Za uveljavitev sprememb je potreben nov zagon"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -551,7 +551,7 @@ msgstr "paket(i)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Na voljo so posodobitve"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -594,6 +594,11 @@ msgstr "Vse"
 msgid "Categories"
 msgstr "Kategorije"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -602,11 +607,6 @@ msgstr[0] "%u operacija na čakanju"
 msgstr[1] "%u operaciji na čakanju"
 msgstr[2] "%u operacij na čakanju"
 msgstr[3] "%u operacij na čakanju"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -742,11 +742,11 @@ msgstr "Odstrani"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Posodobitve OS"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Vključuje izboljšave zmogljivosti, stabilnosti in varnosti"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -814,7 +814,7 @@ msgstr "Upravljalnik paketov s podporo za Alpm, AUR, Flatpak in Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Nazadnje osveženo"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -885,15 +885,19 @@ msgstr "Uredi izgradne datoteke"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[e]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
 msgstr "Uveljavi prenos"
 
 #: src/transaction-cli.vala
-msgid "e"
+msgid "[e/y/N]"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "e"
+msgstr "e"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -909,16 +913,21 @@ msgid "View %s build files diff"
 msgstr "Prikaži razliko za %s izgradnih datotek"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Izgradnja paketov kot korenski/root uporabnik ni dovoljena"
+msgid "Building packages as root"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "V trenutnem direktoriju ni bilo mogoče najti PKGBUILD"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Preverjanje posodobitev razvojnih paketov kot korenski/root uporabnik ni dovoljeno"
+msgid "Checking development packages updates as root"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1338,7 +1347,7 @@ msgstr "_Uveljavi"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Programski način"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1358,11 +1367,11 @@ msgstr "O programu Pamac"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Brskaj po"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Prikaz"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1382,7 +1391,7 @@ msgstr "Prezri vse"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Osveži"
 
 #: resources/manager_window.ui
 msgid "Browse"

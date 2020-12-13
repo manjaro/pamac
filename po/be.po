@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 16:24+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-08 13:32+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -587,6 +587,11 @@ msgstr "Усе"
 msgid "Categories"
 msgstr "Катэгорыі"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -595,11 +600,6 @@ msgstr[0] "%u чакае апрацоўкі"
 msgstr[1] "%u чакаюць апрацоўкі"
 msgstr[2] "%u чакаюць апрацоўкі"
 msgstr[3] "%u чакаюць апрацоўкі"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -885,6 +885,10 @@ msgid "Apply transaction"
 msgstr "Ужыць транзакцыю"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr ""
 
@@ -902,16 +906,21 @@ msgid "View %s build files diff"
 msgstr "Праглядзець адрозненне файлаў зборкі %s"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Зборка пакункаў ад суперкарыстальніка забароненая"
+msgid "Building packages as root"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "У бягучым каталозе не знойдзена файлаў PKGBUILD"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Праверка наяўнасці абнаўленняў распрацоўваемых пакункаў ад суперкарыстальніка забароненая"
+msgid "Checking development packages updates as root"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"

@@ -44,9 +44,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 16:24+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-09 23:46+0000\n"
+"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -574,7 +574,7 @@ msgstr "pacote(s)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Atualizações disponíveis"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -615,17 +615,17 @@ msgstr "Todos"
 msgid "Categories"
 msgstr "Categorias"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operação pendente"
 msgstr[1] "%u operações pendentes"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -909,6 +909,10 @@ msgid "Apply transaction"
 msgstr "Aplicar transação"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr ""
 
@@ -926,16 +930,21 @@ msgid "View %s build files diff"
 msgstr "Ver 1%s diferença nos arquivos para compilar"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "A construção dos pacotes como raiz não é permitida."
+msgid "Building packages as root"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "Nenhum arquivo PKGBUILD encontrado no diretório atual"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Verificar atualizações de pacotes de desenvolvimento, já que o root não é permitido"
+msgid "Checking development packages updates as root"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"

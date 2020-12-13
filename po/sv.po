@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-23 08:24+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-09 09:43+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -595,17 +595,17 @@ msgstr "Alla"
 msgid "Categories"
 msgstr "Kategorier"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u pågående åtgärd"
 msgstr[1] "%u pågående åtgärder"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -889,6 +889,10 @@ msgid "Apply transaction"
 msgstr "Verkställ överföring"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr "[e/y/N]"
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
 
@@ -906,16 +910,21 @@ msgid "View %s build files diff"
 msgstr "Se %s byggfilers skillnad"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Att bygga paket som rootanvändare är ej tillåtet"
+msgid "Building packages as root"
+msgstr "Kompilerar paket som root"
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr "Sätter byggmapp till %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "Ingen PKGBUILD-fil hittades i den nuvarande sökvägen"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Kontrollerar utvecklarpaket då root ej är tillåtet"
+msgid "Checking development packages updates as root"
+msgstr "Kontrollerar utvecklarpaket uppdateringar som root "
 
 #: src/cli.vala
 msgid "Available actions"

@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 19:12+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-08 15:43+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -619,6 +619,11 @@ msgstr "Все"
 msgid "Categories"
 msgstr "Категории"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -627,11 +632,6 @@ msgstr[0] "%u ждёт обработки"
 msgstr[1] "%u ждут обработки"
 msgstr[2] "%u ждут обработки"
 msgstr[3] "%u ждут обработки"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -917,6 +917,10 @@ msgid "Apply transaction"
 msgstr "Применить транзакцию"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr ""
 
@@ -934,16 +938,21 @@ msgid "View %s build files diff"
 msgstr "Посмотреть разницу сборочных файлов %s"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Сборка пакетов от имени администратора запрещена"
+msgid "Building packages as root"
+msgstr "Сборка пакетов от имени администратора"
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr "Выбор каталога сборки %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "В текущем каталоге не найдено файлов PKGBUILD"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Проверка обновлений пакетов в разработке от имени администратора запрещена"
+msgid "Checking development packages updates as root"
+msgstr "Проверка обновлений пакетов в разработке от имени администратора"
 
 #: src/cli.vala
 msgid "Available actions"

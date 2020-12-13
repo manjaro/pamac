@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-12-02 07:08+0000\n"
-"Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-08 13:32+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -588,16 +588,16 @@ msgstr "모두"
 msgid "Categories"
 msgstr "카테고리"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "스냅"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "보류중인 작업 %u 개"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "스냅"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -880,6 +880,10 @@ msgid "Apply transaction"
 msgstr "트랜잭션 적용"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
 
@@ -897,16 +901,21 @@ msgid "View %s build files diff"
 msgstr "%s 빌드 파일 차이 보기"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "루트 권한으로 패키지를 빌드하는 것은 허용되지 않습니다"
+msgid "Building packages as root"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr ""
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "현재 디렉토리에서 PKGBUILD 파일을 찾을 수 없습니다"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "루트 권한이 허용되지 않으므로 개발 패키지 업데이트를 확인합니다"
+msgid "Checking development packages updates as root"
+msgstr ""
 
 #: src/cli.vala
 msgid "Available actions"

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 19:47+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-10 10:23+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -593,6 +593,11 @@ msgstr "Všetko"
 msgid "Categories"
 msgstr "Kategórie"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Balíky Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -601,11 +606,6 @@ msgstr[0] "%u operácia na vybavenie"
 msgstr[1] "%u operácie na vybavenie"
 msgstr[2] "%u operácií na vybavenie"
 msgstr[3] "%u operácií na vybavenie"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Balíky Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -701,7 +701,7 @@ msgstr "Vydavateľ"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Držané v izolovanom priestore"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -891,6 +891,10 @@ msgid "Apply transaction"
 msgstr "Vykonať transakciu"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr ""
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr ""
 
@@ -908,16 +912,21 @@ msgid "View %s build files diff"
 msgstr ""
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Zostavovanie balíčkov ako správca nie je povolené"
+msgid "Building packages as root"
+msgstr "Zostavujú sa balíky ako správca"
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr "Nastavuje sa adresár zostavenia na %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "V aktuálnom adresári sa nenašiel žiadny súbor PKGBUILD"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr ""
+msgid "Checking development packages updates as root"
+msgstr "Kontrolujú sa aktualizácie balíkov vo vývoji ako správca"
 
 #: src/cli.vala
 msgid "Available actions"

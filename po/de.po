@@ -36,9 +36,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 16:24+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-11 02:51+0000\n"
+"Last-Translator: Christian Spaan\n"
 "Language-Team: German (http://www.transifex.com/manjarolinux/manjaro-pamac/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,12 +102,12 @@ msgstr "das Installieren von %s (%s) verletzt Abhängigkeit '%s' benötigt von %
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr "%s zum entfernen hinzufügen"
+msgstr "%s zum Entfernen hinzufügen"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr "entferne %s wenn möglich erneut"
+msgstr "Entfernen Sie nach Möglichkeit %s und versuchen Sie es erneut"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -126,16 +126,16 @@ msgstr "%s soll entfernt werden, ist aber ein gesperrtes Paket "
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Failed to initialize AUR database"
-msgstr "AUR Datenbank initialisieren fehlgeschlagen"
+msgstr "Initialisierung der AUR-Datenbank fehlgeschlagen"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr "entferne %s von der Zielliste"
+msgstr "Entferne %s von der Liste der Ziele"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "Für das Inkrafttreten dieser Änderungen ist ein Neustart erforderlich"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -158,7 +158,7 @@ msgstr "%s: %s existiert bereits im Dateisystem"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr "falls diese Datei nicht gebraucht wird, entfernen und erneut versuchen"
+msgstr "Falls diese Datei nicht gebraucht wird, entfernen Sie sie und versuchen Sie es erneut"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -172,7 +172,7 @@ msgstr "Wurde als %s archiviert"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr "Entferne ungültige Dateien und wiederhole"
+msgstr "Entferne ungültige Dateien und wiederhole Vorgang"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -181,7 +181,7 @@ msgstr " %s ist ungültig oder beschädigt"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr "entferne die Datei und versuche es erneut"
+msgstr "Sie können diese Datei entfernen und es erneut versuchen"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
@@ -366,7 +366,7 @@ msgstr "Fehler beim Klonen der Build-Dateien für %s"
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Generiere %s Informationen"
+msgstr "Generiere Informationen zu%s "
 
 #: src/transaction.vala
 #, c-format
@@ -566,7 +566,7 @@ msgstr "Paket(e)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Aktualisierungen verfügbar"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -607,17 +607,17 @@ msgstr "Alle"
 msgid "Categories"
 msgstr "Kategorien"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u ausstehende Aktionen"
 msgstr[1] "%u ausstehende Aktionen"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -753,11 +753,11 @@ msgstr "Entfernen"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Betriebssystem-Aktualisierungen"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Enthält Verbesserungen der Leistung, Stabilität und Sicherheit"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -821,11 +821,11 @@ msgstr "Alpm Paket"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Ein Paketmanager mit ALPM, AUR, Flatpak und Snap Support"
+msgstr "Ein Paketmanager mit Unterstützung von ALPM, AUR, Flatpak und Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Letzte Aktualisierung"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -894,15 +894,19 @@ msgstr "Build-Dateien bearbeiten"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[e]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
 msgstr "Transaktion durchführen"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr "[e/j/N]"
+
+#: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "e"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -918,16 +922,21 @@ msgid "View %s build files diff"
 msgstr "Zeige %s Unterschiede zwischen Build-Dateien "
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Das Erstellen von Paketen als Root-Benutzer ist nicht erlaubt"
+msgid "Building packages as root"
+msgstr "Erstelle Pakete als Root"
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr "Konfiguriere Build-Verzeichnis %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "Keine PKGBUILD-Datei im aktuellen Verzeichnis gefunden"
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Das Suchen nach Aktualisierungen für Entwicklungspakete ist als Root-Benutzer nicht erlaubt"
+msgid "Checking development packages updates as root"
+msgstr "Aktualisierungen der Entwicklerpakete als Root abrufen"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -963,7 +972,7 @@ msgstr "auch im AUR suchen"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr "nicht im AUR suchen"
+msgstr "Nicht im AUR suchen"
 
 #: src/cli.vala
 msgid ""
@@ -1067,11 +1076,11 @@ msgstr "Erstellte Pakete nach der Installation im Cache vorhalten"
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr "erstellte Pakete nach Installation nicht im Cache behalten"
+msgstr "Erstellte Pakete nach Installation nicht im Cache behalten"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr "nur ausgeben was ausgeführt werden würde, jedoch nicht durchführen"
+msgstr "Nur ausgeben, was ausgeführt werden würde, jedoch nicht durchführen"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1111,7 +1120,7 @@ msgstr "Alle Pakete als explizit installiert markieren"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr "nach Updates überprüfen"
+msgstr "Nach Updates suchen"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1159,7 +1168,7 @@ msgstr "auch im AUR nach Aktualisierungen suchen"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr "im AUR nicht nach Erneuerungen suchen"
+msgstr "Nicht im AUR nach Aktualisierungen suchen"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1171,7 +1180,7 @@ msgstr "auch Entwicklungspakete auf Aktualisierungen prüfen (benutzen mit --aur
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr "nicht nach Entwicklungspaket-Erneuerungen suchen"
+msgstr "Nicht nach Aktualisierungen der Entwicklungspakete suchen"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1187,7 +1196,7 @@ msgstr "das Installieren vorheriger Paketversionen aktivieren"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr "Paket-Herabstufungen deaktivieren"
+msgstr "Installieren älterer Paketversionen deaktivieren"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1195,7 +1204,7 @@ msgstr "aktualisiere auch Pakete, die aus dem AUR installiert wurden"
 
 #: src/cli.vala
 msgid "do not upgrade packages installed from AUR"
-msgstr "Pakete installiert aus dem AUR nicht erneuern"
+msgstr "Pakete aus dem AUR nicht aktualisieren"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
@@ -1203,7 +1212,7 @@ msgstr "Auch Entwicklungspakete aktualisieren (Verwendung mit --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr "Entwicklungspakete nicht erneuern"
+msgstr "Entwicklerpakete nicht aktualisieren"
 
 #: src/cli.vala
 msgid ""
@@ -1343,7 +1352,7 @@ msgstr "_Übernehmen"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Software-Modus"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1363,11 +1372,11 @@ msgstr "Über"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Filtern nach"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Ansicht"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1387,7 +1396,7 @@ msgstr "Alle ignorieren"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1525,7 +1534,7 @@ msgstr "Erlaube Pamac, Snaps zu suchen und zu installieren"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr "Flatpak Pakete werden von ihren Herausgebern verwaltet."
+msgstr "Flatpak-Pakete werden von ihren Herausgebern verwaltet."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"

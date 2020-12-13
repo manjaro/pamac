@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-11-22 15:48+0100\n"
-"PO-Revision-Date: 2020-11-22 18:58+0000\n"
+"POT-Creation-Date: 2020-12-08 13:08+0100\n"
+"PO-Revision-Date: 2020-12-08 18:55+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -587,6 +587,11 @@ msgstr "Sve"
 msgid "Categories"
 msgstr "Kategorije"
 
+#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: resources/preferences_dialog.ui
+msgid "Snap"
+msgstr "Snap"
+
 #: src/manager_window.vala
 #, c-format
 msgid "%u pending operation"
@@ -594,11 +599,6 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operacija na čekanju"
 msgstr[1] "%u operacije na čekanju"
 msgstr[2] "%u operacija na čekanju"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
-#: resources/preferences_dialog.ui
-msgid "Snap"
-msgstr "Snap"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -883,6 +883,10 @@ msgid "Apply transaction"
 msgstr "Primijeni transakciju"
 
 #: src/transaction-cli.vala
+msgid "[e/y/N]"
+msgstr "[e/da/NE]"
+
+#: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
 
@@ -900,16 +904,21 @@ msgid "View %s build files diff"
 msgstr "Pogledaj %s razlike datoteka za stvaranje paketa"
 
 #: src/cli.vala
-msgid "Building packages as root is not allowed"
-msgstr "Stvaranje paketa kao root nije dozvoljeno"
+msgid "Building packages as root"
+msgstr "Stvaram pakete kao root"
+
+#: src/cli.vala
+#, c-format
+msgid "Setting build directory to %s"
+msgstr "Postavljanje direktorija za stvaranje paketa na %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
 msgstr "Nije pronađena PKGBUILD datoteka u trenutnom direktoriju "
 
 #: src/cli.vala
-msgid "Checking development packages updates as root is not allowed"
-msgstr "Provjera ažuriranja razvojnih paketa kao root nije dopuštena"
+msgid "Checking development packages updates as root"
+msgstr "Provjera ažuriranja razvojnih paketa kao root"
 
 #: src/cli.vala
 msgid "Available actions"
