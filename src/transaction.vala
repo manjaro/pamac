@@ -1239,7 +1239,7 @@ namespace Pamac {
 			if (config.enable_snap) {
 				snap_to_install.insert (pkg.name, pkg);
 			} else {
-				warning ("snap support disbaled");
+				warning ("snap support disabled");
 			}
 		}
 
@@ -1247,7 +1247,7 @@ namespace Pamac {
 			if (config.enable_snap) {
 				snap_to_remove.insert (pkg.name, pkg);
 			} else {
-				warning ("snap support disbaled");
+				warning ("snap support disabled");
 			}
 		}
 
@@ -1285,7 +1285,7 @@ namespace Pamac {
 					emit_error ("Daemon Error", {"snap_switch_channel: %s".printf (e.message)});
 				}
 			} else {
-				warning ("snap support disbaled");
+				warning ("snap support disabled");
 			}
 			return false;
 		}
@@ -1294,7 +1294,7 @@ namespace Pamac {
 			if (config.enable_snap) {
 				flatpak_to_install.insert (pkg.id, pkg);
 			} else {
-				warning ("flatpak support disbaled");
+				warning ("flatpak support disabled");
 			}
 		}
 
@@ -1302,7 +1302,7 @@ namespace Pamac {
 			if (config.enable_snap) {
 				flatpak_to_remove.insert (pkg.id, pkg);
 			} else {
-				warning ("flatpak support disbaled");
+				warning ("flatpak support disabled");
 			}
 		}
 
@@ -1310,7 +1310,7 @@ namespace Pamac {
 			if (config.enable_snap) {
 				flatpak_to_upgrade.insert (pkg.id, pkg);
 			} else {
-				warning ("flatpak support disbaled");
+				warning ("flatpak support disabled");
 			}
 		}
 
