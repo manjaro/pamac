@@ -40,15 +40,11 @@ namespace Pamac {
 		GenericSet<string?> ignorepkgs;
 		GenericSet<string?> overwrite_files;
 		GenericSet<string?> to_install_as_dep;
-		#if ENABLE_SNAP
 		HashTable<string, SnapPackage> snap_to_install;
 		HashTable<string, SnapPackage> snap_to_remove;
-		#endif
-		#if ENABLE_FLATPAK
 		HashTable<string, FlatpakPackage> flatpak_to_install;
 		HashTable<string, FlatpakPackage> flatpak_to_remove;
 		HashTable<string, FlatpakPackage> flatpak_to_upgrade;
-		#endif
 		// building data
 		string tmp_path;
 		string aurdb_path;
@@ -147,15 +143,11 @@ namespace Pamac {
 				}
 				return false;
 			});
-			#if ENABLE_SNAP
 			snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
-			#endif
-			#if ENABLE_FLATPAK
 			flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_to_upgrade = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
-			#endif
 			// building data
 			tmp_path = "/tmp/pamac";
 			aurdb_path = "/tmp/pamac/aur-%s".printf (Environment.get_user_name ());
@@ -249,12 +241,10 @@ namespace Pamac {
 			return 0;
 		}
 
-		#if ENABLE_SNAP
 		protected virtual bool ask_snap_install_classic (string name) {
 			// do not install
 			return false;
 		}
-		#endif
 
 		public async bool get_authorization_async () {
 			try {
@@ -783,15 +773,12 @@ namespace Pamac {
 						success = yield build_aur_packages ();
 						build_cancellable.reset ();
 					}
-					#if ENABLE_SNAP
 					if (success) {
 						if (snap_to_install.length > 0 ||
 							snap_to_remove.length > 0) {
 							success = yield run_snap_transaction ();
 						}
 					}
-					#endif
-					#if ENABLE_FLATPAK
 					if (success) {
 						if (flatpak_to_install.length > 0 ||
 							flatpak_to_remove.length > 0 ||
@@ -799,7 +786,6 @@ namespace Pamac {
 							success = yield run_flatpak_transaction ();
 						}
 					}
-					#endif
 				}
 				remove_authorization ();
 				database.refresh ();
@@ -807,15 +793,11 @@ namespace Pamac {
 					emit_action (dgettext (null, "Transaction successfully finished") + ".");
 				} else {
 					to_build_queue.clear ();
-					#if ENABLE_SNAP
 					snap_to_install.remove_all ();
 					snap_to_remove.remove_all ();
-					#endif
-					#if ENABLE_FLATPAK
 					flatpak_to_install.remove_all ();
 					flatpak_to_remove.remove_all ();
 					flatpak_to_upgrade.remove_all ();
-					#endif
 				}
 				sysupgrading = false;
 				force_refresh = false;
@@ -826,10 +808,7 @@ namespace Pamac {
 				ignorepkgs.remove_all ();
 				overwrite_files.remove_all ();
 				to_install_as_dep.remove_all ();
-			#if ENABLE_SNAP || ENABLE_FLATPAK
 			} else {
-			#endif
-				#if ENABLE_SNAP
 				if (snap_to_install.length > 0) {
 					emit_action (dgettext (null, "Preparing") + "...");
 					start_preparing ();
@@ -850,12 +829,8 @@ namespace Pamac {
 					}
 					stop_preparing ();
 				}
-				#endif
-				#if ENABLE_SNAP || ENABLE_FLATPAK
 				// ask confirmation
 				var summary = new TransactionSummary ();
-				#endif
-				#if ENABLE_SNAP
 				if (snap_to_install.length > 0 ||
 					snap_to_remove.length > 0) {
 					start_preparing ();
@@ -870,8 +845,6 @@ namespace Pamac {
 					}
 					stop_preparing ();
 				}
-				#endif
-				#if ENABLE_FLATPAK
 				if (flatpak_to_install.length > 0 ||
 					flatpak_to_remove.length > 0 ||
 					flatpak_to_upgrade.length > 0) {
@@ -891,53 +864,34 @@ namespace Pamac {
 					}
 					stop_preparing ();
 				}
-				#endif
-				#if ENABLE_SNAP || ENABLE_FLATPAK
 				if (summary.to_install.length == 0 &&
 					summary.to_remove.length == 0 &&
 					summary.to_upgrade.length == 0) {
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					return false;
 				} else if (ask_commit (summary)) {
-				#endif
-					#if ENABLE_SNAP
 					if (snap_to_install.length > 0 ||
 						snap_to_remove.length > 0) {
 						success = yield run_snap_transaction ();
 					}
-					#endif
-					#if ENABLE_FLATPAK
 					if (flatpak_to_install.length > 0 ||
 						flatpak_to_remove.length > 0 ||
 						flatpak_to_upgrade.length > 0) {
 						success = yield run_flatpak_transaction ();
 					}
-					#endif
-					#if ENABLE_SNAP || ENABLE_FLATPAK
 					if (success) {
 						emit_action (dgettext (null, "Transaction successfully finished") + ".");
 					}
-					#endif
-				#if ENABLE_SNAP || ENABLE_FLATPAK
 				} else {
-				#endif
-					#if ENABLE_SNAP
 					snap_to_install.remove_all ();
 					snap_to_remove.remove_all ();
-					#endif
-					#if ENABLE_FLATPAK
 					flatpak_to_install.remove_all ();
 					flatpak_to_remove.remove_all ();
 					flatpak_to_upgrade.remove_all ();
-					#endif
-					#if ENABLE_SNAP || ENABLE_FLATPAK
 					stop_preparing ();
 					emit_action (dgettext (null, "Transaction cancelled") + ".");
 					success = false;
-					#endif
-				#if ENABLE_SNAP || ENABLE_FLATPAK
 				}
-				#endif
 			}
 			return success;
 		}
@@ -1281,13 +1235,20 @@ namespace Pamac {
 			sysupgrading = true;
 		}
 
-		#if ENABLE_SNAP
 		public void add_snap_to_install (SnapPackage pkg) {
-			snap_to_install.insert (pkg.name, pkg);
+			if (config.enable_snap) {
+				snap_to_install.insert (pkg.name, pkg);
+			} else {
+				warning ("snap support disbaled");
+			}
 		}
 
 		public void add_snap_to_remove (SnapPackage pkg) {
-			snap_to_remove.insert (pkg.name, pkg);
+			if (config.enable_snap) {
+				snap_to_remove.insert (pkg.name, pkg);
+			} else {
+				warning ("snap support disbaled");
+			}
 		}
 
 		async bool run_snap_transaction () {
@@ -1317,26 +1278,40 @@ namespace Pamac {
 		}
 
 		public async bool snap_switch_channel_async (string snap_name, string channel) {
-			try {
-				return yield transaction_interface.snap_switch_channel (snap_name, channel);
-			} catch (Error e) {
-				emit_error ("Daemon Error", {"snap_switch_channel: %s".printf (e.message)});
+			if (config.enable_snap) {
+				try {
+					return yield transaction_interface.snap_switch_channel (snap_name, channel);
+				} catch (Error e) {
+					emit_error ("Daemon Error", {"snap_switch_channel: %s".printf (e.message)});
+				}
+			} else {
+				warning ("snap support disbaled");
 			}
 			return false;
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		public void add_flatpak_to_install (FlatpakPackage pkg) {
-			flatpak_to_install.insert (pkg.id, pkg);
+			if (config.enable_snap) {
+				flatpak_to_install.insert (pkg.id, pkg);
+			} else {
+				warning ("flatpak support disbaled");
+			}
 		}
 
 		public void add_flatpak_to_remove (FlatpakPackage pkg) {
-			flatpak_to_remove.insert (pkg.id, pkg);
+			if (config.enable_snap) {
+				flatpak_to_remove.insert (pkg.id, pkg);
+			} else {
+				warning ("flatpak support disbaled");
+			}
 		}
 
 		public void add_flatpak_to_upgrade (FlatpakPackage pkg) {
-			flatpak_to_upgrade.insert (pkg.id, pkg);
+			if (config.enable_snap) {
+				flatpak_to_upgrade.insert (pkg.id, pkg);
+			} else {
+				warning ("flatpak support disbaled");
+			}
 		}
 
 		async bool run_flatpak_transaction () {
@@ -1372,7 +1347,6 @@ namespace Pamac {
 				return false;
 			}
 		}
-		#endif
 
 		string remove_bash_colors (string msg) {
 			Regex regex = /\x1B\[[0-9;]*[JKmsu]/;
@@ -1662,7 +1636,6 @@ namespace Pamac {
 			if (build_cancellable.is_cancelled ()) {
 				return false;
 			} else {
-				#if ENABLE_SNAP
 				if (snap_to_install.length > 0) {
 					// ask classic snaps
 					var iter = HashTableIter<string, SnapPackage> (snap_to_install);
@@ -1690,8 +1663,6 @@ namespace Pamac {
 				while (snap_iter.next (null, out snap_pkg)) {
 					summary.to_remove.add (snap_pkg);
 				}
-				#endif
-				#if ENABLE_FLATPAK
 				// add flatpaks to summary
 				var flatpak_iter = HashTableIter<string, FlatpakPackage> (flatpak_to_install);
 				FlatpakPackage flatpak_pkg;
@@ -1706,13 +1677,11 @@ namespace Pamac {
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
 					summary.to_upgrade.add (flatpak_pkg);
 				}
-				#endif
 				return ask_commit (summary);
 			}
 		}
 
 		bool ask_edit_build_files_real (TransactionSummary summary) {
-			#if ENABLE_SNAP
 			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 			SnapPackage pkg;
 			while (iter.next (null, out pkg)) {
@@ -1722,7 +1691,6 @@ namespace Pamac {
 			while (iter.next (null, out pkg)) {
 				summary.to_remove.add (pkg);
 			}
-			#endif
 			// populate build queue
 			to_build_queue.clear ();
 			foreach (unowned string name in summary.aur_pkgbases_to_build) {

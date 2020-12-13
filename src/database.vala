@@ -34,12 +34,8 @@ namespace Pamac {
 		GenericArray<string> repos_names;
 		GenericArray<string> categories_names;
 		bool appstream_enabled;
-		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
-		#endif
-		#if ENABLE_FLATPAK
 		FlatpakPlugin flatpak_plugin;
-		#endif
 
 		public Config config { get; construct set; }
 
@@ -66,13 +62,10 @@ namespace Pamac {
 			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
 									| As.StoreAddFlags.ONLY_NATIVE_LANGS
 									| As.StoreAddFlags.USE_MERGE_HEURISTIC);
-			#if ENABLE_SNAP
 			// load snap plugin
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			// load flatpak plugin
 			if (config.support_flatpak) {
 				flatpak_plugin = config.get_flatpak_plugin ();
@@ -86,7 +79,6 @@ namespace Pamac {
 					}
 				});
 			}
-			#endif
 		}
 
 		public void enable_appstream () {
@@ -104,7 +96,6 @@ namespace Pamac {
 			}
 		}
 
-		#if ENABLE_FLATPAK
 		void load_flatpak_appstream_data () {
 			try {
 				new Thread<int>.try ("load_flatpak_appstream_data", () => {
@@ -115,7 +106,6 @@ namespace Pamac {
 				warning (e.message);
 			}
 		}
-		#endif
 
 		public void refresh () {
 			lock (alpm_config) {
@@ -1051,16 +1041,12 @@ namespace Pamac {
 					}
 				}
 			}
-			#if ENABLE_FLATPAK
 			if (pkg == null && config.enable_flatpak) {
 				pkg = flatpak_plugin.get_flatpak_by_app_id (app_id);
 			}
-			#endif
-			#if ENABLE_SNAP
 			if (pkg == null && config.enable_snap) {
 				pkg = snap_plugin.get_snap_by_app_id (app_id);
 			}
-			#endif
 			return pkg;
 		}
 
@@ -1276,7 +1262,6 @@ namespace Pamac {
 				initialise_pkgs (appstream_result, ref pkgs);
 			}
 			// doesn't work
-			//#if ENABLE_SNAP
 			//if (config.enable_snap) {
 				//var snap_pkgs = new GenericArray<unowned SnapPackage> ();
 				//try {
@@ -1288,8 +1273,6 @@ namespace Pamac {
 					//warning (e.message);
 				//}
 			//}
-			//#endif
-			//#if ENABLE_FLATPAK
 			//if (config.enable_flatpak) {
 				//var flatpak_pkgs = new GenericArray<unowned FlatpakPackage> ();
 				//try {
@@ -1301,7 +1284,6 @@ namespace Pamac {
 					//warning (e.message);
 				//}
 			//}
-			//#endif
 			return pkgs;
 		}
 
@@ -2323,12 +2305,10 @@ namespace Pamac {
 					}
 					pkgcache.next ();
 				}
-				#if ENABLE_FLATPAK
 				GenericArray<unowned FlatpakPackage> flatpak_updates = updates.flatpak_updates;
 				if (config.check_flatpak_updates) {
 					flatpak_plugin.get_flatpak_updates (ref flatpak_updates);
 				}
-				#endif
 				if (config.check_aur_updates) {
 					// count this step as 5% of the total
 					context.invoke (() => {
@@ -2634,7 +2614,6 @@ namespace Pamac {
 			return updates.aur_updates;
 		}
 
-		#if ENABLE_SNAP
 		public async GenericArray<unowned SnapPackage> search_snaps_async (string search_string) {
 			string search_string_down = search_string.down ();
 			var pkgs = new GenericArray<unowned SnapPackage> ();
@@ -2734,9 +2713,7 @@ namespace Pamac {
 			}
 			return pkgs;
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		public GenericArray<unowned string> get_flatpak_remotes_names () {
 			var list = new GenericArray<unowned string> ();
 			if (config.enable_flatpak) {
@@ -2822,7 +2799,6 @@ namespace Pamac {
 			}
 			return pkgs;
 		}
-		#endif
 	}
 }
 

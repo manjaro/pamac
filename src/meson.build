@@ -13,6 +13,8 @@ gtk3 = dependency('gtk+-3.0', version : '>=3.22')
 gdk3 = dependency('gdk-3.0')
 gdk_pixbuf2 = dependency('gdk-pixbuf-2.0')
 
+gmodule = dependency('gmodule-2.0')
+
 posix = meson.get_compiler('vala').find_library('posix')
 math = meson.get_compiler('c').find_library('m')
 
@@ -25,21 +27,15 @@ common_vala_args = ['--pkg=posix', '--target-glib=2.38', '--vapidir=' + join_pat
 common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 common_sources = ['package.vala', 'alpm_package.vala', 'pamac_config.vala']
-transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala', 'transaction_sum_dialog.vala', 'progress_box.vala']
+transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala',
+							'transaction_sum_dialog.vala', 'progress_box.vala']
 preferences_sources = ['preferences_dialog.vala']
 
-libpamac_sources = [common_sources, 'version.vala', 'alpm_config.vala', 'aur.vala', 'database.vala', 'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala', 'daemon_interface.vala', 'transaction_interface_daemon.vala', 'transaction.vala', 'updates_checker.vala']
-libpamac_dependencies = [alpm_deps, math, json, appstream, libsoup, libnotify]
-
-if get_option('enable-snap')
-	gmodule = dependency('gmodule-2.0')
-	libpamac_sources += 'plugin_loader.vala'
-	libpamac_dependencies += gmodule
-elif get_option('enable-flatpak')
-	gmodule = dependency('gmodule-2.0')
-	libpamac_sources += 'plugin_loader.vala'
-	libpamac_dependencies += gmodule
-endif
+libpamac_sources = [common_sources, 'version.vala', 'alpm_config.vala', 'aur.vala', 'database.vala',
+					'transaction_interface.vala', 'alpm_utils.vala', 'transaction_interface_root.vala',
+					'daemon_interface.vala', 'transaction_interface_daemon.vala', 'transaction.vala',
+					'updates_checker.vala', 'plugin_loader.vala', 'snap_interface.vala', 'flatpak_interface.vala']
+libpamac_dependencies = [alpm_deps, math, json, appstream, libsoup, libnotify, gmodule]
 
 if get_option('enable-snap')
 	snapd = dependency('snapd-glib')
@@ -53,7 +49,6 @@ if get_option('enable-snap')
 		install_dir: [true, true, true])
 
 	common_vala_args += '--define=ENABLE_SNAP'
-	libpamac_sources += 'snap_interface.vala'
 endif
 
 if get_option('enable-flatpak')
@@ -68,7 +63,6 @@ if get_option('enable-flatpak')
 		install_dir: [true, true, true])
 
 	common_vala_args += '--define=ENABLE_FLATPAK'
-	libpamac_sources += 'flatpak_interface.vala'
 endif
 
 libpamac = library('pamac',
@@ -95,24 +89,10 @@ custom_target('pamac typelib', command: [g_ir_compiler, '--shared-library', 'lib
 
 libpamac_dep = declare_dependency(link_with: libpamac)
 
-daemon_sources = ['version.vala', 'package.vala', 'alpm_package.vala', 'aur.vala', 'alpm_utils.vala', 'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala']
-daemon_dependencies = [vala_deps, alpm_deps, json, math, libsoup, polkit, appstream]
-
-if get_option('enable-snap')
-	daemon_sources += ['plugin_loader.vala', 'package.vala']
-	daemon_dependencies += gmodule
-elif get_option('enable-flatpak')
-	daemon_sources += ['plugin_loader.vala', 'package.vala']
-	daemon_dependencies += gmodule
-endif
-
-if get_option('enable-snap')
-	daemon_sources += 'snap_interface.vala'
-endif
-
-if get_option('enable-flatpak')
-	daemon_sources += 'flatpak_interface.vala'
-endif
+daemon_sources = ['version.vala', 'package.vala', 'alpm_package.vala', 'aur.vala', 'alpm_utils.vala',
+				'alpm_config.vala', 'pamac_config_daemon.vala', 'daemon.vala', 'plugin_loader.vala',
+				'snap_interface.vala', 'flatpak_interface.vala']
+daemon_dependencies = [vala_deps, alpm_deps, json, math, libsoup, polkit, appstream, gmodule]
 
 executable('pamac-daemon',
 	sources: daemon_sources,

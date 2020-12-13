@@ -31,17 +31,13 @@ namespace Pamac {
 		public uint64 refresh_period { get; set; }
 		public bool no_update_hide_icon { get; set; }
 		public bool enable_aur { get; set; }
-		#if ENABLE_SNAP
 		public bool support_snap { get; set; }
 		public bool enable_snap { get; set; }
 		PluginLoader<SnapPlugin> snap_plugin_loader;
-		#endif
-		#if ENABLE_FLATPAK
 		public bool support_flatpak { get; set; }
 		public bool enable_flatpak { get; set; }
 		public bool check_flatpak_updates { get; set; }
 		PluginLoader<FlatpakPlugin> flatpak_plugin_loader;
-		#endif
 		public string aur_build_dir { get; set; }
 		public bool check_aur_updates { get; set; }
 		public bool check_aur_vcs_updates { get; set; }
@@ -88,22 +84,18 @@ namespace Pamac {
 			}
 			// set default option
 			refresh_period = 6;
-			#if ENABLE_SNAP
 			// load snap plugin
 			support_snap = false;
 			snap_plugin_loader = new PluginLoader<SnapPlugin> ("pamac-snap");
 			if (snap_plugin_loader.load ()) {
 				support_snap = true;
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			// load flatpak plugin
 			support_flatpak = false;
 			flatpak_plugin_loader = new PluginLoader<FlatpakPlugin> ("pamac-flatpak");
 			if (flatpak_plugin_loader.load ()) {
 				support_flatpak = true;
 			}
-			#endif
 			reload ();
 		}
 
@@ -126,13 +118,9 @@ namespace Pamac {
 			refresh_period = 6;
 			no_update_hide_icon = false;
 			enable_aur = false;
-			#if ENABLE_SNAP
 			enable_snap = false;
-			#endif
-			#if ENABLE_FLATPAK
 			enable_flatpak = false;
 			check_flatpak_updates = false;
-			#endif
 			aur_build_dir = "/var/tmp";
 			check_aur_updates = false;
 			check_aur_vcs_updates = false;
@@ -155,38 +143,30 @@ namespace Pamac {
 			if (refresh_period > 168) {
 				refresh_period = 168;
 			}
-			#if ENABLE_SNAP
 			if (!support_snap) {
 				enable_snap = false;
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (!support_flatpak) {
 				enable_flatpak = false;
 				check_flatpak_updates = false;
 			} else if (!enable_flatpak) {
 				check_flatpak_updates = false;
 			}
-			#endif
 		}
 
-		#if ENABLE_SNAP
 		internal SnapPlugin? get_snap_plugin () {
 			if (support_snap) {
 				return snap_plugin_loader.new_object ();
 			}
 			return null;
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		internal FlatpakPlugin? get_flatpak_plugin () {
 			if (support_flatpak) {
 				return flatpak_plugin_loader.new_object ();
 			}
 			return null;
 		}
-		#endif
 
 		void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
@@ -233,16 +213,12 @@ namespace Pamac {
 							enable_aur = true;
 						} else if (key == "KeepBuiltPkgs") {
 							keep_built_pkgs = true;
-						#if ENABLE_SNAP
 						} else if (key == "EnableSnap") {
 							enable_snap = true;
-						#endif
-						#if ENABLE_FLATPAK
 						} else if (key == "EnableFlatpak") {
 							enable_flatpak = true;
 						} else if (key == "CheckFlatpakUpdates") {
 							check_flatpak_updates = true;
-						#endif
 						} else if (key == "BuildDirectory") {
 							if (splitted.length == 2) {
 								aur_build_dir = splitted[1]._strip ();
@@ -313,13 +289,9 @@ namespace Pamac {
 			new_pamac_conf.insert ("CheckAURUpdates", new Variant.boolean (check_aur_updates));
 			new_pamac_conf.insert ("CheckAURVCSUpdates", new Variant.boolean (check_aur_vcs_updates));
 			new_pamac_conf.insert ("BuildDirectory", new Variant.string (aur_build_dir));
-			#if ENABLE_SNAP
 			new_pamac_conf.insert ("EnableSnap", new Variant.boolean (enable_snap));
-			#endif
-			#if ENABLE_FLATPAK
 			new_pamac_conf.insert ("EnableFlatpak", new Variant.boolean (enable_flatpak));
 			new_pamac_conf.insert ("CheckFlatpakUpdates", new Variant.boolean (check_flatpak_updates));
-			#endif
 			try {
 				system_daemon.start_write_pamac_config (new_pamac_conf);
 				loop.run ();

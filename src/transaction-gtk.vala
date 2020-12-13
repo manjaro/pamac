@@ -395,16 +395,12 @@ namespace Pamac {
 				}
 				return pkg.name;
 			}
-			#if ENABLE_FLATPAK
 			if (pkg is FlatpakPackage) {
 				return pkg.app_name;
 			}
-			#endif
-			#if ENABLE_SNAP
 			if (pkg is SnapPackage) {
 				return pkg.app_name;
 			}
-			#endif
 			return pkg.name;
 		}
 
@@ -427,10 +423,8 @@ namespace Pamac {
 				} else if (pkg.repo != null && pkg.repo != dgettext (null, "AUR")) {
 					repo = "%s (%s)".printf (dgettext (null, "Repository"), pkg.repo);
 				}
-			#if ENABLE_FLATPAK
 			} else if (pkg is FlatpakPackage) {
 				repo = "%s (%s)".printf (dgettext (null, "Flatpak"), pkg.repo);
-			#endif
 			}
 			return repo;
 		}
@@ -1079,7 +1073,6 @@ namespace Pamac {
 			dialog.destroy ();
 		}
 
-		#if ENABLE_SNAP
 		protected override bool ask_snap_install_classic (string name) {
 			var flags = Gtk.DialogFlags.MODAL;
 			int use_header_bar;
@@ -1126,7 +1119,6 @@ namespace Pamac {
 			}
 			return false;
 		}
-		#endif
 
 		public void show_notification (string message) {
 			var notification = new Notification (dgettext (null, "Package Manager"));

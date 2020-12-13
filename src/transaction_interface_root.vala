@@ -238,7 +238,6 @@ namespace Pamac {
 			return trans_run_success;
 		}
 
-		#if ENABLE_SNAP
 		public async bool snap_trans_run (string[] to_install, string[] to_remove) {
 			// not implemented
 			return false;
@@ -248,14 +247,11 @@ namespace Pamac {
 			// not implemented
 			return false;
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		public async bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) {
 			// not implemented
 			return false;
 		}
-		#endif
 
 		public void trans_cancel () {
 			trans_cancellable.cancel ();

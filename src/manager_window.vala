@@ -27,14 +27,10 @@ namespace Pamac {
 	GenericSet<string?> to_build;
 	GenericSet<string?> to_update;
 	GenericSet<string?> temporary_ignorepkgs;
-	#if ENABLE_SNAP
 	HashTable<string, SnapPackage> snap_to_install;
 	HashTable<string, SnapPackage> snap_to_remove;
-	#endif
-	#if ENABLE_FLATPAK
 	HashTable<string, FlatpakPackage> flatpak_to_install;
 	HashTable<string, FlatpakPackage> flatpak_to_remove;
-	#endif
 
 	int sort_search_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
 		if (pkg_a is AURPackage) {
@@ -511,9 +507,7 @@ namespace Pamac {
 		bool enable_aur;
 		GenericArray<AlpmPackage> repos_updates;
 		GenericArray<AURPackage> aur_updates;
-		#if ENABLE_FLATPAK
 		GenericArray<FlatpakPackage> flatpak_updates;
-		#endif
 		string current_category_view;
 		string current_installed_view;
 		string current_updates_view;
@@ -529,14 +523,10 @@ namespace Pamac {
 		bool scroll_to_top;
 		uint in_app_notification_timeout_id;
 
-		#if ENABLE_SNAP
 		HashTable<string, SnapPackage> previous_snap_to_install;
 		HashTable<string, SnapPackage> previous_snap_to_remove;
-		#endif
-		#if ENABLE_FLATPAK
 		HashTable<string, FlatpakPackage> previous_flatpak_to_install;
 		HashTable<string, FlatpakPackage> previous_flatpak_to_remove;
-		#endif
 
 		public ManagerWindow (Gtk.Application application, Database database) {
 			Object (application: application, database: database);
@@ -606,21 +596,17 @@ namespace Pamac {
 			// transaction
 			repos_updates = new GenericArray<AlpmPackage> ();
 			aur_updates = new GenericArray<AURPackage> ();
-			#if ENABLE_SNAP
 			snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			previous_snap_to_install = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			previous_snap_to_remove = new HashTable<string, SnapPackage> (str_hash, str_equal);
 			check_snap_support ();
-			#endif
-			#if ENABLE_FLATPAK
 			flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			previous_flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			previous_flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_updates = new GenericArray<FlatpakPackage> ();
 			check_flatpak_support ();
-			#endif
 			transaction = new TransactionGtk (database, this);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
@@ -772,7 +758,6 @@ namespace Pamac {
 			}
 		}
 
-		#if ENABLE_SNAP
 		void check_snap_support () {
 			if (database.config.enable_snap) {
 				view_snap_button.visible = true;
@@ -783,9 +768,7 @@ namespace Pamac {
 				view_snap_button.visible = false;
 			}
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		void check_flatpak_support () {
 			if (database.config.enable_flatpak) {
 				view_flatpak_button.visible = true;
@@ -799,7 +782,6 @@ namespace Pamac {
 				view_flatpak_button.visible = false;
 			}
 		}
-		#endif
 
 		void set_pendings_operations () {
 			if (!transaction_running && !generate_mirrors_list && !sysupgrade_running) {
@@ -826,14 +808,10 @@ namespace Pamac {
 					cancel_button.sensitive = false;
 				} else {
 					uint total_pending = to_install.length +
-										#if ENABLE_SNAP
 										snap_to_install.length +
 										snap_to_remove.length +
-										#endif
-										#if ENABLE_FLATPAK
 										flatpak_to_install.length +
 										flatpak_to_remove.length +
-										#endif
 										to_remove.length +
 										to_build.length;
 					if (total_pending == 0) {
@@ -879,14 +857,10 @@ namespace Pamac {
 			repos_listbox.select_row (repos_listbox.get_row_at_index (0));
 
 			// use by sort_pkgs_by_repo
-			#if ENABLE_SNAP
 			repos_names.add (dgettext (null, "Snap"));
-			#endif
-			#if ENABLE_FLATPAK
 			foreach (unowned string name in database.get_flatpak_remotes_names ()) {
 				repos_names.add (name);
 			}
-			#endif
 			repos_names.add (dgettext (null, "AUR"));
 
 			foreach (unowned string name in database.get_groups_names ()) {
@@ -906,28 +880,20 @@ namespace Pamac {
 			to_remove.remove_all ();
 			to_build.remove_all ();
 			to_load.remove_all ();
-			#if ENABLE_SNAP
 			snap_to_install.remove_all ();
 			snap_to_remove.remove_all ();
-			#endif
-			#if ENABLE_FLATPAK
 			flatpak_to_install.remove_all ();
 			flatpak_to_remove.remove_all ();
-			#endif
 		}
 
 		void clear_previous_lists () {
 			previous_to_install.remove_all ();
 			previous_to_remove.remove_all ();
 			previous_to_build.remove_all ();
-			#if ENABLE_SNAP
 			previous_snap_to_install.remove_all ();
 			previous_snap_to_remove.remove_all ();
-			#endif
-			#if ENABLE_FLATPAK
 			previous_flatpak_to_install.remove_all ();
 			previous_flatpak_to_remove.remove_all ();
-			#endif
 		}
 
 		void on_mark_explicit_button_clicked (Gtk.Button button) {
@@ -1572,7 +1538,6 @@ namespace Pamac {
 			}
 		}
 
-		#if ENABLE_SNAP
 		void set_snap_details (SnapPackage snap_pkg) {
 			// download screenshot
 			screenshots_stack.foreach ((widget) => {
@@ -1707,9 +1672,7 @@ namespace Pamac {
 			// deps
 			deps_grid.foreach (transaction.destroy_widget);
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		void set_flatpak_details (FlatpakPackage flatpak_pkg) {
 			// download screenshot
 			screenshots_stack.foreach ((widget) => {
@@ -1784,7 +1747,6 @@ namespace Pamac {
 			// deps
 			deps_grid.foreach (transaction.destroy_widget);
 		}
-		#endif
 
 		void on_properties_stack_visible_child_changed () {
 			switch (properties_stack.visible_child_name) {
@@ -1840,30 +1802,22 @@ namespace Pamac {
 		void on_install_togglebutton_toggled () {
 			if (install_togglebutton.active) {
 				install_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
-				#if ENABLE_SNAP
-				if (current_package_displayed is SnapPackage)
+				if (current_package_displayed is SnapPackage) {
 					snap_to_install.insert (current_package_displayed.name, current_package_displayed as SnapPackage);
-				else
-				#endif
-				#if ENABLE_FLATPAK
-				if (current_package_displayed is FlatpakPackage)
+				} else if (current_package_displayed is FlatpakPackage) {
 					flatpak_to_install.insert (current_package_displayed.name, current_package_displayed as FlatpakPackage);
-				else
-				#endif
-				to_install.add (current_package_displayed.name);
+				} else {
+					to_install.add (current_package_displayed.name);
+				}
 			} else {
 				install_togglebutton.image = null;
-				#if ENABLE_SNAP
-				if (current_package_displayed is SnapPackage)
+				if (current_package_displayed is SnapPackage) {
 					snap_to_install.remove (current_package_displayed.name);
-				else
-				#endif
-				#if ENABLE_FLATPAK
-				if (current_package_displayed is FlatpakPackage)
+				} else if (current_package_displayed is FlatpakPackage) {
 					flatpak_to_install.remove (current_package_displayed.name);
-				else
-				#endif
-				to_install.remove (current_package_displayed.name);
+				} else {
+					to_install.remove (current_package_displayed.name);
+				}
 			}
 			set_pendings_operations ();
 			refresh_listbox_buttons ();
@@ -1897,39 +1851,25 @@ namespace Pamac {
 				reinstall_togglebutton.active = false;
 				reinstall_togglebutton.image = null;
 				remove_togglebutton.image = new Gtk.Image.from_icon_name ("object-select-symbolic", Gtk.IconSize.BUTTON);
-				#if ENABLE_SNAP
 				if (current_package_displayed is SnapPackage) {
 					snap_to_install.remove (current_package_displayed.name);
 					snap_to_remove.insert (current_package_displayed.name, current_package_displayed as SnapPackage);
-				} else
-				#endif
-				#if ENABLE_FLATPAK
-				if (current_package_displayed is FlatpakPackage) {
+				} else if (current_package_displayed is FlatpakPackage) {
 					flatpak_to_install.remove (current_package_displayed.name);
 					flatpak_to_remove.insert (current_package_displayed.name, current_package_displayed as FlatpakPackage);
-				} else
-				#endif
-				#if ENABLE_SNAP || ENABLE_FLATPAK
-				{
-				#endif
+				} else {
 					to_install.remove (current_package_displayed.name);
 					to_remove.add (current_package_displayed.name);
-				#if ENABLE_SNAP || ENABLE_FLATPAK
 				}
-				#endif
 			} else {
 				remove_togglebutton.image = null;
-				#if ENABLE_SNAP
-				if (current_package_displayed is SnapPackage)
+				if (current_package_displayed is SnapPackage) {
 					snap_to_remove.remove (current_package_displayed.name);
-				else
-				#endif
-				#if ENABLE_FLATPAK
-				if (current_package_displayed is FlatpakPackage)
+				} else if (current_package_displayed is FlatpakPackage) {
 					flatpak_to_remove.remove (current_package_displayed.name);
-				else
-				#endif
-				to_remove.remove (current_package_displayed.name);
+				} else {
+					to_remove.remove (current_package_displayed.name);
+				}
 			}
 			set_pendings_operations ();
 			refresh_listbox_buttons ();
@@ -2101,12 +2041,11 @@ namespace Pamac {
 				row.desc_label.label = "";
 			}
 			if (is_update) {
-				#if ENABLE_FLATPAK
-				if (pkg is FlatpakPackage)
+				if (pkg is FlatpakPackage) {
 					row.version_label.set_markup ("<b>%s</b>".printf (pkg.version));
-				else
-				#endif
-				row.version_label.set_markup ("<b>%s  (%s)</b>".printf (pkg.version, pkg.installed_version));
+				} else {
+					row.version_label.set_markup ("<b>%s  (%s)</b>".printf (pkg.version, pkg.installed_version));
+				}
 				if (pkg.download_size == 0) {
 					row.size_label.label = "";
 				} else {
@@ -2133,10 +2072,8 @@ namespace Pamac {
 					} else {
 						row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repositories"), pkg.repo));
 					}
-				#if ENABLE_FLATPAK
 				} else if (pkg is FlatpakPackage) {
 					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
-				#endif
 				} else {
 					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
 				}
@@ -2156,7 +2093,6 @@ namespace Pamac {
 					try {
 						pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 48, 48, true);
 					} catch (Error e) {
-						#if ENABLE_SNAP
 						if (pkg is SnapPackage && pkg.installed_version != null) {
 							pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
 							// try to retrieve icon
@@ -2169,7 +2105,6 @@ namespace Pamac {
 								}
 							});
 						} else {
-						#endif
 							// some icons are not in the right repo
 							string new_icon = icon;
 							if ("extra" in icon) {
@@ -2183,9 +2118,7 @@ namespace Pamac {
 								pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
 								warning ("%s: %s", icon, e.message);
 							}
-						#if ENABLE_SNAP
 						}
-						#endif
 					}
 				}
 			} else {
@@ -2232,7 +2165,6 @@ namespace Pamac {
 						refresh_listbox_buttons ();
 						set_pendings_operations ();
 					});
-				#if ENABLE_SNAP
 				} else if (pkg is SnapPackage) {
 					row.action_togglebutton.label = dgettext (null, "Install");
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
@@ -2249,8 +2181,6 @@ namespace Pamac {
 						refresh_listbox_buttons ();
 						set_pendings_operations ();
 					});
-				#endif
-				#if ENABLE_FLATPAK
 				} else if (pkg is FlatpakPackage) {
 					row.action_togglebutton.label = dgettext (null, "Install");
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
@@ -2267,7 +2197,6 @@ namespace Pamac {
 						refresh_listbox_buttons ();
 						set_pendings_operations ();
 					});
-				#endif
 				} else {
 					row.action_togglebutton.label = dgettext (null, "Install");
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
@@ -2285,7 +2214,6 @@ namespace Pamac {
 						set_pendings_operations ();
 					});
 				}
-			#if ENABLE_SNAP
 			} else if (pkg is SnapPackage) {
 				row.action_togglebutton.label = dgettext (null, "Remove");
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
@@ -2302,8 +2230,6 @@ namespace Pamac {
 					refresh_listbox_buttons ();
 					set_pendings_operations ();
 				});
-			#endif
-			#if ENABLE_FLATPAK
 			} else if (pkg is FlatpakPackage) {
 				row.action_togglebutton.label = dgettext (null, "Remove");
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
@@ -2320,7 +2246,6 @@ namespace Pamac {
 					refresh_listbox_buttons ();
 					set_pendings_operations ();
 				});
-			#endif
 			} else {
 				row.action_togglebutton.label = dgettext (null, "Remove");
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
@@ -2384,12 +2309,11 @@ namespace Pamac {
 			} else {
 				row.desc_label.label = "";
 			}
-			#if ENABLE_FLATPAK
-			if (pkg is FlatpakPackage)
+			if (pkg is FlatpakPackage) {
 				row.version_label.set_markup ("<b>%s</b>".printf (pkg.version));
-			else
-			#endif
-			row.version_label.set_markup ("<b>%s  (%s)</b>".printf (pkg.version, pkg.installed_version));
+			} else {
+				row.version_label.set_markup ("<b>%s  (%s)</b>".printf (pkg.version, pkg.installed_version));
+			}
 			if (pkg.download_size == 0) {
 				row.size_label.label = "";
 			} else {
@@ -2407,10 +2331,8 @@ namespace Pamac {
 				} else if (pkg.repo != null) {
 					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repositories"), pkg.repo));
 				}
-			#if ENABLE_FLATPAK
 			} else if (pkg is FlatpakPackage) {
 				row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
-			#endif
 			} else {
 				row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
 			}
@@ -2504,7 +2426,6 @@ namespace Pamac {
 						pamac_row.action_togglebutton.active = false;
 						pamac_row.action_togglebutton.image = null;
 					}
-				#if ENABLE_SNAP
 				} else if (pkg is SnapPackage) {
 					if (pkg.name in snap_to_install ||
 						pkg.name in snap_to_remove) {
@@ -2514,8 +2435,6 @@ namespace Pamac {
 						pamac_row.action_togglebutton.active = false;
 						pamac_row.action_togglebutton.image = null;
 					}
-				#endif
-				#if ENABLE_FLATPAK
 				} else if (pkg is FlatpakPackage) {
 					if (pkg.name in flatpak_to_install ||
 						pkg.name in flatpak_to_remove ||
@@ -2526,7 +2445,6 @@ namespace Pamac {
 						pamac_row.action_togglebutton.active = false;
 						pamac_row.action_togglebutton.image = null;
 					}
-				#endif
 				} else if (pkg is AlpmPackage){
 					if (pkg.installed_version == null) {
 						if (pkg.name in to_install) {
@@ -2576,16 +2494,8 @@ namespace Pamac {
 					view_foreign_button.visible = false;
 					view_repositories_button.visible = true;
 					view_aur_button.visible = enable_aur;
-					#if ENABLE_SNAP
 					view_snap_button.visible = database.config.enable_snap;
-					#else
-					view_snap_button.visible = false;
-					#endif
-					#if ENABLE_FLATPAK
 					view_flatpak_button.visible = database.config.enable_flatpak;
-					#else
-					view_flatpak_button.visible = false;
-					#endif
 					view_box.visible = true;
 				}
 				browse_head_box.visible = true;
@@ -2599,14 +2509,10 @@ namespace Pamac {
 					on_view_repositories_button_clicked ();
 				} else if (filter == dgettext (null, "AUR")) {
 					on_view_aur_button_clicked ();
-				#if ENABLE_SNAP
 				} else if (filter == dgettext (null, "Snap")) {
 					on_view_snap_button_clicked ();
-				#endif
-				#if ENABLE_FLATPAK
 				} else if (filter == dgettext (null, "Flatpak")) {
 					on_view_flatpak_button_clicked ();
-				#endif
 				}
 				set_pendings_operations ();
 			} else if (main_browse_togglebutton.active) {
@@ -2672,18 +2578,10 @@ namespace Pamac {
 					view_foreign_button.visible = true;
 					view_repositories_button.visible = false;
 					view_aur_button.visible = false;
-					#if ENABLE_SNAP
 					view_snap_button.sensitive = true;
 					view_snap_button.visible = database.config.enable_snap;
-					#else
-					view_snap_button.visible = false;
-					#endif
-					#if ENABLE_FLATPAK
 					view_flatpak_button.sensitive = true;
 					view_flatpak_button.visible = database.config.enable_flatpak;
-					#else
-					view_flatpak_button.visible = false;
-					#endif
 					view_box.visible = true;
 				}
 				browse_head_box.visible = true;
@@ -2697,14 +2595,10 @@ namespace Pamac {
 					on_view_orphans_button_clicked ();
 				} else if (filter == dgettext (null, "Foreign")) {
 					on_view_foreign_button_clicked ();
-				#if ENABLE_SNAP
 				} else if (filter == dgettext (null, "Snap")) {
 					on_view_snap_button_clicked ();
-				#endif
-				#if ENABLE_FLATPAK
 				} else if (filter == dgettext (null, "Flatpak")) {
 					on_view_flatpak_button_clicked ();
-				#endif
 				}
 				set_pendings_operations ();
 			} else if (main_updates_togglebutton.active) {
@@ -2722,9 +2616,7 @@ namespace Pamac {
 				view_foreign_button.visible = false;
 				view_repositories_button.visible = true;
 				view_aur_button.visible = enable_aur;
-				#if ENABLE_FLATPAK
 				view_flatpak_button.visible = database.config.enable_flatpak;
-				#endif
 				apply_button.sensitive = false;
 				cancel_button.sensitive = false;
 				bool need_refresh = database.need_refresh ();
@@ -2764,12 +2656,10 @@ namespace Pamac {
 						aur_updates.add (pkg);
 						temporary_ignorepkgs.add (pkg.name);
 					}
-					#if ENABLE_FLATPAK
 					flatpak_updates = new GenericArray<FlatpakPackage> ();
 					foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 						flatpak_updates.add (pkg);
 					}
-					#endif
 					if (main_updates_togglebutton.active) {
 						populate_updates ();
 					} else {
@@ -2802,7 +2692,6 @@ namespace Pamac {
 					} else {
 						view_aur_button.sensitive = false;
 					}
-					#if ENABLE_SNAP
 					if (database.config.enable_snap) {
 						view_snap_button.visible = true;
 						if ((snap_to_install.length + snap_to_remove.length) > 0) {
@@ -2813,8 +2702,6 @@ namespace Pamac {
 					} else {
 						view_snap_button.visible = false;
 					}
-					#endif
-					#if ENABLE_FLATPAK
 					if (database.config.enable_flatpak) {
 						view_flatpak_button.visible = true;
 						if ((flatpak_to_install.length + flatpak_to_remove.length) > 0) {
@@ -2825,7 +2712,6 @@ namespace Pamac {
 					} else {
 						view_flatpak_button.visible = false;
 					}
-					#endif
 					view_box.visible = true;
 				}
 				browse_head_box.visible = true;
@@ -2837,14 +2723,10 @@ namespace Pamac {
 					on_view_repositories_button_clicked ();
 				} else if (filter == dgettext (null, "AUR")) {
 					on_view_aur_button_clicked ();
-				#if ENABLE_SNAP
 				} else if (filter == dgettext (null, "Snap")) {
 					on_view_snap_button_clicked ();
-				#endif
-				#if ENABLE_FLATPAK
 				} else if (filter == dgettext (null, "Flatpak")) {
 					on_view_flatpak_button_clicked ();
-				#endif
 				}
 			}
 		}
@@ -2854,17 +2736,11 @@ namespace Pamac {
 				display_aur_details (pkg as AURPackage);
 			} else if (pkg is AlpmPackage) {
 				display_package_details (pkg as AlpmPackage);
-			}
-			#if ENABLE_SNAP
-			else if (pkg is SnapPackage) {
+			} else if (pkg is SnapPackage) {
 				display_snap_details (pkg as SnapPackage);
-			}
-			#endif
-			#if ENABLE_FLATPAK
-			else if (pkg is FlatpakPackage) {
+			} else if (pkg is FlatpakPackage) {
 				display_flatpak_details (pkg as FlatpakPackage);
 			}
-			#endif
 		}
 
 		void refresh_details () {
@@ -2875,7 +2751,6 @@ namespace Pamac {
 						current_package_displayed = pkg;
 					}
 				});
-			#if ENABLE_SNAP
 			} else if (current_package_displayed is SnapPackage) {
 				database.get_snap_async.begin (current_package_displayed.name, (obj, res) => {
 					Package? pkg = database.get_snap_async.end (res);
@@ -2883,8 +2758,6 @@ namespace Pamac {
 						current_package_displayed = pkg;
 					}
 				});
-			#endif
-			#if ENABLE_FLATPAK
 			} else if (current_package_displayed is FlatpakPackage) {
 				FlatpakPackage current_flatpak = current_package_displayed as FlatpakPackage;
 				database.get_flatpak_async.begin (current_flatpak.id, (obj, res) => {
@@ -2893,7 +2766,6 @@ namespace Pamac {
 						current_package_displayed = pkg;
 					}
 				});
-			#endif
 			} else {
 				Package? pkg = database.get_installed_pkg (current_package_displayed.name);
 				if (pkg == null) {
@@ -2931,7 +2803,6 @@ namespace Pamac {
 			set_aur_details (aur_pkg);
 		}
 
-		#if ENABLE_SNAP
 		public void display_snap_details (SnapPackage snap_pkg) {
 			current_package_displayed = snap_pkg;
 			// select details if files or build files was selected
@@ -2942,9 +2813,7 @@ namespace Pamac {
 			properties_stack_switcher.visible = false;
 			set_snap_details (snap_pkg);
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		public void display_flatpak_details (FlatpakPackage flatpak_pkg) {
 			current_package_displayed = flatpak_pkg;
 			// select details if files or build files was selected
@@ -2955,7 +2824,6 @@ namespace Pamac {
 			properties_stack_switcher.visible = false;
 			set_flatpak_details (flatpak_pkg);
 		}
-		#endif
 
 		[GtkCallback]
 		void on_packages_listbox_row_activated (Gtk.ListBoxRow row) {
@@ -3061,18 +2929,14 @@ namespace Pamac {
 					}
 				}
 			}
-			#if ENABLE_SNAP
 			if (database.config.enable_snap) {
 				var snaps = yield database.search_snaps_async (search_string);
 				pkgs.extend (snaps, null);
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (database.config.enable_flatpak) {
 				var flatpaks = yield database.search_flatpaks_async (search_string);
 				pkgs.extend (flatpaks, null);
 			}
-			#endif
 			return pkgs;
 		}
 
@@ -3221,18 +3085,14 @@ namespace Pamac {
 
 		async GenericArray<unowned Package> get_all_installed () {
 			GenericArray<unowned Package> pkgs = yield database.get_installed_pkgs_async ();
-			#if ENABLE_SNAP
 			if (database.config.enable_snap) {
 				var snap_pkgs = yield database.get_installed_snaps_async ();
 				pkgs.extend (snap_pkgs, null);
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (database.config.enable_flatpak) {
 				var flatpak_pkgs = yield database.get_installed_flatpaks_async ();
 				pkgs.extend (flatpak_pkgs, null);
 			}
-			#endif
 			return pkgs;
 		}
 
@@ -3280,11 +3140,9 @@ namespace Pamac {
 				foreach (unowned Package pkg in aur_updates) {
 					pkgs.add (pkg);
 				}
-				#if ENABLE_FLATPAK
 				foreach (unowned Package pkg in flatpak_updates) {
 					pkgs.add (pkg);
 				}
-				#endif
 				if (main_updates_togglebutton.active && current_packages_list_name == "all_updates") {
 					populate_packages_list (pkgs);
 				} else {
@@ -3310,7 +3168,6 @@ namespace Pamac {
 					} else {
 					}
 				}
-				#if ENABLE_SNAP
 				var snap_iter = HashTableIter<string, SnapPackage?> (snap_to_install);
 				unowned SnapPackage? snap_pkg;
 				while (snap_iter.next (null, out snap_pkg)) {
@@ -3320,8 +3177,6 @@ namespace Pamac {
 				while (snap_iter.next (null, out snap_pkg)) {
 					pkgs.add (snap_pkg);
 				}
-				#endif
-				#if ENABLE_FLATPAK
 				var flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_install);
 				unowned FlatpakPackage? flatpak_pkg;
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
@@ -3331,7 +3186,6 @@ namespace Pamac {
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
 					pkgs.add (flatpak_pkg);
 				}
-				#endif
 				if (to_build.length > 0) {
 					get_pendings_aur_pkgs.begin ((obj, res) => {
 						var aur_pkgs = get_pendings_aur_pkgs.end (res);
@@ -3536,7 +3390,6 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_view_snap_button_clicked () {
-			#if ENABLE_SNAP
 			view_button_label.label = dgettext (null, "Snap");
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
@@ -3583,12 +3436,10 @@ namespace Pamac {
 					this.get_window ().set_cursor (null);
 				}
 			}
-			#endif
 		}
 
 		[GtkCallback]
 		void on_view_flatpak_button_clicked () {
-			#if ENABLE_FLATPAK
 			view_button_label.label = dgettext (null, "Flatpak");
 			if (search_togglebutton.active) { // search
 				current_search_view = view_button_label.label;
@@ -3651,7 +3502,6 @@ namespace Pamac {
 					this.get_window ().set_cursor (null);
 				}
 			}
-			#endif
 		}
 
 		[GtkCallback]
@@ -3816,12 +3666,8 @@ namespace Pamac {
 					preferences_dialog.destroy ();
 					transaction.remove_authorization ();
 					check_aur_support ();
-					#if ENABLE_SNAP
 					check_snap_support ();
-					#endif
-					#if ENABLE_FLATPAK
 					check_flatpak_support ();
-					#endif
 					if (main_stack.visible_child_name == "details") {
 						refresh_details ();
 					}
@@ -3878,18 +3724,14 @@ namespace Pamac {
 
 		async GenericArray<unowned Package> get_category_pkgs (string category) {
 			GenericArray<unowned Package> pkgs = yield database.get_category_pkgs_async (category);
-			#if ENABLE_SNAP
 			if (database.config.enable_snap) {
 				var snap_pkgs = yield database.get_category_snaps_async (category);
 				pkgs.extend (snap_pkgs, null);
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (database.config.enable_flatpak) {
 				var flatpak_pkgs = yield database.get_category_flatpaks_async (category);
 				pkgs.extend (flatpak_pkgs, null);
 			}
-			#endif
 			return pkgs;
 		}
 
@@ -3989,7 +3831,6 @@ namespace Pamac {
 				transaction.add_aur_pkg_to_build (name);
 				previous_to_build.add (name);
 			}
-			#if ENABLE_SNAP
 			foreach (unowned SnapPackage pkg in snap_to_install.get_values ()) {
 				transaction.add_snap_to_install (pkg);
 				previous_snap_to_install.insert (pkg.name, pkg);
@@ -3998,8 +3839,6 @@ namespace Pamac {
 				transaction.add_snap_to_remove (pkg);
 				previous_snap_to_remove.insert (pkg.name, pkg);
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			foreach (unowned FlatpakPackage pkg in flatpak_to_install.get_values ()) {
 				transaction.add_flatpak_to_install (pkg);
 				previous_flatpak_to_install.insert (pkg.name, pkg);
@@ -4008,7 +3847,6 @@ namespace Pamac {
 				transaction.add_flatpak_to_remove (pkg);
 				previous_flatpak_to_remove.insert (pkg.name, pkg);
 			}
-			#endif
 			clear_lists ();
 			active_pending_stack (false);
 			transaction.run_async.begin ((obj, res) => {
@@ -4030,13 +3868,11 @@ namespace Pamac {
 				}
 				transaction.add_pkgs_to_upgrade (force_refresh);
 			}
-			#if ENABLE_FLATPAK
 			foreach (unowned FlatpakPackage pkg in flatpak_updates) {
 				if (!temporary_ignorepkgs.contains (pkg.name)) {
 					transaction.add_flatpak_to_upgrade (pkg);
 				}
 			}
-			#endif
 			transaction.run_async.begin ((obj, res) => {
 				bool success = transaction.run_async.end (res);
 				on_transaction_finished (success);
@@ -4111,12 +3947,10 @@ namespace Pamac {
 					aur_updates.add (pkg);
 					temporary_ignorepkgs.add (pkg.name);
 				}
-				#if ENABLE_FLATPAK
 				flatpak_updates = new GenericArray<FlatpakPackage> ();
 				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					flatpak_updates.add (pkg);
 				}
-				#endif
 				if (main_updates_togglebutton.active) {
 					populate_updates ();
 				} else {
@@ -4136,10 +3970,7 @@ namespace Pamac {
 			to_update.remove_all ();
 			if (repos_updates.length == 0
 				&& aur_updates.length == 0
-				#if ENABLE_FLATPAK
-				&& flatpak_updates.length == 0
-				#endif
-				) {
+				&& flatpak_updates.length == 0) {
 				browse_head_box.visible = false;
 				browse_separator.visible = false;
 				browse_stack.visible_child_name = "updated";
@@ -4181,7 +4012,6 @@ namespace Pamac {
 				} else {
 					view_aur_button.sensitive = false;
 				}
-				#if ENABLE_FLATPAK
 				if (flatpak_updates.length > 0) {
 					foreach (unowned FlatpakPackage pkg in flatpak_updates) {
 						if (!temporary_ignorepkgs.contains (pkg.name)) {
@@ -4193,7 +4023,6 @@ namespace Pamac {
 				} else {
 					view_flatpak_button.sensitive = false;
 				}
-				#endif
 				unowned string filter = view_button_label.label;
 				if (filter == dgettext (null, "All")) {
 					on_view_all_button_clicked ();
@@ -4201,10 +4030,8 @@ namespace Pamac {
 					on_view_repositories_button_clicked ();
 				} else if (filter == dgettext (null, "AUR")) {
 					on_view_aur_button_clicked ();
-				#if ENABLE_FLATPAK
 				} else if (filter == dgettext (null, "Flatpak")) {
 					on_view_flatpak_button_clicked ();
-				#endif
 				}
 				browse_head_box.visible = true;
 				browse_separator.visible = true;
@@ -4305,7 +4132,6 @@ namespace Pamac {
 						to_build.add (name);
 					}
 				}
-				#if ENABLE_SNAP
 				foreach (unowned SnapPackage pkg in previous_snap_to_install.get_values ()) {
 					if (!database.is_installed_snap (pkg.name)) {
 						snap_to_install.insert (pkg.name, pkg);
@@ -4316,8 +4142,6 @@ namespace Pamac {
 						snap_to_remove.insert (pkg.name, pkg);
 					}
 				}
-				#endif
-				#if ENABLE_FLATPAK
 				foreach (unowned FlatpakPackage pkg in previous_flatpak_to_install.get_values ()) {
 					if (!database.is_installed_flatpak (pkg.name)) {
 						flatpak_to_install.insert (pkg.name, pkg);
@@ -4328,7 +4152,6 @@ namespace Pamac {
 						flatpak_to_remove.insert (pkg.name, pkg);
 					}
 				}
-				#endif
 			}
 			transaction.reset_progress_box ();
 			transaction.show_details ("");

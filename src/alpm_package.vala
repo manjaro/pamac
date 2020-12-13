@@ -1344,9 +1344,7 @@ namespace Pamac {
 		public GenericArray<AURPackage> aur_updates { get; internal set; default = new GenericArray<AURPackage> (); }
 		public GenericArray<AURPackage> ignored_aur_updates { get; internal set; default = new GenericArray<AURPackage> (); }
 		public GenericArray<AURPackage> outofdate { get; internal set; default = new GenericArray<AURPackage> (); }
-		#if ENABLE_FLATPAK
 		public GenericArray<unowned FlatpakPackage> flatpak_updates { get; internal set; default = new GenericArray<unowned FlatpakPackage> (); }
-		#endif
 
 		internal Updates () {}
 	}

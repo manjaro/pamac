@@ -38,16 +38,12 @@ namespace Pamac {
 		bool trans_refresh_success;
 		SourceFunc trans_run_callback;
 		bool trans_run_success;
-		#if ENABLE_SNAP
 		SourceFunc snap_trans_run_callback;
 		bool snap_trans_run_success;
 		SourceFunc snap_switch_channel_callback;
 		bool snap_switch_channel_success;
-		#endif
-		#if ENABLE_FLATPAK
 		SourceFunc flatpak_trans_run_callback;
 		bool flatpak_trans_run_success;
-		#endif
 
 		public TransactionInterfaceDaemon (Config config, MainContext context) {
 			this.context = context;
@@ -263,7 +259,6 @@ namespace Pamac {
 			}
 		}
 
-		#if ENABLE_SNAP
 		public async bool snap_trans_run (string[] to_install, string[] to_remove) throws Error {
 			snap_trans_run_callback = snap_trans_run.callback;
 			try {
@@ -301,9 +296,7 @@ namespace Pamac {
 			snap_switch_channel_success = success;
 			context.invoke ((owned) snap_switch_channel_callback);
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		public async bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error {
 			flatpak_trans_run_callback = flatpak_trans_run.callback;
 			try {
@@ -322,7 +315,6 @@ namespace Pamac {
 			flatpak_trans_run_success = success;
 			context.invoke ((owned) flatpak_trans_run_callback);
 		}
-		#endif
 
 		public void quit_daemon () throws Error {
 			try {
@@ -439,13 +431,9 @@ namespace Pamac {
 			system_daemon.download_updates_finished.connect (on_download_updates_finished );
 			system_daemon.generate_mirrors_list_data.connect (on_generate_mirrors_list_data);
 			system_daemon.generate_mirrors_list_finished.connect (on_generate_mirrors_list_finished);
-			#if ENABLE_SNAP
 			system_daemon.snap_trans_run_finished.connect (on_snap_trans_run_finished);
 			system_daemon.snap_switch_channel_finished.connect (on_snap_switch_channel_finished);
-			#endif
-			#if ENABLE_FLATPAK
 			system_daemon.flatpak_trans_run_finished.connect (on_flatpak_trans_run_finished);
-			#endif
 		}
 	}
 }

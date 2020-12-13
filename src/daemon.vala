@@ -37,12 +37,8 @@ namespace Pamac {
 		Mutex authorization_mutex;
 		GenericSet<string> authorized_senders;
 		HashTable<string, Cancellable> cancellables_table;
-		#if ENABLE_SNAP
 		SnapPlugin snap_plugin;
-		#endif
-		#if ENABLE_FLATPAK
 		FlatpakPlugin flatpak_plugin;
-		#endif
 
 		public signal void emit_action (string sender, string action);
 		public signal void emit_action_progress (string sender, string action, string status, double progress);
@@ -68,13 +64,9 @@ namespace Pamac {
 		public signal void generate_mirrors_list_finished (string sender);
 		public signal void clean_cache_finished (string sender, bool success);
 		public signal void clean_build_files_finished (string sender, bool success);
-		#if ENABLE_SNAP
 		public signal void snap_trans_run_finished (string sender, bool success);
 		public signal void snap_switch_channel_finished (string sender, bool success);
-		#endif
-		#if ENABLE_FLATPAK
 		public signal void flatpak_trans_run_finished (string sender, bool success);
-		#endif
 
 		public Daemon () {
 			config = new Config ("/etc/pamac.conf");
@@ -134,7 +126,6 @@ namespace Pamac {
 			alpm_utils.get_authorization.connect ((sender) => {
 				return get_authorization_sync (sender);
 			});
-			#if ENABLE_SNAP
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
 				snap_plugin.context = context;
@@ -160,8 +151,6 @@ namespace Pamac {
 					stop_downloading (sender);
 				});
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (config.support_flatpak) {
 				flatpak_plugin = config.get_flatpak_plugin ();
 				flatpak_plugin.context = context;
@@ -178,7 +167,6 @@ namespace Pamac {
 					emit_error (sender, message, details);
 				});
 			}
-			#endif
 		}
 
 		public void set_environment_variables (HashTable<string,string> variables) throws Error {
@@ -342,7 +330,6 @@ namespace Pamac {
 				if (authorized) {
 					config.write (new_pamac_conf);
 					config.reload ();
-					#if ENABLE_SNAP
 					if (config.enable_snap) {
 						try {
 							Process.spawn_command_line_async ("systemctl enable --now snapd.service");
@@ -350,7 +337,6 @@ namespace Pamac {
 							warning (e.message);
 						}
 					}
-					#endif
 				}
 				write_pamac_config_finished (sender);
 			});
@@ -605,7 +591,6 @@ namespace Pamac {
 			}
 		}
 
-		#if ENABLE_SNAP
 		public void start_snap_trans_run (string[] to_install, string[] to_remove, BusName sender) throws Error {
 			if (!config.enable_snap) {
 				var idle = new IdleSource ();
@@ -657,9 +642,7 @@ namespace Pamac {
 				snap_switch_channel_finished (sender, false);
 			}
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		public void start_flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade, BusName sender) throws Error {
 			if (!config.enable_flatpak) {
 				var idle = new IdleSource ();
@@ -687,7 +670,6 @@ namespace Pamac {
 				flatpak_trans_run_finished (sender, false);
 			}
 		}
-		#endif
 
 		public void trans_cancel (BusName sender) throws Error {
 			Cancellable? cancellable = cancellables_table.lookup (sender);
@@ -697,16 +679,12 @@ namespace Pamac {
 				answer_cond.signal ();
 				answer_mutex.unlock ();
 			}
-			#if ENABLE_SNAP
 			if (config.enable_snap) {
 				snap_plugin.trans_cancel (sender);
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (config.enable_flatpak) {
 				flatpak_plugin.trans_cancel (sender);
 			}
-			#endif
 			alpm_utils.trans_cancel (sender);
 		}
 

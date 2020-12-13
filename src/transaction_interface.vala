@@ -54,12 +54,8 @@ namespace Pamac {
 		public signal void emit_error (string message, string[] details);
 		public signal void important_details_outpout (bool must_show);
 		public signal void generate_mirrors_list_data (string line);
-		#if ENABLE_SNAP
 		public abstract async bool snap_trans_run (string[] to_install, string[] to_remove) throws Error;
 		public abstract async bool snap_switch_channel (string snap_name, string channel) throws Error;
-		#endif
-		#if ENABLE_FLATPAK
 		public abstract async bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error;
-		#endif
 	}
 }

@@ -862,9 +862,8 @@ namespace Pamac {
 		void init_database () {
 			var config = new Config ("/etc/pamac.conf");
 			// not supported yet
-			#if ENABLE_SNAP
 			config.enable_snap = false;
-			#endif
+			config.enable_flatpak = false;
 			database = new Database (config);
 		}
 
@@ -1883,10 +1882,7 @@ namespace Pamac {
 
 		void checkupdates (bool quiet, bool refresh_tmp_files_dbs, bool download_updates, bool use_timestamp) {
 			var updates = database.get_updates (use_timestamp);
-			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length;
-			#if ENABLE_FLATPAK
-			updates_nb += updates.flatpak_updates.length;
-			#endif
+			uint updates_nb = updates.repos_updates.length + updates.aur_updates.length + updates.flatpak_updates.length;
 			if (updates_nb == 0) {
 				if (quiet) {
 					return;
@@ -1994,7 +1990,6 @@ namespace Pamac {
 					foreach (unowned AURPackage pkg in updates.aur_updates) {
 						stdout.printf ("%s  %s -> %s\n", pkg.name, pkg.installed_version, pkg.version);
 					}
-					#if ENABLE_FLATPAK
 					foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 						unowned string? app_name = pkg.app_name;
 						if (app_name == null) {
@@ -2003,7 +1998,6 @@ namespace Pamac {
 							stdout.printf ("%s  %s\n", app_name, pkg.version);
 						}
 					}
-					#endif
 					return;
 				}
 				// print pkgs
@@ -2076,7 +2070,6 @@ namespace Pamac {
 						version_length = pkg_version_length;
 					}
 				}
-				#if ENABLE_FLATPAK
 				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					int pkg_app_name_length;
 					unowned string? app_name = pkg.app_name;
@@ -2093,7 +2086,6 @@ namespace Pamac {
 						version_length = pkg_version_length;
 					}
 				}
-				#endif
 				string info = ngettext ("%u available update", "%u available updates", updates_nb).printf (updates_nb);
 				stdout.printf ("%s:\n", info);
 				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
@@ -2110,7 +2102,6 @@ namespace Pamac {
 									version_length, pkg.version,
 									dgettext (null, "AUR"));
 				}
-				#if ENABLE_FLATPAK
 				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					unowned string? app_name = pkg.app_name;
 					if (app_name == null) {
@@ -2122,7 +2113,6 @@ namespace Pamac {
 									version_length, pkg.version,
 									pkg.repo);
 				}
-				#endif
 				uint ignored_updates_nb = updates.ignored_repos_updates.length + updates.ignored_aur_updates.length;
 				if (ignored_updates_nb > 0) {
 					// print ignored pkgs

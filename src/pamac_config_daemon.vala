@@ -20,16 +20,12 @@
 namespace Pamac {
 	public class Config: Object {
 		public string conf_path { get; construct; }
-		#if ENABLE_SNAP
 		public bool support_snap { get; set; }
 		public bool enable_snap { get; set; }
 		PluginLoader<SnapPlugin> snap_plugin_loader;
-		#endif
-		#if ENABLE_FLATPAK
 		public bool support_flatpak{ get; set; }
 		public bool enable_flatpak { get; set; }
 		PluginLoader<FlatpakPlugin> flatpak_plugin_loader;
-		#endif
 		public string aur_build_dir { get; set; }
 		public uint64 max_parallel_downloads { get; set; }
 
@@ -42,32 +38,24 @@ namespace Pamac {
 		construct {
 			//get environment variables
 			alpm_config = new AlpmConfig ("/etc/pacman.conf");
-			#if ENABLE_SNAP
 			// load snap plugin
 			support_snap = false;
 			snap_plugin_loader = new PluginLoader<SnapPlugin> ("pamac-snap");
 			if (snap_plugin_loader.load ()) {
 				support_snap = true;
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			// load snap plugin
 			support_flatpak = false;
 			flatpak_plugin_loader = new PluginLoader<FlatpakPlugin> ("pamac-flatpak");
 			if (flatpak_plugin_loader.load ()) {
 				support_flatpak = true;
 			}
-			#endif
 			reload ();
 		}
 
 		public void reload () {
-			#if ENABLE_SNAP
 			enable_snap = false;
-			#endif
-			#if ENABLE_FLATPAK
 			enable_flatpak = false;
-			#endif
 			aur_build_dir = "/var/tmp";
 			max_parallel_downloads = 1;
 			parse_file (conf_path);
@@ -75,35 +63,27 @@ namespace Pamac {
 			if (max_parallel_downloads > 10) {
 				max_parallel_downloads = 10;
 			}
-			#if ENABLE_SNAP
 			if (!support_snap) {
 				enable_snap = false;
 			}
-			#endif
-			#if ENABLE_FLATPAK
 			if (!support_flatpak) {
 				enable_flatpak = false;
 			}
-			#endif
 		}
 
-		#if ENABLE_SNAP
 		internal SnapPlugin? get_snap_plugin () {
 			if (support_snap) {
 				return snap_plugin_loader.new_object ();
 			}
 			return null;
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		internal FlatpakPlugin? get_flatpak_plugin () {
 			if (support_flatpak) {
 				return flatpak_plugin_loader.new_object ();
 			}
 			return null;
 		}
-		#endif
 
 		void parse_file (string path) {
 			var file = GLib.File.new_for_path (path);
@@ -130,14 +110,10 @@ namespace Pamac {
 							if (splitted.length == 2) {
 								aur_build_dir = splitted[1]._strip ();
 							}
-						#if ENABLE_SNAP
 						} else if (key == "EnableSnap") {
 							enable_snap = true;
-						#endif
-						#if ENABLE_FLATPAK
 						} else if (key == "EnableFlatpak") {
 							enable_flatpak = true;
-						#endif
 						} else if (key == "MaxParallelDownloads") {
 							if (splitted.length == 2) {
 								unowned string val = splitted[1]._strip ();
@@ -269,7 +245,6 @@ namespace Pamac {
 								data.append (line);
 								data.append ("\n");
 							}
-						#if ENABLE_SNAP
 						} else if (line.contains ("EnableSnap")) {
 							if (new_conf.lookup_extended ("EnableSnap", null, out variant)) {
 								if (variant.get_boolean ()) {
@@ -282,8 +257,6 @@ namespace Pamac {
 								data.append (line);
 								data.append ("\n");
 							}
-						#endif
-						#if ENABLE_FLATPAK
 						} else if (line.contains ("EnableFlatpak")) {
 							if (new_conf.lookup_extended ("EnableFlatpak", null, out variant)) {
 								if (variant.get_boolean ()) {
@@ -308,7 +281,6 @@ namespace Pamac {
 								data.append (line);
 								data.append ("\n");
 							}
-						#endif
 						} else if (line.contains ("BuildDirectory")) {
 							if (new_conf.lookup_extended ("BuildDirectory", null, out variant)) {
 								data.append ("BuildDirectory = %s\n".printf (variant.get_string ()));
@@ -427,15 +399,12 @@ namespace Pamac {
 						} else {
 							data.append ("#KeepBuiltPkgs\n\n");
 						}
-					#if ENABLE_SNAP
 					} else if (key == "EnableSnap") {
 						if (val.get_boolean ()) {
 							data.append ("EnableSnap\n\n");
 						} else {
 							data.append ("#EnableSnap\n\n");
 						}
-					#endif
-					#if ENABLE_FLATPAK
 					} else if (key == "EnableFlatpak") {
 						if (val.get_boolean ()) {
 							data.append ("EnableFlatpak\n\n");
@@ -448,7 +417,6 @@ namespace Pamac {
 						} else {
 							data.append ("#CheckFlatpakUpdates\n\n");
 						}
-					#endif
 					} else if (key == "BuildDirectory") {
 						data.append ("BuildDirectory = %s\n\n".printf (val.get_string ()));
 					} else if (key == "CheckAURUpdates") {

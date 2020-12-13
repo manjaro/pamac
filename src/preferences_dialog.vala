@@ -86,16 +86,12 @@ namespace Pamac {
 		Gtk.Box snap_config_box;
 		[GtkChild]
 		Gtk.Box flatpak_config_box;
-		#if ENABLE_SNAP
 		[GtkChild]
 		Gtk.Switch enable_snap_button;
-		#endif
-		#if ENABLE_FLATPAK
 		[GtkChild]
 		Gtk.Switch enable_flatpak_button;
 		[GtkChild]
 		Gtk.CheckButton check_flatpak_updates_checkbutton;
-		#endif
 
 		Gtk.ListStore ignorepkgs_liststore;
 		TransactionGtk transaction;
@@ -213,7 +209,6 @@ namespace Pamac {
 				check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
 			}
 
-			#if ENABLE_SNAP
 			if (transaction.database.config.support_snap) {
 				snap_config_box.visible = true;
 				enable_snap_button.active = transaction.database.config.enable_snap;
@@ -221,10 +216,6 @@ namespace Pamac {
 			} else {
 				snap_config_box.visible = false;
 			}
-			#else
-			snap_config_box.visible = false;
-			#endif
-			#if ENABLE_FLATPAK
 			if (transaction.database.config.support_flatpak) {
 				flatpak_config_box.visible = true;
 				enable_flatpak_button.active = transaction.database.config.enable_flatpak;
@@ -235,9 +226,6 @@ namespace Pamac {
 			} else {
 				flatpak_config_box.visible = false;
 			}
-			#else
-			flatpak_config_box.visible = false;
-			#endif
 		}
 
 		async void refresh_clean_cache_button () {
@@ -347,15 +335,12 @@ namespace Pamac {
 			return true;
 		}
 
-		#if ENABLE_SNAP
 		bool on_enable_snap_button_state_set (bool new_state) {
 			enable_snap_button.state = new_state;
 			transaction.database.config.enable_snap = new_state;
 			return true;
 		}
-		#endif
 
-		#if ENABLE_FLATPAK
 		bool on_enable_flatpak_button_state_set (bool new_state) {
 			enable_flatpak_button.state = new_state;
 			check_flatpak_updates_checkbutton.sensitive = new_state;
@@ -366,7 +351,6 @@ namespace Pamac {
 		void on_check_flatpak_updates_checkbutton_toggled () {
 			transaction.database.config.check_flatpak_updates = check_flatpak_updates_checkbutton.active;
 		}
-		#endif
 
 		void on_aur_build_dir_set () {
 			transaction.database.config.aur_build_dir = aur_build_dir_file_chooser.get_filename ();
