@@ -2920,23 +2920,49 @@ namespace Pamac {
 		}
 
 		async GenericArray<unowned Package> search_all_pkgs () {
-			GenericArray<unowned Package> pkgs = yield database.search_pkgs_async (search_string);
+			var pkgs = new GenericArray<unowned Package> ();
+			var aur_pkgs = new GenericArray<unowned AURPackage> ();
+			var snaps = new GenericArray<unowned SnapPackage> ();
+			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
+			database.search_pkgs_async.begin (search_string, (obj, res) => {
+				pkgs = database.search_pkgs_async.end (res);
+				search_all_pkgs.callback ();
+			});
 			if (enable_aur) {
-				var aur_pkgs = yield database.search_aur_pkgs_async (search_string);
-				foreach (unowned AURPackage pkg in aur_pkgs) {
-					if (pkg.installed_version == null) {
-						pkgs.add (pkg);
-					}
-				}
+				database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
+					aur_pkgs = database.search_aur_pkgs_async.end (res);
+					search_all_pkgs.callback ();
+				});
 			}
 			if (database.config.enable_snap) {
-				var snaps = yield database.search_snaps_async (search_string);
-				pkgs.extend (snaps, null);
+				database.search_snaps_async.begin (search_string, (obj, res) => {
+					snaps = database.search_snaps_async.end (res);
+					search_all_pkgs.callback ();
+				});
 			}
 			if (database.config.enable_flatpak) {
-				var flatpaks = yield database.search_flatpaks_async (search_string);
-				pkgs.extend (flatpaks, null);
+				database.search_flatpaks_async.begin (search_string, (obj, res) => {
+					flatpaks = database.search_flatpaks_async.end (res);
+					search_all_pkgs.callback ();
+				});
 			}
+			yield;
+			if (enable_aur) {
+				yield;
+			}
+			if (database.config.enable_snap) {
+				yield;
+			}
+			if (database.config.enable_flatpak) {
+				yield;
+			}
+			foreach (unowned AURPackage pkg in aur_pkgs) {
+				if (pkg.installed_version == null) {
+					pkgs.add (pkg);
+				}
+			}
+			pkgs.extend (snaps, null);
+			pkgs.extend (flatpaks, null);
 			return pkgs;
 		}
 
@@ -3006,7 +3032,7 @@ namespace Pamac {
 			if (search_entry_timeout_id != 0) {
 				Source.remove (search_entry_timeout_id);
 			}
-			search_entry_timeout_id = Timeout.add (500, search_entry_timeout_callback);
+			search_entry_timeout_id = Timeout.add (300, search_entry_timeout_callback);
 		}
 
 		[GtkCallback]
@@ -3084,15 +3110,34 @@ namespace Pamac {
 		}
 
 		async GenericArray<unowned Package> get_all_installed () {
-			GenericArray<unowned Package> pkgs = yield database.get_installed_pkgs_async ();
+			var pkgs = new GenericArray<unowned Package> ();
+			var snaps = new GenericArray<unowned SnapPackage> ();
+			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
+			database.get_installed_pkgs_async.begin ((obj, res) => {
+				pkgs = database.get_installed_pkgs_async.end (res);
+				get_all_installed.callback ();
+			});
 			if (database.config.enable_snap) {
-				var snap_pkgs = yield database.get_installed_snaps_async ();
-				pkgs.extend (snap_pkgs, null);
+				database.get_installed_snaps_async.begin ((obj, res) => {
+					snaps = database.get_installed_snaps_async.end (res);
+					get_all_installed.callback ();
+				});
 			}
 			if (database.config.enable_flatpak) {
-				var flatpak_pkgs = yield database.get_installed_flatpaks_async ();
-				pkgs.extend (flatpak_pkgs, null);
+				database.get_installed_flatpaks_async.begin ((obj, res) => {
+					flatpaks = database.get_installed_flatpaks_async.end (res);
+					get_all_installed.callback ();
+				});
 			}
+			yield;
+			if (database.config.enable_snap) {
+				yield;
+			}
+			if (database.config.enable_flatpak) {
+				yield;
+			}
+			pkgs.extend (snaps, null);
+			pkgs.extend (flatpaks, null);
 			return pkgs;
 		}
 
@@ -3723,15 +3768,34 @@ namespace Pamac {
 		}
 
 		async GenericArray<unowned Package> get_category_pkgs (string category) {
-			GenericArray<unowned Package> pkgs = yield database.get_category_pkgs_async (category);
+			var pkgs = new GenericArray<unowned Package> ();
+			var snaps = new GenericArray<unowned SnapPackage> ();
+			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
+			database.get_category_pkgs_async.begin (category, (obj, res) => {
+				pkgs = database.get_category_pkgs_async.end (res);
+				get_category_pkgs.callback ();
+			});
 			if (database.config.enable_snap) {
-				var snap_pkgs = yield database.get_category_snaps_async (category);
-				pkgs.extend (snap_pkgs, null);
+				database.get_category_snaps_async.begin (category, (obj, res) => {
+					snaps = database.get_category_snaps_async.end (res);
+					get_category_pkgs.callback ();
+				});
 			}
 			if (database.config.enable_flatpak) {
-				var flatpak_pkgs = yield database.get_category_flatpaks_async (category);
-				pkgs.extend (flatpak_pkgs, null);
+				database.get_category_flatpaks_async.begin (category, (obj, res) => {
+					flatpaks = database.get_category_flatpaks_async.end (res);
+					get_category_pkgs.callback ();
+				});
 			}
+			yield;
+			if (database.config.enable_snap) {
+				yield;
+			}
+			if (database.config.enable_flatpak) {
+				yield;
+			}
+			pkgs.extend (snaps, null);
+			pkgs.extend (flatpaks, null);
 			return pkgs;
 		}
 
