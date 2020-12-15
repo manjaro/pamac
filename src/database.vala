@@ -548,11 +548,6 @@ namespace Pamac {
 						AlpmPackageLinked pkg = pkgs_cache.lookup (id);
 						if (pkg == null) {
 							pkg = new AlpmPackageLinked.from_alpm (alpm_pkg, alpm_handle);
-							if (alpm_pkg.origin == Alpm.Package.From.LOCALDB) {
-								pkg.set_local_pkg (alpm_pkg);
-							} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
-								pkg.set_sync_pkg (alpm_pkg);
-							}
 							pkg.set_as_app (app);
 							// add in cache
 							pkgs_cache.replace (pkg.id, pkg);
@@ -633,8 +628,6 @@ namespace Pamac {
 								foreign_pkgnames.add (pkgname);
 								data.insert (pkgname, pkg);
 							}
-						} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
-							pkg.set_sync_pkg (alpm_pkg);
 						}
 						// add in cache
 						pkgs_cache.replace (pkg.id, pkg);
@@ -677,8 +670,6 @@ namespace Pamac {
 						foreign_pkgnames.add (pkgname);
 						data.insert (pkgname, pkg);
 					}
-				} else if (alpm_pkg.origin == Alpm.Package.From.SYNCDB) {
-					pkg.set_sync_pkg (alpm_pkg);
 				}
 				if (appstream_enabled) {
 					var apps = get_pkgname_matching_apps (pkgname);
@@ -1014,6 +1005,7 @@ namespace Pamac {
 								unowned Alpm.Package? sync_pkg = get_syncpkg (alpm_handle, pkgname);
 								if (sync_pkg != null) {
 									var alpmpkg = new AlpmPackageLinked.from_alpm (sync_pkg, alpm_handle);
+									alpmpkg.set_local_pkg (local_pkg);
 									alpmpkg.set_sync_pkg (sync_pkg);
 									alpmpkg.set_as_app (app);
 									pkg = alpmpkg;
@@ -1142,6 +1134,9 @@ namespace Pamac {
 			foreach (unowned string part in splitted) {
 				needles.add (part);
 			}
+			// add local pkgs found
+			Alpm.List<unowned Alpm.Package> result = custom_db_search (alpm_handle.localdb, needles);
+			// search sync pkgs found
 			Alpm.List<unowned Alpm.Package> syncpkgs = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -1153,9 +1148,10 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
-			// remove foreign pkgs
-			Alpm.List<unowned Alpm.Package> localpkgs = custom_db_search (alpm_handle.localdb, needles);
-			Alpm.List<unowned Alpm.Package> result = syncpkgs.diff (localpkgs.diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name), (Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			// remove foreign pkgs from local pkgs found
+			result = result.diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			// add sync pkgs not already found in localdb
+			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			return result;
 		}
 
@@ -1219,7 +1215,9 @@ namespace Pamac {
 			foreach (unowned string part in splitted) {
 				needles.add (part);
 			}
+			// add local pkgs found
 			Alpm.List<unowned Alpm.Package> result = custom_db_search (alpm_handle.localdb, needles);
+			// search sync pkgs
 			Alpm.List<unowned Alpm.Package> syncpkgs = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -1231,6 +1229,7 @@ namespace Pamac {
 				}
 				syncdbs.next ();
 			}
+			// add sync pkgs not already found in localdb
 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			return result;
 		}
@@ -1922,7 +1921,6 @@ namespace Pamac {
 			} else {
 				launcher.set_cwd (real_aur_build_dir);
 				string[] dynamic_user_cmdline = get_dynamic_user_cmdline (real_aur_build_dir);
-				print ("clone\n");
 				cmdline = dynamic_user_cmdline;
 				cmdline += "git";
 				cmdline += "clone";
@@ -1932,7 +1930,6 @@ namespace Pamac {
 			}
 			status = launch_subprocess (launcher, cmdline, cancellable);
 			if (status == 0) {
-				print ("done\n");
 				return pkgdir;
 			}
 			return null;
