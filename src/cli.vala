@@ -1531,7 +1531,8 @@ namespace Pamac {
 					str_builder.append (installed);
 					str_builder.append (" ");
 				}
-				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, pkg.repo));
+				string repo = pkg.repo ?? "";
+				str_builder.append ("%-*s  %s \n".printf (version_length, pkg.version, repo));
 				stdout.printf (str_builder.str);
 				GenericArray<string> cuts = split_string (pkg.desc, 4, available_width);
 				foreach (unowned string cut in cuts) {
@@ -1764,10 +1765,7 @@ namespace Pamac {
 					str_builder.append (installed);
 					str_builder.append (" ");
 				}
-				string? repo = pkg.repo;
-				if (repo == null) {
-					repo = "";
-				}
+				string repo = pkg.repo ?? "";
 				string installed_size;
 				if (pkg.installed_size == 0) {
 					installed_size = "";

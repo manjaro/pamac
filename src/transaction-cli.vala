@@ -646,11 +646,12 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "To upgrade") + " (%u):\n".printf (summary.to_upgrade.length));
 				foreach (unowned Package pkg in summary.to_upgrade) {
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					string repo = pkg.repo ?? "";
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
 									version_length, pkg.version,
 									installed_version_length, "(%s)".printf (pkg.installed_version),
-									repo_length, pkg.repo,
+									repo_length, repo,
 									size);
 				}
 			}
@@ -658,11 +659,12 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "To reinstall") + " (%u):\n".printf (summary.to_reinstall.length));
 				foreach (unowned Package pkg in summary.to_reinstall) {
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					string repo = pkg.repo ?? "";
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
 									version_length , pkg.version,
 									installed_version_length, "",
-									repo_length, pkg.repo,
+									repo_length, repo,
 									size);
 				}
 			}
@@ -670,6 +672,7 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "To install") + " (%u):\n".printf (summary.to_install.length));
 				foreach (unowned Package pkg in summary.to_install) {
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					string repo = pkg.repo ?? "";
 					// check for requiredby/replace to display in place of installed_version
 					string requiredby = "";
 					var alpm_pkg = pkg as AlpmPackage;
@@ -700,13 +703,14 @@ namespace Pamac {
 						str_builder.append (" ");
 						space_count++;
 					}
-					str_builder.append ("  %-*s  %s\n".printf (repo_length, pkg.repo, size));
+					str_builder.append ("  %-*s  %s\n".printf (repo_length, repo, size));
 					stdout.printf (str_builder.str);
 				}
 			}
 			if (summary.to_build.length != 0) {
 				stdout.printf (dgettext (null, "To build") + " (%u):\n".printf (summary.to_build.length));
 				foreach (unowned Package pkg in summary.to_build) {
+					string repo = pkg.repo ?? "";
 					string installed_version = "";
 					if (pkg.installed_version != null && pkg.installed_version != pkg.version) {
 						installed_version = "(%s)".printf (pkg.installed_version);
@@ -731,7 +735,7 @@ namespace Pamac {
 						str_builder.append (" ");
 						space_count++;
 					}
-					str_builder.append ("  %s\n".printf (pkg.repo));
+					str_builder.append ("  %s\n".printf (repo));
 					stdout.printf (str_builder.str);
 				}
 			}
@@ -739,17 +743,19 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "To downgrade") + " (%u):\n".printf (summary.to_downgrade.length));
 				foreach (unowned Package pkg in summary.to_downgrade) {
 					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
+					string repo = pkg.repo ?? "";
 					stdout.printf ("  %-*s  %-*s  %-*s  %-*s  %s\n",
 									name_length, pkg.name,
 									version_length, pkg.version,
 									installed_version_length, "(%s)".printf (pkg.installed_version),
-									repo_length, pkg.repo,
+									repo_length, repo,
 									size);
 				}
 			}
 			if (summary.to_remove.length != 0 || summary.conflicts_to_remove.length != 0) {
 				stdout.printf (dgettext (null, "To remove") + " (%u):\n".printf (summary.to_remove.length + summary.conflicts_to_remove.length));
 				foreach (unowned Package pkg in summary.to_remove) {
+					string repo = pkg.repo ?? "";
 					string dep = "";
 					// check for remove reason to display in place of installed_version
 					var alpm_pkg = pkg as AlpmPackage;
@@ -775,10 +781,11 @@ namespace Pamac {
 						str_builder.append (" ");
 						space_count++;
 					}
-					str_builder.append ("  %s\n".printf (pkg.repo));
+					str_builder.append ("  %s\n".printf (repo));
 					stdout.printf (str_builder.str);
 				}
 				foreach (unowned Package pkg in summary.conflicts_to_remove) {
+					string repo = pkg.repo ?? "";
 					string conflict = "";
 					// check for conflict to display in place of installed_version
 					var alpm_pkg = pkg as AlpmPackage;
@@ -798,7 +805,7 @@ namespace Pamac {
 						str_builder.append (" ");
 						space_count++;
 					}
-					str_builder.append ("  %s\n".printf (pkg.repo));
+					str_builder.append ("  %s\n".printf (repo));
 					stdout.printf (str_builder.str);
 				}
 			}
