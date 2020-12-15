@@ -1149,7 +1149,8 @@ namespace Pamac {
 				syncdbs.next ();
 			}
 			// remove foreign pkgs from local pkgs found
-			result = result.diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			Alpm.List<unowned Alpm.Package> foreigns = result.diff (syncpkgs, (Alpm.List.CompareFunc) alpm_pkg_compare_name);
+			result = result.diff (foreigns, (Alpm.List.CompareFunc) alpm_pkg_compare_name);
 			// add sync pkgs not already found in localdb
 			result.join (syncpkgs.diff (result, (Alpm.List.CompareFunc) alpm_pkg_compare_name));
 			return result;
