@@ -882,6 +882,7 @@ namespace Pamac {
 					if (success) {
 						emit_action (dgettext (null, "Transaction successfully finished") + ".");
 					}
+					database.refresh ();
 				} else {
 					snap_to_install.remove_all ();
 					snap_to_remove.remove_all ();

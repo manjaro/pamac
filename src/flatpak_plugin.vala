@@ -342,7 +342,6 @@ namespace Pamac {
 					}
 					int64 elapsed_hours = elapsed_time / TimeSpan.HOUR;
 					if (elapsed_hours > refresh_period) {
-						message ("last %s appstream refresh is older than %lli", remote.name, refresh_period);
 						message ("refreshing %s appstream data", remote.name);
 						try {
 							installation.update_appstream_sync (remote.name, null, null);
@@ -851,6 +850,12 @@ namespace Pamac {
 		public void trans_cancel (string sender) {
 			if (sender == this.sender) {
 				cancellable.cancel ();
+			}
+		}
+
+		public void refresh () {
+			lock (pkgs_cache)  {
+				pkgs_cache.remove_all ();
 			}
 		}
 	}

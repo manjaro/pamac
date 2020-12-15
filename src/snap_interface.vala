@@ -40,6 +40,7 @@ namespace Pamac {
 		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove);
 		public abstract bool switch_channel (string sender, string name, string channel);
 		public abstract void trans_cancel (string sender);
+		public abstract void refresh ();
 	}
 
 	public abstract class SnapPackage : Package {

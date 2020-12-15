@@ -2125,7 +2125,7 @@ namespace Pamac {
 				pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
 			}
 			row.app_icon.pixbuf = pixbuf;
-			if (transaction.transaction_summary_contains (pkg.name)) {
+			if (transaction.transaction_summary_contains (pkg.id)) {
 				row.action_togglebutton.sensitive = false;
 			}
 			if (is_update) {
@@ -2370,7 +2370,7 @@ namespace Pamac {
 				pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
 			}
 			row.app_icon.pixbuf = pixbuf;
-			if (transaction.transaction_summary_contains (pkg.name)) {
+			if (transaction.transaction_summary_contains (pkg.id)) {
 				row.action_togglebutton.sensitive = false;
 			}
 			row.action_togglebutton.label = dgettext (null, "Upgrade");
@@ -2408,7 +2408,7 @@ namespace Pamac {
 				if (pkg == null) {
 					return;
 				}
-				if (transaction.transaction_summary_contains (pkg.name)) {
+				if (transaction.transaction_summary_contains (pkg.id)) {
 					pamac_row.action_togglebutton.active = false;
 					pamac_row.action_togglebutton.sensitive = false;
 					return;
@@ -2969,7 +2969,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_remove_all_button_clicked () {
 			foreach (unowned Package pkg in current_packages_list) {
-				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version != null
+				if (!transaction.transaction_summary_contains (pkg.id) && pkg.installed_version != null
 					&& !database.should_hold (pkg.name)) {
 					to_install.remove (pkg.name);
 					to_remove.add (pkg.name);
@@ -2982,7 +2982,7 @@ namespace Pamac {
 		[GtkCallback]
 		void on_install_all_button_clicked () {
 			foreach (unowned Package pkg in current_packages_list) {
-				if (!transaction.transaction_summary_contains (pkg.name) && pkg.installed_version == null) {
+				if (!transaction.transaction_summary_contains (pkg.id) && pkg.installed_version == null) {
 					to_install.add (pkg.name);
 				}
 			}

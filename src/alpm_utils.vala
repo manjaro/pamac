@@ -2200,20 +2200,20 @@ namespace Pamac {
 					break;
 				case 17: //Alpm.Event.Type.SCRIPTLET_INFO
 					// hooks output are also emitted as SCRIPTLET_INFO
+					string msg = remove_bash_colors (details[0]).replace ("\n", "");
+					do_emit_script_output (msg);
 					if (current_filename != "") {
 						string action = dgettext (null, "Configuring %s").printf (current_filename) + "...";
 						if (action != current_action) {
 							current_action = (owned) action;
 						}
 						do_emit_action (current_action);
-					}
-					string msg = remove_bash_colors (details[0]).replace ("\n", "");
-					do_emit_script_output (msg);
-					if ("error" in msg.down ()) {
-						do_emit_warning (dgettext (null, "Error while configuring %s").printf (current_filename));
-						do_important_details_outpout (true);
-					} else {
-						do_important_details_outpout (false);
+						if ("error" in msg.down ()) {
+							do_emit_warning (dgettext (null, "Error while configuring %s").printf (current_filename));
+							do_important_details_outpout (true);
+						} else {
+							do_important_details_outpout (false);
+						}
 					}
 					break;
 				case 18: //Alpm.Event.Type.RETRIEVE_START

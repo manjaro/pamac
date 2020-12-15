@@ -51,7 +51,6 @@ namespace Pamac {
 			aur_vcs_pkgs = new HashTable<string, AURPackageData> (str_hash, str_equal);
 			pkgs_cache = new HashTable<unowned string, AlpmPackageLinked> (str_hash, str_equal);
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);
-			refresh ();
 			aur = new AUR ();
 			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
 			string user_agent = "Pamac/%s".printf (VERSION);
@@ -79,6 +78,7 @@ namespace Pamac {
 					}
 				});
 			}
+			refresh ();
 		}
 
 		public void enable_appstream () {
@@ -120,6 +120,12 @@ namespace Pamac {
 				aur_vcs_pkgs.remove_all ();
 				pkgs_cache.remove_all ();
 				aur_pkgs_cache.remove_all ();
+			}
+			if (config.enable_snap) {
+				snap_plugin.refresh ();
+			}
+			if (config.enable_flatpak) {
+				flatpak_plugin.refresh ();
 			}
 		}
 

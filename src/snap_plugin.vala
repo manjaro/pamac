@@ -146,7 +146,7 @@ namespace Pamac {
 			this.store_snap = store_snap;
 			this.installed_snap = installed_snap;
 			name = snap.name;
-			_id = snap.name;
+			_id = "Snap/%s".printf (snap.name);
 			_version = snap.version;
 			unowned Snapd.App? primary_app = Snap.get_primary_app (this.snap);
 			if (primary_app != null) {
@@ -252,7 +252,7 @@ namespace Pamac {
 		SnapPackage initialize_snap (Snapd.Snap snap) {
 			SnapPackageLinked? pkg = null;
 			lock (pkgs_cache) {
-				pkg = pkgs_cache.lookup (snap.name);
+				pkg = pkgs_cache.lookup ("Snap/%s".printf (snap.name));
 				if (pkg != null) {
 					return pkg;
 				}
@@ -273,14 +273,16 @@ namespace Pamac {
 
 		public void search_snaps (string search_string, ref GenericArray<unowned SnapPackage> pkgs) {
 			try {
-				GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string);
-				if (found == null) {
-					found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string, null, null);
-					search_snaps_cache.insert (search_string, found);
-				}
-				foreach (unowned Snapd.Snap snap in found) {
-					if (snap.snap_type == Snapd.SnapType.APP) {
-						pkgs.add (initialize_snap (snap));
+				lock (search_snaps_cache) {
+					GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string);
+					if (found == null) {
+						found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string, null, null);
+						search_snaps_cache.insert (search_string, found);
+					}
+					foreach (unowned Snapd.Snap snap in found) {
+						if (snap.snap_type == Snapd.SnapType.APP) {
+							pkgs.add (initialize_snap (snap));
+						}
 					}
 				}
 			} catch (Error e) {
@@ -290,14 +292,16 @@ namespace Pamac {
 
 		public void search_uninstalled_snaps_sync (string search_string, ref GenericArray<unowned SnapPackage> pkgs) {
 			try {
-				GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string);
-				if (found == null) {
-					found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string, null, null);
-					search_snaps_cache.insert (search_string, found);
-				}
-				foreach (unowned Snapd.Snap snap in found) {
-					if (snap.snap_type == Snapd.SnapType.APP && snap.install_date == null) {
-						pkgs.add (initialize_snap (snap));
+				lock (search_snaps_cache) {
+					GenericArray<unowned Snapd.Snap>? found = search_snaps_cache.lookup (search_string);
+					if (found == null) {
+						found = client.find_sync (Snapd.FindFlags.SCOPE_WIDE, search_string, null, null);
+						search_snaps_cache.insert (search_string, found);
+					}
+					foreach (unowned Snapd.Snap snap in found) {
+						if (snap.snap_type == Snapd.SnapType.APP && snap.install_date == null) {
+							pkgs.add (initialize_snap (snap));
+						}
 					}
 				}
 			} catch (Error e) {
@@ -356,15 +360,17 @@ namespace Pamac {
 
 		Snapd.Snap? get_store_snap (string name) {
 			try {
-				unowned Snapd.Snap? found = store_snaps_cache.lookup (name);
-				if (found != null) {
-					return found;
-				}
-				GenericArray<unowned Snapd.Snap> founds = client.find_sync (Snapd.FindFlags.SCOPE_WIDE | Snapd.FindFlags.MATCH_NAME, name, null, null);
-				if (founds.length == 1) {
-					found = founds[0];
-					store_snaps_cache.insert (name, found);
-					return found;
+				lock (store_snaps_cache) {
+					unowned Snapd.Snap? found = store_snaps_cache.lookup (name);
+					if (found != null) {
+						return found;
+					}
+					GenericArray<unowned Snapd.Snap> founds = client.find_sync (Snapd.FindFlags.SCOPE_WIDE | Snapd.FindFlags.MATCH_NAME, name, null, null);
+					if (founds.length == 1) {
+						found = founds[0];
+						store_snaps_cache.insert (name, found);
+						return found;
+					}
 				}
 			} catch (Error e) {
 				// an error is reported if not found
@@ -456,14 +462,16 @@ namespace Pamac {
 			if (snap_categories.length > 0) {
 				foreach (unowned string snap_category in snap_categories) {
 					try {
-						GenericArray<unowned Snapd.Snap>? found = category_snaps_cache.lookup (snap_category);
-						if (found == null) {
-							found = client.find_section_sync (Snapd.FindFlags.NONE, snap_category, null, null, null);
-							category_snaps_cache.insert (snap_category, found);
-						}
-						foreach (unowned Snapd.Snap snap in found) {
-							if (snap.snap_type == Snapd.SnapType.APP) {
-								pkgs.add (initialize_snap (snap));
+						lock (category_snaps_cache) {
+							GenericArray<unowned Snapd.Snap>? found = category_snaps_cache.lookup (snap_category);
+							if (found == null) {
+								found = client.find_section_sync (Snapd.FindFlags.NONE, snap_category, null, null, null);
+								category_snaps_cache.insert (snap_category, found);
+							}
+							foreach (unowned Snapd.Snap snap in found) {
+								if (snap.snap_type == Snapd.SnapType.APP) {
+									pkgs.add (initialize_snap (snap));
+								}
 							}
 						}
 					} catch (Error e) {
@@ -550,6 +558,21 @@ namespace Pamac {
 				}
 			}
 			return success;
+		}
+
+		public void refresh () {
+			lock (store_snaps_cache) {
+				store_snaps_cache.remove_all ();
+			}
+			lock (search_snaps_cache) {
+				search_snaps_cache.remove_all ();
+			}
+			lock (category_snaps_cache) {
+				category_snaps_cache.remove_all ();
+			}
+			lock (pkgs_cache) {
+				pkgs_cache.remove_all ();
+			}
 		}
 
 		public void trans_cancel (string sender) {

@@ -362,16 +362,16 @@ namespace Pamac {
 			}
 		}
 
-		void transaction_summary_add (string pkgname) {
+		void transaction_summary_add (string id) {
 			lock (transaction_summary) {
-				transaction_summary.add (pkgname);
+				transaction_summary.add (id);
 			}
 		}
 
-		public bool transaction_summary_contains (string pkgname) {
+		public bool transaction_summary_contains (string id) {
 			bool contains = false;
 			lock (transaction_summary){
-				contains = transaction_summary.contains (pkgname);
+				contains = transaction_summary.contains (id);
 			}
 			return contains;
 		}
@@ -384,17 +384,24 @@ namespace Pamac {
 			return length;
 		}
 
-		string get_pkg_display_name (Package pkg) {
+		AlpmPackage? get_full_alpm_pkg (Package pkg) {
+			AlpmPackage? full_pkg = null;
 			if (pkg is AlpmPackage) {
-				AlpmPackage? full_pkg = database.get_pkg (pkg.name);
-				if (full_pkg != null) {
-					unowned string app_name = full_pkg.app_name;
-					if (app_name != null) {
-						return app_name;
-					}
-				}
-				return pkg.name;
+				full_pkg = database.get_pkg (pkg.name);
 			}
+			return full_pkg;
+		}
+
+		unowned string get_alpm_pkg_display_name (AlpmPackage alpm_pkg) {
+			unowned string app_name = alpm_pkg.app_name;
+			if (app_name != null) {
+				return app_name;
+			} else {
+				return alpm_pkg.name;
+			}
+		}
+
+		unowned string get_pkg_display_name (Package pkg) {
 			if (pkg is FlatpakPackage) {
 				return pkg.app_name;
 			}
@@ -429,6 +436,179 @@ namespace Pamac {
 			return repo;
 		}
 
+		void get_display_name_and_id (Package pkg, out unowned string display_name, out unowned string id) {
+			var alpm_pkg = get_full_alpm_pkg (pkg);
+			if (alpm_pkg != null) {
+				display_name = get_alpm_pkg_display_name (alpm_pkg);
+				id = alpm_pkg.id;
+			} else {
+				display_name = get_pkg_display_name (pkg);
+				id = pkg.id;
+			}
+		}
+
+		string format_download_size (Package pkg) {
+			string formatted_download_size;
+			uint64 download_size = pkg.download_size;
+			if (download_size != 0) {
+				formatted_download_size = format_size (download_size);
+			} else {
+				formatted_download_size = "";
+			}
+			return formatted_download_size;
+		}
+
+		string format_title (string action) {
+			return "<b>%s:</b>".printf (dgettext (null, action));
+		}
+
+		void add_infos_to_summary (TransactionSumDialog transaction_sum_dialog,
+									Package pkg,
+									string title,
+									string infos_string,
+									string size) {
+			unowned string display_name;
+			unowned string id;
+			get_display_name_and_id (pkg, out display_name, out id);
+			transaction_summary_add (id);
+			transaction_sum_dialog.sum_list.insert_with_values (null, -1,
+																0, title,
+																1, display_name,
+																2, pkg.version,
+																3, infos_string,
+																4, get_pkg_repo (pkg),
+																5, size);
+		}
+
+		void add_remove_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = "";
+			string infos = "";
+			// check for remove reason to display in place of installed_version
+			var alpm_pkg = pkg as AlpmPackage;
+			if (alpm_pkg != null) {
+				unowned GenericArray<string> dep_list = alpm_pkg.depends;
+				if (dep_list.length != 0) {
+					// depends list populated in alpm_utils/get_transaction_summary, it contains only one element.
+					infos = "(%s: %s)".printf (dgettext (null, "Depends On"), get_pkgname_display_name (dep_list[0]));
+				} else {
+					unowned GenericArray<string> requiredby_list = alpm_pkg.requiredby;
+					if (requiredby_list.length != 0) {
+						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
+						infos = "(%s: %s)".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (requiredby_list[0]));
+					}
+				}
+			}
+			string title = "";
+			if (print_title) {
+				title = format_title ("To remove");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
+		void add_conflict_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = "";
+			string infos = "";
+			var alpm_pkg = pkg as AlpmPackage;
+			if (alpm_pkg != null) {
+				// check for conflict to display in place of installed_version
+				unowned GenericArray<string> dep_list = alpm_pkg.conflicts;
+				if (dep_list.length != 0) {
+					// conflicts list populated in alpm_utils/get_transaction_summary, it contains only one element.
+					infos = "(%s: %s)".printf (dgettext (null, "Conflicts With"), get_pkgname_display_name (dep_list[0]));
+				}
+			}
+			string title = "";
+			if (print_title) {
+				title = format_title ("To remove");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
+		void add_downgrade_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = format_download_size (pkg);
+			string infos = "(%s)".printf (pkg.installed_version);
+			string title = "";
+			if (print_title) {
+				title = format_title ("To downgrade");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
+		void add_build_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = "";
+			string infos = "";
+			if (pkg.installed_version != null) {
+				if (pkg.installed_version != pkg.version) {
+					infos = "(%s)".printf (pkg.installed_version);
+				}
+			} else {
+				// check for requiredby to display in place of installed_version
+				var alpm_pkg = pkg as AlpmPackage;
+				if (alpm_pkg != null) {
+					unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
+					if (dep_list.length != 0) {
+						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
+						infos = "(%s: %s)".printf (dgettext (null, "Required By"), dep_list[0]);
+					}
+				}
+			}
+			string title = "";
+			if (print_title) {
+				title = format_title ("To build");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
+		void add_install_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = format_download_size (pkg);
+			// check for requiredby/replace to display in place of installed_version
+			string infos = "";
+			var alpm_pkg = pkg as AlpmPackage;
+			if (alpm_pkg != null) {
+				bool requiredby_found = false;
+				// 1 - check for required dep
+				unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
+				if (dep_list.length != 0) {
+					requiredby_found = true;
+					// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
+					infos = "(%s: %s)".printf (dgettext (null, "Required By"), get_pkgname_display_name (dep_list[0]));
+				}
+				// 2 - check for replaces
+				if (!requiredby_found) {
+					dep_list = alpm_pkg.replaces;
+					if (dep_list.length != 0) {
+						// replaces list populated in alpm_utils/get_transaction_summary, it contains only one element.
+						infos = "(%s: %s)".printf (dgettext (null, "Replaces"), get_pkgname_display_name (dep_list[0]));
+					}
+				}
+			}
+			string title = "";
+			if (print_title) {
+				title = format_title ("To install");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
+		void add_reinstall_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = format_download_size (pkg);
+			string infos = "";
+			string title = "";
+			if (print_title) {
+				title = format_title ("To reinstall");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
+		void add_upgrade_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
+			string size = format_download_size (pkg);
+			string infos = "(%s)".printf (pkg.installed_version);
+			string title = "";
+			if (print_title) {
+				title = format_title ("To upgrade");
+			}
+			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		}
+
 		int show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
 			transaction_summary_remove_all ();
@@ -443,108 +623,25 @@ namespace Pamac {
 			if (summary.to_remove.length != 0) {
 				pkgs = summary.to_remove;
 				pkg = pkgs[0];
-				transaction_summary_add (pkg.name);
-				string dep = "";
-				// check for remove reason to display in place of installed_version
-				var alpm_pkg = pkg as AlpmPackage;
-				if (alpm_pkg != null) {
-					unowned GenericArray<string> dep_list = alpm_pkg.depends;
-					if (dep_list.length != 0) {
-						// depends list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						dep = "(%s: %s)".printf (dgettext (null, "Depends On"), get_pkgname_display_name (dep_list[0]));
-					} else {
-						unowned GenericArray<string> requiredby_list = alpm_pkg.requiredby;
-						if (requiredby_list.length != 0) {
-							// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-							dep = "(%s: %s)".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (requiredby_list[0]));
-						}
-					}
-				}
-				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"),
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, dep,
-												4, get_pkg_repo (pkg));
+				add_remove_to_summary (transaction_sum_dialog, pkg, true);
 				to_remove_printed = true;
 				i = 1;
 				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
-					transaction_summary_add (pkg.name);
-					dep = "";
-					// check for remove reason to display in place of installed_version
-					alpm_pkg = pkg as AlpmPackage;
-					if (alpm_pkg != null) {
-						unowned GenericArray<string> dep_list = alpm_pkg.depends;
-						if (dep_list.length != 0) {
-							// depends list populated in alpm_utils/get_transaction_summary, it contains only one element.
-							dep = "(%s: %s)".printf (dgettext (null, "Depends On"), get_pkgname_display_name (dep_list[0]));
-						} else {
-							unowned GenericArray<string> requiredby_list = alpm_pkg.requiredby;
-							if (requiredby_list.length != 0) {
-								// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-								dep = "(%s: %s)".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (requiredby_list[0]));
-							}
-						}
-					}
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, dep,
-												4, get_pkg_repo (pkg));
+					add_remove_to_summary (transaction_sum_dialog, pkg, false);
 					i++;
 				}
 			}
 			if (summary.conflicts_to_remove.length != 0) {
 				pkgs = summary.conflicts_to_remove;
 				pkg = pkgs[0];
-				transaction_summary_add (pkg.name);
-				string conflict = "";
-				var alpm_pkg = pkg as AlpmPackage;
-				if (alpm_pkg != null) {
-					// check for conflict to display in place of installed_version
-					unowned GenericArray<string> dep_list = alpm_pkg.conflicts;
-					if (dep_list.length != 0) {
-						// conflicts list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						conflict = "(%s: %s)".printf (dgettext (null, "Conflicts With"), get_pkgname_display_name (dep_list[0]));
-					}
-				}
-				if (to_remove_printed) {
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, conflict,
-												4, get_pkg_repo (pkg));
-				} else {
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "To remove") + ":"),
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, conflict,
-												4, get_pkg_repo (pkg));
-					to_remove_printed = true;
-				}
+				add_conflict_to_summary (transaction_sum_dialog, pkg, !to_remove_printed);
 				i = 1;
 				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
-					transaction_summary_add (pkg.name);
-					conflict = "";
-					alpm_pkg = pkg as AlpmPackage;
-					if (alpm_pkg != null) {
-						// check for conflict to display in place of installed_version
-						unowned GenericArray<string> dep_list = alpm_pkg.conflicts;
-						if (dep_list.length != 0) {
-							// conflicts list populated in alpm_utils/get_transaction_summary, it contains only one element.
-							conflict = "(%s: %s)".printf (dgettext (null, "Conflicts With"), get_pkgname_display_name (dep_list[0]));
-						}
-					}
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, conflict,
-												4, get_pkg_repo (pkg));
+					add_conflict_to_summary (transaction_sum_dialog, pkg, false);
 					i++;
 				}
 			}
@@ -552,28 +649,13 @@ namespace Pamac {
 				pkgs = summary.to_downgrade;
 				pkg = pkgs[0];
 				dsize += pkg.download_size;
-				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-				transaction_summary_add (pkg.name);
-				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "To downgrade") + ":"),
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, "(%s)".printf (pkg.installed_version),
-												4, get_pkg_repo (pkg),
-												5, size);
+				add_downgrade_to_summary (transaction_sum_dialog, pkg, true);
 				i = 1;
 				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
 					dsize += pkg.download_size;
-					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary_add (pkg.name);
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, "(%s)".printf (pkg.installed_version),
-												4, get_pkg_repo (pkg),
-												5, size);
+					add_downgrade_to_summary (transaction_sum_dialog, pkg, false);
 					i++;
 				}
 			}
@@ -581,53 +663,12 @@ namespace Pamac {
 				transaction_sum_dialog.edit_button.visible = true;
 				pkgs = summary.to_build;
 				pkg = pkgs[0];
-				transaction_summary_add (pkg.name);
-				string installed_version = "";
-				if (pkg.installed_version != null && pkg.installed_version != pkg.version) {
-					installed_version = "(%s)".printf (pkg.installed_version);
-				}
-				if (installed_version == null) {
-					// check for requiredby to display in place of installed_version
-					var alpm_pkg = pkg as AlpmPackage;
-					if (alpm_pkg != null) {
-						unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
-						if (dep_list.length != 0) {
-							// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-							installed_version = "(%s: %s)".printf (dgettext (null, "Required By"), dep_list[0]);
-						}
-					}
-				}
-				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "To build") + ":"),
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, installed_version,
-												4, get_pkg_repo (pkg));
+				add_build_to_summary (transaction_sum_dialog, pkg, true);
 				i = 1;
 				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
-					transaction_summary_add (pkg.name);
-					installed_version = "";
-					if (pkg.installed_version != null && pkg.installed_version != pkg.version) {
-						installed_version = "(%s)".printf (pkg.installed_version);
-					}
-					if (installed_version == "") {
-						// check for requiredby to display in place of installed_version
-						var alpm_pkg = pkg as AlpmPackage;
-						if (alpm_pkg != null) {
-							unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
-							if (dep_list.length != 0) {
-								// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-								installed_version = "(%s: %s)".printf (dgettext (null, "Required By"), dep_list[0]);
-							}
-						}
-					}
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, installed_version,
-												4, get_pkg_repo (pkg));
+					add_build_to_summary (transaction_sum_dialog, pkg, false);
 					i++;
 				}
 			}
@@ -635,70 +676,13 @@ namespace Pamac {
 				pkgs = summary.to_install;
 				pkg = pkgs[0];
 				dsize += pkg.download_size;
-				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-				transaction_summary_add (pkg.name);
-				// check for requiredby/replace to display in place of installed_version
-				string requiredby = "";
-				var alpm_pkg = pkg as AlpmPackage;
-				if (alpm_pkg != null) {
-					bool requiredby_found = false;
-					// 1 - check for required dep
-					unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
-					if (dep_list.length != 0) {
-						requiredby_found = true;
-						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						requiredby = "(%s: %s)".printf (dgettext (null, "Required By"), get_pkgname_display_name (dep_list[0]));
-					}
-					// 2 - check for replaces
-					if (!requiredby_found) {
-						dep_list = alpm_pkg.replaces;
-						if (dep_list.length != 0) {
-							// replaces list populated in alpm_utils/get_transaction_summary, it contains only one element.
-							requiredby = "(%s: %s)".printf (dgettext (null, "Replaces"), get_pkgname_display_name (dep_list[0]));
-						}
-					}
-				}
-				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "To install") + ":"),
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, requiredby,
-												4, get_pkg_repo (pkg),
-												5, size);
+				add_install_to_summary (transaction_sum_dialog, pkg, true);
 				i = 1;
 				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
 					dsize += pkg.download_size;
-					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary_add (pkg.name);
-					// check for requiredby/replace to display in place of installed_version
-					requiredby = "";
-					alpm_pkg = pkg as AlpmPackage;
-					if (alpm_pkg != null) {
-						bool requiredby_found = false;
-						// 1 - check for required dep
-						unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
-						if (dep_list.length != 0) {
-							requiredby_found = true;
-							// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-							requiredby = "(%s: %s)".printf (dgettext (null, "Required By"), get_pkgname_display_name (dep_list[0]));
-						}
-						// 2 - check for replaces
-						if (!requiredby_found) {
-							dep_list = alpm_pkg.replaces;
-							if (dep_list.length != 0) {
-								// replaces list populated in alpm_utils/get_transaction_summary, it contains only one element.
-								requiredby = "(%s: %s)".printf (dgettext (null, "Replaces"), get_pkgname_display_name (dep_list[0]));
-							}
-						}
-					}
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												3, requiredby,
-												4, get_pkg_repo (pkg),
-												5, size);
+					add_install_to_summary (transaction_sum_dialog, pkg, false);
 					i++;
 				}
 			}
@@ -706,26 +690,13 @@ namespace Pamac {
 				pkgs = summary.to_reinstall;
 				pkg = pkgs[0];
 				dsize += pkg.download_size;
-				string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-				transaction_summary_add (pkg.name);
-				transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												0, "<b>%s</b>".printf (dgettext (null, "To reinstall") + ":"),
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												4, get_pkg_repo (pkg),
-												5, size);
+				add_reinstall_to_summary (transaction_sum_dialog, pkg, true);
 				i = 1;
 				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
 					dsize += pkg.download_size;
-					size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary_add (pkg.name);
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-												1, get_pkg_display_name (pkg),
-												2, pkg.version,
-												4, get_pkg_repo (pkg),
-												5, size);
+					add_reinstall_to_summary (transaction_sum_dialog, pkg, false);
 					i++;
 				}
 			}
@@ -734,28 +705,13 @@ namespace Pamac {
 					pkgs = summary.to_upgrade;
 					pkg = pkgs[0];
 					dsize += pkg.download_size;
-					string size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-					transaction_summary_add (pkg.name);
-					transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-													0, "<b>%s</b>".printf (dgettext (null, "To upgrade") + ":"),
-													1, get_pkg_display_name (pkg),
-													2, pkg.version,
-													3, "(%s)".printf (pkg.installed_version),
-													4, get_pkg_repo (pkg),
-													5, size);
+					add_upgrade_to_summary (transaction_sum_dialog, pkg, true);
 					i = 1;
 					length = pkgs.length;
 					while (i < length) {
 						pkg = pkgs[i];
 						dsize += pkg.download_size;
-						size = pkg.download_size == 0 ? "" : format_size (pkg.download_size);
-						transaction_summary_add (pkg.name);
-						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-													1, get_pkg_display_name (pkg),
-													2, pkg.version,
-													3, "(%s)".printf (pkg.installed_version),
-													4, get_pkg_repo (pkg),
-													5, size);
+						add_upgrade_to_summary (transaction_sum_dialog, pkg, false);
 						i++;
 					}
 				}

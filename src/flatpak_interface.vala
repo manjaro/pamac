@@ -39,6 +39,7 @@ namespace Pamac {
 		public abstract void get_flatpak_updates (ref GenericArray<unowned FlatpakPackage> pkgs);
 		public abstract bool trans_run (string sender, string[] to_install, string[] to_remove, string[] to_upgrade);
 		public abstract void trans_cancel (string sender);
+		public abstract void refresh ();
 	}
 
 	public abstract class FlatpakPackage : Package {
