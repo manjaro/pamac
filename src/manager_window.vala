@@ -1923,8 +1923,9 @@ namespace Pamac {
 					create_os_updates_row (download_size);
 				}
 			}
+			bool populated = false;
 			do {
-				complete_packages_list ();
+				populated = complete_packages_list ();
 			} while (need_more_packages ());
 			// scroll to top
 			if (scroll_to_top) {
@@ -1932,6 +1933,9 @@ namespace Pamac {
 			} else {
 				// don't scroll to top just once
 				scroll_to_top = true;
+			}
+			if (local_config.software_mode && !populated) {
+				browse_stack.visible_child_name = "no_item";
 			}
 			this.get_window ().set_cursor (null);
 		}
@@ -2001,7 +2005,8 @@ namespace Pamac {
 			return false;
 		}
 
-		void complete_packages_list () {
+		bool complete_packages_list () {
+			bool populated = false;
 			if (current_packages_list_index < current_packages_list_length) {
 				uint i = 0;
 				// display the next 20 packages
@@ -2010,6 +2015,7 @@ namespace Pamac {
 					if (!local_config.software_mode || pkg.app_name != null) {
 						var row = create_packagelist_row (pkg);
 						packages_listbox.add (row);
+						populated = true;
 						i++;
 					}
 					current_packages_list_index++;
@@ -2018,6 +2024,7 @@ namespace Pamac {
 					}
 				}
 			}
+			return populated;
 		}
 
 		PackageRow create_packagelist_row (Package pkg) {
