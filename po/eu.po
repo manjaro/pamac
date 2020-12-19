@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2020-12-16 10:34+0000\n"
+"Last-Translator: Thadah D. Denyse <juchuf@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/manjarolinux/manjaro-pamac/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -882,7 +882,7 @@ msgstr "Aplikatu transakzioa"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[e/b/E]"
 
 #: src/transaction-cli.vala
 msgid "e"
@@ -903,12 +903,12 @@ msgstr "Ikusi %s(r)en eraiketa fitxategien diff"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Paketeak root gisa eraikitzen"
 
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "Eraiketa direktorioa %s(e)ra ezartzen"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -916,7 +916,7 @@ msgstr "Ez da PKGBUILD fitxategirik aurkitu direktorio honetan"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Garapen paketeen eguneraketak root gisa egiaztatzen"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1211,7 +1211,7 @@ msgstr "zenbakia"
 #: src/cli.vala
 msgid ""
 "specify how many versions of each package are kept in the cache directory"
-msgstr "zehaztu pakete bakoitzaren zenbat bertsio mantenduko diren cache karpetan"
+msgstr "zehaztu pakete bakoitzaren zenbat bertsio mantenduko diren cache direktorioan"
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
@@ -1221,7 +1221,7 @@ msgstr "desinstalatutako paketeak soilik aukeratu"
 msgid ""
 "remove all build files, the build directory is the one specified in "
 "pamac.conf"
-msgstr "kendu eraiketa fitxategi guztiak, eraiketa karpeta pamac.conf fitxategian zehazten da"
+msgstr "kendu eraiketa fitxategi guztiak, eraiketa direktorioa pamac.conf fitxategian zehazten da"
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"

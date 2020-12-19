@@ -45,7 +45,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-09 23:46+0000\n"
+"PO-Revision-Date: 2020-12-15 22:20+0000\n"
 "Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -753,7 +753,7 @@ msgstr "Atualizar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Build"
-msgstr "Compilação"
+msgstr "Compilar"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Remove"
