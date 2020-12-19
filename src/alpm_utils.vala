@@ -2050,7 +2050,7 @@ namespace Pamac {
 												details.add ("  " + _("if this file is not needed, remove it and retry"));
 											} else {
 												do_emit_warning (_("Warning") + ": " + _("%s: %s already existed in filesystem").printf (conflict->target, conflict->file));
-												do_emit_warning (_("It has been backup to %s").printf (backup_path));
+												do_emit_warning (_("It has been backed up to %s").printf (backup_path));
 												need_retry = true;
 											}
 										} else {
