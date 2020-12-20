@@ -1626,7 +1626,14 @@ namespace Pamac {
 		}
 
 		int choose_provider_real (string depend, string[] providers) {
-			int index = choose_provider (depend, providers);
+			int index = 0;
+			var loop = new MainLoop (context);
+			context.invoke (() => {
+				index = choose_provider (depend, providers);
+				loop.quit ();
+				return false;
+			});
+			loop.run ();
 			unowned string pkgname = providers[index];
 			to_install.add (pkgname);
 			to_install_as_dep.add (pkgname);
