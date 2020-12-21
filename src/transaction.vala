@@ -29,6 +29,7 @@ namespace Pamac {
 		delegate void TransactionAction ();
 		bool waiting;
 		unowned Config config;
+		unowned MainContext context;
 		// run transaction data
 		bool sysupgrading;
 		bool force_refresh;
@@ -57,7 +58,6 @@ namespace Pamac {
 		// transaction options
 		public Database database { get; construct set; }
 		public bool clone_build_files { get; set; }
-		public MainContext context { protected get; private set; }
 
 		public signal void emit_action (string action);
 		public signal void emit_action_progress (string action, string status, double progress);
@@ -82,13 +82,13 @@ namespace Pamac {
 
 		construct {
 			config = database.config;
-			context = MainContext.ref_thread_default ();
+			context = database.context;
 			if (Posix.geteuid () == 0) {
 				// we are root
 				transaction_interface = new TransactionInterfaceRoot (context);
 			} else {
 				// use dbus daemon
-				transaction_interface = new TransactionInterfaceDaemon (config, context);
+				transaction_interface = new TransactionInterfaceDaemon (config);
 			}
 			waiting = false;
 			// transaction options
@@ -104,37 +104,68 @@ namespace Pamac {
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new GenericSet<string?> (str_hash, str_equal);
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (config, context);
+			alpm_utils = new AlpmUtils (config);
 			alpm_utils.choose_provider.connect (choose_provider_real);
 			alpm_utils.emit_action.connect ((sender, action) => {
-				emit_action (action);
+				context.invoke (() => {
+					emit_action (action);
+					return false;
+				});
 			});
 			alpm_utils.emit_action_progress.connect ((sender, action, status, progress) => {
-				emit_action_progress (action, status, progress);
+				context.invoke (() => {
+					emit_action_progress (action, status, progress);
+					return false;
+				});
 			});
 			alpm_utils.emit_hook_progress.connect ((sender, action, details, status, progress) => {
-				emit_hook_progress (action, details, status, progress);
+				context.invoke (() => {
+					emit_hook_progress (action, details, status, progress);
+					return false;
+				});
 			});
 			alpm_utils.emit_download_progress.connect ((sender, action, status, progress) => {
-				emit_download_progress (action, status, progress);
+				context.invoke (() => {
+					emit_download_progress (action, status, progress);
+					return false;
+				});
 			});
 			alpm_utils.start_downloading.connect ((sender) => {
-				start_downloading ();
+				context.invoke (() => {
+					start_downloading ();
+					return false;
+				});
 			});
 			alpm_utils.stop_downloading.connect ((sender) => {
-				stop_downloading ();
+				context.invoke (() => {
+					stop_downloading ();
+					return false;
+				});
 			});
 			alpm_utils.emit_script_output.connect ((sender, message) => {
-				emit_script_output (message);
+				context.invoke (() => {
+					emit_script_output (message);
+					return false;
+				});
 			});
 			alpm_utils.emit_warning.connect ((sender, message) => {
-				emit_warning (message);
+				context.invoke (() => {
+					emit_warning (message);
+					return false;
+				});
 			});
 			alpm_utils.emit_error.connect ((sender, message, details) => {
-				emit_error (message, details);
+				string[] details_copy = details;
+				context.invoke (() => {
+					emit_error (message, details_copy);
+					return false;
+				});
 			});
 			alpm_utils.important_details_outpout.connect ((sender, must_show) => {
-				important_details_outpout (must_show);
+				context.invoke (() => {
+					important_details_outpout (must_show);
+					return false;
+				});
 			});
 			// only used as root in transaction_interface_root.vala
 			alpm_utils.get_authorization.connect ((sender) => {
@@ -1626,15 +1657,16 @@ namespace Pamac {
 		}
 
 		int choose_provider_real (string depend, string[] providers) {
+			string[] providers_copy = providers;
 			int index = 0;
 			var loop = new MainLoop (context);
 			context.invoke (() => {
-				index = choose_provider (depend, providers);
+				index = choose_provider (depend, providers_copy);
 				loop.quit ();
 				return false;
 			});
 			loop.run ();
-			unowned string pkgname = providers[index];
+			unowned string pkgname = providers_copy[index];
 			to_install.add (pkgname);
 			to_install_as_dep.add (pkgname);
 			return index;

@@ -22,7 +22,6 @@ const string GETTEXT_PACKAGE = "pamac";
 
 Pamac.Daemon system_daemon;
 MainLoop loop;
-MainContext context;
 
 namespace Pamac {
 	[DBus (name = "org.manjaro.pamac.daemon")]
@@ -71,7 +70,7 @@ namespace Pamac {
 		public Daemon () {
 			config = new Config ("/etc/pamac.conf");
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (config, context);
+			alpm_utils = new AlpmUtils (config);
 			lockfile_cond = Cond ();
 			lockfile_mutex = Mutex ();
 			if (alpm_utils.lockfile.query_exists ()) {
@@ -128,7 +127,6 @@ namespace Pamac {
 			});
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
-				snap_plugin.context = context;
 				snap_plugin.get_authorization.connect ((sender) => {
 					return get_authorization_sync (sender);
 				});
@@ -153,7 +151,6 @@ namespace Pamac {
 			}
 			if (config.support_flatpak) {
 				flatpak_plugin = config.get_flatpak_plugin ();
-				flatpak_plugin.context = context;
 				flatpak_plugin.get_authorization.connect ((sender) => {
 					return get_authorization_sync (sender);
 				});
@@ -275,13 +272,10 @@ namespace Pamac {
 			bool fast_authorized = authorized_senders.contains (sender);
 			authorization_mutex.unlock ();
 			if (fast_authorized) {
-				var idle = new IdleSource ();
-				idle.set_priority (Priority.DEFAULT);
-				idle.set_callback (() => {
+				Idle.add (() => {
 					get_authorization_finished (sender, true);
 					return false;
 				});
-				idle.attach (context);
 				return;
 			}
 			check_authorization.begin (sender, (obj, res) => {
@@ -593,13 +587,10 @@ namespace Pamac {
 
 		public void start_snap_trans_run (string[] to_install, string[] to_remove, BusName sender) throws Error {
 			if (!config.enable_snap) {
-				var idle = new IdleSource ();
-				idle.set_priority (Priority.DEFAULT);
-				idle.set_callback (() => {
+				Idle.add (() => {
 					snap_trans_run_finished (sender, false);
 					return false;
 				});
-				idle.attach (context);
 				return;
 			}
 			try {
@@ -620,13 +611,10 @@ namespace Pamac {
 
 		public void start_snap_switch_channel (string snap_name, string snap_channel, BusName sender) throws Error {
 			if (!config.enable_snap) {
-				var idle = new IdleSource ();
-				idle.set_priority (Priority.DEFAULT);
-				idle.set_callback (() => {
+				Idle.add (() => {
 					snap_switch_channel_finished (sender, false);
 					return false;
 				});
-				idle.attach (context);
 				return;
 			}
 			try {
@@ -645,13 +633,10 @@ namespace Pamac {
 
 		public void start_flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade, BusName sender) throws Error {
 			if (!config.enable_flatpak) {
-				var idle = new IdleSource ();
-				idle.set_priority (Priority.DEFAULT);
-				idle.set_callback (() => {
+				Idle.add (() => {
 					flatpak_trans_run_finished (sender, false);
 					return false;
 				});
-				idle.attach (context);
 				return;
 			}
 			try {
@@ -727,7 +712,6 @@ void main () {
 					loop.quit ();
 				});
 
-	context = MainContext.ref_thread_default ();
-	loop = new MainLoop (context);
+	loop = new MainLoop ();
 	loop.run ();
 }

@@ -74,7 +74,6 @@ namespace Pamac {
 		public AlpmConfig alpm_config;
 		string tmp_path;
 		public File lockfile;
-		MainContext context;
 		// run transaction data
 		uint8 commit_retries;
 		string current_status;
@@ -118,11 +117,10 @@ namespace Pamac {
 		public signal void important_details_outpout (string sender, bool must_show);
 		public signal bool get_authorization (string sender);
 
-		public AlpmUtils (Config config, MainContext context) {
+		public AlpmUtils (Config config) {
 			this.config = config;
 			multi_progress_mutex = Mutex ();
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
-			this.context = context;
 			alpm_config = config.alpm_config;
 			tmp_path = "/tmp/pamac";
 			to_syncfirst = new GenericSet<string?> (str_hash, str_equal);
@@ -155,84 +153,50 @@ namespace Pamac {
 		}
 
 		public int do_choose_provider (string depend, string[] providers) {
-			// won't send a signal in a thread
-			string[] providers_copy = providers;
-			return choose_provider (depend, providers_copy);
+			return choose_provider (depend, providers);
 		}
 
 		void do_start_downloading () {
-			context.invoke (() => {
-				start_downloading (sender);
-				return false;
-			});
+			start_downloading (sender);
 		}
 
 		void do_stop_downloading () {
-			context.invoke (() => {
-				stop_downloading (sender);
-				return false;
-			});
+			stop_downloading (sender);
 		}
 
 		void do_emit_action (string action) {
-			context.invoke (() => {
-				emit_action (sender, action);
-				return false;
-			});
+			emit_action (sender, action);
 		}
 
 		void do_emit_action_progress (string action, string status, double progress) {
-			context.invoke (() => {
-				emit_action_progress (sender, action, status, progress);
-				return false;
-			});
+			emit_action_progress (sender, action, status, progress);
 		}
 
 		void do_emit_download_progress (string action, string status, double progress) {
-			context.invoke (() => {
-				emit_download_progress (sender, action, status, progress);
-				return false;
-			});
+			emit_download_progress (sender, action, status, progress);
 		}
 
 		void do_emit_hook_progress (string action, string details, string status, double progress) {
-			context.invoke (() => {
-				emit_hook_progress (sender, action, details, status, progress);
-				return false;
-			});
+			emit_hook_progress (sender, action, details, status, progress);
 		}
 
 		public void do_emit_script_output (string message) {
-			context.invoke (() => {
-				emit_script_output (sender, message);
-				return false;
-			});
+			emit_script_output (sender, message);
 		}
 
 		void do_emit_warning (string message) {
-			context.invoke (() => {
-				emit_warning (sender, message);
-				return false;
-			});
+			emit_warning (sender, message);
 		}
 
 		void do_emit_error (string message, string[] details) {
-			string[] details_copy = details;
-			context.invoke (() => {
-				emit_error (sender, message, details_copy);
-				return false;
-			});
+			emit_error (sender, message, details);
 		}
 
 		void do_important_details_outpout (bool must_show) {
-			context.invoke (() => {
-				important_details_outpout (sender, must_show);
-				return false;
-			});
+			important_details_outpout (sender, must_show);
 		}
 
 		bool do_get_authorization () {
-			// won't send a signal in a thread
 			return get_authorization (sender);
 		}
 

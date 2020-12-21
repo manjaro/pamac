@@ -178,12 +178,10 @@ namespace Pamac {
 		public void start_progressbar_pulse () {
 			stop_progressbar_pulse ();
 			progress_box.progressbar.visible = true;
-			var timeout = new TimeoutSource (500);
-			timeout.set_callback (() => {
+			pulse_timeout_id = Timeout.add (500, () => {
 				progress_box.progressbar.pulse ();
 				return true;
 			});
-			pulse_timeout_id = timeout.attach (context);
 		}
 
 		public void stop_progressbar_pulse () {
@@ -1019,12 +1017,10 @@ namespace Pamac {
 			box.spacing = 6;
 			dialog.default_width = 600;
 			dialog.default_height = 300;
-			var timeout = new TimeoutSource (1000);
-			timeout.set_callback (() => {
+			Timeout.add (1000, () => {
 				show_notification (message);
 				return false;
 			});
-			timeout.attach (context);
 			dialog.run ();
 			dialog.destroy ();
 		}

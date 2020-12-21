@@ -22,7 +22,6 @@ namespace Pamac {
 		AlpmConfig alpm_config;
 		Alpm.Handle? alpm_handle;
 		Alpm.Handle? files_handle;
-		MainContext context;
 		AUR aur;
 		As.Store app_store;
 		HashTable<string, AURPackageData> aur_vcs_pkgs;
@@ -38,6 +37,7 @@ namespace Pamac {
 		FlatpakPlugin flatpak_plugin;
 
 		public Config config { get; construct set; }
+		internal unowned MainContext context { get; private set; }
 
 		public signal void get_updates_progress (uint percent);
 
@@ -47,7 +47,7 @@ namespace Pamac {
 
 		construct {
 			alpm_config = config.alpm_config;
-			context = MainContext.ref_thread_default ();
+			context = MainContext.default ();
 			aur_vcs_pkgs = new HashTable<string, AURPackageData> (str_hash, str_equal);
 			pkgs_cache = new HashTable<unowned string, AlpmPackageLinked> (str_hash, str_equal);
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);

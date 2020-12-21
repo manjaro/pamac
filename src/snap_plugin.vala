@@ -203,8 +203,6 @@ namespace Pamac {
 		double current_progress;
 		string current_status;
 
-		public MainContext context { get; set; }
-
 		public Snap () {
 			Object ();
 		}
@@ -482,50 +480,30 @@ namespace Pamac {
 		}
 
 		void do_start_downloading () {
-			context.invoke (() => {
-				start_downloading (sender);
-				return false;
-			});
+			start_downloading (sender);
 		}
 
 		void do_stop_downloading () {
-			context.invoke (() => {
-				stop_downloading (sender);
-				return false;
-			});
+			stop_downloading (sender);
 		}
 
 		void do_emit_action_progress (string action, string status, double progress) {
-			context.invoke (() => {
-				emit_action_progress (sender, action, status, progress);
-				return false;
-			});
+			emit_action_progress (sender, action, status, progress);
 		}
 
 		void do_emit_download_progress (string action, string status, double progress) {
-			context.invoke (() => {
-				emit_download_progress (sender, action, status, progress);
-				return false;
-			});
+			emit_download_progress (sender, action, status, progress);
 		}
 
 		void do_emit_script_output (string message) {
-			context.invoke (() => {
-				emit_script_output (sender, message);
-				return false;
-			});
+			emit_script_output (sender, message);
 		}
 
 		void do_emit_error (string message, string[] details) {
-			string[] details_copy = details;
-			context.invoke (() => {
-				emit_error (sender, message, details_copy);
-				return false;
-			});
+			emit_error (sender, message, details);
 		}
 
 		bool do_get_authorization () {
-			// won't send a signal in a thread
 			return get_authorization (sender);
 		}
 

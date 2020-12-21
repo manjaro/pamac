@@ -21,7 +21,6 @@ namespace Pamac {
 	internal class TransactionInterfaceDaemon: Object, TransactionInterface {
 		Daemon system_daemon;
 		string sender;
-		MainContext context;
 		SourceFunc generate_mirrors_list_callback;
 		SourceFunc download_updates_callback;
 		SourceFunc get_authorization_callback;
@@ -45,8 +44,7 @@ namespace Pamac {
 		SourceFunc flatpak_trans_run_callback;
 		bool flatpak_trans_run_success;
 
-		public TransactionInterfaceDaemon (Config config, MainContext context) {
-			this.context = context;
+		public TransactionInterfaceDaemon (Config config) {
 			try {
 				connecting_system_daemon (config);
 				connecting_dbus_signals ();
@@ -70,7 +68,7 @@ namespace Pamac {
 		void on_get_authorization_finished (string sender, bool authorized) {
 			if (sender == this.sender) {
 				get_authorization_authorized = authorized;
-				context.invoke ((owned) get_authorization_callback);
+				get_authorization_callback ();
 			}
 		}
 
@@ -94,7 +92,7 @@ namespace Pamac {
 
 		void on_generate_mirrors_list_finished (string sender) {
 			if (sender == this.sender) {
-				context.invoke ((owned) generate_mirrors_list_callback);
+				generate_mirrors_list_callback ();
 			}
 		}
 
@@ -118,7 +116,7 @@ namespace Pamac {
 		void on_clean_cache_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				clean_cache_success = success;
-				context.invoke ((owned) clean_cache_callback);
+				clean_cache_callback ();
 			}
 		}
 
@@ -136,7 +134,7 @@ namespace Pamac {
 		void on_clean_clean_build_files_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				clean_build_files_success = success;
-				context.invoke ((owned) clean_build_files_callback);
+				clean_build_files_callback ();
 			}
 		}
 
@@ -154,7 +152,7 @@ namespace Pamac {
 		void on_set_pkgreason_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				set_pkgreason_success = success;
-				context.invoke ((owned) clean_build_files_callback);
+				clean_build_files_callback ();
 			}
 		}
 
@@ -170,7 +168,7 @@ namespace Pamac {
 
 		void on_download_updates_finished (string sender) {
 			if (sender == this.sender) {
-				context.invoke ((owned) download_updates_callback);
+				download_updates_callback ();
 			}
 		}
 
@@ -190,7 +188,7 @@ namespace Pamac {
 				return;
 			}
 			download_pkg_path = path;
-			context.invoke ((owned) download_pkg_callback);
+			download_pkg_callback ();
 		}
 
 		public async bool trans_refresh (bool force) throws Error {
@@ -209,7 +207,7 @@ namespace Pamac {
 				return;
 			}
 			trans_refresh_success = success;
-			context.invoke ((owned) trans_refresh_callback);
+			trans_refresh_callback ();
 		}
 
 		public async bool trans_run (bool sysupgrade,
@@ -248,7 +246,7 @@ namespace Pamac {
 				return;
 			}
 			trans_run_success = success;
-			context.invoke ((owned) trans_run_callback);
+			trans_run_callback ();
 		}
 
 		public void trans_cancel () throws Error {
@@ -275,7 +273,7 @@ namespace Pamac {
 				return;
 			}
 			snap_trans_run_success = success;
-			context.invoke ((owned) snap_trans_run_callback);
+			snap_trans_run_callback ();
 		}
 
 		public async bool snap_switch_channel (string snap_name, string channel) throws Error {
@@ -294,7 +292,7 @@ namespace Pamac {
 				return;
 			}
 			snap_switch_channel_success = success;
-			context.invoke ((owned) snap_switch_channel_callback);
+			snap_switch_channel_callback ();
 		}
 
 		public async bool flatpak_trans_run (string[] to_install, string[] to_remove, string[] to_upgrade) throws Error {
@@ -313,7 +311,7 @@ namespace Pamac {
 				return;
 			}
 			flatpak_trans_run_success = success;
-			context.invoke ((owned) flatpak_trans_run_callback);
+			flatpak_trans_run_callback ();
 		}
 
 		public void quit_daemon () throws Error {

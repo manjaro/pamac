@@ -20,7 +20,6 @@
 namespace Pamac {
 	internal interface FlatpakPlugin : Object {
 		public abstract uint64 refresh_period { get; set; }
-		public abstract MainContext context { get; set; }
 
 		public signal bool get_authorization (string sender);
 		public signal void emit_action_progress (string sender, string action, string status, double progress);

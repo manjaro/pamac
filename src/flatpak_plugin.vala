@@ -248,10 +248,9 @@ namespace Pamac {
 		Cancellable cancellable;
 
 		public uint64 refresh_period { get; set; }
-		public MainContext context { get; set; }
 
-		public FlatPak (uint64 refresh_period, MainContext context) {
-			Object (refresh_period: refresh_period, context: context);
+		public FlatPak (uint64 refresh_period) {
+			Object (refresh_period: refresh_period);
 		}
 
 		construct {
@@ -787,29 +786,18 @@ namespace Pamac {
 		}
 
 		void do_emit_action_progress (string action, string status, double progress) {
-			context.invoke (() => {
-				emit_action_progress (sender, action, status, progress);
-				return false;
-			});
+			emit_action_progress (sender, action, status, progress);
 		}
 
 		void do_emit_script_output (string message) {
-			context.invoke (() => {
-				emit_script_output (sender, message);
-				return false;
-			});
+			emit_script_output (sender, message);
 		}
 
 		void do_emit_error (string message, string[] details) {
-			string[] details_copy = details;
-			context.invoke (() => {
-				emit_error (sender, message, details_copy);
-				return false;
-			});
+			emit_error (sender, message, details);
 		}
 
 		bool do_get_authorization () {
-			// won't send a signal in a thread
 			return get_authorization (sender);
 		}
 
