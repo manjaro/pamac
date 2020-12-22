@@ -1323,7 +1323,7 @@ namespace Pamac {
 		}
 
 		public void add_flatpak_to_install (FlatpakPackage pkg) {
-			if (config.enable_snap) {
+			if (config.enable_flatpak) {
 				flatpak_to_install.insert (pkg.id, pkg);
 			} else {
 				warning ("flatpak support disabled");
@@ -1331,7 +1331,7 @@ namespace Pamac {
 		}
 
 		public void add_flatpak_to_remove (FlatpakPackage pkg) {
-			if (config.enable_snap) {
+			if (config.enable_flatpak) {
 				flatpak_to_remove.insert (pkg.id, pkg);
 			} else {
 				warning ("flatpak support disabled");
@@ -1339,7 +1339,7 @@ namespace Pamac {
 		}
 
 		public void add_flatpak_to_upgrade (FlatpakPackage pkg) {
-			if (config.enable_snap) {
+			if (config.enable_flatpak) {
 				flatpak_to_upgrade.insert (pkg.id, pkg);
 			} else {
 				warning ("flatpak support disabled");
