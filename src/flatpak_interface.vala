@@ -26,6 +26,7 @@ namespace Pamac {
 		public signal void emit_script_output (string sender, string message);
 		public signal void emit_error (string sender, string message, string[] details);
 
+		public abstract bool refresh_appstream_data ();
 		public abstract void load_appstream_data ();
 		public abstract void get_remotes_names (ref GenericArray<unowned string> remotes_names);
 		public abstract void search_flatpaks (string search_string, ref GenericArray<unowned FlatpakPackage> pkgs);

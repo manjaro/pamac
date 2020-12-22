@@ -241,7 +241,6 @@ namespace Pamac {
 	internal class FlatPak: Object, FlatpakPlugin {
 		string sender;
 		Flatpak.Installation installation;
-		bool appstream_data_loaded;
 		HashTable<string, As.Store> stores_table;
 		HashTable<string, Flatpak.RemoteRef> remote_refs_table;
 		HashTable<string, FlatpakPackageLinked> pkgs_cache;
@@ -255,7 +254,6 @@ namespace Pamac {
 
 		construct {
 			cancellable = new Cancellable ();
-			appstream_data_loaded = false;
 			stores_table = new HashTable<string, As.Store> (str_hash, str_equal);
 			remote_refs_table = new HashTable<string, Flatpak.RemoteRef> (str_hash, str_equal);
 			pkgs_cache = new HashTable<string, FlatpakPackageLinked> (str_hash, str_equal);
@@ -267,12 +265,6 @@ namespace Pamac {
 		}
 
 		public void load_appstream_data () {
-			if (refresh_appstream_data ()) {
-				appstream_data_loaded = false;
-			}
-			if (appstream_data_loaded) {
-				return;
-			}
 			lock (stores_table) {
 				stores_table.remove_all ();
 				try {
@@ -306,10 +298,8 @@ namespace Pamac {
 													| As.AppSearchMatch.COMMENT
 													| As.AppSearchMatch.ORIGIN
 													| As.AppSearchMatch.KEYWORD);
-						app_store.load_search_cache ();
 						stores_table.insert (remote.name, app_store);
 					}
-					appstream_data_loaded = true;
 				} catch (Error e) {
 					warning (e.message);
 				}
@@ -329,7 +319,7 @@ namespace Pamac {
 			}
 		}
 
-		bool refresh_appstream_data () {
+		public bool refresh_appstream_data () {
 			bool modified = false;
 			try {
 				GenericArray<unowned Flatpak.Remote> remotes = installation.list_remotes ();
@@ -708,7 +698,6 @@ namespace Pamac {
 		}
 
 		public void get_flatpak_updates (ref GenericArray<unowned FlatpakPackage> pkgs) {
-			//refresh_appstream_data ();
 			try {
 				lock (pkgs_cache)  {
 					GenericArray<unowned Flatpak.InstalledRef> update_apps = installation.list_installed_refs_for_update ();

@@ -70,7 +70,7 @@ namespace Pamac {
 				flatpak_plugin = config.get_flatpak_plugin ();
 				flatpak_plugin.refresh_period = config.refresh_period;
 				if (config.enable_flatpak) {
-					load_flatpak_appstream_data ();
+					flatpak_plugin.load_appstream_data ();
 				}
 			}
 			refresh ();
@@ -90,10 +90,6 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-		}
-
-		void load_flatpak_appstream_data () {
-			flatpak_plugin.load_appstream_data ();
 		}
 
 		public void refresh () {
@@ -2705,6 +2701,27 @@ namespace Pamac {
 				}
 			}
 			return pkgs;
+		}
+
+		public void refresh_flatpak_appstream_data () {
+			if (config.enable_flatpak) {
+				flatpak_plugin.refresh_appstream_data ();
+			}
+		}
+
+		public async void refresh_flatpak_appstream_data_async () {
+			if (config.enable_flatpak) {
+				try {
+					new Thread<int>.try ("refresh_flatpak_appstream_data", () => {
+						flatpak_plugin.refresh_appstream_data ();
+						context.invoke (refresh_flatpak_appstream_data_async.callback);
+						return 0;
+					});
+					yield;
+				} catch (Error e) {
+					warning (e.message);
+				}
+			}
 		}
 
 		public GenericArray<unowned string> get_flatpak_remotes_names () {

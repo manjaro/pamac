@@ -682,6 +682,9 @@ namespace Pamac {
 			check_software_mode ();
 			// connect after check_software_mode to not refresh packages twice
 			software_mode_checkbutton.toggled.connect (on_software_mode_checkbutton_toggled);
+
+			// refresh flatpak appstream_data
+			database.refresh_flatpak_appstream_data_async.begin ();
 		}
 
 		void set_header_func (Gtk.ListBoxRow row, Gtk.ListBoxRow? row_before) {
