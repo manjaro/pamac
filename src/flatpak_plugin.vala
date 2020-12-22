@@ -273,44 +273,46 @@ namespace Pamac {
 			if (appstream_data_loaded) {
 				return;
 			}
-			stores_table.remove_all ();
-			try {
-				GenericArray<unowned Flatpak.Remote> remotes = installation.list_remotes ();
-				foreach (unowned Flatpak.Remote remote in remotes) {
-					if (remote.get_disabled ()) {
-						continue;
+			lock (stores_table) {
+				stores_table.remove_all ();
+				try {
+					GenericArray<unowned Flatpak.Remote> remotes = installation.list_remotes ();
+					foreach (unowned Flatpak.Remote remote in remotes) {
+						if (remote.get_disabled ()) {
+							continue;
+						}
+						// init appstream
+						var app_store = new As.Store ();
+						app_store.add_filter (As.AppKind.DESKTOP);
+						app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
+												| As.StoreAddFlags.ONLY_NATIVE_LANGS
+												| As.StoreAddFlags.USE_MERGE_HEURISTIC);
+						app_store.set_origin (remote.name);
+						File appstream_dir = remote.get_appstream_dir (null);
+						File? appstream_xml = appstream_dir.get_child ("appstream.xml");
+						if (!appstream_xml.query_exists ()) {
+							return;
+						}
+						string appstream_icons = Path.build_filename (appstream_dir.get_path (), "icons");
+						try {
+							app_store.from_file (appstream_xml, appstream_icons);
+						} catch (Error e) {
+							warning (e.message);
+						}
+						app_store.set_search_match (As.AppSearchMatch.ID
+													| As.AppSearchMatch.DESCRIPTION
+													| As.AppSearchMatch.NAME
+													| As.AppSearchMatch.MIMETYPE
+													| As.AppSearchMatch.COMMENT
+													| As.AppSearchMatch.ORIGIN
+													| As.AppSearchMatch.KEYWORD);
+						app_store.load_search_cache ();
+						stores_table.insert (remote.name, app_store);
 					}
-					// init appstream
-					var app_store = new As.Store ();
-					app_store.add_filter (As.AppKind.DESKTOP);
-					app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
-											| As.StoreAddFlags.ONLY_NATIVE_LANGS
-											| As.StoreAddFlags.USE_MERGE_HEURISTIC);
-					app_store.set_origin (remote.name);
-					File appstream_dir = remote.get_appstream_dir (null);
-					File? appstream_xml = appstream_dir.get_child ("appstream.xml");
-					if (!appstream_xml.query_exists ()) {
-						return;
-					}
-					string appstream_icons = Path.build_filename (appstream_dir.get_path (), "icons");
-					try {
-						app_store.from_file (appstream_xml, appstream_icons);
-					} catch (Error e) {
-						warning (e.message);
-					}
-					app_store.set_search_match (As.AppSearchMatch.ID
-												| As.AppSearchMatch.DESCRIPTION
-												| As.AppSearchMatch.NAME
-												| As.AppSearchMatch.MIMETYPE
-												| As.AppSearchMatch.COMMENT
-												| As.AppSearchMatch.ORIGIN
-												| As.AppSearchMatch.KEYWORD);
-					app_store.load_search_cache ();
-					stores_table.insert (remote.name, app_store);
+					appstream_data_loaded = true;
+				} catch (Error e) {
+					warning (e.message);
 				}
-				appstream_data_loaded = true;
-			} catch (Error e) {
-				warning (e.message);
 			}
 		}
 
@@ -358,19 +360,21 @@ namespace Pamac {
 
 		unowned As.App? get_installed_ref_matching_app (Flatpak.InstalledRef installed_ref) {
 			unowned As.App? matching_app = null;
-			var iter = HashTableIter<string, As.Store> (stores_table);
-			unowned string remote;
-			As.Store app_store;
-			while (iter.next (out remote, out app_store)) {
-				if (remote == installed_ref.origin) {
-					unowned GenericArray<As.App> apps = app_store.get_apps ();
-					foreach (unowned As.App app in apps) {
-						if (app.get_id_filename () == installed_ref.name) {
-							matching_app = app;
-							break;
+			lock (stores_table) {
+				var iter = HashTableIter<string, As.Store> (stores_table);
+				unowned string remote;
+				As.Store app_store;
+				while (iter.next (out remote, out app_store)) {
+					if (remote == installed_ref.origin) {
+						unowned GenericArray<As.App> apps = app_store.get_apps ();
+						foreach (unowned As.App app in apps) {
+							if (app.get_id_filename () == installed_ref.name) {
+								matching_app = app;
+								break;
+							}
 						}
+						break;
 					}
-					break;
 				}
 			}
 			return matching_app;
@@ -378,13 +382,15 @@ namespace Pamac {
 
 		unowned As.App? get_remote_ref_matching_app (Flatpak.RemoteRef remote_ref) {
 			unowned As.App? matching_app = null;
-			unowned As.Store? app_store = stores_table.lookup (remote_ref.remote_name);
-			if (app_store != null) {
-				unowned GenericArray<As.App> apps = app_store.get_apps ();
-				foreach (unowned As.App app in apps) {
-					if (app.get_id_filename () == remote_ref.name) {
-						matching_app = app;
-						break;
+			lock (stores_table) {
+				unowned As.Store? app_store = stores_table.lookup (remote_ref.remote_name);
+				if (app_store != null) {
+					unowned GenericArray<As.App> apps = app_store.get_apps ();
+					foreach (unowned As.App app in apps) {
+						if (app.get_id_filename () == remote_ref.name) {
+							matching_app = app;
+							break;
+						}
 					}
 				}
 			}
@@ -442,16 +448,18 @@ namespace Pamac {
 
 		public FlatpakPackage? get_flatpak_by_app_id (string app_id) {
 			FlatpakPackage? pkg = null;
-			var iter = HashTableIter<string, As.Store> (stores_table);
-			unowned string remote;
-			As.Store app_store;
-			// remove .desktop suffix
-			string real_app_id = app_id.replace (".desktop", "");
-			while (iter.next (out remote, out app_store)) {
-				unowned GenericArray<As.App> apps = app_store.get_apps ();
-				foreach (unowned As.App app in apps) {
-					if (app.get_id_filename () == real_app_id) {
-						pkg = get_flatpak_from_app (remote, app);
+			lock (stores_table) {
+				var iter = HashTableIter<string, As.Store> (stores_table);
+				unowned string remote;
+				As.Store app_store;
+				// remove .desktop suffix
+				string real_app_id = app_id.replace (".desktop", "");
+				while (iter.next (out remote, out app_store)) {
+					unowned GenericArray<As.App> apps = app_store.get_apps ();
+					foreach (unowned As.App app in apps) {
+						if (app.get_id_filename () == real_app_id) {
+							pkg = get_flatpak_from_app (remote, app);
+						}
 					}
 				}
 			}
@@ -576,6 +584,28 @@ namespace Pamac {
 		public void search_flatpaks (string search_string, ref GenericArray<unowned FlatpakPackage> pkgs) {
 			string[]? search_terms = As.utils_search_tokenize (search_string);
 			if (search_terms != null) {
+				lock (stores_table) {
+					var iter = HashTableIter<string, As.Store> (stores_table);
+					unowned string remote;
+					As.Store app_store;
+					while (iter.next (out remote, out app_store)) {
+						unowned GenericArray<As.App> apps = app_store.get_apps ();
+						foreach (unowned As.App app in apps) {
+							uint match_score = app.search_matches_all (search_terms);
+							if (match_score > 0) {
+								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
+								if (pkg != null) {
+									pkgs.add (pkg);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public void search_uninstalled_flatpaks_sync (string[] search_terms, ref GenericArray<unowned FlatpakPackage> pkgs) {
+			lock (stores_table) {
 				var iter = HashTableIter<string, As.Store> (stores_table);
 				unowned string remote;
 				As.Store app_store;
@@ -585,27 +615,9 @@ namespace Pamac {
 						uint match_score = app.search_matches_all (search_terms);
 						if (match_score > 0) {
 							FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
-							if (pkg != null) {
+							if (pkg != null && pkg.installed_version == null) {
 								pkgs.add (pkg);
 							}
-						}
-					}
-				}
-			}
-		}
-
-		public void search_uninstalled_flatpaks_sync (string[] search_terms, ref GenericArray<unowned FlatpakPackage> pkgs) {
-			var iter = HashTableIter<string, As.Store> (stores_table);
-			unowned string remote;
-			As.Store app_store;
-			while (iter.next (out remote, out app_store)) {
-				unowned GenericArray<As.App> apps = app_store.get_apps ();
-				foreach (unowned As.App app in apps) {
-					uint match_score = app.search_matches_all (search_terms);
-					if (match_score > 0) {
-						FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
-						if (pkg != null && pkg.installed_version == null) {
-							pkgs.add (pkg);
 						}
 					}
 				}
@@ -622,16 +634,18 @@ namespace Pamac {
 					names_set.add ("com.skype.Client");
 					names_set.add ("com.mojang.Minecraft");
 					names_set.add ("com.slack.Slack");
-					var iter = HashTableIter<string, As.Store> (stores_table);
-					unowned string remote;
-					As.Store app_store;
-					while (iter.next (out remote, out app_store)) {
-						unowned GenericArray<As.App> apps = app_store.get_apps ();
-						foreach (unowned As.App app in apps) {
-							if (app.get_id_filename () in names_set) {
-								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
-								if (pkg != null) {
-									pkgs.add (pkg);
+					lock (stores_table) {
+						var iter = HashTableIter<string, As.Store> (stores_table);
+						unowned string remote;
+						As.Store app_store;
+						while (iter.next (out remote, out app_store)) {
+							unowned GenericArray<As.App> apps = app_store.get_apps ();
+							foreach (unowned As.App app in apps) {
+								if (app.get_id_filename () in names_set) {
+									FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
+									if (pkg != null) {
+										pkgs.add (pkg);
+									}
 								}
 							}
 						}
@@ -670,20 +684,22 @@ namespace Pamac {
 					break;
 			}
 			if (names_set.length > 0) {
-				var iter = HashTableIter<string, As.Store> (stores_table);
-				unowned string remote;
-				As.Store app_store;
-				while (iter.next (out remote, out app_store)) {
-					unowned GenericArray<As.App> apps = app_store.get_apps ();
-					foreach (unowned As.App app in apps) {
-						unowned GenericArray<string> categories = app.get_categories ();
-						foreach (unowned string cat_name in categories) {
-							if (cat_name in names_set) {
-								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
-								if (pkg != null) {
-									pkgs.add (pkg);
+				lock (stores_table) {
+					var iter = HashTableIter<string, As.Store> (stores_table);
+					unowned string remote;
+					As.Store app_store;
+					while (iter.next (out remote, out app_store)) {
+						unowned GenericArray<As.App> apps = app_store.get_apps ();
+						foreach (unowned As.App app in apps) {
+							unowned GenericArray<string> categories = app.get_categories ();
+							foreach (unowned string cat_name in categories) {
+								if (cat_name in names_set) {
+									FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
+									if (pkg != null) {
+										pkgs.add (pkg);
+									}
+									break;
 								}
-								break;
 							}
 						}
 					}

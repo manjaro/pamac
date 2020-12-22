@@ -2171,7 +2171,7 @@ namespace Pamac {
 						if (action != current_action) {
 							current_action = (owned) action;
 						}
-						do_emit_action (current_action);
+						//do_emit_action (current_action);
 						if ("error" in msg.down ()) {
 							do_emit_warning (dgettext (null, "Error while configuring %s").printf (current_filename));
 							do_important_details_outpout (true);

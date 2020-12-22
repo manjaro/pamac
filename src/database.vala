@@ -72,18 +72,14 @@ namespace Pamac {
 				if (config.enable_flatpak) {
 					load_flatpak_appstream_data ();
 				}
-				config.notify["enable-flatpak"].connect (() => {
-					if (config.enable_flatpak) {
-						load_flatpak_appstream_data ();
-					}
-				});
 			}
 			refresh ();
 		}
 
 		public void enable_appstream () {
 			try {
-				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM);
+				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM
+								| As.StoreLoadFlags.IGNORE_INVALID);
 				app_store.set_search_match (As.AppSearchMatch.PKGNAME
 											| As.AppSearchMatch.DESCRIPTION
 											| As.AppSearchMatch.NAME
@@ -97,14 +93,7 @@ namespace Pamac {
 		}
 
 		void load_flatpak_appstream_data () {
-			try {
-				new Thread<int>.try ("load_flatpak_appstream_data", () => {
-					flatpak_plugin.load_appstream_data ();
-					return 0;
-				});
-			} catch (Error e) {
-				warning (e.message);
-			}
+			flatpak_plugin.load_appstream_data ();
 		}
 
 		public void refresh () {

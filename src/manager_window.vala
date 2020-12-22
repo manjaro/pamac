@@ -497,6 +497,7 @@ namespace Pamac {
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
 		LocalConfig local_config;
+		Soup.Session soup_session;
 
 		bool important_details;
 		bool transaction_running;
@@ -671,6 +672,11 @@ namespace Pamac {
 					}
 				}
 			}
+
+			// soup session to dwonload icons and screenshots
+			soup_session = new Soup.Session ();
+			soup_session.user_agent = "Pamac/%s".printf (VERSION);
+			soup_session.timeout = 30;
 
 			// check software mode
 			check_software_mode ();
@@ -1038,11 +1044,8 @@ namespace Pamac {
 					}
 				} else {
 					// download screenshot
-					var session = new Soup.Session ();
-					var utsname = Posix.utsname();
-					session.user_agent = "pamac (%s %s)".printf (utsname.sysname, utsname.machine);
 					try {
-						var request = session.request (url);
+						var request = soup_session.request (url);
 						try {
 							var inputstream = yield request.send_async (null);
 							pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
@@ -1080,11 +1083,8 @@ namespace Pamac {
 				}
 			} else {
 				// download icon
-				var session = new Soup.Session ();
-				var utsname = Posix.utsname();
-				session.user_agent = "pamac (%s %s)".printf (utsname.sysname, utsname.machine);
 				try {
-					var request = session.request (url);
+					var request = soup_session.request (url);
 					try {
 						var inputstream = yield request.send_async (null);
 						pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
@@ -1201,7 +1201,8 @@ namespace Pamac {
 			if (long_desc == null) {
 				long_desc_label.visible = false;
 			} else {
-				long_desc_label.set_text (long_desc);
+				string markup_long_desc = long_desc.replace ("em>", "i>").replace ("code>", "tt>");
+				long_desc_label.set_markup (markup_long_desc);
 				long_desc_label.visible = true;
 			}
 			unowned string? url = pkg.url;
