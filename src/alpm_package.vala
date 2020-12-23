@@ -200,6 +200,7 @@ namespace Pamac {
 				}
 				return _id;
 			}
+			internal set { _id = value; }
 		}
 		public override string version {
 			get {
@@ -801,6 +802,7 @@ namespace Pamac {
 				}
 				return _id;
 			}
+			internal set { _id = value; }
 		}
 		public override string version {
 			get {

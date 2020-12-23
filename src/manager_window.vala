@@ -439,8 +439,6 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Box build_files_box;
 		[GtkChild]
-		Gtk.ScrolledWindow deps_scrolledwindow;
-		[GtkChild]
 		Gtk.ScrolledWindow files_scrolledwindow;
 		[GtkChild]
 		Gtk.Grid deps_grid;
@@ -2640,15 +2638,7 @@ namespace Pamac {
 					browse_stack.visible_child_name = "checking";
 				}
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				// don't check devel updates here because it could be very long
-				bool check_aur_vcs_updates = database.config.check_aur_vcs_updates;
-				if (check_aur_vcs_updates) {
-					database.config.check_aur_vcs_updates = false;
-				}
 				database.get_updates_async.begin (true, (obj, res) => {
-					if (check_aur_vcs_updates) {
-						database.config.check_aur_vcs_updates = check_aur_vcs_updates;
-					}
 					var updates = database.get_updates_async.end (res);
 					// copy updates in lists
 					repos_updates = new GenericArray<AlpmPackage> ();
@@ -2795,7 +2785,7 @@ namespace Pamac {
 			if (properties_stack.visible_child_name == "build_files") {
 				properties_stack.visible_child_name = "details";
 			}
-			deps_scrolledwindow.visible = true;
+			deps_grid.visible = true;
 			files_scrolledwindow.visible = true;
 			properties_stack_switcher.visible = !local_config.software_mode;
 			set_package_details (pkg);
@@ -2807,7 +2797,7 @@ namespace Pamac {
 			if (properties_stack.visible_child_name == "files") {
 				properties_stack.visible_child_name = "details";
 			}
-			deps_scrolledwindow.visible = true;
+			deps_grid.visible = true;
 			files_scrolledwindow.visible = false;
 			build_files_box.visible = true;
 			properties_stack_switcher.visible = true;
@@ -2903,6 +2893,10 @@ namespace Pamac {
 						refresh_details ();
 					} else {
 						main_stack.visible_child_name = "browse";
+						// in case of starting with --details arg
+						if (current_packages_list_length == 0) {
+							refresh_packages_list ();
+						}
 					}
 					break;
 				case "term":
@@ -3995,15 +3989,7 @@ namespace Pamac {
 		void on_refresh_button_clicked () {
 			browse_stack.visible_child_name = "checking";
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			// don't check devel updates here because it could be very long
-			bool check_aur_vcs_updates = database.config.check_aur_vcs_updates;
-			if (check_aur_vcs_updates) {
-				database.config.check_aur_vcs_updates = false;
-			}
 			database.get_updates_async.begin (false, (obj, res) => {
-				if (check_aur_vcs_updates) {
-					database.config.check_aur_vcs_updates = check_aur_vcs_updates;
-				}
 				var updates = database.get_updates_async.end (res);
 				// copy updates in lists
 				repos_updates = new GenericArray<AlpmPackage> ();

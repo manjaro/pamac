@@ -37,6 +37,7 @@ namespace Pamac {
 		public override string name { get; internal set; }
 		public override string id {
 			get { return _id; }
+			internal set { _id = value; }
 		}
 		public override string version {
 			get { return _version; }

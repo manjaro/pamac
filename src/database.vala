@@ -2299,6 +2299,9 @@ namespace Pamac {
 					flatpak_plugin.get_flatpak_updates (ref flatpak_updates);
 				}
 				if (config.check_aur_updates) {
+					if (config.check_aur_vcs_updates && refresh_tmp_dbs) {
+						refresh_vcs_sources (vcs_local_pkgs);
+					}
 					// count this step as 5% of the total
 					context.invoke (() => {
 						get_updates_progress (95);
@@ -2339,11 +2342,8 @@ namespace Pamac {
 			return updates;
 		}
 
-		List<unowned AURPackageData> get_vcs_last_version (GenericArray<string> vcs_local_pkgs) {
+		void refresh_vcs_sources (GenericArray<string> vcs_local_pkgs) {
 			foreach (unowned string pkgname in vcs_local_pkgs) {
-				if (aur_vcs_pkgs.contains (pkgname)) {
-					continue;
-				}
 				// get last build files
 				unowned Json.Object? json_object = aur.get_infos (pkgname);
 				if (json_object == null) {
@@ -2365,160 +2365,180 @@ namespace Pamac {
 					cmdline += "--skipinteg";
 					int status = launch_subprocess (launcher, cmdline);
 					if (status == 0) {
-						bool success = regenerate_srcinfo (clone_dir.get_basename (), null);
-						if (success) {
-							var srcinfo = clone_dir.get_child (".SRCINFO");
-							try {
-								// read .SRCINFO
-								var dis = new DataInputStream (srcinfo.read ());
-								string? line;
-								string? current_section = null;
-								bool current_section_is_pkgbase = true;
-								var version = new StringBuilder ("");
-								string? pkgbase = null;
-								string? desc = null;
-								string arch = Posix.utsname ().machine;
-								var pkgnames_found = new GenericArray<string> ();
-								var global_depends = new GenericArray<string> ();
-								var global_checkdepends = new GenericArray<string> ();
-								var global_makedepends = new GenericArray<string> ();
-								var global_conflicts = new GenericArray<string> ();
-								var global_provides = new GenericArray<string> ();
-								var global_replaces = new GenericArray<string> ();
-								var global_validpgpkeys = new GenericArray<string> ();
-								var pkgnames_table = new HashTable<string, AURPackageData> (str_hash, str_equal);
-								while ((line = dis.read_line ()) != null) {
-									if ("pkgbase = " in line) {
-										pkgbase = line.split (" = ", 2)[1];
-									} else if ("pkgdesc = " in line) {
-										desc = line.split (" = ", 2)[1];
-										if (!current_section_is_pkgbase) {
-											unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
-											if (aur_pkg != null) {
-												aur_pkg.desc = desc;
-											}
-										}
-									} else if ("pkgver = " in line) {
-										version.append (line.split (" = ", 2)[1]);
-									} else if ("pkgrel = " in line) {
-										version.append ("-");
-										version.append (line.split (" = ", 2)[1]);
-									} else if ("epoch = " in line) {
-										version.prepend (":");
-										version.prepend (line.split (" = ", 2)[1]);
-									// don't compute optdepends, it will be done by makepkg
-									} else if ("optdepends" in line) {
-										// pass
-										continue;
-									// compute depends, makedepends and checkdepends:
-									// list name may contains arch, e.g. depends_x86_64
-									// depends, provides, replaces and conflicts in pkgbase section are stored
-									// in order to be added after if the list in pkgname is empty,
-									// makedepends and checkdepends will be added in depends
-									} else if ("depends" in line) {
-										if ("depends = " in line || "depends_%s = ".printf (arch) in line) {
-											string depend = line.split (" = ", 2)[1];
-											if (current_section_is_pkgbase){
-												if ("checkdepends" in line) {
-													global_checkdepends.add ((owned) depend);
-												} else if ("makedepends" in line) {
-													global_makedepends.add ((owned) depend);
-												} else {
-													global_depends.add ((owned) depend);
-												}
-											} else {
-												unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
-												if (aur_pkg != null) {
-													aur_pkg.depends.add ((owned) depend);
-												}
-											}
-										}
-									} else if ("provides" in line) {
-										if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
-											string provide = line.split (" = ", 2)[1];
-											if (current_section_is_pkgbase) {
-												global_provides.add ((owned) provide);
-											} else {
-												unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
-												if (aur_pkg != null) {
-													aur_pkg.provides.add ((owned) provide);
-												}
-											}
-										}
-									} else if ("conflicts" in line) {
-										if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
-											string conflict = line.split (" = ", 2)[1];
-											if (current_section_is_pkgbase) {
-												global_conflicts.add ((owned) conflict);
-											} else {
-												unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
-												if (aur_pkg != null) {
-													aur_pkg.conflicts.add ((owned) conflict);
-												}
-											}
-										}
-									} else if ("replaces" in line) {
-										if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
-											string replace = line.split (" = ", 2)[1];
-											if (current_section_is_pkgbase) {
-												global_replaces.add ((owned) replace);
-											} else {
-												unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
-												if (aur_pkg != null) {
-													aur_pkg.replaces.add ((owned) replace);
-												}
-											}
-										}
-									// grab validpgpkeys to check if they are imported
-									} else if ("validpgpkeys" in line) {
-										if ("validpgpkeys = " in line) {
-											global_validpgpkeys.add (line.split (" = ", 2)[1]);
-										}
-									} else if ("pkgname = " in line) {
-										string pkgname_found = line.split (" = ", 2)[1];
-										current_section = pkgname_found;
-										current_section_is_pkgbase = false;
-										if (vcs_local_pkgs.find_with_equal_func (pkgname_found, str_equal)) {
-											var aur_pkg = new AURPackageData ();
-											aur_pkg.name = pkgname_found;
-											aur_pkg.version = version.str;
-											aur_pkg.installed_version = alpm_handle.localdb.get_pkg (pkgname_found).version;
-											aur_pkg.desc = desc;
-											aur_pkg.packagebase = pkgbase;
-											pkgnames_table.insert (pkgname_found, aur_pkg);
-											pkgnames_found.add ((owned) pkgname_found);
-										}
+						regenerate_srcinfo (clone_dir.get_basename (), null);
+					}
+				}
+			}
+		}
+
+		List<unowned AURPackageData> get_vcs_last_version (GenericArray<string> vcs_local_pkgs) {
+			foreach (unowned string pkgname in vcs_local_pkgs) {
+				if (aur_vcs_pkgs.contains (pkgname)) {
+					continue;
+				}
+				string real_aur_build_dir;
+				if (Posix.geteuid () == 0) {
+					// build as root with systemd-run
+					// set aur_build_dir to "/var/cache/pamac"
+					real_aur_build_dir = "/var/cache/pamac";
+				} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+					real_aur_build_dir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+				} else {
+					real_aur_build_dir = config.aur_build_dir;
+				}
+				var pkgdir = File.new_for_path (Path.build_filename (real_aur_build_dir, pkgname));
+				if (pkgdir.query_exists ()) {
+					var srcinfo = pkgdir.get_child (".SRCINFO");
+					try {
+						// read .SRCINFO
+						var dis = new DataInputStream (srcinfo.read ());
+						string? line;
+						string? current_section = null;
+						bool current_section_is_pkgbase = true;
+						var version = new StringBuilder ("");
+						string? pkgbase = null;
+						string? desc = null;
+						string arch = Posix.utsname ().machine;
+						var pkgnames_found = new GenericArray<string> ();
+						var global_depends = new GenericArray<string> ();
+						var global_checkdepends = new GenericArray<string> ();
+						var global_makedepends = new GenericArray<string> ();
+						var global_conflicts = new GenericArray<string> ();
+						var global_provides = new GenericArray<string> ();
+						var global_replaces = new GenericArray<string> ();
+						var global_validpgpkeys = new GenericArray<string> ();
+						var pkgnames_table = new HashTable<string, AURPackageData> (str_hash, str_equal);
+						while ((line = dis.read_line ()) != null) {
+							if ("pkgbase = " in line) {
+								pkgbase = line.split (" = ", 2)[1];
+							} else if ("pkgdesc = " in line) {
+								desc = line.split (" = ", 2)[1];
+								if (!current_section_is_pkgbase) {
+									unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
+									if (aur_pkg != null) {
+										aur_pkg.desc = desc;
 									}
 								}
-								foreach (unowned string pkgname_found in pkgnames_found) {
-									AURPackageData? aur_pkg = pkgnames_table.take (pkgname_found);
-									// populate empty list will global ones
-									if (aur_pkg.depends.length == 0 && global_depends.length != 0) {
-										aur_pkg.depends = (owned) global_depends;
-									}
-									if (aur_pkg.provides.length == 0 && global_provides.length != 0) {
-										aur_pkg.provides = (owned) global_provides;
-									}
-									if (aur_pkg.conflicts.length == 0 && global_conflicts.length != 0) {
-										aur_pkg.conflicts = (owned) global_conflicts;
-									}
-									if (aur_pkg.replaces.length == 0 && global_replaces.length != 0) {
-										aur_pkg.replaces = (owned) global_replaces;
-									}
-									// add checkdepends and makedepends in depends
-									foreach (unowned string global_checkdepend in global_checkdepends) {
-										aur_pkg.depends.add (global_checkdepend);
-									}
-									foreach (unowned string global_makedepend in global_makedepends) {
-										aur_pkg.depends.add (global_makedepend);
-									}
-									aur_vcs_pkgs.insert (pkgname_found, aur_pkg);
-								}
-							} catch (Error e) {
-								warning (e.message);
+							} else if ("pkgver = " in line) {
+								version.append (line.split (" = ", 2)[1]);
+							} else if ("pkgrel = " in line) {
+								version.append ("-");
+								version.append (line.split (" = ", 2)[1]);
+							} else if ("epoch = " in line) {
+								version.prepend (":");
+								version.prepend (line.split (" = ", 2)[1]);
+							// don't compute optdepends, it will be done by makepkg
+							} else if ("optdepends" in line) {
+								// pass
 								continue;
+							// compute depends, makedepends and checkdepends:
+							// list name may contains arch, e.g. depends_x86_64
+							// depends, provides, replaces and conflicts in pkgbase section are stored
+							// in order to be added after if the list in pkgname is empty,
+							// makedepends and checkdepends will be added in depends
+							} else if ("depends" in line) {
+								if ("depends = " in line || "depends_%s = ".printf (arch) in line) {
+									string depend = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase){
+										if ("checkdepends" in line) {
+											global_checkdepends.add ((owned) depend);
+										} else if ("makedepends" in line) {
+											global_makedepends.add ((owned) depend);
+										} else {
+											global_depends.add ((owned) depend);
+										}
+									} else {
+										unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
+										if (aur_pkg != null) {
+											aur_pkg.depends.add ((owned) depend);
+										}
+									}
+								}
+							} else if ("provides" in line) {
+								if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
+									string provide = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase) {
+										global_provides.add ((owned) provide);
+									} else {
+										unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
+										if (aur_pkg != null) {
+											aur_pkg.provides.add ((owned) provide);
+										}
+									}
+								}
+							} else if ("conflicts" in line) {
+								if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
+									string conflict = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase) {
+										global_conflicts.add ((owned) conflict);
+									} else {
+										unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
+										if (aur_pkg != null) {
+											aur_pkg.conflicts.add ((owned) conflict);
+										}
+									}
+								}
+							} else if ("replaces" in line) {
+								if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
+									string replace = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase) {
+										global_replaces.add ((owned) replace);
+									} else {
+										unowned AURPackageData? aur_pkg = pkgnames_table.get (current_section);
+										if (aur_pkg != null) {
+											aur_pkg.replaces.add ((owned) replace);
+										}
+									}
+								}
+							// grab validpgpkeys to check if they are imported
+							} else if ("validpgpkeys" in line) {
+								if ("validpgpkeys = " in line) {
+									global_validpgpkeys.add (line.split (" = ", 2)[1]);
+								}
+							} else if ("pkgname = " in line) {
+								string pkgname_found = line.split (" = ", 2)[1];
+								current_section = pkgname_found;
+								current_section_is_pkgbase = false;
+								if (vcs_local_pkgs.find_with_equal_func (pkgname_found, str_equal)) {
+									var aur_pkg = new AURPackageData ();
+									aur_pkg.name = pkgname_found;
+									aur_pkg.id = pkgname_found;
+									aur_pkg.version = version.str;
+									aur_pkg.installed_version = alpm_handle.localdb.get_pkg (pkgname_found).version;
+									aur_pkg.desc = desc;
+									aur_pkg.packagebase = pkgbase;
+									pkgnames_table.insert (pkgname_found, aur_pkg);
+									pkgnames_found.add ((owned) pkgname_found);
+								}
 							}
 						}
+						foreach (unowned string pkgname_found in pkgnames_found) {
+							AURPackageData? aur_pkg = pkgnames_table.take (pkgname_found);
+							// populate empty list will global ones
+							if (aur_pkg.depends.length == 0 && global_depends.length != 0) {
+								aur_pkg.depends = (owned) global_depends;
+							}
+							if (aur_pkg.provides.length == 0 && global_provides.length != 0) {
+								aur_pkg.provides = (owned) global_provides;
+							}
+							if (aur_pkg.conflicts.length == 0 && global_conflicts.length != 0) {
+								aur_pkg.conflicts = (owned) global_conflicts;
+							}
+							if (aur_pkg.replaces.length == 0 && global_replaces.length != 0) {
+								aur_pkg.replaces = (owned) global_replaces;
+							}
+							// add checkdepends and makedepends in depends
+							foreach (unowned string global_checkdepend in global_checkdepends) {
+								aur_pkg.depends.add (global_checkdepend);
+							}
+							foreach (unowned string global_makedepend in global_makedepends) {
+								aur_pkg.depends.add (global_makedepend);
+							}
+							aur_vcs_pkgs.insert (pkgname_found, aur_pkg);
+						}
+					} catch (Error e) {
+						warning (e.message);
+						continue;
 					}
 				}
 			}

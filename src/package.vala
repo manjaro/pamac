@@ -20,7 +20,7 @@
 namespace Pamac {
 	public abstract class Package : Object {
 		public abstract string name { get; internal set; }
-		public abstract string id { get; }
+		public abstract string id { get; internal set; }
 		public abstract string? app_name { get; }
 		public abstract string? app_id { get; }
 		public abstract string version { get; internal set; }

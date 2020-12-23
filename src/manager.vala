@@ -96,7 +96,6 @@ namespace Pamac {
 			action.activate.connect  ((parameter) => {
 				if (manager_window == null) {
 					create_manager_window ();
-					manager_window.refresh_packages_list ();
 				}
 				pkgname = parameter.get_string ();
 				AlpmPackage? pkg = this.database.get_pkg (pkgname);
@@ -112,7 +111,6 @@ namespace Pamac {
 			action.activate.connect  ((parameter) => {
 				if (manager_window == null) {
 					create_manager_window ();
-					manager_window.refresh_packages_list ();
 				}
 				app_id = parameter.get_string ();
 				Package? pkg = this.database.get_app_by_id (app_id);
