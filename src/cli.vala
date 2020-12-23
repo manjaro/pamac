@@ -954,8 +954,11 @@ namespace Pamac {
 			return str_builder.str;
 		}
 
-		GenericArray<string> split_string (string str, int margin, int width = 0) {
+		GenericArray<string> split_string (string? str, int margin, int width = 0) {
 			var splitted = new GenericArray<string> ();
+			if (str == null)  {
+				return splitted;
+			}
 			int term_width = get_term_width ();
 			if (width == 0) {
 				width = term_width;
