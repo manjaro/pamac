@@ -1,0 +1,18 @@
+v10.0
+=====
+
+- libpamac
+   - many speed improvements
+   - Package string properties can be null
+   - Database has with sync and async methods
+   - returned lists are GenericArrays (g_ptr_array)
+   - Transaction methods are async
+- tray
+  - tray-appindicator code removed
+- pamac-gtk
+   - new GUI with a Software Mode
+- cli
+   - use the current DE polkit agent for authentication if available
+   - can build from AUR as root using systemd dynamic users
+   - support AURDEST environment variable
+   - manpages added
