@@ -588,6 +588,11 @@ namespace Pamac {
 								if (pkg != null) {
 									pkgs.add (pkg);
 								}
+							} else if (search_string in app.get_id_filename ()) {
+								FlatpakPackage? pkg = get_flatpak_from_app (remote, app);
+								if (pkg != null) {
+									pkgs.add (pkg);
+								}
 							}
 						}
 					}
