@@ -743,11 +743,10 @@ namespace Pamac {
 				}
 				details_button.visible = true;
 			}
-			if (main_stack.visible_child_name == "browse") {
-				refresh_packages_list ();
-			} else if (main_stack.visible_child_name == "details") {
+			if (main_stack.visible_child_name == "details") {
 				refresh_details ();
 			}
+			refresh_packages_list ();
 		}
 
 		void check_software_mode () {
