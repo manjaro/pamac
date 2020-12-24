@@ -1068,7 +1068,6 @@
                           <object class="GtkBox" id="main_details_box">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="halign">center</property>
                             <property name="margin-start">30</property>
                             <property name="margin-end">30</property>
                             <property name="margin-top">30</property>
@@ -1273,7 +1272,7 @@
                               <object class="GtkStack" id="properties_stack">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="vexpand">True</property>
+                                <property name="halign">center</property>
                                 <child>
                                   <object class="GtkBox" id="details_box">
                                     <property name="visible">True</property>
@@ -1375,8 +1374,6 @@
                                             <property name="can-focus">False</property>
                                             <property name="halign">start</property>
                                             <property name="wrap">True</property>
-                                            <property name="max-width-chars">90</property>
-                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1390,7 +1387,6 @@
                                             <property name="can-focus">False</property>
                                             <property name="halign">start</property>
                                             <property name="track-visited-links">False</property>
-                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1456,31 +1452,12 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <!-- n-columns=3 n-rows=3 -->
-                                  <object class="GtkGrid" id="deps_grid">
+                                  <object class="GtkBox" id="deps_box">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="margin-bottom">30</property>
-                                    <property name="row-spacing">3</property>
-                                    <property name="column-spacing">3</property>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">12</property>
                                     <child>
                                       <placeholder/>
                                     </child>
@@ -1508,6 +1485,8 @@
                                         <property name="pixels-above-lines">3</property>
                                         <property name="pixels-below-lines">3</property>
                                         <property name="editable">False</property>
+                                        <property name="left-margin">6</property>
+                                        <property name="right-margin">6</property>
                                         <property name="cursor-visible">False</property>
                                       </object>
                                     </child>

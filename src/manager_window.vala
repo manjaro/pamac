@@ -433,6 +433,8 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Label checking_label;
 		[GtkChild]
+		Gtk.ScrolledWindow main_details_scrolledwindow;
+		[GtkChild]
 		Gtk.Stack properties_stack;
 		[GtkChild]
 		Gtk.StackSwitcher properties_stack_switcher;
@@ -441,7 +443,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.ScrolledWindow files_scrolledwindow;
 		[GtkChild]
-		Gtk.Grid deps_grid;
+		Gtk.Box deps_box;
 		[GtkChild]
 		Gtk.Grid details_grid;
 		[GtkChild]
@@ -987,45 +989,42 @@ namespace Pamac {
 			}
 		}
 
-		Gtk.Widget populate_dep_grid (string dep_type, GenericArray<string> dep_list, Gtk.Widget? previous_widget, bool add_install_button = false) {
+		void populate_deps_box (string dep_type, GenericArray<string> dep_list, bool add_install_button = false) {
 			var label = new Gtk.Label ("<b>%s:</b>".printf (dep_type));
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
-			label.valign = Gtk.Align.START;
-			label.margin_top = 10;
-			deps_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-			var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 3);
-			box.hexpand = true;
+			label.margin_top = 12;
+			deps_box.pack_start (label);
+			var listbox = new Gtk.ListBox ();
+			listbox.set_header_func (set_header_func);
 			foreach (unowned string dep in dep_list) {
 				if (add_install_button) {
-					var box2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-					box2.homogeneous = false;
-					var dep_button = new Gtk.Button.with_label (dep);
-					dep_button.relief = Gtk.ReliefStyle.NONE;
-					dep_button.valign = Gtk.Align.CENTER;
-					dep_button.clicked.connect (on_dep_button_clicked);
-					box2.pack_start (dep_button, false);
+					var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+					var dep_label = new Gtk.Label (dep);
+					dep_label.margin = 12;
+					dep_label.halign = Gtk.Align.START;
+					box.pack_start (dep_label, false);
 					if (!database.has_installed_satisfier (dep)) {
 						var install_dep_button = new Gtk.ToggleButton.with_label (dgettext (null, "Install"));
 						install_dep_button.always_show_image = true;
-						install_dep_button.margin = 3;
+						install_dep_button.margin = 12;
 						install_dep_button.toggled.connect (on_install_dep_button_toggled);
-						box2.pack_end (install_dep_button, false);
+						box.pack_end (install_dep_button, false);
 						string dep_name = find_install_button_dep_name (install_dep_button);
 						install_dep_button.active = (dep_name in to_install);
 					}
-					box.pack_start (box2);
+					listbox.add (box);
 				} else {
-					var dep_button = new Gtk.Button.with_label (dep);
-					dep_button.relief = Gtk.ReliefStyle.NONE;
-					dep_button.halign = Gtk.Align.START;
-					dep_button.valign = Gtk.Align.CENTER;
-					dep_button.clicked.connect (on_dep_button_clicked);
-					box.pack_start (dep_button, false);
+					var dep_label = new Gtk.Label (dep);
+					dep_label.margin = 12;
+					dep_label.halign = Gtk.Align.START;
+					listbox.add (dep_label);
 				}
 			}
-			deps_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
-			return label as Gtk.Widget;
+			listbox.row_activated.connect (on_deps_listbox_row_activated);
+			var frame = new Gtk.Frame (null);
+			frame.add (listbox);
+			deps_box.pack_start (frame);
 		}
 
 		async GenericArray<Gdk.Pixbuf> get_screenshots_pixbufs (GenericArray<string> urls) {
@@ -1363,36 +1362,35 @@ namespace Pamac {
 			}
 			details_grid.show_all ();
 			// deps
-			deps_grid.foreach (transaction.destroy_widget);
-			previous_widget = null;
+			deps_box.foreach (transaction.destroy_widget);
 			if (pkg.depends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Depends On"), pkg.depends, previous_widget);
+				populate_deps_box (dgettext (null, "Depends On"), pkg.depends);
 			}
 			if (pkg.optdepends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), pkg.optdepends, previous_widget, true);
+				populate_deps_box (dgettext (null, "Optional Dependencies"), pkg.optdepends, true);
 			}
 			if (pkg.makedepends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Make Dependencies"), pkg.makedepends, previous_widget);
+				populate_deps_box (dgettext (null, "Make Dependencies"), pkg.makedepends);
 			}
 			if (pkg.checkdepends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Check Dependencies"), pkg.checkdepends, previous_widget);
+				populate_deps_box (dgettext (null, "Check Dependencies"), pkg.checkdepends);
 			}
 			if (pkg.requiredby.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Required By"), pkg.requiredby, previous_widget);
+				populate_deps_box (dgettext (null, "Required By"), pkg.requiredby);
 			}
 			if (pkg.optionalfor.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Optional For"), pkg.optionalfor, previous_widget);
+				populate_deps_box (dgettext (null, "Optional For"), pkg.optionalfor);
 			}
 			if (pkg.provides.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Provides"), pkg.provides, previous_widget);
+				populate_deps_box (dgettext (null, "Provides"), pkg.provides);
 			}
 			if (pkg.replaces.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Replaces"), pkg.replaces, previous_widget);
+				populate_deps_box (dgettext (null, "Replaces"), pkg.replaces);
 			}
 			if (pkg.conflicts.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), pkg.conflicts, previous_widget);
+				populate_deps_box (dgettext (null, "Conflicts With"), pkg.conflicts);
 			}
-			deps_grid.show_all ();
+			deps_box.show_all ();
 			// files
 			files_scrolledwindow.visible = true;
 			// will be populated on properties_stack switch
@@ -1409,7 +1407,7 @@ namespace Pamac {
 
 		void set_aur_details (AURPackage aur_pkg) {
 			details_grid.foreach (transaction.destroy_widget);
-			deps_grid.foreach (transaction.destroy_widget);
+			deps_box.foreach (transaction.destroy_widget);
 			screenshots_stack.foreach (transaction.destroy_widget);
 			previous_screenshot_button.visible = false;
 			next_screenshot_button.visible = false;
@@ -1509,29 +1507,28 @@ namespace Pamac {
 			}
 			details_grid.show_all ();
 			// deps
-			previous_widget = null;
 			if (aur_pkg.depends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Depends On"), aur_pkg.depends, previous_widget);
+				populate_deps_box (dgettext (null, "Depends On"), aur_pkg.depends);
 			}
 			if (aur_pkg.makedepends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Make Dependencies"), aur_pkg.makedepends, previous_widget);
+				populate_deps_box (dgettext (null, "Make Dependencies"), aur_pkg.makedepends);
 			}
 			if (aur_pkg.checkdepends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Check Dependencies"), aur_pkg.checkdepends, previous_widget);
+				populate_deps_box (dgettext (null, "Check Dependencies"), aur_pkg.checkdepends);
 			}
 			if (aur_pkg.optdepends.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Optional Dependencies"), aur_pkg.optdepends, previous_widget);
+				populate_deps_box (dgettext (null, "Optional Dependencies"), aur_pkg.optdepends);
 			}
 			if (aur_pkg.provides.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Provides"), aur_pkg.provides, previous_widget);
+				populate_deps_box (dgettext (null, "Provides"), aur_pkg.provides);
 			}
 			if (aur_pkg.replaces.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Replaces"), aur_pkg.replaces, previous_widget);
+				populate_deps_box (dgettext (null, "Replaces"), aur_pkg.replaces);
 			}
 			if (aur_pkg.conflicts.length != 0) {
-				previous_widget = populate_dep_grid (dgettext (null, "Conflicts With"), aur_pkg.conflicts, previous_widget);
+				populate_deps_box (dgettext (null, "Conflicts With"), aur_pkg.conflicts);
 			}
-			deps_grid.show_all ();
+			deps_box.show_all ();
 			// build files
 			build_files_box.visible = true;
 			// will be populated on properties_stack switch
@@ -1672,7 +1669,7 @@ namespace Pamac {
 			}
 			details_grid.show_all ();
 			// deps
-			deps_grid.foreach (transaction.destroy_widget);
+			deps_box.foreach (transaction.destroy_widget);
 		}
 
 		void set_flatpak_details (FlatpakPackage flatpak_pkg) {
@@ -1747,7 +1744,7 @@ namespace Pamac {
 			previous_widget = populate_details_grid (dgettext (null, "Repository"), flatpak_pkg.repo, previous_widget);
 			details_grid.show_all ();
 			// deps
-			deps_grid.foreach (transaction.destroy_widget);
+			deps_box.foreach (transaction.destroy_widget);
 		}
 
 		void on_properties_stack_visible_child_changed () {
@@ -1768,6 +1765,8 @@ namespace Pamac {
 							this.get_window ().set_cursor (null);
 							current_files = current_package_displayed.name;
 						});
+						files_textview.buffer.set_text ("", 0);
+						packages_scrolledwindow.vadjustment.value = 0;
 					}
 					break;
 				case "build_files":
@@ -2733,6 +2732,7 @@ namespace Pamac {
 		}
 
 		public void display_details (Package pkg) {
+			main_details_scrolledwindow.vadjustment.value = 0;
 			if (pkg is AURPackage) {
 				display_aur_details (pkg as AURPackage);
 			} else if (pkg is AlpmPackage) {
@@ -2785,7 +2785,7 @@ namespace Pamac {
 			if (properties_stack.visible_child_name == "build_files") {
 				properties_stack.visible_child_name = "details";
 			}
-			deps_grid.visible = true;
+			deps_box.visible = true;
 			files_scrolledwindow.visible = true;
 			properties_stack_switcher.visible = !local_config.software_mode;
 			set_package_details (pkg);
@@ -2797,7 +2797,7 @@ namespace Pamac {
 			if (properties_stack.visible_child_name == "files") {
 				properties_stack.visible_child_name = "details";
 			}
-			deps_grid.visible = true;
+			deps_box.visible = true;
 			files_scrolledwindow.visible = false;
 			build_files_box.visible = true;
 			properties_stack_switcher.visible = true;
@@ -2855,11 +2855,20 @@ namespace Pamac {
 			}
 		}
 
-		void on_dep_button_clicked (Gtk.Button button) {
+		void on_deps_listbox_row_activated (Gtk.ListBoxRow row) {
 			if (display_package_queue.find_custom (current_package_displayed, compare_pkgs_by_name) == null) {
 				display_package_queue.push_tail (current_package_displayed);
 			}
-			string depstring = button.label;
+			string? depstring = null;
+			row.foreach ((widget) => {
+				var dep_label = widget as Gtk.Label;
+				if (dep_label != null) {
+					depstring = dep_label.label;
+				}
+			});
+			if (depstring == null) {
+				return;
+			}
 			if (database.has_installed_satisfier (depstring)) {
 				display_package_details (database.get_installed_satisfier (depstring));
 			} else if (database.has_sync_satisfier (depstring)) {
