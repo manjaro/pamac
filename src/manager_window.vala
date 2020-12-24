@@ -2840,6 +2840,8 @@ namespace Pamac {
 				// check for OS Updates row
 				if (pamac_row.name_label.label == "<b>%s</b>".printf (dgettext (null, "OS Updates"))) {
 					var updates_dialog = new UpdatesDialog (this);
+					updates_dialog.label.label = dgettext (null, "Includes performance, stability and security improvements");
+					updates_dialog.listbox.set_header_func (set_header_func);
 					// populates updates
 					foreach (unowned Package update_pkg in current_packages_list) {
 						if (update_pkg.app_name == null) {
