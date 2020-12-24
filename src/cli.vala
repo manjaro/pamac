@@ -26,19 +26,12 @@ namespace Pamac {
 		bool cloning;
 		Cancellable cancellable;
 		GenericSet<string?> already_checked_aur_dep;
-		bool need_pktty;
 		public Subprocess pkttyagent;
 
 		public Cli () {
 			exit_status = 0;
 			trans_cancellable = false;
 			cloning = false;
-			need_pktty = false;
-			// check if we are in a desktop session
-			unowned string? desktop_session = Environment.get_variable ("DESKTOP_SESSION");
-			if (desktop_session == null) {
-				need_pktty = true;
-			}
 			cancellable = new Cancellable ();
 			// watch CTRl + C
 			Unix.signal_add (Posix.Signal.INT, trans_cancel, Priority.HIGH);
@@ -900,10 +893,10 @@ namespace Pamac {
 			transaction.stop_building.connect (() => {
 				trans_cancellable = false;
 			});
-			if (Posix.geteuid () != 0 && need_pktty) {
-				// Use tty polkit authentication agent
+			if (Posix.geteuid () != 0) {
+				// Use tty polkit authentication agent if needed
 				try {
-					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
+					pkttyagent = new Subprocess.newv ({"pkttyagent", "--fallback"}, SubprocessFlags.NONE);
 				} catch (Error e) {
 					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
 				}
@@ -2673,7 +2666,7 @@ namespace Pamac {
 
 		void run_transaction () {
 			var loop = new MainLoop ();
-			if (need_pktty) {
+			if (Posix.geteuid () != 0) {
 				// let's time to pkttyagent to get registred
 				Timeout.add (200, () => {
 					transaction.run_async.begin ((obj, res) => {
