@@ -2303,7 +2303,6 @@ namespace Pamac {
 					download_rates.clear ();
 					download_rate = 0;
 				}
-				return;
 			}
 			var text = new StringBuilder ("%s".printf (format_size (xfered)));
 			// if previous progress is out of limit no need to continue
@@ -2577,9 +2576,7 @@ void compute_multi_download_progress () {
 	while (iter.next (null, out progress)) {
 		total_progress += progress;
 	}
-	if (total_progress > 0) {
-		alpm_utils.emit_download (total_progress, total_download);
-	}
+	alpm_utils.emit_download (total_progress, total_download);
 }
 
 void cb_download (string filename, uint64 xfered, uint64 total) {
