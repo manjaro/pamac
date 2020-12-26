@@ -153,7 +153,8 @@ namespace Pamac {
 		}
 
 		public int do_choose_provider (string depend, string[] providers) {
-			return choose_provider (depend, providers);
+			string[] providers_copy = providers;
+			return choose_provider (depend, providers_copy);
 		}
 
 		void do_start_downloading () {
@@ -189,7 +190,8 @@ namespace Pamac {
 		}
 
 		void do_emit_error (string message, string[] details) {
-			emit_error (sender, message, details);
+			string[] details_copy = details;
+			emit_error (sender, message, details_copy);
 		}
 
 		void do_important_details_outpout (bool must_show) {
@@ -516,17 +518,6 @@ namespace Pamac {
 					do_emit_error (_("Failed to prepare transaction"), {});
 				}
 				return false;
-			}
-			// remove installed pkgs in to_build because they already have been added in transaction by trans_sysupgrade
-			string[] to_build_installed = {};
-			foreach (unowned string name in to_build) {
-				unowned Alpm.Package? pkg = alpm_handle.localdb.get_pkg (name);
-				if (pkg != null) {
-					to_build_installed += name;
-				}
-			}
-			foreach (unowned string name in to_build_installed) {
-				to_build.remove (name);
 			}
 			// check syncfirsts
 			foreach (unowned string name in alpm_config.syncfirsts) {
@@ -1171,8 +1162,10 @@ namespace Pamac {
 				}
 				if (success) {
 					// add to_build from fake aur db
+					Alpm.List<unowned Alpm.DB> dbs = null;
+					dbs.add (aur_db);
 					foreach (unowned string name in to_build) {
-						unowned Alpm.Package? pkg = aur_db.get_pkg (name);
+						unowned Alpm.Package? pkg = alpm_handle.find_dbs_satisfier (dbs, name);
 						if (pkg == null) {
 							success = false;
 							break;
@@ -1200,18 +1193,24 @@ namespace Pamac {
 			}
 			if (success) {
 				// NEEDED flag could remove some packages
+				// to_build can contain some virtual package
 				var to_install_copy = (owned) to_install;
 				to_install = new GenericSet<string?> (str_hash, str_equal);
+				to_build = new GenericSet<string?> (str_hash, str_equal);
 				Alpm.List<unowned Alpm.Package> deps_to_check = null;
 				unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
 				while (pkgs_to_add != null) {
 					unowned Alpm.Package trans_pkg = pkgs_to_add.data;
-					if (trans_pkg.db != null && trans_pkg.db.name != "pamac_aur") {
+					if (trans_pkg.db != null) {
 						unowned string name = trans_pkg.name;
-						if (name in to_install_copy) {
-							to_install.add (name);
+						if (trans_pkg.db.name == "pamac_aur") {
+							to_build.add (name);
 						} else {
-							deps_to_install.add (name);
+							if (name in to_install_copy) {
+								to_install.add (name);
+							} else {
+								deps_to_install.add (name);
+							}
 						}
 					}
 					if (to_remove.length > 0) {
@@ -1401,8 +1400,10 @@ namespace Pamac {
 			}
 			if (to_build.length > 0) {
 				// add to_build from fake aur db
+				Alpm.List<unowned Alpm.DB> dbs = null;
+				dbs.add (aur_db);
 				foreach (unowned string name in to_build) {
-					unowned Alpm.Package? pkg = aur_db.get_pkg (name);
+					unowned Alpm.Package? pkg = alpm_handle.find_dbs_satisfier (dbs, name);
 					if (pkg == null) {
 						do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (name)});
 						success = false;
@@ -1771,7 +1772,6 @@ namespace Pamac {
 				unowned Alpm.Package pkg = to_add.data;
 				foreach (unowned string str in prefix) {
 					if (pkg.name.has_prefix (str)) {
-						print ("prefix %s in %s\n", str, pkg.name);
 						reboot_needed = true;
 						break;
 					}

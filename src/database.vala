@@ -2075,6 +2075,10 @@ namespace Pamac {
 		}
 
 		void get_aur_pkgs_real (string[] pkgnames, ref HashTable<string, unowned AURPackageLinked?> data) {
+			// prepare data with all keys
+			foreach (unowned string pkgname in pkgnames) {
+				data.insert (pkgname, null);
+			}
 			var json_objects = aur.get_multi_infos (pkgnames);
 			lock (alpm_config) {
 				foreach (unowned Json.Object json_object in json_objects) {

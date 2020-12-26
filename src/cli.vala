@@ -427,10 +427,12 @@ namespace Pamac {
 					return;
 				} else if (transaction.clone_build_files) {
 					// check if targets exist
-					bool success = check_build_pkgs (args[2:args.length]);
-					if (!success) {
-						return;
+					var checked_targets = new GenericArray<string> ();
+					bool success = check_build_pkgs (args[2:args.length], no_confirm, ref checked_targets);
+					if (success) {
+						build_pkgs (checked_targets.data);
 					}
+					return;
 				}
 				build_pkgs (args[2:args.length]);
 			} else if (args[1] == "install") {
@@ -2643,16 +2645,63 @@ namespace Pamac {
 			}
 		}
 
-		bool check_build_pkgs (string[] targets) {
-			var aur_pkgs = database.get_aur_pkgs (targets);
-			var iter = HashTableIter<string, unowned AURPackage?> (aur_pkgs);
+		bool check_build_pkgs (string[] targets, bool no_confirm, ref GenericArray<string> checked_targets) {
+			string[] real_targets = {};
+			var not_found = new HashTable<unowned string, unowned string?> (str_hash, str_equal);
+			foreach (unowned string target in targets) {
+				if (!no_confirm) {
+					var sync_pkg = database.get_sync_pkg (target);
+					if (sync_pkg != null) {
+						if (transaction.ask_user (dgettext (null, "Install %s from %s").printf (target, sync_pkg.repo))) {
+							transaction.add_pkg_to_install (sync_pkg.name);
+							continue;
+						}
+					}
+				}
+				real_targets += target;
+				// populate not found and remove them when found
+				not_found.replace (target, target);
+			}
+			var aur_pkgs = database.get_aur_pkgs (real_targets);
+			var aur_pkgs_iter = HashTableIter<string, unowned AURPackage?> (aur_pkgs);
 			unowned string pkgname;
 			unowned AURPackage? aur_pkg;
-			while (iter.next (out pkgname, out aur_pkg)) {
-				if (aur_pkg == null) {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname));
-					return false;
+			while (aur_pkgs_iter.next (out pkgname, out aur_pkg)) {
+				if (aur_pkg != null) {
+					checked_targets.add (pkgname);
+					not_found.remove (pkgname);
 				}
+			}
+			if (not_found.length > 0) {
+				var not_found_iter = HashTableIter<unowned string, unowned string?> (not_found);
+				unowned string target;
+				while (not_found_iter.next (out target, null)) {
+					// may be a virtual package
+					// use search and add results
+					var search_aur_pkgs = database.search_aur_pkgs (target);
+					bool iter_removed = false;
+					foreach (unowned AURPackage found_pkg in search_aur_pkgs) {
+						foreach (unowned string dep_string in found_pkg.provides) {
+							string dep_name = database.get_alpm_dep_name (dep_string);
+							if (dep_name == target) {
+								checked_targets.add (target);
+								if (!iter_removed) {
+									not_found_iter.remove ();
+									iter_removed = true;
+								}
+							}
+							break;
+						}
+					}
+				}
+			}
+			if (not_found.length > 0) {
+				var not_found_iter = HashTableIter<unowned string, unowned string?> (not_found);
+				unowned string target;
+				while (not_found_iter.next (out target, null)) {
+					print_error (dgettext (null, "target not found: %s").printf (target));
+				}
+				return false;
 			}
 			return true;
 		}
