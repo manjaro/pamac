@@ -337,8 +337,6 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Stack main_stack;
 		[GtkChild]
-		Gtk.Box header_center_buttonbox;
-		[GtkChild]
 		Gtk.Box main_button_box;
 		[GtkChild]
 		Gtk.ToggleButton main_browse_togglebutton;
@@ -3585,14 +3583,16 @@ namespace Pamac {
 		void on_main_stack_visible_child_changed () {
 			switch (main_stack.visible_child_name) {
 				case "browse":
-					header_center_buttonbox.visible = true;
+					properties_stack_switcher.visible = false;
 					if (search_togglebutton.active) {
-						// nothing to do
+						search_entry.visible = true;
 					} else if (main_updates_togglebutton.active
 						|| main_pending_togglebutton.active) {
+						main_button_box.visible = true;
 						button_back.visible = false;
 						search_togglebutton.visible = false;
 					} else {
+						main_button_box.visible = true;
 						button_back.visible = false;
 						search_togglebutton.visible = true;
 					}
@@ -3601,7 +3601,9 @@ namespace Pamac {
 					}
 					break;
 				case "details":
-					header_center_buttonbox.visible = false;
+					search_entry.visible = false;
+					main_button_box.visible = false;
+					properties_stack_switcher.visible = true;
 					button_back.visible = true;
 					search_togglebutton.visible = false;
 					if (transaction.details_textview.buffer.get_char_count () > 0) {
@@ -3609,7 +3611,9 @@ namespace Pamac {
 					}
 					break;
 				case "term":
-					header_center_buttonbox.visible = false;
+					search_entry.visible = false;
+					main_button_box.visible = false;
+					properties_stack_switcher.visible = false;
 					button_back.visible = true;
 					search_togglebutton.visible = false;
 					details_button.sensitive = false;

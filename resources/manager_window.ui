@@ -1089,9 +1089,9 @@
                           <object class="GtkBox" id="main_details_box">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="margin-start">30</property>
-                            <property name="margin-end">30</property>
-                            <property name="margin-top">30</property>
+                            <property name="margin-start">24</property>
+                            <property name="margin-end">24</property>
+                            <property name="margin-top">24</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">30</property>
                             <child>
@@ -1277,19 +1277,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkStackSwitcher" id="properties_stack_switcher">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="halign">center</property>
-                                <property name="stack">properties_stack</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkStack" id="properties_stack">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -1298,7 +1285,7 @@
                                   <object class="GtkBox" id="details_box">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="margin-bottom">30</property>
+                                    <property name="margin-bottom">24</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">18</property>
                                     <child>
@@ -1476,7 +1463,7 @@
                                   <object class="GtkBox" id="deps_box">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="margin-bottom">30</property>
+                                    <property name="margin-bottom">24</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">12</property>
                                     <child>
@@ -1768,7 +1755,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -1834,6 +1821,18 @@
                 <style>
                   <class name="linked"/>
                 </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkStackSwitcher" id="properties_stack_switcher">
+                <property name="can-focus">False</property>
+                <property name="halign">center</property>
+                <property name="stack">properties_stack</property>
               </object>
               <packing>
                 <property name="expand">False</property>
