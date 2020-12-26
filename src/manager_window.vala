@@ -753,7 +753,7 @@ namespace Pamac {
 		}
 
 		void check_aur_support () {
-			enable_aur = database.config.enable_aur;
+			enable_aur = database.config.enable_aur && !local_config.software_mode;
 			if (enable_aur) {
 				view_aur_button.visible = true;
 			} else {
@@ -1433,7 +1433,6 @@ namespace Pamac {
 				link_label.set_markup ("<a href=\"%s\">%s</a>".printf (aur_url, aur_url));
 			}
 			// details
-			properties_stack_switcher.visible = true;
 			Gtk.Widget? previous_widget = null;
 			if (aur_pkg.license != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), aur_pkg.license, previous_widget);
@@ -2634,7 +2633,10 @@ namespace Pamac {
 					browse_stack.visible_child_name = "checking";
 				}
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+				bool check_aur_updates_backup = database.config.check_aur_updates;
+				database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
 				database.get_updates_async.begin (true, (obj, res) => {
+					database.config.check_aur_updates = check_aur_updates_backup;
 					var updates = database.get_updates_async.end (res);
 					// copy updates in lists
 					repos_updates = new GenericArray<AlpmPackage> ();
@@ -3603,7 +3605,6 @@ namespace Pamac {
 				case "details":
 					search_entry.visible = false;
 					main_button_box.visible = false;
-					properties_stack_switcher.visible = true;
 					button_back.visible = true;
 					search_togglebutton.visible = false;
 					if (transaction.details_textview.buffer.get_char_count () > 0) {
@@ -4003,7 +4004,10 @@ namespace Pamac {
 		void on_refresh_button_clicked () {
 			browse_stack.visible_child_name = "checking";
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			bool check_aur_updates_backup = database.config.check_aur_updates;
+			database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
 			database.get_updates_async.begin (false, (obj, res) => {
+				database.config.check_aur_updates = check_aur_updates_backup;
 				var updates = database.get_updates_async.end (res);
 				// copy updates in lists
 				repos_updates = new GenericArray<AlpmPackage> ();
