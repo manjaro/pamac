@@ -316,7 +316,7 @@ namespace Pamac {
 			return false;
 		}
 
-		unowned Alpm.Package? get_syncpkg (Alpm.Handle alpm_handle, string name) {
+		unowned Alpm.Package? get_syncpkg (Alpm.Handle? alpm_handle, string name) {
 			unowned Alpm.Package? pkg = null;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -330,7 +330,7 @@ namespace Pamac {
 			return pkg;
 		}
 
-		bool update_dbs (Alpm.Handle alpm_handle, int force) {
+		bool update_dbs (Alpm.Handle? alpm_handle, int force) {
 			bool success = false;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
@@ -379,7 +379,9 @@ namespace Pamac {
 				if (file.query_exists ()) {
 					try {
 						var alpm_handle = get_handle ();
-						Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %s/dbs/sync/* %ssync'".printf (tmp_path, alpm_handle.dbpath));
+						if (alpm_handle != null) {
+							Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %s/dbs/sync/* %ssync'".printf (tmp_path, alpm_handle.dbpath));
+						}
 					} catch (SpawnError e) {
 						warning (e.message);
 					}
@@ -423,31 +425,31 @@ namespace Pamac {
 			return true;
 		}
 
-		void add_ignorepkgs (Alpm.Handle alpm_handle) {
+		void add_ignorepkgs (Alpm.Handle? alpm_handle) {
 			foreach (unowned string pkgname in ignorepkgs) {
 				alpm_handle.add_ignorepkg (pkgname);
 			}
 		}
 
-		void remove_ignorepkgs (Alpm.Handle alpm_handle) {
+		void remove_ignorepkgs (Alpm.Handle? alpm_handle) {
 			foreach (unowned string pkgname in ignorepkgs) {
 				alpm_handle.remove_ignorepkg (pkgname);
 			}
 		}
 
-		void add_overwrite_files (Alpm.Handle alpm_handle) {
+		void add_overwrite_files (Alpm.Handle? alpm_handle) {
 			foreach (unowned string name in overwrite_files) {
 				alpm_handle.add_overwrite_file (name);
 			}
 		}
 
-		void remove_overwrite_files (Alpm.Handle alpm_handle) {
+		void remove_overwrite_files (Alpm.Handle? alpm_handle) {
 			foreach (unowned string name in overwrite_files) {
 				alpm_handle.remove_overwrite_file (name);
 			}
 		}
 
-		AlpmPackage initialise_pkg (Alpm.Handle alpm_handle, Alpm.Package? alpm_pkg) {
+		AlpmPackage initialise_pkg (Alpm.Handle? alpm_handle, Alpm.Package? alpm_pkg) {
 			// use AlpmPackageData because alpm_pkg will be freed at trans release
 			unowned Alpm.Package? local_pkg;
 			unowned Alpm.Package? sync_pkg;
@@ -470,6 +472,9 @@ namespace Pamac {
 			downloading_updates = true;
 			// use tmp handle
 			var alpm_handle = alpm_config.get_handle (false, true);
+			if (alpm_handle == null) {
+				return;
+			}
 			cancellable.reset ();
 			int success = alpm_handle.trans_init (Alpm.TransFlag.NOLOCK);
 			if (success == 0) {
@@ -487,7 +492,7 @@ namespace Pamac {
 			downloading_updates = false;
 		}
 
-		bool trans_init (Alpm.Handle alpm_handle, int flags) {
+		bool trans_init (Alpm.Handle? alpm_handle, int flags) {
 			cancellable.reset ();
 			if (alpm_handle.trans_init ((Alpm.TransFlag) flags) == -1) {
 				Alpm.Errno err_no = alpm_handle.errno ();
@@ -501,7 +506,7 @@ namespace Pamac {
 			return true;
 		}
 
-		bool trans_sysupgrade (Alpm.Handle alpm_handle) {
+		bool trans_sysupgrade (Alpm.Handle? alpm_handle) {
 			add_ignorepkgs (alpm_handle);
 			if (alpm_handle.trans_sysupgrade ((enable_downgrade) ? 1 : 0) == -1) {
 				Alpm.Errno err_no = alpm_handle.errno ();
@@ -536,7 +541,7 @@ namespace Pamac {
 			return true;
 		}
 
-		bool trans_add_pkg_real (Alpm.Handle alpm_handle, Alpm.Package pkg) {
+		bool trans_add_pkg_real (Alpm.Handle? alpm_handle, Alpm.Package? pkg) {
 			if (alpm_handle.trans_add_pkg (pkg) == -1) {
 				Alpm.Errno err_no = alpm_handle.errno ();
 				if (err_no == Alpm.Errno.TRANS_DUP_TARGET || err_no == Alpm.Errno.PKG_IGNORED) {
@@ -554,7 +559,7 @@ namespace Pamac {
 			return true;
 		}
 
-		bool trans_add_pkg (Alpm.Handle alpm_handle, string pkgname) {
+		bool trans_add_pkg (Alpm.Handle? alpm_handle, string pkgname) {
 			unowned Alpm.Package? pkg = alpm_handle.find_dbs_satisfier (alpm_handle.syncdbs, pkgname);
 			if (pkg == null) {
 				do_emit_error (_("Failed to prepare transaction"), {_("target not found: %s").printf (pkgname)});
@@ -630,7 +635,7 @@ namespace Pamac {
 			return download_pkg_priv (alpm_handle, url) ?? "";
 		}
 
-		string? download_pkg_priv (Alpm.Handle alpm_handle, string url) {
+		string? download_pkg_priv (Alpm.Handle? alpm_handle, string url) {
 			// need to call the function twice in order to have the return path
 			// it's due to the use of a fetch callback
 			// first call to download pkg
@@ -648,7 +653,7 @@ namespace Pamac {
 			return alpm_handle.fetch_pkgurl (url);
 		}
 
-		bool trans_load_pkg (Alpm.Handle alpm_handle, string path) {
+		bool trans_load_pkg (Alpm.Handle? alpm_handle, string path) {
 			Alpm.Package* pkg;
 			int siglevel = alpm_handle.localfilesiglevel;
 			string? pkgpath = path;
@@ -688,7 +693,7 @@ namespace Pamac {
 			return true;
 		}
 
-		bool trans_remove_pkg (Alpm.Handle alpm_handle, string pkgname) {
+		bool trans_remove_pkg (Alpm.Handle? alpm_handle, string pkgname) {
 			bool success = true;
 			unowned Alpm.Package? pkg =  alpm_handle.localdb.get_pkg (pkgname);
 			if (pkg == null) {
@@ -709,7 +714,7 @@ namespace Pamac {
 			return success;
 		}
 
-		bool trans_prepare_real (Alpm.Handle alpm_handle) {
+		bool trans_prepare_real (Alpm.Handle? alpm_handle) {
 			bool success = true;
 			bool need_retry = false;
 			Alpm.List err_data;
@@ -825,7 +830,7 @@ namespace Pamac {
 			return success;
 		}
 
-		void prepare_aur_db (Alpm.Handle alpm_handle) {
+		void prepare_aur_db (Alpm.Handle? alpm_handle) {
 			// fake aur db
 			try {
 				Process.spawn_command_line_sync ("cp %s/pamac_aur.db %ssync".printf (tmp_path, alpm_handle.dbpath));
@@ -865,7 +870,7 @@ namespace Pamac {
 			}
 		}
 
-		void remove_aur_db (Alpm.Handle alpm_handle) {
+		void remove_aur_db (Alpm.Handle? alpm_handle) {
 			// remove fake aur db
 			try {
 				Process.spawn_command_line_sync ("rm -f %ssync/pamac_aur.db".printf (alpm_handle.dbpath));
@@ -919,7 +924,7 @@ namespace Pamac {
 			return trans_check_prepare_real (tmp_handle, ref summary);
 		}
 
-		bool trans_check_prepare_real (Alpm.Handle tmp_handle, ref TransactionSummary summary) {
+		bool trans_check_prepare_real (Alpm.Handle? tmp_handle, ref TransactionSummary summary) {
 			unowned Alpm.DB? aur_db = null;
 			if (to_remove.length > 0) {
 				intern_compute_pkgs_to_remove (tmp_handle);
@@ -1059,7 +1064,7 @@ namespace Pamac {
 			no_confirm_commit = false;
 		}
 
-		void intern_compute_pkgs_to_remove (Alpm.Handle alpm_handle) {
+		void intern_compute_pkgs_to_remove (Alpm.Handle? alpm_handle) {
 			int tmp_trans_flags = Alpm.TransFlag.NOLOCK;
 			if ((trans_flags & Alpm.TransFlag.UNNEEDED) != 0) {
 				// remove UNNEEDED to trans_flags
@@ -1103,7 +1108,7 @@ namespace Pamac {
 			}
 		}
 
-		void remove_install_deps_in_to_remove (Alpm.Handle alpm_handle, Alpm.List<unowned Alpm.Package> deps_to_check) {
+		void remove_install_deps_in_to_remove (Alpm.Handle? alpm_handle, Alpm.List<unowned Alpm.Package>? deps_to_check) {
 			Alpm.List<unowned Alpm.Package> deps_to_check_next = null;
 			while (deps_to_check != null) {
 				unowned Alpm.Package alpm_pkg = deps_to_check.data;
@@ -1143,7 +1148,7 @@ namespace Pamac {
 			}
 		}
 
-		void intern_compute_pkgs_to_install (Alpm.Handle alpm_handle, Alpm.DB? aur_db) {
+		void intern_compute_pkgs_to_install (Alpm.Handle? alpm_handle, Alpm.DB? aur_db) {
 			int tmp_trans_flags = Alpm.TransFlag.NOLOCK;
 			if ((trans_flags & Alpm.TransFlag.NEEDED) != 0) {
 				// remove NEEDED to trans_flags
@@ -1259,7 +1264,7 @@ namespace Pamac {
 			}
 		}
 
-		void check_orphans_to_remove (Alpm.Handle alpm_handle, Alpm.List<unowned Alpm.Package> deps_to_check) {
+		void check_orphans_to_remove (Alpm.Handle? alpm_handle, Alpm.List<unowned Alpm.Package>? deps_to_check) {
 			Alpm.List<unowned Alpm.Package> deps_to_check_next = null;
 			while (deps_to_check != null) {
 				unowned Alpm.Package alpm_pkg = deps_to_check.data;
@@ -1325,7 +1330,7 @@ namespace Pamac {
 			}
 		}
 
-		void intern_compute_orphans_to_remove (Alpm.Handle alpm_handle) {
+		void intern_compute_orphans_to_remove (Alpm.Handle? alpm_handle) {
 			// remove RECURSE to trans_flags
 			trans_flags &= ~Alpm.TransFlag.RECURSE;
 			checked_deps.remove_all ();
@@ -1373,7 +1378,7 @@ namespace Pamac {
 			}
 		}
 
-		bool trans_prepare (Alpm.Handle alpm_handle, Alpm.DB? aur_db) {
+		bool trans_prepare (Alpm.Handle? alpm_handle, Alpm.DB? aur_db) {
 			bool success = trans_init (alpm_handle, trans_flags);
 			if (success && sysupgrade) {
 				success = trans_sysupgrade (alpm_handle);
@@ -1450,7 +1455,7 @@ namespace Pamac {
 			return success;
 		}
 
-		TransactionSummary get_transaction_summary (Alpm.Handle alpm_handle, ref TransactionSummary summary) {
+		TransactionSummary get_transaction_summary (Alpm.Handle? alpm_handle, ref TransactionSummary summary) {
 			var checked = new HashTable<string, int> (str_hash, str_equal);
 			// to_install
 			unowned Alpm.List<unowned Alpm.Package> pkgs_to_add = alpm_handle.trans_to_add ();
@@ -1705,7 +1710,7 @@ namespace Pamac {
 			return summary;
 		}
 
-		void download_files (Alpm.Handle handle, uint64 max_parallel_downloads, bool emit_signals) {
+		void download_files (Alpm.Handle? handle, uint64 max_parallel_downloads, bool emit_signals) {
 			// create the table of async queues
 			// one queue per repo with files to download
 			total_download = 0;
@@ -1755,7 +1760,7 @@ namespace Pamac {
 			}
 		}
 
-		bool need_reboot (Alpm.Handle alpm_handle) {
+		bool need_reboot (Alpm.Handle? alpm_handle) {
 			bool reboot_needed = false;
 			string[] prefix = {"linux-", "nvidia-", "lib32-nvidia-", "systemd", "xf86-", "xorg-"};
 			string[] contains = {"mesa", "wayland"};
@@ -1806,7 +1811,7 @@ namespace Pamac {
 			return reboot_needed;
 		}
 
-		bool trans_commit (Alpm.Handle alpm_handle) {
+		bool trans_commit (Alpm.Handle? alpm_handle) {
 			add_overwrite_files (alpm_handle);
 			bool need_retry = false;
 			bool success = false;
@@ -1966,7 +1971,7 @@ namespace Pamac {
 			return null;
 		}
 
-		bool trans_commit_real (Alpm.Handle alpm_handle, ref bool need_retry) {
+		bool trans_commit_real (Alpm.Handle? alpm_handle, ref bool need_retry) {
 			bool success = true;
 			if (config.max_parallel_downloads >= 2) {
 				// custom parallel downloads
@@ -2089,7 +2094,7 @@ namespace Pamac {
 			return success;
 		}
 
-		void trans_release (Alpm.Handle alpm_handle) {
+		void trans_release (Alpm.Handle? alpm_handle) {
 			alpm_handle.trans_release ();
 			remove_ignorepkgs (alpm_handle);
 			remove_overwrite_files (alpm_handle);
