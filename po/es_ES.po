@@ -6,15 +6,16 @@
 # Translators:
 # Francisco Sánchez López de Lerma <fslopezlerma@gmail.com>, 2018
 # Francisco Torres <franute@gmail.com>, 2018
+# Kiibakun, 2020
 # manueljlin <manueljlin@gmail.com>, 2019
 # Xema Fuentes, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-21 18:13+0000\n"
+"Last-Translator: Kiibakun\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,7 +112,7 @@ msgstr "Eliminando %s de la lista de objetivos"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "Se necesita un reinicio para que los cambios tengan efecto"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -143,7 +144,7 @@ msgstr "%s: %s ya existe en el sistema de archivos"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr "Se ha hecho una copia de seguridad en %s"
 
 #: src/alpm_utils.vala
@@ -448,44 +449,20 @@ msgstr "Depende De"
 msgid "Orphan Of"
 msgstr "Orfe de"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Para eliminar"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Entra en Conflicto con"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Para degradar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Requerido Por"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Para construir"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Reemplaza"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Para instalar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Para reinstalar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Para actualizar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -542,7 +519,7 @@ msgstr "paquete(s)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Actualizaciones disponibles"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -729,11 +706,11 @@ msgstr "Eliminar"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Actualizaciones de SO"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Incluye mejoras en rendimiento, estabilidad y seguridad"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -801,7 +778,7 @@ msgstr "Un gestor de paquetes con soporte para Alpm, AUR, Flatpak y Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Última comprobación"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -870,7 +847,7 @@ msgstr "Editar archivos de compilación"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[e]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -878,11 +855,35 @@ msgstr "Aplicar transacción"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[e/s/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Para actualizar"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Para reinstalar"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Para instalar"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Para construir"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Para degradar"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Para eliminar"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -899,12 +900,12 @@ msgstr "Ver las diferencias de los ficheros de compilación de %s"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Construyendo paquetes como superusuario"
 
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "Configurando %s como directorio de compilación"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -912,7 +913,7 @@ msgstr "No se pudo encontrar el archivo PKGBUILD en el directorio actual"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Comprobando paquetes en desarrollo como superusuario"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1328,7 +1329,7 @@ msgstr "_Aplicar"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Modo software"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1348,11 +1349,11 @@ msgstr "Acerca de Pamac"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Buscar por"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1372,7 +1373,7 @@ msgstr "Ignorar todo"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Actualizar"
 
 #: resources/manager_window.ui
 msgid "Browse"

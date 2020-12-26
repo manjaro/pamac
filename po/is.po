@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-09 15:42+0000\n"
-"Last-Translator: Ólafur Víðir Guðbjargarson <olividir@gmail.com>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:28+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,8 +143,8 @@ msgstr "%s: %s hefur verið til í skráarkerfinu"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "hefur verið afritað til %s"
+msgid "It has been backed up to %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -448,44 +448,20 @@ msgstr "Er háð"
 msgid "Orphan Of"
 msgstr "Munaðarleysingi af"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Á að fjarlægja"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Stangast á við "
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Á að niðurfæra"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Krafist af"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Á að byggja"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Kemur í staðinn fyrir"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Til uppsetningar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Til enduruppsetningar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Til uppfærslu"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -883,6 +859,30 @@ msgstr "[e/y/N]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Til uppfærslu"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Til enduruppsetningar"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Til uppsetningar"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Á að byggja"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Á að niðurfæra"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Á að fjarlægja"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

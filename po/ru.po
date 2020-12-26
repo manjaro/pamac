@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017,2019
-# Александр <avfill@outlook.com>, 2015
+# AlexanderFilev <avfill@outlook.com>, 2015
 # Alexey Ermakov <strangebrew@yandex.ru>, 2018
 # Andrei Stepanov <adem4ik@gmail.com>, 2019-2020
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
@@ -14,7 +14,7 @@
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
 # Paulo Fino <finomeno@gmail.com>, 2014
 # Анатолий Валерианович <ffox909@mail.ru>, 2014
-# Александр <avfill@outlook.com>, 2015
+# AlexanderFilev <avfill@outlook.com>, 2015
 # Artalus, 2018
 # Kirill Virt <spakes1999@gmail.com>, 2018
 # Eugene <klyuchnikov.evgeny@gmail.com>, 2018-2019
@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 15:43+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-20 23:13+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -173,7 +173,7 @@ msgstr "%s: %s уже существует в файловой системе"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr "Создана резервная копия в %s"
 
 #: src/alpm_utils.vala
@@ -482,44 +482,20 @@ msgstr "Зависит от"
 msgid "Orphan Of"
 msgstr "Остался от"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "К удалению"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Конфликтует с"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "К понижению версии"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Требуется для"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "К сборке"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Заменяет"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "К установке"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "К переустановке"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "К обновлению"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -707,7 +683,7 @@ msgstr "Необязательные зависимости"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr "Создание зависимостей"
+msgstr "Зависимости сборки"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
@@ -910,7 +886,7 @@ msgstr "Редактировать сборочные файлы"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[п]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -918,11 +894,35 @@ msgstr "Применить транзакцию"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[п/д/Н]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "п"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "К обновлению"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "К переустановке"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "К установке"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "К сборке"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "К понижению версии"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "К удалению"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -1372,7 +1372,7 @@ msgstr "_Применить"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr "Программный режим"
+msgstr "Режим приложений"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"

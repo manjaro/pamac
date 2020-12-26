@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-09 09:43+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:59+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr "%s: %s finns redan i filsystemet"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr "Det har säkerhetskopierats till %s"
 
 #: src/alpm_utils.vala
@@ -460,44 +460,20 @@ msgstr "Beroende av"
 msgid "Orphan Of"
 msgstr "Föräldralösa av"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Ta bort"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Konflikt med"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Att nedgradera"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Krävs av"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Att bygga"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Ersätter"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Att installera"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Att ominstallera"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Att uppgradera"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -895,6 +871,30 @@ msgstr "[e/y/N]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Att uppgradera"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Att ominstallera"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Att installera"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Att bygga"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Att nedgradera"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Ta bort"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

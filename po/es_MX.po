@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 17:22+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-25 16:19+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -144,8 +144,8 @@ msgstr "%s:%s ya existe en el sistema de archivos"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "Ha sido respaldado en %s"
+msgid "It has been backed up to %s"
+msgstr "Se ha respaldado en %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -449,44 +449,20 @@ msgstr "Depende de"
 msgid "Orphan Of"
 msgstr "Huérfano de"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "A remover"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Conflictos con"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "A desactualizar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Requerido por"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "A construir"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Reemplaza"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "A instalar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "A reinstalar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "A actualizar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -794,7 +770,7 @@ msgstr "_Abrir"
 
 #: src/manager_window.vala
 msgid "Alpm Package"
-msgstr "Paquete Almp"
+msgstr "Paquete Alpm"
 
 #: src/manager_window.vala
 msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
@@ -884,6 +860,30 @@ msgstr "[e/s/N]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "A actualizar"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "A reinstalar"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "A instalar"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "A construir"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "A desactualizar"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "A remover"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

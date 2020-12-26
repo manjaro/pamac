@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -462,44 +462,20 @@ msgstr "Εξαρτάτε από"
 msgid "Orphan Of"
 msgstr ""
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Προς αφαίρεση"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Διένεξη με"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Προς υποβάθμισ"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Απαιτείτε από"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Πρός δημιουργία"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Αντικαθιστά"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Προς εγκατάσταση"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Προς επανεγκατάσταση"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Προς αναβάθμιση"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -897,6 +873,30 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "e"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Προς αναβάθμιση"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Προς επανεγκατάσταση"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Προς εγκατάσταση"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Πρός δημιουργία"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Προς υποβάθμισ"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Προς αφαίρεση"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

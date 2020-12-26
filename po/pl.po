@@ -29,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-21 21:03+0000\n"
+"Last-Translator: Daniel Napora <napcok@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,8 +160,8 @@ msgstr "%s: %s już istnieje w systemie plików"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "Kopia zapasowa została utworzona w %s"
+msgid "It has been backed up to %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -469,44 +469,20 @@ msgstr "Zależy od"
 msgid "Orphan Of"
 msgstr "Osierocony przez"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Do usunięcia"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "W konflikcie z"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Do obniżenia wersji"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Wymagany przez"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Do zbudowania"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Zamienia"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Do zainstalowania"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Do przeinstalowania"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Do aktualizacji"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -912,6 +888,30 @@ msgid "e"
 msgstr ""
 
 #: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Do aktualizacji"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Do przeinstalowania"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Do zainstalowania"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Do zbudowania"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Do obniżenia wersji"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Do usunięcia"
+
+#: src/transaction-cli.vala
 msgid "Total installed size"
 msgstr "Łącznie zainstalowano"
 
@@ -926,7 +926,7 @@ msgstr "Podgląd różnic %s plików budowania"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Budowanie pakietów jako root"
 
 #: src/cli.vala
 #, c-format
@@ -1359,7 +1359,7 @@ msgstr "_Zastosuj"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Tylko Aplikacje"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-12 13:09+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-20 08:16+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -145,8 +145,8 @@ msgstr "%s: %s はすでにファイルシステムに存在します"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "%s にバックアップされました"
+msgid "It has been backed up to %s"
+msgstr "%s にバックアップされています"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -448,44 +448,20 @@ msgstr "必要"
 msgid "Orphan Of"
 msgstr "次から孤立したパッケージ"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "削除するもの"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "競合"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "ダウングレードするもの"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "必要とされる"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "ビルドするもの"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "置換"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "インストールするもの"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "再インストールするもの"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "アップグレードするもの"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -880,6 +856,30 @@ msgstr "[e/y/N]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "アップグレードするもの"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "再インストールするもの"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "インストールするもの"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "ビルドするもの"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "ダウングレードするもの"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "削除するもの"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

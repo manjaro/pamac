@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-10 10:23+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-20 06:21+0000\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -147,8 +147,8 @@ msgstr "%s: %s už existoval v súborovom systéme"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "Bol zálohovaný do %s"
+msgid "It has been backed up to %s"
+msgstr "Záloha bola uložená do %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -456,44 +456,20 @@ msgstr "Závisí na"
 msgid "Orphan Of"
 msgstr "Osamotený balík"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Na odstránenie"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Je v konflikte s"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Na degradáciu"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Požadovaný balíkom"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Na zostavenie"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Nahradí"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Na nainštalovanie"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Na preinštalovanie"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Na aktualizovanie"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -897,6 +873,30 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "e"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Na aktualizovanie"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Na preinštalovanie"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Na nainštalovanie"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Na zostavenie"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Na degradáciu"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Na odstránenie"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-25 11:07+0000\n"
+"Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -148,8 +148,8 @@ msgstr "%s: %s sta že obstajala v datotečnem sistemu"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "Ustvarjena je bila rezervna kopija %s"
+msgid "It has been backed up to %s"
+msgstr "Varnostno kopirano v %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -457,44 +457,20 @@ msgstr "Odvisen od"
 msgid "Orphan Of"
 msgstr "Sirota od "
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Za odstranitev"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Je v sporu s"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Za podgraditev"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Zahtevano s strani"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Za izgradnjo"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Nadomesti"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Za namestitev"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Za ponovno namestitev"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Posodobiti"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -893,11 +869,35 @@ msgstr "Uveljavi prenos"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[i/d/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Posodobiti"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Za ponovno namestitev"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Za namestitev"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Za izgradnjo"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Za podgraditev"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Za odstranitev"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -914,12 +914,12 @@ msgstr "Prikaži razliko za %s izgradnih datotek"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Gradnja paketov kot korenski uporabnik"
 
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "Nastavitev imenika za gradnjo na %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -927,7 +927,7 @@ msgstr "V trenutnem direktoriju ni bilo mogoče najti PKGBUILD"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Preverjanje posodobitev razvojnih paketov kot korenski uporabnik"
 
 #: src/cli.vala
 msgid "Available actions"

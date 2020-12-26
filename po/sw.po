@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Swahili (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +140,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -445,17 +445,9 @@ msgstr ""
 msgid "Orphan Of"
 msgstr ""
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Kutoa"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
-msgstr ""
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
 msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
@@ -463,26 +455,10 @@ msgstr ""
 msgid "Required By"
 msgstr ""
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr ""
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Huchukua nafasi ya"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr ""
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr ""
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -880,6 +856,30 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "e"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Kutoa"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

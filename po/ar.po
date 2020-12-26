@@ -8,6 +8,7 @@
 # Hamine Anisse <anisdu25@gmail.com>, 2016
 # hamza rydhwan <rydhwan21@gmail.com>, 2016
 # hamza rydhwan <rydhwan21@gmail.com>, 2016
+# Hisham Abdul Hai <hisham.ahai@gmail.com>, 2020
 # كريم أولاد الشلحة <herr.linux88@gmail.com>, 2013-2014
 # Mohamed Shahin <mohamedali180@gmail.com>, 2016
 # mohammadA <mohammadAbdulhadi1@gmail.com>, 2018
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-20 22:07+0000\n"
+"Last-Translator: Hisham Abdul Hai <hisham.ahai@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgstr "الحزمة %s  ليس لها بنية صالحة"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "غير قادر على الحصول على البرنامج ذو الصلة %s  المطلوب من %s"
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
@@ -79,22 +80,22 @@ msgstr "تحذير"
 #: src/alpm_utils.vala
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "تنزيل %s (%s) يعطل البرنامج ذو الصلة %s المتطلب من %s"
 
 #: src/alpm_utils.vala src/cli.vala
 #, c-format
 msgid "Add %s to remove"
-msgstr ""
+msgstr "إضافة %s لإزالة"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "if possible, remove %s and retry"
-msgstr ""
+msgstr "إذا كان ممكناً، احذف %s و حاول من جديد"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr ""
+msgstr "حذف %s يعطل البرنامج ذو الصلة %s المتطلب من %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -108,16 +109,16 @@ msgstr "%s تحتاج إلى إزالة لكنها حزمة مقفلة"
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "فشل تهيئة قاعدة بيانات AUR"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "جاري حذف %s من قائمة الهدف"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "يجب إعادة التشغيل من أجل تطبيق التغييرات"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -131,7 +132,7 @@ msgstr "%s موجود في كل %s و %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already exists in filesystem (owned by %s)"
-msgstr ""
+msgstr "%s: %s متواجد بالفعل في نظام الملفات (مملوك من قبل %s)"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -140,21 +141,21 @@ msgstr "%s: %s  موجود بالفعل في نظام الملفات"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "إذا كان هذا الملف غير ضرورياً، قم بحذفه و حاول من جديد"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s: %s already existed in filesystem"
-msgstr ""
+msgstr "%s: %s متواجد بالفعل في نظام الملفات"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr ""
+msgid "It has been backed up to %s"
+msgstr "تم انشاء نسخة احتياطية إلى %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "جاري حذف الملفات غير الصالحة و المحاولة من جديد"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -163,11 +164,11 @@ msgstr "%s غير صالح أو معطوب"
 
 #: src/alpm_utils.vala
 msgid "you can remove this file and retry"
-msgstr ""
+msgstr "يمكنك حذف هذا الملف و المحاولة من جديد"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "فشل الحصول على بعض الملفات"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
@@ -230,7 +231,7 @@ msgstr "يضبط %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "وقع خطأ أثناء إعداد %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -462,44 +463,20 @@ msgstr "يعتمد على"
 msgid "Orphan Of"
 msgstr ""
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "للحذف"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "التعارض مع"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "للتثبيت النسخة الأقدم"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "مطلوب من طرف"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "للبناء"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "إستبدال"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "للتثبيت"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "لإعادة التثبيت"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "للترقية"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -595,7 +572,7 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "الجميع"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
@@ -909,6 +886,30 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "e"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "للترقية"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "لإعادة التثبيت"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "للتثبيت"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "للبناء"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "للتثبيت النسخة الأقدم"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "للحذف"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

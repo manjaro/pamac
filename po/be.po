@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-25 19:12+0000\n"
+"Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,12 +42,12 @@ msgstr "Не атрымалася сінхранізаваць базу даны
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr "Не атрымалася пачаць транзакцыю"
+msgstr "Не атрымалася пачаць трансакцыю"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr "Не атрымалася падрыхтаваць транзакцыю"
+msgstr "Не атрымалася падрыхтаваць трансакцыю"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -109,11 +109,11 @@ msgstr "выдаленне %s з мэтавага спіса"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "Каб змены набылі моц, спатрэбіцца перазапусціць праграму"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "Транзакцыя скасаваная"
+msgstr "Трансакцыя скасаваная"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -141,8 +141,8 @@ msgstr "%s: %s ужо існуе ў файлавай сістэме"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "Гэта была рэзервовая копія %s"
+msgid "It has been backed up to %s"
+msgstr "Рэзервовая копія захаваная на %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -163,7 +163,7 @@ msgstr "не ўдалося атрымаць некаторыя файлы"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr "Не атрымалася завяршыць транзакцыю"
+msgstr "Не атрымалася завяршыць трансакцыю"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -258,22 +258,22 @@ msgstr "%s усталяваны як %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
-msgstr "Запуск падрыхтоўчых апрацоўшчыкаў"
+msgstr "Запуск падрыхтоўчых апрацоўнікаў"
 
 #: src/alpm_utils.vala
 msgid "Running post-transaction hooks"
-msgstr "Запуск постапрацоўшчыкаў"
+msgstr "Запуск постапрацоўнікаў"
 
 #: src/alpm_utils.vala
 msgid "Error while running hooks"
-msgstr "Падчас запуску апрацоўшчыкаў адбылася памылка"
+msgstr "Падчас запуску апрацоўнікаў адбылася памылка"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] "Засталося прыкладна %lu секунда"
-msgstr[1] "Засталося прыкладна %lu секунд"
+msgstr[0] "Засталася прыкладна %lu секунда"
+msgstr[1] "Засталося прыкладна %lu секунды"
 msgstr[2] "Засталося прыкладна %lu секунд"
 msgstr[3] "Засталося прыкладна %lu секунд"
 
@@ -368,7 +368,7 @@ msgstr "ключ %s немагчыма імпартаваць"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
-msgstr "Транзакцыя паспяхова завершаная"
+msgstr "Трансакцыя паспяхова завершаная"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -450,44 +450,20 @@ msgstr "Залежыць ад"
 msgid "Orphan Of"
 msgstr "Непатрэбны ад"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Да выдалення"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Канфліктуе з"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Да вяртання да папярэдняй версіі"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Патрабуецца для"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Да зборкі"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Замяняе"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Да ўсталёўкі"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Да пераўсталёўкі"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Да абнаўлення"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -544,7 +520,7 @@ msgstr "пакунак(кі)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Ёсць абнаўленні"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -735,11 +711,11 @@ msgstr "Выдаліць"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Абнаўленне аперацыйнай сістэмы"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Уключае паляпшэнні прадукцыйнасці, стабільнасці і бяспекі"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -807,7 +783,7 @@ msgstr "Кіраўнік пакункаў з падтрымкай Alpm, AUR, Fla
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Апошняе абнаўленне"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -878,19 +854,43 @@ msgstr "Рэдагаваць файлы зборкі"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[e]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
-msgstr "Ужыць транзакцыю"
+msgstr "Ужыць трансакцыю"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[e/y/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Да абнаўлення"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Да пераўсталёўкі"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Да ўсталёўкі"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Да зборкі"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Да вяртання да папярэдняй версіі"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Да выдалення"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -907,12 +907,12 @@ msgstr "Праглядзець адрозненне файлаў зборкі %s
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Зборка пакункаў ад імя суперкарыстальніка"
 
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "Зрабіць каталогам зборкі %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -920,7 +920,7 @@ msgstr "У бягучым каталозе не знойдзена файлаў 
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Праверка наяўнасці абнаўленняў да нестабільных версій пакункаў ад імя суперкарыстальніка"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1064,7 +1064,7 @@ msgstr "не пакідаць у кэшы сабраныя пакункі пас
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr "толькі выводзіць тое, што будзе зроблена, але не запускаць транзакцыю"
+msgstr "толькі выводзіць тое, што будзе зроблена, але не запускаць трансакцыю"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
@@ -1160,11 +1160,11 @@ msgstr "выводзіць толькі адзін радок для кожна�
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr "таксама правяраць наяўнасць абнаўленняў распрацоўваемых пакункаў (выкарыстоўваць з --aur)"
+msgstr "таксама правяраць наяўнасць абнаўленняў пакункаў да нестабільных версій (выкарыстоўваць з --aur)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr "не правяраць наяўнасць абнаўленняў распрацоўваемых пакункаў"
+msgstr "не правяраць наяўнасць абнаўленняў да нестабільных версій пакункаў"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1192,11 +1192,11 @@ msgstr "не абнаўляць пакункі, усталяваныя з AUR"
 
 #: src/cli.vala
 msgid "also upgrade development packages (use with --aur)"
-msgstr "таксама палепшыць пакункі для распрацоўшчыкаў (выкарыстоўваць з  --aur)"
+msgstr "таксама палепшыць пакункі для распрацоўнікаў (выкарыстоўваць з --aur)"
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr "не абнаўляць распрацоўваемыя пакункі"
+msgstr "не абнаўляць пакункі да нестабільных версій"
 
 #: src/cli.vala
 msgid ""
@@ -1332,7 +1332,7 @@ msgstr "Гісторыя Pamac"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr "Зводка транзакцыі"
+msgstr "Зводка трансакцыі"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
@@ -1340,7 +1340,7 @@ msgstr "_Ужыць"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Праграмны рэжым"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1360,15 +1360,15 @@ msgstr "Пра праграму"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Рэжым паказу"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Агляд"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr "Парадкаваць па"
+msgstr "Сартаванне"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1384,11 +1384,11 @@ msgstr "Ігнараваць усё"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Абнавіць"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "Агляд"
+msgstr "Група"
 
 #: resources/manager_window.ui
 msgid "Launch"
@@ -1446,7 +1446,7 @@ msgstr "Асноўныя"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "Няправільная наладка гэтых параметраў можа прывесці да пашкоджання сістэмы.\nЗмяняйце іх толькі калі ведаеце што робіце."
+msgstr "Няправільная наладка гэтых параметраў можа прывесці да пашкоджання сістэмы.\nЗмяняйце іх толькі, калі ведаеце, што робіце."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1506,7 +1506,7 @@ msgstr "Пакідаць сабраныя пакункі ў кэшы"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Праверка наяўнасці абнаўленняў распрацоўваемых пакункаў"
+msgstr "Праверка наяўнасці абнаўленняў пакункаў да нестабільных версій"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."

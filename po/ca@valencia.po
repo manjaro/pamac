@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Catalan (Valencian) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca@valencia/)\n"
 "MIME-Version: 1.0\n"
@@ -140,8 +140,8 @@ msgstr "%s: %s ja existia al sistema de fitxers"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "se n'ha fet una còpia de seguretat a %s"
+msgid "It has been backed up to %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -445,44 +445,20 @@ msgstr "Depèn de"
 msgid "Orphan Of"
 msgstr "Orfe de"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Per a suprimir"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Té conflicte amb"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Per a desactualitzar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Requerit per"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Per a compilar"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Reemplaça"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Per a instal·lar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Per a reinstal·lar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Per a actualitzar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -880,6 +856,30 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "e"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Per a actualitzar"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Per a reinstal·lar"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Per a instal·lar"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Per a compilar"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Per a desactualitzar"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Per a suprimir"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

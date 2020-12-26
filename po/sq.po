@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-10 20:14+0000\n"
-"Last-Translator: Algent Albrahimi <algent23@gmail.com>\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:28+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Albanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -141,8 +141,8 @@ msgstr "%s: %s tashmë ekziston në sistemin e skedarëve"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "Është bërë kopje rezervë në %s"
+msgid "It has been backed up to %s"
+msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -446,44 +446,20 @@ msgstr "Varet Nga"
 msgid "Orphan Of"
 msgstr "Jetimi i"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Për të hequr"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Në konflikt Me"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Për të ulur në gradë"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Kërkohet Nga"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Për të ndërtuar"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Zëvendëson"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Për të instaluar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Për të riinstaluar"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Për të përmirësuar"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -881,6 +857,30 @@ msgstr "[e/p/J]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Për të përmirësuar"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Për të riinstaluar"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Për të instaluar"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Për të ndërtuar"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Për të ulur në gradë"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Për të hequr"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

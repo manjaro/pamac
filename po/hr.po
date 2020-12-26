@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 18:55+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 13:34+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "%s:%s je već postojala na datotečnom sustavu"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr "Sigurnosno je kopiran u %s"
 
 #: src/alpm_utils.vala
@@ -451,44 +451,20 @@ msgstr "Ovisi o"
 msgid "Orphan Of"
 msgstr "Nepotreban od"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Za ukloniti"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "U sukobu sa"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Vratiti paket na staru verziju"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Zahtijevan od"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Za stvaranje paketa"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Zamjenjuje"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Za instalirati"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Za ponovnu instalaciju"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Za nadograditi"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -889,6 +865,30 @@ msgstr "[e/da/NE]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Za nadograditi"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Za ponovnu instalaciju"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Za instalirati"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Za stvaranje paketa"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Vratiti paket na staru verziju"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Za ukloniti"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

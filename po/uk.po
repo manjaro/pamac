@@ -6,7 +6,7 @@
 # Translators:
 # dsafsadf <heneral@gmail.com>, 2017,2020
 # Oleksa Pletinskiy <opletinskiy@gmail.com>, 2018
-# Paul S <paul.smbg@gmail.com>, 2019
+# Paul S <204@tuta.io>, 2019
 # Pavliy Rostislav <pavliy.rostislav@gmail.com>, 2019
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
 # Roman <rom85@i.ua>, 2013
@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-08 13:32+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 10:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
+msgid "It has been backed up to %s"
 msgstr ""
 
 #: src/alpm_utils.vala
@@ -467,44 +467,20 @@ msgstr "Залежить від"
 msgid "Orphan Of"
 msgstr ""
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "До видалення"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Конфлікти з"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "До пониження"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Вимагається"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Зібрати"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Замінює"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "До встановлення"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "До перевстановлення"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "До оновлення"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -908,6 +884,30 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "e"
 msgstr ""
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "До оновлення"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "До перевстановлення"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "До встановлення"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Зібрати"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "До пониження"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "До видалення"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"

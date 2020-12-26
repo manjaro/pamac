@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-08 13:08+0100\n"
-"PO-Revision-Date: 2020-12-16 21:16+0000\n"
+"POT-Creation-Date: 2020-12-19 09:48+0100\n"
+"PO-Revision-Date: 2020-12-19 20:50+0000\n"
 "Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
@@ -141,8 +141,8 @@ msgstr "%s: %s artıq fayl sistemində mövcuddur"
 
 #: src/alpm_utils.vala
 #, c-format
-msgid "It has been backup to %s"
-msgstr "%s nüsxəsi yedəklənmişdir"
+msgid "It has been backed up to %s"
+msgstr "Yedək nüsxəsi %s-də/da saxlanıldı"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -446,44 +446,20 @@ msgstr "Aslıdır"
 msgid "Orphan Of"
 msgstr "Bu paketdən qalanlar"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To remove"
-msgstr "Silmək üçün"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
 msgstr "Ziddiyyətlidir"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To downgrade"
-msgstr "Əvvəlki versiyaya endirmək"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
 msgstr "Tələb olunur"
 
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To build"
-msgstr "Qurmaq üçün"
-
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
 msgstr "Dəyişdirir"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To install"
-msgstr "Yükləmək üçün"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To reinstall"
-msgstr "Yenidən yükləmək üçün"
-
-#: src/transaction-gtk.vala src/transaction-cli.vala
-msgid "To upgrade"
-msgstr "Təkmil yenilənmə"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -881,6 +857,30 @@ msgstr "[e/y/N]"
 #: src/transaction-cli.vala
 msgid "e"
 msgstr "e"
+
+#: src/transaction-cli.vala
+msgid "To upgrade"
+msgstr "Təkmil yenilənmə"
+
+#: src/transaction-cli.vala
+msgid "To reinstall"
+msgstr "Yenidən yükləmək üçün"
+
+#: src/transaction-cli.vala
+msgid "To install"
+msgstr "Yükləmək üçün"
+
+#: src/transaction-cli.vala
+msgid "To build"
+msgstr "Qurmaq üçün"
+
+#: src/transaction-cli.vala
+msgid "To downgrade"
+msgstr "Əvvəlki versiyaya endirmək"
+
+#: src/transaction-cli.vala
+msgid "To remove"
+msgstr "Silmək üçün"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
