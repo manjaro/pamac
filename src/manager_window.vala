@@ -431,7 +431,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Label checking_label;
 		[GtkChild]
-		Gtk.ScrolledWindow main_details_scrolledwindow;
+		Gtk.ScrolledWindow deps_scrolledwindow;
 		[GtkChild]
 		Gtk.Stack properties_stack;
 		[GtkChild]
@@ -452,6 +452,8 @@ namespace Pamac {
 		Gtk.Stack screenshots_stack;
 		[GtkChild]
 		Gtk.Spinner screenshots_spinner;
+		[GtkChild]
+		Hdy.Carousel screenshots_carousel;
 		[GtkChild]
 		Gtk.Button previous_screenshot_button;
 		[GtkChild]
@@ -515,8 +517,9 @@ namespace Pamac {
 		GenericArray<unowned Package> current_packages_list;
 		uint current_packages_list_length;
 		uint current_packages_list_index;
-		GenericArray<Gdk.Pixbuf> current_screenshots;
-		int current_screenshots_index;
+		GenericArray<Gtk.Image> current_screenshots;
+		uint current_screenshots_index;
+		uint screenshots_overlay_timeout_id;
 
 		uint search_entry_timeout_id;
 		bool scroll_to_top;
@@ -558,7 +561,7 @@ namespace Pamac {
 			no_item_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "No package found")));
 			checking_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Checking for Updates")));
 
-			current_screenshots = new GenericArray<Gdk.Pixbuf> ();
+			current_screenshots = new GenericArray<Gtk.Image> ();
 
 			// auto complete list
 			packages_scrolledwindow.vadjustment.value_changed.connect (() => {
@@ -968,23 +971,64 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_next_screenshot_button_clicked () {
-			current_screenshots_index++;
-			uint current_screenshots_length = current_screenshots.length;
-			next_screenshot_button.sensitive = current_screenshots_index < current_screenshots_length - 1;
-			previous_screenshot_button.sensitive = true;
-			if (current_screenshots_index < current_screenshots_length) {
-				screenshots_stack.visible_child_name = "%u".printf (current_screenshots_index);
-			}
+			unowned Gtk.Image image = current_screenshots[current_screenshots_index + 1];
+			screenshots_carousel.scroll_to (image);
 		}
 
 		[GtkCallback]
 		void on_previous_screenshot_button_clicked () {
-			current_screenshots_index--;
-			next_screenshot_button.sensitive = true;
-			previous_screenshot_button.sensitive = current_screenshots_index > 0;
-			if (current_screenshots_index < current_screenshots.length) {
-				screenshots_stack.visible_child_name = "%u".printf (current_screenshots_index);
+			unowned Gtk.Image image = current_screenshots[current_screenshots_index - 1];
+			screenshots_carousel.scroll_to (image);
+		}
+
+		[GtkCallback]
+		void on_screenshots_carousel_page_changed (uint index) {
+			current_screenshots_index = index;
+			previous_screenshot_button.visible = current_screenshots_index > 0;
+			next_screenshot_button.visible = current_screenshots_index < current_screenshots.length - 1;
+		}
+
+		bool remove_screenshots_overlay_timeout () {
+			if (screenshots_overlay_timeout_id != 0) {
+				Source.remove (screenshots_overlay_timeout_id);
+				screenshots_overlay_timeout_id = 0;
+				return true;
 			}
+			return false;
+		}
+
+		[GtkCallback]
+		bool on_previous_screenshot_button_enter_notify_event () {
+			remove_screenshots_overlay_timeout ();
+			return false;
+		}
+
+		[GtkCallback]
+		bool on_next_screenshot_button_enter_notify_event () {
+			remove_screenshots_overlay_timeout ();
+			return false;
+		}
+
+		[GtkCallback]
+		bool on_screenshots_carousel_enter_notify_event () {
+			if (!remove_screenshots_overlay_timeout ()) {
+				previous_screenshot_button.visible = current_screenshots_index > 0;
+				next_screenshot_button.visible = current_screenshots_index < current_screenshots.length - 1;
+			}
+			return true;
+		}
+
+		[GtkCallback]
+		bool on_screenshots_carousel_leave_notify_event () {
+			screenshots_overlay_timeout_id = Timeout.add (1000, screenshots_overlay_timeout_callback);
+			return true;
+		}
+
+		bool screenshots_overlay_timeout_callback () {
+			previous_screenshot_button.visible = false;
+			next_screenshot_button.visible = false;
+			screenshots_overlay_timeout_id = 0;
+			return false;
 		}
 
 		void populate_deps_box (string dep_type, GenericArray<string> dep_list, bool add_install_button = false) {
@@ -1025,48 +1069,66 @@ namespace Pamac {
 			deps_box.pack_start (frame);
 		}
 
-		async GenericArray<Gdk.Pixbuf> get_screenshots_pixbufs (GenericArray<string> urls) {
+		async void get_screenshots_images (GenericArray<string> urls) {
 			// keep a copy of urls because of async
 			GenericArray<string> urls_copy = urls.copy (strdup);
-			var pixbufs = new GenericArray<Gdk.Pixbuf> ();
 			foreach (unowned string url in urls_copy) {
+				Gtk.Image? image = null;
 				var uri = File.new_for_uri (url);
 				var cached_screenshot = File.new_for_path ("/tmp/pamac-app-screenshots/%s".printf (uri.get_basename ()));
-				Gdk.Pixbuf pixbuf = null;
 				if (cached_screenshot.query_exists ()) {
 					try {
-						pixbuf = new Gdk.Pixbuf.from_file (cached_screenshot.get_path ());
-						pixbufs.add (pixbuf);
+						var pixbuf = new Gdk.Pixbuf.from_file (cached_screenshot.get_path ());
+						image = new Gtk.Image.from_pixbuf (pixbuf);
+						image.visible = true;
 					} catch (Error e) {
 						warning ("%s: %s", url, e.message);
 					}
 				} else {
 					// download screenshot
+					if (!screenshots_stack.visible) {
+						screenshots_stack.visible = true;
+						screenshots_stack.visible_child_name = "spinner";
+						screenshots_spinner.active = true;
+					}
 					try {
 						var request = soup_session.request (url);
-						try {
-							var inputstream = yield request.send_async (null);
-							pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
-							// scale pixbux at a width of 600 pixels
-							int width = pixbuf.get_width ();
-							if (width > 600) {
-								float ratio = (float) width / (float) pixbuf.get_height ();
-								int new_height = (int) (600 / ratio);
-								pixbuf = pixbuf.scale_simple (600, new_height, Gdk.InterpType.BILINEAR);
-							}
-							// save scaled image in tmp
-							FileOutputStream os = cached_screenshot.append_to (FileCreateFlags.NONE);
-							pixbuf.save_to_stream (os, "png");
-							pixbufs.add (pixbuf);
-						} catch (Error e) {
-							warning ("%s: %s", url, e.message);
+						var inputstream = yield request.send_async (null);
+						var pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
+						// scale pixbux at a width of 600 pixels
+						int width = pixbuf.get_width ();
+						int max_width = 500;
+						if (width > max_width) {
+							float ratio = (float) width / (float) pixbuf.get_height ();
+							int new_height = (int) (max_width / ratio);
+							pixbuf = pixbuf.scale_simple (max_width, new_height, Gdk.InterpType.BILINEAR);
 						}
+						// save scaled image in tmp
+						FileOutputStream os = cached_screenshot.append_to (FileCreateFlags.NONE);
+						pixbuf.save_to_stream (os, "png");
+						image = new Gtk.Image.from_pixbuf (pixbuf);
+						image.visible = true;
 					} catch (Error e) {
 						warning ("%s: %s", url, e.message);
 					}
 				}
+				// add images when they are ready
+				if (image != null) {
+					current_screenshots.add (image);
+					screenshots_carousel.add (image);
+					if (current_screenshots.length > 1) {
+						next_screenshot_button.visible = true;
+					}
+					screenshots_spinner.active = false;
+					screenshots_stack.visible_child_name = "carousel";
+					screenshots_stack.visible = true;
+				}
 			}
-			return pixbufs;
+			// no image found
+			if (current_screenshots.length == 0) {
+				screenshots_spinner.active = false;
+				screenshots_stack.visible = false;
+			}
 		}
 
 		async Gdk.Pixbuf? get_icon_pixbuf (string url) {
@@ -1105,40 +1167,15 @@ namespace Pamac {
 		}
 
 		void set_screenshots (Package pkg) {
+			remove_screenshots_overlay_timeout ();
+			screenshots_stack.visible = false;
 			previous_screenshot_button.visible = false;
 			next_screenshot_button.visible = false;
-			unowned GenericArray<string> screenshots = pkg.screenshots;
-			if (screenshots.length != 0) {
-				get_screenshots_pixbufs.begin (screenshots, (obj, res) => {
-					current_screenshots = get_screenshots_pixbufs.end (res);
-					current_screenshots_index = 0;
-					screenshots_spinner.active = false;
-					uint current_screenshots_length = current_screenshots.length;
-					if (current_screenshots_length == 0) {
-						screenshots_stack.visible = false;
-						return;
-					}
-					int i = 0;
-					foreach (unowned Gdk.Pixbuf current_screenshot in current_screenshots) {
-						var image = new Gtk.Image.from_pixbuf (current_screenshot);
-						image.visible = true;
-						screenshots_stack.add_named (image, "%u".printf (i));
-						i++;
-					}
-					screenshots_spinner.active = false;
-					screenshots_stack.visible_child_name = "0";
-					if (current_screenshots_length > 1) {
-						previous_screenshot_button.visible = true;
-						previous_screenshot_button.sensitive = false;
-						next_screenshot_button.visible = true;
-						next_screenshot_button.sensitive = true;
-					}
-				});
-				screenshots_stack.visible = true;
-				screenshots_stack.visible_child_name = "spinner";
-				screenshots_spinner.active = true;
-			} else {
-				screenshots_stack.visible = false;
+			current_screenshots_index = 0;
+			current_screenshots = new GenericArray<Gtk.Image> ();
+			unowned GenericArray<string> urls = pkg.screenshots;
+			if (urls.length != 0) {
+				get_screenshots_images.begin (urls);
 			}
 		}
 
@@ -1148,11 +1185,7 @@ namespace Pamac {
 				aur_pkg = database.get_aur_pkg (pkg.name);
 			}
 			// download screenshot
-			screenshots_stack.foreach ((widget) => {
-				if (widget is Gtk.Image) {
-					widget.destroy ();
-				}
-			});
+			screenshots_carousel.foreach (transaction.destroy_widget);
 			set_screenshots (pkg);
 			bool software_mode = local_config.software_mode;
 			// infos
@@ -1406,7 +1439,7 @@ namespace Pamac {
 		void set_aur_details (AURPackage aur_pkg) {
 			details_grid.foreach (transaction.destroy_widget);
 			deps_box.foreach (transaction.destroy_widget);
-			screenshots_stack.foreach (transaction.destroy_widget);
+			screenshots_carousel.foreach (transaction.destroy_widget);
 			previous_screenshot_button.visible = false;
 			next_screenshot_button.visible = false;
 			launch_button.visible = false;
@@ -1536,11 +1569,7 @@ namespace Pamac {
 
 		void set_snap_details (SnapPackage snap_pkg) {
 			// download screenshot
-			screenshots_stack.foreach ((widget) => {
-				if (widget is Gtk.Image) {
-					widget.destroy ();
-				}
-			});
+			screenshots_carousel.foreach (transaction.destroy_widget);
 			set_screenshots (snap_pkg);
 			// infos
 			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (snap_pkg.app_name), snap_pkg.version));
@@ -1671,11 +1700,7 @@ namespace Pamac {
 
 		void set_flatpak_details (FlatpakPackage flatpak_pkg) {
 			// download screenshot
-			screenshots_stack.foreach ((widget) => {
-				if (widget is Gtk.Image) {
-					widget.destroy ();
-				}
-			});
+			screenshots_carousel.foreach (transaction.destroy_widget);
 			set_screenshots (flatpak_pkg);
 			// infos
 			unowned string? app_name = flatpak_pkg.app_name;
@@ -2732,7 +2757,7 @@ namespace Pamac {
 		}
 
 		public void display_details (Package pkg) {
-			main_details_scrolledwindow.vadjustment.value = 0;
+			deps_scrolledwindow.vadjustment.value = 0;
 			if (pkg is AURPackage) {
 				display_aur_details (pkg as AURPackage);
 			} else if (pkg is AlpmPackage) {
