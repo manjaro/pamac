@@ -968,11 +968,15 @@ namespace Pamac {
 				yield add_optdeps ();
 			}
 			if (sysupgrading && config.check_aur_updates) {
-				GenericArray<AURPackage> aur_updates = yield database.get_aur_updates_async (ignorepkgs);
-				if (aur_updates.length != 0) {
-					foreach (unowned AURPackage aur_pkg in aur_updates) {
-						to_build.add (aur_pkg.name);
-					}
+				var updates = yield database.get_aur_updates_async (ignorepkgs);
+				foreach (unowned AURPackage aur_pkg in updates.aur_updates) {
+					to_build.add (aur_pkg.name);
+				}
+				foreach (unowned AURPackage aur_pkg in updates.ignored_aur_updates) {
+					emit_script_output ("%s: %s".printf (
+										dgettext (null, "Warning"),
+										dgettext ("libalpm", "%s: ignoring package upgrade (%s => %s)\n").printf (
+												aur_pkg.name, aur_pkg.installed_version, aur_pkg.version)).replace ("\n", ""));
 				}
 			}
 			if (to_build.length > 0) {

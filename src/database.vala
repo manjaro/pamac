@@ -2156,6 +2156,9 @@ namespace Pamac {
 		public void refresh_tmp_files_dbs () {
 			lock (alpm_config) {
 				var tmp_files_handle = alpm_config.get_handle (true, true);
+				if (tmp_files_handle == null) {
+					return;
+				}
 				unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_files_handle.syncdbs;
 				while (syncdbs != null) {
 					unowned Alpm.DB db = syncdbs.data;
@@ -2219,6 +2222,9 @@ namespace Pamac {
 					return false;
 				});
 				var tmp_handle = get_tmp_handle ();
+				if (tmp_handle == null) {
+					return;
+				}
 				// add config ignore_pkgs
 				foreach (unowned string name in config.ignorepkgs) {
 					tmp_handle.add_ignorepkg (name);
@@ -2289,7 +2295,10 @@ namespace Pamac {
 									|| installed_pkg.name.has_suffix ("-svn")
 									|| installed_pkg.name.has_suffix ("-bzr")
 									|| installed_pkg.name.has_suffix ("-hg"))) {
-									vcs_local_pkgs.add (installed_pkg.name);
+									// for speed reason, do not check vcs update for ignored packages
+									if (tmp_handle.should_ignore (installed_pkg) == 0) {
+										vcs_local_pkgs.add (installed_pkg.name);
+									}
 								} else {
 									local_pkgs.add (installed_pkg.name);
 								}
@@ -2311,7 +2320,7 @@ namespace Pamac {
 						get_updates_progress (95);
 						return false;
 					});
-					get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, tmp_handle, ref updates);
+					get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, config.ignorepkgs, ref updates);
 					context.invoke (() => {
 						get_updates_progress (100);
 						return false;
@@ -2549,7 +2558,7 @@ namespace Pamac {
 			return aur_vcs_pkgs.get_values ();
 		}
 
-		void get_aur_updates_real (GenericArray<Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, Alpm.Handle? handle, ref Updates updates) {
+		void get_aur_updates_real (GenericArray<Json.Object> aur_infos, GenericArray<string> vcs_local_pkgs, GenericSet<string?> ignorepkgs, ref Updates updates) {
 			unowned GenericArray<AURPackage> aur_updates = updates.aur_updates;
 			unowned GenericArray<AURPackage> outofdate = updates.outofdate;
 			unowned GenericArray<AURPackage> ignored_aur_updates = updates.ignored_aur_updates;
@@ -2561,7 +2570,7 @@ namespace Pamac {
 				var pkg = new AURPackageLinked ();
 				pkg.initialise_from_json (json_object, aur, local_pkg, true);
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
-					if (handle.should_ignore (local_pkg) == 1) {
+					if (local_pkg.name in ignorepkgs) {
 						ignored_aur_updates.add (pkg);
 					} else {
 						aur_updates.add (pkg);
@@ -2575,17 +2584,14 @@ namespace Pamac {
 				var vcs_updates = get_vcs_last_version (vcs_local_pkgs);
 				foreach (unowned AURPackage aur_pkg in vcs_updates) {
 					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
-						if (handle != null && handle.ignorepkgs.find_str (aur_pkg.name) != null) {
-							ignored_aur_updates.add (aur_pkg);
-						} else {
-							aur_updates.add (aur_pkg);
-						}
+						// check for ignorepkgs already done
+						aur_updates.add (aur_pkg);
 					}
 				}
 			}
 		}
 
-		internal async GenericArray<AURPackage> get_aur_updates_async (GenericSet<string?> ignorepkgs) {
+		internal async Updates get_aur_updates_async (GenericSet<string?> ignorepkgs) {
 			var updates = new Updates ();
 			try {
 				new Thread<int>.try ("get_aur_updates", () => {
@@ -2593,13 +2599,17 @@ namespace Pamac {
 						// get local pkgs
 						var local_pkgs = new GenericArray<string> ();
 						var vcs_local_pkgs = new GenericArray<string> ();
+						// set ignorepkgs
+						var full_ignorepkgs = new GenericSet<string?> (str_hash, str_equal);
+						foreach (unowned string name in config.ignorepkgs) {
+							full_ignorepkgs.add (name);
+						}
+						foreach (unowned string name in ignorepkgs) {
+							full_ignorepkgs.add (name);
+						}
 						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
 						while (pkgcache != null) {
 							unowned Alpm.Package installed_pkg = pkgcache.data;
-							if (alpm_handle.should_ignore (installed_pkg) == 1 || installed_pkg.name in ignorepkgs) {
-								pkgcache.next ();
-								continue;
-							}
 							// check if installed_pkg is a local pkg
 							unowned Alpm.Package? pkg = get_syncpkg (alpm_handle, installed_pkg.name);
 							if (pkg == null) {
@@ -2608,14 +2618,18 @@ namespace Pamac {
 									|| installed_pkg.name.has_suffix ("-svn")
 									|| installed_pkg.name.has_suffix ("-bzr")
 									|| installed_pkg.name.has_suffix ("-hg"))) {
-									vcs_local_pkgs.add (installed_pkg.name);
+									// for speed reason, do not check vcs update for ignored packages
+									if (!(installed_pkg.name in full_ignorepkgs)) {
+										vcs_local_pkgs.add (installed_pkg.name);
+									}
 								} else {
+									// check for ignorepkgs done in get_aur_updates_real
 									local_pkgs.add (installed_pkg.name);
 								}
 							}
 							pkgcache.next ();
 						}
-						get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, alpm_handle, ref updates);
+						get_aur_updates_real (aur.get_multi_infos (local_pkgs.data), vcs_local_pkgs, full_ignorepkgs, ref updates);
 					}
 					context.invoke (get_aur_updates_async.callback);
 					return 0;
@@ -2624,7 +2638,7 @@ namespace Pamac {
 			} catch (Error e) {
 				warning (e.message);
 			}
-			return updates.aur_updates;
+			return updates;
 		}
 
 		public async GenericArray<unowned SnapPackage> search_snaps_async (string search_string) {

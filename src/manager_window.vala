@@ -728,6 +728,7 @@ namespace Pamac {
 			bool enabled = software_mode_checkbutton.active;
 			local_config.software_mode = enabled;
 			if (enabled) {
+				enable_aur = false;
 				browseby_box.visible = false;
 				browseby_button_label.label = dgettext (null, "Categories");
 				current_updates_view = dgettext (null, "All");
@@ -735,7 +736,7 @@ namespace Pamac {
 				properties_stack.visible_child_name = "details";
 				details_button.visible = false;
 			} else {
-				enable_aur = false;
+				enable_aur = database.config.enable_aur;
 				if (main_browse_togglebutton.active) {
 					browseby_box.visible = true;
 				}
