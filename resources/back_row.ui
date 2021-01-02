@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PamacBackRow" parent="GtkListBoxRow">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="selectable">False</property>
+    <child>
+      <object class="GtkListBoxRow" id="row">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="selectable">False</property>
+        <child>
+          <object class="GtkImage" id="back_image">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <property name="icon-name">go-previous-symbolic</property>
+            <property name="icon_size">1</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

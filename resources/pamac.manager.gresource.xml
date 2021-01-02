@@ -5,6 +5,8 @@
     <file preprocess="xml-stripblanks">history_dialog.ui</file>
     <file preprocess="xml-stripblanks">updates_dialog.ui</file>
     <file preprocess="xml-stripblanks">package_row.ui</file>
+    <file preprocess="xml-stripblanks">simple_row.ui</file>
+    <file preprocess="xml-stripblanks">back_row.ui</file>
   </gresource>
   <gresource prefix="/org/manjaro/pamac/preferences">
     <file preprocess="xml-stripblanks">preferences_dialog.ui</file>
