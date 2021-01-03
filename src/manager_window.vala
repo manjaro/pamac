@@ -566,7 +566,6 @@ namespace Pamac {
 			// database
 			database.get_updates_progress.connect (on_get_updates_progress);
 			create_all_listbox ();
-			browse_stack.visible_child_name = "categories";
 			check_aur_support ();
 
 			// transaction
@@ -655,8 +654,13 @@ namespace Pamac {
 			soup_session.timeout = 30;
 
 			// check software mode
-			software_mode_checkbutton.active = local_config.software_mode;
-			on_software_mode_checkbutton_toggled ();
+			bool enabled = local_config.software_mode;;
+			software_mode_checkbutton.active = enabled;
+			if (enabled) {
+				categories_backrow.visible = false;
+				browse_stack.visible_child_name = "categories";
+				details_button.visible = false;
+			}
 			// connect after check_software_mode to not refresh packages twice
 			software_mode_checkbutton.toggled.connect (on_software_mode_checkbutton_toggled);
 
