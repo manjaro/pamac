@@ -142,7 +142,7 @@ internal class AlpmConfig {
 					Process.spawn_command_line_sync ("cp --preserve=timestamps -ru %ssync %s".printf (dbpath, tmp_dbpath));
 					Process.spawn_command_line_sync ("chmod -R a+w %s/sync".printf (tmp_dbpath));
 				} else {
-					Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %ssync/*.{db,files} %s/sync'".printf (dbpath, tmp_dbpath));
+					Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %ssync/* %s/sync'".printf (dbpath, tmp_dbpath));
 				}
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {
