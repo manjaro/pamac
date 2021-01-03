@@ -1089,9 +1089,6 @@
                           <object class="GtkBox" id="main_details_box">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="margin-start">24</property>
-                            <property name="margin-end">24</property>
-                            <property name="margin-top">24</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">30</property>
                             <child>
@@ -1099,6 +1096,9 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="halign">center</property>
+                                <property name="margin-start">24</property>
+                                <property name="margin-end">24</property>
+                                <property name="margin-top">24</property>
                                 <property name="spacing">18</property>
                                 <child>
                                   <object class="GtkBox" id="properties_box2">
@@ -1280,11 +1280,13 @@
                               <object class="GtkStack" id="properties_stack">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="halign">center</property>
                                 <child>
                                   <object class="GtkBox" id="details_box">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="halign">center</property>
+                                    <property name="margin-start">24</property>
+                                    <property name="margin-end">24</property>
                                     <property name="margin-bottom">24</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">18</property>
@@ -1463,6 +1465,9 @@
                                   <object class="GtkBox" id="deps_box">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="halign">center</property>
+                                    <property name="margin-start">24</property>
+                                    <property name="margin-end">24</property>
                                     <property name="margin-bottom">24</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">12</property>
@@ -1934,6 +1939,13 @@
       </object>
     </child>
   </template>
+  <object class="GtkSizeGroup" id="size_group">
+    <widgets>
+      <widget name="properties_box1"/>
+      <widget name="details_box"/>
+      <widget name="deps_box"/>
+    </widgets>
+  </object>
   <object class="GtkPopoverMenu" id="view_popovermenu">
     <property name="can-focus">False</property>
     <child>
