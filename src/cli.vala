@@ -821,7 +821,7 @@ namespace Pamac {
 					options[1] = { "verbose", 'v', 0, OptionArg.NONE, ref verbose, null, null };
 					options[2] = { "build-files", 'b', 0, OptionArg.NONE, ref build_files, null, null };
 					options[3] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
-					options[4] = { "uninstalled", 0, 0, OptionArg.NONE, ref uninstalled, null, null };
+					options[4] = { "uninstalled", 'u', 0, OptionArg.NONE, ref uninstalled, null, null };
 					options[5] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
 					options[6] = { "keep", 'k', 0, OptionArg.INT64, ref keep, null, null };
 					var opt_context = new OptionContext (null);
