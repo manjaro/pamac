@@ -42,8 +42,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-19 09:48+0100\n"
-"PO-Revision-Date: 2020-12-20 23:13+0000\n"
+"POT-Creation-Date: 2020-12-26 15:31+0100\n"
+"PO-Revision-Date: 2020-12-26 19:43+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1341,6 +1341,11 @@ msgstr "все"
 #, c-format
 msgid "Add %s to reinstall"
 msgstr "Добавить %s к переустановке"
+
+#: src/cli.vala
+#, c-format
+msgid "Install %s from %s"
+msgstr "Установить %s из %s"
 
 #: src/snap_plugin.vala
 msgid "No"

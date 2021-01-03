@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-19 09:48+0100\n"
-"PO-Revision-Date: 2020-12-19 10:28+0000\n"
+"POT-Creation-Date: 2020-12-26 15:31+0100\n"
+"PO-Revision-Date: 2020-12-26 16:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Persian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -1298,6 +1298,11 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
+msgstr ""
+
+#: src/cli.vala
+#, c-format
+msgid "Install %s from %s"
 msgstr ""
 
 #: src/snap_plugin.vala

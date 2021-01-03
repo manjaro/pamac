@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-19 09:48+0100\n"
-"PO-Revision-Date: 2020-12-19 10:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2020-12-26 15:31+0100\n"
+"PO-Revision-Date: 2020-12-29 13:07+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgstr "%s: %s вече съществува във файловата сист�
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backed up to %s"
-msgstr ""
+msgstr "Беше архивиран в %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -861,7 +861,7 @@ msgstr "[e/y/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "e"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
@@ -1300,6 +1300,11 @@ msgstr "всичко"
 #, c-format
 msgid "Add %s to reinstall"
 msgstr "Добави %s за преинсталиране"
+
+#: src/cli.vala
+#, c-format
+msgid "Install %s from %s"
+msgstr "Инсталирай %s от %s"
 
 #: src/snap_plugin.vala
 msgid "No"
