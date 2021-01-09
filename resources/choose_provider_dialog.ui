@@ -1,50 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
 <interface>
-  <requires lib="gtk+" version="3.24"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="PamacChooseProviderDialog" parent="GtkDialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">3</property>
     <property name="title" translatable="yes">Choose a Provider</property>
-    <property name="modal">True</property>
-    <property name="window_position">center-on-parent</property>
+    <property name="modal">1</property>
     <property name="default_width">600</property>
     <property name="icon_name">system-software-install</property>
-    <property name="type_hint">dialog</property>
-    <property name="urgency_hint">True</property>
-    <property name="deletable">False</property>
-    <child internal-child="vbox">
+    <property name="deletable">0</property>
+    <child internal-child="content_area">
       <object class="GtkBox" id="dialog-vbox2">
-        <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area2">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="valid_button">
-                <property name="label" translatable="yes">Choose</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child>
           <placeholder/>
         </child>
@@ -55,6 +21,15 @@
     </action-widgets>
     <child type="titlebar">
       <placeholder/>
+    </child>
+    <child internal-child="action_area">
+      <object class="GtkBox" id="dialog-action_area2">
+        <child>
+          <object class="GtkButton" id="valid_button">
+            <property name="label" translatable="yes">Choose</property>
+          </object>
+        </child>
+      </object>
     </child>
   </template>
 </interface>

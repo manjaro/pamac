@@ -22,7 +22,7 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_provider_dialog.ui")]
 	class ChooseProviderDialog : Gtk.Dialog {
 
-		public ChooseProviderDialog (Gtk.ApplicationWindow? window) {
+		public ChooseProviderDialog (Gtk.Window? window) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: window, use_header_bar: use_header_bar);

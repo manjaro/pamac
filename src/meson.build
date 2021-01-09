@@ -9,10 +9,12 @@ libnotify = dependency('libnotify')
 appstream = dependency('appstream-glib')
 gio_unix = dependency('gio-unix-2.0')
 
-gtk3 = dependency('gtk+-3.0', version : '>=3.22')
-gdk3 = dependency('gdk-3.0')
-gdk_pixbuf2 = dependency('gdk-pixbuf-2.0')
-libhandy = dependency('libhandy-1')
+#gtk3 = dependency('gtk+-3.0', version : '>=3.22')
+#gdk3 = dependency('gdk-3.0')
+#gdk_pixbuf2 = dependency('gdk-pixbuf-2.0')
+
+gtk4 = dependency('gtk4')
+libhandy4 = dependency('libhandy-4')
 
 gmodule = dependency('gmodule-2.0')
 
@@ -109,16 +111,16 @@ executable('pamac',
 	c_args: common_c_args,
 	install: true)
 
-executable('pamac-tray',
-	sources: ['tray.vala', 'tray-gtk.vala'],
-	dependencies: [gtk3, libnotify, libpamac_dep],
-	vala_args: common_vala_args,
-	c_args: common_c_args,
-	install: true)
+#executable('pamac-tray',
+#	sources: ['tray.vala', 'tray-gtk.vala'],
+#	dependencies: [gtk3, libnotify, libpamac_dep],
+#	vala_args: common_vala_args,
+#	c_args: common_c_args,
+#	install: true)
 
 libpamac_gtk = library('pamac-gtk',
 	sources: [transaction_gtk_sources, transaction_resources],
-	dependencies: [gio, gtk3, posix, math, libpamac_dep],
+	dependencies: [gio, gtk4, posix, math, libpamac_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true,
@@ -130,7 +132,7 @@ executable('pamac-manager',
 	sources: ['version.vala', 'history_dialog.vala', 'updates_dialog.vala', preferences_sources,
 			'local_config.vala', 'package_row.vala', 'simple_row.vala', 'back_row.vala',
 			'manager_window.vala', 'manager.vala', 'search-provider.vala', manager_resources],
-	dependencies: [gtk3, libhandy, libsoup, gio_unix, libpamac_dep, libpamac_gtk_dep],
+	dependencies: [gtk4, libhandy4, libsoup, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)
@@ -144,7 +146,7 @@ endif
 
 executable('pamac-installer',
 	sources: ['progress_dialog.vala', 'installer.vala', installer_resources],
-	dependencies: [gtk3, gio_unix, libpamac_dep, libpamac_gtk_dep],
+	dependencies: [gtk4, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)

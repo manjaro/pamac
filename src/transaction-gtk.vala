@@ -30,7 +30,7 @@ namespace Pamac {
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
 		//parent window
-		public Gtk.ApplicationWindow? application_window { get; construct; }
+		public Gtk.Application? application{ get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
@@ -38,8 +38,8 @@ namespace Pamac {
 
 		public signal void transaction_sum_populated ();
 
-		public TransactionGtk (Database database, Gtk.ApplicationWindow? application_window) {
-			Object (database: database, application_window: application_window);
+		public TransactionGtk (Database database, Gtk.Application? application) {
+			Object (database: database, application: application);
 		}
 
 		construct {
@@ -51,11 +51,10 @@ namespace Pamac {
 			progress_box.progressbar.text = "";
 			progress_box.progressbar.visible = false;
 			// create details textview
-			details_window = new Gtk.ScrolledWindow (null, null);
-			details_window.visible = true;
-			details_window.expand = true;
+			details_window = new Gtk.ScrolledWindow ();
+			details_window.hexpand = true;
+			details_window.vexpand = true;
 			details_textview = new Gtk.TextView ();
-			details_textview.visible = true;
 			details_textview.editable = false;
 			details_textview.wrap_mode = Gtk.WrapMode.NONE;
 			details_textview.set_monospace (true);
@@ -69,12 +68,12 @@ namespace Pamac {
 			// place a mark at iter, the mark will stay there after we
 			// insert some text at the end because it has right gravity.
 			details_textview.buffer.create_mark ("scroll", iter, false);
-			details_window.add (details_textview);
+			details_window.set_child (details_textview);
 			// create build files notebook
 			build_files_notebook = new Gtk.Notebook ();
-			build_files_notebook.visible = true;
 			build_files_notebook.show_border = false;
-			build_files_notebook.expand = true;
+			build_files_notebook.hexpand = true;
+			build_files_notebook.vexpand = true;
 			build_files_notebook.scrollable = true;
 			build_files_notebook.enable_popup = true;
 			// connect to signals
@@ -193,6 +192,7 @@ namespace Pamac {
 		}
 
 		public ChoosePkgsDialog create_choose_pkgs_dialog () {
+			var application_window = application.active_window;
 			return new ChoosePkgsDialog (application_window);
 		}
 
@@ -205,7 +205,12 @@ namespace Pamac {
 				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, name);
 			}
 			choose_pkgs_dialog.valid_button.grab_focus ();
-			if (choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
+			int response = Gtk.ResponseType.CANCEL;
+			choose_pkgs_dialog.response.connect ((res) => {
+				response = res;
+				choose_pkgs_dialog.destroy ();
+			});
+			if (response == Gtk.ResponseType.OK) {
 				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
 					GLib.Value val;
 					// get value at column 0 to know if it is selected
@@ -218,17 +223,15 @@ namespace Pamac {
 					return false;
 				});
 			}
-			choose_pkgs_dialog.hide ();
 			return optdeps_to_install.data;
 		}
 
 		protected override int choose_provider (string depend, string[] providers) {
+			var application_window = application.active_window;
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
 			unowned Gtk.Box box = choose_provider_dialog.get_content_area ();
 			box.vexpand = true;
-			Gtk.RadioButton? last_radiobutton = null;
-			Gtk.RadioButton? first_radiobutton = null;
 			var pkgs = new GenericArray<Package> ();
 			foreach (unowned string provider in providers) {
 				var pkg = database.get_sync_pkg (provider);
@@ -239,31 +242,32 @@ namespace Pamac {
 					pkgs.add (pkg);
 				}
 			}
+			unowned Gtk.CheckButton? last_radiobutton = null;
+			var buttons = new GenericArray<Gtk.CheckButton> ();
 			foreach (unowned Package pkg in pkgs) {
 				string provider = "%s  %s  %s".printf (pkg.name, pkg.version, pkg.repo);
-				var radiobutton = new Gtk.RadioButton.with_label_from_widget (last_radiobutton, provider);
-				radiobutton.visible = true;
+				var radiobutton = new Gtk.CheckButton.with_label (provider);
 				// active first provider
 				if (last_radiobutton == null) {
 					radiobutton.active = true;
-					first_radiobutton = radiobutton;
+				} else {
+					radiobutton.set_group (last_radiobutton);
 				}
 				last_radiobutton = radiobutton;
-				box.add (radiobutton);
+				box.append (radiobutton);
 			}
-			choose_provider_dialog.run ();
-			// get active provider
 			int index = 0;
-			// list is given in reverse order so reverse it !
-			SList<unowned Gtk.RadioButton> list = last_radiobutton.get_group ().copy ();
-			list.reverse ();
-			foreach (var radiobutton in list) {
-				if (radiobutton.active) {
-					break;
+			choose_provider_dialog.response.connect (() => {
+				// get active provider
+				foreach (unowned Gtk.CheckButton radiobutton in buttons) {
+					if (radiobutton.active) {
+						break;
+					}
+					index++;
 				}
-				index++;
-			}
-			choose_provider_dialog.destroy ();
+				choose_provider_dialog.destroy ();
+			});
+			choose_provider_dialog.show ();
 			return index;
 		}
 
@@ -274,18 +278,19 @@ namespace Pamac {
 			if (use_header_bar == 1) {
 				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
 			}
+			var application_window = application.active_window;
 			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Import PGP key"),
 													application_window,
 													flags);
-			dialog.border_width = 3;
+			dialog.margin_top = 3;
+			dialog.margin_bottom = 3;
+			dialog.margin_start = 3;
+			dialog.margin_end = 3;
 			dialog.icon_name = "system-software-install";
 			dialog.deletable = false;
 			dialog.add_button (dgettext (null, "Trust and Import"), Gtk.ResponseType.OK);
 			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
-			widget.can_focus = true;
-			widget.has_focus = true;
-			widget.can_default = true;
-			widget.has_default = true;
+			dialog.focus_widget = widget;
 			var textbuffer = new StringBuilder ();
 			textbuffer.append (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname));
 			textbuffer.append (".\n");
@@ -293,16 +298,21 @@ namespace Pamac {
 			textbuffer.append (" ?");
 			var label = new Gtk.Label (textbuffer.str);
 			label.selectable = true;
-			label.margin = 12;
-			label.visible = true;
+			label.margin_top = 12;
+			label.margin_bottom = 12;
+			label.margin_start = 12;
+			label.margin_end = 12;
 			unowned Gtk.Box box = dialog.get_content_area ();
-			box.add (label);
+			box.append (label);
 			box.valign = Gtk.Align.CENTER;
 			box.spacing = 6;
 			dialog.default_width = 800;
 			dialog.default_height = 150;
-			int response = dialog.run ();
-			dialog.destroy ();
+			int response = Gtk.ResponseType.CANCEL;
+			dialog.response.connect ((res) => {
+				response = res;
+				dialog.destroy ();
+			});
 			if (response == Gtk.ResponseType.OK) {
 				return true;
 			}
@@ -610,6 +620,7 @@ namespace Pamac {
 		int show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
 			transaction_summary_remove_all ();
+			var application_window = application.active_window;
 			var transaction_sum_dialog = new TransactionSumDialog (application_window);
 			transaction_sum_dialog.edit_button.visible = false;
 			var iter = Gtk.TreeIter ();
@@ -738,8 +749,11 @@ namespace Pamac {
 				show_warnings (true);
 			}
 			transaction_sum_dialog.cancel_button.grab_focus ();
-			int response = transaction_sum_dialog.run ();
-			transaction_sum_dialog.hide ();
+			int response = Gtk.ResponseType.CANCEL;
+			transaction_sum_dialog.response.connect ((res) => {
+				response = res;
+				transaction_sum_dialog.destroy ();
+			});
 			if (response == Gtk.ResponseType.OK) {
 				transaction_sum_populated ();
 			}
@@ -771,28 +785,33 @@ namespace Pamac {
 				if (use_header_bar == 1) {
 					flags |= Gtk.DialogFlags.USE_HEADER_BAR;
 				}
+				var application_window = application.active_window;
 				var dialog = new Gtk.Dialog.with_buttons (action,
 														application_window,
 														flags);
 				dialog.icon_name = "system-software-install";
-				dialog.border_width = 3;
+				dialog.margin_top = 3;
+				dialog.margin_bottom = 3;
+				dialog.margin_start = 3;
+				dialog.margin_end = 3;
 				dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
 				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
-				widget.can_focus = true;
-				widget.has_focus = true;
-				widget.can_default = true;
-				widget.has_default = true;
+				dialog.focus_widget = widget;
 				unowned Gtk.Box box = dialog.get_content_area ();
 				box.spacing = 6;
-				box.add (build_files_notebook);
+				box.append (build_files_notebook);
 				dialog.default_width = 700;
 				dialog.default_height = 500;
 				// run
-				int response = dialog.run ();
+				int response = Gtk.ResponseType.CANCEL;
+				dialog.response.connect ((res) => {
+					response = res;
+					dialog.destroy ();
+				});
 				// re-add noteboook to manager_window properties stack
 				box.remove (build_files_notebook);
 				if (manager_box != null) {
-					manager_box.add (build_files_notebook);
+					manager_box.append (build_files_notebook);
 				}
 				dialog.destroy ();
 				if (response == Gtk.ResponseType.CLOSE) {
@@ -817,10 +836,8 @@ namespace Pamac {
 				if (!text.str.validate ()) {
 					return;
 				}
-				var scrolled_window = new Gtk.ScrolledWindow (null, null);
-				scrolled_window.visible = true;
+				var scrolledwindow = new Gtk.ScrolledWindow ();
 				var textview = new Gtk.TextView ();
-				textview.visible = true;
 				textview.editable = editable;
 				textview.wrap_mode = Gtk.WrapMode.NONE;
 				textview.set_monospace (true);
@@ -838,10 +855,9 @@ namespace Pamac {
 				} else {
 					textview.cursor_visible = false;
 				}
-				scrolled_window.add (textview);
+				scrolledwindow.set_child (textview);
 				var label =  new Gtk.Label (file.get_basename ());
-				label.visible = true;
-				build_files_notebook.append_page (scrolled_window, label);
+				build_files_notebook.append_page (scrolledwindow, label);
 			} catch (Error e) {
 				warning (e.message);
 			}
@@ -852,11 +868,17 @@ namespace Pamac {
 				File? clone_dir = yield database.clone_build_files_async (pkgname, overwrite);
 				if (clone_dir == null) {
 					// error
-					build_files_notebook.foreach (destroy_widget);
+					int num_pages = build_files_notebook.get_n_pages ();
+					for (int i = 0; i < num_pages; i++) {
+						build_files_notebook.remove_page (i);
+					}
 					return false;
 				}
 			}
-			build_files_notebook.foreach (destroy_widget);
+			int num_pages = build_files_notebook.get_n_pages ();
+			for (int i = 0; i < num_pages; i++) {
+				build_files_notebook.remove_page (i);
+			}
 			GenericArray<string> file_paths = yield get_build_files_async (pkgname);
 			if (file_paths.length == 0) {
 				return false;
@@ -930,45 +952,46 @@ namespace Pamac {
 		public void show_warnings (bool block) {
 			lock (warning_textbuffer) {
 				if (warning_textbuffer.len > 0) {
-					var flags = Gtk.DialogFlags.MODAL;
+					Gtk.DialogFlags flags = 0;
+					if (block) {
+						flags |= Gtk.DialogFlags.MODAL;
+					}
 					int use_header_bar;
 					Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 					if (use_header_bar == 1) {
 						flags |= Gtk.DialogFlags.USE_HEADER_BAR;
 					}
+					var application_window = application.active_window;
 					var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
 															application_window,
 															flags);
-					dialog.border_width = 3;
+					dialog.margin_top = 3;
+					dialog.margin_bottom = 3;
+					dialog.margin_start = 3;
+					dialog.margin_end = 3;
 					dialog.icon_name = "system-software-install";
 					dialog.deletable = false;
 					unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-					widget.can_focus = true;
-					widget.has_focus = true;
-					widget.can_default = true;
-					widget.has_default = true;
-					var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+					dialog.focus_widget = widget;
+					var scrolledwindow = new Gtk.ScrolledWindow ();
 					var label = new Gtk.Label (warning_textbuffer.str);
 					label.selectable = true;
-					label.margin = 12;
-					scrolledwindow.visible = true;
-					label.visible = true;
-					scrolledwindow.add (label);
-					scrolledwindow.expand = true;
+					label.margin_top = 12;
+					label.margin_bottom = 12;
+					label.margin_start = 12;
+					label.margin_end = 12;
+					scrolledwindow.set_child (label);
+					scrolledwindow.hexpand = true;
+					scrolledwindow.vexpand = true;
 					unowned Gtk.Box box = dialog.get_content_area ();
-					box.add (scrolledwindow);
+					box.append (scrolledwindow);
 					box.spacing = 6;
 					dialog.default_width = 600;
 					dialog.default_height = 300;
-					if (block) {
-						dialog.run ();
+					dialog.response.connect (() => {
 						dialog.destroy ();
-					} else {
-						dialog.response.connect (() => {
-							dialog.destroy ();
-						});
-						dialog.show ();
-					}
+					});
+					dialog.show ();
 					warning_textbuffer = new StringBuilder ();
 				}
 			}
@@ -982,10 +1005,14 @@ namespace Pamac {
 			if (use_header_bar == 1) {
 				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
 			}
+			var application_window = application.active_window;
 			var dialog = new Gtk.Dialog.with_buttons (message,
 													application_window,
 													flags);
-			dialog.border_width = 3;
+			dialog.margin_top = 3;
+			dialog.margin_bottom = 3;
+			dialog.margin_start = 3;
+			dialog.margin_end = 3;
 			dialog.icon_name = "system-software-install";
 			var textbuffer = new StringBuilder ();
 			if (details.length != 0) {
@@ -1000,20 +1027,19 @@ namespace Pamac {
 			}
 			dialog.deletable = false;
 			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-			widget.can_focus = true;
-			widget.has_focus = true;
-			widget.can_default = true;
-			widget.has_default = true;
-			var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+			dialog.focus_widget = widget;
+			var scrolledwindow = new Gtk.ScrolledWindow ();
 			var label = new Gtk.Label (textbuffer.str);
 			label.selectable = true;
-			label.margin = 12;
-			scrolledwindow.visible = true;
-			label.visible = true;
-			scrolledwindow.add (label);
-			scrolledwindow.expand = true;
+			label.margin_top = 12;
+			label.margin_bottom = 12;
+			label.margin_start = 12;
+			label.margin_end = 12;
+			scrolledwindow.set_child (label);
+			scrolledwindow.hexpand = true;
+			scrolledwindow.vexpand = true;
 			unowned Gtk.Box box = dialog.get_content_area ();
-			box.add (scrolledwindow);
+			box.append (scrolledwindow);
 			box.spacing = 6;
 			dialog.default_width = 600;
 			dialog.default_height = 300;
@@ -1021,8 +1047,10 @@ namespace Pamac {
 				show_notification (message);
 				return false;
 			});
-			dialog.run ();
-			dialog.destroy ();
+			dialog.response.connect (() => {
+				dialog.destroy ();
+			});
+			dialog.show ();
 		}
 
 		protected override bool ask_snap_install_classic (string name) {
@@ -1032,19 +1060,20 @@ namespace Pamac {
 			if (use_header_bar == 1) {
 				flags |= Gtk.DialogFlags.USE_HEADER_BAR;
 			}
+			var application_window = application.active_window;
 			var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
 													application_window,
 													flags);
-			dialog.border_width = 3;
+			dialog.margin_top = 3;
+			dialog.margin_bottom = 3;
+			dialog.margin_start = 3;
+			dialog.margin_end = 3;
 			dialog.icon_name = "system-software-install";
 			dialog.deletable = false;
 			dialog.add_button (dgettext (null, "Install"), Gtk.ResponseType.OK);
 			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
-			widget.can_focus = true;
-			widget.has_focus = true;
-			widget.can_default = true;
-			widget.has_default = true;
-			var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+			dialog.focus_widget = widget;
+			var scrolledwindow = new Gtk.ScrolledWindow ();
 			var textbuffer = new StringBuilder ();
 			textbuffer.append (dgettext (null, "The snap %s was published using classic confinement").printf (name));
 			textbuffer.append (".\n");
@@ -1054,18 +1083,23 @@ namespace Pamac {
 			textbuffer.append (" ?");
 			var label = new Gtk.Label (textbuffer.str);
 			label.selectable = true;
-			label.margin = 12;
-			scrolledwindow.visible = true;
-			label.visible = true;
-			scrolledwindow.add (label);
-			scrolledwindow.expand = true;
+			label.margin_top = 12;
+			label.margin_bottom = 12;
+			label.margin_start = 12;
+			label.margin_end = 12;
+			scrolledwindow.set_child (label);
+			scrolledwindow.hexpand = true;
+			scrolledwindow.vexpand = true;
 			unowned Gtk.Box box = dialog.get_content_area ();
-			box.add (scrolledwindow);
+			box.append (scrolledwindow);
 			box.spacing = 6;
 			dialog.default_width = 900;
 			dialog.default_height = 150;
-			int response = dialog.run ();
-			dialog.destroy ();
+			int response = Gtk.ResponseType.CANCEL;
+			dialog.response.connect ((res) => {
+				response = res;
+				dialog.destroy ();
+			});
 			if (response == Gtk.ResponseType.OK) {
 				return true;
 			}
@@ -1075,7 +1109,7 @@ namespace Pamac {
 		public void show_notification (string message) {
 			var notification = new Notification (dgettext (null, "Package Manager"));
 			notification.set_body (message);
-			application_window.application.send_notification ("pamac-manager", notification);
+			application.send_notification ("pamac-manager", notification);
 		}
 	}
 }

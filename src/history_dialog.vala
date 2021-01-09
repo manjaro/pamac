@@ -69,13 +69,6 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-		void on_search_entry_icon_press (Gtk.EntryIconPosition pos, Gdk.Event event) {
-			if (pos == Gtk.EntryIconPosition.SECONDARY) {
-				search_entry.set_text ("");
-			}
-		}
-
-		[GtkCallback]
 		void on_search_entry_next_match () {
 			on_go_down_button_clicked ();
 		}

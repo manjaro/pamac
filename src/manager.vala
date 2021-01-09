@@ -20,7 +20,6 @@
 namespace Pamac {
 
 	class Manager : Gtk.Application {
-		ManagerWindow manager_window;
 		Database database;
 		SearchProvider search_provider;
 		uint search_provider_id;
@@ -63,9 +62,7 @@ namespace Pamac {
 					}
 					str_builder.append (str);
 				}
-				if (manager_window == null) {
-					create_manager_window ();
-				}
+				var manager_window = get_manager_window ();
 				manager_window.display_package_queue.clear ();
 				manager_window.search_togglebutton.active = true;
 				manager_window.search_entry.set_text (str_builder.str);
@@ -79,12 +76,13 @@ namespace Pamac {
 			Intl.setlocale (LocaleCategory.ALL, "");
 			base.startup ();
 
+			// init libhandy
+			Hdy.init ();
+
 			// updates
 			var action = new SimpleAction ("updates", null);
 			action.activate.connect (() => {
-				if (manager_window == null) {
-					create_manager_window ();
-				}
+				var manager_window = get_manager_window ();
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.view_stack.visible_child_name = "updates";
@@ -94,9 +92,7 @@ namespace Pamac {
 			// details
 			action = new SimpleAction ("details", new VariantType ("s"));
 			action.activate.connect  ((parameter) => {
-				if (manager_window == null) {
-					create_manager_window ();
-				}
+				var manager_window = get_manager_window ();
 				pkgname = parameter.get_string ();
 				AlpmPackage? pkg = this.database.get_pkg (pkgname);
 				if (pkg != null) {
@@ -109,9 +105,7 @@ namespace Pamac {
 			// details_id
 			action = new SimpleAction ("details-id", new VariantType ("s"));
 			action.activate.connect  ((parameter) => {
-				if (manager_window == null) {
-					create_manager_window ();
-				}
+				var manager_window = get_manager_window ();
 				app_id = parameter.get_string ();
 				Package? pkg = this.database.get_app_by_id (app_id);
 				if (pkg != null) {
@@ -124,9 +118,7 @@ namespace Pamac {
 			// search
 			action = new SimpleAction ("search", new VariantType ("s"));
 			action.activate.connect  ((parameter) => {
-				if (manager_window == null) {
-					create_manager_window ();
-				}
+				var manager_window = get_manager_window ();
 				search = parameter.get_string ();
 				manager_window.display_package_queue.clear ();
 				manager_window.search_togglebutton.active = true;
@@ -136,26 +128,40 @@ namespace Pamac {
 			this.add_action (action);
 		}
 
-		void create_manager_window () {
-			manager_window = new ManagerWindow (this, database);
-			// quit accel
-			var action =  new SimpleAction ("quit", null);
-			action.activate.connect  (() => {this.quit ();});
-			this.add_action (action);
-			string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
-			this.set_accels_for_action ("app.quit", accels);
-			// back accel
-			action =  new SimpleAction ("back", null);
-			action.activate.connect  (() => {manager_window.on_button_back_clicked ();});
-			this.add_action (action);
-			accels = {"<Alt>Left"};
-			this.set_accels_for_action ("app.back", accels);
-			// search accel
-			action =  new SimpleAction ("search_accel", null);
-			action.activate.connect  (() => {manager_window.search_togglebutton.activate ();});
-			this.add_action (action);
-			accels = {"<Ctrl>F"};
-			this.set_accels_for_action ("app.search_accel", accels);
+		ManagerWindow get_manager_window () {
+			ManagerWindow manager_window;
+			unowned Gtk.Window window = this.active_window;
+			if (window == null) {
+				manager_window = new ManagerWindow (this, database);
+//~ 				// quit action
+//~ 				var action =  new SimpleAction ("quit", null);
+//~ 				action.activate.connect  (() => {this.quit ();});
+//~ 				this.add_action (action);
+//~ 				string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
+//~ 				this.set_accels_for_action ("app.quit", accels);
+				// back accel
+//~ 				action =  new SimpleAction ("back", null);
+//~ 				action.activate.connect  (() => {manager_window.on_button_back_clicked ();});
+//~ 				this.add_action (action);
+//~ 				accels = {"<Alt>Left"};
+//~ 				this.set_accels_for_action ("app.back", accels);
+				// search accel
+//~ 				action =  new SimpleAction ("search_accel", null);
+//~ 				action.activate.connect  (() => {manager_window.search_togglebutton.activate ();});
+//~ 				this.add_action (action);
+//~ 				accels = {"<Ctrl>F"};
+//~ 				this.set_accels_for_action ("app.search_accel", accels);
+//~ 				var shortcut_controller = new Gtk.ShortcutController ();
+//~ 				shortcut_controller.scope = Gtk.ShortcutScope.GLOBAL;
+//~ 				var ctrl_q_trigger = Gtk.ShortcutTrigger.parse_string ("<Ctrl>Q");
+//~ 				var ctrl_w_trigger = Gtk. ShortcutTrigger.parse_string ("<Ctrl>W");
+//~ 				var alternative_trigger = new Gtk.AlternativeTrigger (ctrl_q_trigger, ctrl_w_trigger);
+//~ 				var quit_shortcut = new Gtk.Shortcut ((owned) alternative_trigger, new Gtk.NamedAction ("quit"));
+//~ 				manager_window.add_shortcut (quit_shortcut);
+			} else {
+				manager_window = window as ManagerWindow;
+			}
+			return manager_window;
 		}
 
 		public override bool dbus_register (DBusConnection connection, string object_path) {
@@ -176,10 +182,8 @@ namespace Pamac {
 
 		protected override void activate () {
 			base.activate ();
-			if (manager_window == null) {
-				create_manager_window ();
-				manager_window.refresh_packages_list ();
-			}
+			var manager_window = get_manager_window ();
+			manager_window.refresh_packages_list ();
 			manager_window.present ();
 		}
 
@@ -242,8 +246,10 @@ namespace Pamac {
 
 		public override void shutdown () {
 			base.shutdown ();
-			if (!check_pamac_running () && manager_window != null) {
+			unowned Gtk.Window window = this.active_window;
+			if (!check_pamac_running () && window != null) {
 				// stop system_daemon
+				var manager_window = get_manager_window ();
 				manager_window.transaction.quit_daemon ();
 			}
 		}

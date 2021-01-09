@@ -33,7 +33,7 @@ namespace Pamac {
 
 		public Gtk.ListStore sum_list;
 
-		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
+		public TransactionSumDialog (Gtk.Window? window) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: window, use_header_bar: use_header_bar);
