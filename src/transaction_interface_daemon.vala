@@ -152,7 +152,7 @@ namespace Pamac {
 		void on_set_pkgreason_finished (string sender, bool success) {
 			if (sender == this.sender) {
 				set_pkgreason_success = success;
-				clean_build_files_callback ();
+				set_pkgreason_callback ();
 			}
 		}
 
