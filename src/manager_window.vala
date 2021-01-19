@@ -509,7 +509,7 @@ namespace Pamac {
 
 			unowned string? use_csd = Environment.get_variable ("GTK_CSD");
 			if (use_csd == "0") {
-				headerbar.set_show_title_buttons (false);
+				headerbar.set_show_end_title_buttons (false);
 			}
 			local_config = new LocalConfig ("%s/pamac/config".printf (Environment.get_user_config_dir ()));
 			this.set_default_size ((int) local_config.width, (int) local_config.height);

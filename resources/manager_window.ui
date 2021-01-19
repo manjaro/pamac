@@ -40,7 +40,7 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="HdyHeaderBar" id="headerbar">
-            <property name="show-title-buttons">True</property>
+            <property name="show-end-title-buttons">True</property>
             <child type="title">
               <object class="GtkBox" id="header_center_buttonbox">
                 <child>
