@@ -52,7 +52,7 @@ namespace Pamac {
 			// set translated title
 			var appinfo = new DesktopAppInfo ("pamac-installer.desktop");
 			progress_dialog.title = appinfo.get_name ();
-			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
+			transaction = new TransactionGtk (database, this);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
@@ -60,10 +60,9 @@ namespace Pamac {
 			transaction.start_downloading.connect (on_start_downloading);
 			transaction.stop_downloading.connect (on_stop_downloading);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
-			progress_dialog.box.pack_start (transaction.progress_box);
-			progress_dialog.box.reorder_child (transaction.progress_box, 0);
+			progress_dialog.box.prepend (transaction.progress_box);
 			transaction.details_window.height_request = 200;
-			progress_dialog.expander.add (transaction.details_window);
+			progress_dialog.expander.set_child (transaction.details_window);
 			progress_dialog.close_button.clicked.connect (on_close_button_clicked);
 			progress_dialog.cancel_button.clicked.connect (on_cancel_button_clicked);
 		}
@@ -130,7 +129,7 @@ namespace Pamac {
 					i++;
 				}
 			}
-			if (to_install.length == 0 
+			if (to_install.length == 0
 				&& to_load.length == 0
 				&& to_build.length == 0
 				&& to_remove.length == 0) {
@@ -229,13 +228,13 @@ namespace Pamac {
 		}
 
 		void on_start_preparing () {
-			progress_dialog.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			progress_dialog.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 			progress_dialog.cancel_button.sensitive = false;
 		}
 
 		void on_stop_preparing () {
 			progress_dialog.cancel_button.sensitive = false;
-			progress_dialog.get_window ().set_cursor (null);
+			progress_dialog.set_cursor (new Gdk.Cursor.from_name ("default", null));
 		}
 
 		void on_start_downloading () {

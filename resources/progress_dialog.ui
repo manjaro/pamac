@@ -1,94 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
 <interface>
-  <requires lib="gtk+" version="3.24"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="PamacProgressDialog" parent="GtkApplicationWindow">
-    <property name="can_focus">False</property>
-    <property name="border_width">6</property>
     <property name="title" translatable="yes">Progress</property>
-    <property name="window_position">center</property>
     <property name="default_width">600</property>
     <property name="icon_name">system-software-install</property>
-    <property name="deletable">False</property>
+    <property name="deletable">0</property>
+    <property name="margin-top">6</property>
+    <property name="margin-bottom">6</property>
+    <property name="margin-start">6</property>
+    <property name="margin-end">6</property>
     <child>
       <object class="GtkBox" id="box">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">12</property>
         <child>
-          <placeholder/>
-        </child>
-        <child>
           <object class="GtkExpander" id="expander">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="vexpand">True</property>
-            <property name="resize_toplevel">True</property>
+            <property name="vexpand">1</property>
+            <property name="resize_toplevel">1</property>
             <child>
               <placeholder/>
             </child>
             <child type="label">
               <object class="GtkLabel" id="expander_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Details</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
-          <object class="GtkButtonBox" id="button_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+          <object class="GtkBox" id="button_box">
             <property name="spacing">12</property>
-            <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label" translatable="yes">_Cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="receives_default">False</property>
-                <property name="use_underline">True</property>
+                <property name="focus_on_click">0</property>
+                <property name="use_underline">1</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label" translatable="yes">_Close</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_underline">True</property>
+                <property name="use_underline">1</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
     </child>
   </template>
 </interface>

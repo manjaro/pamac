@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PamacBackRow" parent="GtkListBoxRow">
+    <property name="selectable">0</property>
+    <property name="child">
+      <object class="GtkBox" id="box">
+        <child>
+          <object class="GtkImage" id="back_image">
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <property name="icon-name">go-previous-symbolic</property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>

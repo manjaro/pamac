@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2019-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2020 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,33 +18,15 @@
  */
 
 namespace Pamac {
+	[GtkTemplate (ui = "/org/manjaro/pamac/manager/simple_row.ui")]
+	public class SimpleRow: Gtk.ListBoxRow {
+		[GtkChild]
+		public Gtk.Label label;
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/manager/package_row.ui")]
-	public class PackageRow : Gtk.ListBoxRow {
+		public string? title { get { return label.label; } }
 
-		[GtkChild]
-		public Gtk.Image app_icon;
-		[GtkChild]
-		public Gtk.Label name_label;
-		[GtkChild]
-		public Gtk.Label desc_label;
-		[GtkChild]
-		public Gtk.Label old_version_label;
-		[GtkChild]
-		public Gtk.Label version_label;
-		[GtkChild]
-		public Gtk.Label repo_label;
-		[GtkChild]
-		public Gtk.Label size_label;
-		[GtkChild]
-		public Gtk.ToggleButton action_togglebutton;
-
-		public Package? pkg;
-
-		public PackageRow (Package? pkg) {
-			this.pkg = pkg;
+		public SimpleRow (string? title) {
+			label.label = title;
 		}
-
 	}
-
 }
