@@ -98,12 +98,12 @@ namespace Pamac {
 		uint64 previous_refresh_period;
 		string preferences_choosen_country;
 
-		public PreferencesDialog (TransactionGtk transaction, LocalConfig local_config) {
+		public PreferencesDialog (ManagerWindow window, LocalConfig local_config) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (use_header_bar: use_header_bar);
+			Object (transient_for: window, use_header_bar: use_header_bar);
 
-			this.transaction = transaction;
+			this.transaction = window.transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			max_parallel_downloads_label.set_markup (dgettext (null, "Maximum parallel downloads") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
@@ -183,7 +183,7 @@ namespace Pamac {
 				enable_aur_button.active = transaction.database.config.enable_aur;
 				aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 				aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
-				aur_build_dir_file_chooser.label = transaction.database.config.aur_build_dir;
+				aur_build_dir_file_chooser.label = Path.get_basename (transaction.database.config.aur_build_dir);
 				aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
 				refresh_clean_build_files_button.begin ();
 				keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
@@ -345,9 +345,11 @@ namespace Pamac {
 		[GtkCallback]
 		void on_aur_build_dir_file_chooser_clicked () {
 			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-					dgettext (null, "Select Build Directory"), this, Gtk.FileChooserAction.SELECT_FOLDER,
-					dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
-					dgettext (null, "_Choose"),Gtk.ResponseType.ACCEPT);
+				dgettext (null, "Select Build Directory"),
+				this,
+				Gtk.FileChooserAction.SELECT_FOLDER,
+				dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
+				dgettext (null, "_Choose"), Gtk.ResponseType.ACCEPT);
 			chooser.icon_name = "system-software-install";
 			string default_build_dir = "/var/tmp";
 			unowned string config_build_dir = transaction.database.config.aur_build_dir;
@@ -357,23 +359,21 @@ namespace Pamac {
 				chooser.add_shortcut_folder (default_build_dir_file);
 				if (config_build_dir != default_build_dir) {
 					chooser.add_shortcut_folder (config_build_dir_file);
-					chooser.set_current_folder (config_build_dir_file);
 				}
+				chooser.set_current_folder (config_build_dir_file);
 			} catch (Error e) {
 				warning (e.message);
 			}
-			chooser.response.connect ((res) => {
-				if (res == Gtk.ResponseType.ACCEPT) {
+			chooser.response.connect ((response) => {
+				if (response == Gtk.ResponseType.ACCEPT) {
 					File choosen_dir = chooser.get_file ();
-					string choosen_dir_path = choosen_dir.get_path ();
-					aur_build_dir_file_chooser.label = choosen_dir_path;
-					transaction.database.config.aur_build_dir = choosen_dir_path;
+					aur_build_dir_file_chooser.label = choosen_dir.get_basename ();
+					transaction.database.config.aur_build_dir = choosen_dir.get_path ();
 					refresh_clean_build_files_button.begin ();
-					chooser.destroy ();
-				} else {
-					chooser.destroy ();
 				}
+				chooser.destroy ();
 			});
+			chooser.show ();
 		}
 
 		void on_keep_built_pkgs_checkbutton_toggled () {
@@ -430,29 +430,28 @@ namespace Pamac {
 			}
 			choose_pkgs_dialog.valid_button.grab_focus ();
 			this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-			int response = Gtk.ResponseType.CANCEL;
-			choose_pkgs_dialog.response.connect ((res) => {
-				response = res;
+			choose_pkgs_dialog.response.connect ((response) => {
+				if (response == Gtk.ResponseType.OK) {
+					choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+						GLib.Value ign;
+						GLib.Value name;
+						// get value at column 0 to know if it is selected
+						model.get_value (iter, 0, out ign);
+						// get value at column 1 to get the pkg name
+						model.get_value (iter, 1, out name);
+						if ((bool) ign) {
+							transaction.database.config.add_ignorepkg ((string) name);
+						} else {
+							transaction.database.config.remove_ignorepkg ((string) name);
+						}
+						return false;
+					});
+					ignorepkgs_liststore.clear ();
+					populate_ignorepkgs_liststore ();
+				}
 				choose_pkgs_dialog.destroy ();
 			});
-			if (response == Gtk.ResponseType.OK) {
-				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
-					GLib.Value ign;
-					GLib.Value name;
-					// get value at column 0 to know if it is selected
-					model.get_value (iter, 0, out ign);
-					// get value at column 1 to get the pkg name
-					model.get_value (iter, 1, out name);
-					if ((bool) ign) {
-						transaction.database.config.add_ignorepkg ((string) name);
-					} else {
-						transaction.database.config.remove_ignorepkg ((string) name);
-					}
-					return false;
-				});
-				ignorepkgs_liststore.clear ();
-				populate_ignorepkgs_liststore ();
-			}
+			choose_pkgs_dialog.show ();
 		}
 
 		[GtkCallback]

@@ -196,7 +196,7 @@ namespace Pamac {
 			return new ChoosePkgsDialog (application_window);
 		}
 
-		protected override string[] choose_optdeps (string pkgname, string[] optdeps) {
+		protected override async string[] choose_optdeps (string pkgname, string[] optdeps) {
 			var optdeps_to_install = new GenericArray<string> ();
 			var choose_pkgs_dialog = create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
@@ -208,8 +208,11 @@ namespace Pamac {
 			int response = Gtk.ResponseType.CANCEL;
 			choose_pkgs_dialog.response.connect ((res) => {
 				response = res;
+				Idle.add (choose_optdeps.callback);
 				choose_pkgs_dialog.destroy ();
 			});
+			choose_pkgs_dialog.show ();
+			yield;
 			if (response == Gtk.ResponseType.OK) {
 				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
 					GLib.Value val;
@@ -226,7 +229,7 @@ namespace Pamac {
 			return optdeps_to_install.data;
 		}
 
-		protected override int choose_provider (string depend, string[] providers) {
+		protected override async int choose_provider (string depend, string[] providers) {
 			var application_window = application.active_window;
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
@@ -243,7 +246,6 @@ namespace Pamac {
 				}
 			}
 			unowned Gtk.CheckButton? last_radiobutton = null;
-			var buttons = new GenericArray<Gtk.CheckButton> ();
 			foreach (unowned Package pkg in pkgs) {
 				string provider = "%s  %s  %s".printf (pkg.name, pkg.version, pkg.repo);
 				var radiobutton = new Gtk.CheckButton.with_label (provider);
@@ -259,19 +261,26 @@ namespace Pamac {
 			int index = 0;
 			choose_provider_dialog.response.connect (() => {
 				// get active provider
-				foreach (unowned Gtk.CheckButton radiobutton in buttons) {
+				unowned Gtk.Widget child = box.get_first_child ();
+				var radiobutton = child as Gtk.CheckButton;
+				while (radiobutton != null) {
 					if (radiobutton.active) {
 						break;
 					}
 					index++;
+					child = radiobutton.get_next_sibling ();
+					radiobutton = child as Gtk.CheckButton;
 				}
+				print ("index0 %u \n", index);
+				Idle.add (choose_provider.callback);
 				choose_provider_dialog.destroy ();
 			});
 			choose_provider_dialog.show ();
+			yield;
 			return index;
 		}
 
-		protected override bool ask_import_key (string pkgname, string key, string owner) {
+		protected override async bool ask_import_key (string pkgname, string key, string owner) {
 			var flags = Gtk.DialogFlags.MODAL;
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
@@ -311,18 +320,21 @@ namespace Pamac {
 			int response = Gtk.ResponseType.CANCEL;
 			dialog.response.connect ((res) => {
 				response = res;
+				Idle.add (ask_import_key.callback);
 				dialog.destroy ();
 			});
+			dialog.show ();
+			yield;
 			if (response == Gtk.ResponseType.OK) {
 				return true;
 			}
 			return false;
 		}
 
-		protected override bool ask_edit_build_files (TransactionSummary summary) {
+		protected override async bool ask_edit_build_files (TransactionSummary summary) {
 			bool answer = false;
 			summary_shown = true;
-			int response = show_summary (summary);
+			int response = yield show_summary (summary);
 			if (response == Gtk.ResponseType.OK) {
 				// Commit
 				commit_transaction_answer = true;
@@ -336,7 +348,7 @@ namespace Pamac {
 			return answer;
 		}
 
-		protected override bool ask_commit (TransactionSummary summary) {
+		protected override async bool ask_commit (TransactionSummary summary) {
 			if (summary_shown) {
 				summary_shown = false;
 				return commit_transaction_answer;
@@ -353,7 +365,7 @@ namespace Pamac {
 					commit_transaction_answer = true;
 					return true;
 				}
-				int response = show_summary (summary);
+				int response = yield show_summary (summary);
 				if (response == Gtk.ResponseType.OK) {
 					// Commit
 					commit_transaction_answer = true;
@@ -617,7 +629,7 @@ namespace Pamac {
 			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
 		}
 
-		int show_summary (TransactionSummary summary) {
+		async int show_summary (TransactionSummary summary) {
 			uint64 dsize = 0;
 			transaction_summary_remove_all ();
 			var application_window = application.active_window;
@@ -752,16 +764,15 @@ namespace Pamac {
 			int response = Gtk.ResponseType.CANCEL;
 			transaction_sum_dialog.response.connect ((res) => {
 				response = res;
+				Idle.add (show_summary.callback);
 				transaction_sum_dialog.destroy ();
 			});
+			transaction_sum_dialog.show ();
+			yield;
 			if (response == Gtk.ResponseType.OK) {
 				transaction_sum_populated ();
 			}
 			return response;
-		}
-
-		public void destroy_widget (Gtk.Widget widget) {
-			widget.destroy ();
 		}
 
 		protected override async void edit_build_files (string[] pkgnames) {
@@ -790,10 +801,10 @@ namespace Pamac {
 														application_window,
 														flags);
 				dialog.icon_name = "system-software-install";
-				dialog.margin_top = 3;
-				dialog.margin_bottom = 3;
-				dialog.margin_start = 3;
-				dialog.margin_end = 3;
+				dialog.margin_top = 6;
+				dialog.margin_bottom = 6;
+				dialog.margin_start = 6;
+				dialog.margin_end = 6;
 				dialog.add_button (dgettext (null, "Save"), Gtk.ResponseType.CLOSE);
 				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
 				dialog.focus_widget = widget;
@@ -806,14 +817,16 @@ namespace Pamac {
 				int response = Gtk.ResponseType.CANCEL;
 				dialog.response.connect ((res) => {
 					response = res;
+					Idle.add (edit_build_files.callback);
 					dialog.destroy ();
 				});
+				dialog.show ();
+				yield;
 				// re-add noteboook to manager_window properties stack
 				box.remove (build_files_notebook);
 				if (manager_box != null) {
 					manager_box.append (build_files_notebook);
 				}
-				dialog.destroy ();
 				if (response == Gtk.ResponseType.CLOSE) {
 					// save modifications
 					yield save_build_files_async (pkgname);
@@ -990,9 +1003,9 @@ namespace Pamac {
 					dialog.default_height = 300;
 					dialog.response.connect (() => {
 						dialog.destroy ();
+						warning_textbuffer = new StringBuilder ();
 					});
 					dialog.show ();
-					warning_textbuffer = new StringBuilder ();
 				}
 			}
 		}
@@ -1053,7 +1066,7 @@ namespace Pamac {
 			dialog.show ();
 		}
 
-		protected override bool ask_snap_install_classic (string name) {
+		protected override async bool ask_snap_install_classic (string name) {
 			var flags = Gtk.DialogFlags.MODAL;
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
@@ -1098,8 +1111,11 @@ namespace Pamac {
 			int response = Gtk.ResponseType.CANCEL;
 			dialog.response.connect ((res) => {
 				response = res;
+				Idle.add (ask_snap_install_classic.callback);
 				dialog.destroy ();
 			});
+			dialog.show ();
+			yield;
 			if (response == Gtk.ResponseType.OK) {
 				return true;
 			}

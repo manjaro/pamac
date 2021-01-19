@@ -7,43 +7,52 @@
     <property name="default_height">500</property>
     <property name="icon_name">system-software-install</property>
     <child internal-child="content_area">
-      <object class="GtkBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox">
         <property name="orientation">vertical</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkBox" id="search_box">
-            <property name="halign">center</property>
-            <child>
-              <object class="GtkSearchEntry" id="search_entry">
-                <property name="width_chars">50</property>
-                <signal name="next-match" handler="on_search_entry_next_match" swapped="no"/>
-                <signal name="previous-match" handler="on_search_entry_previous_match" swapped="no"/>
-                <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="go_up_button">
-                <signal name="clicked" handler="on_go_up_button_clicked" swapped="no"/>
+          <object class="HdyClamp" id="search_clamp">
+            <property name="hexpand">1</property>
+            <property name="maximum_size">500</property>
+            <property name="child">
+              <object class="GtkBox" id="search_box">
                 <child>
-                  <object class="GtkImage" id="go_up_image">
-                    <property name="icon_name">go-up-symbolic</property>
+                  <object class="GtkSearchEntry" id="search_entry">
+                    <property name="hexpand">1</property>
+                    <signal name="next-match" handler="on_search_entry_next_match" swapped="no"/>
+                    <signal name="previous-match" handler="on_search_entry_previous_match" swapped="no"/>
+                    <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
                   </object>
                 </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="go_down_button">
-                <signal name="clicked" handler="on_go_down_button_clicked" swapped="no"/>
                 <child>
-                  <object class="GtkImage" id="go_down_image">
-                    <property name="icon_name">go-down-symbolic</property>
+                  <object class="GtkButton" id="go_up_button">
+                    <signal name="clicked" handler="on_go_up_button_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkImage" id="go_up_image">
+                        <property name="icon_name">go-up-symbolic</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkButton" id="go_down_button">
+                    <signal name="clicked" handler="on_go_down_button_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkImage" id="go_down_image">
+                        <property name="icon_name">go-down-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <style>
+                  <class name="linked"/>
+                </style>
               </object>
-            </child>
-            <style>
-              <class name="linked"/>
-            </style>
+            </property>
           </object>
         </child>
         <child>
@@ -53,8 +62,10 @@
             <property name="min_content_height">400</property>
             <property name="child">
               <object class="GtkTextView" id="textview">
-                <property name="pixels_above_lines">2</property>
-                <property name="pixels_below_lines">2</property>
+                <property name="pixels_above_lines">3</property>
+                <property name="pixels_below_lines">3</property>
+                <property name="left-margin">6</property>
+                <property name="right-margin">6</property>
                 <property name="editable">0</property>
               </object>
             </property>
@@ -62,21 +73,14 @@
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="-7">close_button</action-widget>
-    </action-widgets>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area1">
-        <child>
-          <object class="GtkButton" id="close_button">
-            <property name="label" translatable="yes">_Close</property>
-            <property name="use_underline">1</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="close_button">
+        <property name="label" translatable="yes">_Close</property>
+        <property name="use_underline">1</property>
       </object>
     </child>
+    <action-widgets>
+      <action-widget response="close">close_button</action-widget>
+    </action-widgets>
   </template>
 </interface>

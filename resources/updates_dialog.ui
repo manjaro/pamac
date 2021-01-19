@@ -7,8 +7,12 @@
     <property name="default-height">500</property>
     <property name="icon-name">system-software-install</property>
     <child internal-child="content_area">
-      <object class="GtkBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox">
         <property name="orientation">vertical</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow">
@@ -52,18 +56,14 @@
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="-7">close_button</action-widget>
-    </action-widgets>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area1">
-        <child>
-          <object class="GtkButton" id="close_button">
-            <property name="label" translatable="yes">_Close</property>
-            <property name="use-underline">1</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="close_button">
+        <property name="label" translatable="yes">_Close</property>
+        <property name="use_underline">1</property>
       </object>
     </child>
+    <action-widgets>
+      <action-widget response="close">close_button</action-widget>
+    </action-widgets>
   </template>
 </interface>

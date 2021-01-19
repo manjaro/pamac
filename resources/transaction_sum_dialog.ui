@@ -9,6 +9,10 @@
     <child internal-child="content_area">
       <object class="GtkBox" id="dialog-vbox6">
         <property name="orientation">vertical</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="top_label">
@@ -102,34 +106,27 @@
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="-6">cancel_button</action-widget>
-      <action-widget response="-5">apply_button</action-widget>
-      <action-widget response="-2">edit_button</action-widget>
-    </action-widgets>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area6">
-        <child>
-          <object class="GtkButton" id="cancel_button">
-            <property name="label" translatable="yes">_Cancel</property>
-            <property name="use_underline">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="apply_button">
-            <property name="label" translatable="yes">_Apply</property>
-            <property name="use_underline">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="edit_button">
-            <property name="label" translatable="yes">Edit build files</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="cancel_button">
+        <property name="label" translatable="yes">_Cancel</property>
+        <property name="use_underline">1</property>
       </object>
     </child>
+    <child type="action">
+      <object class="GtkButton" id="apply_button">
+        <property name="label" translatable="yes">_Apply</property>
+        <property name="use_underline">1</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="edit_button">
+        <property name="label" translatable="yes">Edit build files</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="cancel">cancel_button</action-widget>
+      <action-widget response="ok">apply_button</action-widget>
+      <action-widget response="reject">edit_button</action-widget>
+    </action-widgets>
   </template>
 </interface>

@@ -7,8 +7,12 @@
     <property name="icon_name">system-software-install</property>
     <property name="deletable">0</property>
     <child internal-child="content_area">
-      <object class="GtkBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox">
         <property name="orientation">vertical</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow">
@@ -51,27 +55,20 @@
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="-6">cancel_button</action-widget>
-      <action-widget response="-5">valid_button</action-widget>
-    </action-widgets>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area1">
-        <child>
-          <object class="GtkButton" id="cancel_button">
-            <property name="label" translatable="yes">_Cancel</property>
-            <property name="use_underline">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="valid_button">
-            <property name="label" translatable="yes">Choose</property>
-          </object>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="cancel_button">
+        <property name="label" translatable="yes">_Cancel</property>
+        <property name="use_underline">1</property>
       </object>
     </child>
+    <child type="action">
+      <object class="GtkButton" id="valid_button">
+        <property name="label" translatable="yes">Choose</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="cancel" default="true">cancel_button</action-widget>
+      <action-widget response="ok">valid_button</action-widget>
+    </action-widgets>
   </template>
 </interface>

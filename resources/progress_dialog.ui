@@ -6,13 +6,18 @@
     <property name="default_width">600</property>
     <property name="icon_name">system-software-install</property>
     <property name="deletable">0</property>
+    <property name="margin-top">6</property>
+    <property name="margin-bottom">6</property>
+    <property name="margin-start">6</property>
+    <property name="margin-end">6</property>
     <child>
       <object class="GtkBox" id="box">
         <property name="orientation">vertical</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">12</property>
-        <child>
-          <placeholder/>
-        </child>
         <child>
           <object class="GtkExpander" id="expander">
             <property name="vexpand">1</property>
@@ -46,9 +51,6 @@
           </object>
         </child>
       </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
     </child>
   </template>
 </interface>

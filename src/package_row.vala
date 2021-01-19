@@ -29,6 +29,8 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Label desc_label;
 		[GtkChild]
+		public Gtk.Label old_version_label;
+		[GtkChild]
 		public Gtk.Label version_label;
 		[GtkChild]
 		public Gtk.Label repo_label;

@@ -64,7 +64,7 @@ namespace Pamac {
 				}
 				var manager_window = get_manager_window ();
 				manager_window.display_package_queue.clear ();
-				manager_window.search_togglebutton.active = true;
+				manager_window.search_button.clicked ();
 				manager_window.search_entry.set_text (str_builder.str);
 				manager_window.present_with_time (timestamp);
 			});
@@ -121,7 +121,7 @@ namespace Pamac {
 				var manager_window = get_manager_window ();
 				search = parameter.get_string ();
 				manager_window.display_package_queue.clear ();
-				manager_window.search_togglebutton.active = true;
+				manager_window.search_button.clicked ();
 				manager_window.search_entry.set_text (search);
 				manager_window.present ();
 			});
@@ -133,31 +133,6 @@ namespace Pamac {
 			unowned Gtk.Window window = this.active_window;
 			if (window == null) {
 				manager_window = new ManagerWindow (this, database);
-//~ 				// quit action
-//~ 				var action =  new SimpleAction ("quit", null);
-//~ 				action.activate.connect  (() => {this.quit ();});
-//~ 				this.add_action (action);
-//~ 				string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
-//~ 				this.set_accels_for_action ("app.quit", accels);
-				// back accel
-//~ 				action =  new SimpleAction ("back", null);
-//~ 				action.activate.connect  (() => {manager_window.on_button_back_clicked ();});
-//~ 				this.add_action (action);
-//~ 				accels = {"<Alt>Left"};
-//~ 				this.set_accels_for_action ("app.back", accels);
-				// search accel
-//~ 				action =  new SimpleAction ("search_accel", null);
-//~ 				action.activate.connect  (() => {manager_window.search_togglebutton.activate ();});
-//~ 				this.add_action (action);
-//~ 				accels = {"<Ctrl>F"};
-//~ 				this.set_accels_for_action ("app.search_accel", accels);
-//~ 				var shortcut_controller = new Gtk.ShortcutController ();
-//~ 				shortcut_controller.scope = Gtk.ShortcutScope.GLOBAL;
-//~ 				var ctrl_q_trigger = Gtk.ShortcutTrigger.parse_string ("<Ctrl>Q");
-//~ 				var ctrl_w_trigger = Gtk. ShortcutTrigger.parse_string ("<Ctrl>W");
-//~ 				var alternative_trigger = new Gtk.AlternativeTrigger (ctrl_q_trigger, ctrl_w_trigger);
-//~ 				var quit_shortcut = new Gtk.Shortcut ((owned) alternative_trigger, new Gtk.NamedAction ("quit"));
-//~ 				manager_window.add_shortcut (quit_shortcut);
 			} else {
 				manager_window = window as ManagerWindow;
 			}

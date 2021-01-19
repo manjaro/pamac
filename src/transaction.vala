@@ -199,12 +199,12 @@ namespace Pamac {
 			}
 		}
 
-		protected virtual bool ask_commit (TransactionSummary summary) {
+		protected virtual async bool ask_commit (TransactionSummary summary) {
 			// no confirm
 			return true;
 		}
 
-		protected virtual bool ask_edit_build_files (TransactionSummary summary) {
+		protected virtual async bool ask_edit_build_files (TransactionSummary summary) {
 			// no edit
 			return false;
 		}
@@ -213,7 +213,7 @@ namespace Pamac {
 			// do nothing
 		}
 
-		protected virtual bool ask_import_key (string pkgname, string key, string owner) {
+		protected virtual async bool ask_import_key (string pkgname, string key, string owner) {
 			// no import
 			return false;
 		}
@@ -262,17 +262,17 @@ namespace Pamac {
 			return files;
 		}
 
-		protected virtual string[] choose_optdeps (string pkgname, string[] optdeps) {
+		protected virtual async string[] choose_optdeps (string pkgname, string[] optdeps) {
 			// do not install optdeps
 			return {};
 		}
 
-		protected virtual int choose_provider (string depend, string[] providers) {
+		protected virtual async int choose_provider (string depend, string[] providers) {
 			// choose first provider
 			return 0;
 		}
 
-		protected virtual bool ask_snap_install_classic (string name) {
+		protected virtual async bool ask_snap_install_classic (string name) {
 			// do not install
 			return false;
 		}
@@ -767,7 +767,7 @@ namespace Pamac {
 										// get first uid line
 										if ("uid:" in line) {
 											string owner = line.split (":", 3)[1];
-											if (ask_import_key (pkgname, key, owner)) {
+											if (yield ask_import_key (pkgname, key, owner)) {
 												int status = yield run_cmd_line_async ({"gpg", "--with-colons", "--batch", "--recv-keys", key}, null, build_cancellable);
 												emit_script_output ("");
 												if (status != 0) {
@@ -783,7 +783,7 @@ namespace Pamac {
 					}
 				} catch (Error e) {
 					warning (e.message);
-				} 
+				}
 			}
 		}
 
@@ -850,7 +850,8 @@ namespace Pamac {
 					SnapPackage pkg;
 					while (iter.next (out snap_name, out pkg)) {
 						if (pkg.confined != dgettext (null, "Yes")) {
-							if (!ask_snap_install_classic (pkg.app_name)) {
+							bool answer = yield ask_snap_install_classic (pkg.app_name);
+							if (!answer) {
 								not_install.add (snap_name);
 							}
 						}
@@ -900,7 +901,7 @@ namespace Pamac {
 					summary.to_upgrade.length == 0) {
 					emit_action (dgettext (null, "Nothing to do") + ".");
 					return false;
-				} else if (ask_commit (summary)) {
+				} else if (yield ask_commit (summary)) {
 					if (snap_to_install.length > 0 ||
 						snap_to_remove.length > 0) {
 						success = yield run_snap_transaction ();
@@ -949,7 +950,8 @@ namespace Pamac {
 						}
 					}
 					if (real_uninstalled_optdeps.length > 0) {
-						foreach (unowned string optdep in choose_optdeps (name, real_uninstalled_optdeps.data)) {
+						string[] optdeps = yield choose_optdeps (name, real_uninstalled_optdeps.data);
+						foreach (unowned string optdep in optdeps) {
 							string optdep_name = optdep.split (": ", 2)[0];
 							to_add_to_install.add ((owned) optdep_name);
 						}
@@ -1114,7 +1116,7 @@ namespace Pamac {
 			if (!success) {
 				if (to_build.length > 0) {
 					var empty_summary = new TransactionSummary ();
-					if (ask_edit_build_files_real (empty_summary)) {
+					if (yield ask_edit_build_files_real (empty_summary)) {
 						foreach (unowned string name in to_build) {
 							// unresolvables declared in alpm_utils.vala
 							// it can be null
@@ -1144,7 +1146,7 @@ namespace Pamac {
 
 		async bool trans_run (TransactionSummary summary) {
 			if (summary.aur_pkgbases_to_build.length != 0) {
-				if (ask_edit_build_files_real (summary)) {
+				if (yield ask_edit_build_files_real (summary)) {
 					yield edit_build_files (summary.aur_pkgbases_to_build.data);
 					emit_script_output ("");
 					bool success = yield compute_aur_build_list ();
@@ -1173,7 +1175,7 @@ namespace Pamac {
 					to_remove.add (pkg.name);
 				}
 				// ask_commit_real add flatpaks and snaps
-				if (ask_commit_real (summary)) {
+				if (yield ask_commit_real (summary)) {
 					var to_install_array = new GenericArray<string> (to_install.length);
 					var to_remove_array = new GenericArray<string> (to_remove.length);
 					var to_load_array = new GenericArray<string> (to_load.length);
@@ -1221,7 +1223,7 @@ namespace Pamac {
 				}
 			} else if (summary.to_build.length != 0) {
 				// only AUR packages to build
-				if (ask_commit_real (summary)) {
+				if (yield ask_commit_real (summary)) {
 					// get_authorization here before building
 					return yield get_authorization_async ();
 				} else {
@@ -1665,18 +1667,22 @@ namespace Pamac {
 			int index = 0;
 			var loop = new MainLoop (context);
 			context.invoke (() => {
-				index = choose_provider (depend, providers_copy);
-				loop.quit ();
+				choose_provider.begin (depend, providers_copy, (obj, res) => {
+					index = choose_provider.end (res);
+					print ("index %u\n", index);
+					loop.quit ();
+				});
 				return false;
 			});
 			loop.run ();
+			print ("index2 %u\n", index);
 			unowned string pkgname = providers_copy[index];
 			to_install.add (pkgname);
 			to_install_as_dep.add (pkgname);
 			return index;
 		}
 
-		bool ask_commit_real (TransactionSummary summary) {
+		async bool ask_commit_real (TransactionSummary summary) {
 			if (build_cancellable.is_cancelled ()) {
 				return false;
 			} else {
@@ -1688,7 +1694,8 @@ namespace Pamac {
 					SnapPackage pkg;
 					while (iter.next (out snap_name, out pkg)) {
 						if (pkg.confined != dgettext (null, "Yes")) {
-							if (!ask_snap_install_classic (pkg.app_name)) {
+							bool answser = yield ask_snap_install_classic (pkg.app_name);
+							if (!answser) {
 								not_install.add (snap_name);
 							}
 						}
@@ -1721,11 +1728,11 @@ namespace Pamac {
 				while (flatpak_iter.next (null, out flatpak_pkg)) {
 					summary.to_upgrade.add (flatpak_pkg);
 				}
-				return ask_commit (summary);
+				return yield ask_commit (summary);
 			}
 		}
 
-		bool ask_edit_build_files_real (TransactionSummary summary) {
+		async bool ask_edit_build_files_real (TransactionSummary summary) {
 			var iter = HashTableIter<string, SnapPackage> (snap_to_install);
 			SnapPackage pkg;
 			while (iter.next (null, out pkg)) {
@@ -1744,7 +1751,7 @@ namespace Pamac {
 			foreach (unowned Package build_pkg in summary.to_build) {
 				aur_pkgs_to_install.add (build_pkg.name);
 			}
-			return ask_edit_build_files (summary);
+			return yield ask_edit_build_files (summary);
 		}
 
 		void on_emit_action (string action) {

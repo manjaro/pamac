@@ -2,99 +2,39 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="libhandy" version="1.1"/>
-  <object class="GtkPopover" id="options_popover">
-    <property name="child">
-      <object class="GtkBox" id="options_menu_box">
-        <property name="margin-start">6</property>
-        <property name="margin-end">6</property>
-        <property name="margin-top">6</property>
-        <property name="margin-bottom">6</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkCheckButton" id="software_mode_checkbutton">
-            <property name="label" translatable="yes">Software Mode</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="refresh_databases_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_refresh_databases_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="history_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_history_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="local_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_local_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="preferences_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_preferences_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="about_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_about_button_clicked" swapped="no"/>
-          </object>
-        </child>
-      </object>
-    </property>
-  </object>
-  <object class="GtkPopover" id="sortby_popover">
-    <property name="child">
-      <object class="GtkBox" id="sortby_menu_box">
-        <property name="margin-start">6</property>
-        <property name="margin-end">6</property>
-        <property name="margin-top">6</property>
-        <property name="margin-bottom">6</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkButton" id="relevance_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_relevance_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="name_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_name_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="repository_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_repository_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="size_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_size_button_clicked" swapped="no"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="date_button">
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_date_button_clicked" swapped="no"/>
-          </object>
-        </child>
-      </object>
-    </property>
-  </object>
-  <template class="PamacManagerWindow" parent="GtkApplicationWindow">
+  <menu id="primary-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Software Mode</attribute>
+        <attribute name="action">win.software-mode</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Refresh databases</attribute>
+        <attribute name="action">win.refresh-databases</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">View History</attribute>
+        <attribute name="action">win.history</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Install Local Packages</attribute>
+        <attribute name="action">win.install-local</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Preferences</attribute>
+        <attribute name="action">win.preferences</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">About</attribute>
+        <attribute name="action">win.about</attribute>
+      </item>
+    </section>
+  </menu>
+  <template class="PamacManagerWindow" parent="HdyApplicationWindow">
     <property name="default-width">900</property>
     <property name="default-height">500</property>
     <property name="icon-name">system-software-install</property>
+    <signal name="close-request" handler="on_window_close_request" swapped="no"/>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="orientation">vertical</property>
@@ -124,9 +64,7 @@
               <object class="GtkBox" id="header_left_buttonbox">
                 <child>
                   <object class="GtkButton" id="button_back">
-                    <property name="focus-on-click">0</property>
-                    <property name="halign">start</property>
-                    <signal name="clicked" handler="on_button_back_clicked" swapped="no"/>
+                    <property name="action_name">win.back</property>
                     <child>
                       <object class="GtkImage" id="back_image">
                         <property name="icon-name">go-previous-symbolic</property>
@@ -138,9 +76,8 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkToggleButton" id="search_togglebutton">
-                    <property name="focus-on-click">0</property>
-                    <signal name="toggled" handler="on_search_togglebutton_toggled" swapped="no"/>
+                  <object class="GtkButton" id="search_button">
+                    <property name="action_name">win.search</property>
                     <child>
                       <object class="GtkImage" id="search_image">
                         <property name="icon-name">edit-find-symbolic</property>
@@ -150,20 +87,12 @@
                 </child>
               </object>
             </child>
-            <child>
+            <child type="end">
               <object class="GtkBox" id="header_right_buttonbox">
                 <child>
                   <object class="GtkMenuButton" id="menu_button">
-                    <property name="focus-on-click">0</property>
-                    <property name="popover">options_popover</property>
-                    <child>
-                      <object class="GtkImage" id="menu_icon">
-                        <property name="icon-name">open-menu-symbolic</property>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="image-button"/>
-                    </style>
+                    <property name="menu_model">primary-menu</property>
+                    <property name="icon-name">open-menu-symbolic</property>
                   </object>
                 </child>
               </object>
@@ -200,48 +129,9 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkBox" id="sortby_box">
-                                <property name="spacing">6</property>
-                                <child>
-                                  <object class="GtkLabel" id="sortby_label">
-                                    <property name="label" translatable="yes">Sort by</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuButton" id="sortby_button">
-                                    <property name="focus-on-click">0</property>
-                                    <property name="valign">center</property>
-                                    <property name="popover">sortby_popover</property>
-                                    <child>
-                                      <object class="GtkBox" id="sortby_button_box">
-                                        <property name="margin-start">6</property>
-                                        <property name="margin-end">6</property>
-                                        <property name="spacing">3</property>
-                                        <child>
-                                          <object class="GtkLabel" id="sortby_button_label">
-                                            <property name="hexpand">1</property>
-                                            <property name="label" translatable="yes">Relevance</property>
-                                            <property name="wrap">1</property>
-                                            <property name="width-chars">10</property>
-                                          </object>
-                                        </child>
-                                        <child>
-                                          <object class="GtkImage" id="sortby_button_image">
-                                            <property name="icon-name">go-down-symbolic</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                    <style>
-                                      <class name="image-button"/>
-                                    </style>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                            <child>
                               <object class="GtkBox" id="list_button_box">
-                                <property name="halign">center</property>
+                                <property name="hexpand">1</property>
+                                <property name="halign">end</property>
                                 <property name="spacing">12</property>
                                 <child>
                                   <object class="GtkButton" id="remove_all_button">
@@ -271,6 +161,29 @@
                                 </child>
                               </object>
                             </child>
+                            <child>
+                              <object class="GtkBox" id="sortby_box">
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="sortby_label">
+                                    <property name="label" translatable="yes">Sort by</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBoxText" id="sortby_combobox">
+                                    <property name="active">0</property>
+                                    <signal name="changed" handler="on_sortby_combobox_changed" swapped="no"/>
+                                    <items>
+                                      <item translatable="yes">Relevance</item>
+                                      <item translatable="yes">Name</item>
+                                      <item translatable="yes">Repository</item>
+                                      <item translatable="yes">Size</item>
+                                      <item translatable="yes">Date</item>
+                                    </items>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
                           </object>
                         </child>
                         <child>
@@ -292,22 +205,25 @@
                                       <object class="GtkScrolledWindow" id="packages_scrolledwindow">
                                         <property name="hscrollbar-policy">never</property>
                                         <property name="child">
-                                          <object class="GtkViewport" id="packages_viewport">
-                                            <property name="child">
-                                              <object class="GtkBox" id="packages_box">
-                                                <property name="orientation">vertical</property>
-                                                <child>
-                                                  <object class="GtkListBox" id="packages_listbox">
-                                                    <property name="selection-mode">none</property>
-                                                    <signal name="row-activated" handler="on_packages_listbox_row_activated" swapped="no"/>
-                                                  </object>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkSeparator" id="packages_separator">
-                                                  </object>
-                                                </child>
+                                          <object class="HdyClamp">
+                                            <property name="vexpand">True</property>
+                                            <property name="maximum_size">900</property>
+                                            <property name="hexpand">True</property>
+                                            <property name="margin_top">12</property>
+                                            <property name="margin_bottom">12</property>
+                                            <property name="margin_start">12</property>
+                                            <property name="margin_end">12</property>
+                                            <child>
+                                              <object class="GtkListBox" id="packages_listbox">
+                                                <property name="vexpand">true</property>
+                                                <property name="selection_mode">none</property>
+                                                <property name="margin_bottom">24</property>
+                                                <signal name="row-activated" handler="on_packages_listbox_row_activated" swapped="no"/>
+                                                <style>
+                                                  <class name="content"/>
+                                                </style>
                                               </object>
-                                            </property>
+                                            </child>
                                           </object>
                                         </property>
                                       </object>
@@ -326,6 +242,7 @@
                                           <object class="GtkImage" id="no_item_icon">
                                             <property name="valign">end</property>
                                             <property name="icon-name">action-unavailable-symbolic</property>
+                                            <property name="pixel-size">48</property>
                                           </object>
                                         </child>
                                         <child>
@@ -368,7 +285,8 @@
                                             <child>
                                               <object class="GtkImage" id="updated_icon">
                                                 <property name="valign">end</property>
-                                                <property name="icon-name">object-select-symbolic</property>
+                                                <property name="icon-name">emblem-ok-symbolic</property>
+                                                <property name="pixel-size">48</property>
                                               </object>
                                             </child>
                                             <child>
@@ -414,6 +332,7 @@
                                   <object class="GtkStackPage">
                                     <property name="name">browse</property>
                                     <property name="title" translatable="yes">Browse</property>
+                                    <property name="icon_name">globe-symbolic</property>
                                     <property name="child">
                                       <object class="GtkStack" id="browse_stack">
                                         <property name="transition-type">slide-left-right</property>
@@ -580,6 +499,7 @@
                                   <object class="GtkStackPage">
                                     <property name="name">installed</property>
                                     <property name="title" translatable="yes">Installed</property>
+                                    <property name="icon_name">view-list-symbolic</property>
                                     <property name="child">
                                       <object class="GtkScrolledWindow" id="installed_scolledwindow">
                                         <property name="child">
@@ -619,6 +539,7 @@
                                   <object class="GtkStackPage">
                                     <property name="name">updates</property>
                                     <property name="title" translatable="yes">Updates</property>
+                                    <property name="icon_name">emblem-synchronizing-symbolic</property>
                                     <property name="child">
                                       <object class="GtkScrolledWindow" id="updates_scolledwindow">
                                         <property name="child">
@@ -710,9 +631,6 @@
                                     <property name="label" translatable="yes">Install</property>
                                     <property name="focus-on-click">0</property>
                                     <signal name="toggled" handler="on_install_togglebutton_toggled" swapped="no"/>
-                                    <style>
-                                      <class name="suggested-action"/>
-                                    </style>
                                   </object>
                                 </child>
                                 <child>
@@ -737,9 +655,6 @@
                                     <property name="label" translatable="yes">Build</property>
                                     <property name="focus-on-click">0</property>
                                     <signal name="toggled" handler="on_build_togglebutton_toggled" swapped="no"/>
-                                    <style>
-                                      <class name="suggested-action"/>
-                                    </style>
                                   </object>
                                 </child>
                               </object>
@@ -749,6 +664,8 @@
                         <child>
                           <object class="GtkStackSwitcher" id="properties_stack_switcher">
                             <property name="visible">0</property>
+                            <property name="margin-start">24</property>
+                            <property name="margin-end">24</property>
                             <property name="halign">center</property>
                             <property name="stack">properties_stack</property>
                           </object>
@@ -768,62 +685,37 @@
                                       <object class="GtkViewport" id="details_viewport">
                                         <property name="child">
                                           <object class="GtkBox" id="details_box">
-                                            <property name="margin-start">24</property>
-                                            <property name="margin-end">24</property>
-                                            <property name="margin-bottom">24</property>
                                             <property name="orientation">vertical</property>
                                             <property name="spacing">12</property>
                                             <child>
                                               <object class="GtkOverlay" id="screenshots_overlay">
                                                 <property name="child">
-                                                  <object class="GtkStack" id="screenshots_stack">
+                                                  <object class="GtkBox" id="screenshots_box">
+                                                    <property name="orientation">vertical</property>
+                                                    <property name="height_request">300</property>
                                                     <child>
-                                                      <object class="GtkStackPage">
-                                                        <property name="name">spinner</property>
-                                                        <property name="child">
-                                                          <object class="GtkSpinner" id="screenshots_spinner">
-                                                            <property name="margin-start">24</property>
-                                                            <property name="margin-end">24</property>
-                                                            <property name="margin-top">24</property>
-                                                            <property name="margin-bottom">24</property>
-                                                          </object>
-                                                        </property>
+                                                      <object class="HdyCarousel" id="screenshots_carousel">
+                                                        <property name="margin_top">12</property>
+                                                        <property name="margin_bottom">6</property>
+                                                        <property name="spacing">22</property>
+                                                        <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
                                                       </object>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkStackPage">
-                                                        <property name="name">carousel</property>
-                                                        <property name="child">
-                                                          <object class="GtkBox" id="carousel_box">
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                              <object class="HdyCarousel" id="screenshots_carousel">
-                                                                <property name="spacing">6</property>
-                                                                <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
-                                                                <child>
-                                                                  <placeholder/>
-                                                                </child>
-                                                              </object>
-                                                            </child>
-                                                            <child>
-                                                              <object class="HdyCarouselIndicatorDots" id="screnshots_indicator">
-                                                                <property name="carousel">screenshots_carousel</property>
-                                                              </object>
-                                                            </child>
-                                                          </object>
-                                                        </property>
+                                                      <object class="HdyCarouselIndicatorDots" id="screnshots_indicator">
+                                                        <property name="margin_bottom">6</property>
+                                                        <property name="carousel">screenshots_carousel</property>
                                                       </object>
                                                     </child>
+                                                    <style>
+                                                      <class name="screenshots-box"/>
+                                                    </style>
                                                   </object>
                                                 </property>
                                                 <child type="overlay">
                                                   <object class="GtkBox" id="screenshots_buttons_box">
-                                                    <property name="can-target">0</property>
                                                     <child>
                                                       <object class="GtkButton" id="previous_screenshot_button">
-                                                        <property name="focus-on-click">0</property>
-                                                        <property name="receives-default">1</property>
                                                         <property name="halign">start</property>
                                                         <property name="valign">center</property>
                                                         <property name="margin-start">12</property>
@@ -840,8 +732,6 @@
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="next_screenshot_button">
-                                                        <property name="focus-on-click">0</property>
-                                                        <property name="receives-default">1</property>
                                                         <property name="halign">end</property>
                                                         <property name="valign">center</property>
                                                         <property name="margin-end">12</property>
@@ -863,6 +753,9 @@
                                             </child>
                                             <child>
                                               <object class="GtkBox" id="details_box2">
+                                                <property name="margin-start">24</property>
+                                                <property name="margin-end">24</property>
+                                                <property name="margin-bottom">48</property>
                                                 <property name="halign">center</property>
                                                 <property name="orientation">vertical</property>
                                                 <property name="spacing">12</property>
@@ -882,33 +775,6 @@
                                                   <object class="GtkGrid" id="details_grid">
                                                     <property name="row-spacing">18</property>
                                                     <property name="column-spacing">18</property>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
                                                   </object>
                                                 </child>
                                               </object>
@@ -940,15 +806,6 @@
                                             <property name="margin-bottom">24</property>
                                             <property name="orientation">vertical</property>
                                             <property name="spacing">12</property>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
                                           </object>
                                         </property>
                                       </object>
@@ -958,7 +815,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkStackPage">
+                              <object class="GtkStackPage" id="files_page">
                                 <property name="name">files</property>
                                 <property name="title" translatable="yes">Files</property>
                                 <property name="child">
@@ -980,7 +837,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="GtkStackPage">
+                              <object class="GtkStackPage" id="build_files_page">
                                 <property name="name">build_files</property>
                                 <property name="title" translatable="yes">Build files</property>
                                 <property name="child">
@@ -990,13 +847,10 @@
                                     <child>
                                       <object class="GtkButton" id="reset_files_button">
                                         <property name="label" translatable="yes">Reset build files</property>
-                                        <property name="focus-on-click">0</property>
+                                        <property name="margin-end">12</property>
                                         <property name="halign">end</property>
                                         <signal name="clicked" handler="on_reset_files_button_clicked" swapped="no"/>
                                       </object>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
                                     </child>
                                   </object>
                                 </property>
@@ -1071,6 +925,7 @@
                   <object class="GtkButton" id="cancel_button">
                     <property name="label" translatable="yes">_Cancel</property>
                     <property name="focus-on-click">0</property>
+                    <property name="valign">center</property>
                     <property name="use-underline">1</property>
                     <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
                   </object>
@@ -1079,6 +934,7 @@
                   <object class="GtkButton" id="apply_button">
                     <property name="label" translatable="yes">_Apply</property>
                     <property name="focus-on-click">0</property>
+                    <property name="valign">center</property>
                     <property name="receives-default">1</property>
                     <property name="use-underline">1</property>
                     <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>

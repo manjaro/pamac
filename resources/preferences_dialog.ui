@@ -147,20 +147,7 @@
                     <child>
                       <object class="GtkInfoBar" id="advanced_infobar">
                         <property name="message-type">warning</property>
-                        <child internal-child="action_area">
-                          <object class="GtkBox">
-                            <property name="spacing">6</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child internal-child="content_area">
+                        <child>
                           <object class="GtkBox">
                             <property name="spacing">16</property>
                             <child>
@@ -174,14 +161,6 @@ Modify them only if you know what you are doing.</property>
                               </object>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                     </child>
@@ -285,8 +264,8 @@ Modify them only if you know what you are doing.</property>
                               <object class="GtkScrolledWindow" id="ignorepkgs_scrolledwindow">
                                 <property name="height-request">100</property>
                                 <property name="vexpand">1</property>
+                                <property name="has-frame">1</property>
                                 <property name="hscrollbar-policy">never</property>
-                                <property name="shadow-type">in</property>
                                 <property name="child">
                                   <object class="GtkTreeView" id="ignorepkgs_treeview">
                                     <property name="headers-visible">0</property>
@@ -366,16 +345,12 @@ Modify them only if you know what you are doing.</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="mirrors_list_label">
-                            <property name="halign">start</property>
-                            <property name="hexpand">1</property>
                             <property name="label" translatable="yes">Use mirrors from:</property>
                             <property name="wrap">1</property>
-                            <property name="max-width-chars">300</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkComboBoxText" id="mirrors_country_comboboxtext">
-                            <property name="halign">end</property>
                           </object>
                         </child>
                       </object>
@@ -411,22 +386,8 @@ Modify them only if you know what you are doing.</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkInfoBar" id="aur_infobar">
-                        <property name="app-paintable">True</property>
                         <property name="message-type">warning</property>
-                        <child internal-child="action_area">
-                          <object class="GtkButtonBox" id="infobar-action_area">
-                            <property name="spacing">6</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child internal-child="content_area">
+                        <child>
                           <object class="GtkBox" id="infobar-content_area">
                             <property name="spacing">16</property>
                             <child>
@@ -440,14 +401,6 @@ All AUR users should be familiar with the build process.</property>
                               </object>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                     </child>
@@ -563,25 +516,9 @@ All AUR users should be familiar with the build process.</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkInfoBar" id="snap_infobar">
-                        <property name="app-paintable">True</property>
                         <property name="message-type">warning</property>
-                        <child internal-child="action_area">
-                          <object class="GtkButtonBox">
-                            <property name="can-focus">False</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child internal-child="content_area">
+                        <child>
                           <object class="GtkBox">
-                            <property name="can-focus">0</property>
                             <property name="spacing">16</property>
                             <child>
                               <object class="GtkLabel" id="snap__warning_label">
@@ -593,14 +530,6 @@ All AUR users should be familiar with the build process.</property>
                               </object>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                     </child>
@@ -652,22 +581,8 @@ All AUR users should be familiar with the build process.</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkInfoBar" id="flatpak_infobar">
-                        <property name="app-paintable">True</property>
                         <property name="message-type">warning</property>
-                        <child internal-child="action_area">
-                          <object class="GtkButtonBox">
-                            <property name="spacing">6</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child internal-child="content_area">
+                        <child>
                           <object class="GtkBox">
                             <property name="spacing">16</property>
                             <child>
@@ -680,14 +595,6 @@ All AUR users should be familiar with the build process.</property>
                               </object>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                     </child>
@@ -761,8 +668,6 @@ All AUR users should be familiar with the build process.</property>
                           <object class="GtkSpinButton" id="cache_keep_nb_spin_button">
                             <property name="tooltip-text" translatable="yes">Number of versions of each package to keep in the cache</property>
                             <property name="halign">end</property>
-                            <property name="caps-lock-warning">False</property>
-                            <property name="input-purpose">number</property>
                             <property name="adjustment">cache_keep_nb_adjustment</property>
                             <property name="numeric">1</property>
                             <property name="update-policy">if-valid</property>
@@ -810,24 +715,14 @@ All AUR users should be familiar with the build process.</property>
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="-7">close_button</action-widget>
-    </action-widgets>
-    <child internal-child="action_area">
-      <object class="GtkButtonBox" id="dialog-action_area">
-        <property name="layout-style">end</property>
-        <child>
-          <object class="GtkButton" id="close_button">
-            <property name="label" translatable="yes">_Close</property>
-            <property name="use-underline">1</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
+    <child type="action">
+      <object class="GtkButton" id="close_button">
+        <property name="label" translatable="yes">_Close</property>
+        <property name="use_underline">1</property>
       </object>
     </child>
+    <action-widgets>
+      <action-widget response="close">close_button</action-widget>
+    </action-widgets>
   </template>
 </interface>
