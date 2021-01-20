@@ -76,8 +76,8 @@ namespace Pamac {
 			Intl.setlocale (LocaleCategory.ALL, "");
 			base.startup ();
 
-			// init libhandy
-			Hdy.init ();
+			// init libadwaita
+			Adw.init ();
 
 			// updates
 			var action = new SimpleAction ("updates", null);

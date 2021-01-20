@@ -14,7 +14,7 @@ gio_unix = dependency('gio-unix-2.0')
 #gdk_pixbuf2 = dependency('gdk-pixbuf-2.0')
 
 gtk4 = dependency('gtk4')
-libhandy4 = dependency('libhandy-4')
+libadwaita = dependency('libadwaita-1')
 
 gmodule = dependency('gmodule-2.0')
 
@@ -132,7 +132,7 @@ executable('pamac-manager',
 	sources: ['version.vala', 'history_dialog.vala', 'updates_dialog.vala', preferences_sources,
 			'local_config.vala', 'package_row.vala', 'simple_row.vala', 'back_row.vala',
 			'manager_window.vala', 'manager.vala', 'search-provider.vala', manager_resources],
-	dependencies: [gtk4, libhandy4, libsoup, gio_unix, libpamac_dep, libpamac_gtk_dep],
+	dependencies: [gtk4, libadwaita, libsoup, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)

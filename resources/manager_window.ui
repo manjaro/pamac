@@ -30,7 +30,7 @@
       </item>
     </section>
   </menu>
-  <template class="PamacManagerWindow" parent="HdyApplicationWindow">
+  <template class="PamacManagerWindow" parent="AdwApplicationWindow">
     <property name="default-width">900</property>
     <property name="default-height">500</property>
     <property name="icon-name">system-software-install</property>
@@ -39,7 +39,7 @@
       <object class="GtkBox" id="main_box">
         <property name="orientation">vertical</property>
         <child>
-          <object class="HdyHeaderBar" id="headerbar">
+          <object class="AdwHeaderBar" id="headerbar">
             <property name="show-end-title-buttons">True</property>
             <child type="title">
               <object class="GtkBox" id="header_center_buttonbox">
@@ -53,7 +53,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="HdyViewSwitcherTitle" id="view_stack_switcher">
+                  <object class="AdwViewSwitcherTitle" id="view_stack_switcher">
                     <property name="halign">center</property>
                     <property name="stack">view_stack</property>
                   </object>
@@ -191,7 +191,7 @@
                           </object>
                         </child>
                         <child>
-                          <object class="HdyFlap" id="browse_flap">
+                          <object class="AdwFlap" id="browse_flap">
                             <property name="reveal-duration">200</property>
                             <property name="fold-duration">200</property>
                             <property name="vexpand">1</property>
@@ -205,7 +205,7 @@
                                       <object class="GtkScrolledWindow" id="packages_scrolledwindow">
                                         <property name="hscrollbar-policy">never</property>
                                         <property name="child">
-                                          <object class="HdyClamp">
+                                          <object class="AdwClamp">
                                             <property name="vexpand">True</property>
                                             <property name="maximum_size">900</property>
                                             <property name="hexpand">True</property>
@@ -694,7 +694,7 @@
                                                     <property name="orientation">vertical</property>
                                                     <property name="height_request">300</property>
                                                     <child>
-                                                      <object class="HdyCarousel" id="screenshots_carousel">
+                                                      <object class="AdwCarousel" id="screenshots_carousel">
                                                         <property name="margin_top">12</property>
                                                         <property name="margin_bottom">6</property>
                                                         <property name="spacing">22</property>
@@ -702,7 +702,7 @@
                                                       </object>
                                                     </child>
                                                     <child>
-                                                      <object class="HdyCarouselIndicatorDots" id="screnshots_indicator">
+                                                      <object class="AdwCarouselIndicatorDots" id="screnshots_indicator">
                                                         <property name="margin_bottom">6</property>
                                                         <property name="carousel">screenshots_carousel</property>
                                                       </object>
@@ -958,7 +958,7 @@
           </object>
         </child>
         <child>
-          <object class="HdyViewSwitcherBar" id="switcher_bar">
+          <object class="AdwViewSwitcherBar" id="switcher_bar">
             <property name="stack">view_stack</property>
             <property name="reveal" bind-source="view_stack_switcher" bind-property="title-visible" bind-flags="sync-create"/>
           </object>

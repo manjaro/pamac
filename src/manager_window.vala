@@ -326,14 +326,14 @@ namespace Pamac {
 	}
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/manager_window.ui")]
-	class ManagerWindow : Hdy.ApplicationWindow {
+	class ManagerWindow : Adw.ApplicationWindow {
 		// icons
 		Gtk.IconTheme icon_theme;
 		Gtk.IconPaintable package_paintable;
 
 		// manager objects
 		[GtkChild]
-		Hdy.HeaderBar headerbar;
+		Adw.HeaderBar headerbar;
 		[GtkChild]
 		public Gtk.Stack main_stack;
 		[GtkChild]
@@ -353,7 +353,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.ToggleButton reveal_sidebar_button;
 		[GtkChild]
-		Hdy.Flap browse_flap;
+		Adw.Flap browse_flap;
 		[GtkChild]
 		Gtk.ListBox categories_listbox;
 		[GtkChild]
@@ -369,7 +369,7 @@ namespace Pamac {
 		[GtkChild]
 		public Gtk.Stack view_stack;
 		[GtkChild]
-		Hdy.ViewSwitcherTitle view_stack_switcher;
+		Adw.ViewSwitcherTitle view_stack_switcher;
 		[GtkChild]
 		Gtk.Stack packages_stack;
 		[GtkChild]
@@ -415,7 +415,7 @@ namespace Pamac {
 		[GtkChild]
 		Gtk.Box screenshots_box;
 		[GtkChild]
-		Hdy.Carousel screenshots_carousel;
+		Adw.Carousel screenshots_carousel;
 		[GtkChild]
 		Gtk.Button previous_screenshot_button;
 		[GtkChild]
@@ -876,9 +876,9 @@ namespace Pamac {
 
 		void show_sidebar (bool visible) {
 			if (visible) {
-				browse_flap.fold_policy = Hdy.FlapFoldPolicy.AUTO;
+				browse_flap.fold_policy = Adw.FlapFoldPolicy.AUTO;
 			} else {
-				browse_flap.fold_policy = Hdy.FlapFoldPolicy.ALWAYS;
+				browse_flap.fold_policy = Adw.FlapFoldPolicy.ALWAYS;
 			}
 			reveal_sidebar_button.visible = visible;
 		}
