@@ -1669,13 +1669,11 @@ namespace Pamac {
 			context.invoke (() => {
 				choose_provider.begin (depend, providers_copy, (obj, res) => {
 					index = choose_provider.end (res);
-					print ("index %u\n", index);
 					loop.quit ();
 				});
 				return false;
 			});
 			loop.run ();
-			print ("index2 %u\n", index);
 			unowned string pkgname = providers_copy[index];
 			to_install.add (pkgname);
 			to_install_as_dep.add (pkgname);

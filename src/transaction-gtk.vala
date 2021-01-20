@@ -271,7 +271,6 @@ namespace Pamac {
 					child = radiobutton.get_next_sibling ();
 					radiobutton = child as Gtk.CheckButton;
 				}
-				print ("index0 %u \n", index);
 				Idle.add (choose_provider.callback);
 				choose_provider_dialog.destroy ();
 			});
