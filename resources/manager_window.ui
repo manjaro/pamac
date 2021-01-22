@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libhandy" version="1.1"/>
+  <requires lib="libadwaita" version="1.0"/>
   <menu id="primary-menu">
     <section>
       <item>
@@ -423,6 +423,9 @@
                                                             </property>
                                                           </object>
                                                         </child>
+                                                        <style>
+                                                          <class name="navigation-sidebar"/>
+                                                        </style>
                                                       </object>
                                                     </property>
                                                   </object>
@@ -442,6 +445,9 @@
                                                       <object class="GtkListBox" id="categories_listbox">
                                                         <property name="selection-mode">browse</property>
                                                         <signal name="row-activated" handler="on_categories_listbox_row_activated" swapped="no"/>
+                                                        <style>
+                                                          <class name="navigation-sidebar"/>
+                                                        </style>
                                                       </object>
                                                     </property>
                                                   </object>
@@ -462,6 +468,9 @@
                                                       <object class="GtkListBox" id="groups_listbox">
                                                         <property name="selection-mode">browse</property>
                                                         <signal name="row-activated" handler="on_groups_listbox_row_activated" swapped="no"/>
+                                                        <style>
+                                                          <class name="navigation-sidebar"/>
+                                                        </style>
                                                       </object>
                                                     </property>
                                                   </object>
@@ -483,6 +492,9 @@
                                                       <object class="GtkListBox" id="repos_listbox">
                                                         <property name="selection-mode">browse</property>
                                                         <signal name="row-activated" handler="on_repos_listbox_row_activated" swapped="no"/>
+                                                        <style>
+                                                          <class name="navigation-sidebar"/>
+                                                        </style>
                                                       </object>
                                                     </property>
                                                   </object>
@@ -508,6 +520,9 @@
                                               <object class="GtkListBox" id="installed_listbox">
                                                 <property name="selection-mode">browse</property>
                                                 <signal name="row-activated" handler="on_installed_listbox_row_activated" swapped="no"/>
+                                                <style>
+                                                  <class name="navigation-sidebar"/>
+                                                </style>
                                               </object>
                                             </property>
                                           </object>
@@ -527,6 +542,9 @@
                                               <object class="GtkListBox" id="search_listbox">
                                                 <property name="selection-mode">browse</property>
                                                 <signal name="row-activated" handler="on_search_listbox_row_activated" swapped="no"/>
+                                                <style>
+                                                  <class name="navigation-sidebar"/>
+                                                </style>
                                               </object>
                                             </property>
                                           </object>
@@ -548,6 +566,9 @@
                                               <object class="GtkListBox" id="updates_listbox">
                                                 <property name="selection-mode">browse</property>
                                                 <signal name="row-activated" handler="on_updates_listbox_row_activated" swapped="no"/>
+                                                <style>
+                                                  <class name="navigation-sidebar"/>
+                                                </style>
                                               </object>
                                             </property>
                                           </object>
@@ -755,10 +776,11 @@
                                               <object class="GtkBox" id="details_box2">
                                                 <property name="margin-start">24</property>
                                                 <property name="margin-end">24</property>
-                                                <property name="margin-bottom">48</property>
+                                                <property name="margin-top">24</property>
+                                                <property name="margin-bottom">24</property>
                                                 <property name="halign">center</property>
                                                 <property name="orientation">vertical</property>
-                                                <property name="spacing">12</property>
+                                                <property name="spacing">24</property>
                                                 <child>
                                                   <object class="GtkLabel" id="long_desc_label">
                                                     <property name="wrap">1</property>

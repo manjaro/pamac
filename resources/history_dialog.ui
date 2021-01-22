@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
   <template class="PamacHistoryDialog" parent="GtkDialog">
     <property name="title" translatable="yes">Pamac History</property>
     <property name="default_width">600</property>
@@ -15,7 +16,7 @@
         <property name="margin-end">6</property>
         <property name="spacing">6</property>
         <child>
-          <object class="HdyClamp" id="search_clamp">
+          <object class="AdwClamp" id="search_clamp">
             <property name="hexpand">1</property>
             <property name="maximum_size">500</property>
             <property name="child">

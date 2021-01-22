@@ -1219,6 +1219,7 @@ namespace Pamac {
 					dep_label.margin_start = 12;
 					dep_label.margin_end = 12;
 					dep_label.halign = Gtk.Align.START;
+					dep_label.hexpand = true;
 					box.append (dep_label);
 					if (!database.has_installed_satisfier (dep)) {
 						var install_dep_button = new Gtk.ToggleButton.with_label (dgettext (null, "Install"));
