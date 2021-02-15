@@ -604,10 +604,14 @@
                             <child>
                               <object class="GtkBox" id="properties_box2">
                                 <property name="spacing">18</property>
+                                <property name="hexpand">true</property>
                                 <child>
                                   <object class="GtkImage" id="app_image">
                                     <property name="valign">start</property>
                                     <property name="pixel-size">64</property>
+                                    <style>
+                                      <class name="icon-dropshadow"/>
+                                    </style>
                                   </object>
                                 </child>
                                 <child>
@@ -625,7 +629,6 @@
                                         <property name="halign">start</property>
                                         <property name="wrap">1</property>
                                         <property name="max-width-chars">60</property>
-                                        <property name="lines">2</property>
                                         <property name="xalign">0</property>
                                       </object>
                                     </child>

@@ -1109,6 +1109,7 @@ namespace Pamac {
 				box.homogeneous = false;
 				var label2 = new Gtk.Label (detail);
 				label2.halign = Gtk.Align.START;
+				label2.ellipsize = Pango.EllipsizeMode.END;
 				box.append (label2);
 				var mark_explicit_button = new Gtk.Button.with_label (dgettext (null, "Mark as explicitly installed"));
 				mark_explicit_button.halign = Gtk.Align.START;
@@ -1119,6 +1120,7 @@ namespace Pamac {
 				var label2 = new Gtk.Label (detail);
 				label2.use_markup = true;
 				label2.halign = Gtk.Align.START;
+				label2.ellipsize = Pango.EllipsizeMode.END;
 				details_grid.attach_next_to (label2, label, Gtk.PositionType.RIGHT);
 			}
 			return label as Gtk.Widget;
@@ -1172,18 +1174,6 @@ namespace Pamac {
 			return false;
 		}
 
-//~ 		[GtkCallback]
-//~ 		bool on_previous_screenshot_button_enter_notify_event () {
-//~ 			remove_screenshots_overlay_timeout ();
-//~ 			return false;
-//~ 		}
-
-//~ 		[GtkCallback]
-//~ 		bool on_next_screenshot_button_enter_notify_event () {
-//~ 			remove_screenshots_overlay_timeout ();
-//~ 			return false;
-//~ 		}
-
 		void on_screenshots_carousel_enter () {
 			if (!remove_screenshots_overlay_timeout ()) {
 				previous_screenshot_button.visible = current_screenshots_index > 0;
@@ -1220,6 +1210,7 @@ namespace Pamac {
 					dep_label.margin_end = 12;
 					dep_label.halign = Gtk.Align.START;
 					dep_label.hexpand = true;
+					dep_label.ellipsize = Pango.EllipsizeMode.END;
 					box.append (dep_label);
 					if (!database.has_installed_satisfier (dep)) {
 						var install_dep_button = new Gtk.ToggleButton.with_label (dgettext (null, "Install"));
@@ -1240,6 +1231,7 @@ namespace Pamac {
 					dep_label.margin_start = 12;
 					dep_label.margin_end = 12;
 					dep_label.halign = Gtk.Align.START;
+					dep_label.ellipsize = Pango.EllipsizeMode.END;
 					listbox.append (dep_label);
 				}
 			}
@@ -1418,10 +1410,13 @@ namespace Pamac {
 				install_togglebutton.visible = false;
 				build_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
-				remove_togglebutton.visible = true;
-				if (database.should_hold (pkg.name)) {
+				if (view_stack.visible_child_name == "updates") {
+					remove_togglebutton.visible = false;
+				} else if (database.should_hold (pkg.name)) {
+					remove_togglebutton.visible = true;
 					remove_togglebutton.sensitive = false;
 				} else {
+					remove_togglebutton.visible = true;
 					remove_togglebutton.sensitive = true;
 					remove_togglebutton.active = to_remove.contains (pkg.name);
 					if (aur_pkg == null) {
@@ -1609,11 +1604,16 @@ namespace Pamac {
 			app_image.paintable = package_paintable;
 			desc_label.set_text (aur_pkg.desc);
 			long_desc_label.visible = false;
-			build_togglebutton.visible = true;
-			build_togglebutton.active = to_build.contains (aur_pkg.name);
-			if (database.is_installed_pkg (aur_pkg.name)) {
-				remove_togglebutton.visible = true;
-				remove_togglebutton.active = to_remove.contains (aur_pkg.name);
+			if (view_stack.visible_child_name == "updates") {
+				build_togglebutton.visible = false;
+				remove_togglebutton.visible = false;
+			} else {
+				build_togglebutton.visible = true;
+				build_togglebutton.active = to_build.contains (aur_pkg.name);
+				if (database.is_installed_pkg (aur_pkg.name)) {
+					remove_togglebutton.visible = true;
+					remove_togglebutton.active = to_remove.contains (aur_pkg.name);
+				}
 			}
 			// infos
 			string aur_url = "http://aur.archlinux.org/packages/" + aur_pkg.name;
@@ -1902,9 +1902,13 @@ namespace Pamac {
 				install_togglebutton.visible = false;
 				build_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
-				remove_togglebutton.visible = true;
-				remove_togglebutton.sensitive = true;
-				remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.name);
+				if (view_stack.visible_child_name == "updates") {
+					remove_togglebutton.visible = false;
+				} else {
+					remove_togglebutton.visible = true;
+					remove_togglebutton.sensitive = true;
+					remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.name);
+				}
 			} else {
 				launch_button.visible = false;
 				remove_togglebutton.visible = false;
@@ -2864,7 +2868,7 @@ namespace Pamac {
 				main_stack.visible_child_name = "details";
 			} else {
 				// check for OS Updates row
-				if (pamac_row.name_label.label == "<b>%s</b>".printf (dgettext (null, "OS Updates"))) {
+				if (pamac_row.name_label.label == dgettext (null, "OS Updates")) {
 					var updates_dialog = new UpdatesDialog (this);
 					updates_dialog.label.label = dgettext (null, "Includes performance, stability and security improvements");
 					updates_dialog.listbox.set_header_func (set_header_func);
@@ -3456,7 +3460,7 @@ namespace Pamac {
 					var simple_row = row as SimpleRow;
 					if (simple_row == null) {
 						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-						return;
+						break;
 					}
 					unowned string title = simple_row.title;
 					if (title == dgettext (null, "AUR")) {
@@ -3494,7 +3498,6 @@ namespace Pamac {
 			}
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
-			ignore_all_button.visible = false;
 		}
 
 //~ 		[GtkCallback]
@@ -3946,6 +3949,9 @@ namespace Pamac {
 					}
 					last_refresh_label.set_markup ("<span foreground='grey'>%s</span>".printf ("%s : %s".printf (dgettext (null, "Last refresh"), time_format)));
 				}
+				install_all_button.visible = false;
+				remove_all_button.visible = false;
+				ignore_all_button.visible = false;
 				this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 			} else {
 				if (repos_updates.length > 0) {

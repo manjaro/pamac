@@ -21,14 +21,12 @@
           <object class="GtkBox" id="second_box">
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
-            <property name="homogeneous">1</property>
             <child>
               <object class="GtkBox" id="name_box">
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="name_label">
-                    <property name="ellipsize">end</property>
-                    <property name="single-line-mode">1</property>
+                    <property name="wrap">1</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -37,9 +35,8 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="old_version_label">
-                    <property name="ellipsize">end</property>
-                    <property name="single-line-mode">1</property>
                     <property name="xalign">0</property>
+                    <property name="valign">center</property>
                     <property name="visible">0</property>
                     <style>
                       <class name="old-version-label"/>
@@ -48,9 +45,8 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="version_label">
-                    <property name="ellipsize">end</property>
-                    <property name="single-line-mode">1</property>
                     <property name="xalign">0</property>
+                    <property name="valign">center</property>
                     <style>
                       <class name="version-label"/>
                     </style>
@@ -62,14 +58,11 @@
               <object class="GtkLabel" id="desc_label">
                 <property name="use-markup">1</property>
                 <property name="wrap">1</property>
-                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="repo_label">
-                <property name="ellipsize">end</property>
-                <property name="single-line-mode">1</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="dim-label"/>
