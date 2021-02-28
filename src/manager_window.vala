@@ -504,6 +504,7 @@ namespace Pamac {
 		bool waiting;
 
 		bool enable_aur;
+		bool updates_checked;
 		GenericArray<AlpmPackage> repos_updates;
 		GenericArray<AURPackage> aur_updates;
 		GenericArray<FlatpakPackage> flatpak_updates;
@@ -582,6 +583,7 @@ namespace Pamac {
 			update_icons ();
 
 			// database
+			updates_checked = false;
 			database.get_updates_progress.connect (on_get_updates_progress);
 			create_all_listbox ();
 			check_aur_support ();
@@ -2624,48 +2626,11 @@ namespace Pamac {
 				view_flatpak_button.visible = database.config.enable_flatpak;
 				apply_button.sensitive = false;
 				cancel_button.sensitive = false;
-				bool need_refresh = database.need_refresh ();
-				if (need_refresh) {
-					while (Gtk.events_pending ()) {
-						Gtk.main_iteration ();
-					}
-					browse_head_box.visible = false;
-					browse_separator.visible = false;
-					browse_stack.visible_child_name = "checking";
+				if (updates_checked) {
+					populate_updates ();
+				} else {
+					on_refresh_button_clicked ();
 				}
-				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				bool check_aur_updates_backup = database.config.check_aur_updates;
-				database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
-				database.get_updates_async.begin (true, (obj, res) => {
-					database.config.check_aur_updates = check_aur_updates_backup;
-					var updates = database.get_updates_async.end (res);
-					// copy updates in lists
-					repos_updates = new GenericArray<AlpmPackage> ();
-					foreach (unowned AlpmPackage pkg in updates.repos_updates) {
-						repos_updates.add (pkg);
-					}
-					foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
-						repos_updates.add (pkg);
-						temporary_ignorepkgs.add (pkg.name);
-					}
-					aur_updates = new GenericArray<AURPackage> ();
-					foreach (unowned AURPackage pkg in updates.aur_updates) {
-						aur_updates.add (pkg);
-					}
-					foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
-						aur_updates.add (pkg);
-						temporary_ignorepkgs.add (pkg.name);
-					}
-					flatpak_updates = new GenericArray<FlatpakPackage> ();
-					foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
-						flatpak_updates.add (pkg);
-					}
-					if (main_updates_togglebutton.active) {
-						populate_updates ();
-					} else {
-						this.get_window ().set_cursor (null);
-					}
-				});
 			} else if (main_pending_togglebutton.active) {
 				view_button_label.label = dgettext (null, "All");
 				browseby_box.visible = false;
@@ -4031,6 +3996,7 @@ namespace Pamac {
 				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					flatpak_updates.add (pkg);
 				}
+				updates_checked = true;
 				if (main_updates_togglebutton.active) {
 					populate_updates ();
 				} else {

@@ -143,11 +143,12 @@ internal class AlpmConfig {
 					Process.spawn_command_line_sync ("chmod -R a+w %s/sync".printf (tmp_dbpath));
 				} else {
 					Process.spawn_command_line_sync ("bash -c 'cp --preserve=timestamps -u %ssync/* %s/sync'".printf (dbpath, tmp_dbpath));
+					Process.spawn_command_line_sync ("ln -sf %slocal %s".printf (dbpath, tmp_dbpath));
 				}
 				handle = new Alpm.Handle (rootdir, tmp_dbpath, out error);
 				if (error == Alpm.Errno.DB_VERSION) {
 					try {
-						Process.spawn_command_line_sync ("pacman-db-upgrade", null, null, null);
+						Process.spawn_command_line_sync ("pacman-db-upgrade");
 					} catch (SpawnError e) {
 						warning (e.message);
 					}
@@ -160,7 +161,7 @@ internal class AlpmConfig {
 			handle = new Alpm.Handle (rootdir, dbpath, out error);
 			if (error == Alpm.Errno.DB_VERSION) {
 				try {
-					Process.spawn_command_line_sync ("pacman-db-upgrade", null, null, null);
+					Process.spawn_command_line_sync ("pacman-db-upgrade");
 				} catch (SpawnError e) {
 					warning (e.message);
 				}

@@ -22,8 +22,11 @@ namespace Pamac {
 		MainLoop loop;
 		Config config;
 		uint check_localdb_timeout_id;
+		uint check_syncdb_timeout_id;
 		GLib.File localdb;
-		FileMonitor monitor;
+		GLib.File syncdb;
+		FileMonitor local_monitor;
+		FileMonitor sync_monitor;
 		uint16 _updates_nb;
 		string[] _updates_list;
 		public uint16 updates_nb { get { return _updates_nb; } }
@@ -42,9 +45,13 @@ namespace Pamac {
 			config = new Config ("/etc/pamac.conf");
 			string localdb_str = Path.build_filename (config.db_path, "local");
 			localdb = GLib.File.new_for_path (localdb_str);
+			string syncdb_str = Path.build_filename (config.db_path, "sync");
+			syncdb = GLib.File.new_for_path (syncdb_str);
 			try {
-				monitor = localdb.monitor_directory (FileMonitorFlags.NONE);
-				monitor.changed.connect (on_localdb_changed);
+				local_monitor = localdb.monitor_directory (FileMonitorFlags.NONE);
+				local_monitor.changed.connect (on_localdb_changed);
+				sync_monitor = syncdb.monitor_directory (FileMonitorFlags.NONE);
+				sync_monitor.changed.connect (on_syncdb_changed);
 			} catch (Error e) {
 				warning (e.message);
 			}
@@ -102,6 +109,17 @@ namespace Pamac {
 			check_localdb_timeout_id = Timeout.add (5000, () => {
 				check_updates ();
 				check_localdb_timeout_id = 0;
+				return false;
+			});
+		}
+
+		void on_syncdb_changed (File src, File? dest, FileMonitorEvent event_type) {
+			if (check_syncdb_timeout_id != 0) {
+				Source.remove (check_syncdb_timeout_id);
+			}
+			check_syncdb_timeout_id = Timeout.add (5000, () => {
+				check_updates ();
+				check_syncdb_timeout_id = 0;
 				return false;
 			});
 		}
