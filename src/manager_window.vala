@@ -4216,6 +4216,7 @@ namespace Pamac {
 				refresh_details ();
 			}
 			scroll_to_top = false;
+			updates_checked = false;
 			refresh_packages_list ();
 		}
 	}
