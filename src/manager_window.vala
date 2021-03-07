@@ -946,10 +946,10 @@ namespace Pamac {
 			string dep_name = "";
 			Gtk.Container container = button.get_parent ();
 			container.foreach ((widget) => {
-				if (widget.name == "GtkButton") {
-					unowned Gtk.Button dep_button = widget as Gtk.Button;
-					if (database.has_sync_satisfier (dep_button.label)) {
-						AlpmPackage pkg = database.get_sync_satisfier (dep_button.label);
+				if (widget.name == "GtkLabel") {
+					unowned Gtk.Label dep_label = widget as Gtk.Label;
+					if (database.has_sync_satisfier (dep_label.label)) {
+						AlpmPackage pkg = database.get_sync_satisfier (dep_label.label);
 						dep_name = pkg.name;
 					}
 				}
