@@ -8,7 +8,7 @@
 # Esa Päiviö, 2019
 # Esa Päiviö, 2015
 # EscoP, 2015
-# Jari Lankinen <lankinen.jari@gmail.com>, 2018
+# efb9bfe4529d65c53b1ca1c06e8570c2_03b1415 <9b67c2c8b9e18d29a686c87484722408_745933>, 2018
 # Luki <jbkammer@gmail.com>, 2013,2015
 # Johannes Lakkisto <jclc@protonmail.com>, 2018
 # Luki <jbkammer@gmail.com>, 2013,2015

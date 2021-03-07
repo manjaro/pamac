@@ -6,7 +6,7 @@
 # Translators:
 # arabuli <arabulibeqa@yahoo.com>, 2015
 # arabuli <arabulibeqa@yahoo.com>, 2015
-# zura davitashvili <zdavitashvili0@gmail.com>, 2019
+# ზურაბი დავითაშვილი <zdavitashvili0@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"

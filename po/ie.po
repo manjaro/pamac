@@ -4,14 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
+# Caarmi, 2021
 # OIS <NONE>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-01-26 12:32+0000\n"
+"Last-Translator: Caarmi\n"
 "Language-Team: Interlingue (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ie/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,20 +34,20 @@ msgstr "Ne successat inicialisar li biblioteca alpm"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr ""
+msgstr "Sincronisante bases de paccages"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
-msgstr ""
+msgstr "Ne successat sincronisar li bases"
 
 #: src/alpm_utils.vala
 msgid "Failed to init transaction"
-msgstr ""
+msgstr "Ne successat incialisar li transaction"
 
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr ""
+msgstr "Ne successat preparar li transaction"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -61,7 +62,7 @@ msgstr "paccage %s ne have un valid architectura"
 #: src/alpm_utils.vala
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s"
-msgstr ""
+msgstr "ne successat satisfar un dependentie «%s», quel es besonat de %s"
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
@@ -99,7 +100,7 @@ msgstr "%s deve esser removet, ma it es fixat"
 
 #: src/alpm_utils.vala src/transaction.vala
 msgid "Failed to initialize AUR database"
-msgstr ""
+msgstr "Ne successat incialisar li base de AUR"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -145,7 +146,7 @@ msgstr ""
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Removente ínvalid files e repenante"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -158,11 +159,11 @@ msgstr "vu posse remover ti file e repena denov"
 
 #: src/alpm_utils.vala
 msgid "failed to retrieve some files"
-msgstr ""
+msgstr "ne successat obtener alcun files"
 
 #: src/alpm_utils.vala
 msgid "Failed to commit transaction"
-msgstr ""
+msgstr "Ne successat cometter li transaction"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
@@ -211,7 +212,7 @@ msgstr "Control de integritá"
 
 #: src/alpm_utils.vala
 msgid "Loading packages files"
-msgstr ""
+msgstr "Descargante files de paccages"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -221,7 +222,7 @@ msgstr "Configuration de %s"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr ""
+msgstr "Un errore evenit configurante %s"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
@@ -288,7 +289,7 @@ msgstr "Errore"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr ""
+msgstr "Refriscante %s"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -324,7 +325,7 @@ msgstr "AUR"
 
 #: src/transaction.vala
 msgid "Refreshing mirrors list"
-msgstr ""
+msgstr "Refriscante li liste de spegules"
 
 #: src/transaction.vala src/cli.vala
 #, c-format
@@ -359,11 +360,11 @@ msgstr "Ne successat controlar dependenties de %s"
 #: src/transaction.vala
 #, c-format
 msgid "key %s could not be imported"
-msgstr ""
+msgstr "ne successat importar li clave %s"
 
 #: src/transaction.vala src/manager_window.vala
 msgid "Transaction successfully finished"
-msgstr ""
+msgstr "Li transaction completat successosimen"
 
 #: src/transaction.vala
 msgid "Preparing"
@@ -414,7 +415,7 @@ msgstr "A_nullar"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "The PGP key %s is needed to verify %s source files"
-msgstr ""
+msgstr "Li clave PGP %s es besonat por verification del files de %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -443,7 +444,7 @@ msgstr "Depende de"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Orfan de"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
@@ -486,7 +487,7 @@ msgstr "Installar"
 #: src/transaction-gtk.vala
 #, c-format
 msgid "The snap %s was published using classic confinement"
-msgstr ""
+msgstr "Li snap-paccage %s esset publicat con li classic confinament"
 
 #: src/transaction-gtk.vala
 #, c-format
@@ -515,7 +516,7 @@ msgstr "paccage(s)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Actualisamentes es disponibil"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -578,7 +579,7 @@ msgstr "Installat quam un dependentie de altri paccage"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr ""
+msgstr "Marcar quam intentionalmen installat"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -590,7 +591,7 @@ msgstr "Ínconosset"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
-msgstr ""
+msgstr "Base de paccages"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Maintainer"
@@ -634,7 +635,7 @@ msgstr "Signatures"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Backup files"
-msgstr ""
+msgstr "Files de reserve"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional Dependencies"
@@ -662,7 +663,7 @@ msgstr "Publicator"
 
 #: src/manager_window.vala
 msgid "Confined in a Sandbox"
-msgstr ""
+msgstr "Confinat in un sanduore"
 
 #: src/manager_window.vala
 msgid "Channels"
@@ -702,11 +703,11 @@ msgstr "Remover"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Actualisamentes del SO"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Include amelioration de productivitá, stabilitá e securitá"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -774,19 +775,19 @@ msgstr "Un gerente de paccages que subtene Alpm, AUR, Flatpak e Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Refriscat"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
-msgstr ""
+msgstr "Frequentie de control de actualisamentes, in hores"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "Maximum parallel downloads"
-msgstr ""
+msgstr "Max parallel descargas"
 
 #: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep in the cache"
-msgstr ""
+msgstr "Númere de versiones de chascun paccage quel es preservat in li cache"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
@@ -809,7 +810,7 @@ msgstr[1] "%u files"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr ""
+msgstr "Selecter ignorat actualisamentes"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -843,7 +844,7 @@ msgstr "Redacter files de construction"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[r]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -851,11 +852,11 @@ msgstr "Applicar li transaction"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[r/y/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "r"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
@@ -892,11 +893,11 @@ msgstr "Total grandore removet"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr ""
+msgstr "Monstrar li differentie de files de construction de %s"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Constructente paccages quam root"
 
 #: src/cli.vala
 #, c-format
@@ -933,11 +934,11 @@ msgstr "file(s)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr ""
+msgstr "serchar solmen inter installat paccages"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr ""
+msgstr "serchar solmen in repositorias"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -1141,7 +1142,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "ne controlar actualisamentes de AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1199,7 +1200,7 @@ msgstr "Vacuar li cache de paccages o de files de construction"
 
 #: src/cli.vala
 msgid "number"
-msgstr ""
+msgstr "númere"
 
 #: src/cli.vala
 msgid ""
@@ -1259,7 +1260,7 @@ msgstr[1] "%u ignorat actualisamentes"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Remove only the versions of uninstalled packages"
-msgstr ""
+msgstr "Remover solmen li versiones de deinstallat paccages"
 
 #: src/cli.vala resources/preferences_dialog.ui
 msgid "Clean cache"
@@ -1277,7 +1278,7 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s es disponibil solmen in AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1298,7 +1299,7 @@ msgstr ""
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "Installar %s ex %s"
 
 #: src/snap_plugin.vala
 msgid "No"
@@ -1322,7 +1323,7 @@ msgstr "Diarium de pamac"
 
 #: resources/transaction_sum_dialog.ui
 msgid "Transaction Summary"
-msgstr ""
+msgstr "Compendie del transaction"
 
 #: resources/transaction_sum_dialog.ui resources/manager_window.ui
 msgid "_Apply"
@@ -1330,15 +1331,15 @@ msgstr "_Applicar"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Mode de applicationes"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr ""
+msgstr "Refriscar li bases"
 
 #: resources/manager_window.ui
 msgid "View History"
-msgstr ""
+msgstr "Monstrar li diarium"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Preferences"
@@ -1350,11 +1351,11 @@ msgstr "Pri"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Monstrar secun"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Vider"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1374,7 +1375,7 @@ msgstr "Ignorar omni"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Refriscar"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1398,7 +1399,7 @@ msgstr "Files"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Reverter files de construction"
 
 #: resources/manager_window.ui
 msgid "Build files"
@@ -1422,11 +1423,11 @@ msgstr "Controlar actualisamentes"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
-msgstr ""
+msgstr "Descargar actualisamentes automaticmen"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update available"
-msgstr ""
+msgstr "Celar li icone si null actualisamentes es disponibil"
 
 #: resources/preferences_dialog.ui
 msgid "General"
@@ -1436,7 +1437,7 @@ msgstr "General"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr ""
+msgstr "Misconfiguration de ti parametres posse rupter li sistema.\nModifica les solmen si vu save que vu fa."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1450,11 +1451,11 @@ msgstr "Remover ínbesonat dependenties"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr ""
+msgstr "Remover dependenties quel ne es besonat de altri paccages quande on remove un paccage"
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Ne controlar actualisamentes ante que installar"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
@@ -1470,17 +1471,17 @@ msgstr "Avansat"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from:"
-msgstr ""
+msgstr "Usar spegules de:"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors List"
-msgstr ""
+msgstr "Refriscar li liste de spegules"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "AUR is a community maintained repository so it presents potential risks and problems.\n"
 "All AUR users should be familiar with the build process."
-msgstr ""
+msgstr "AUR es un comunal repositoria, dunc it imine riscas e problemas.\nOmni usatores de AUR deve conosser li processu de construction."
 
 #: resources/preferences_dialog.ui
 msgid "Enable AUR support"
@@ -1488,7 +1489,7 @@ msgstr "Activar supporte de AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install packages from AUR"
-msgstr ""
+msgstr "Permisser Pamac serchar e installar paccages ex AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages in cache"
@@ -1496,11 +1497,11 @@ msgstr "Retener li constructet paccages in li cache"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Controlar actualisamentes de paccages essent developat"
 
 #: resources/preferences_dialog.ui
 msgid "Snap packages are maintained by their publisher."
-msgstr ""
+msgstr "Paccages snap es mantenet de su publicator."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Snap support"
@@ -1508,11 +1509,11 @@ msgstr "Activar supporte de Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "Permisser Pamac serchar e installar snap-paccages"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
-msgstr ""
+msgstr "Paccages flatpak es mantenet de su publicator."
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
@@ -1520,7 +1521,7 @@ msgstr "Activar supporte de Flatpak"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "Permisser Pamac serchar e installar flatpak-paccages"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

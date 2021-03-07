@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Adrian Grzemski <adrian.grzemski@gmail.com>, 2017
+# Aleksander Krzys <alekspierwszy.ap@gmail.com>, 2021
 # B.O.S.S <blazejsadowski2004@gmail.com>, 2020
 # Daniel Napora <napcok@gmail.com>, 2016-2020
 # Dominik “Devhost97” G <devhost97@gmail.com>, 2016
@@ -14,6 +15,7 @@
 # 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
 # Marcin Mikołajczak <me@mkljczk.pl>, 2017
 # Marcin Mikołajczak <me@mkljczk.pl>, 2017
+# Maciej Dems <maciej.dems@p.lodz.pl>, 2021
 # Marcin Mikołajczak <me@mkljczk.pl>, 2018
 # Marcin Mikołajczak <me@mkljczk.pl>, 2016
 # Michał Nowakowski <nowakowski@offshore.rocks>, 2020
@@ -30,8 +32,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-02-19 10:30+0000\n"
+"Last-Translator: Maciej Dems <maciej.dems@p.lodz.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,7 +163,7 @@ msgstr "%s: %s już istnieje w systemie plików"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backed up to %s"
-msgstr ""
+msgstr "Kopia zapasowa została utworzona w %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -268,12 +270,12 @@ msgstr "Pobieranie wymaganych kluczy"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacnew"
-msgstr "%s zainstalowanych jako %s.pacnew"
+msgstr "%s zainstalowano jako %s.pacnew"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s installed as %s.pacsave"
-msgstr "%s zainstalowanych jako %s.pacsave"
+msgstr "%s zainstalowano jako %s.pacsave"
 
 #: src/alpm_utils.vala
 msgid "Running pre-transaction hooks"
@@ -317,7 +319,7 @@ msgstr "Odświeżanie %s"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "Rozpoczęto pobieranie %s "
+msgstr "Rozpoczęto pobieranie %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -327,7 +329,7 @@ msgstr "Pobieranie %s"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr "Zakończono pobieranie %s "
+msgstr "Zakończono pobieranie %s"
 
 #: src/daemon.vala
 msgid "Authentication failed"
@@ -353,32 +355,32 @@ msgstr "Odświeżanie listy serwerów zwierciadlanych"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "Kopiowanie %s plików kompilacji"
+msgstr "Kopiowanie plików budowania %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "Nie udało się sklonować %s plików kompilacji"
+msgstr "Nie udało się sklonować plików budowania %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Generating %s information"
-msgstr "Generowanie %s informacji"
+msgstr "Generowanie informacji o %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "Nie udało się wygenerować %s informacji"
+msgstr "Nie udało się wygenerować informacji o %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "Sprawdzanie %s zależności"
+msgstr "Sprawdzanie zależności %s"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr "Nie udało się sprawdzić %s zależności"
+msgstr "Nie udało się sprawdzić zależności %s"
 
 #: src/transaction.vala
 #, c-format
@@ -409,7 +411,7 @@ msgstr "Budowanie %s"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to build %s"
-msgstr "Nie udało się zbudować %s "
+msgstr "Nie udało się zbudować %s"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
@@ -491,7 +493,7 @@ msgstr "Całkowity rozmiar pobierania"
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Edit %s build files"
-msgstr "Edytuj%s pliki budowania"
+msgstr "Edytuj pliki budowania %s"
 
 #: src/transaction-gtk.vala
 msgid "Save"
@@ -844,7 +846,7 @@ msgstr "Wybierz ignorowane aktualizacje"
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr "Podaj wybór (domyślnie= %s)"
+msgstr "Podaj wybór (domyślnie=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
@@ -873,7 +875,7 @@ msgstr "Edytuj pliki budowania"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[Edytuj]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -881,11 +883,11 @@ msgstr "Zastosuj operację"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[Edytuj/T/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "edytuj"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
@@ -922,7 +924,7 @@ msgstr "Łącznie usunięto"
 #: src/transaction-cli.vala
 #, c-format
 msgid "View %s build files diff"
-msgstr "Podgląd różnic %s plików budowania"
+msgstr "Podgląd różnic plików budowania %s"
 
 #: src/cli.vala
 msgid "Building packages as root"
@@ -931,7 +933,7 @@ msgstr "Budowanie pakietów jako root"
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "Ustawienie katalogu kompilacji na %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -939,7 +941,7 @@ msgstr "Nie znaleziono pliku PKGBUILD w bieżącym katalogu"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Sprawdzanie aktualizacji pakietów deweloperskich jako root"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1225,7 +1227,7 @@ msgstr "katalog budowania (użyj z --aur), jeśli katalog nie jest podany - zost
 
 #: src/cli.vala
 msgid "Clean packages cache or build files"
-msgstr "Wyczyść pamięć podręczną pakietów lub pliki kompilacji"
+msgstr "Wyczyść pamięć podręczną pakietów lub pliki budowania"
 
 #: src/cli.vala
 msgid "number"
@@ -1309,14 +1311,14 @@ msgstr "Dodaj %s do zainstalowania"
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr "%sjest dostępny tylko w AUR"
+msgstr "%s jest dostępny tylko w AUR"
 
 #: src/cli.vala
 #, c-format
 msgid "There is %u member in group %s"
 msgid_plural "There are %u members in group %s"
 msgstr[0] "Jest %u członek grupy %s"
-msgstr[1] "Jest %uczłonków grupy %s"
+msgstr[1] "Jest %u członków grupy %s"
 msgstr[2] "Jest %u członków grupy %s"
 msgstr[3] "Jest %u członków grupy %s"
 
@@ -1332,7 +1334,7 @@ msgstr "Dodaj %s do przeinstalowania"
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "Zainstaluj %s z %s"
 
 #: src/snap_plugin.vala
 msgid "No"

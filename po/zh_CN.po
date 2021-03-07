@@ -15,7 +15,7 @@
 # f h <hffqyd@sina.com>, 2018
 # Tramsifex <sunnycode@protonmail.com>, 2019
 # philm <philm@manjaro.org>, 2015
-# Ruochen Wang <wangkevin920@163.com>, 2018
+# 11f4f694e402d57b7e0189d84859c97d_a26fb2a <e870bc520042eebcf806116686ce2037_757335>, 2018
 # song day <songday@yeah.net>, 2018
 # Tramsifex <sunnycode@protonmail.com>, 2019-2020
 # taotieren <admin@taotieren.com>, 2019-2020

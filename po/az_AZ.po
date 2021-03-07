@@ -4,15 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# xxmn77 <xxmn77@gmail.com>, 2020
+# Xəyyam Qocayev <xxmn77@gmail.com>, 2020-2021
 # Zaur Baku <zaurbaku15@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-27 17:42+0000\n"
-"Last-Translator: xxmn77 <xxmn77@gmail.com>\n"
+"PO-Revision-Date: 2021-03-03 21:19+0000\n"
+"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,11 +167,11 @@ msgstr "Əməliyyatın yerinə yetirilməsi uğursuz oldu"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "Aslılıqların yoxlanılması"
+msgstr "Aslılıqların yoxlanılır"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr "Fayllar arası ziddiyyətlərin yoxlanılması"
+msgstr "Fayllar arası ziddiyyətlərin yoxlanılır"
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
@@ -179,7 +179,7 @@ msgstr "Asılılıqların həlli"
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr "Qarşılıqlı ziddiyətlərin yoxlaması"
+msgstr "Qarşılıqlı ziddiyətlərin yoxlanılır"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -204,7 +204,7 @@ msgstr "%s əvvəlki versiyaya endirilir"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Removing %s"
-msgstr "%s Silinir"
+msgstr "%s silinir"
 
 #: src/alpm_utils.vala
 msgid "Checking integrity"
@@ -217,16 +217,16 @@ msgstr "Paket faylları yüklənir"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Configuring %s"
-msgstr "%s tənzimlənməsi"
+msgstr "%s tənzimlənir"
 
 #: src/alpm_utils.vala
 #, c-format
 msgid "Error while configuring %s"
-msgstr "%s tənzimlənməsi zamanı səhv"
+msgstr "%s tənzimlənməsi zamanı xəta"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
-msgstr "Diskin boş sahəsinin yoxlanılması"
+msgstr "Diskin boş sahəsinin yoxlanılır"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -240,7 +240,7 @@ msgstr "%s üçün məlumat bazası faylı mövcud deyil"
 
 #: src/alpm_utils.vala
 msgid "Checking keyring"
-msgstr "Açarlar bağının yoxlanlması"
+msgstr "Açarlar bağı yoxlanılır"
 
 #: src/alpm_utils.vala
 msgid "Downloading required keys"
@@ -289,12 +289,12 @@ msgstr "Səhv"
 #: src/alpm_utils.vala
 #, c-format
 msgid "Refreshing %s"
-msgstr "%s yenilənməsi"
+msgstr "%s yenilənir"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s started"
-msgstr "%s yüklənir"
+msgstr "%s endirilməyə başladı"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -304,11 +304,11 @@ msgstr "%s endirilir"
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
 msgid "Download of %s finished"
-msgstr "%s yükləndi"
+msgstr "%s endirilməsi başa çatdı"
 
 #: src/daemon.vala
 msgid "Authentication failed"
-msgstr "Kimlik uğursuzdur"
+msgstr "Kimlik doğrulaması alınmadı"
 
 #: src/daemon.vala
 msgid "Waiting for another package manager to quit"
@@ -330,12 +330,12 @@ msgstr "Güzgülər siyahısı yenilənir"
 #: src/transaction.vala src/cli.vala
 #, c-format
 msgid "Cloning %s build files"
-msgstr "%s yığma faylların klonlaşdırılması"
+msgstr "%s yığma fayllar klonlaşdırılır"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to clone %s build files"
-msgstr "%s yığma faylların klonlaşdırılmasında uğursuzluq"
+msgstr "%s yığma faylların klonlaşdırılması alınmadı"
 
 #: src/transaction.vala
 #, c-format
@@ -345,12 +345,12 @@ msgstr "%s məlumat yaradılır"
 #: src/transaction.vala
 #, c-format
 msgid "Failed to generate %s information"
-msgstr "%s məlumatı yaradılmadı"
+msgstr "%s məlumatı yaradıla bilmədi"
 
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "%s asılılıqların yoxlanılması"
+msgstr "%s asılılıqları yoxlanılır"
 
 #: src/transaction.vala
 #, c-format
@@ -516,7 +516,7 @@ msgstr "paket(lər)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr "Yenilənmələr Mövcuddur"
+msgstr "Yenilənmələr mövcuddur"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -623,11 +623,11 @@ msgstr "Paketləyici"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
-msgstr "Qurma Tarixi"
+msgstr "Qurma tarixi"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Date"
-msgstr "Yükləmə Tarixi"
+msgstr "Yükləmə tarixi"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Signatures"
@@ -711,7 +711,7 @@ msgstr "Sistemin məhsuldarlığı, stabilliyi və təhlükəsizlik təkmilləş
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
-msgstr "Yüklənmiş"
+msgstr "Quraşdırılmış"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
@@ -743,7 +743,7 @@ msgstr "Faydalı alətlər"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
-msgstr "İnkişaf etdirmə"
+msgstr "Tərtibat"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Explicitly installed"
@@ -751,11 +751,11 @@ msgstr "Tam olaraq quraşdırıldı"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Orphans"
-msgstr "Aid olmayan"
+msgstr "Kimsəsiz qalmış"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Foreign"
-msgstr "Xarici"
+msgstr "Yad"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Install Local Packages"
@@ -828,7 +828,7 @@ msgstr "Sayı daxil edin (sabit qiymət=%d)"
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
-msgstr "[y/N]"
+msgstr "[b/X]"
 
 #: src/transaction-cli.vala
 msgid "y"
@@ -844,7 +844,7 @@ msgstr "Yığma fayllara düzəliş etmək"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr "[e]"
+msgstr "[d]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -852,35 +852,35 @@ msgstr "Əməliyyatı tətbiq etmək"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr "[e/y/N]"
+msgstr "[d/b/X]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr "e"
+msgstr "d"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
-msgstr "Təkmil yenilənmə"
+msgstr "Yenilənməyə"
 
 #: src/transaction-cli.vala
 msgid "To reinstall"
-msgstr "Yenidən yükləmək üçün"
+msgstr "Yenidən quraşdırmağa"
 
 #: src/transaction-cli.vala
 msgid "To install"
-msgstr "Yükləmək üçün"
+msgstr "Quraşdırmağa"
 
 #: src/transaction-cli.vala
 msgid "To build"
-msgstr "Qurmaq üçün"
+msgstr "Qurmağa"
 
 #: src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "Əvvəlki versiyaya endirmək"
+msgstr "Əvvəlki versiyaya"
 
 #: src/transaction-cli.vala
 msgid "To remove"
-msgstr "Silmək üçün"
+msgstr "Silməyə"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -934,19 +934,19 @@ msgstr "fayl(lar)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr "Yalnız quraşdırılmış paketləri axtar"
+msgstr "Yalnız quraşdırılmış paketləri axtarın"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr "yalnız repozitoriyadakı paketlər üzrə axtar"
+msgstr "yalnız repozitoriyadakı paketlər üzrə axtarın"
 
 #: src/cli.vala
 msgid "also search in AUR"
-msgstr "həmçinin AUR -da axtar"
+msgstr "həmçinin AUR -da axtarın"
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr "AUR-da axtarmamaq"
+msgstr "AUR-da axtarılmasın"
 
 #: src/cli.vala
 msgid ""
@@ -1379,7 +1379,7 @@ msgstr "Təzələmək"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "Gözdən keçirmək"
+msgstr "Gözdən keçirin"
 
 #: resources/manager_window.ui
 msgid "Launch"

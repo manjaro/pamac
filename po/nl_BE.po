@@ -5,13 +5,14 @@
 # 
 # Translators:
 # Kevin Andriessens <kelaun@archlinux.info>, 2015
+# Vanhoorne Michael <michaeltjevanhoorne@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-02-15 16:09+0000\n"
+"Last-Translator: Vanhoorne Michael <michaeltjevanhoorne@gmail.com>\n"
 "Language-Team: Dutch (Belgium) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_BE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +66,7 @@ msgstr ""
 
 #: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
 msgid "Warning"
-msgstr "Opgelet"
+msgstr "Waarschuwing"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -112,7 +113,7 @@ msgstr ""
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
-msgstr "Transactie geanulleerd "
+msgstr "Transactie geannuleerd "
 
 #: src/alpm_utils.vala
 #, c-format
@@ -434,7 +435,7 @@ msgstr "Repository"
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
@@ -471,7 +472,7 @@ msgstr ""
 
 #: src/transaction-gtk.vala
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
 #: resources/history_dialog.ui resources/preferences_dialog.ui
@@ -515,7 +516,7 @@ msgstr ""
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Updates beschikbaar"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -550,11 +551,11 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Categories"
-msgstr ""
+msgstr "Categorie"
 
 #: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
 #: resources/preferences_dialog.ui
@@ -666,7 +667,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Channels"
-msgstr ""
+msgstr "Kanalen"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Relevance"
@@ -682,7 +683,7 @@ msgstr "Grootte"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Repositories"
@@ -714,11 +715,11 @@ msgstr "Geïnstalleerd"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Photo & Video"
-msgstr ""
+msgstr "Foto & Films"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Music & Audio"
-msgstr ""
+msgstr "Muziek & Geluid"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Productivity"
@@ -734,15 +735,15 @@ msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Games"
-msgstr ""
+msgstr "Spelletjes"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Utilities"
-msgstr ""
+msgstr "Gereedschap"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Development"
-msgstr ""
+msgstr "Ontwikkeling"
 
 #: src/manager_window.vala resources/manager_window.ui
 msgid "Explicitly installed"
@@ -762,7 +763,7 @@ msgstr "Installeer lokale pakketten"
 
 #: src/manager_window.vala
 msgid "_Open"
-msgstr "_Ope"
+msgstr "_Open"
 
 #: src/manager_window.vala
 msgid "Alpm Package"
@@ -798,7 +799,7 @@ msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr ""
+msgstr "verwijderen"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
@@ -818,7 +819,7 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "none"
-msgstr ""
+msgstr "geen"
 
 #: src/transaction-cli.vala
 #, c-format
@@ -827,15 +828,15 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "[y/N]"
-msgstr ""
+msgstr "[J/N]"
 
 #: src/transaction-cli.vala
 msgid "y"
-msgstr ""
+msgstr "j"
 
 #: src/transaction-cli.vala
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: src/transaction-cli.vala resources/transaction_sum_dialog.ui
 msgid "Edit build files"
@@ -859,7 +860,7 @@ msgstr ""
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
-msgstr ""
+msgstr "upgraden"
 
 #: src/transaction-cli.vala
 msgid "To reinstall"
@@ -883,7 +884,7 @@ msgstr "Te verwijderen"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
-msgstr ""
+msgstr "Totale geïnstalleerde grootte"
 
 #: src/transaction-cli.vala
 msgid "Total removed size"
@@ -917,11 +918,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "action"
-msgstr ""
+msgstr "acties"
 
 #: src/cli.vala
 msgid "options"
-msgstr ""
+msgstr "opties"
 
 #: src/cli.vala
 msgid "Search for packages or files, multiple search terms can be specified"
@@ -929,7 +930,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "file(s)"
-msgstr ""
+msgstr "Bestand(en)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
@@ -945,7 +946,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not search in AUR"
-msgstr ""
+msgstr "niet zoeken in AUR"
 
 #: src/cli.vala
 msgid ""
@@ -966,7 +967,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "group(s)"
-msgstr ""
+msgstr "groep(en)"
 
 #: src/cli.vala
 msgid "repo(s)"
@@ -1238,7 +1239,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "Installed Size"
-msgstr ""
+msgstr "installatie grootte"
 
 #: src/cli.vala
 #, c-format
@@ -1310,7 +1311,7 @@ msgstr "Kies een provider"
 
 #: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
-msgstr ""
+msgstr "Kiezen"
 
 #: resources/progress_dialog.ui
 msgid "Progress"
@@ -1346,11 +1347,11 @@ msgstr "Voorkeuren"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr ""
+msgstr "Over"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Bladeren door"
 
 #: resources/manager_window.ui
 msgid "View"
@@ -1362,19 +1363,19 @@ msgstr ""
 
 #: resources/manager_window.ui
 msgid "Remove all"
-msgstr ""
+msgstr "Verwijder alles"
 
 #: resources/manager_window.ui
 msgid "Install all"
-msgstr ""
+msgstr "Installeer alles"
 
 #: resources/manager_window.ui
 msgid "Ignore all"
-msgstr ""
+msgstr "Negeer alles"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Vernieuwen"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1410,11 +1411,11 @@ msgstr "Zoek"
 
 #: resources/manager_window.ui
 msgid "Pending"
-msgstr ""
+msgstr "in afwachting"
 
 #: resources/manager_window.ui
 msgid "Updates"
-msgstr ""
+msgstr "Updates"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
@@ -1524,4 +1525,4 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
-msgstr ""
+msgstr "Cache"

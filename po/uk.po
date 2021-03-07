@@ -4,7 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# dsafsadf <heneral@gmail.com>, 2017,2020
+# dsafsadf <heneral@gmail.com>, 2017,2020-2021
 # Oleksa Pletinskiy <opletinskiy@gmail.com>, 2018
 # Paul S <204@tuta.io>, 2019
 # Pavliy Rostislav <pavliy.rostislav@gmail.com>, 2019
@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-03-07 08:06+0000\n"
+"Last-Translator: dsafsadf <heneral@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,7 +149,7 @@ msgstr "%s: %s вже існує в файловій системі"
 
 #: src/alpm_utils.vala
 msgid "if this file is not needed, remove it and retry"
-msgstr ""
+msgstr "якщо цей файл не потрібен, видаліть його та повторіть спробу"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -537,7 +537,7 @@ msgstr "пакун(ки)ок"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Доступні оновлення"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -728,11 +728,11 @@ msgstr "Видалення"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Оновлення ОС"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Включає покращення продуктивності, стабільності та безпеки"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -800,7 +800,7 @@ msgstr ""
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Останнє оновлення"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -924,7 +924,7 @@ msgstr "Переглянути різницю %s файлів збирання"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Створення пакетів як root"
 
 #: src/cli.vala
 #, c-format
@@ -1077,7 +1077,7 @@ msgstr "залишити пакети збирання у кеші після в
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr ""
+msgstr "не зберігати вбудовані пакунки в кеші після встановлення"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1121,7 +1121,7 @@ msgstr "позначити усі пакети як явно встановле�
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "перевірити наявність оновлень"
 
 #: src/cli.vala
 msgid "do not check for updates"
@@ -1143,7 +1143,7 @@ msgstr "видалити залежності, яких не потребуют�
 
 #: src/cli.vala
 msgid "do not remove dependencies that are not required by other packages"
-msgstr ""
+msgstr "не видаляти залежності, які не потрібні іншим пакункам"
 
 #: src/cli.vala
 msgid "ignore files backup"
@@ -1169,7 +1169,7 @@ msgstr "також перевірити оновлення в AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "не перевіряти оновлення в AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
@@ -1362,7 +1362,7 @@ msgstr "_Застосувати"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Програмний режим"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1382,11 +1382,11 @@ msgstr "Про програму"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Переглянути у"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Переглянути"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1406,7 +1406,7 @@ msgstr "Ігнорувати усе"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Оновити"
 
 #: resources/manager_window.ui
 msgid "Browse"
@@ -1540,7 +1540,7 @@ msgstr "Включити підтримку Snap"
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgstr "Дозволити Pamac шукати та встановлювати snaps"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1552,7 +1552,7 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgstr "Дозвольте Pamac шукати та встановлювати flatpaks"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"

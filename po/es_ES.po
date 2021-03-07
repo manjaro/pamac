@@ -6,7 +6,7 @@
 # Translators:
 # Francisco Sánchez López de Lerma <fslopezlerma@gmail.com>, 2018
 # Francisco Torres <franute@gmail.com>, 2018
-# Kiibakun, 2020
+# Kiba, 2020
 # manueljlin <manueljlin@gmail.com>, 2019
 # Xema Fuentes, 2020
 msgid ""

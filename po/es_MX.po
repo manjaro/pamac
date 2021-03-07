@@ -5,8 +5,8 @@
 # 
 # Translators:
 # Guillaume Benoit <guillaume@manjaro.org>, 2019
-# José Luis Castro Guerrero <jlcastrogro@gmail.com>, 2018
-# José Luis Castro Guerrero <jlcastrogro@gmail.com>, 2018
+# José Castro <jlcastrogro@gmail.com>, 2018
+# José Castro <jlcastrogro@gmail.com>, 2018
 # Omar Jair Purata Funes <omarpurataf@colegiomonclair.edu.mx>, 2016
 # Pedro Delgado, 2019-2021
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-01-02 16:53+0000\n"
+"PO-Revision-Date: 2021-01-04 15:31+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr "si es posible, remover %s y reintentar"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s"
-msgstr "Removiendo %s rompe la dependencia '%s' requerida por %s"
+msgstr "Remover %s rompe la dependencia '%s' requerida por %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -108,7 +108,7 @@ msgstr "Fallo al inicializar la base de datos del AUR"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr "remover %s de la lista de objetivos"
+msgstr "removiendo %s de la lista de objetivos"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
@@ -1454,7 +1454,7 @@ msgstr "Remover dependencias no requeridas"
 msgid ""
 "When removing a package, also remove its dependencies that are not required "
 "by other packages"
-msgstr "Al remover un paquete, también se remueven sus dependencias que no son requeridas por otros paquetes"
+msgstr "Al remover un paquete, también remover sus dependencias no requeridas por otros paquetes"
 
 #: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"

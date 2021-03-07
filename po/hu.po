@@ -7,6 +7,7 @@
 # Ács Zoltán <acszoltan111@gmail.com>, 2020
 # Ferenc Papp <pappfer@gmail.com>, 2017
 # Gabor Nagy, 2018
+# Gyula Szabó <gyhun95@gmail.com>, 2021
 # HowAbout No <tasnadi98@freemail.hu>, 2018
 # Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2017,2019
@@ -23,8 +24,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-01-15 13:01+0000\n"
+"Last-Translator: Gyula Szabó <gyhun95@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -117,11 +118,11 @@ msgstr "Nem sikerült inicializálni az AUR adatbázist"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "%s eltávolítása a cél listáról"
 
 #: src/alpm_utils.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "Újraindítás szükséges a változások érvényesítéséhez"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -154,11 +155,11 @@ msgstr "%s: %s már létezett a fájlrendszerben"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backed up to %s"
-msgstr ""
+msgstr "Visszaállítva erre: %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Hibás fájlok eltávolítása és újrapróbálkozás"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,8 +285,8 @@ msgstr "Hiba az eseménykezelők (hook) futtatásakor"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Körülbelül %lu másodperc van hátra"
+msgstr[1] "Körülbelül %lu másodperc van hátra"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -456,7 +457,7 @@ msgstr "Függőségek"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Elárvult fájlja a következőnek: "
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
@@ -528,7 +529,7 @@ msgstr "csomag(ok)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Frissítések Elérhetőek"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -715,11 +716,11 @@ msgstr "Eltávolít"
 
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Rendszer Frissítések"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Tartalmaz teljesítmény, stabilitási és biztonsági fejlesztéseket is."
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
@@ -787,7 +788,7 @@ msgstr "Csomagkezelő Alpm, AUR, Flatpak és Snap támogatással"
 
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Legutóbbi frissítés"
 
 #: src/preferences_dialog.vala resources/preferences_dialog.ui
 msgid "How often to check for updates, value in hours"
@@ -856,7 +857,7 @@ msgstr "Build fájlok szerkesztése"
 
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[e]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -864,11 +865,11 @@ msgstr "Tranzakció végrehajtása"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[e/I/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "e"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
@@ -909,12 +910,12 @@ msgstr "%s build fájlok közötti különbségek"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Csomagok építése root-ként"
 
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "A felépítési mappa beállítása ide: %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -922,7 +923,7 @@ msgstr "PKGBUILD fájl nem található az aktuális könyvtárban"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Fejlesztői csomagok frissítésének ellenőrzése root-ként"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -1311,7 +1312,7 @@ msgstr "%shozzáadása az újratelepítendőkhöz"
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "Telepítse a következőt %s innen: %s"
 
 #: src/snap_plugin.vala
 msgid "No"
@@ -1343,7 +1344,7 @@ msgstr "Alkalmaz"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Szoftver Mód"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1363,11 +1364,11 @@ msgstr "A Pamac-ról"
 
 #: resources/manager_window.ui
 msgid "Browse by"
-msgstr ""
+msgstr "Böngészés ez alapján"
 
 #: resources/manager_window.ui
 msgid "View"
-msgstr ""
+msgstr "Megtekintés"
 
 #: resources/manager_window.ui
 msgid "Sort by"
@@ -1387,7 +1388,7 @@ msgstr "Mindent figyelmen kivül hagy"
 
 #: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Frissítés"
 
 #: resources/manager_window.ui
 msgid "Browse"

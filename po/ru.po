@@ -6,7 +6,7 @@
 # Translators:
 # Alexander B <beliy@yandex.ru>, 2017,2019
 # AlexanderFilev <avfill@outlook.com>, 2015
-# Alexey Ermakov <strangebrew@yandex.ru>, 2018
+# Alexey Ermakov, 2018
 # Andrei Stepanov <adem4ik@gmail.com>, 2019-2020
 # Victor Kukshiev <andrey0bolkonsky@gmail.com>, 2013
 # Daniil <rostovslipknot@gmail.com>, 2013
