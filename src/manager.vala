@@ -88,6 +88,7 @@ namespace Pamac {
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.main_updates_togglebutton.active = true;
+				manager_window.on_button_back_clicked ();
 				manager_window.present ();
 			});
 			this.add_action (action);
