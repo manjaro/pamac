@@ -2529,16 +2529,16 @@ namespace Pamac {
 							AURPackageData? aur_pkg = pkgnames_table.take (pkgname_found);
 							// populate empty list will global ones
 							if (aur_pkg.depends.length == 0 && global_depends.length != 0) {
-								aur_pkg.depends = (owned) global_depends;
+								aur_pkg.depends = global_depends.copy (strdup);
 							}
 							if (aur_pkg.provides.length == 0 && global_provides.length != 0) {
-								aur_pkg.provides = (owned) global_provides;
+								aur_pkg.provides = global_provides.copy (strdup);
 							}
 							if (aur_pkg.conflicts.length == 0 && global_conflicts.length != 0) {
-								aur_pkg.conflicts = (owned) global_conflicts;
+								aur_pkg.conflicts = global_conflicts.copy (strdup);
 							}
 							if (aur_pkg.replaces.length == 0 && global_replaces.length != 0) {
-								aur_pkg.replaces = (owned) global_replaces;
+								aur_pkg.replaces = global_replaces.copy (strdup);
 							}
 							// add checkdepends and makedepends in depends
 							foreach (unowned string global_checkdepend in global_checkdepends) {
