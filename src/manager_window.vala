@@ -909,6 +909,7 @@ namespace Pamac {
 			transaction.set_pkgreason_async.begin (current_package_displayed.name, 0, //Alpm.Package.Reason.EXPLICIT
 													() => { 
 				refresh_details ();
+				refresh_packages_list ();
 			});
 		}
 
