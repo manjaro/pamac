@@ -443,7 +443,7 @@ namespace Pamac {
 						Alpm.List<string> owned_list = local_pkg.compute_requiredby ();
 						unowned Alpm.List<string> list = owned_list;
 						while (list != null) {
-							_requiredby.add ((owned) list.data);
+							_requiredby.add (list.data);
 							list.next ();
 						}
 					}
@@ -459,7 +459,7 @@ namespace Pamac {
 						Alpm.List<string> owned_list = local_pkg.compute_optionalfor ();
 						unowned Alpm.List<string> list = owned_list;
 						while (list != null) {
-							_optionalfor.add ((owned) list.data);
+							_optionalfor.add (list.data);
 							list.next ();
 						}
 					}
@@ -1093,7 +1093,7 @@ namespace Pamac {
 						Alpm.List<string> owned_list = local_pkg.compute_requiredby ();
 						unowned Alpm.List<string> list = owned_list;
 						while (list != null) {
-							_requiredby.add ((owned) list.data);
+							_requiredby.add (list.data);
 							list.next ();
 						}
 					}
@@ -1109,7 +1109,7 @@ namespace Pamac {
 						Alpm.List<string> owned_list = local_pkg.compute_optionalfor ();
 						unowned Alpm.List<string> list = owned_list;
 						while (list != null) {
-							_optionalfor.add ((owned) list.data);
+							_optionalfor.add (list.data);
 							list.next ();
 						}
 					}

@@ -23,21 +23,23 @@ namespace Pamac {
 	public class PackageRow : Gtk.ListBoxRow {
 
 		[GtkChild]
-		public Gtk.Image app_icon;
+		public unowned Gtk.Image app_icon;
 		[GtkChild]
-		public Gtk.Label name_label;
+		public unowned Gtk.Label name_label;
 		[GtkChild]
-		public Gtk.Label desc_label;
+		public unowned Gtk.Label desc_label;
 		[GtkChild]
-		public Gtk.Label old_version_label;
+		public unowned Gtk.Label old_version_label;
 		[GtkChild]
-		public Gtk.Label version_label;
+		public unowned Gtk.Label version_label;
 		[GtkChild]
-		public Gtk.Label repo_label;
+		public unowned Gtk.Label repo_label;
 		[GtkChild]
-		public Gtk.Label size_label;
+		public unowned Gtk.Label size_label;
 		[GtkChild]
-		public Gtk.ToggleButton action_togglebutton;
+		public unowned Gtk.ToggleButton action_togglebutton;
+		[GtkChild]
+		public unowned Gtk.Image action_icon;
 
 		public Package? pkg;
 

@@ -23,9 +23,9 @@ namespace Pamac {
 	public class ChoosePkgsDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.TreeView treeview;
+		public unowned Gtk.TreeView treeview;
 		[GtkChild]
-		public Gtk.Button valid_button;
+		public unowned Gtk.Button valid_button;
 
 		public Gtk.ListStore pkgs_list;
 

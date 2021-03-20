@@ -23,75 +23,75 @@ namespace Pamac {
 	class PreferencesDialog : Gtk.Dialog {
 
 		[GtkChild]
-		Gtk.Switch check_updates_button;
+		unowned Gtk.Switch check_updates_button;
 		[GtkChild]
-		Gtk.Label refresh_period_label;
+		unowned Gtk.Label refresh_period_label;
 		[GtkChild]
-		Gtk.SpinButton refresh_period_spin_button;
+		unowned Gtk.SpinButton refresh_period_spin_button;
 		[GtkChild]
-		Gtk.Label max_parallel_downloads_label;
+		unowned Gtk.Label max_parallel_downloads_label;
 		[GtkChild]
-		Gtk.SpinButton max_parallel_downloads_spin_button;
+		unowned Gtk.SpinButton max_parallel_downloads_spin_button;
 		[GtkChild]
-		Gtk.CheckButton no_update_hide_icon_checkbutton;
+		unowned Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
-		Gtk.CheckButton download_updates_checkbutton;
+		unowned Gtk.CheckButton download_updates_checkbutton;
 		[GtkChild]
-		Gtk.Box advanced_config_box;
+		unowned Gtk.Box advanced_config_box;
 		[GtkChild]
-		Gtk.Switch check_space_button;
+		unowned Gtk.Switch check_space_button;
 		[GtkChild]
-		Gtk.Switch remove_unrequired_deps_button;
+		unowned Gtk.Switch remove_unrequired_deps_button;
 		[GtkChild]
-		Gtk.Switch simple_install_button;
+		unowned Gtk.Switch simple_install_button;
 		[GtkChild]
-		Gtk.Switch enable_downgrade_button;
+		unowned Gtk.Switch enable_downgrade_button;
 		[GtkChild]
-		Gtk.TreeView ignorepkgs_treeview;
+		unowned Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
-		Gtk.Box mirrors_config_box;
+		unowned Gtk.Box mirrors_config_box;
 		[GtkChild]
-		Gtk.ComboBoxText mirrors_country_comboboxtext;
+		unowned Gtk.ComboBoxText mirrors_country_comboboxtext;
 		[GtkChild]
-		Gtk.Button generate_mirrors_list_button;
+		unowned Gtk.Button generate_mirrors_list_button;
 		[GtkChild]
-		Gtk.Box aur_config_box;
+		unowned Gtk.Box aur_config_box;
 		[GtkChild]
-		Gtk.Switch enable_aur_button;
+		unowned Gtk.Switch enable_aur_button;
 		[GtkChild]
-		Gtk.Label aur_build_dir_label;
+		unowned Gtk.Label aur_build_dir_label;
 		[GtkChild]
-		Gtk.Button aur_build_dir_file_chooser;
+		unowned Gtk.Button aur_build_dir_file_chooser;
 		[GtkChild]
-		Gtk.CheckButton keep_built_pkgs_checkbutton;
+		unowned Gtk.CheckButton keep_built_pkgs_checkbutton;
 		[GtkChild]
-		Gtk.CheckButton check_aur_updates_checkbutton;
+		unowned Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
-		Gtk.CheckButton check_aur_vcs_updates_checkbutton;
+		unowned Gtk.CheckButton check_aur_vcs_updates_checkbutton;
 		[GtkChild]
-		Gtk.Label cache_keep_nb_label;
+		unowned Gtk.Label cache_keep_nb_label;
 		[GtkChild]
-		Gtk.SpinButton cache_keep_nb_spin_button;
+		unowned Gtk.SpinButton cache_keep_nb_spin_button;
 		[GtkChild]
-		Gtk.CheckButton cache_only_uninstalled_checkbutton;
+		unowned Gtk.CheckButton cache_only_uninstalled_checkbutton;
 		[GtkChild]
-		Gtk.Button clean_build_files_button;
+		unowned Gtk.Button clean_build_files_button;
 		[GtkChild]
-		Gtk.Label clean_build_files_label;
+		unowned Gtk.Label clean_build_files_label;
 		[GtkChild]
-		Gtk.Label clean_cache_label;
+		unowned Gtk.Label clean_cache_label;
 		[GtkChild]
-		Gtk.Button clean_cache_button;
+		unowned Gtk.Button clean_cache_button;
 		[GtkChild]
-		Gtk.Box snap_config_box;
+		unowned Gtk.Box snap_config_box;
 		[GtkChild]
-		Gtk.Box flatpak_config_box;
+		unowned Gtk.Box flatpak_config_box;
 		[GtkChild]
-		Gtk.Switch enable_snap_button;
+		unowned Gtk.Switch enable_snap_button;
 		[GtkChild]
-		Gtk.Switch enable_flatpak_button;
+		unowned Gtk.Switch enable_flatpak_button;
 		[GtkChild]
-		Gtk.CheckButton check_flatpak_updates_checkbutton;
+		unowned Gtk.CheckButton check_flatpak_updates_checkbutton;
 
 		Gtk.ListStore ignorepkgs_liststore;
 		TransactionGtk transaction;

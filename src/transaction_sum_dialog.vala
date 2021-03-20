@@ -23,13 +23,13 @@ namespace Pamac {
 	class TransactionSumDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.Label top_label;
+		public unowned Gtk.Label top_label;
 		[GtkChild]
-		Gtk.TreeView treeview;
+		unowned Gtk.TreeView treeview;
 		[GtkChild]
-		public Gtk.Button edit_button;
+		public unowned Gtk.Button edit_button;
 		[GtkChild]
-		public Gtk.Button cancel_button;
+		public unowned Gtk.Button cancel_button;
 
 		public Gtk.ListStore sum_list;
 

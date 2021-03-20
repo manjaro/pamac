@@ -21,7 +21,7 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/simple_row.ui")]
 	public class SimpleRow: Gtk.ListBoxRow {
 		[GtkChild]
-		public Gtk.Label label;
+		public unowned Gtk.Label label;
 
 		public string? title { get { return label.label; } }
 

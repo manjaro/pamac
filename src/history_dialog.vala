@@ -23,9 +23,9 @@ namespace Pamac {
 	class HistoryDialog : Gtk.Dialog {
 
 		[GtkChild]
-		Gtk.TextView textview;
+		unowned Gtk.TextView textview;
 		[GtkChild]
-		Gtk.SearchEntry search_entry;
+		unowned Gtk.SearchEntry search_entry;
 
 		Gtk.TextIter search_start;
 

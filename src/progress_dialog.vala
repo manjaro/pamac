@@ -23,13 +23,13 @@ namespace Pamac {
 	class ProgressDialog : Gtk.ApplicationWindow {
 
 		[GtkChild]
-		public Gtk.Box box;
+		public unowned Gtk.Box box;
 		[GtkChild]
-		public Gtk.Button close_button;
+		public unowned Gtk.Button close_button;
 		[GtkChild]
-		public Gtk.Button cancel_button;
+		public unowned Gtk.Button cancel_button;
 		[GtkChild]
-		public Gtk.Expander expander;
+		public unowned Gtk.Expander expander;
 
 		public ProgressDialog (Gtk.Application application) {
 			Object (application: application);

@@ -9,9 +9,7 @@ libnotify = dependency('libnotify')
 appstream = dependency('appstream-glib')
 gio_unix = dependency('gio-unix-2.0')
 
-#gtk3 = dependency('gtk+-3.0', version : '>=3.22')
-#gdk3 = dependency('gdk-3.0')
-#gdk_pixbuf2 = dependency('gdk-pixbuf-2.0')
+gtk3 = dependency('gtk+-3.0', version : '>=3.22')
 
 gtk4 = dependency('gtk4')
 libadwaita = dependency('libadwaita-1')
@@ -111,12 +109,12 @@ executable('pamac',
 	c_args: common_c_args,
 	install: true)
 
-#executable('pamac-tray',
-#	sources: ['tray.vala', 'tray-gtk.vala'],
-#	dependencies: [gtk3, libnotify, libpamac_dep],
-#	vala_args: common_vala_args,
-#	c_args: common_c_args,
-#	install: true)
+executable('pamac-tray',
+	sources: ['tray.vala', 'tray-gtk.vala'],
+	dependencies: [gtk3, libnotify, libpamac_dep],
+	vala_args: common_vala_args,
+	c_args: common_c_args,
+	install: true)
 
 libpamac_gtk = library('pamac-gtk',
 	sources: [transaction_gtk_sources, transaction_resources],

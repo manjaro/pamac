@@ -21,9 +21,9 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/updates_dialog.ui")]
 	class UpdatesDialog : Gtk.Dialog {
 		[GtkChild]
-		public Gtk.Label label;
+		public unowned Gtk.Label label;
 		[GtkChild]
-		public Gtk.ListBox listbox;
+		public unowned Gtk.ListBox listbox;
 
 		public UpdatesDialog (Gtk.ApplicationWindow window) {
 			int use_header_bar;
