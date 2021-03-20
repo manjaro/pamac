@@ -1487,7 +1487,7 @@ namespace Pamac {
 										if (pkg_to_add_name == requiredby_list.data) {
 											if (pkg_to_add_name in to_build) {
 												// found the top requiredby package
-												pkg.requiredby.add ((owned) requiredby_list.data);
+												pkg.requiredby.add (requiredby_list.data);
 												dep_found = true;
 											} else {
 												if (pkg_to_add_name in checked) {
@@ -1543,7 +1543,7 @@ namespace Pamac {
 											if (pkg_to_add_name in to_install
 												|| pkg_to_add_name in to_build) {
 												// found the top requiredby package
-												pkg.requiredby.add ((owned) requiredby_list.data);
+												pkg.requiredby.add (requiredby_list.data);
 												dep_found = true;
 											} else {
 												if (pkg_to_add_name in checked) {
@@ -1653,7 +1653,7 @@ namespace Pamac {
 							unowned string name = requiredby.data;
 							if (name in to_remove) {
 								// found the top requiredby package
-								pkg.requiredby.add ((owned) requiredby.data);
+								pkg.requiredby.add (requiredby.data);
 								dep_found = true;
 							} else {
 								// check name requiredby
