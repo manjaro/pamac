@@ -20,10 +20,10 @@
 namespace Pamac {
 
 	class GtkTrayIcon: TrayIcon {
-		Gtk.StatusIcon status_icon;
+		Gtk3.StatusIcon status_icon;
 
 		public override void init_status_icon () {
-			status_icon = new Gtk.StatusIcon ();
+			status_icon = new Gtk3.StatusIcon ();
 			status_icon.visible = false;
 			status_icon.activate.connect (left_clicked);
 			status_icon.popup_menu.connect (menu_popup);

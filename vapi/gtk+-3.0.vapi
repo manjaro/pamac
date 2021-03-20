@@ -4,333 +4,333 @@
 namespace Gtk3 {
 	[Version (deprecated_since = "3.10")]
 	namespace Stock {
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ABOUT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ABOUT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string ABOUT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ADD")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ADD")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string ADD;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_APPLY")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_APPLY")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string APPLY;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_BOLD")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_BOLD")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string BOLD;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CANCEL")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CANCEL")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string CANCEL;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CAPS_LOCK_WARNING")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CAPS_LOCK_WARNING")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.16")]
 		public const string CAPS_LOCK_WARNING;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CDROM")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CDROM")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string CDROM;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CLEAR")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CLEAR")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string CLEAR;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CLOSE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CLOSE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string CLOSE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_COLOR_PICKER")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_COLOR_PICKER")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.2")]
 		public const string COLOR_PICKER;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CONNECT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CONNECT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string CONNECT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CONVERT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CONVERT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string CONVERT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_COPY")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_COPY")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string COPY;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_CUT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_CUT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string CUT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DELETE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DELETE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DELETE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DIALOG_AUTHENTICATION")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DIALOG_AUTHENTICATION")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.4")]
 		public const string DIALOG_AUTHENTICATION;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DIALOG_ERROR")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DIALOG_ERROR")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DIALOG_ERROR;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DIALOG_INFO")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DIALOG_INFO")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DIALOG_INFO;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DIALOG_QUESTION")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DIALOG_QUESTION")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DIALOG_QUESTION;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DIALOG_WARNING")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DIALOG_WARNING")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DIALOG_WARNING;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DIRECTORY")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DIRECTORY")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string DIRECTORY;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DISCARD")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DISCARD")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.12")]
 		public const string DISCARD;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DISCONNECT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DISCONNECT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string DISCONNECT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DND")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DND")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DND;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_DND_MULTIPLE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_DND_MULTIPLE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string DND_MULTIPLE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_EDIT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_EDIT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string EDIT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_EXECUTE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_EXECUTE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string EXECUTE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_FILE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_FILE")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string FILE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_FIND")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_FIND")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string FIND;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_FIND_AND_REPLACE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_FIND_AND_REPLACE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string FIND_AND_REPLACE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_FLOPPY")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_FLOPPY")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string FLOPPY;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_FULLSCREEN")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_FULLSCREEN")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.8")]
 		public const string FULLSCREEN;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GOTO_BOTTOM")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GOTO_BOTTOM")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GOTO_BOTTOM;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GOTO_FIRST")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GOTO_FIRST")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GOTO_FIRST;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GOTO_LAST")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GOTO_LAST")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GOTO_LAST;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GOTO_TOP")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GOTO_TOP")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GOTO_TOP;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GO_BACK")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GO_BACK")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GO_BACK;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GO_DOWN")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GO_DOWN")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GO_DOWN;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GO_FORWARD")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GO_FORWARD")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GO_FORWARD;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_GO_UP")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_GO_UP")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string GO_UP;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_HARDDISK")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_HARDDISK")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.4")]
 		public const string HARDDISK;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_HELP")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_HELP")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string HELP;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_HOME")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_HOME")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string HOME;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_INDENT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_INDENT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.4")]
 		public const string INDENT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_INDEX")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_INDEX")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string INDEX;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_INFO")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_INFO")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.8")]
 		public const string INFO;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ITALIC")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ITALIC")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string ITALIC;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_JUMP_TO")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_JUMP_TO")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string JUMP_TO;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_JUSTIFY_CENTER")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_JUSTIFY_CENTER")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string JUSTIFY_CENTER;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_JUSTIFY_FILL")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_JUSTIFY_FILL")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string JUSTIFY_FILL;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_JUSTIFY_LEFT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_JUSTIFY_LEFT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string JUSTIFY_LEFT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_JUSTIFY_RIGHT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_JUSTIFY_RIGHT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string JUSTIFY_RIGHT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_LEAVE_FULLSCREEN")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_LEAVE_FULLSCREEN")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.8")]
 		public const string LEAVE_FULLSCREEN;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_FORWARD")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_FORWARD")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_FORWARD;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_NEXT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_NEXT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_NEXT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_PAUSE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_PAUSE")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_PAUSE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_PLAY")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_PLAY")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_PLAY;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_PREVIOUS")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_PREVIOUS")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_PREVIOUS;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_RECORD")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_RECORD")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_RECORD;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_REWIND")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_REWIND")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_REWIND;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MEDIA_STOP")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MEDIA_STOP")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 		public const string MEDIA_STOP;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_MISSING_IMAGE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_MISSING_IMAGE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string MISSING_IMAGE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_NETWORK")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_NETWORK")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.4")]
 		public const string NETWORK;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_NEW")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_NEW")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string NEW;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_NO")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_NO")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string NO;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_OK")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_OK")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string OK;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_OPEN")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_OPEN")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string OPEN;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ORIENTATION_LANDSCAPE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ORIENTATION_LANDSCAPE")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.10")]
 		public const string ORIENTATION_LANDSCAPE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ORIENTATION_PORTRAIT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ORIENTATION_PORTRAIT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.10")]
 		public const string ORIENTATION_PORTRAIT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ORIENTATION_REVERSE_LANDSCAPE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ORIENTATION_REVERSE_LANDSCAPE")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.10")]
 		public const string ORIENTATION_REVERSE_LANDSCAPE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ORIENTATION_REVERSE_PORTRAIT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ORIENTATION_REVERSE_PORTRAIT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.10")]
 		public const string ORIENTATION_REVERSE_PORTRAIT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PAGE_SETUP")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PAGE_SETUP")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.14")]
 		public const string PAGE_SETUP;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PASTE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PASTE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string PASTE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PREFERENCES")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PREFERENCES")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string PREFERENCES;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PRINT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PRINT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string PRINT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PRINT_ERROR")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PRINT_ERROR")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.14")]
 		public const string PRINT_ERROR;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PRINT_PAUSED")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PRINT_PAUSED")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.14")]
 		public const string PRINT_PAUSED;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PRINT_PREVIEW")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PRINT_PREVIEW")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string PRINT_PREVIEW;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PRINT_REPORT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PRINT_REPORT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.14")]
 		public const string PRINT_REPORT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PRINT_WARNING")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PRINT_WARNING")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.14")]
 		public const string PRINT_WARNING;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_PROPERTIES")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_PROPERTIES")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string PROPERTIES;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_QUIT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_QUIT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string QUIT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_REDO")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_REDO")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string REDO;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_REFRESH")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_REFRESH")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string REFRESH;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_REMOVE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_REMOVE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string REMOVE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_REVERT_TO_SAVED")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_REVERT_TO_SAVED")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string REVERT_TO_SAVED;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SAVE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SAVE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SAVE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SAVE_AS")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SAVE_AS")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SAVE_AS;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SELECT_ALL")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SELECT_ALL")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.10")]
 		public const string SELECT_ALL;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SELECT_COLOR")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SELECT_COLOR")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SELECT_COLOR;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SELECT_FONT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SELECT_FONT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SELECT_FONT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SORT_ASCENDING")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SORT_ASCENDING")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SORT_ASCENDING;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SORT_DESCENDING")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SORT_DESCENDING")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SORT_DESCENDING;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_SPELL_CHECK")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_SPELL_CHECK")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string SPELL_CHECK;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_STOP")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_STOP")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string STOP;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_STRIKETHROUGH")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_STRIKETHROUGH")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string STRIKETHROUGH;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_UNDELETE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_UNDELETE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string UNDELETE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_UNDERLINE")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_UNDERLINE")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string UNDERLINE;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_UNDO")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_UNDO")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string UNDO;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_UNINDENT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_UNINDENT")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.4")]
 		public const string UNINDENT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_YES")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_YES")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string YES;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ZOOM_100")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ZOOM_100")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string ZOOM_100;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ZOOM_FIT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ZOOM_FIT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string ZOOM_FIT;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ZOOM_IN")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ZOOM_IN")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string ZOOM_IN;
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STOCK_ZOOM_OUT")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STOCK_ZOOM_OUT")]
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public const string ZOOM_OUT;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void add (Gtk3.StockItem[] items);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void add_static (Gtk3.StockItem[] items);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static GLib.SList<string> list_ids ();
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static bool lookup (string stock_id, out Gtk3.StockItem item);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void set_translate_func (string domain, owned Gtk3.TranslateFunc func);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_about_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_about_dialog_get_type ()")]
 	public class AboutDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.6")]
@@ -436,7 +436,7 @@ namespace Gtk3 {
 		[Version (since = "2.24")]
 		public virtual signal bool activate_link (string uri);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_accel_group_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_accel_group_get_type ()")]
 	public class AccelGroup : GLib.Object {
 		[CCode (has_construct_function = false)]
 		public AccelGroup ();
@@ -460,7 +460,7 @@ namespace Gtk3 {
 		public signal bool accel_activate (GLib.Object acceleratable, uint keyval, Gdk3.ModifierType modifier);
 		public virtual signal void accel_changed (uint keyval, Gdk3.ModifierType modifier, GLib.Closure accel_closure);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_accel_label_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_accel_label_get_type ()")]
 	public class AccelLabel : Gtk3.Label, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public AccelLabel (string str);
@@ -477,7 +477,7 @@ namespace Gtk3 {
 		public GLib.Closure accel_closure { owned get; set; }
 		public Gtk3.Widget accel_widget { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_accel_map_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_accel_map_get_type ()")]
 	public class AccelMap : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected AccelMap ();
@@ -501,7 +501,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public signal void changed (string accel_path, uint accel_key, Gdk3.ModifierType accel_mods);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_accessible_get_type ()")]
 	public class Accessible : Atk.Object {
 		[CCode (has_construct_function = false)]
 		protected Accessible ();
@@ -517,7 +517,7 @@ namespace Gtk3 {
 		public virtual void widget_unset ();
 		public Gtk3.Widget widget { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_action_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_action_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10", replacement = "GLib.Action")]
 	public class Action : GLib.Object, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -632,7 +632,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void activate ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_action_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_action_bar_get_type ()")]
 	public class ActionBar : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.12")]
@@ -646,7 +646,7 @@ namespace Gtk3 {
 		[Version (since = "3.12")]
 		public void set_center_widget (Gtk3.Widget? center_widget);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_action_group_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_action_group_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public class ActionGroup : GLib.Object, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -705,7 +705,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public signal void pre_activate (Gtk3.Action action);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_adjustment_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_adjustment_get_type ()")]
 	public class Adjustment : GLib.InitiallyUnowned {
 		[CCode (has_construct_function = false)]
 		public Adjustment (double value, double lower, double upper, double step_increment, double page_increment, double page_size);
@@ -753,7 +753,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void value_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_alignment_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_alignment_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.14")]
 	public class Alignment : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -784,7 +784,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public float yscale { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_app_chooser_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_app_chooser_button_get_type ()")]
 	public class AppChooserButton : Gtk3.ComboBox, Atk.Implementor, Gtk3.AppChooser, Gtk3.Buildable, Gtk3.CellEditable, Gtk3.CellLayout {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -811,7 +811,7 @@ namespace Gtk3 {
 		public bool show_dialog_item { get; set construct; }
 		public virtual signal void custom_item_activated (string item_name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_app_chooser_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_app_chooser_dialog_get_type ()")]
 	public class AppChooserDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.AppChooser, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -827,7 +827,7 @@ namespace Gtk3 {
 		public GLib.File gfile { owned get; construct; }
 		public string heading { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_app_chooser_widget_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_app_chooser_widget_get_type ()")]
 	public class AppChooserWidget : Gtk3.Box, Atk.Implementor, Gtk3.AppChooser, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -865,7 +865,7 @@ namespace Gtk3 {
 		public virtual signal void application_selected (GLib.AppInfo app_info);
 		public virtual signal void populate_popup (Gtk3.Menu menu, GLib.AppInfo app_info);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_application_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_application_get_type ()")]
 	public class Application : GLib.Application, GLib.ActionGroup, GLib.ActionMap {
 		[CCode (has_construct_function = false)]
 		[Version (since = "3.0")]
@@ -929,7 +929,7 @@ namespace Gtk3 {
 		[Version (since = "3.2")]
 		public virtual signal void window_removed (Gtk3.Window window);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_application_window_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_application_window_get_type ()")]
 	public class ApplicationWindow : Gtk3.Window, Atk.Implementor, GLib.ActionGroup, GLib.ActionMap, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.4")]
@@ -946,7 +946,7 @@ namespace Gtk3 {
 		public void set_show_menubar (bool show_menubar);
 		public bool show_menubar { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_arrow_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_arrow_get_type ()")]
 	public class Arrow : Gtk3.Misc, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (deprecated = true, deprecated_since = "3.14")]
@@ -958,12 +958,12 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gtk3.ShadowType shadow_type { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_arrow_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_arrow_accessible_get_type ()")]
 	public class ArrowAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected ArrowAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_aspect_frame_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_aspect_frame_get_type ()")]
 	public class AspectFrame : Gtk3.Frame, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public AspectFrame (string? label, float xalign, float yalign, float ratio, bool obey_child);
@@ -977,7 +977,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public float yalign { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_assistant_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_assistant_get_type ()")]
 	public class Assistant : Gtk3.Window, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.10")]
@@ -1049,13 +1049,13 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public virtual signal void prepare (Gtk3.Widget page);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_bin_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_bin_get_type ()")]
 	public abstract class Bin : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		protected Bin ();
 		public unowned Gtk3.Widget? get_child ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class BindingEntry {
 		public weak Gtk3.BindingSet binding_set;
@@ -1068,18 +1068,18 @@ namespace Gtk3 {
 		public weak Gtk3.BindingEntry set_next;
 		public weak Gtk3.BindingSignal signals;
 		public static void add_signal (Gtk3.BindingSet binding_set, uint keyval, Gdk3.ModifierType modifiers, string signal_name, uint n_args, ...);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		[Version (since = "3.0")]
 		public static GLib.TokenType add_signal_from_string (Gtk3.BindingSet binding_set, string signal_desc);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void add_signall (Gtk3.BindingSet binding_set, uint keyval, Gdk3.ModifierType modifiers, string signal_name, [CCode (type = "GSList*")] GLib.SList<Gtk3.BindingArg?> binding_args);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void remove (Gtk3.BindingSet binding_set, uint keyval, Gdk3.ModifierType modifiers);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		[Version (since = "2.12")]
 		public static void skip (Gtk3.BindingSet binding_set, uint keyval, Gdk3.ModifierType modifiers);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class BindingSet {
 		public weak GLib.SList<void*> class_branch_pspecs;
@@ -1093,13 +1093,13 @@ namespace Gtk3 {
 		public bool activate (uint keyval, Gdk3.ModifierType modifiers, GLib.Object object);
 		[Version (deprecated = true, deprecated_since = "3.0")]
 		public void add_path (Gtk3.PathType path_type, string path_pattern, Gtk3.PathPriorityType priority);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static unowned Gtk3.BindingSet by_class ([CCode (type = "gpointer")] GLib.ObjectClass object_class);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static unowned Gtk3.BindingSet? find (string set_name);
 		public static unowned Gtk3.BindingSet @new (string name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class BindingSignal {
 		[CCode (array_length_cname = "n_args", array_length_type = "guint")]
@@ -1108,12 +1108,12 @@ namespace Gtk3 {
 		public weak Gtk3.BindingSignal next;
 		public weak string signal_name;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_boolean_cell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_boolean_cell_accessible_get_type ()")]
 	public class BooleanCellAccessible : Gtk3.RendererCellAccessible, Atk.Action, Atk.Component, Atk.TableCell {
 		[CCode (has_construct_function = false)]
 		protected BooleanCellAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_box_get_type ()")]
 	public class Box : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -1139,7 +1139,7 @@ namespace Gtk3 {
 		public bool homogeneous { get; set; }
 		public int spacing { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_builder_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_builder_get_type ()")]
 	public class Builder : GLib.Object {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.12")]
@@ -1199,7 +1199,7 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public string translation_domain { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_button_get_type ()")]
 	public class Button : Gtk3.Bin, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Button ();
@@ -1278,12 +1278,12 @@ namespace Gtk3 {
 		[Version (deprecated = true, deprecated_since = "2.8", replacement = "Gtk3.Widget.button_release_event")]
 		public virtual signal void released ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_button_accessible_get_type ()")]
 	public class ButtonAccessible : Gtk3.ContainerAccessible, Atk.Action, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected ButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_button_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_button_box_get_type ()")]
 	public class ButtonBox : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -1300,7 +1300,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gtk3.ButtonBoxStyle layout_style { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_calendar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_calendar_get_type ()")]
 	public class Calendar : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Calendar ();
@@ -1359,14 +1359,14 @@ namespace Gtk3 {
 		public virtual signal void prev_month ();
 		public virtual signal void prev_year ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_cell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_cell_accessible_get_type ()")]
 	public class CellAccessible : Gtk3.Accessible, Atk.Action, Atk.Component, Atk.TableCell {
 		[CCode (has_construct_function = false)]
 		protected CellAccessible ();
 		[NoWrapper]
 		public virtual void update_cache (bool emit_signal);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_area_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_area_get_type ()")]
 	public abstract class CellArea : GLib.InitiallyUnowned, Gtk3.Buildable, Gtk3.CellLayout {
 		[CCode (has_construct_function = false)]
 		protected CellArea ();
@@ -1485,7 +1485,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public signal void remove_editable (Gtk3.CellRenderer renderer, Gtk3.CellEditable editable);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_area_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_area_box_get_type ()")]
 	public class CellAreaBox : Gtk3.CellArea, Gtk3.Buildable, Gtk3.CellLayout, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkCellArea*")]
 		[Version (since = "3.0")]
@@ -1503,7 +1503,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public int spacing { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_area_context_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_area_context_get_type ()")]
 	public class CellAreaContext : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected CellAreaContext ();
@@ -1540,7 +1540,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public int natural_width { get; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_get_type ()")]
 	public abstract class CellRenderer : GLib.InitiallyUnowned {
 		[CCode (has_construct_function = false)]
 		protected CellRenderer ();
@@ -1626,7 +1626,7 @@ namespace Gtk3 {
 		[Version (since = "2.6")]
 		public virtual signal void editing_started (Gtk3.CellEditable editable, string path);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_accel_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_accel_get_type ()")]
 	public class CellRendererAccel : Gtk3.CellRendererText {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		[Version (since = "2.10")]
@@ -1648,7 +1648,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public virtual signal void accel_edited (string path_string, uint accel_key, Gdk3.ModifierType accel_mods, uint hardware_keycode);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_combo_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_combo_get_type ()")]
 	public class CellRendererCombo : Gtk3.CellRendererText {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		[Version (since = "2.6")]
@@ -1665,7 +1665,7 @@ namespace Gtk3 {
 		[Version (since = "2.14")]
 		public signal void changed (string path_string, Gtk3.TreeIter new_iter);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_pixbuf_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_pixbuf_get_type ()")]
 	public class CellRendererPixbuf : Gtk3.CellRenderer {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		public CellRendererPixbuf ();
@@ -1696,7 +1696,7 @@ namespace Gtk3 {
 		[Version (since = "3.10")]
 		public Cairo.Surface surface { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_progress_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_progress_get_type ()")]
 	public class CellRendererProgress : Gtk3.CellRenderer, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		[Version (since = "2.6")]
@@ -1719,7 +1719,7 @@ namespace Gtk3 {
 		[Version (since = "2.6")]
 		public int value { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_spin_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_spin_get_type ()")]
 	public class CellRendererSpin : Gtk3.CellRendererText {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		[Version (since = "2.10")]
@@ -1734,7 +1734,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public uint digits { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_spinner_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_spinner_get_type ()")]
 	public class CellRendererSpinner : Gtk3.CellRenderer {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		[Version (since = "2.20")]
@@ -1748,7 +1748,7 @@ namespace Gtk3 {
 		[Version (since = "2.20")]
 		public Gtk3.IconSize size { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_text_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_text_get_type ()")]
 	public class CellRendererText : Gtk3.CellRenderer {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		public CellRendererText ();
@@ -1861,7 +1861,7 @@ namespace Gtk3 {
 		public int wrap_width { get; set; }
 		public virtual signal void edited (string path, string new_text);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_renderer_toggle_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_renderer_toggle_get_type ()")]
 	public class CellRendererToggle : Gtk3.CellRenderer {
 		[CCode (has_construct_function = false, type = "GtkCellRenderer*")]
 		public CellRendererToggle ();
@@ -1882,7 +1882,7 @@ namespace Gtk3 {
 		public bool radio { get; set; }
 		public virtual signal void toggled (string path);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_view_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_view_get_type ()")]
 	public class CellView : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable, Gtk3.CellLayout, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.6")]
@@ -1939,7 +1939,7 @@ namespace Gtk3 {
 		public bool fit_model { get; set; }
 		public Gtk3.TreeModel model { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_check_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_check_button_get_type ()")]
 	public class CheckButton : Gtk3.ToggleButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public CheckButton ();
@@ -1950,7 +1950,7 @@ namespace Gtk3 {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public CheckButton.with_mnemonic (string label);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_check_menu_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_check_menu_item_get_type ()")]
 	public class CheckMenuItem : Gtk3.MenuItem, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public CheckMenuItem ();
@@ -1974,12 +1974,12 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void toggled ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_check_menu_item_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_check_menu_item_accessible_get_type ()")]
 	public class CheckMenuItemAccessible : Gtk3.MenuItemAccessible, Atk.Action, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected CheckMenuItemAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_clipboard_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_clipboard_get_type ()")]
 	public class Clipboard : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected Clipboard ();
@@ -2037,7 +2037,7 @@ namespace Gtk3 {
 		[Version (since = "2.6")]
 		public signal void owner_change (Gdk3.EventOwnerChange event);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_color_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_color_button_get_type ()")]
 	public class ColorButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable, Gtk3.ColorChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.4")]
@@ -2079,7 +2079,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void color_set ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_color_chooser_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_color_chooser_dialog_get_type ()")]
 	[Version (since = "3.4")]
 	public class ColorChooserDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable, Gtk3.ColorChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -2087,7 +2087,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public bool show_editor { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_color_chooser_widget_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_color_chooser_widget_get_type ()")]
 	[Version (since = "3.4")]
 	public class ColorChooserWidget : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.ColorChooser, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -2095,7 +2095,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public bool show_editor { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_color_selection_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_color_selection_get_type ()")]
 	public class ColorSelection : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public ColorSelection ();
@@ -2138,7 +2138,7 @@ namespace Gtk3 {
 		public bool has_palette { get; set; }
 		public virtual signal void color_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_color_selection_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_color_selection_dialog_get_type ()")]
 	public class ColorSelectionDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public ColorSelectionDialog (string title);
@@ -2152,7 +2152,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gtk3.Widget ok_button { owned get; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_combo_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_combo_box_get_type ()")]
 	public class ComboBox : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable, Gtk3.CellEditable, Gtk3.CellLayout {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.4")]
@@ -2286,12 +2286,12 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public signal void popup ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_combo_box_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_combo_box_accessible_get_type ()")]
 	public class ComboBoxAccessible : Gtk3.ContainerAccessible, Atk.Action, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected ComboBoxAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_combo_box_text_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_combo_box_text_get_type ()")]
 	public class ComboBoxText : Gtk3.ComboBox, Atk.Implementor, Gtk3.Buildable, Gtk3.CellEditable, Gtk3.CellLayout {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.24")]
@@ -2318,7 +2318,7 @@ namespace Gtk3 {
 		[Version (since = "2.24")]
 		public ComboBoxText.with_entry ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_container_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_container_get_type ()")]
 	public abstract class Container : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		protected Container ();
@@ -2398,7 +2398,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void set_focus_child (Gtk3.Widget? child);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_container_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_container_accessible_get_type ()")]
 	public class ContainerAccessible : Gtk3.WidgetAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected ContainerAccessible ();
@@ -2407,7 +2407,7 @@ namespace Gtk3 {
 		[NoWrapper]
 		public virtual int remove_gtk (Gtk3.Widget widget, void* data);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_container_cell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_container_cell_accessible_get_type ()")]
 	public class ContainerCellAccessible : Gtk3.CellAccessible, Atk.Action, Atk.Component, Atk.TableCell {
 		[CCode (has_construct_function = false)]
 		public ContainerCellAccessible ();
@@ -2415,7 +2415,7 @@ namespace Gtk3 {
 		public unowned GLib.List<Gtk3.CellAccessible> get_children ();
 		public void remove_child (Gtk3.CellAccessible child);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_css_provider_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_css_provider_get_type ()")]
 	public class CssProvider : GLib.Object, Gtk3.StyleProvider {
 		[CCode (has_construct_function = false)]
 		public CssProvider ();
@@ -2433,7 +2433,7 @@ namespace Gtk3 {
 		public string to_string ();
 		public virtual signal void parsing_error (Gtk3.CssSection section, GLib.Error error);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_css_section_ref", type_id = "gtk_css_section_get_type ()", unref_function = "gtk_css_section_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_css_section_ref", type_id = "gtk_css_section_get_type ()", unref_function = "gtk_css_section_unref")]
 	[Compact]
 	[Version (since = "3.2")]
 	public class CssSection {
@@ -2447,7 +2447,7 @@ namespace Gtk3 {
 		public unowned Gtk3.CssSection @ref ();
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_dialog_get_type ()")]
 	public class Dialog : Gtk3.Window, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Dialog ();
@@ -2481,12 +2481,12 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void response (int response_id);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_drawing_area_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_drawing_area_get_type ()")]
 	public class DrawingArea : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public DrawingArea ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_entry_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_entry_get_type ()")]
 	public class Entry : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable, Gtk3.CellEditable, Gtk3.Editable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Entry ();
@@ -2765,12 +2765,12 @@ namespace Gtk3 {
 		public signal void preedit_changed (string preedit);
 		public virtual signal void toggle_overwrite ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_entry_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_entry_accessible_get_type ()")]
 	public class EntryAccessible : Gtk3.WidgetAccessible, Atk.Action, Atk.Component, Atk.EditableText, Atk.Text {
 		[CCode (has_construct_function = false)]
 		protected EntryAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_entry_buffer_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_entry_buffer_get_type ()")]
 	[Version (since = "2.18")]
 	public class EntryBuffer : GLib.Object {
 		[CCode (has_construct_function = false)]
@@ -2794,7 +2794,7 @@ namespace Gtk3 {
 		public virtual signal void deleted_text (uint position, uint n_chars);
 		public virtual signal void inserted_text (uint position, string chars, uint n_chars);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_entry_completion_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_entry_completion_get_type ()")]
 	public class EntryCompletion : GLib.Object, Gtk3.Buildable, Gtk3.CellLayout {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.4")]
@@ -2881,12 +2881,12 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public virtual signal void no_matches ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_entry_icon_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_entry_icon_accessible_get_type ()")]
 	public class EntryIconAccessible : Atk.Object, Atk.Action, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected EntryIconAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_event_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_event_box_get_type ()")]
 	public class EventBox : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public EventBox ();
@@ -2901,7 +2901,7 @@ namespace Gtk3 {
 		public bool above_child { get; set; }
 		public bool visible_window { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_event_controller_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_event_controller_get_type ()")]
 	public abstract class EventController : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected EventController ();
@@ -2920,7 +2920,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public Gtk3.Widget widget { get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_event_controller_key_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_event_controller_key_get_type ()")]
 	public class EventControllerKey : Gtk3.EventController {
 		[CCode (has_construct_function = false, type = "GtkEventController*")]
 		public EventControllerKey (Gtk3.Widget widget);
@@ -2938,7 +2938,7 @@ namespace Gtk3 {
 		public signal void key_released (uint keyval, uint keycode, Gdk3.ModifierType state);
 		public signal bool modifiers (Gdk3.ModifierType object);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_event_controller_motion_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_event_controller_motion_get_type ()")]
 	public class EventControllerMotion : Gtk3.EventController {
 		[CCode (has_construct_function = false, type = "GtkEventController*")]
 		[Version (since = "3.24")]
@@ -2947,7 +2947,7 @@ namespace Gtk3 {
 		public signal void leave ();
 		public signal void motion (double x, double y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_event_controller_scroll_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_event_controller_scroll_get_type ()")]
 	public class EventControllerScroll : Gtk3.EventController {
 		[CCode (has_construct_function = false, type = "GtkEventController*")]
 		[Version (since = "3.24")]
@@ -2963,7 +2963,7 @@ namespace Gtk3 {
 		public signal void scroll_begin ();
 		public signal void scroll_end ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_expander_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_expander_get_type ()")]
 	public class Expander : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.4")]
@@ -3015,12 +3015,12 @@ namespace Gtk3 {
 		public bool use_underline { get; set construct; }
 		public virtual signal void activate ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_expander_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_expander_accessible_get_type ()")]
 	public class ExpanderAccessible : Gtk3.ContainerAccessible, Atk.Action, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected ExpanderAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_file_chooser_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_file_chooser_button_get_type ()")]
 	public class FileChooserButton : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.FileChooser, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.6")]
@@ -3050,13 +3050,13 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public virtual signal void file_set ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_file_chooser_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_file_chooser_dialog_get_type ()")]
 	public class FileChooserDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable, Gtk3.FileChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.4")]
 		public FileChooserDialog (string? title, Gtk3.Window? parent, Gtk3.FileChooserAction action, ...);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_file_chooser_native_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_file_chooser_native_get_type ()")]
 	public class FileChooserNative : Gtk3.NativeDialog, Gtk3.FileChooser {
 		[CCode (has_construct_function = false)]
 		[Version (since = "3.20")]
@@ -3072,7 +3072,7 @@ namespace Gtk3 {
 		public string? accept_label { get; set; }
 		public string? cancel_label { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_file_chooser_widget_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_file_chooser_widget_get_type ()")]
 	public class FileChooserWidget : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.FileChooser, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.4")]
@@ -3094,7 +3094,7 @@ namespace Gtk3 {
 		public signal void show_hidden ();
 		public signal void up_folder ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_file_filter_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_file_filter_get_type ()")]
 	public class FileFilter : GLib.InitiallyUnowned, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.4")]
@@ -3124,7 +3124,7 @@ namespace Gtk3 {
 		[Version (since = "3.22")]
 		public GLib.Variant to_gvariant ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class FileFilterInfo {
 		public Gtk3.FileFilterFlags contains;
@@ -3133,21 +3133,21 @@ namespace Gtk3 {
 		public weak string mime_type;
 		public weak string uri;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_fixed_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_fixed_get_type ()")]
 	public class Fixed : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Fixed ();
 		public void move (Gtk3.Widget widget, int x, int y);
 		public void put (Gtk3.Widget widget, int x, int y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class FixedChild {
 		public weak Gtk3.Widget widget;
 		public int x;
 		public int y;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_flow_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_flow_box_get_type ()")]
 	public class FlowBox : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.12")]
@@ -3225,12 +3225,12 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void unselect_all ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_flow_box_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_flow_box_accessible_get_type ()")]
 	public class FlowBoxAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected FlowBoxAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_flow_box_child_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_flow_box_child_get_type ()")]
 	public class FlowBoxChild : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.12")]
@@ -3243,12 +3243,12 @@ namespace Gtk3 {
 		public bool is_selected ();
 		public virtual signal void activate ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_flow_box_child_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_flow_box_child_accessible_get_type ()")]
 	public class FlowBoxChildAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected FlowBoxChildAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_font_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_font_button_get_type ()")]
 	public class FontButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable, Gtk3.FontChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.4")]
@@ -3295,13 +3295,13 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void font_set ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_font_chooser_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_font_chooser_dialog_get_type ()")]
 	[Version (since = "3.2")]
 	public class FontChooserDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable, Gtk3.FontChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public FontChooserDialog (string? title, Gtk3.Window? parent);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_font_chooser_widget_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_font_chooser_widget_get_type ()")]
 	[Version (since = "3.2")]
 	public class FontChooserWidget : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.FontChooser, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -3309,7 +3309,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public GLib.Action tweak_action { owned get; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_font_selection_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_font_selection_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "FontChooserWidget")]
 	public class FontSelection : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -3337,7 +3337,7 @@ namespace Gtk3 {
 		public string font_name { owned get; set; }
 		public string preview_text { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_font_selection_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_font_selection_dialog_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "FontChooserDialog")]
 	public class FontSelectionDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -3353,7 +3353,7 @@ namespace Gtk3 {
 		public bool set_font_name (string fontname);
 		public void set_preview_text (string text);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_frame_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_frame_get_type ()")]
 	public class Frame : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Frame (string? label);
@@ -3375,12 +3375,12 @@ namespace Gtk3 {
 		public float label_yalign { get; set; }
 		public Gtk3.ShadowType shadow_type { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_frame_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_frame_accessible_get_type ()")]
 	public class FrameAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected FrameAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gl_area_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gl_area_get_type ()")]
 	[Version (since = "3.16")]
 	public class GLArea : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -3416,7 +3416,7 @@ namespace Gtk3 {
 		public virtual signal bool render (Gdk3.GLContext context);
 		public virtual signal void resize (int width, int height);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_get_type ()")]
 	public abstract class Gesture : Gtk3.EventController {
 		[CCode (has_construct_function = false)]
 		protected Gesture ();
@@ -3473,7 +3473,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void update (Gdk3.EventSequence? sequence);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_drag_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_drag_get_type ()")]
 	public class GestureDrag : Gtk3.GestureSingle {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3489,7 +3489,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void drag_update (double offset_x, double offset_y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_long_press_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_long_press_get_type ()")]
 	public class GestureLongPress : Gtk3.GestureSingle {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3501,7 +3501,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void pressed (double x, double y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_multi_press_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_multi_press_get_type ()")]
 	public class GestureMultiPress : Gtk3.GestureSingle {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3517,7 +3517,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void stopped ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_pan_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_pan_get_type ()")]
 	public class GesturePan : Gtk3.GestureDrag {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3531,7 +3531,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void pan (Gtk3.PanDirection direction, double offset);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_rotate_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_rotate_get_type ()")]
 	public class GestureRotate : Gtk3.Gesture {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3541,7 +3541,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void angle_changed (double angle, double angle_delta);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_single_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_single_get_type ()")]
 	public class GestureSingle : Gtk3.Gesture {
 		[CCode (has_construct_function = false)]
 		protected GestureSingle ();
@@ -3568,7 +3568,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public bool touch_only { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_stylus_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_stylus_get_type ()")]
 	public class GestureStylus : Gtk3.GestureSingle {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.24")]
@@ -3584,7 +3584,7 @@ namespace Gtk3 {
 		public signal void proximity (double object, double p0);
 		public signal void up (double object, double p0);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_swipe_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_swipe_get_type ()")]
 	public class GestureSwipe : Gtk3.GestureSingle {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3594,7 +3594,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void swipe (double velocity_x, double velocity_y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_gesture_zoom_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_gesture_zoom_get_type ()")]
 	public class GestureZoom : Gtk3.Gesture {
 		[CCode (has_construct_function = false, type = "GtkGesture*")]
 		[Version (since = "3.14")]
@@ -3604,7 +3604,7 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public signal void scale_changed (double scale);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_gradient_ref", type_id = "gtk_gradient_get_type ()", unref_function = "gtk_gradient_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_gradient_ref", type_id = "gtk_gradient_get_type ()", unref_function = "gtk_gradient_unref")]
 	[Compact]
 	[Version (deprecated = true, deprecated_since = "3.8")]
 	public class Gradient {
@@ -3625,7 +3625,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_grid_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_grid_get_type ()")]
 	public class Grid : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Grid ();
@@ -3665,25 +3665,25 @@ namespace Gtk3 {
 		public bool row_homogeneous { get; set; }
 		public int row_spacing { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hbox_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hbox_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Box")]
 	public class HBox : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public HBox (bool homogeneous, int spacing);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hbutton_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hbutton_box_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "ButtonBox")]
 	public class HButtonBox : Gtk3.ButtonBox, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public HButtonBox ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hpaned_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hpaned_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Paned")]
 	public class HPaned : Gtk3.Paned, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public HPaned ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hsv_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hsv_get_type ()")]
 	public class HSV : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.14")]
@@ -3703,7 +3703,7 @@ namespace Gtk3 {
 		public virtual signal void changed ();
 		public virtual signal void move (Gtk3.DirectionType type);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hscale_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hscale_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Scale")]
 	public class HScale : Gtk3.Scale, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -3711,19 +3711,19 @@ namespace Gtk3 {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public HScale.with_range (double min, double max, double step);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hscrollbar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hscrollbar_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Scrollbar")]
 	public class HScrollbar : Gtk3.Scrollbar, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public HScrollbar (Gtk3.Adjustment? adjustment);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_hseparator_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_hseparator_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Separator")]
 	public class HSeparator : Gtk3.Separator, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public HSeparator ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_handle_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_handle_box_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.4")]
 	public class HandleBox : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -3746,7 +3746,7 @@ namespace Gtk3 {
 		[CCode (cname = "child-detached")]
 		public signal void on_child_detached (Gtk3.Widget widget);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_header_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_header_bar_get_type ()")]
 	public class HeaderBar : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -3793,12 +3793,12 @@ namespace Gtk3 {
 		public string subtitle { get; set; }
 		public string title { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_header_bar_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_header_bar_accessible_get_type ()")]
 	public class HeaderBarAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected HeaderBarAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtkimmodule.h", type_id = "gtk_im_context_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtkimmodule.h", type_id = "gtk_im_context_get_type ()")]
 	public abstract class IMContext : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected IMContext ();
@@ -3824,14 +3824,14 @@ namespace Gtk3 {
 		public virtual signal void preedit_start ();
 		public virtual signal bool retrieve_surrounding ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_im_context_simple_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_im_context_simple_get_type ()")]
 	public class IMContextSimple : Gtk3.IMContext {
 		[CCode (has_construct_function = false, type = "GtkIMContext*")]
 		public IMContextSimple ();
 		public void add_compose_file (string compose_file);
 		public void add_table ([CCode (array_length = false)] uint16[] data, int max_seq_len, int n_seqs);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_im_multicontext_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_im_multicontext_get_type ()")]
 	public class IMMulticontext : Gtk3.IMContext {
 		[CCode (has_construct_function = false, type = "GtkIMContext*")]
 		public IMMulticontext ();
@@ -3842,7 +3842,7 @@ namespace Gtk3 {
 		[Version (since = "2.16")]
 		public void set_context_id (string context_id);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_icon_factory_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_icon_factory_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10", replacement = "IconTheme")]
 	public class IconFactory : GLib.Object, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -3853,7 +3853,7 @@ namespace Gtk3 {
 		public static unowned Gtk3.IconSet lookup_default (string stock_id);
 		public void remove_default ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_icon_info_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_icon_info_get_type ()")]
 	[Version (since = "3.8")]
 	public class IconInfo : GLib.Object {
 		[CCode (has_construct_function = false)]
@@ -3893,7 +3893,7 @@ namespace Gtk3 {
 		[Version (deprecated = true, deprecated_since = "3.14", since = "2.4")]
 		public void set_raw_coordinates (bool raw_coordinates);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_icon_set_ref", type_id = "gtk_icon_set_get_type ()", unref_function = "gtk_icon_set_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_icon_set_ref", type_id = "gtk_icon_set_get_type ()", unref_function = "gtk_icon_set_unref")]
 	[Compact]
 	[Version (deprecated = true, deprecated_since = "3.10", replacement = "IconTheme")]
 	public class IconSet {
@@ -3913,7 +3913,7 @@ namespace Gtk3 {
 		public Cairo.Surface render_icon_surface (Gtk3.StyleContext context, [CCode (type = "GtkIconSize")] Gtk3.IconSize size, int scale, Gdk3.Window? for_window);
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_icon_source_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_icon_source_get_type ()")]
 	[Compact]
 	[Version (deprecated = true, deprecated_since = "3.10", replacement = "IconTheme")]
 	public class IconSource {
@@ -3940,7 +3940,7 @@ namespace Gtk3 {
 		public void set_state (Gtk3.StateType state);
 		public void set_state_wildcarded (bool setting);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_icon_theme_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_icon_theme_get_type ()")]
 	public class IconTheme : GLib.Object {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.4")]
@@ -3998,7 +3998,7 @@ namespace Gtk3 {
 		public void set_search_path ([CCode (array_length_cname = "n_elements", array_length_pos = 1.1)] string[] path);
 		public virtual signal void changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_icon_view_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_icon_view_get_type ()")]
 	public class IconView : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.CellLayout, Gtk3.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.6")]
@@ -4170,12 +4170,12 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void unselect_all ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_icon_view_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_icon_view_accessible_get_type ()")]
 	public class IconViewAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected IconViewAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_image_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_image_get_type ()")]
 	public class Image : Gtk3.Misc, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Image ();
@@ -4266,17 +4266,17 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public bool use_fallback { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_image_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_image_accessible_get_type ()")]
 	public class ImageAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected ImageAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_image_cell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_image_cell_accessible_get_type ()")]
 	public class ImageCellAccessible : Gtk3.RendererCellAccessible, Atk.Action, Atk.Component, Atk.Image, Atk.TableCell {
 		[CCode (has_construct_function = false)]
 		protected ImageCellAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_image_menu_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_image_menu_item_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public class ImageMenuItem : Gtk3.MenuItem, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -4307,7 +4307,7 @@ namespace Gtk3 {
 		[Version (since = "2.16")]
 		public bool use_stock { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_info_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_info_bar_get_type ()")]
 	public class InfoBar : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.18")]
@@ -4351,7 +4351,7 @@ namespace Gtk3 {
 		[Version (since = "2.18")]
 		public virtual signal void response (int response_id);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_invisible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_invisible_get_type ()")]
 	public class Invisible : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Invisible ();
@@ -4364,7 +4364,7 @@ namespace Gtk3 {
 		public void set_screen (Gdk3.Screen screen);
 		public Gdk3.Screen screen { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_label_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_label_get_type ()")]
 	public class Label : Gtk3.Misc, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Label (string? str);
@@ -4483,16 +4483,16 @@ namespace Gtk3 {
 		public virtual signal void move_cursor (Gtk3.MovementStep step, int count, bool extend_selection);
 		public virtual signal void populate_popup (Gtk3.Menu menu);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_label_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_label_accessible_get_type ()")]
 	public class LabelAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Hypertext, Atk.Text {
 		[CCode (has_construct_function = false)]
 		protected LabelAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class LabelSelectionInfo {
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_layout_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_layout_get_type ()")]
 	public class Layout : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Layout (Gtk3.Adjustment? hadjustment = null, Gtk3.Adjustment? vadjustment = null);
@@ -4515,7 +4515,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public uint width { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_level_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_level_bar_get_type ()")]
 	public class LevelBar : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.6")]
@@ -4562,12 +4562,12 @@ namespace Gtk3 {
 		[Version (since = "3.6")]
 		public virtual signal void offset_changed (string name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_level_bar_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_level_bar_accessible_get_type ()")]
 	public class LevelBarAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected LevelBarAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_link_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_link_button_get_type ()")]
 	public class LinkButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.10")]
@@ -4589,12 +4589,12 @@ namespace Gtk3 {
 		public bool visited { get; set; }
 		public virtual signal bool activate_link ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_link_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_link_button_accessible_get_type ()")]
 	public class LinkButtonAccessible : Gtk3.ButtonAccessible, Atk.Action, Atk.Component, Atk.HyperlinkImpl, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected LinkButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_list_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_list_box_get_type ()")]
 	public class ListBox : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -4667,12 +4667,12 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public virtual signal void unselect_all ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_list_box_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_list_box_accessible_get_type ()")]
 	public class ListBoxAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected ListBoxAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_list_box_row_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_list_box_row_get_type ()")]
 	public class ListBoxRow : Gtk3.Bin, Atk.Implementor, Gtk3.Actionable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -4702,12 +4702,12 @@ namespace Gtk3 {
 		[Version (since = "3.10")]
 		public virtual signal void activate ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_list_box_row_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_list_box_row_accessible_get_type ()")]
 	public class ListBoxRowAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected ListBoxRowAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_list_store_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_list_store_get_type ()")]
 	public class ListStore : GLib.Object, Gtk3.Buildable, Gtk3.TreeDragDest, Gtk3.TreeDragSource, Gtk3.TreeModel, Gtk3.TreeSortable {
 		[CCode (has_construct_function = false, sentinel = "-1")]
 		public ListStore (int n_columns, ...);
@@ -4743,7 +4743,7 @@ namespace Gtk3 {
 		[Version (since = "2.2")]
 		public void swap (Gtk3.TreeIter a, Gtk3.TreeIter b);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_lock_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_lock_button_get_type ()")]
 	public class LockButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.2")]
@@ -4764,12 +4764,12 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public string tooltip_unlock { owned get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_lock_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_lock_button_accessible_get_type ()")]
 	public class LockButtonAccessible : Gtk3.ButtonAccessible, Atk.Action, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected LockButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_menu_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_menu_get_type ()")]
 	public class Menu : Gtk3.MenuShell, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Menu ();
@@ -4857,12 +4857,12 @@ namespace Gtk3 {
 		[Version (since = "3.22")]
 		public signal void popped_up ([CCode (type = "gpointer")] Gdk3.Rectangle flipped_rect, [CCode (type = "gpointer")] Gdk3.Rectangle final_rect, bool flipped_x, bool flipped_y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_menu_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_menu_accessible_get_type ()")]
 	public class MenuAccessible : Gtk3.MenuShellAccessible, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected MenuAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_menu_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_menu_bar_get_type ()")]
 	public class MenuBar : Gtk3.MenuShell, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public MenuBar ();
@@ -4882,7 +4882,7 @@ namespace Gtk3 {
 		[Version (since = "2.8")]
 		public Gtk3.PackDirection pack_direction { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_menu_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_menu_button_get_type ()")]
 	public class MenuButton : Gtk3.ToggleButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.6")]
@@ -4924,12 +4924,12 @@ namespace Gtk3 {
 		[Version (since = "3.12")]
 		public bool use_popover { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_menu_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_menu_button_accessible_get_type ()")]
 	public class MenuButtonAccessible : Gtk3.ToggleButtonAccessible, Atk.Action, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected MenuButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_menu_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_menu_item_get_type ()")]
 	public class MenuItem : Gtk3.Bin, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public MenuItem ();
@@ -4980,12 +4980,12 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void toggle_size_request (void* requisition);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_menu_item_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_menu_item_accessible_get_type ()")]
 	public class MenuItemAccessible : Gtk3.ContainerAccessible, Atk.Action, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected MenuItemAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_menu_shell_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_menu_shell_get_type ()")]
 	public abstract class MenuShell : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		protected MenuShell ();
@@ -5024,12 +5024,12 @@ namespace Gtk3 {
 		public virtual signal bool move_selected (int distance);
 		public virtual signal void selection_done ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_menu_shell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_menu_shell_accessible_get_type ()")]
 	public class MenuShellAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected MenuShellAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_menu_tool_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_menu_tool_button_get_type ()")]
 	public class MenuToolButton : Gtk3.ToolButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkToolItem*")]
 		[Version (since = "2.6")]
@@ -5048,7 +5048,7 @@ namespace Gtk3 {
 		public Gtk3.Menu menu { get; set; }
 		public virtual signal void show_menu ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_message_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_message_dialog_get_type ()")]
 	public class MessageDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[PrintfFormat]
@@ -5092,7 +5092,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public bool use_markup { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_misc_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_misc_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.14")]
 	public abstract class Misc : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -5110,7 +5110,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public int ypad { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_model_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_model_button_get_type ()")]
 	public class ModelButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.16")]
@@ -5143,7 +5143,7 @@ namespace Gtk3 {
 		[Version (since = "3.24")]
 		public bool use_markup { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_mount_operation_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_mount_operation_get_type ()")]
 	public class MountOperation : GLib.MountOperation {
 		[CCode (has_construct_function = false, type = "GMountOperation*")]
 		[Version (since = "2.14")]
@@ -5161,7 +5161,7 @@ namespace Gtk3 {
 		public Gtk3.Window parent { get; set; }
 		public Gdk3.Screen screen { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_native_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_native_dialog_get_type ()")]
 	public abstract class NativeDialog : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected NativeDialog ();
@@ -5199,7 +5199,7 @@ namespace Gtk3 {
 		[Version (since = "3.20")]
 		public virtual signal void response (int response_id);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_notebook_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_notebook_get_type ()")]
 	public class Notebook : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Notebook ();
@@ -5286,18 +5286,18 @@ namespace Gtk3 {
 		public virtual signal bool select_page (bool move_focus);
 		public virtual signal void switch_page (Gtk3.Widget page, uint page_num);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_notebook_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_notebook_accessible_get_type ()")]
 	public class NotebookAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected NotebookAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_notebook_page_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_notebook_page_accessible_get_type ()")]
 	public class NotebookPageAccessible : Atk.Object, Atk.Component {
 		[CCode (has_construct_function = false, type = "AtkObject*")]
 		public NotebookPageAccessible (Gtk3.NotebookAccessible notebook, Gtk3.Widget child);
 		public void invalidate ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_numerable_icon_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_numerable_icon_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.14")]
 	public class NumerableIcon : GLib.EmblemedIcon, GLib.Icon {
 		[CCode (has_construct_function = false, type = "GIcon*")]
@@ -5333,7 +5333,7 @@ namespace Gtk3 {
 		public string label { get; set; }
 		public Gtk3.StyleContext style_context { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_offscreen_window_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_offscreen_window_get_type ()")]
 	public class OffscreenWindow : Gtk3.Window, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.20")]
@@ -5343,7 +5343,7 @@ namespace Gtk3 {
 		[Version (since = "2.20")]
 		public unowned Cairo.Surface? get_surface ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_overlay_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_overlay_get_type ()")]
 	public class Overlay : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.2")]
@@ -5358,7 +5358,7 @@ namespace Gtk3 {
 		public void set_overlay_pass_through (Gtk3.Widget widget, bool pass_through);
 		public virtual signal bool get_child_position (Gtk3.Widget widget, out Gdk3.Rectangle allocation);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_pad_controller_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_pad_controller_get_type ()")]
 	public class PadController : Gtk3.EventController {
 		[CCode (has_construct_function = false)]
 		[Version (since = "3.22")]
@@ -5372,7 +5372,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gdk3.Device pad { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_page_setup_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_page_setup_get_type ()")]
 	public class PageSetup : GLib.Object {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.10")]
@@ -5434,7 +5434,7 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public void to_key_file (GLib.KeyFile key_file, string? group_name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_paned_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_paned_get_type ()")]
 	public class Paned : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -5479,12 +5479,12 @@ namespace Gtk3 {
 		[Version (since = "2.0")]
 		public virtual signal bool toggle_handle_focus ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_paned_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_paned_accessible_get_type ()")]
 	public class PanedAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected PanedAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_paper_size_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_paper_size_get_type ()")]
 	[Compact]
 	public class PaperSize {
 		[CCode (has_construct_function = false)]
@@ -5510,7 +5510,7 @@ namespace Gtk3 {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.10")]
 		public PaperSize.from_ppd (string ppd_name, string ppd_display_name, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		[Version (since = "2.10")]
 		public static unowned string get_default ();
 		[Version (since = "2.10")]
@@ -5527,7 +5527,7 @@ namespace Gtk3 {
 		public double get_height (Gtk3.Unit unit);
 		[Version (since = "2.10")]
 		public unowned string get_name ();
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		[Version (since = "2.12")]
 		public static GLib.List<Gtk3.PaperSize> get_paper_sizes (bool include_custom);
 		[Version (since = "2.10")]
@@ -5546,7 +5546,7 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public void to_key_file (GLib.KeyFile key_file, string group_name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_places_sidebar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_places_sidebar_get_type ()")]
 	public class PlacesSidebar : Gtk3.ScrolledWindow, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -5667,13 +5667,13 @@ namespace Gtk3 {
 		[CCode (cname = "embedded")]
 		public signal void on_embedded ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_plug_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_plug_accessible_get_type ()")]
 	public class PlugAccessible : Gtk3.WindowAccessible, Atk.Component, Atk.Window {
 		[CCode (has_construct_function = false)]
 		protected PlugAccessible ();
 		public string get_id ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_popover_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_popover_get_type ()")]
 	[Version (since = "3.12")]
 	public class Popover : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -5716,12 +5716,12 @@ namespace Gtk3 {
 		public bool transitions_enabled { get; set; }
 		public virtual signal void closed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_popover_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_popover_accessible_get_type ()")]
 	public class PopoverAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected PopoverAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_popover_menu_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_popover_menu_get_type ()")]
 	public class PopoverMenu : Gtk3.Popover, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.16")]
@@ -5731,7 +5731,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public string visible_submenu { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_print_context_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_print_context_get_type ()")]
 	public class PrintContext : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected PrintContext ();
@@ -5758,7 +5758,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public void set_cairo_context (Cairo.Context cr, double dpi_x, double dpi_y);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_print_operation_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_print_operation_get_type ()")]
 	public class PrintOperation : GLib.Object, Gtk3.PrintOperationPreview {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.10")]
@@ -5890,7 +5890,7 @@ namespace Gtk3 {
 		[Version (since = "2.18")]
 		public virtual signal void update_custom_widget (Gtk3.Widget widget, Gtk3.PageSetup setup, Gtk3.PrintSettings settings);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_print_settings_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_print_settings_get_type ()")]
 	public class PrintSettings : GLib.Object {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.10")]
@@ -6051,7 +6051,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public void unset (string key);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_progress_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_progress_bar_get_type ()")]
 	public class ProgressBar : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public ProgressBar ();
@@ -6081,12 +6081,12 @@ namespace Gtk3 {
 		public bool show_text { get; set; }
 		public string text { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_progress_bar_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_progress_bar_accessible_get_type ()")]
 	public class ProgressBarAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected ProgressBarAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_radio_action_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_radio_action_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public class RadioAction : Gtk3.ToggleAction, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -6113,7 +6113,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void changed (Gtk3.RadioAction current);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_radio_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_radio_button_get_type ()")]
 	public class RadioButton : Gtk3.CheckButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public RadioButton (GLib.SList<Gtk3.RadioButton>? group);
@@ -6136,12 +6136,12 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void group_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_radio_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_radio_button_accessible_get_type ()")]
 	public class RadioButtonAccessible : Gtk3.ToggleButtonAccessible, Atk.Action, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected RadioButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_radio_menu_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_radio_menu_item_get_type ()")]
 	public class RadioMenuItem : Gtk3.CheckMenuItem, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public RadioMenuItem (GLib.SList<Gtk3.RadioMenuItem>? group);
@@ -6167,12 +6167,12 @@ namespace Gtk3 {
 		public Gtk3.RadioMenuItem group { set; }
 		public virtual signal void group_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_radio_menu_item_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_radio_menu_item_accessible_get_type ()")]
 	public class RadioMenuItemAccessible : Gtk3.CheckMenuItemAccessible, Atk.Action, Atk.Component, Atk.Selection {
 		[CCode (has_construct_function = false)]
 		protected RadioMenuItemAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_radio_tool_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_radio_tool_button_get_type ()")]
 	public class RadioToolButton : Gtk3.ToggleToolButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkToolItem*")]
 		[Version (since = "2.4")]
@@ -6194,7 +6194,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public Gtk3.RadioToolButton group { set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_range_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_range_get_type ()")]
 	public abstract class Range : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false)]
 		protected Range ();
@@ -6268,16 +6268,16 @@ namespace Gtk3 {
 		public virtual signal void move_slider (Gtk3.ScrollType scroll);
 		public virtual signal void value_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_range_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_range_accessible_get_type ()")]
 	public class RangeAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected RangeAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class RcContext {
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_rc_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_rc_style_get_type ()")]
 	public class RcStyle : GLib.Object {
 		[CCode (array_length = false)]
 		public weak Gdk3.Color @base[5];
@@ -6309,7 +6309,7 @@ namespace Gtk3 {
 		[NoWrapper]
 		public virtual uint parse (Gtk3.Settings settings, GLib.Scanner scanner);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_action_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_action_get_type ()")]
 	public class RecentAction : Gtk3.Action, Gtk3.Buildable, Gtk3.RecentChooser {
 		[CCode (has_construct_function = false, type = "GtkAction*")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "2.12")]
@@ -6324,7 +6324,7 @@ namespace Gtk3 {
 		[Version (deprecated = true, deprecated_since = "3.10")]
 		public bool show_numbers { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_chooser_dialog_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_chooser_dialog_get_type ()")]
 	public class RecentChooserDialog : Gtk3.Dialog, Atk.Implementor, Gtk3.Buildable, Gtk3.RecentChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.10")]
@@ -6333,7 +6333,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public RecentChooserDialog.for_manager (string? title, Gtk3.Window? parent, Gtk3.RecentManager manager, ...);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_chooser_menu_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_chooser_menu_get_type ()")]
 	public class RecentChooserMenu : Gtk3.Menu, Atk.Implementor, Gtk3.Activatable, Gtk3.Buildable, Gtk3.RecentChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.10")]
@@ -6348,7 +6348,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public bool show_numbers { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_chooser_widget_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_chooser_widget_get_type ()")]
 	public class RecentChooserWidget : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable, Gtk3.RecentChooser {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.10")]
@@ -6357,7 +6357,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public RecentChooserWidget.for_manager (Gtk3.RecentManager manager);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_filter_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_filter_get_type ()")]
 	public class RecentFilter : GLib.InitiallyUnowned, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.10")]
@@ -6387,7 +6387,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public void set_filter_name (string name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_recent_info_ref", type_id = "gtk_recent_info_get_type ()", unref_function = "gtk_recent_info_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_recent_info_ref", type_id = "gtk_recent_info_get_type ()", unref_function = "gtk_recent_info_unref")]
 	[Compact]
 	[Version (since = "2.10")]
 	public class RecentInfo {
@@ -6420,7 +6420,7 @@ namespace Gtk3 {
 		public unowned Gtk3.RecentInfo @ref ();
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_manager_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_manager_get_type ()")]
 	[Version (since = "2.10")]
 	public class RecentManager : GLib.Object {
 		[CCode (has_construct_function = false)]
@@ -6440,14 +6440,14 @@ namespace Gtk3 {
 		public int size { get; }
 		public virtual signal void changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_renderer_cell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_renderer_cell_accessible_get_type ()")]
 	public class RendererCellAccessible : Gtk3.CellAccessible, Atk.Action, Atk.Component, Atk.TableCell {
 		[CCode (has_construct_function = false, type = "AtkObject*")]
 		public RendererCellAccessible (Gtk3.CellRenderer renderer);
 		[NoAccessorMethod]
 		public Gtk3.CellRenderer renderer { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_revealer_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_revealer_get_type ()")]
 	public class Revealer : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -6471,7 +6471,7 @@ namespace Gtk3 {
 		public uint transition_duration { get; set construct; }
 		public Gtk3.RevealerTransitionType transition_type { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_scale_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_scale_get_type ()")]
 	public class Scale : Gtk3.Range, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -6503,12 +6503,12 @@ namespace Gtk3 {
 		public Gtk3.PositionType value_pos { get; set; }
 		public virtual signal string format_value (double value);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_scale_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_scale_accessible_get_type ()")]
 	public class ScaleAccessible : Gtk3.RangeAccessible, Atk.Component, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected ScaleAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_scale_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_scale_button_get_type ()")]
 	public class ScaleButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.12")]
@@ -6544,18 +6544,18 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public virtual signal void value_changed (double value);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_scale_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_scale_button_accessible_get_type ()")]
 	public class ScaleButtonAccessible : Gtk3.ButtonAccessible, Atk.Action, Atk.Component, Atk.Image, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected ScaleButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_scrollbar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_scrollbar_get_type ()")]
 	public class Scrollbar : Gtk3.Range, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
 		public Scrollbar (Gtk3.Orientation orientation, Gtk3.Adjustment? adjustment);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_scrolled_window_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_scrolled_window_get_type ()")]
 	public class ScrolledWindow : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public ScrolledWindow (Gtk3.Adjustment? hadjustment, Gtk3.Adjustment? vadjustment);
@@ -6648,12 +6648,12 @@ namespace Gtk3 {
 		public virtual signal void move_focus_out (Gtk3.DirectionType direction);
 		public virtual signal bool scroll_child (Gtk3.ScrollType scroll, bool horizontal);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_scrolled_window_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_scrolled_window_accessible_get_type ()")]
 	public class ScrolledWindowAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected ScrolledWindowAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_search_bar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_search_bar_get_type ()")]
 	[Version (since = "3.10")]
 	public class SearchBar : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -6668,7 +6668,7 @@ namespace Gtk3 {
 		public bool search_mode_enabled { get; set; }
 		public bool show_close_button { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_search_entry_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_search_entry_get_type ()")]
 	[Version (since = "3.6")]
 	public class SearchEntry : Gtk3.Entry, Atk.Implementor, Gtk3.Buildable, Gtk3.CellEditable, Gtk3.Editable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -6684,7 +6684,7 @@ namespace Gtk3 {
 		[Version (since = "3.16")]
 		public virtual signal void stop_search ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_selection_data_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_selection_data_get_type ()")]
 	[Compact]
 	public class SelectionData {
 		public Gtk3.SelectionData copy ();
@@ -6729,18 +6729,18 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public bool targets_include_uri ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_separator_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_separator_get_type ()")]
 	public class Separator : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
 		public Separator (Gtk3.Orientation orientation);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_separator_menu_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_separator_menu_item_get_type ()")]
 	public class SeparatorMenuItem : Gtk3.MenuItem, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public SeparatorMenuItem ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_separator_tool_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_separator_tool_item_get_type ()")]
 	public class SeparatorToolItem : Gtk3.ToolItem, Atk.Implementor, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkToolItem*")]
 		[Version (since = "2.4")]
@@ -6751,7 +6751,7 @@ namespace Gtk3 {
 		public void set_draw (bool draw);
 		public bool draw { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_settings_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_settings_get_type ()")]
 	public class Settings : GLib.Object, Gtk3.StyleProvider {
 		[CCode (has_construct_function = false)]
 		protected Settings ();
@@ -7000,7 +7000,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public string gtk_xft_rgba { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_shortcut_label_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_shortcut_label_get_type ()")]
 	public class ShortcutLabel : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.22")]
@@ -7018,7 +7018,7 @@ namespace Gtk3 {
 		[Version (since = "3.22")]
 		public string disabled_text { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_shortcuts_group_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_shortcuts_group_get_type ()")]
 	public class ShortcutsGroup : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false)]
 		protected ShortcutsGroup ();
@@ -7033,7 +7033,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public string view { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_shortcuts_section_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_shortcuts_section_get_type ()")]
 	public class ShortcutsSection : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false)]
 		protected ShortcutsSection ();
@@ -7047,7 +7047,7 @@ namespace Gtk3 {
 		public string view_name { owned get; set; }
 		public signal bool change_current_page (int object);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_shortcuts_shortcut_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_shortcuts_shortcut_get_type ()")]
 	public class ShortcutsShortcut : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false)]
 		protected ShortcutsShortcut ();
@@ -7075,7 +7075,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gtk3.SizeGroup title_size_group { set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_shortcuts_window_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_shortcuts_window_get_type ()")]
 	public class ShortcutsWindow : Gtk3.Window, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		protected ShortcutsWindow ();
@@ -7086,7 +7086,7 @@ namespace Gtk3 {
 		public virtual signal void close ();
 		public virtual signal void search ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_size_group_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_size_group_get_type ()")]
 	public class SizeGroup : GLib.Object, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		public SizeGroup (Gtk3.SizeGroupMode mode);
@@ -7115,13 +7115,13 @@ namespace Gtk3 {
 		public virtual signal void plug_added ();
 		public virtual signal bool plug_removed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_socket_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_socket_accessible_get_type ()")]
 	public class SocketAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected SocketAccessible ();
 		public void embed (string path);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_spin_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_spin_button_get_type ()")]
 	public class SpinButton : Gtk3.Entry, Atk.Implementor, Gtk3.Buildable, Gtk3.CellEditable, Gtk3.Editable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public SpinButton (Gtk3.Adjustment? adjustment, double climb_rate, uint digits);
@@ -7165,12 +7165,12 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public virtual signal void wrapped ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_spin_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_spin_button_accessible_get_type ()")]
 	public class SpinButtonAccessible : Gtk3.EntryAccessible, Atk.Action, Atk.Component, Atk.EditableText, Atk.Text, Atk.Value {
 		[CCode (has_construct_function = false)]
 		protected SpinButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_spinner_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_spinner_get_type ()")]
 	public class Spinner : Gtk3.Widget, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.20")]
@@ -7182,12 +7182,12 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public bool active { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_spinner_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_spinner_accessible_get_type ()")]
 	public class SpinnerAccessible : Gtk3.WidgetAccessible, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected SpinnerAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_stack_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_stack_get_type ()")]
 	public class Stack : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -7246,12 +7246,12 @@ namespace Gtk3 {
 		public Gtk3.Widget visible_child { get; set; }
 		public string visible_child_name { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_stack_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_stack_accessible_get_type ()")]
 	public class StackAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected StackAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_stack_sidebar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_stack_sidebar_get_type ()")]
 	[Version (since = "3.16")]
 	public class StackSidebar : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -7260,7 +7260,7 @@ namespace Gtk3 {
 		public void set_stack (Gtk3.Stack stack);
 		public Gtk3.Stack stack { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_stack_switcher_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_stack_switcher_get_type ()")]
 	public class StackSwitcher : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.10")]
@@ -7274,7 +7274,7 @@ namespace Gtk3 {
 		public int icon_size { get; set; }
 		public Gtk3.Stack stack { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_status_icon_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_status_icon_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.14")]
 	public class StatusIcon : GLib.Object {
 		[CCode (has_construct_function = false)]
@@ -7397,7 +7397,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public virtual signal bool size_changed (int size);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_statusbar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_statusbar_get_type ()")]
 	public class Statusbar : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Statusbar ();
@@ -7412,12 +7412,12 @@ namespace Gtk3 {
 		public virtual signal void text_popped (uint context_id, string text);
 		public virtual signal void text_pushed (uint context_id, string text);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_statusbar_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_statusbar_accessible_get_type ()")]
 	public class StatusbarAccessible : Gtk3.ContainerAccessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected StatusbarAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_style_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "StyleContext")]
 	public class Style : GLib.Object {
 		[CCode (array_length = false)]
@@ -7515,7 +7515,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void unrealize ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_style_context_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_style_context_get_type ()")]
 	public class StyleContext : GLib.Object {
 		[CCode (has_construct_function = false)]
 		public StyleContext ();
@@ -7597,61 +7597,61 @@ namespace Gtk3 {
 		public static void remove_provider_for_screen (Gdk3.Screen screen, Gtk3.StyleProvider provider);
 		[Version (deprecated = true, deprecated_since = "3.14", since = "3.0")]
 		public void remove_region (string region_name);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_activity")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_activity")]
 		[Version (since = "3.0")]
 		public void render_activity (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_arrow")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_arrow")]
 		[Version (since = "3.0")]
 		public void render_arrow (Cairo.Context cr, double angle, double x, double y, double size);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_background")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_background")]
 		[Version (since = "3.0.")]
 		public void render_background (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_background_get_clip")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_background_get_clip")]
 		[Version (since = "3.20")]
 		public Gdk3.Rectangle render_background_get_clip (double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_check")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_check")]
 		[Version (since = "3.0")]
 		public void render_check (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_expander")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_expander")]
 		[Version (since = "3.0")]
 		public void render_expander (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_extension")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_extension")]
 		[Version (since = "3.0")]
 		public void render_extension (Cairo.Context cr, double x, double y, double width, double height, Gtk3.PositionType gap_side);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_focus")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_focus")]
 		[Version (since = "3.0")]
 		public void render_focus (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_frame")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_frame")]
 		[Version (since = "3.0")]
 		public void render_frame (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_frame_gap")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_frame_gap")]
 		[Version (deprecated = true, deprecated_since = "3.24", since = "3.0")]
 		public void render_frame_gap (Cairo.Context cr, double x, double y, double width, double height, Gtk3.PositionType gap_side, double xy0_gap, double xy1_gap);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_handle")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_handle")]
 		[Version (since = "3.0")]
 		public void render_handle (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_icon")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_icon")]
 		[Version (since = "3.2")]
 		public void render_icon (Cairo.Context cr, Gdk.Pixbuf pixbuf, double x, double y);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_icon_pixbuf")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_icon_pixbuf")]
 		[Version (deprecated = true, deprecated_since = "3.10", since = "3.0")]
 		public Gdk.Pixbuf render_icon_pixbuf (Gtk3.IconSource source, [CCode (type = "GtkIconSize")] Gtk3.IconSize size);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_icon_surface")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_icon_surface")]
 		[Version (since = "3.10")]
 		public void render_icon_surface (Cairo.Context cr, Cairo.Surface surface, double x, double y);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_insertion_cursor")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_insertion_cursor")]
 		[Version (since = "3.4")]
 		public void render_insertion_cursor (Cairo.Context cr, double x, double y, Pango.Layout layout, int index, Pango.Direction direction);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_layout")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_layout")]
 		[Version (since = "3.0")]
 		public void render_layout (Cairo.Context cr, double x, double y, Pango.Layout layout);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_line")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_line")]
 		[Version (since = "3.0")]
 		public void render_line (Cairo.Context cr, double x0, double y0, double x1, double y1);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_option")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_option")]
 		[Version (since = "3.0")]
 		public void render_option (Cairo.Context cr, double x, double y, double width, double height);
-		[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gtk_render_slider")]
+		[CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_render_slider")]
 		[Version (since = "3.0")]
 		public void render_slider (Cairo.Context cr, double x, double y, double width, double height, Gtk3.Orientation orientation);
 		[Version (since = "3.0")]
@@ -7693,7 +7693,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public virtual signal void changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_style_properties_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_style_properties_get_type ()")]
 	public class StyleProperties : GLib.Object, Gtk3.StyleProvider {
 		[CCode (has_construct_function = false)]
 		[Version (deprecated = true, deprecated_since = "3.16")]
@@ -7725,7 +7725,7 @@ namespace Gtk3 {
 		[Version (deprecated = true, deprecated_since = "3.16", since = "3.0")]
 		public void unset_property (string property, Gtk3.StateFlags state);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_switch_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_switch_get_type ()")]
 	public class Switch : Gtk3.Widget, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.0")]
@@ -7745,12 +7745,12 @@ namespace Gtk3 {
 		[Version (since = "3.14")]
 		public virtual signal bool state_set (bool state);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_switch_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_switch_accessible_get_type ()")]
 	public class SwitchAccessible : Gtk3.WidgetAccessible, Atk.Action, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected SwitchAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_symbolic_color_ref", type_id = "gtk_symbolic_color_get_type ()", unref_function = "gtk_symbolic_color_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_symbolic_color_ref", type_id = "gtk_symbolic_color_get_type ()", unref_function = "gtk_symbolic_color_unref")]
 	[Compact]
 	public class SymbolicColor {
 		[CCode (has_construct_function = false)]
@@ -7780,7 +7780,7 @@ namespace Gtk3 {
 		[Version (deprecated = true, deprecated_since = "3.8", since = "3.4")]
 		public SymbolicColor.win32 (string theme_class, int id);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_table_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_table_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.4", replacement = "Grid")]
 	public class Table : Gtk3.Container, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -7810,7 +7810,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public uint row_spacing { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_target_list_ref", type_id = "gtk_target_list_get_type ()", unref_function = "gtk_target_list_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_target_list_ref", type_id = "gtk_target_list_get_type ()", unref_function = "gtk_target_list_unref")]
 	[Compact]
 	public class TargetList {
 		[CCode (has_construct_function = false)]
@@ -7830,13 +7830,13 @@ namespace Gtk3 {
 		public void remove (Gdk3.Atom target);
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tearoff_menu_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tearoff_menu_item_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.4")]
 	public class TearoffMenuItem : Gtk3.MenuItem, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public TearoffMenuItem ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_text_attributes_ref", type_id = "gtk_text_attributes_get_type ()", unref_function = "gtk_text_attributes_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_text_attributes_ref", type_id = "gtk_text_attributes_get_type ()", unref_function = "gtk_text_attributes_unref")]
 	[Compact]
 	public class TextAttributes {
 		public Gtk3.TextAppearance appearance;
@@ -7866,11 +7866,11 @@ namespace Gtk3 {
 		public unowned Gtk3.TextAttributes @ref ();
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class TextBTree {
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_text_buffer_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_text_buffer_get_type ()")]
 	public class TextBuffer : GLib.Object {
 		[CCode (has_construct_function = false)]
 		public TextBuffer (Gtk3.TextTagTable? table);
@@ -7997,19 +7997,19 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void remove_tag (Gtk3.TextTag tag, Gtk3.TextIter start, Gtk3.TextIter end);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_text_cell_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_text_cell_accessible_get_type ()")]
 	public class TextCellAccessible : Gtk3.RendererCellAccessible, Atk.Action, Atk.Component, Atk.TableCell, Atk.Text {
 		[CCode (has_construct_function = false)]
 		protected TextCellAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_text_child_anchor_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_text_child_anchor_get_type ()")]
 	public class TextChildAnchor : GLib.Object {
 		[CCode (has_construct_function = false)]
 		public TextChildAnchor ();
 		public bool get_deleted ();
 		public GLib.List<weak Gtk3.Widget> get_widgets ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_text_mark_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_text_mark_get_type ()")]
 	public class TextMark : GLib.Object {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.12")]
@@ -8023,7 +8023,7 @@ namespace Gtk3 {
 		public bool left_gravity { get; construct; }
 		public string name { get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_text_tag_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_text_tag_get_type ()")]
 	public class TextTag : GLib.Object {
 		[CCode (has_construct_function = false)]
 		public TextTag (string? name = null);
@@ -8198,7 +8198,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal bool event (GLib.Object event_object, Gdk3.Event event, Gtk3.TextIter iter);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_text_tag_table_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_text_tag_table_get_type ()")]
 	public class TextTagTable : GLib.Object, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		public TextTagTable ();
@@ -8211,7 +8211,7 @@ namespace Gtk3 {
 		public virtual signal void tag_changed (Gtk3.TextTag tag, bool size_changed);
 		public virtual signal void tag_removed (Gtk3.TextTag tag);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_text_view_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_text_view_get_type ()")]
 	public class TextView : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public TextView ();
@@ -8362,16 +8362,16 @@ namespace Gtk3 {
 		public signal void toggle_cursor_visible ();
 		public virtual signal void toggle_overwrite ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_text_view_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_text_view_accessible_get_type ()")]
 	public class TextViewAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.EditableText, Atk.StreamableContent, Atk.Text {
 		[CCode (has_construct_function = false)]
 		protected TextViewAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class ThemeEngine {
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_theming_engine_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_theming_engine_get_type ()")]
 	public class ThemingEngine : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected ThemingEngine ();
@@ -8461,7 +8461,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public string name { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_toggle_action_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_toggle_action_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public class ToggleAction : Gtk3.Action, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -8481,7 +8481,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void toggled ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_toggle_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_toggle_button_get_type ()")]
 	public class ToggleButton : Gtk3.Button, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public ToggleButton ();
@@ -8502,12 +8502,12 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void toggled ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_toggle_button_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_toggle_button_accessible_get_type ()")]
 	public class ToggleButtonAccessible : Gtk3.ButtonAccessible, Atk.Action, Atk.Component, Atk.Image {
 		[CCode (has_construct_function = false)]
 		protected ToggleButtonAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_toggle_tool_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_toggle_tool_button_get_type ()")]
 	public class ToggleToolButton : Gtk3.ToolButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkToolItem*")]
 		[Version (since = "2.4")]
@@ -8523,7 +8523,7 @@ namespace Gtk3 {
 		public bool active { get; set; }
 		public virtual signal void toggled ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tool_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tool_button_get_type ()")]
 	public class ToolButton : Gtk3.ToolItem, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkToolItem*")]
 		[Version (since = "2.4")]
@@ -8565,7 +8565,7 @@ namespace Gtk3 {
 		public bool use_underline { get; set; }
 		public virtual signal void clicked ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tool_item_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tool_item_get_type ()")]
 	public class ToolItem : Gtk3.Bin, Atk.Implementor, Gtk3.Activatable, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
 		[Version (since = "2.4")]
@@ -8629,7 +8629,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void toolbar_reconfigured ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tool_item_group_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tool_item_group_get_type ()")]
 	[Version (since = "2.20")]
 	public class ToolItemGroup : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.ToolShell {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -8656,7 +8656,7 @@ namespace Gtk3 {
 		public string label { get; set; }
 		public Gtk3.Widget label_widget { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tool_palette_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tool_palette_get_type ()")]
 	[Version (since = "2.20")]
 	public class ToolPalette : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable, Gtk3.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -8690,7 +8690,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gtk3.ToolbarStyle toolbar_style { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_toolbar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_toolbar_get_type ()")]
 	public class Toolbar : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable, Gtk3.ToolShell {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Toolbar ();
@@ -8727,7 +8727,7 @@ namespace Gtk3 {
 		public virtual signal bool popup_context_menu (int x, int y, int button_number);
 		public virtual signal void style_changed (Gtk3.ToolbarStyle style);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tooltip_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tooltip_get_type ()")]
 	public class Tooltip : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected Tooltip ();
@@ -8750,13 +8750,13 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public static void trigger_tooltip_query (Gdk3.Display display);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_toplevel_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_toplevel_accessible_get_type ()")]
 	public class ToplevelAccessible : Atk.Object {
 		[CCode (has_construct_function = false)]
 		protected ToplevelAccessible ();
 		public unowned GLib.List<Gtk3.Window> get_children ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_model_filter_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_model_filter_get_type ()")]
 	public class TreeModelFilter : GLib.Object, Gtk3.TreeDragSource, Gtk3.TreeModel {
 		[CCode (has_construct_function = false, type = "GtkTreeModel*")]
 		[Version (since = "2.4")]
@@ -8790,7 +8790,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public Gtk3.TreePath virtual_root { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_model_sort_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_model_sort_get_type ()")]
 	public class TreeModelSort : GLib.Object, Gtk3.TreeDragSource, Gtk3.TreeModel, Gtk3.TreeSortable {
 		[CCode (has_construct_function = false)]
 		protected TreeModelSort ();
@@ -8807,7 +8807,7 @@ namespace Gtk3 {
 		public TreeModelSort.with_model (Gtk3.TreeModel child_model);
 		public Gtk3.TreeModel model { get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_tree_path_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_tree_path_get_type ()")]
 	[Compact]
 	public class TreePath {
 		[CCode (has_construct_function = false)]
@@ -8840,29 +8840,29 @@ namespace Gtk3 {
 		public string to_string ();
 		public bool up ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_tree_row_reference_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_tree_row_reference_get_type ()")]
 	[Compact]
 	public class TreeRowReference {
 		[CCode (has_construct_function = false)]
 		public TreeRowReference (Gtk3.TreeModel model, Gtk3.TreePath path);
 		[Version (since = "2.2")]
 		public Gtk3.TreeRowReference copy ();
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void deleted (GLib.Object proxy, Gtk3.TreePath path);
 		[DestroysInstance]
 		public void free ();
 		[Version (since = "2.8")]
 		public unowned Gtk3.TreeModel get_model ();
 		public Gtk3.TreePath? get_path ();
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void inserted (GLib.Object proxy, Gtk3.TreePath path);
 		[CCode (has_construct_function = false)]
 		public TreeRowReference.proxy (GLib.Object proxy, Gtk3.TreeModel model, Gtk3.TreePath path);
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static void reordered (GLib.Object proxy, Gtk3.TreePath path, Gtk3.TreeIter iter, [CCode (array_length = false)] int[] new_order);
 		public bool valid ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_selection_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_selection_get_type ()")]
 	public class TreeSelection : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected TreeSelection ();
@@ -8891,7 +8891,7 @@ namespace Gtk3 {
 		public Gtk3.SelectionMode mode { get; set; }
 		public virtual signal void changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_store_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_store_get_type ()")]
 	public class TreeStore : GLib.Object, Gtk3.Buildable, Gtk3.TreeDragDest, Gtk3.TreeDragSource, Gtk3.TreeModel, Gtk3.TreeSortable {
 		[CCode (has_construct_function = false, sentinel = "")]
 		public TreeStore (int n_columns, ...);
@@ -8929,7 +8929,7 @@ namespace Gtk3 {
 		[Version (since = "2.2")]
 		public void swap (Gtk3.TreeIter a, Gtk3.TreeIter b);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_view_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_view_get_type ()")]
 	public class TreeView : Gtk3.Container, Atk.Implementor, Gtk3.Buildable, Gtk3.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public TreeView ();
@@ -9129,12 +9129,12 @@ namespace Gtk3 {
 		public virtual signal bool toggle_cursor_row ();
 		public virtual signal bool unselect_all ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_tree_view_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_tree_view_accessible_get_type ()")]
 	public class TreeViewAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Selection, Atk.Table, Gtk3.CellAccessibleParent {
 		[CCode (has_construct_function = false)]
 		protected TreeViewAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_view_column_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_view_column_get_type ()")]
 	public class TreeViewColumn : GLib.InitiallyUnowned, Gtk3.Buildable, Gtk3.CellLayout {
 		[CCode (has_construct_function = false)]
 		public TreeViewColumn ();
@@ -9218,7 +9218,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void clicked ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_ui_manager_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_ui_manager_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public class UIManager : GLib.Object, Gtk3.Buildable {
 		[CCode (has_construct_function = false)]
@@ -9274,25 +9274,25 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public virtual signal void pre_activate (Gtk3.Action action);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_vbox_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_vbox_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Box")]
 	public class VBox : Gtk3.Box, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VBox (bool homogeneous, int spacing);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_vbutton_box_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_vbutton_box_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "ButtonBox")]
 	public class VButtonBox : Gtk3.ButtonBox, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VButtonBox ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_vpaned_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_vpaned_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Paned")]
 	public class VPaned : Gtk3.Paned, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VPaned ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_vscale_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_vscale_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Scale")]
 	public class VScale : Gtk3.Scale, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
@@ -9300,19 +9300,19 @@ namespace Gtk3 {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VScale.with_range (double min, double max, double step);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_vscrollbar_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_vscrollbar_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Scrollbar")]
 	public class VScrollbar : Gtk3.Scrollbar, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VScrollbar (Gtk3.Adjustment? adjustment);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_vseparator_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_vseparator_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.2", replacement = "Separator")]
 	public class VSeparator : Gtk3.Separator, Atk.Implementor, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VSeparator ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_viewport_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_viewport_get_type ()")]
 	public class Viewport : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable, Gtk3.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Viewport (Gtk3.Adjustment? hadjustment, Gtk3.Adjustment? vadjustment);
@@ -9332,7 +9332,7 @@ namespace Gtk3 {
 		public void set_vadjustment (Gtk3.Adjustment? adjustment);
 		public Gtk3.ShadowType shadow_type { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_volume_button_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_volume_button_get_type ()")]
 	public class VolumeButton : Gtk3.ScaleButton, Atk.Implementor, Gtk3.Actionable, Gtk3.Activatable, Gtk3.Buildable, Gtk3.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "2.12")]
@@ -9341,7 +9341,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public bool use_symbolic { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_widget_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_widget_get_type ()")]
 	public class Widget : GLib.InitiallyUnowned, Atk.Implementor, Gtk3.Buildable {
 		[CCode (construct_function = "gtk_widget_new", has_new_function = false)]
 		public Widget (...);
@@ -9944,14 +9944,14 @@ namespace Gtk3 {
 		public virtual signal bool visibility_notify_event (Gdk3.EventVisibility event);
 		public virtual signal bool window_state_event (Gdk3.EventWindowState event);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_widget_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_widget_accessible_get_type ()")]
 	public class WidgetAccessible : Gtk3.Accessible, Atk.Component {
 		[CCode (has_construct_function = false)]
 		protected WidgetAccessible ();
 		[NoWrapper]
 		public virtual void notify_gtk (GLib.ParamSpec pspec);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", ref_function = "gtk_widget_path_ref", type_id = "gtk_widget_path_get_type ()", unref_function = "gtk_widget_path_unref")]
+	[CCode (cheader_filename = "gtk/gtk.h", ref_function = "gtk_widget_path_ref", type_id = "gtk_widget_path_get_type ()", unref_function = "gtk_widget_path_unref")]
 	[Compact]
 	public class WidgetPath {
 		[CCode (has_construct_function = false)]
@@ -10030,7 +10030,7 @@ namespace Gtk3 {
 		[Version (since = "3.2")]
 		public void unref ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_window_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_window_get_type ()")]
 	public class Window : Gtk3.Bin, Atk.Implementor, Gtk3.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Window (Gtk3.WindowType type = Gtk3.WindowType.TOPLEVEL);
@@ -10274,16 +10274,16 @@ namespace Gtk3 {
 		[Version (since = "2.24")]
 		public virtual signal void set_focus (Gtk3.Widget? focus);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h,gtk/gtk-a11y.h", type_id = "gtk_window_accessible_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h,gtk/gtk-a11y.h", type_id = "gtk_window_accessible_get_type ()")]
 	public class WindowAccessible : Gtk3.ContainerAccessible, Atk.Component, Atk.Window {
 		[CCode (has_construct_function = false)]
 		protected WindowAccessible ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Compact]
 	public class WindowGeometryInfo {
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_window_group_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_window_group_get_type ()")]
 	public class WindowGroup : GLib.Object {
 		[CCode (has_construct_function = false)]
 		public WindowGroup ();
@@ -10296,7 +10296,7 @@ namespace Gtk3 {
 		public GLib.List<weak Gtk3.Window> list_windows ();
 		public void remove_window (Gtk3.Window window);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_cname = "GtkActionableInterface", type_id = "gtk_actionable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_cname = "GtkActionableInterface", type_id = "gtk_actionable_get_type ()")]
 	[Version (since = "3.4")]
 	public interface Actionable : Gtk3.Widget {
 		public abstract unowned string? get_action_name ();
@@ -10309,7 +10309,7 @@ namespace Gtk3 {
 		[NoAccessorMethod]
 		public GLib.Variant action_target { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_activatable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_activatable_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public interface Activatable : GLib.Object {
 		[Version (since = "2.16")]
@@ -10331,7 +10331,7 @@ namespace Gtk3 {
 		[Version (since = "2.16")]
 		public bool use_action_appearance { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_app_chooser_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_app_chooser_get_type ()")]
 	public interface AppChooser : Gtk3.Widget {
 		[Version (since = "3.0")]
 		public GLib.AppInfo? get_app_info ();
@@ -10341,7 +10341,7 @@ namespace Gtk3 {
 		public void refresh ();
 		public string content_type { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_buildable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_buildable_get_type ()")]
 	public interface Buildable : GLib.Object {
 		[Version (since = "2.12")]
 		public abstract void add_child (Gtk3.Builder builder, GLib.Object child, string? type);
@@ -10364,7 +10364,7 @@ namespace Gtk3 {
 		[Version (since = "2.12")]
 		public abstract void set_name (string name);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_accessible_parent_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_accessible_parent_get_type ()")]
 	public interface CellAccessibleParent : GLib.Object {
 		public abstract void activate (Gtk3.CellAccessible cell);
 		public abstract void edit (Gtk3.CellAccessible cell);
@@ -10379,7 +10379,7 @@ namespace Gtk3 {
 		public abstract bool grab_focus (Gtk3.CellAccessible cell);
 		public abstract void update_relationset (Gtk3.CellAccessible cell, Atk.RelationSet relationset);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_editable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_editable_get_type ()")]
 	public interface CellEditable : Gtk3.Widget {
 		public abstract void start_editing (Gdk3.Event? event);
 		[NoAccessorMethod]
@@ -10390,7 +10390,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void remove_widget ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_cell_layout_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_cell_layout_get_type ()")]
 	public interface CellLayout : GLib.Object {
 		[Version (since = "2.4")]
 		public abstract void add_attribute (Gtk3.CellRenderer cell, string attribute, int column);
@@ -10413,7 +10413,7 @@ namespace Gtk3 {
 		[Version (since = "2.4")]
 		public abstract void set_cell_data_func (Gtk3.CellRenderer cell, owned Gtk3.CellLayoutDataFunc? func);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_cname = "GtkColorChooserInterface", type_id = "gtk_color_chooser_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_cname = "GtkColorChooserInterface", type_id = "gtk_color_chooser_get_type ()")]
 	[Version (since = "3.4")]
 	public interface ColorChooser : GLib.Object {
 		public abstract void add_palette (Gtk3.Orientation orientation, int colors_per_line, [CCode (array_length_cname = "n_colors", array_length_pos = 2.5)] Gdk3.RGBA[]? colors);
@@ -10426,7 +10426,7 @@ namespace Gtk3 {
 		public bool use_alpha { get; set; }
 		public virtual signal void color_activated (Gdk3.RGBA color);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_cname = "GtkEditableInterface", type_id = "gtk_editable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_cname = "GtkEditableInterface", type_id = "gtk_editable_get_type ()")]
 	public interface Editable : GLib.Object {
 		public void copy_clipboard ();
 		public void cut_clipboard ();
@@ -10448,7 +10448,7 @@ namespace Gtk3 {
 		public virtual signal void delete_text (int start_pos, int end_pos);
 		public virtual signal void insert_text (string new_text, int new_text_length, ref int position);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_file_chooser_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_file_chooser_get_type ()")]
 	public interface FileChooser : GLib.Object {
 		[Version (since = "3.22")]
 		public void add_choice (string id, string label, [CCode (array_length = false, array_null_terminated = true)] string[]? options, [CCode (array_length = false, array_null_terminated = true)] string[]? option_labels);
@@ -10595,7 +10595,7 @@ namespace Gtk3 {
 		public signal void selection_changed ();
 		public signal void update_preview ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_font_chooser_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_font_chooser_get_type ()")]
 	public interface FontChooser : GLib.Object {
 		[Version (since = "3.2")]
 		public string? get_font ();
@@ -10647,7 +10647,7 @@ namespace Gtk3 {
 		public bool show_preview_entry { get; set; }
 		public virtual signal void font_activated (string fontname);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_orientable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_orientable_get_type ()")]
 	public interface Orientable : GLib.Object {
 		[Version (since = "2.16")]
 		public Gtk3.Orientation get_orientation ();
@@ -10656,7 +10656,7 @@ namespace Gtk3 {
 		[Version (since = "2.16")]
 		public Gtk3.Orientation orientation { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_print_operation_preview_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_print_operation_preview_get_type ()")]
 	public interface PrintOperationPreview : GLib.Object {
 		[Version (since = "2.10")]
 		public abstract void end_preview ();
@@ -10667,7 +10667,7 @@ namespace Gtk3 {
 		public virtual signal void got_page_size (Gtk3.PrintContext context, Gtk3.PageSetup page_setup);
 		public virtual signal void ready (Gtk3.PrintContext context);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_recent_chooser_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_recent_chooser_get_type ()")]
 	public interface RecentChooser : GLib.Object {
 		[Version (since = "2.10")]
 		public abstract void add_filter (Gtk3.RecentFilter filter);
@@ -10759,7 +10759,7 @@ namespace Gtk3 {
 		[Version (since = "2.10")]
 		public virtual signal void selection_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_cname = "GtkScrollableInterface", type_id = "gtk_scrollable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_cname = "GtkScrollableInterface", type_id = "gtk_scrollable_get_type ()")]
 	public interface Scrollable : GLib.Object {
 		[Version (since = "3.16")]
 		public abstract bool get_border (out Gtk3.Border border);
@@ -10788,7 +10788,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public Gtk3.ScrollablePolicy vscroll_policy { get; set; }
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_style_provider_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_style_provider_get_type ()")]
 	public interface StyleProvider : GLib.Object {
 		[Version (deprecated = true, deprecated_since = "3.8", since = "3.0")]
 		public virtual unowned Gtk3.IconFactory? get_icon_factory (Gtk3.WidgetPath path);
@@ -10797,7 +10797,7 @@ namespace Gtk3 {
 		[Version (since = "3.0")]
 		public abstract bool get_style_property (Gtk3.WidgetPath path, Gtk3.StateFlags state, GLib.ParamSpec pspec, ref GLib.Value value);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tool_shell_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tool_shell_get_type ()")]
 	public interface ToolShell : Gtk3.Widget {
 		[Version (since = "2.20")]
 		public abstract Pango.EllipsizeMode get_ellipsize_mode ();
@@ -10818,18 +10818,18 @@ namespace Gtk3 {
 		[Version (since = "2.14")]
 		public abstract void rebuild_menu ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_drag_dest_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_drag_dest_get_type ()")]
 	public interface TreeDragDest : GLib.Object {
 		public abstract bool drag_data_received (Gtk3.TreePath dest, Gtk3.SelectionData selection_data);
 		public abstract bool row_drop_possible (Gtk3.TreePath dest_path, Gtk3.SelectionData selection_data);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_drag_source_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_drag_source_get_type ()")]
 	public interface TreeDragSource : GLib.Object {
 		public abstract bool drag_data_delete (Gtk3.TreePath path);
 		public abstract bool drag_data_get (Gtk3.TreePath path, Gtk3.SelectionData selection_data);
 		public abstract bool row_draggable (Gtk3.TreePath path);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_model_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_model_get_type ()")]
 	public interface TreeModel : GLib.Object {
 		public void @foreach (Gtk3.TreeModelForeachFunc func);
 		[CCode (sentinel = "-1")]
@@ -10868,7 +10868,7 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void rows_reordered (Gtk3.TreePath path, Gtk3.TreeIter iter, [CCode (array_length = false)] int[] new_order);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gtk_tree_sortable_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gtk_tree_sortable_get_type ()")]
 	public interface TreeSortable : Gtk3.TreeModel, GLib.Object {
 		public abstract bool get_sort_column_id (out int sort_column_id, out Gtk3.SortType order);
 		public abstract bool has_default_sort_func ();
@@ -10878,19 +10878,19 @@ namespace Gtk3 {
 		[HasEmitter]
 		public virtual signal void sort_column_changed ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct AccelGroupEntry {
 		public Gtk3.AccelKey key;
 		public weak GLib.Closure closure;
 		public GLib.Quark accel_path_quark;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct AccelKey {
 		public uint accel_key;
 		public Gdk3.ModifierType accel_mods;
 		public uint accel_flags;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public struct ActionEntry {
 		public weak string name;
@@ -10901,10 +10901,10 @@ namespace Gtk3 {
 		[CCode (delegate_target = false, type = "GCallback")]
 		public weak Gtk3.ActionCallback callback;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", type_id = "gdk_rectangle_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", type_id = "gdk_rectangle_get_type ()")]
 	public struct Allocation : Gdk3.Rectangle {
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct BindingArg {
 		[CCode (cname = "d.long_data")]
 		public long long_data;
@@ -10914,7 +10914,7 @@ namespace Gtk3 {
 		public weak string string_data;
 		public GLib.Type arg_type;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_border_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_border_get_type ()")]
 	public struct Border {
 		public int16 left;
 		public int16 right;
@@ -10923,7 +10923,7 @@ namespace Gtk3 {
 		public Gtk3.Border? copy ();
 		public void free ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct IMContextInfo {
 		public weak string context_id;
 		public weak string context_name;
@@ -10931,7 +10931,7 @@ namespace Gtk3 {
 		public weak string domain_dirname;
 		public weak string default_locales;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct PadActionEntry {
 		public Gtk3.PadActionType type;
 		public int index;
@@ -10939,12 +10939,12 @@ namespace Gtk3 {
 		public weak string label;
 		public weak string action_name;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct PageRange {
 		public int start;
 		public int end;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public struct RadioActionEntry {
 		public weak string name;
@@ -10954,7 +10954,7 @@ namespace Gtk3 {
 		public weak string tooltip;
 		public int value;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_copy_function = false, has_destroy_function = false, has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_copy_function = false, has_destroy_function = false, has_type_id = false)]
 	public struct RecentData {
 		public string? display_name;
 		public string? description;
@@ -10965,7 +10965,7 @@ namespace Gtk3 {
 		public string[] groups;
 		public bool is_private;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct RecentFilterInfo {
 		public Gtk3.RecentFilterFlags contains;
 		public weak string? uri;
@@ -10977,25 +10977,25 @@ namespace Gtk3 {
 		public weak string[]? groups;
 		public int age;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct RequestedSize {
 		public void* data;
 		public int minimum_size;
 		public int natural_size;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_requisition_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_requisition_get_type ()")]
 	public struct Requisition {
 		public int width;
 		public int height;
 		public Gtk3.Requisition? copy ();
 		public void free ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct SettingsValue {
 		public weak string origin;
 		public GLib.Value value;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public struct StockItem {
 		public weak string stock_id;
@@ -11006,7 +11006,7 @@ namespace Gtk3 {
 		public Gtk3.StockItem? copy ();
 		public void free ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_target_entry_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_target_entry_get_type ()")]
 	public struct TargetEntry {
 		public weak string target;
 		public uint flags;
@@ -11014,7 +11014,7 @@ namespace Gtk3 {
 		public Gtk3.TargetEntry? copy ();
 		public void free ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	public struct TextAppearance {
 		public Gdk3.Color bg_color;
 		public Gdk3.Color fg_color;
@@ -11027,7 +11027,7 @@ namespace Gtk3 {
 		[CCode (array_length = false)]
 		public Gdk3.RGBA rgba[2];
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_text_iter_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_text_iter_get_type ()")]
 	public struct TextIter {
 		[Version (since = "3.2")]
 		public void assign (Gtk3.TextIter other);
@@ -11137,7 +11137,7 @@ namespace Gtk3 {
 		public bool starts_word ();
 		public bool toggles_tag (Gtk3.TextTag? tag);
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_type_id = false)]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public struct ToggleActionEntry {
 		public weak string name;
@@ -11149,7 +11149,7 @@ namespace Gtk3 {
 		public weak Gtk3.ActionCallback callback;
 		public bool is_active;
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_tree_iter_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_tree_iter_get_type ()")]
 	public struct TreeIter {
 		public int stamp;
 		public void* user_data;
@@ -11158,14 +11158,14 @@ namespace Gtk3 {
 		public Gtk3.TreeIter? copy ();
 		public void free ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ACCEL_", type_id = "gtk_accel_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ACCEL_", type_id = "gtk_accel_flags_get_type ()")]
 	[Flags]
 	public enum AccelFlags {
 		VISIBLE,
 		LOCKED,
 		MASK
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ALIGN_", type_id = "gtk_align_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ALIGN_", type_id = "gtk_align_get_type ()")]
 	public enum Align {
 		FILL,
 		START,
@@ -11173,7 +11173,7 @@ namespace Gtk3 {
 		CENTER,
 		BASELINE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_APPLICATION_INHIBIT_", type_id = "gtk_application_inhibit_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_APPLICATION_INHIBIT_", type_id = "gtk_application_inhibit_flags_get_type ()")]
 	[Flags]
 	[Version (since = "3.4")]
 	public enum ApplicationInhibitFlags {
@@ -11182,13 +11182,13 @@ namespace Gtk3 {
 		SUSPEND,
 		IDLE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ARROWS_", type_id = "gtk_arrow_placement_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ARROWS_", type_id = "gtk_arrow_placement_get_type ()")]
 	public enum ArrowPlacement {
 		BOTH,
 		START,
 		END
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ARROW_", type_id = "gtk_arrow_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ARROW_", type_id = "gtk_arrow_type_get_type ()")]
 	public enum ArrowType {
 		UP,
 		DOWN,
@@ -11196,7 +11196,7 @@ namespace Gtk3 {
 		RIGHT,
 		NONE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ASSISTANT_PAGE_", type_id = "gtk_assistant_page_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ASSISTANT_PAGE_", type_id = "gtk_assistant_page_type_get_type ()")]
 	public enum AssistantPageType {
 		CONTENT,
 		INTRO,
@@ -11205,21 +11205,21 @@ namespace Gtk3 {
 		PROGRESS,
 		CUSTOM
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_", type_id = "gtk_attach_options_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_", type_id = "gtk_attach_options_get_type ()")]
 	[Flags]
 	public enum AttachOptions {
 		EXPAND,
 		SHRINK,
 		FILL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_BASELINE_POSITION_", type_id = "gtk_baseline_position_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_BASELINE_POSITION_", type_id = "gtk_baseline_position_get_type ()")]
 	[Version (since = "3.10")]
 	public enum BaselinePosition {
 		TOP,
 		CENTER,
 		BOTTOM
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_BORDER_STYLE_", type_id = "gtk_border_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_BORDER_STYLE_", type_id = "gtk_border_style_get_type ()")]
 	public enum BorderStyle {
 		NONE,
 		SOLID,
@@ -11232,7 +11232,7 @@ namespace Gtk3 {
 		GROOVE,
 		RIDGE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_BUTTONBOX_", type_id = "gtk_button_box_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_BUTTONBOX_", type_id = "gtk_button_box_style_get_type ()")]
 	public enum ButtonBoxStyle {
 		SPREAD,
 		EDGE,
@@ -11241,13 +11241,13 @@ namespace Gtk3 {
 		CENTER,
 		EXPAND
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_BUTTON_ROLE_", type_id = "gtk_button_role_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_BUTTON_ROLE_", type_id = "gtk_button_role_get_type ()")]
 	public enum ButtonRole {
 		NORMAL,
 		CHECK,
 		RADIO
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_BUTTONS_", type_id = "gtk_buttons_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_BUTTONS_", type_id = "gtk_buttons_type_get_type ()")]
 	public enum ButtonsType {
 		NONE,
 		OK,
@@ -11256,7 +11256,7 @@ namespace Gtk3 {
 		YES_NO,
 		OK_CANCEL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CALENDAR_", type_id = "gtk_calendar_display_options_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CALENDAR_", type_id = "gtk_calendar_display_options_get_type ()")]
 	[Flags]
 	public enum CalendarDisplayOptions {
 		SHOW_HEADING,
@@ -11265,18 +11265,18 @@ namespace Gtk3 {
 		SHOW_WEEK_NUMBERS,
 		SHOW_DETAILS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CELL_RENDERER_ACCEL_MODE_", type_id = "gtk_cell_renderer_accel_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CELL_RENDERER_ACCEL_MODE_", type_id = "gtk_cell_renderer_accel_mode_get_type ()")]
 	public enum CellRendererAccelMode {
 		GTK,
 		OTHER
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CELL_RENDERER_MODE_", type_id = "gtk_cell_renderer_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CELL_RENDERER_MODE_", type_id = "gtk_cell_renderer_mode_get_type ()")]
 	public enum CellRendererMode {
 		INERT,
 		ACTIVATABLE,
 		EDITABLE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CELL_RENDERER_", type_id = "gtk_cell_renderer_state_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CELL_RENDERER_", type_id = "gtk_cell_renderer_state_get_type ()")]
 	[Flags]
 	public enum CellRendererState {
 		SELECTED,
@@ -11287,14 +11287,14 @@ namespace Gtk3 {
 		EXPANDABLE,
 		EXPANDED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CORNER_", type_id = "gtk_corner_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CORNER_", type_id = "gtk_corner_type_get_type ()")]
 	public enum CornerType {
 		TOP_LEFT,
 		BOTTOM_LEFT,
 		TOP_RIGHT,
 		BOTTOM_RIGHT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CSS_SECTION_", type_id = "gtk_css_section_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CSS_SECTION_", type_id = "gtk_css_section_type_get_type ()")]
 	[Version (since = "3.2")]
 	public enum CssSectionType {
 		DOCUMENT,
@@ -11307,7 +11307,7 @@ namespace Gtk3 {
 		VALUE,
 		KEYFRAMES
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_DEBUG_", type_id = "gtk_debug_flag_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_DEBUG_", type_id = "gtk_debug_flag_get_type ()")]
 	[Flags]
 	public enum DebugFlag {
 		MISC,
@@ -11333,7 +11333,7 @@ namespace Gtk3 {
 		RESIZE,
 		LAYOUT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_DELETE_", type_id = "gtk_delete_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_DELETE_", type_id = "gtk_delete_type_get_type ()")]
 	public enum DeleteType {
 		CHARS,
 		WORD_ENDS,
@@ -11344,7 +11344,7 @@ namespace Gtk3 {
 		PARAGRAPHS,
 		WHITESPACE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_DEST_DEFAULT_", type_id = "gtk_dest_defaults_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_DEST_DEFAULT_", type_id = "gtk_dest_defaults_get_type ()")]
 	[Flags]
 	public enum DestDefaults {
 		MOTION,
@@ -11352,14 +11352,14 @@ namespace Gtk3 {
 		DROP,
 		ALL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_DIALOG_", type_id = "gtk_dialog_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_DIALOG_", type_id = "gtk_dialog_flags_get_type ()")]
 	[Flags]
 	public enum DialogFlags {
 		MODAL,
 		DESTROY_WITH_PARENT,
 		USE_HEADER_BAR
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_DIR_", type_id = "gtk_direction_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_DIR_", type_id = "gtk_direction_type_get_type ()")]
 	public enum DirectionType {
 		TAB_FORWARD,
 		TAB_BACKWARD,
@@ -11368,7 +11368,7 @@ namespace Gtk3 {
 		LEFT,
 		RIGHT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_DRAG_RESULT_", type_id = "gtk_drag_result_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_DRAG_RESULT_", type_id = "gtk_drag_result_get_type ()")]
 	public enum DragResult {
 		SUCCESS,
 		NO_TARGET,
@@ -11377,13 +11377,13 @@ namespace Gtk3 {
 		GRAB_BROKEN,
 		ERROR
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ENTRY_ICON_", type_id = "gtk_entry_icon_position_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ENTRY_ICON_", type_id = "gtk_entry_icon_position_get_type ()")]
 	[Version (since = "2.16")]
 	public enum EntryIconPosition {
 		PRIMARY,
 		SECONDARY
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_EVENT_CONTROLLER_SCROLL_", type_id = "gtk_event_controller_scroll_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_EVENT_CONTROLLER_SCROLL_", type_id = "gtk_event_controller_scroll_flags_get_type ()")]
 	[Flags]
 	[Version (since = "3.24")]
 	public enum EventControllerScrollFlags {
@@ -11394,35 +11394,35 @@ namespace Gtk3 {
 		KINETIC,
 		BOTH_AXES
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_EVENT_SEQUENCE_", type_id = "gtk_event_sequence_state_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_EVENT_SEQUENCE_", type_id = "gtk_event_sequence_state_get_type ()")]
 	[Version (since = "3.14")]
 	public enum EventSequenceState {
 		NONE,
 		CLAIMED,
 		DENIED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_EXPANDER_", type_id = "gtk_expander_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_EXPANDER_", type_id = "gtk_expander_style_get_type ()")]
 	public enum ExpanderStyle {
 		COLLAPSED,
 		SEMI_COLLAPSED,
 		SEMI_EXPANDED,
 		EXPANDED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_FILE_CHOOSER_ACTION_", type_id = "gtk_file_chooser_action_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_FILE_CHOOSER_ACTION_", type_id = "gtk_file_chooser_action_get_type ()")]
 	public enum FileChooserAction {
 		OPEN,
 		SAVE,
 		SELECT_FOLDER,
 		CREATE_FOLDER
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_FILE_CHOOSER_CONFIRMATION_", type_id = "gtk_file_chooser_confirmation_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_FILE_CHOOSER_CONFIRMATION_", type_id = "gtk_file_chooser_confirmation_get_type ()")]
 	[Version (since = "2.8")]
 	public enum FileChooserConfirmation {
 		CONFIRM,
 		ACCEPT_FILENAME,
 		SELECT_AGAIN
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_FILE_FILTER_", type_id = "gtk_file_filter_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_FILE_FILTER_", type_id = "gtk_file_filter_flags_get_type ()")]
 	[Flags]
 	public enum FileFilterFlags {
 		FILENAME,
@@ -11430,7 +11430,7 @@ namespace Gtk3 {
 		DISPLAY_NAME,
 		MIME_TYPE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_FONT_CHOOSER_LEVEL_", type_id = "gtk_font_chooser_level_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_FONT_CHOOSER_LEVEL_", type_id = "gtk_font_chooser_level_get_type ()")]
 	[Flags]
 	public enum FontChooserLevel {
 		FAMILY,
@@ -11439,21 +11439,21 @@ namespace Gtk3 {
 		VARIATIONS,
 		FEATURES
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_IM_PREEDIT_", type_id = "gtk_im_preedit_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_IM_PREEDIT_", type_id = "gtk_im_preedit_style_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public enum IMPreeditStyle {
 		NOTHING,
 		CALLBACK,
 		NONE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_IM_STATUS_", type_id = "gtk_im_status_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_IM_STATUS_", type_id = "gtk_im_status_style_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public enum IMStatusStyle {
 		NOTHING,
 		CALLBACK,
 		NONE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ICON_LOOKUP_", type_id = "gtk_icon_lookup_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ICON_LOOKUP_", type_id = "gtk_icon_lookup_flags_get_type ()")]
 	[Flags]
 	public enum IconLookupFlags {
 		NO_SVG,
@@ -11466,7 +11466,7 @@ namespace Gtk3 {
 		DIR_LTR,
 		DIR_RTL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ICON_SIZE_", type_id = "gtk_icon_size_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ICON_SIZE_", type_id = "gtk_icon_size_get_type ()")]
 	public enum IconSize {
 		INVALID,
 		MENU,
@@ -11476,7 +11476,7 @@ namespace Gtk3 {
 		DND,
 		DIALOG
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ICON_VIEW_", type_id = "gtk_icon_view_drop_position_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ICON_VIEW_", type_id = "gtk_icon_view_drop_position_get_type ()")]
 	public enum IconViewDropPosition {
 		NO_DROP,
 		DROP_INTO,
@@ -11485,7 +11485,7 @@ namespace Gtk3 {
 		DROP_ABOVE,
 		DROP_BELOW
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_IMAGE_", type_id = "gtk_image_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_IMAGE_", type_id = "gtk_image_type_get_type ()")]
 	public enum ImageType {
 		EMPTY,
 		PIXBUF,
@@ -11496,7 +11496,7 @@ namespace Gtk3 {
 		GICON,
 		SURFACE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_INPUT_HINT_", type_id = "gtk_input_hints_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_INPUT_HINT_", type_id = "gtk_input_hints_get_type ()")]
 	[Flags]
 	[Version (since = "3.6")]
 	public enum InputHints {
@@ -11513,7 +11513,7 @@ namespace Gtk3 {
 		EMOJI,
 		NO_EMOJI
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_INPUT_PURPOSE_", type_id = "gtk_input_purpose_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_INPUT_PURPOSE_", type_id = "gtk_input_purpose_get_type ()")]
 	[Version (since = "3.6")]
 	public enum InputPurpose {
 		FREE_FORM,
@@ -11528,7 +11528,7 @@ namespace Gtk3 {
 		PIN,
 		TERMINAL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_JUNCTION_", type_id = "gtk_junction_sides_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_JUNCTION_", type_id = "gtk_junction_sides_get_type ()")]
 	[Flags]
 	public enum JunctionSides {
 		NONE,
@@ -11541,20 +11541,20 @@ namespace Gtk3 {
 		LEFT,
 		RIGHT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_JUSTIFY_", type_id = "gtk_justification_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_JUSTIFY_", type_id = "gtk_justification_get_type ()")]
 	public enum Justification {
 		LEFT,
 		RIGHT,
 		CENTER,
 		FILL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_LEVEL_BAR_MODE_", type_id = "gtk_level_bar_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_LEVEL_BAR_MODE_", type_id = "gtk_level_bar_mode_get_type ()")]
 	[Version (since = "3.6")]
 	public enum LevelBarMode {
 		CONTINUOUS,
 		DISCRETE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_LICENSE_", type_id = "gtk_license_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_LICENSE_", type_id = "gtk_license_get_type ()")]
 	[Version (since = "3.0")]
 	public enum License {
 		UNKNOWN,
@@ -11576,14 +11576,14 @@ namespace Gtk3 {
 		APACHE_2_0,
 		MPL_2_0
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_MENU_DIR_", type_id = "gtk_menu_direction_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_MENU_DIR_", type_id = "gtk_menu_direction_type_get_type ()")]
 	public enum MenuDirectionType {
 		PARENT,
 		CHILD,
 		NEXT,
 		PREV
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_MESSAGE_", type_id = "gtk_message_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_MESSAGE_", type_id = "gtk_message_type_get_type ()")]
 	public enum MessageType {
 		INFO,
 		WARNING,
@@ -11591,7 +11591,7 @@ namespace Gtk3 {
 		ERROR,
 		OTHER
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_MOVEMENT_", type_id = "gtk_movement_step_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_MOVEMENT_", type_id = "gtk_movement_step_get_type ()")]
 	public enum MovementStep {
 		LOGICAL_POSITIONS,
 		VISUAL_POSITIONS,
@@ -11604,12 +11604,12 @@ namespace Gtk3 {
 		BUFFER_ENDS,
 		HORIZONTAL_PAGES
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_NOTEBOOK_TAB_", type_id = "gtk_notebook_tab_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_NOTEBOOK_TAB_", type_id = "gtk_notebook_tab_get_type ()")]
 	public enum NotebookTab {
 		FIRST,
 		LAST
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_NUMBER_UP_LAYOUT_", type_id = "gtk_number_up_layout_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_NUMBER_UP_LAYOUT_", type_id = "gtk_number_up_layout_get_type ()")]
 	public enum NumberUpLayout {
 		[Version (deprecated_since = "vala-0.40", replacement = "LRTB")]
 		LEFT_TO_RIGHT_TOP_TO_BOTTOM,
@@ -11644,43 +11644,43 @@ namespace Gtk3 {
 		[CCode (cname = "GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_RIGHT_TO_LEFT")]
 		BTRL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ORIENTATION_", type_id = "gtk_orientation_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ORIENTATION_", type_id = "gtk_orientation_get_type ()")]
 	public enum Orientation {
 		HORIZONTAL,
 		VERTICAL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PACK_DIRECTION_", type_id = "gtk_pack_direction_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PACK_DIRECTION_", type_id = "gtk_pack_direction_get_type ()")]
 	public enum PackDirection {
 		LTR,
 		RTL,
 		TTB,
 		BTT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PACK_", type_id = "gtk_pack_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PACK_", type_id = "gtk_pack_type_get_type ()")]
 	public enum PackType {
 		START,
 		END
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PAD_ACTION_", type_id = "gtk_pad_action_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PAD_ACTION_", type_id = "gtk_pad_action_type_get_type ()")]
 	public enum PadActionType {
 		BUTTON,
 		RING,
 		STRIP
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PAGE_ORIENTATION_", type_id = "gtk_page_orientation_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PAGE_ORIENTATION_", type_id = "gtk_page_orientation_get_type ()")]
 	public enum PageOrientation {
 		PORTRAIT,
 		LANDSCAPE,
 		REVERSE_PORTRAIT,
 		REVERSE_LANDSCAPE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PAGE_SET_", type_id = "gtk_page_set_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PAGE_SET_", type_id = "gtk_page_set_get_type ()")]
 	public enum PageSet {
 		ALL,
 		EVEN,
 		ODD
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PAN_DIRECTION_", type_id = "gtk_pan_direction_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PAN_DIRECTION_", type_id = "gtk_pan_direction_get_type ()")]
 	[Version (since = "3.14")]
 	public enum PanDirection {
 		LEFT,
@@ -11688,7 +11688,7 @@ namespace Gtk3 {
 		UP,
 		DOWN
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PATH_PRIO_", type_id = "gtk_path_priority_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PATH_PRIO_", type_id = "gtk_path_priority_type_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public enum PathPriorityType {
 		LOWEST,
@@ -11698,75 +11698,75 @@ namespace Gtk3 {
 		RC,
 		HIGHEST
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PATH_", type_id = "gtk_path_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PATH_", type_id = "gtk_path_type_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public enum PathType {
 		WIDGET,
 		WIDGET_CLASS,
 		CLASS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PLACES_OPEN_", type_id = "gtk_places_open_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PLACES_OPEN_", type_id = "gtk_places_open_flags_get_type ()")]
 	[Flags]
 	public enum PlacesOpenFlags {
 		NORMAL,
 		NEW_TAB,
 		NEW_WINDOW
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_POLICY_", type_id = "gtk_policy_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_POLICY_", type_id = "gtk_policy_type_get_type ()")]
 	public enum PolicyType {
 		ALWAYS,
 		AUTOMATIC,
 		NEVER,
 		EXTERNAL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_POPOVER_CONSTRAINT_", type_id = "gtk_popover_constraint_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_POPOVER_CONSTRAINT_", type_id = "gtk_popover_constraint_get_type ()")]
 	[Version (since = "3.20")]
 	public enum PopoverConstraint {
 		NONE,
 		WINDOW
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_POS_", type_id = "gtk_position_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_POS_", type_id = "gtk_position_type_get_type ()")]
 	public enum PositionType {
 		LEFT,
 		RIGHT,
 		TOP,
 		BOTTOM
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_DUPLEX_", type_id = "gtk_print_duplex_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_DUPLEX_", type_id = "gtk_print_duplex_get_type ()")]
 	public enum PrintDuplex {
 		SIMPLEX,
 		HORIZONTAL,
 		VERTICAL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_OPERATION_ACTION_", type_id = "gtk_print_operation_action_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_OPERATION_ACTION_", type_id = "gtk_print_operation_action_get_type ()")]
 	public enum PrintOperationAction {
 		PRINT_DIALOG,
 		PRINT,
 		PREVIEW,
 		EXPORT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_OPERATION_RESULT_", type_id = "gtk_print_operation_result_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_OPERATION_RESULT_", type_id = "gtk_print_operation_result_get_type ()")]
 	public enum PrintOperationResult {
 		ERROR,
 		APPLY,
 		CANCEL,
 		IN_PROGRESS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_PAGES_", type_id = "gtk_print_pages_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_PAGES_", type_id = "gtk_print_pages_get_type ()")]
 	public enum PrintPages {
 		ALL,
 		CURRENT,
 		RANGES,
 		SELECTION
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_QUALITY_", type_id = "gtk_print_quality_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_QUALITY_", type_id = "gtk_print_quality_get_type ()")]
 	public enum PrintQuality {
 		LOW,
 		NORMAL,
 		HIGH,
 		DRAFT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_STATUS_", type_id = "gtk_print_status_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_STATUS_", type_id = "gtk_print_status_get_type ()")]
 	public enum PrintStatus {
 		INITIAL,
 		PREPARING,
@@ -11778,7 +11778,7 @@ namespace Gtk3 {
 		FINISHED,
 		FINISHED_ABORTED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PHASE_", type_id = "gtk_propagation_phase_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PHASE_", type_id = "gtk_propagation_phase_get_type ()")]
 	[Version (since = "3.14")]
 	public enum PropagationPhase {
 		NONE,
@@ -11786,7 +11786,7 @@ namespace Gtk3 {
 		BUBBLE,
 		TARGET
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RC_", type_id = "gtk_rc_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RC_", type_id = "gtk_rc_flags_get_type ()")]
 	[Flags]
 	public enum RcFlags {
 		FG,
@@ -11794,7 +11794,7 @@ namespace Gtk3 {
 		TEXT,
 		BASE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RC_TOKEN_", type_id = "gtk_rc_token_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RC_TOKEN_", type_id = "gtk_rc_token_type_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public enum RcTokenType {
 		INVALID,
@@ -11838,7 +11838,7 @@ namespace Gtk3 {
 		UNBIND,
 		LAST
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RECENT_FILTER_", type_id = "gtk_recent_filter_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RECENT_FILTER_", type_id = "gtk_recent_filter_flags_get_type ()")]
 	[Flags]
 	public enum RecentFilterFlags {
 		URI,
@@ -11848,7 +11848,7 @@ namespace Gtk3 {
 		GROUP,
 		AGE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RECENT_SORT_", type_id = "gtk_recent_sort_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RECENT_SORT_", type_id = "gtk_recent_sort_type_get_type ()")]
 	[Version (since = "2.10")]
 	public enum RecentSortType {
 		NONE,
@@ -11856,7 +11856,7 @@ namespace Gtk3 {
 		LRU,
 		CUSTOM
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_REGION_", type_id = "gtk_region_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_REGION_", type_id = "gtk_region_flags_get_type ()")]
 	[Flags]
 	public enum RegionFlags {
 		EVEN,
@@ -11866,19 +11866,19 @@ namespace Gtk3 {
 		ONLY,
 		SORTED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RELIEF_", type_id = "gtk_relief_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RELIEF_", type_id = "gtk_relief_style_get_type ()")]
 	public enum ReliefStyle {
 		NORMAL,
 		HALF,
 		NONE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RESIZE_", type_id = "gtk_resize_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RESIZE_", type_id = "gtk_resize_mode_get_type ()")]
 	public enum ResizeMode {
 		PARENT,
 		QUEUE,
 		IMMEDIATE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RESPONSE_", type_id = "gtk_response_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RESPONSE_", type_id = "gtk_response_type_get_type ()")]
 	public enum ResponseType {
 		NONE,
 		REJECT,
@@ -11892,7 +11892,7 @@ namespace Gtk3 {
 		APPLY,
 		HELP
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_REVEALER_TRANSITION_TYPE_", type_id = "gtk_revealer_transition_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_REVEALER_TRANSITION_TYPE_", type_id = "gtk_revealer_transition_type_get_type ()")]
 	public enum RevealerTransitionType {
 		NONE,
 		CROSSFADE,
@@ -11901,7 +11901,7 @@ namespace Gtk3 {
 		SLIDE_UP,
 		SLIDE_DOWN
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SCROLL_", type_id = "gtk_scroll_step_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SCROLL_", type_id = "gtk_scroll_step_get_type ()")]
 	public enum ScrollStep {
 		STEPS,
 		PAGES,
@@ -11910,7 +11910,7 @@ namespace Gtk3 {
 		HORIZONTAL_PAGES,
 		HORIZONTAL_ENDS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SCROLL_", type_id = "gtk_scroll_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SCROLL_", type_id = "gtk_scroll_type_get_type ()")]
 	public enum ScrollType {
 		NONE,
 		JUMP,
@@ -11929,25 +11929,25 @@ namespace Gtk3 {
 		START,
 		END
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SCROLL_", type_id = "gtk_scrollable_policy_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SCROLL_", type_id = "gtk_scrollable_policy_get_type ()")]
 	public enum ScrollablePolicy {
 		MINIMUM,
 		NATURAL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SELECTION_", type_id = "gtk_selection_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SELECTION_", type_id = "gtk_selection_mode_get_type ()")]
 	public enum SelectionMode {
 		NONE,
 		SINGLE,
 		BROWSE,
 		MULTIPLE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SENSITIVITY_", type_id = "gtk_sensitivity_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SENSITIVITY_", type_id = "gtk_sensitivity_type_get_type ()")]
 	public enum SensitivityType {
 		AUTO,
 		ON,
 		OFF
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SHADOW_", type_id = "gtk_shadow_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SHADOW_", type_id = "gtk_shadow_type_get_type ()")]
 	public enum ShadowType {
 		NONE,
 		IN,
@@ -11955,7 +11955,7 @@ namespace Gtk3 {
 		ETCHED_IN,
 		ETCHED_OUT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SHORTCUT_", type_id = "gtk_shortcut_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SHORTCUT_", type_id = "gtk_shortcut_type_get_type ()")]
 	[Version (since = "3.20")]
 	public enum ShortcutType {
 		ACCELERATOR,
@@ -11967,37 +11967,37 @@ namespace Gtk3 {
 		GESTURE_TWO_FINGER_SWIPE_RIGHT,
 		GESTURE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SIZE_GROUP_", type_id = "gtk_size_group_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SIZE_GROUP_", type_id = "gtk_size_group_mode_get_type ()")]
 	public enum SizeGroupMode {
 		NONE,
 		HORIZONTAL,
 		VERTICAL,
 		BOTH
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SIZE_REQUEST_", type_id = "gtk_size_request_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SIZE_REQUEST_", type_id = "gtk_size_request_mode_get_type ()")]
 	public enum SizeRequestMode {
 		HEIGHT_FOR_WIDTH,
 		WIDTH_FOR_HEIGHT,
 		CONSTANT_SIZE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "gint", has_type_id = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "gint", has_type_id = false)]
 	public enum SortColumn {
 		[CCode (cname = "GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID")]
 		DEFAULT,
 		[CCode (cname = "GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID")]
 		UNSORTED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SORT_", type_id = "gtk_sort_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SORT_", type_id = "gtk_sort_type_get_type ()")]
 	public enum SortType {
 		ASCENDING,
 		DESCENDING
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_UPDATE_", type_id = "gtk_spin_button_update_policy_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_UPDATE_", type_id = "gtk_spin_button_update_policy_get_type ()")]
 	public enum SpinButtonUpdatePolicy {
 		ALWAYS,
 		IF_VALID
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_SPIN_", type_id = "gtk_spin_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_SPIN_", type_id = "gtk_spin_type_get_type ()")]
 	public enum SpinType {
 		STEP_FORWARD,
 		STEP_BACKWARD,
@@ -12007,7 +12007,7 @@ namespace Gtk3 {
 		END,
 		USER_DEFINED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_STACK_TRANSITION_TYPE_", type_id = "gtk_stack_transition_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_STACK_TRANSITION_TYPE_", type_id = "gtk_stack_transition_type_get_type ()")]
 	public enum StackTransitionType {
 		NONE,
 		CROSSFADE,
@@ -12030,7 +12030,7 @@ namespace Gtk3 {
 		OVER_LEFT_RIGHT,
 		OVER_RIGHT_LEFT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_STATE_FLAG_", type_id = "gtk_state_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_STATE_FLAG_", type_id = "gtk_state_flags_get_type ()")]
 	[Flags]
 	public enum StateFlags {
 		NORMAL,
@@ -12048,7 +12048,7 @@ namespace Gtk3 {
 		CHECKED,
 		DROP_ACTIVE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_STATE_", type_id = "gtk_state_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_STATE_", type_id = "gtk_state_type_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.14")]
 	public enum StateType {
 		NORMAL,
@@ -12059,14 +12059,14 @@ namespace Gtk3 {
 		INCONSISTENT,
 		FOCUSED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_STYLE_CONTEXT_PRINT_", type_id = "gtk_style_context_print_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_STYLE_CONTEXT_PRINT_", type_id = "gtk_style_context_print_flags_get_type ()")]
 	[Flags]
 	public enum StyleContextPrintFlags {
 		NONE,
 		RECURSE,
 		SHOW_STYLE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TARGET_", type_id = "gtk_target_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TARGET_", type_id = "gtk_target_flags_get_type ()")]
 	[Flags]
 	public enum TargetFlags {
 		SAME_APP,
@@ -12074,39 +12074,39 @@ namespace Gtk3 {
 		OTHER_APP,
 		OTHER_WIDGET
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TEXT_BUFFER_TARGET_INFO_", type_id = "gtk_text_buffer_target_info_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TEXT_BUFFER_TARGET_INFO_", type_id = "gtk_text_buffer_target_info_get_type ()")]
 	public enum TextBufferTargetInfo {
 		BUFFER_CONTENTS,
 		RICH_TEXT,
 		TEXT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TEXT_DIR_", type_id = "gtk_text_direction_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TEXT_DIR_", type_id = "gtk_text_direction_get_type ()")]
 	public enum TextDirection {
 		NONE,
 		LTR,
 		RTL
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TEXT_EXTEND_SELECTION_", type_id = "gtk_text_extend_selection_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TEXT_EXTEND_SELECTION_", type_id = "gtk_text_extend_selection_get_type ()")]
 	[Version (since = "3.16")]
 	public enum TextExtendSelection {
 		WORD,
 		LINE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TEXT_SEARCH_", type_id = "gtk_text_search_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TEXT_SEARCH_", type_id = "gtk_text_search_flags_get_type ()")]
 	[Flags]
 	public enum TextSearchFlags {
 		VISIBLE_ONLY,
 		TEXT_ONLY,
 		CASE_INSENSITIVE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TEXT_VIEW_LAYER_", type_id = "gtk_text_view_layer_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TEXT_VIEW_LAYER_", type_id = "gtk_text_view_layer_get_type ()")]
 	public enum TextViewLayer {
 		BELOW,
 		ABOVE,
 		BELOW_TEXT,
 		ABOVE_TEXT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TEXT_WINDOW_", type_id = "gtk_text_window_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TEXT_WINDOW_", type_id = "gtk_text_window_type_get_type ()")]
 	public enum TextWindowType {
 		PRIVATE,
 		WIDGET,
@@ -12116,52 +12116,52 @@ namespace Gtk3 {
 		TOP,
 		BOTTOM
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TOOL_PALETTE_DRAG_", type_id = "gtk_tool_palette_drag_targets_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TOOL_PALETTE_DRAG_", type_id = "gtk_tool_palette_drag_targets_get_type ()")]
 	[Flags]
 	public enum ToolPaletteDragTargets {
 		ITEMS,
 		GROUPS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TOOLBAR_SPACE_", type_id = "gtk_toolbar_space_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TOOLBAR_SPACE_", type_id = "gtk_toolbar_space_style_get_type ()")]
 	[Version (deprecated = true, deprecated_since = "3.20")]
 	public enum ToolbarSpaceStyle {
 		EMPTY,
 		LINE
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TOOLBAR_", type_id = "gtk_toolbar_style_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TOOLBAR_", type_id = "gtk_toolbar_style_get_type ()")]
 	public enum ToolbarStyle {
 		ICONS,
 		TEXT,
 		BOTH,
 		BOTH_HORIZ
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TREE_MODEL_", type_id = "gtk_tree_model_flags_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TREE_MODEL_", type_id = "gtk_tree_model_flags_get_type ()")]
 	[Flags]
 	public enum TreeModelFlags {
 		ITERS_PERSIST,
 		LIST_ONLY
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TREE_VIEW_COLUMN_", type_id = "gtk_tree_view_column_sizing_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TREE_VIEW_COLUMN_", type_id = "gtk_tree_view_column_sizing_get_type ()")]
 	public enum TreeViewColumnSizing {
 		GROW_ONLY,
 		AUTOSIZE,
 		FIXED
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TREE_VIEW_DROP_", type_id = "gtk_tree_view_drop_position_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TREE_VIEW_DROP_", type_id = "gtk_tree_view_drop_position_get_type ()")]
 	public enum TreeViewDropPosition {
 		BEFORE,
 		AFTER,
 		INTO_OR_BEFORE,
 		INTO_OR_AFTER
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_TREE_VIEW_GRID_LINES_", type_id = "gtk_tree_view_grid_lines_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_TREE_VIEW_GRID_LINES_", type_id = "gtk_tree_view_grid_lines_get_type ()")]
 	public enum TreeViewGridLines {
 		NONE,
 		HORIZONTAL,
 		VERTICAL,
 		BOTH
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_UI_MANAGER_", type_id = "gtk_ui_manager_item_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_UI_MANAGER_", type_id = "gtk_ui_manager_item_type_get_type ()")]
 	[Flags]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public enum UIManagerItemType {
@@ -12177,19 +12177,19 @@ namespace Gtk3 {
 		ACCELERATOR,
 		POPUP_WITH_ACCELS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_UNIT_", type_id = "gtk_unit_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_UNIT_", type_id = "gtk_unit_get_type ()")]
 	public enum Unit {
 		NONE,
 		POINTS,
 		INCH,
 		MM
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_WIDGET_HELP_", type_id = "gtk_widget_help_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_WIDGET_HELP_", type_id = "gtk_widget_help_type_get_type ()")]
 	public enum WidgetHelpType {
 		TOOLTIP,
 		WHATS_THIS
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_WIN_POS_", type_id = "gtk_window_position_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_WIN_POS_", type_id = "gtk_window_position_get_type ()")]
 	public enum WindowPosition {
 		NONE,
 		CENTER,
@@ -12197,19 +12197,19 @@ namespace Gtk3 {
 		CENTER_ALWAYS,
 		CENTER_ON_PARENT
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_WINDOW_", type_id = "gtk_window_type_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_WINDOW_", type_id = "gtk_window_type_get_type ()")]
 	public enum WindowType {
 		TOPLEVEL,
 		POPUP
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_WRAP_", type_id = "gtk_wrap_mode_get_type ()")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_WRAP_", type_id = "gtk_wrap_mode_get_type ()")]
 	public enum WrapMode {
 		NONE,
 		CHAR,
 		WORD,
 		WORD_CHAR
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_BUILDER_ERROR_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_BUILDER_ERROR_")]
 	public errordomain BuilderError {
 		INVALID_TYPE_FUNCTION,
 		UNHANDLED_TAG,
@@ -12225,10 +12225,10 @@ namespace Gtk3 {
 		INVALID_PROPERTY,
 		INVALID_SIGNAL,
 		INVALID_ID;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_CSS_PROVIDER_ERROR_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_CSS_PROVIDER_ERROR_")]
 	public errordomain CssProviderError {
 		FAILED,
 		SYNTAX,
@@ -12236,45 +12236,45 @@ namespace Gtk3 {
 		NAME,
 		DEPRECATED,
 		UNKNOWN_VALUE;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_FILE_CHOOSER_ERROR_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_FILE_CHOOSER_ERROR_")]
 	public errordomain FileChooserError {
 		NONEXISTENT,
 		BAD_FILENAME,
 		ALREADY_EXISTS,
 		INCOMPLETE_HOSTNAME;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		[Version (since = "2.4")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_ICON_THEME_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_ICON_THEME_")]
 	public errordomain IconThemeError {
 		NOT_FOUND,
 		FAILED;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_PRINT_ERROR_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_PRINT_ERROR_")]
 	public errordomain PrintError {
 		GENERAL,
 		INTERNAL_ERROR,
 		NOMEM,
 		INVALID_FILE;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		[Version (since = "2.10")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RECENT_CHOOSER_ERROR_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RECENT_CHOOSER_ERROR_")]
 	[Version (since = "2.10")]
 	public errordomain RecentChooserError {
 		NOT_FOUND,
 		INVALID_URI;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h", cprefix = "GTK_RECENT_MANAGER_ERROR_")]
+	[CCode (cheader_filename = "gtk/gtk.h", cprefix = "GTK_RECENT_MANAGER_ERROR_")]
 	[Version (since = "2.10")]
 	public errordomain RecentManagerError {
 		NOT_FOUND,
@@ -12284,990 +12284,990 @@ namespace Gtk3 {
 		READ,
 		WRITE,
 		UNKNOWN;
-		[CCode (cheader_filename = "gtk/Gtk3.h")]
+		[CCode (cheader_filename = "gtk/gtk.h")]
 		public static GLib.Quark quark ();
 	}
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public delegate bool AccelGroupActivate (Gtk3.AccelGroup accel_group, GLib.Object acceleratable, uint keyval, Gdk3.ModifierType modifier);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "2.2")]
 	public delegate bool AccelGroupFindFunc (Gtk3.AccelKey key, GLib.Closure closure);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate void AccelMapForeach (void* data, string accel_path, uint accel_key, Gdk3.ModifierType accel_mods, bool changed);
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GCallback")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GCallback")]
 	[Version (deprecated_since = "3.10")]
 	public delegate void ActionCallback (Gtk3.Action action);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate int AssistantPageFunc (int current_page);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 6.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 6.9)]
 	[Version (since = "2.12")]
 	public delegate void BuilderConnectFunc (Gtk3.Builder builder, GLib.Object object, string signal_name, string handler_name, GLib.Object? connect_object, GLib.ConnectFlags flags);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	[Version (since = "2.14")]
 	public delegate string? CalendarDetailFunc (Gtk3.Calendar calendar, uint year, uint month, uint day);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate void Callback (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	public delegate bool CellAllocCallback (Gtk3.CellRenderer renderer, Gdk3.Rectangle cell_area, Gdk3.Rectangle cell_background);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate bool CellCallback (Gtk3.CellRenderer renderer);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate void CellLayoutDataFunc (Gtk3.CellLayout cell_layout, Gtk3.CellRenderer cell, Gtk3.TreeModel tree_model, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate void ClipboardClearFunc (Gtk3.Clipboard clipboard, void* user_data_or_owner);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate void ClipboardGetFunc (Gtk3.Clipboard clipboard, Gtk3.SelectionData selection_data, uint info, void* user_data_or_owner);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "2.6")]
 	public delegate void ClipboardImageReceivedFunc (Gtk3.Clipboard clipboard, Gdk.Pixbuf pixbuf);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate void ClipboardReceivedFunc (Gtk3.Clipboard clipboard, Gtk3.SelectionData selection_data);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	[Version (since = "2.10")]
 	public delegate void ClipboardRichTextReceivedFunc (Gtk3.Clipboard clipboard, Gdk3.Atom format, [CCode (array_length_cname = "length", array_length_pos = 3.1, array_length_type = "gsize", type = "const guint8*")] uint8[]? text);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "2.4")]
 	public delegate void ClipboardTargetsReceivedFunc (Gtk3.Clipboard clipboard, [CCode (array_length_cname = "n_atoms", array_length_pos = 2.1)] Gdk3.Atom[]? atoms);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate void ClipboardTextReceivedFunc (Gtk3.Clipboard clipboard, string? text);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "2.14")]
 	public delegate void ClipboardURIReceivedFunc (Gtk3.Clipboard clipboard, [CCode (array_length = false, array_null_terminated = true)] string[] uris);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	[Version (deprecated = true, deprecated_since = "3.4")]
 	public delegate void ColorSelectionChangePaletteFunc ([CCode (array_length_cname = "n_colors", array_length_pos = 1.1)] Gdk3.Color[] colors);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	[Version (deprecated = true, deprecated_since = "3.4", since = "2.2")]
 	public delegate void ColorSelectionChangePaletteWithScreenFunc (Gdk3.Screen screen, [CCode (array_length_cname = "n_colors", array_length_pos = 2.1)] Gdk3.Color[] colors);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	public delegate bool EntryCompletionMatchFunc (Gtk3.EntryCompletion completion, string key, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate bool FileFilterFunc (Gtk3.FileFilterInfo filter_info);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	[Version (since = "3.18")]
 	public delegate Gtk3.Widget FlowBoxCreateWidgetFunc ([CCode (type = "gpointer")] GLib.Object item);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	[Version (since = "3.12")]
 	public delegate bool FlowBoxFilterFunc (Gtk3.FlowBoxChild child);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "3.12")]
 	public delegate void FlowBoxForeachFunc (Gtk3.FlowBox box, Gtk3.FlowBoxChild child);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "3.12")]
 	public delegate int FlowBoxSortFunc (Gtk3.FlowBoxChild child1, Gtk3.FlowBoxChild child2);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate bool FontFilterFunc (Pango.FontFamily family, Pango.FontFace face);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate void IconViewForeachFunc (Gtk3.IconView icon_view, Gtk3.TreePath path);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate int KeySnoopFunc (Gtk3.Widget grab_widget, Gdk3.EventKey event);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	[Version (since = "3.16")]
 	public delegate Gtk3.Widget ListBoxCreateWidgetFunc (GLib.Object item);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	[Version (since = "3.10")]
 	public delegate bool ListBoxFilterFunc (Gtk3.ListBoxRow row);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "3.14")]
 	public delegate void ListBoxForeachFunc (Gtk3.ListBox box, Gtk3.ListBoxRow row);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "3.10")]
 	public delegate int ListBoxSortFunc (Gtk3.ListBoxRow row1, Gtk3.ListBoxRow row2);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "3.10")]
 	public delegate void ListBoxUpdateHeaderFunc (Gtk3.ListBoxRow row, Gtk3.ListBoxRow? before);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate void MenuDetachFunc (Gtk3.Widget attach_widget, Gtk3.Menu menu);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate void MenuPositionFunc (Gtk3.Menu menu, ref int x, ref int y, out bool push_in);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	[Version (since = "2.2")]
 	public delegate void ModuleDisplayInitFunc (Gdk3.Display display);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate void ModuleInitFunc ([CCode (array_length_cname = "argc", array_length_pos = 0.5)] string[]? argv);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate void PageSetupDoneFunc (Gtk3.PageSetup page_setup);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate void PrintSettingsFunc (string key, string value);
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GCallback")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GCallback")]
 	public delegate void RadioActionCallback (Gtk3.Action action, Gtk3.Action current);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate bool RcPropertyParser (GLib.ParamSpec pspec, GLib.StringBuilder rc_string, GLib.Value property_value);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate bool RecentFilterFunc (Gtk3.RecentFilterInfo filter_info);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate int RecentSortFunc (Gtk3.RecentInfo a, Gtk3.RecentInfo b);
-	[CCode (cheader_filename = "gtk/Gtk3.h", has_target = false)]
+	[CCode (cheader_filename = "gtk/gtk.h", has_target = false)]
 	public delegate bool StylePropertyParser (string str, GLib.Value value) throws GLib.Error;
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 5.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 5.9)]
 	public delegate bool TextBufferDeserializeFunc (Gtk3.TextBuffer register_buffer, Gtk3.TextBuffer content_buffer, Gtk3.TextIter iter, [CCode (array_length_cname = "length", array_length_pos = 4.5, array_length_type = "gsize")] uint8[] data, bool create_tags) throws GLib.Error;
-	[CCode (array_length_pos = 4.1, array_length_type = "gsize", cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (array_length_pos = 4.1, array_length_type = "gsize", cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate uint8[]? TextBufferSerializeFunc (Gtk3.TextBuffer register_buffer, Gtk3.TextBuffer content_buffer, Gtk3.TextIter start, Gtk3.TextIter end);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate bool TextCharPredicate (unichar ch);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	public delegate void TextTagTableForeach (Gtk3.TextTag tag);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	[Version (since = "3.8")]
 	public delegate bool TickCallback (Gtk3.Widget widget, Gdk3.FrameClock frame_clock);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 1.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 1.9)]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public delegate string TranslateFunc (string path);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate void TreeCellDataFunc (Gtk3.TreeViewColumn tree_column, Gtk3.CellRenderer cell, Gtk3.TreeModel tree_model, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	public delegate void TreeDestroyCountFunc (Gtk3.TreeView tree_view, Gtk3.TreePath path, int children);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	public delegate int TreeIterCompareFunc (Gtk3.TreeModel model, Gtk3.TreeIter a, Gtk3.TreeIter b);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate void TreeModelFilterModifyFunc (Gtk3.TreeModel model, Gtk3.TreeIter iter, out GLib.Value value, int column);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate bool TreeModelFilterVisibleFunc (Gtk3.TreeModel model, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	public delegate bool TreeModelForeachFunc (Gtk3.TreeModel model, Gtk3.TreePath path, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 3.9)]
 	public delegate void TreeSelectionForeachFunc (Gtk3.TreeModel model, Gtk3.TreePath path, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate bool TreeSelectionFunc (Gtk3.TreeSelection selection, Gtk3.TreeModel model, Gtk3.TreePath path, bool path_currently_selected);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate bool TreeViewColumnDropFunc (Gtk3.TreeView tree_view, Gtk3.TreeViewColumn column, Gtk3.TreeViewColumn prev_column, Gtk3.TreeViewColumn next_column);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate void TreeViewMappingFunc (Gtk3.TreeView tree_view, Gtk3.TreePath path);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate bool TreeViewRowSeparatorFunc (Gtk3.TreeModel model, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 4.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 4.9)]
 	public delegate bool TreeViewSearchEqualFunc (Gtk3.TreeModel model, int column, string key, Gtk3.TreeIter iter);
-	[CCode (cheader_filename = "gtk/Gtk3.h", instance_pos = 2.9)]
+	[CCode (cheader_filename = "gtk/gtk.h", instance_pos = 2.9)]
 	public delegate void TreeViewSearchPositionFunc (Gtk3.TreeView tree_view, Gtk3.Widget search_dialog);
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_BINARY_AGE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_BINARY_AGE")]
 	public const int BINARY_AGE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_INPUT_ERROR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_INPUT_ERROR")]
 	public const int INPUT_ERROR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_INTERFACE_AGE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_INTERFACE_AGE")]
 	public const int INTERFACE_AGE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_LEVEL_BAR_OFFSET_FULL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_LEVEL_BAR_OFFSET_FULL")]
 	[Version (since = "3.20")]
 	public const string LEVEL_BAR_OFFSET_FULL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_LEVEL_BAR_OFFSET_HIGH")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_LEVEL_BAR_OFFSET_HIGH")]
 	[Version (since = "3.6")]
 	public const string LEVEL_BAR_OFFSET_HIGH;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_LEVEL_BAR_OFFSET_LOW")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_LEVEL_BAR_OFFSET_LOW")]
 	[Version (since = "3.6")]
 	public const string LEVEL_BAR_OFFSET_LOW;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_MAJOR_VERSION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_MAJOR_VERSION")]
 	public const int MAJOR_VERSION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_MAX_COMPOSE_LEN")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_MAX_COMPOSE_LEN")]
 	public const int MAX_COMPOSE_LEN;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_MICRO_VERSION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_MICRO_VERSION")]
 	public const int MICRO_VERSION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_MINOR_VERSION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_MINOR_VERSION")]
 	public const int MINOR_VERSION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_A3")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_A3")]
 	public const string PAPER_NAME_A3;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_A4")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_A4")]
 	public const string PAPER_NAME_A4;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_A5")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_A5")]
 	public const string PAPER_NAME_A5;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_B5")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_B5")]
 	public const string PAPER_NAME_B5;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_EXECUTIVE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_EXECUTIVE")]
 	public const string PAPER_NAME_EXECUTIVE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_LEGAL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_LEGAL")]
 	public const string PAPER_NAME_LEGAL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PAPER_NAME_LETTER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PAPER_NAME_LETTER")]
 	public const string PAPER_NAME_LETTER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PATH_PRIO_MASK")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PATH_PRIO_MASK")]
 	public const int PATH_PRIO_MASK;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_COLLATE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_COLLATE")]
 	public const string PRINT_SETTINGS_COLLATE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_DEFAULT_SOURCE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_DEFAULT_SOURCE")]
 	public const string PRINT_SETTINGS_DEFAULT_SOURCE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_DITHER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_DITHER")]
 	public const string PRINT_SETTINGS_DITHER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_DUPLEX")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_DUPLEX")]
 	public const string PRINT_SETTINGS_DUPLEX;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_FINISHINGS")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_FINISHINGS")]
 	public const string PRINT_SETTINGS_FINISHINGS;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_MEDIA_TYPE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_MEDIA_TYPE")]
 	public const string PRINT_SETTINGS_MEDIA_TYPE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_NUMBER_UP")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_NUMBER_UP")]
 	public const string PRINT_SETTINGS_NUMBER_UP;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_NUMBER_UP_LAYOUT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_NUMBER_UP_LAYOUT")]
 	public const string PRINT_SETTINGS_NUMBER_UP_LAYOUT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_N_COPIES")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_N_COPIES")]
 	public const string PRINT_SETTINGS_N_COPIES;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_ORIENTATION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_ORIENTATION")]
 	public const string PRINT_SETTINGS_ORIENTATION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_BASENAME")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_BASENAME")]
 	[Version (since = "3.6")]
 	public const string PRINT_SETTINGS_OUTPUT_BASENAME;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_BIN")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_BIN")]
 	public const string PRINT_SETTINGS_OUTPUT_BIN;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_DIR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_DIR")]
 	[Version (since = "3.6")]
 	public const string PRINT_SETTINGS_OUTPUT_DIR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT")]
 	public const string PRINT_SETTINGS_OUTPUT_FILE_FORMAT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_URI")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_OUTPUT_URI")]
 	public const string PRINT_SETTINGS_OUTPUT_URI;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PAGE_RANGES")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PAGE_RANGES")]
 	public const string PRINT_SETTINGS_PAGE_RANGES;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PAGE_SET")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PAGE_SET")]
 	public const string PRINT_SETTINGS_PAGE_SET;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PAPER_FORMAT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PAPER_FORMAT")]
 	public const string PRINT_SETTINGS_PAPER_FORMAT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PAPER_HEIGHT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PAPER_HEIGHT")]
 	public const string PRINT_SETTINGS_PAPER_HEIGHT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PAPER_WIDTH")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PAPER_WIDTH")]
 	public const string PRINT_SETTINGS_PAPER_WIDTH;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PRINTER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PRINTER")]
 	public const string PRINT_SETTINGS_PRINTER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PRINTER_LPI")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PRINTER_LPI")]
 	public const string PRINT_SETTINGS_PRINTER_LPI;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_PRINT_PAGES")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_PRINT_PAGES")]
 	public const string PRINT_SETTINGS_PRINT_PAGES;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_QUALITY")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_QUALITY")]
 	public const string PRINT_SETTINGS_QUALITY;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_RESOLUTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_RESOLUTION")]
 	public const string PRINT_SETTINGS_RESOLUTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_RESOLUTION_X")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_RESOLUTION_X")]
 	public const string PRINT_SETTINGS_RESOLUTION_X;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_RESOLUTION_Y")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_RESOLUTION_Y")]
 	public const string PRINT_SETTINGS_RESOLUTION_Y;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_REVERSE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_REVERSE")]
 	public const string PRINT_SETTINGS_REVERSE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_SCALE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_SCALE")]
 	public const string PRINT_SETTINGS_SCALE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_USE_COLOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_USE_COLOR")]
 	public const string PRINT_SETTINGS_USE_COLOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_WIN32_DRIVER_EXTRA")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_WIN32_DRIVER_EXTRA")]
 	public const string PRINT_SETTINGS_WIN32_DRIVER_EXTRA;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRINT_SETTINGS_WIN32_DRIVER_VERSION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRINT_SETTINGS_WIN32_DRIVER_VERSION")]
 	public const string PRINT_SETTINGS_WIN32_DRIVER_VERSION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_PRIORITY_RESIZE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_PRIORITY_RESIZE")]
 	public const int PRIORITY_RESIZE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_ACCELERATOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_ACCELERATOR")]
 	public const string STYLE_CLASS_ACCELERATOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_ARROW")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_ARROW")]
 	public const string STYLE_CLASS_ARROW;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_BACKGROUND")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_BACKGROUND")]
 	public const string STYLE_CLASS_BACKGROUND;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_BOTTOM")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_BOTTOM")]
 	public const string STYLE_CLASS_BOTTOM;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_BUTTON")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_BUTTON")]
 	public const string STYLE_CLASS_BUTTON;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_CALENDAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_CALENDAR")]
 	public const string STYLE_CLASS_CALENDAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_CELL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_CELL")]
 	public const string STYLE_CLASS_CELL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_CHECK")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_CHECK")]
 	public const string STYLE_CLASS_CHECK;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_COMBOBOX_ENTRY")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_COMBOBOX_ENTRY")]
 	public const string STYLE_CLASS_COMBOBOX_ENTRY;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_CONTEXT_MENU")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_CONTEXT_MENU")]
 	public const string STYLE_CLASS_CONTEXT_MENU;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_CSD")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_CSD")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_CSD;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_CURSOR_HANDLE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_CURSOR_HANDLE")]
 	public const string STYLE_CLASS_CURSOR_HANDLE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_DEFAULT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_DEFAULT")]
 	public const string STYLE_CLASS_DEFAULT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_DESTRUCTIVE_ACTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_DESTRUCTIVE_ACTION")]
 	[Version (since = "3.12")]
 	public const string STYLE_CLASS_DESTRUCTIVE_ACTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_DIM_LABEL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_DIM_LABEL")]
 	public const string STYLE_CLASS_DIM_LABEL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_DND")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_DND")]
 	public const string STYLE_CLASS_DND;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_DOCK")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_DOCK")]
 	public const string STYLE_CLASS_DOCK;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_ENTRY")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_ENTRY")]
 	public const string STYLE_CLASS_ENTRY;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_ERROR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_ERROR")]
 	public const string STYLE_CLASS_ERROR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_EXPANDER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_EXPANDER")]
 	public const string STYLE_CLASS_EXPANDER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_FLAT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_FLAT")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_FLAT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_FRAME")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_FRAME")]
 	public const string STYLE_CLASS_FRAME;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_GRIP")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_GRIP")]
 	public const string STYLE_CLASS_GRIP;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_HEADER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_HEADER")]
 	public const string STYLE_CLASS_HEADER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_HIGHLIGHT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_HIGHLIGHT")]
 	public const string STYLE_CLASS_HIGHLIGHT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_HORIZONTAL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_HORIZONTAL")]
 	public const string STYLE_CLASS_HORIZONTAL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_IMAGE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_IMAGE")]
 	public const string STYLE_CLASS_IMAGE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_INFO")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_INFO")]
 	public const string STYLE_CLASS_INFO;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_INLINE_TOOLBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_INLINE_TOOLBAR")]
 	public const string STYLE_CLASS_INLINE_TOOLBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_INSERTION_CURSOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_INSERTION_CURSOR")]
 	public const string STYLE_CLASS_INSERTION_CURSOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_LABEL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_LABEL")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_LABEL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_LEFT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_LEFT")]
 	public const string STYLE_CLASS_LEFT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_LEVEL_BAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_LEVEL_BAR")]
 	public const string STYLE_CLASS_LEVEL_BAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_LINKED")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_LINKED")]
 	public const string STYLE_CLASS_LINKED;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_LIST")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_LIST")]
 	public const string STYLE_CLASS_LIST;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_LIST_ROW")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_LIST_ROW")]
 	public const string STYLE_CLASS_LIST_ROW;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_MARK")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_MARK")]
 	public const string STYLE_CLASS_MARK;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_MENU")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_MENU")]
 	public const string STYLE_CLASS_MENU;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_MENUBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_MENUBAR")]
 	public const string STYLE_CLASS_MENUBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_MENUITEM")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_MENUITEM")]
 	public const string STYLE_CLASS_MENUITEM;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_MESSAGE_DIALOG")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_MESSAGE_DIALOG")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_MESSAGE_DIALOG;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_MONOSPACE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_MONOSPACE")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_MONOSPACE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_NEEDS_ATTENTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_NEEDS_ATTENTION")]
 	[Version (since = "3.12")]
 	public const string STYLE_CLASS_NEEDS_ATTENTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_NOTEBOOK")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_NOTEBOOK")]
 	public const string STYLE_CLASS_NOTEBOOK;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_OSD")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_OSD")]
 	public const string STYLE_CLASS_OSD;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_OVERSHOOT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_OVERSHOOT")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_OVERSHOOT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_PANE_SEPARATOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_PANE_SEPARATOR")]
 	public const string STYLE_CLASS_PANE_SEPARATOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_PAPER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_PAPER")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_PAPER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_POPOVER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_POPOVER")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_POPOVER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_POPUP")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_POPUP")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_POPUP;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_PRIMARY_TOOLBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_PRIMARY_TOOLBAR")]
 	public const string STYLE_CLASS_PRIMARY_TOOLBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_PROGRESSBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_PROGRESSBAR")]
 	public const string STYLE_CLASS_PROGRESSBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_PULSE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_PULSE")]
 	public const string STYLE_CLASS_PULSE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_QUESTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_QUESTION")]
 	public const string STYLE_CLASS_QUESTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_RADIO")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_RADIO")]
 	public const string STYLE_CLASS_RADIO;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_RAISED")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_RAISED")]
 	public const string STYLE_CLASS_RAISED;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_READ_ONLY")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_READ_ONLY")]
 	public const string STYLE_CLASS_READ_ONLY;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_RIGHT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_RIGHT")]
 	public const string STYLE_CLASS_RIGHT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_RUBBERBAND")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_RUBBERBAND")]
 	public const string STYLE_CLASS_RUBBERBAND;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SCALE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SCALE")]
 	public const string STYLE_CLASS_SCALE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SCALE_HAS_MARKS_ABOVE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SCALE_HAS_MARKS_ABOVE")]
 	public const string STYLE_CLASS_SCALE_HAS_MARKS_ABOVE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SCALE_HAS_MARKS_BELOW")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SCALE_HAS_MARKS_BELOW")]
 	public const string STYLE_CLASS_SCALE_HAS_MARKS_BELOW;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SCROLLBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SCROLLBAR")]
 	public const string STYLE_CLASS_SCROLLBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SCROLLBARS_JUNCTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SCROLLBARS_JUNCTION")]
 	public const string STYLE_CLASS_SCROLLBARS_JUNCTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SEPARATOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SEPARATOR")]
 	public const string STYLE_CLASS_SEPARATOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SIDEBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SIDEBAR")]
 	public const string STYLE_CLASS_SIDEBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SLIDER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SLIDER")]
 	public const string STYLE_CLASS_SLIDER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SPINBUTTON")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SPINBUTTON")]
 	public const string STYLE_CLASS_SPINBUTTON;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SPINNER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SPINNER")]
 	public const string STYLE_CLASS_SPINNER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_STATUSBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_STATUSBAR")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_STATUSBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SUBTITLE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SUBTITLE")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_SUBTITLE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_SUGGESTED_ACTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_SUGGESTED_ACTION")]
 	[Version (since = "3.12")]
 	public const string STYLE_CLASS_SUGGESTED_ACTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TITLE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TITLE")]
 	[Version (since = "3.14")]
 	public const string STYLE_CLASS_TITLE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TITLEBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TITLEBAR")]
 	public const string STYLE_CLASS_TITLEBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TOOLBAR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TOOLBAR")]
 	public const string STYLE_CLASS_TOOLBAR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TOOLTIP")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TOOLTIP")]
 	public const string STYLE_CLASS_TOOLTIP;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TOP")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TOP")]
 	public const string STYLE_CLASS_TOP;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TOUCH_SELECTION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TOUCH_SELECTION")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_TOUCH_SELECTION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_TROUGH")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_TROUGH")]
 	public const string STYLE_CLASS_TROUGH;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_UNDERSHOOT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_UNDERSHOOT")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_UNDERSHOOT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_VERTICAL")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_VERTICAL")]
 	public const string STYLE_CLASS_VERTICAL;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_VIEW")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_VIEW")]
 	public const string STYLE_CLASS_VIEW;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_WARNING")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_WARNING")]
 	public const string STYLE_CLASS_WARNING;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_CLASS_WIDE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_CLASS_WIDE")]
 	[Version (since = "3.16")]
 	public const string STYLE_CLASS_WIDE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_BACKGROUND_COLOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_BACKGROUND_COLOR")]
 	public const string STYLE_PROPERTY_BACKGROUND_COLOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_BACKGROUND_IMAGE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_BACKGROUND_IMAGE")]
 	public const string STYLE_PROPERTY_BACKGROUND_IMAGE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_BORDER_COLOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_BORDER_COLOR")]
 	public const string STYLE_PROPERTY_BORDER_COLOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_BORDER_RADIUS")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_BORDER_RADIUS")]
 	public const string STYLE_PROPERTY_BORDER_RADIUS;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_BORDER_STYLE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_BORDER_STYLE")]
 	public const string STYLE_PROPERTY_BORDER_STYLE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_BORDER_WIDTH")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_BORDER_WIDTH")]
 	public const string STYLE_PROPERTY_BORDER_WIDTH;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_COLOR")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_COLOR")]
 	public const string STYLE_PROPERTY_COLOR;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_FONT")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_FONT")]
 	public const string STYLE_PROPERTY_FONT;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_MARGIN")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_MARGIN")]
 	public const string STYLE_PROPERTY_MARGIN;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROPERTY_PADDING")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROPERTY_PADDING")]
 	public const string STYLE_PROPERTY_PADDING;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_APPLICATION")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_APPLICATION")]
 	public const int STYLE_PROVIDER_PRIORITY_APPLICATION;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_FALLBACK")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_FALLBACK")]
 	public const int STYLE_PROVIDER_PRIORITY_FALLBACK;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_SETTINGS")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_SETTINGS")]
 	public const int STYLE_PROVIDER_PRIORITY_SETTINGS;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_THEME")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_THEME")]
 	public const int STYLE_PROVIDER_PRIORITY_THEME;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_USER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_PROVIDER_PRIORITY_USER")]
 	public const int STYLE_PROVIDER_PRIORITY_USER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_REGION_COLUMN")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_REGION_COLUMN")]
 	[Version (deprecated = true, deprecated_since = "3.20")]
 	public const string STYLE_REGION_COLUMN;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_REGION_COLUMN_HEADER")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_REGION_COLUMN_HEADER")]
 	[Version (deprecated = true, deprecated_since = "3.20")]
 	public const string STYLE_REGION_COLUMN_HEADER;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_REGION_ROW")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_REGION_ROW")]
 	[Version (deprecated = true, deprecated_since = "3.20")]
 	public const string STYLE_REGION_ROW;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_STYLE_REGION_TAB")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_STYLE_REGION_TAB")]
 	[Version (deprecated = true, deprecated_since = "3.20")]
 	public const string STYLE_REGION_TAB;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_TEXT_VIEW_PRIORITY_VALIDATE")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_TEXT_VIEW_PRIORITY_VALIDATE")]
 	public const int TEXT_VIEW_PRIORITY_VALIDATE;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID")]
 	public const int TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID;
-	[CCode (cheader_filename = "gtk/Gtk3.h", cname = "GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID")]
+	[CCode (cheader_filename = "gtk/gtk.h", cname = "GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID")]
 	public const int TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID;
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool accel_groups_activate (GLib.Object object, uint accel_key, Gdk3.ModifierType accel_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned GLib.SList<Gtk3.AccelGroup> accel_groups_from_object (GLib.Object object);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static Gdk3.ModifierType accelerator_get_default_mod_mask ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static string accelerator_get_label (uint accelerator_key, Gdk3.ModifierType accelerator_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.4")]
 	public static string accelerator_get_label_with_keycode (Gdk3.Display? display, uint accelerator_key, uint keycode, Gdk3.ModifierType accelerator_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static string accelerator_name (uint accelerator_key, Gdk3.ModifierType accelerator_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.4")]
 	public static string accelerator_name_with_keycode (Gdk3.Display? display, uint accelerator_key, uint keycode, Gdk3.ModifierType accelerator_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void accelerator_parse (string accelerator, out uint accelerator_key, out Gdk3.ModifierType accelerator_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.4")]
 	public static void accelerator_parse_with_keycode (string accelerator, out uint accelerator_key, [CCode (array_length = false, array_null_terminated = true)] out uint[] accelerator_codes, out Gdk3.ModifierType accelerator_mods);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void accelerator_set_default_mod_mask (Gdk3.ModifierType default_mod_mask);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool accelerator_valid (uint keyval, Gdk3.ModifierType modifiers);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10", since = "2.6")]
 	public static bool alternative_dialog_button_order (Gdk3.Screen? screen);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool bindings_activate (GLib.Object object, uint keyval, Gdk3.ModifierType modifiers);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.4")]
 	public static bool bindings_activate_event (GLib.Object object, Gdk3.EventKey event);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static bool cairo_should_draw_window (Cairo.Context cr, Gdk3.Window window);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static void cairo_transform_to_window (Cairo.Context cr, Gtk3.Widget widget, Gdk3.Window window);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned string? check_version (uint required_major, uint required_minor, uint required_micro);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static void device_grab_add (Gtk3.Widget widget, Gdk3.Device device, bool block_others);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static void device_grab_remove (Gtk3.Widget widget, Gdk3.Device device);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void disable_setlocale ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static int distribute_natural_allocation (int extra_space, uint n_requested_sizes, Gtk3.RequestedSize sizes);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static unowned Gdk3.DragContext drag_begin (Gtk3.Widget widget, Gtk3.TargetList targets, Gdk3.DragAction actions, int button, Gdk3.Event? event);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.10")]
 	public static unowned Gdk3.DragContext drag_begin_with_coordinates (Gtk3.Widget widget, Gtk3.TargetList targets, Gdk3.DragAction actions, int button, Gdk3.Event? event, int x, int y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.16")]
 	public static void drag_cancel (Gdk3.DragContext context);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool drag_check_threshold (Gtk3.Widget widget, int start_x, int start_y, int current_x, int current_y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void drag_dest_add_image_targets (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void drag_dest_add_text_targets (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void drag_dest_add_uri_targets (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static Gdk3.Atom drag_dest_find_target (Gtk3.Widget widget, Gdk3.DragContext context, Gtk3.TargetList? target_list);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned Gtk3.TargetList? drag_dest_get_target_list (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static bool drag_dest_get_track_motion (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_dest_set (Gtk3.Widget widget, Gtk3.DestDefaults flags, [CCode (array_length_cname = "n_targets", array_length_pos = 3.5)] Gtk3.TargetEntry[]? targets, Gdk3.DragAction actions);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.22")]
 	public static void drag_dest_set_proxy (Gtk3.Widget widget, Gdk3.Window proxy_window, Gdk3.DragProtocol protocol, bool use_coordinates);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_dest_set_target_list (Gtk3.Widget widget, Gtk3.TargetList? target_list);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static void drag_dest_set_track_motion (Gtk3.Widget widget, bool track_motion);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_dest_unset (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_finish (Gdk3.DragContext context, bool success, bool del, uint32 time_);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_get_data (Gtk3.Widget widget, Gdk3.DragContext context, Gdk3.Atom target, uint32 time_);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned Gtk3.Widget? drag_get_source_widget (Gdk3.DragContext context);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_highlight (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_set_icon_default (Gdk3.DragContext context);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.2")]
 	public static void drag_set_icon_gicon (Gdk3.DragContext context, GLib.Icon icon, int hot_x, int hot_y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.8")]
 	public static void drag_set_icon_name (Gdk3.DragContext context, string icon_name, int hot_x, int hot_y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_set_icon_pixbuf (Gdk3.DragContext context, Gdk.Pixbuf pixbuf, int hot_x, int hot_y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static void drag_set_icon_stock (Gdk3.DragContext context, string stock_id, int hot_x, int hot_y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_set_icon_surface (Gdk3.DragContext context, Cairo.Surface surface);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_set_icon_widget (Gdk3.DragContext context, Gtk3.Widget widget, int hot_x, int hot_y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void drag_source_add_image_targets (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void drag_source_add_text_targets (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void drag_source_add_uri_targets (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.4")]
 	public static unowned Gtk3.TargetList? drag_source_get_target_list (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_source_set (Gtk3.Widget widget, Gdk3.ModifierType start_button_mask, [CCode (array_length_cname = "n_targets", array_length_pos = 3.5)] Gtk3.TargetEntry[]? targets, Gdk3.DragAction actions);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.2")]
 	public static void drag_source_set_icon_gicon (Gtk3.Widget widget, GLib.Icon icon);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.8")]
 	public static void drag_source_set_icon_name (Gtk3.Widget widget, string icon_name);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_source_set_icon_pixbuf (Gtk3.Widget widget, Gdk.Pixbuf pixbuf);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static void drag_source_set_icon_stock (Gtk3.Widget widget, string stock_id);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.4")]
 	public static void drag_source_set_target_list (Gtk3.Widget widget, Gtk3.TargetList? target_list);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_source_unset (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void drag_unhighlight (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.4", replacement = "render_insertion_cursor", since = "3.0")]
 	public static void draw_insertion_cursor (Gtk3.Widget widget, Cairo.Context cr, Gdk3.Rectangle location, bool is_primary, Gtk3.TextDirection direction, bool draw_arrow);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool events_pending ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static uint get_binary_age ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static Gdk3.Event? get_current_event ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned Gdk3.Device? get_current_event_device ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool get_current_event_state (out Gdk3.ModifierType state);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static uint32 get_current_event_time ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static uint get_debug_flags ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned Pango.Language get_default_language ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned Gtk3.Widget? get_event_widget (Gdk3.Event event);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static uint get_interface_age ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.12")]
 	public static Gtk3.TextDirection get_locale_direction ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static uint get_major_version ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static uint get_micro_version ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.0")]
 	public static uint get_minor_version ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static GLib.OptionGroup get_option_group (bool open_default_display);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void grab_add (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static unowned Gtk3.Widget? grab_get_current ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void grab_remove (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated_since = "3.10")]
 	public static Gtk3.IconSize icon_size_from_name (string name);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated_since = "3.10")]
 	public static unowned string icon_size_get_name (Gtk3.IconSize size);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool icon_size_lookup (Gtk3.IconSize size, out int width, out int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated_since = "3.10")]
 	public static bool icon_size_lookup_for_settings (Gtk3.Settings settings, Gtk3.IconSize size, out int width, out int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated_since = "3.10")]
 	public static Gtk3.IconSize icon_size_register (string name, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated_since = "3.10")]
 	public static void icon_size_register_alias (string alias, Gtk3.IconSize target);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void init ([CCode (array_length_cname = "argc", array_length_pos = 0.5)] ref unowned string[]? argv);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool init_check ([CCode (array_length_cname = "argc", array_length_pos = 0.5)] ref unowned string[]? argv);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static bool init_with_args ([CCode (array_length_cname = "argc", array_length_pos = 0.5)] ref unowned string[]? argv, string? parameter_string, [CCode (array_length = false, array_null_terminated = true)] GLib.OptionEntry[] entries, string? translation_domain) throws GLib.Error;
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.4")]
 	public static uint key_snooper_install (Gtk3.KeySnoopFunc snooper);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.4")]
 	public static void key_snooper_remove (uint snooper_handler_id);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void main ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void main_do_event (Gdk3.Event event);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool main_iteration ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool main_iteration_do (bool blocking);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static uint main_level ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void main_quit ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_arrow (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, Gtk3.ArrowType arrow_type, bool fill, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_background")]
 	public static void paint_box (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_frame_gap")]
 	public static void paint_box_gap (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height, Gtk3.PositionType gap_side, int gap_x, int gap_width);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_check (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_diamond (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_expander")]
 	public static void paint_expander (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.Widget? widget, string? detail, int x, int y, Gtk3.ExpanderStyle expander_style);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_extension")]
 	public static void paint_extension (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height, Gtk3.PositionType gap_side);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_flat_box (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_focus (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_handle (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height, Gtk3.Orientation orientation);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_hline (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.Widget? widget, string? detail, int x1, int x2, int y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_layout (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, bool use_text, Gtk3.Widget? widget, string? detail, int x, int y, Pango.Layout layout);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_option (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_handle")]
 	public static void paint_resize_grip (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.Widget? widget, string? detail, Gdk3.WindowEdge edge, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_shadow (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_frame")]
 	public static void paint_shadow_gap (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height, Gtk3.PositionType gap_side, int gap_x, int gap_width);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_slider (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height, Gtk3.Orientation orientation);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", replacement = "render_activity")]
 	public static void paint_spinner (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.Widget? widget, string? detail, uint step, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_tab (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.ShadowType shadow_type, Gtk3.Widget? widget, string? detail, int x, int y, int width, int height);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void paint_vline (Gtk3.Style style, Cairo.Context cr, Gtk3.StateType state_type, Gtk3.Widget? widget, string? detail, int y1_, int y2_, int x);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool parse_args ([CCode (array_length_cname = "argc", array_length_pos = 0.5)] ref unowned string[] argv);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static Gtk3.PageSetup print_run_page_setup_dialog (Gtk3.Window? parent, Gtk3.PageSetup? page_setup, Gtk3.PrintSettings settings);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static void print_run_page_setup_dialog_async (Gtk3.Window? parent, Gtk3.PageSetup? page_setup, Gtk3.PrintSettings settings, [CCode (scope = "async")] Gtk3.PageSetupDoneFunc done_cb);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void propagate_event (Gtk3.Widget widget, Gdk3.Event event);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void rc_add_default_file (string filename);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static string rc_find_module_in_path (string module_file);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static string rc_find_pixmap_in_path (Gtk3.Settings settings, GLib.Scanner scanner, string pixmap_file);
-	[CCode (array_length = false, array_null_terminated = true, cheader_filename = "gtk/Gtk3.h")]
+	[CCode (array_length = false, array_null_terminated = true, cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static unowned string[] rc_get_default_files ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static string rc_get_im_module_file ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static string rc_get_im_module_path ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static string rc_get_module_dir ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static unowned Gtk3.Style rc_get_style (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static unowned Gtk3.Style? rc_get_style_by_paths (Gtk3.Settings settings, string? widget_path, string? class_path, GLib.Type type);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static string rc_get_theme_dir ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void rc_parse (string filename);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static uint rc_parse_color (GLib.Scanner scanner, out Gdk3.Color color);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", since = "2.12")]
 	public static uint rc_parse_color_full (GLib.Scanner scanner, Gtk3.RcStyle? style, out Gdk3.Color color);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static uint rc_parse_priority (GLib.Scanner scanner, Gtk3.PathPriorityType priority);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static uint rc_parse_state (GLib.Scanner scanner, out Gtk3.StateType state);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void rc_parse_string (string rc_string);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static bool rc_reparse_all ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static bool rc_reparse_all_for_settings (Gtk3.Settings settings, bool force_load);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0", since = "2.4")]
 	public static void rc_reset_styles (Gtk3.Settings settings);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static unowned GLib.Scanner rc_scanner_new ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.0")]
 	public static void rc_set_default_files ([CCode (array_length = false, array_null_terminated = true)] string[] filenames);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void render_icon_surface (Gtk3.StyleContext context, Cairo.Context cr, Cairo.Surface surface, double x, double y);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void render_insertion_cursor (Gtk3.StyleContext context, Cairo.Context cr, double x, double y, Pango.Layout layout, int index, Pango.Direction direction);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static void rgb_to_hsv (double r, double g, double b, out double h, out double s, out double v);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void selection_add_target (Gtk3.Widget widget, Gdk3.Atom selection, Gdk3.Atom target, uint info);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void selection_add_targets (Gtk3.Widget widget, Gdk3.Atom selection, [CCode (array_length_cname = "ntargets", array_length_pos = 3.1, array_length_type = "guint")] Gtk3.TargetEntry[] targets);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void selection_clear_targets (Gtk3.Widget widget, Gdk3.Atom selection);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool selection_convert (Gtk3.Widget widget, Gdk3.Atom selection, Gdk3.Atom target, uint32 time_);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool selection_owner_set (Gtk3.Widget? widget, Gdk3.Atom selection, uint32 time_);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.2")]
 	public static bool selection_owner_set_for_display (Gdk3.Display display, Gtk3.Widget? widget, Gdk3.Atom selection, uint32 time_);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void selection_remove_all (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static void set_debug_flags (uint flags);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.6")]
 	public static void show_about_dialog (Gtk3.Window? parent, ...);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.22", since = "2.14")]
 	public static bool show_uri (Gdk3.Screen? screen, string uri, uint32 timestamp) throws GLib.Error;
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.22")]
 	public static bool show_uri_on_window (Gtk3.Window? parent, string uri, uint32 timestamp) throws GLib.Error;
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static void stock_add ([CCode (array_length_cname = "n_items", array_length_pos = 1.1, array_length_type = "guint")] Gtk3.StockItem[] items);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static void stock_add_static ([CCode (array_length_cname = "n_items", array_length_pos = 1.1, array_length_type = "guint")] Gtk3.StockItem[] items);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static GLib.SList<string> stock_list_ids ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10")]
 	public static bool stock_lookup (string stock_id, out Gtk3.StockItem item);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.10", since = "2.8")]
 	public static void stock_set_translate_func (string domain, owned Gtk3.TranslateFunc func);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static void target_table_free ([CCode (array_length_cname = "n_targets", array_length_pos = 1.1)] Gtk3.TargetEntry[] targets);
-	[CCode (array_length_pos = 1.1, cheader_filename = "gtk/Gtk3.h")]
+	[CCode (array_length_pos = 1.1, cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static Gtk3.TargetEntry[] target_table_new_from_list (Gtk3.TargetList list);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static bool targets_include_image ([CCode (array_length_cname = "n_targets", array_length_pos = 1.5)] Gdk3.Atom[] targets, bool writable);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static bool targets_include_rich_text ([CCode (array_length_cname = "n_targets", array_length_pos = 1.5)] Gdk3.Atom[] targets, Gtk3.TextBuffer buffer);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static bool targets_include_text ([CCode (array_length_cname = "n_targets", array_length_pos = 1.1)] Gdk3.Atom[] targets);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.10")]
 	public static bool targets_include_uri ([CCode (array_length_cname = "n_targets", array_length_pos = 1.1)] Gdk3.Atom[] targets);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static unowned Gtk3.Widget test_create_simple_window (string window_title, string dialog_text);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static unowned Gtk3.Widget test_create_widget (GLib.Type widget_type, ...);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static Gtk3.Widget test_display_button_window (string window_title, string dialog_text, ...);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static unowned Gtk3.Widget test_find_label (Gtk3.Widget widget, string label_pattern);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static unowned Gtk3.Widget test_find_sibling (Gtk3.Widget base_widget, GLib.Type widget_type);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static unowned Gtk3.Widget? test_find_widget (Gtk3.Widget widget, string label_pattern, GLib.Type widget_type);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static void test_init ([CCode (array_length_cname = "argcp", array_length_pos = 0.5)] ref unowned string[] argvp, ...);
-	[CCode (array_length = true, array_length_pos = 0.1, array_length_type = "guint", array_null_terminated = true, cheader_filename = "gtk/Gtk3.h")]
+	[CCode (array_length = true, array_length_pos = 0.1, array_length_type = "guint", array_null_terminated = true, cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static unowned GLib.Type[] test_list_all_types ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static void test_register_all_types ();
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static double test_slider_get_value (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static void test_slider_set_perc (Gtk3.Widget widget, double percentage);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static bool test_spin_button_click (Gtk3.SpinButton spinner, uint button, bool upwards);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static string test_text_get (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static void test_text_set (Gtk3.Widget widget, string str);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (deprecated = true, deprecated_since = "3.20", since = "2.14")]
 	public static bool test_widget_click (Gtk3.Widget widget, uint button, Gdk3.ModifierType modifiers);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "2.14")]
 	public static bool test_widget_send_key (Gtk3.Widget widget, uint keyval, Gdk3.ModifierType modifiers);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	[Version (since = "3.10")]
 	public static void test_widget_wait_for_draw (Gtk3.Widget widget);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool tree_get_row_drag_data (Gtk3.SelectionData selection_data, out unowned Gtk3.TreeModel? tree_model, out Gtk3.TreePath? path);
-	[CCode (cheader_filename = "gtk/Gtk3.h")]
+	[CCode (cheader_filename = "gtk/gtk.h")]
 	public static bool tree_set_row_drag_data (Gtk3.SelectionData selection_data, Gtk3.TreeModel tree_model, Gtk3.TreePath path);
 }
