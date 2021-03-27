@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -640,16 +640,16 @@ namespace Pamac {
 						unowned AURPackage? aur_pkg = pkgnames_table.get (pkgname_found);
 						// populate empty list will global ones
 						if (global_depends.length != 0 && aur_pkg.depends.length == 0) {
-							aur_pkg.depends = (owned) global_depends;
+							aur_pkg.depends = global_depends.copy (strdup);
 						}
 						if (global_provides.length != 0 && aur_pkg.provides.length == 0) {
-							aur_pkg.provides = (owned) global_provides;
+							aur_pkg.provides = global_provides.copy (strdup);
 						}
 						if (global_conflicts.length != 0 && aur_pkg.conflicts.length == 0) {
-							aur_pkg.conflicts = (owned) global_conflicts;
+							aur_pkg.conflicts = global_conflicts.copy (strdup);
 						}
 						if (global_replaces.length != 0 && aur_pkg.replaces.length == 0) {
-							aur_pkg.replaces = (owned) global_replaces;
+							aur_pkg.replaces = global_replaces.copy (strdup);
 						}
 						// add checkdepends and makedepends in depends
 						foreach (unowned string global_checkdepend in global_checkdepends) {

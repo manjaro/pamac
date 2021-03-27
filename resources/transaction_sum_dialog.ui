@@ -124,7 +124,7 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="cancel">cancel_button</action-widget>
+      <action-widget response="cancel" default="true">cancel_button</action-widget>
       <action-widget response="ok">apply_button</action-widget>
       <action-widget response="reject">edit_button</action-widget>
     </action-widgets>

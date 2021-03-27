@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2018-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ namespace Pamac {
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
 		//parent window
-		public Gtk.Application? application{ get; construct; }
+		public Gtk.Application? application { get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
@@ -204,7 +204,7 @@ namespace Pamac {
 			foreach (unowned string name in optdeps) {
 				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, name);
 			}
-			choose_pkgs_dialog.valid_button.grab_focus ();
+			choose_pkgs_dialog.cancel_button.grab_focus ();
 			int response = Gtk.ResponseType.CANCEL;
 			choose_pkgs_dialog.response.connect ((res) => {
 				response = res;

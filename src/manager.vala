@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -86,6 +86,7 @@ namespace Pamac {
 				manager_window.display_package_queue.clear ();
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.view_stack.visible_child_name = "updates";
+				manager_window.activate_action ("back", null);
 				manager_window.present ();
 			});
 			this.add_action (action);

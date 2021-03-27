@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2015-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -172,9 +172,9 @@ namespace Pamac {
 							}
 							index += 1;
 						}
+						mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 					});
 				});
-				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 			}
 
 			if (local_config.software_mode) {
@@ -428,7 +428,7 @@ namespace Pamac {
 					choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 				}
 			}
-			choose_pkgs_dialog.valid_button.grab_focus ();
+			choose_pkgs_dialog.cancel_button.grab_focus ();
 			this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 			choose_pkgs_dialog.response.connect ((response) => {
 				if (response == Gtk.ResponseType.OK) {
@@ -477,15 +477,15 @@ namespace Pamac {
 				preferences_choosen_country = "all";
 			}
 			transaction.start_progressbar_pulse ();
-//~ 			var manager_window = transaction.application_window as ManagerWindow;
-//~ 			manager_window.generate_mirrors_list = true;
-//~ 			manager_window.apply_button.sensitive = false;
-//~ 			manager_window.details_button.sensitive = true;
-//~ 			transaction.generate_mirrors_list_async.begin (preferences_choosen_country, (obj, res) => {
-//~ 				manager_window.generate_mirrors_list = false;
-//~ 				transaction.reset_progress_box ();
-//~ 				generate_mirrors_list_button.remove_css_class ("suggested-action");
-//~ 			});
+			unowned ManagerWindow manager_window = this.transient_for as ManagerWindow;
+			manager_window.generate_mirrors_list = true;
+			manager_window.apply_button.sensitive = false;
+			manager_window.details_button.sensitive = true;
+			transaction.generate_mirrors_list_async.begin (preferences_choosen_country, (obj, res) => {
+				manager_window.generate_mirrors_list = false;
+				transaction.reset_progress_box ();
+				generate_mirrors_list_button.remove_css_class ("suggested-action");
+			});
 		}
 
 		[GtkCallback]

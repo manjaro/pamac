@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -463,11 +463,11 @@ namespace Pamac {
 
 		bool important_details;
 		bool transaction_running;
-		bool sysupgrade_running;
 		public bool generate_mirrors_list;
 		bool waiting;
 
 		bool enable_aur;
+		bool updates_checked;
 		GenericArray<AlpmPackage> repos_updates;
 		GenericArray<AURPackage> aur_updates;
 		GenericArray<FlatpakPackage> flatpak_updates;
@@ -526,7 +526,6 @@ namespace Pamac {
 			scroll_to_top = true;
 			important_details = false;
 			transaction_running = false;
-			sysupgrade_running  = false;
 			generate_mirrors_list = false;
 
 			updated_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Your system is up-to-date")));
@@ -642,8 +641,7 @@ namespace Pamac {
 			// refresh databases action
 			action = new SimpleAction ("refresh-databases", null);
 			action.activate.connect (() => {
-				transaction.no_confirm_upgrade = false;
-				run_sysupgrade (true);
+				run_sysupgrade (true, false);
 			});
 			this.add_action (action);
 			// history action
@@ -766,6 +764,7 @@ namespace Pamac {
 
 			// database
 			database.get_updates_progress.connect (on_get_updates_progress);
+			updates_checked = false;
 
 			// transaction
 			repos_updates = new GenericArray<AlpmPackage> ();
@@ -857,7 +856,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		bool on_window_close_request () {
-			if (transaction_running || sysupgrade_running || generate_mirrors_list) {
+			if (transaction_running || generate_mirrors_list) {
 				// do not close window
 				return true;
 			} else {
@@ -955,7 +954,7 @@ namespace Pamac {
 		}
 
 		void set_pendings_operations () {
-			if (!transaction_running && !generate_mirrors_list && !sysupgrade_running) {
+			if (!transaction_running && !generate_mirrors_list) {
 				if (view_stack.visible_child_name == "updates") {
 					uint64 total_dsize = 0;
 					foreach (unowned AlpmPackage pkg in repos_updates) {
@@ -968,7 +967,7 @@ namespace Pamac {
 					} else {
 						transaction.progress_box.action_label.label = "";
 					}
-					if (!transaction_running && !generate_mirrors_list && !sysupgrade_running
+					if (!transaction_running && !generate_mirrors_list
 						&& (to_update.length > 0)) {
 						apply_button.sensitive = true;
 						apply_button.add_css_class ("suggested-action");
@@ -1108,7 +1107,6 @@ namespace Pamac {
 			label.valign = Gtk.Align.START;
 			details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 			if (!transaction_running
-				&& !sysupgrade_running
 				&& detail_type == dgettext (null, "Install Reason")
 				&& detail == dgettext (null, "Installed as a dependency for another package")) {
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -1430,7 +1428,9 @@ namespace Pamac {
 				build_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
 				if (view_stack.visible_child_name == "updates") {
-					remove_togglebutton.visible = false;
+					remove_togglebutton.visible = true;
+					remove_togglebutton.sensitive = true;
+					remove_togglebutton.active = to_remove.contains (pkg.name);
 				} else if (database.should_hold (pkg.name)) {
 					remove_togglebutton.visible = true;
 					remove_togglebutton.sensitive = false;
@@ -1842,7 +1842,7 @@ namespace Pamac {
 							install_button.margin_bottom = 3;
 							install_button.margin_start = 3;
 							install_button.margin_end = 3;
-							if (transaction_running || sysupgrade_running || generate_mirrors_list) {
+							if (transaction_running || generate_mirrors_list) {
 								install_button.sensitive = false;
 							} else {
 								install_button.clicked.connect ((button) => {
@@ -1921,13 +1921,9 @@ namespace Pamac {
 				install_togglebutton.visible = false;
 				build_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
-				if (view_stack.visible_child_name == "updates") {
-					remove_togglebutton.visible = false;
-				} else {
-					remove_togglebutton.visible = true;
-					remove_togglebutton.sensitive = true;
-					remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.name);
-				}
+				remove_togglebutton.visible = true;
+				remove_togglebutton.sensitive = true;
+				remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.name);
 			} else {
 				launch_button.visible = false;
 				remove_togglebutton.visible = false;
@@ -2053,17 +2049,33 @@ namespace Pamac {
 					snap_to_remove.insert (current_package_displayed.name, current_package_displayed as SnapPackage);
 				} else if (current_package_displayed is FlatpakPackage) {
 					flatpak_to_install.remove (current_package_displayed.name);
+					if (current_package_displayed.name in to_update) {
+						to_update.remove (current_package_displayed.name);
+						temporary_ignorepkgs.add (current_package_displayed.name);
+					}
 					flatpak_to_remove.insert (current_package_displayed.name, current_package_displayed as FlatpakPackage);
 				} else {
 					to_install.remove (current_package_displayed.name);
+					if (current_package_displayed.name in to_update) {
+						to_update.remove (current_package_displayed.name);
+						temporary_ignorepkgs.add (current_package_displayed.name);
+					}
 					to_remove.add (current_package_displayed.name);
 				}
 			} else {
 				if (current_package_displayed is SnapPackage) {
 					snap_to_remove.remove (current_package_displayed.name);
 				} else if (current_package_displayed is FlatpakPackage) {
+					if (current_package_displayed.name in temporary_ignorepkgs) {
+						to_update.add (current_package_displayed.name);
+						temporary_ignorepkgs.remove (current_package_displayed.name);
+					}
 					flatpak_to_remove.remove (current_package_displayed.name);
 				} else {
+					if (current_package_displayed.name in temporary_ignorepkgs) {
+						to_update.add (current_package_displayed.name);
+						temporary_ignorepkgs.remove (current_package_displayed.name);
+					}
 					to_remove.remove (current_package_displayed.name);
 				}
 			}
@@ -2450,8 +2462,16 @@ namespace Pamac {
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
+						if (pkg.name in to_update) {
+							to_update.remove (pkg.name);
+							temporary_ignorepkgs.add (pkg.name);
+						}
 						flatpak_to_remove.insert (pkg.name, pkg as FlatpakPackage);
 					} else {
+						if (pkg.name in temporary_ignorepkgs) {
+							to_update.add (pkg.name);
+							temporary_ignorepkgs.remove (pkg.name);
+						}
 						flatpak_to_remove.remove (pkg.name);
 					}
 					refresh_listbox_buttons ();
@@ -2469,8 +2489,16 @@ namespace Pamac {
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
 						to_install.remove (pkg.name);
+						if (pkg.name in to_update) {
+							to_update.remove (pkg.name);
+							temporary_ignorepkgs.add (pkg.name);
+						}
 						to_remove.add (pkg.name);
 					} else {
+						if (pkg.name in temporary_ignorepkgs) {
+							to_update.add (pkg.name);
+							temporary_ignorepkgs.remove (pkg.name);
+						}
 						to_remove.remove (pkg.name);
 					}
 					refresh_listbox_buttons ();
@@ -2723,47 +2751,14 @@ namespace Pamac {
 					if (local_config.software_mode) {
 						show_sidebar (false);
 					}
-					bool need_refresh = database.need_refresh ();
-					if (need_refresh) {
-						show_sidebar (false);
-						packages_stack.visible_child_name = "checking";
-					}
 					search_button.visible = false;
 					apply_button.sensitive = false;
 					cancel_button.sensitive = false;
-					this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
-					bool check_aur_updates_backup = database.config.check_aur_updates;
-					database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
-					database.get_updates_async.begin (true, (obj, res) => {
-						database.config.check_aur_updates = check_aur_updates_backup;
-						var updates = database.get_updates_async.end (res);
-						// copy updates in lists
-						repos_updates = new GenericArray<AlpmPackage> ();
-						foreach (unowned AlpmPackage pkg in updates.repos_updates) {
-							repos_updates.add (pkg);
-						}
-						foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
-							repos_updates.add (pkg);
-							temporary_ignorepkgs.add (pkg.name);
-						}
-						aur_updates = new GenericArray<AURPackage> ();
-						foreach (unowned AURPackage pkg in updates.aur_updates) {
-							aur_updates.add (pkg);
-						}
-						foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
-							aur_updates.add (pkg);
-							temporary_ignorepkgs.add (pkg.name);
-						}
-						flatpak_updates = new GenericArray<FlatpakPackage> ();
-						foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
-							flatpak_updates.add (pkg);
-						}
-						if (view_stack.visible_child_name == "updates") {
-							populate_updates ();
-						} else {
-							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-						}
-					});
+					if (updates_checked) {
+						populate_updates ();
+					} else {
+						on_refresh_button_clicked ();
+					}
 					break;
 				default:
 					break;
@@ -3201,7 +3196,6 @@ namespace Pamac {
 			if (simple_row == null) {
 				return;
 			}
-			this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 			unowned string category_name = simple_row.title;
 			string category = "";
 			if (category_name == dgettext (null, "Featured")) {
@@ -3836,9 +3830,9 @@ namespace Pamac {
 
 //~ 		[GtkCallback]
 //~ 		void on_menu_button_toggled () {
-//~ 			preferences_button.sensitive = !(transaction_running || sysupgrade_running);
-//~ 			refresh_databases_button.sensitive = !(transaction_running || sysupgrade_running);
-//~ 			local_button.sensitive = !(transaction_running || sysupgrade_running);
+//~ 			preferences_button.sensitive = !(transaction_running);
+//~ 			refresh_databases_button.sensitive = !(transaction_running);
+//~ 			local_button.sensitive = !(transaction_running);
 //~ 		}
 
 		[GtkCallback]
@@ -3883,8 +3877,7 @@ namespace Pamac {
 		void on_apply_button_clicked () {
 			details_button.sensitive = true;
 			if (view_stack.visible_child_name == "updates") {
-				transaction.no_confirm_upgrade = true;
-				run_sysupgrade (false);
+				run_sysupgrade ();
 			} else if (main_stack.visible_child_name == "details" &&
 				properties_stack.visible_child_name == "build_files") {
 				transaction.save_build_files_async.begin (current_package_displayed.name, () => {
@@ -3895,8 +3888,8 @@ namespace Pamac {
 			}
 		}
 
-		void run_transaction () {
-			transaction.no_confirm_upgrade = false;
+		void run_transaction (bool no_confirm_upgrade = false) {
+			transaction.no_confirm_upgrade = no_confirm_upgrade;
 			transaction_running = true;
 			apply_button.sensitive = false;
 			cancel_button.sensitive = false;
@@ -3938,11 +3931,7 @@ namespace Pamac {
 			});
 		}
 
-		void run_sysupgrade (bool force_refresh) {
-			this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
-			sysupgrade_running = true;
-			apply_button.sensitive = false;
-			cancel_button.sensitive = false;
+		void run_sysupgrade (bool force_refresh = false, bool no_confirm_upgrade = true) {
 			if (force_refresh
 				|| repos_updates.length > 0
 				|| aur_updates.length > 0) {
@@ -3956,10 +3945,7 @@ namespace Pamac {
 					transaction.add_flatpak_to_upgrade (pkg);
 				}
 			}
-			transaction.run_async.begin ((obj, res) => {
-				bool success = transaction.run_async.end (res);
-				on_transaction_finished (success);
-			});
+			run_transaction (no_confirm_upgrade);
 		}
 
 		[GtkCallback]
@@ -3971,9 +3957,6 @@ namespace Pamac {
 				set_pendings_operations ();
 			} else if (transaction_running) {
 				transaction_running = false;
-				transaction.cancel ();
-			} else if (sysupgrade_running) {
-				sysupgrade_running = false;
 				transaction.cancel ();
 			} else {
 				clear_lists ();
@@ -4023,6 +4006,7 @@ namespace Pamac {
 				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
 					flatpak_updates.add (pkg);
 				}
+				updates_checked = true;
 				if (view_stack.visible_child_name == "updates") {
 					populate_updates ();
 				} else {
@@ -4219,16 +4203,13 @@ namespace Pamac {
 			if (main_stack.visible_child_name == "term") {
 				button_back.visible = true;
 			}
-			if (sysupgrade_running) {
-				sysupgrade_running = false;
-			} else {
-				transaction_running = false;
-				generate_mirrors_list = false;
-			}
+			transaction_running = false;
+			generate_mirrors_list = false;
 			if (main_stack.visible_child_name == "details") {
 				refresh_details ();
 			}
 			scroll_to_top = false;
+			updates_checked = false;
 			refresh_packages_list ();
 		}
 	}
