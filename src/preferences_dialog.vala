@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2015-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,87 +23,87 @@ namespace Pamac {
 	class PreferencesDialog : Gtk.Dialog {
 
 		[GtkChild]
-		Gtk.Switch check_updates_button;
+		unowned Gtk.Switch check_updates_button;
 		[GtkChild]
-		Gtk.Label refresh_period_label;
+		unowned Gtk.Label refresh_period_label;
 		[GtkChild]
-		Gtk.SpinButton refresh_period_spin_button;
+		unowned Gtk.SpinButton refresh_period_spin_button;
 		[GtkChild]
-		Gtk.Label max_parallel_downloads_label;
+		unowned Gtk.Label max_parallel_downloads_label;
 		[GtkChild]
-		Gtk.SpinButton max_parallel_downloads_spin_button;
+		unowned Gtk.SpinButton max_parallel_downloads_spin_button;
 		[GtkChild]
-		Gtk.CheckButton no_update_hide_icon_checkbutton;
+		unowned Gtk.CheckButton no_update_hide_icon_checkbutton;
 		[GtkChild]
-		Gtk.CheckButton download_updates_checkbutton;
+		unowned Gtk.CheckButton download_updates_checkbutton;
 		[GtkChild]
-		Gtk.Box advanced_config_box;
+		unowned Gtk.Box advanced_config_box;
 		[GtkChild]
-		Gtk.Switch check_space_button;
+		unowned Gtk.Switch check_space_button;
 		[GtkChild]
-		Gtk.Switch remove_unrequired_deps_button;
+		unowned Gtk.Switch remove_unrequired_deps_button;
 		[GtkChild]
-		Gtk.Switch simple_install_button;
+		unowned Gtk.Switch simple_install_button;
 		[GtkChild]
-		Gtk.Switch enable_downgrade_button;
+		unowned Gtk.Switch enable_downgrade_button;
 		[GtkChild]
-		Gtk.TreeView ignorepkgs_treeview;
+		unowned Gtk.TreeView ignorepkgs_treeview;
 		[GtkChild]
-		Gtk.Box mirrors_config_box;
+		unowned Gtk.Box mirrors_config_box;
 		[GtkChild]
-		Gtk.ComboBoxText mirrors_country_comboboxtext;
+		unowned Gtk.ComboBoxText mirrors_country_comboboxtext;
 		[GtkChild]
-		Gtk.Button generate_mirrors_list_button;
+		unowned Gtk.Button generate_mirrors_list_button;
 		[GtkChild]
-		Gtk.Box aur_config_box;
+		unowned Gtk.Box aur_config_box;
 		[GtkChild]
-		Gtk.Switch enable_aur_button;
+		unowned Gtk.Switch enable_aur_button;
 		[GtkChild]
-		Gtk.Label aur_build_dir_label;
+		unowned Gtk.Label aur_build_dir_label;
 		[GtkChild]
-		Gtk.FileChooserButton aur_build_dir_file_chooser;
+		unowned Gtk.Button aur_build_dir_file_chooser;
 		[GtkChild]
-		Gtk.CheckButton keep_built_pkgs_checkbutton;
+		unowned Gtk.CheckButton keep_built_pkgs_checkbutton;
 		[GtkChild]
-		Gtk.CheckButton check_aur_updates_checkbutton;
+		unowned Gtk.CheckButton check_aur_updates_checkbutton;
 		[GtkChild]
-		Gtk.CheckButton check_aur_vcs_updates_checkbutton;
+		unowned Gtk.CheckButton check_aur_vcs_updates_checkbutton;
 		[GtkChild]
-		Gtk.Label cache_keep_nb_label;
+		unowned Gtk.Label cache_keep_nb_label;
 		[GtkChild]
-		Gtk.SpinButton cache_keep_nb_spin_button;
+		unowned Gtk.SpinButton cache_keep_nb_spin_button;
 		[GtkChild]
-		Gtk.CheckButton cache_only_uninstalled_checkbutton;
+		unowned Gtk.CheckButton cache_only_uninstalled_checkbutton;
 		[GtkChild]
-		Gtk.Button clean_build_files_button;
+		unowned Gtk.Button clean_build_files_button;
 		[GtkChild]
-		Gtk.Label clean_build_files_label;
+		unowned Gtk.Label clean_build_files_label;
 		[GtkChild]
-		Gtk.Label clean_cache_label;
+		unowned Gtk.Label clean_cache_label;
 		[GtkChild]
-		Gtk.Button clean_cache_button;
+		unowned Gtk.Button clean_cache_button;
 		[GtkChild]
-		Gtk.Box snap_config_box;
+		unowned Gtk.Box snap_config_box;
 		[GtkChild]
-		Gtk.Box flatpak_config_box;
+		unowned Gtk.Box flatpak_config_box;
 		[GtkChild]
-		Gtk.Switch enable_snap_button;
+		unowned Gtk.Switch enable_snap_button;
 		[GtkChild]
-		Gtk.Switch enable_flatpak_button;
+		unowned Gtk.Switch enable_flatpak_button;
 		[GtkChild]
-		Gtk.CheckButton check_flatpak_updates_checkbutton;
+		unowned Gtk.CheckButton check_flatpak_updates_checkbutton;
 
 		Gtk.ListStore ignorepkgs_liststore;
 		TransactionGtk transaction;
 		uint64 previous_refresh_period;
 		string preferences_choosen_country;
 
-		public PreferencesDialog (TransactionGtk transaction, LocalConfig local_config) {
+		public PreferencesDialog (ManagerWindow window, LocalConfig local_config) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: transaction.application_window, use_header_bar: use_header_bar);
+			Object (transient_for: window, use_header_bar: use_header_bar);
 
-			this.transaction = transaction;
+			this.transaction = window.transaction;
 			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
 			max_parallel_downloads_label.set_markup (dgettext (null, "Maximum parallel downloads") +":");
 			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
@@ -172,9 +172,9 @@ namespace Pamac {
 							}
 							index += 1;
 						}
+						mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 					});
 				});
-				mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
 			}
 
 			if (local_config.software_mode) {
@@ -183,17 +183,8 @@ namespace Pamac {
 				enable_aur_button.active = transaction.database.config.enable_aur;
 				aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
 				aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
+				aur_build_dir_file_chooser.label = Path.get_basename (transaction.database.config.aur_build_dir);
 				aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
-				string default_build_dir = "/var/tmp";
-				try {
-					aur_build_dir_file_chooser.add_shortcut_folder (default_build_dir);
-					if (transaction.database.config.aur_build_dir != default_build_dir) {
-						aur_build_dir_file_chooser.add_shortcut_folder (transaction.database.config.aur_build_dir);
-					}
-				} catch (Error e) {
-					warning (e.message);
-				}
-				aur_build_dir_file_chooser.select_filename (transaction.database.config.aur_build_dir);
 				refresh_clean_build_files_button.begin ();
 				keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
 				keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
@@ -203,7 +194,6 @@ namespace Pamac {
 				check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur
 															&& transaction.database.config.check_aur_updates;
 				enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
-				aur_build_dir_file_chooser.file_set.connect (on_aur_build_dir_set);
 				keep_built_pkgs_checkbutton.toggled.connect (on_keep_built_pkgs_checkbutton_toggled);
 				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
 				check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
@@ -352,9 +342,36 @@ namespace Pamac {
 			transaction.database.config.check_flatpak_updates = check_flatpak_updates_checkbutton.active;
 		}
 
-		void on_aur_build_dir_set () {
-			transaction.database.config.aur_build_dir = aur_build_dir_file_chooser.get_filename ();
-			refresh_clean_build_files_button.begin ();
+		[GtkCallback]
+		void on_aur_build_dir_file_chooser_clicked () {
+			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+				dgettext (null, "Select Build Directory"),
+				this,
+				Gtk.FileChooserAction.SELECT_FOLDER,
+				dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
+				dgettext (null, "_Choose"), Gtk.ResponseType.ACCEPT);
+			chooser.icon_name = "system-software-install";
+			string default_build_dir = "/var/tmp";
+			unowned string config_build_dir = transaction.database.config.aur_build_dir;
+			try {
+				chooser.add_shortcut_folder (default_build_dir);
+				if (config_build_dir != default_build_dir) {
+					chooser.add_shortcut_folder (config_build_dir);
+				}
+				chooser.set_current_folder (config_build_dir);
+			} catch (Error e) {
+				warning (e.message);
+			}
+			chooser.response.connect ((response) => {
+				if (response == Gtk.ResponseType.ACCEPT) {
+					File choosen_dir = chooser.get_file ();
+					aur_build_dir_file_chooser.label = choosen_dir.get_basename ();
+					transaction.database.config.aur_build_dir = choosen_dir.get_path ();
+					refresh_clean_build_files_button.begin ();
+				}
+				chooser.destroy ();
+			});
+			chooser.show ();
 		}
 
 		void on_keep_built_pkgs_checkbutton_toggled () {
@@ -395,9 +412,6 @@ namespace Pamac {
 			var choose_pkgs_dialog = transaction.create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			while (Gtk.events_pending ()) {
-				Gtk.main_iteration ();
-			}
 			var pkgs = transaction.database.get_installed_pkgs ();
 			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
 			choose_pkgs_dialog.pkgs_list.clear ();
@@ -412,27 +426,30 @@ namespace Pamac {
 					choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
 				}
 			}
-			choose_pkgs_dialog.valid_button.grab_focus ();
+			choose_pkgs_dialog.cancel_button.grab_focus ();
 			this.get_window ().set_cursor (null);
-			if (choose_pkgs_dialog.run () == Gtk.ResponseType.OK) {
-				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
-					GLib.Value ign;
-					GLib.Value name;
-					// get value at column 0 to know if it is selected
-					model.get_value (iter, 0, out ign);
-					// get value at column 1 to get the pkg name
-					model.get_value (iter, 1, out name);
-					if ((bool) ign) {
-						transaction.database.config.add_ignorepkg ((string) name);
-					} else {
-						transaction.database.config.remove_ignorepkg ((string) name);
-					}
-					return false;
-				});
-				ignorepkgs_liststore.clear ();
-				populate_ignorepkgs_liststore ();
-			}
-			choose_pkgs_dialog.hide ();
+			choose_pkgs_dialog.response.connect ((response) => {
+				if (response == Gtk.ResponseType.OK) {
+					choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
+						GLib.Value ign;
+						GLib.Value name;
+						// get value at column 0 to know if it is selected
+						model.get_value (iter, 0, out ign);
+						// get value at column 1 to get the pkg name
+						model.get_value (iter, 1, out name);
+						if ((bool) ign) {
+							transaction.database.config.add_ignorepkg ((string) name);
+						} else {
+							transaction.database.config.remove_ignorepkg ((string) name);
+						}
+						return false;
+					});
+					ignorepkgs_liststore.clear ();
+					populate_ignorepkgs_liststore ();
+				}
+				choose_pkgs_dialog.destroy ();
+			});
+			choose_pkgs_dialog.show ();
 		}
 
 		[GtkCallback]
@@ -458,7 +475,7 @@ namespace Pamac {
 				preferences_choosen_country = "all";
 			}
 			transaction.start_progressbar_pulse ();
-			var manager_window = transaction.application_window as ManagerWindow;
+			unowned ManagerWindow manager_window = this.transient_for as ManagerWindow;
 			manager_window.generate_mirrors_list = true;
 			manager_window.apply_button.sensitive = false;
 			manager_window.details_button.sensitive = true;

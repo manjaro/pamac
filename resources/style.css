@@ -1,0 +1,32 @@
+.screenshots-box{
+	background-color: @theme_base_color;
+	border-top: 1px solid @borders;
+	border-bottom: 1px solid @borders;
+}
+
+.old-version-label{
+	color: white;
+	background-color: #C01C28;
+	border: 3px solid #C01C28;
+	border-radius: 100px;
+	font-size: smaller;
+	font-weight: bold;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.version-label{
+	color: white;
+	background-color: blue;
+	border: 3px solid blue;
+	border-radius: 100px;
+	font-size: smaller;
+	font-weight: bold;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.size-label{
+	font-size: smaller;
+	min-width: 55px;
+}

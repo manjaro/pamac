@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ namespace Pamac {
 			// set translated title
 			var appinfo = new DesktopAppInfo ("pamac-installer.desktop");
 			progress_dialog.title = appinfo.get_name ();
-			transaction = new TransactionGtk (database, progress_dialog as Gtk.ApplicationWindow);
+			transaction = new TransactionGtk (database, this);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
@@ -60,7 +60,7 @@ namespace Pamac {
 			transaction.start_downloading.connect (on_start_downloading);
 			transaction.stop_downloading.connect (on_stop_downloading);
 			transaction.important_details_outpout.connect (on_important_details_outpout);
-			progress_dialog.box.pack_start (transaction.progress_box);
+			progress_dialog.box.add (transaction.progress_box);
 			progress_dialog.box.reorder_child (transaction.progress_box, 0);
 			transaction.details_window.height_request = 200;
 			progress_dialog.expander.add (transaction.details_window);
@@ -130,7 +130,7 @@ namespace Pamac {
 					i++;
 				}
 			}
-			if (to_install.length == 0 
+			if (to_install.length == 0
 				&& to_load.length == 0
 				&& to_build.length == 0
 				&& to_remove.length == 0) {

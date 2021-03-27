@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,22 +18,15 @@
  */
 
 namespace Pamac {
+	[GtkTemplate (ui = "/org/manjaro/pamac/manager/simple_row.ui")]
+	public class SimpleRow: Gtk.ListBoxRow {
+		[GtkChild]
+		public unowned Gtk.Label label;
 
-	[GtkTemplate (ui = "/org/manjaro/pamac/installer/progress_dialog.ui")]
-	class ProgressDialog : Gtk.ApplicationWindow {
+		public string? title { get { return label.label; } }
 
-		[GtkChild]
-		public unowned Gtk.Box box;
-		[GtkChild]
-		public unowned Gtk.Button close_button;
-		[GtkChild]
-		public unowned Gtk.Button cancel_button;
-		[GtkChild]
-		public unowned Gtk.Expander expander;
-
-		public ProgressDialog (Gtk.Application application) {
-			Object (application: application);
+		public SimpleRow (string? title) {
+			label.label = title;
 		}
-
 	}
 }

@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2019-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -185,7 +185,7 @@ namespace Pamac {
 			}
 		}
 
-		protected override string[] choose_optdeps (string pkgname, string[] optdeps) {
+		protected override async string[] choose_optdeps (string pkgname, string[] optdeps) {
 			if (no_confirm) {
 				return {};
 			}
@@ -254,7 +254,7 @@ namespace Pamac {
 			return optdeps_to_install.data;
 		}
 
-		protected override int choose_provider (string depend, string[] providers) {
+		protected override async int choose_provider (string depend, string[] providers) {
 			if (no_confirm) {
 				// choose first provider
 				return 0;
@@ -339,7 +339,7 @@ namespace Pamac {
 			return false;
 		}
 
-		protected override bool ask_import_key (string pkgname, string key, string owner) {
+		protected override async bool ask_import_key (string pkgname, string key, string owner) {
 			stdout.printf ("%s.\n".printf (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname)));
 			if (no_confirm) {
 				return true;
@@ -347,7 +347,7 @@ namespace Pamac {
 			return ask_user (dgettext (null, "Trust %s and import the PGP key").printf (owner));
 		}
 
-		protected override bool ask_edit_build_files (TransactionSummary summary) {
+		protected override async bool ask_edit_build_files (TransactionSummary summary) {
 			show_summary (summary);
 			summary_shown = true;
 			if (dry_run) {
@@ -457,7 +457,7 @@ namespace Pamac {
 					if (alpm_pkg != null) {
 						unowned GenericArray<string> dep_list = alpm_pkg.conflicts;
 						if (dep_list.length != 0) {
-							// conflicts list populated in alpm_utils/get_transaction_summary, it contains only one element. 
+							// conflicts list populated in alpm_utils/get_transaction_summary, it contains only one element.
 							string conflict = "(%s: %s)".printf (dgettext (null, "Conflicts With"), dep_list[0]);
 							int conflict_length = conflict.char_count ();
 							if (conflict_length > installed_version_length) {
@@ -824,7 +824,7 @@ namespace Pamac {
 			stdout.printf ("\n");
 		}
 
-		protected override bool ask_commit (TransactionSummary summary) {
+		protected override async bool ask_commit (TransactionSummary summary) {
 			if (summary_shown) {
 				return commit_transaction_answer;
 			} else {

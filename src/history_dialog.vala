@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ namespace Pamac {
 	class HistoryDialog : Gtk.Dialog {
 
 		[GtkChild]
-		Gtk.TextView textview;
+		unowned Gtk.TextView textview;
 		[GtkChild]
-		Gtk.SearchEntry search_entry;
+		unowned Gtk.SearchEntry search_entry;
 
 		Gtk.TextIter search_start;
 
@@ -66,13 +66,6 @@ namespace Pamac {
 		[GtkCallback]
 		void on_search_entry_search_changed () {
 			search_forward ();
-		}
-
-		[GtkCallback]
-		void on_search_entry_icon_press (Gtk.EntryIconPosition pos, Gdk.Event event) {
-			if (pos == Gtk.EntryIconPosition.SECONDARY) {
-				search_entry.set_text ("");
-			}
 		}
 
 		[GtkCallback]

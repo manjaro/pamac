@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.1 -->
 <interface>
-  <requires lib="gtk+" version="3.20"/>
+  <requires lib="gtk+" version="3.24"/>
   <template class="PamacProgressBox" parent="GtkBox">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="visible">1</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
     <property name="spacing">3</property>
     <child>
       <object class="GtkLabel" id="action_label">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="ellipsize">middle</property>
-        <property name="single-line-mode">True</property>
+        <property name="single-line-mode">1</property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkProgressBar" id="progressbar">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="show-text">True</property>
+        <property name="visible">1</property>
+        <property name="show-text">1</property>
         <property name="ellipsize">middle</property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
     </child>
   </template>
 </interface>

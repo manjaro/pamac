@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2015-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ namespace Pamac {
 	public class ChoosePkgsDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.TreeView treeview;
+		public unowned Gtk.TreeView treeview;
 		[GtkChild]
-		public Gtk.Button valid_button;
+		public unowned Gtk.Button cancel_button;
 
 		public Gtk.ListStore pkgs_list;
 

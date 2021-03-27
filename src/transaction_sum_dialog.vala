@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,17 +23,17 @@ namespace Pamac {
 	class TransactionSumDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public Gtk.Label top_label;
+		public unowned Gtk.Label top_label;
 		[GtkChild]
-		Gtk.TreeView treeview;
+		unowned Gtk.TreeView treeview;
 		[GtkChild]
-		public Gtk.Button edit_button;
+		public unowned Gtk.Button edit_button;
 		[GtkChild]
-		public Gtk.Button cancel_button;
+		public unowned Gtk.Button cancel_button;
 
 		public Gtk.ListStore sum_list;
 
-		public TransactionSumDialog (Gtk.ApplicationWindow? window) {
+		public TransactionSumDialog (Gtk.Window? window) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: window, use_header_bar: use_header_bar);

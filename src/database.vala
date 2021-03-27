@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2019-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019-2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2567,25 +2567,28 @@ namespace Pamac {
 				unowned string new_version = json_object.get_string_member ("Version");
 				unowned Alpm.Package local_pkg = alpm_handle.localdb.get_pkg (name);
 				unowned string old_version = local_pkg.version;
-				var pkg = new AURPackageLinked ();
-				pkg.initialise_from_json (json_object, aur, local_pkg, true);
+				var aur_pkg = new AURPackageLinked ();
+				aur_pkg.initialise_from_json (json_object, aur, local_pkg, true);
 				if (Alpm.pkg_vercmp (new_version, old_version) == 1) {
 					if (local_pkg.name in ignorepkgs) {
-						ignored_aur_updates.add (pkg);
+						ignored_aur_updates.add (aur_pkg);
 					} else {
-						aur_updates.add (pkg);
+						aur_updates.add (aur_pkg);
 					}
 				} else if (!json_object.get_member ("OutOfDate").is_null ()) {
 					// get out of date packages
-					outofdate.add (pkg);
+					outofdate.add (aur_pkg);
 				}
 			}
 			if (config.check_aur_vcs_updates) {
 				var vcs_updates = get_vcs_last_version (vcs_local_pkgs);
 				foreach (unowned AURPackage aur_pkg in vcs_updates) {
 					if (Alpm.pkg_vercmp (aur_pkg.version, aur_pkg.installed_version) == 1) {
-						// check for ignorepkgs already done
-						aur_updates.add (aur_pkg);
+						if (aur_pkg.name in ignorepkgs) {
+							ignored_aur_updates.add (aur_pkg);
+						} else {
+							aur_updates.add (aur_pkg);
+						}
 					}
 				}
 			}
