@@ -60,6 +60,13 @@ class GetInfosCase(unittest.TestCase):
         self.assertEqual("pacman", pkg.get_name())
         self.assertIsNotNone(pkg.props.installed_version)
 
+    def test_app_name_empty(self):
+        """pacman installed for tests"""
+        pkg = self.db.get_pkg("pacman")
+        name = pkg.get_app_name()
+        if not name:
+            self.assertTrue(name)
+
     def test_not_installed(self):
         """detect not installed"""
         # package not exist
