@@ -498,6 +498,8 @@ namespace Pamac {
 		HashTable<string, FlatpakPackage> previous_flatpak_to_install;
 		HashTable<string, FlatpakPackage> previous_flatpak_to_remove;
 
+		PreferencesWindow preferences_window;
+
 		public ManagerWindow (Gtk.Application application, Database database) {
 			Object (application: application, database: database);
 
@@ -685,10 +687,12 @@ namespace Pamac {
 				transaction.get_authorization_async.begin ((obj, res) => {
 					bool authorized = transaction.get_authorization_async.end (res);
 					if (authorized) {
-						var preferences_dialog = new PreferencesDialog (this, local_config);
-						preferences_dialog.response.connect (() => {
-							database.config.save ();
-							preferences_dialog.destroy ();
+						if (preferences_window == null) {
+							preferences_window = new PreferencesWindow (this, local_config);
+							preferences_window.set_transient_for (this);
+							preferences_window.delete_event.connect (() => {
+								database.config.save ();
+								preferences_window.hide ();
 							transaction.remove_authorization ();
 							check_aur_support ();
 							check_snap_support ();
@@ -697,8 +701,10 @@ namespace Pamac {
 								refresh_details ();
 							}
 							refresh_packages_list ();
-						});
-						preferences_dialog.show ();
+								return true;
+							});
+						}
+						preferences_window.show ();
 					} else {
 						this.get_window ().set_cursor (null);
 					}
@@ -841,12 +847,6 @@ namespace Pamac {
 
 			// refresh flatpak appstream_data
 			database.refresh_flatpak_appstream_data_async.begin ();
-		}
-
-		void set_header_func (Gtk.ListBoxRow row, Gtk.ListBoxRow? row_before) {
-			if (row_before != null) {
-				row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
-			}
 		}
 
 		void update_icons () {
@@ -1229,7 +1229,7 @@ namespace Pamac {
 			deps_box.add (label);
 			var listbox = new Gtk.ListBox ();
 			listbox.visible = true;
-			listbox.set_header_func (set_header_func);
+			listbox.get_style_context ().add_class ("content");
 			foreach (unowned string dep in dep_list) {
 				if (add_install_button) {
 					var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 3);
@@ -1276,11 +1276,7 @@ namespace Pamac {
 				}
 			}
 			listbox.row_activated.connect (on_deps_listbox_row_activated);
-			var frame = new Gtk.Frame (null);
-			frame.visible = true;
-			frame.valign = Gtk.Align.START;
-			frame.add (listbox);
-			deps_box.add (frame);
+			deps_box.add (listbox);
 		}
 
 		async void get_screenshots_images (GenericArray<string> urls) {
@@ -2994,7 +2990,6 @@ namespace Pamac {
 				if (pamac_row.name_label.label == dgettext (null, "OS Updates")) {
 					var updates_dialog = new UpdatesDialog (this);
 					updates_dialog.label.label = dgettext (null, "Includes performance, stability and security improvements");
-					updates_dialog.listbox.set_header_func (set_header_func);
 					// populates updates
 					foreach (unowned Package update_pkg in current_packages_list) {
 						if (update_pkg.app_name == null) {

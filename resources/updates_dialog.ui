@@ -18,39 +18,49 @@
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow">
             <property name="visible">1</property>
+            <property name="hscrollbar-policy">never</property>
             <child>
-              <object class="GtkViewport" id="viewport">
-                <property name="vexpand">1</property>
+              <object class="HdyClamp">
+                <property name="visible">1</property>
+                <property name="vexpand">True</property>
+                <property name="maximum_size">900</property>
+                <property name="hexpand">True</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <child>
-                  <object class="GtkBox" id="box">
+                  <object class="GtkViewport" id="viewport">
                     <property name="visible">1</property>
-                    <property name="margin-start">24</property>
-                    <property name="margin-end">24</property>
-                    <property name="margin-bottom">24</property>
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">12</property>
+                    <property name="vexpand">1</property>
                     <child>
-                      <object class="GtkLabel" id="label">
+                      <object class="GtkBox" id="box">
                         <property name="visible">1</property>
-                        <property name="halign">start</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-top">24</property>
-                        <property name="margin-bottom">12</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkFrame" id="frame">
-                        <property name="visible">1</property>
+                        <property name="margin-start">24</property>
+                        <property name="margin-end">24</property>
+                        <property name="margin-bottom">24</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">12</property>
+                        <child>
+                          <object class="GtkLabel" id="label">
+                            <property name="visible">1</property>
+                            <property name="wrap">1</property>
+                            <property name="halign">start</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-top">24</property>
+                            <property name="margin-bottom">12</property>
+                          </object>
+                        </child>
                         <child>
                           <object class="GtkListBox" id="listbox">
                             <property name="visible">1</property>
                             <property name="selection-mode">none</property>
                             <property name="activate-on-single-click">0</property>
+                            <style>
+                              <class name="content"/>
+                            </style>
                           </object>
-                        </child>
-                        <child type="label_item">
-                          <placeholder/>
                         </child>
                       </object>
                     </child>

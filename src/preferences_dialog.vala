@@ -18,26 +18,34 @@
  */
 
 namespace Pamac {
-
 	[GtkTemplate (ui = "/org/manjaro/pamac/preferences/preferences_dialog.ui")]
-	class PreferencesDialog : Gtk.Dialog {
-
+	class PreferencesWindow : Hdy.PreferencesWindow {
 		[GtkChild]
-		unowned Gtk.Switch check_updates_button;
+		unowned Hdy.ExpanderRow check_updates_expander;
 		[GtkChild]
-		unowned Gtk.Label refresh_period_label;
+		unowned Hdy.ComboRow refresh_period_comborow;
 		[GtkChild]
-		unowned Gtk.SpinButton refresh_period_spin_button;
+		unowned Gtk.Switch no_update_hide_icon_button;
 		[GtkChild]
-		unowned Gtk.Label max_parallel_downloads_label;
+		unowned Gtk.Switch download_updates_button;
 		[GtkChild]
-		unowned Gtk.SpinButton max_parallel_downloads_spin_button;
+		unowned Hdy.ComboRow parallel_downloads_comborow;
 		[GtkChild]
-		unowned Gtk.CheckButton no_update_hide_icon_checkbutton;
+		unowned Hdy.PreferencesGroup mirrors_preferences_group;
 		[GtkChild]
-		unowned Gtk.CheckButton download_updates_checkbutton;
+		unowned Hdy.ComboRow mirrors_country_comborow;
 		[GtkChild]
-		unowned Gtk.Box advanced_config_box;
+		unowned Gtk.Button generate_mirrors_list_button;
+		[GtkChild]
+		unowned Hdy.ComboRow cache_keep_nb_comborow;
+		[GtkChild]
+		unowned Gtk.Switch cache_only_uninstalled_button;
+		[GtkChild]
+		unowned Gtk.Label clean_cache_label;
+		[GtkChild]
+		unowned Gtk.Button clean_cache_button;
+		[GtkChild]
+		unowned Hdy.PreferencesPage advanced_preferences_page;
 		[GtkChild]
 		unowned Gtk.Switch check_space_button;
 		[GtkChild]
@@ -47,179 +55,222 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Switch enable_downgrade_button;
 		[GtkChild]
-		unowned Gtk.TreeView ignorepkgs_treeview;
+		unowned Gtk.ListBox ignorepkgs_listbox;
 		[GtkChild]
-		unowned Gtk.Box mirrors_config_box;
+		unowned Hdy.PreferencesGroup aur_preferences_group;
 		[GtkChild]
-		unowned Gtk.ComboBoxText mirrors_country_comboboxtext;
-		[GtkChild]
-		unowned Gtk.Button generate_mirrors_list_button;
-		[GtkChild]
-		unowned Gtk.Box aur_config_box;
-		[GtkChild]
-		unowned Gtk.Switch enable_aur_button;
-		[GtkChild]
-		unowned Gtk.Label aur_build_dir_label;
+		unowned Hdy.ExpanderRow enable_aur_expander;
 		[GtkChild]
 		unowned Gtk.Button aur_build_dir_file_chooser;
 		[GtkChild]
-		unowned Gtk.CheckButton keep_built_pkgs_checkbutton;
+		unowned Gtk.Switch keep_built_pkgs_button;
 		[GtkChild]
-		unowned Gtk.CheckButton check_aur_updates_checkbutton;
+		unowned Gtk.Switch check_aur_updates_button;
 		[GtkChild]
-		unowned Gtk.CheckButton check_aur_vcs_updates_checkbutton;
-		[GtkChild]
-		unowned Gtk.Label cache_keep_nb_label;
-		[GtkChild]
-		unowned Gtk.SpinButton cache_keep_nb_spin_button;
-		[GtkChild]
-		unowned Gtk.CheckButton cache_only_uninstalled_checkbutton;
+		unowned Gtk.Switch check_aur_vcs_updates_button;
 		[GtkChild]
 		unowned Gtk.Button clean_build_files_button;
 		[GtkChild]
 		unowned Gtk.Label clean_build_files_label;
 		[GtkChild]
-		unowned Gtk.Label clean_cache_label;
+		unowned Hdy.PreferencesGroup flatpak_preferences_group;
 		[GtkChild]
-		unowned Gtk.Button clean_cache_button;
+		unowned Hdy.ExpanderRow enable_flatpak_expander;
 		[GtkChild]
-		unowned Gtk.Box snap_config_box;
+		unowned Gtk.Switch check_flatpak_updates_button;
 		[GtkChild]
-		unowned Gtk.Box flatpak_config_box;
+		unowned Hdy.PreferencesGroup snap_preferences_group;
 		[GtkChild]
 		unowned Gtk.Switch enable_snap_button;
-		[GtkChild]
-		unowned Gtk.Switch enable_flatpak_button;
-		[GtkChild]
-		unowned Gtk.CheckButton check_flatpak_updates_checkbutton;
 
-		Gtk.ListStore ignorepkgs_liststore;
-		TransactionGtk transaction;
+		unowned Config config;
+		unowned Database database;
+		unowned TransactionGtk transaction;
 		uint64 previous_refresh_period;
-		string preferences_choosen_country;
 
-		public PreferencesDialog (ManagerWindow window, LocalConfig local_config) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
+		public PreferencesWindow (ManagerWindow window, LocalConfig local_config) {
+			Object (transient_for: window);
 
-			this.transaction = window.transaction;
-			refresh_period_label.set_markup (dgettext (null, "How often to check for updates, value in hours") +":");
-			max_parallel_downloads_label.set_markup (dgettext (null, "Maximum parallel downloads") +":");
-			cache_keep_nb_label.set_markup (dgettext (null, "Number of versions of each package to keep in the cache") +":");
-			if (transaction.database.config.refresh_period == 0) {
-				check_updates_button.active = false;
-				refresh_period_label.sensitive = false;
-				// set default value
-				refresh_period_spin_button.value = 6;
+			transaction = window.transaction;
+			database = transaction.database;
+			config = database.config;
+			// set check updates
+			var store = new GLib.ListStore (typeof (Hdy.ValueObject));
+			var val = Value (typeof (string));
+			string str = dgettext (null, "every 3 hours");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "every 6 hours");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "every 12 hours");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "every day");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "every week");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			refresh_period_comborow.bind_name_model (store, (object) => {
+				unowned Hdy.ValueObject value_object = object as Hdy.ValueObject;
+				return value_object.get_string ();
+			});
+			if (config.refresh_period == 0) {
+				check_updates_expander.enable_expansion = false;
+				check_updates_expander.expanded = false;
+				refresh_period_comborow.selected_index = 1;
 				previous_refresh_period = 6;
-				refresh_period_spin_button.sensitive = false;
-				no_update_hide_icon_checkbutton.sensitive = false;
-				download_updates_checkbutton.sensitive = false;
 			} else {
-				check_updates_button.active = true;
-				refresh_period_spin_button.value = transaction.database.config.refresh_period;
-				previous_refresh_period = transaction.database.config.refresh_period;
+				check_updates_expander.enable_expansion = true;
+				check_updates_expander.expanded = true;
+				uint64 refresh_period = config.refresh_period;
+				if (refresh_period <= 3) {
+					refresh_period_comborow.selected_index = 0;
+				} else if (refresh_period <= 6) {
+					refresh_period_comborow.selected_index = 1;
+				} else if (refresh_period <= 12) {
+					refresh_period_comborow.selected_index = 2;
+				} else if (refresh_period <= 24) {
+					refresh_period_comborow.selected_index = 3;
+				} else {
+					refresh_period_comborow.selected_index = 4;
+				}
 			}
-			max_parallel_downloads_spin_button.value = transaction.database.config.max_parallel_downloads;
-			no_update_hide_icon_checkbutton.active = transaction.database.config.no_update_hide_icon;
-			download_updates_checkbutton.active = transaction.database.config.download_updates;
-			cache_keep_nb_spin_button.value = transaction.database.config.clean_keep_num_pkgs;
-			cache_only_uninstalled_checkbutton.active = transaction.database.config.clean_rm_only_uninstalled;
-
-			refresh_period_spin_button.value_changed.connect (on_refresh_period_spin_button_value_changed);
-			cache_keep_nb_spin_button.value_changed.connect (on_cache_keep_nb_spin_button_value_changed);
-			cache_only_uninstalled_checkbutton.toggled.connect (on_cache_only_uninstalled_checkbutton_toggled);
-			refresh_clean_cache_button.begin ();
-
-			if (local_config.software_mode) {
-				advanced_config_box.visible = false;
+			check_updates_expander.notify["enable-expansion"].connect (on_check_updates_expander_changed);
+			refresh_period_comborow.notify["selected-index"].connect (on_refresh_period_comborow_changed);
+			config.bind_property ("download_updates", download_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("no_update_hide_icon", no_update_hide_icon_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			// set parallel downloads
+			store = new GLib.ListStore (typeof (Hdy.ValueObject));
+			str = dgettext (null, "1");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "2");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "4");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "6");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "8");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "10");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			parallel_downloads_comborow.bind_name_model (store, (object) => {
+				unowned Hdy.ValueObject value_object = object as Hdy.ValueObject;
+				return value_object.get_string ();
+			});
+			uint64 max_parallel_downloads = config.max_parallel_downloads;
+			if (max_parallel_downloads <= 1) {
+				parallel_downloads_comborow.selected_index = 0;
+			} else if (max_parallel_downloads <= 2) {
+				parallel_downloads_comborow.selected_index = 1;
+			} else if (max_parallel_downloads <= 4) {
+				parallel_downloads_comborow.selected_index = 2;
+			} else if (max_parallel_downloads <= 6) {
+				parallel_downloads_comborow.selected_index = 3;
+			} else if (max_parallel_downloads <= 8) {
+				parallel_downloads_comborow.selected_index = 4;
 			} else {
-				remove_unrequired_deps_button.active = transaction.database.config.recurse;
-				check_space_button.active = transaction.database.config.checkspace;
-				simple_install_button.active = transaction.database.config.simple_install;
-				enable_downgrade_button.active = transaction.database.config.enable_downgrade;
-
-				// populate ignorepkgs_liststore
-				ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
-				ignorepkgs_treeview.set_model (ignorepkgs_liststore);
-				populate_ignorepkgs_liststore ();
-
-				check_space_button.state_set.connect (on_check_space_button_state_set);
-				simple_install_button.state_set.connect (on_simple_install_button_state_set);
-				remove_unrequired_deps_button.state_set.connect (on_remove_unrequired_deps_button_state_set);
-				check_updates_button.state_set.connect (on_check_updates_button_state_set);
-				enable_downgrade_button.state_set.connect (on_enable_downgrade_button_state_set);
-				max_parallel_downloads_spin_button.value_changed.connect (on_max_parallel_downloads_spin_button_value_changed);
-				no_update_hide_icon_checkbutton.toggled.connect (on_no_update_hide_icon_checkbutton_toggled);
-				download_updates_checkbutton.toggled.connect (on_download_updates_checkbutton_toggled);
+				parallel_downloads_comborow.selected_index = 5;
 			}
-
-			if (!transaction.database.has_installed_satisfier ("pacman-mirrors")) {
-				mirrors_config_box.visible = false;
-			} else {
-				mirrors_country_comboboxtext.append_text (dgettext (null, "Worldwide"));
-				mirrors_country_comboboxtext.active = 0;
+			parallel_downloads_comborow.notify["selected-index"].connect (on_parallel_downloads_comborow_changed);
+			// set mirrors
+			if (database.has_installed_satisfier ("pacman-mirrors")) {
+				var mirrors_store = new GLib.ListStore (typeof (Hdy.ValueObject));
+				str = dgettext (null, "Worldwide");
+				val.set_string (str);
+				mirrors_store.append (new Hdy.ValueObject (val));
 				int index = 1;
-				transaction.database.get_mirrors_choosen_country_async.begin ((obj, res) => {
-					preferences_choosen_country = transaction.database.get_mirrors_choosen_country_async.end (res);
-					transaction.database.get_mirrors_countries_async.begin ((obj, res) => {
-						var countries = transaction.database.get_mirrors_countries_async.end (res);
+				database.get_mirrors_choosen_country_async.begin ((obj, res) => {
+					string preferences_choosen_country = database.get_mirrors_choosen_country_async.end (res);
+					database.get_mirrors_countries_async.begin ((obj, res) => {
+						var countries = database.get_mirrors_countries_async.end (res);
 						foreach (unowned string country in countries) {
-							mirrors_country_comboboxtext.append_text (country);
+							val.set_string (country);
+							mirrors_store.append (new Hdy.ValueObject (val));
 							if (country == preferences_choosen_country) {
-								mirrors_country_comboboxtext.active = index;
+								mirrors_country_comborow.selected_index = index;
 							}
 							index += 1;
 						}
-						mirrors_country_comboboxtext.changed.connect (on_mirrors_country_comboboxtext_changed);
+						mirrors_country_comborow.notify["selected-index"].connect (on_mirrors_country_comborow_changed);
 					});
 				});
-			}
-
-			if (local_config.software_mode) {
-				aur_config_box.visible = false;
+				mirrors_country_comborow.bind_name_model (mirrors_store, (object) => {
+					unowned Hdy.ValueObject value_object = object as Hdy.ValueObject;
+					return value_object.get_string ();
+				});
 			} else {
-				enable_aur_button.active = transaction.database.config.enable_aur;
-				aur_build_dir_label.set_markup (dgettext (null, "Build directory") +":");
-				aur_build_dir_label.sensitive = transaction.database.config.enable_aur;
-				aur_build_dir_file_chooser.label = Path.get_basename (transaction.database.config.aur_build_dir);
-				aur_build_dir_file_chooser.sensitive = transaction.database.config.enable_aur;
-				refresh_clean_build_files_button.begin ();
-				keep_built_pkgs_checkbutton.active = transaction.database.config.keep_built_pkgs;
-				keep_built_pkgs_checkbutton.sensitive = transaction.database.config.enable_aur;
-				check_aur_updates_checkbutton.active = transaction.database.config.check_aur_updates;
-				check_aur_updates_checkbutton.sensitive = transaction.database.config.enable_aur;
-				check_aur_vcs_updates_checkbutton.active = transaction.database.config.check_aur_vcs_updates;
-				check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur
-															&& transaction.database.config.check_aur_updates;
-				enable_aur_button.state_set.connect (on_enable_aur_button_state_set);
-				keep_built_pkgs_checkbutton.toggled.connect (on_keep_built_pkgs_checkbutton_toggled);
-				check_aur_updates_checkbutton.toggled.connect (on_check_aur_updates_checkbutton_toggled);
-				check_aur_vcs_updates_checkbutton.toggled.connect (on_check_aur_vcs_updates_checkbutton_toggled);
+				mirrors_preferences_group.visible = false;
 			}
-
-			if (transaction.database.config.support_snap) {
-				snap_config_box.visible = true;
-				enable_snap_button.active = transaction.database.config.enable_snap;
-				enable_snap_button.state_set.connect (on_enable_snap_button_state_set);
+			// set cache options
+			store = new GLib.ListStore (typeof (Hdy.ValueObject));
+			str = dgettext (null, "0");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "1");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "2");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "3");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "4");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			str = dgettext (null, "5");
+			val.set_string (str);
+			store.append (new Hdy.ValueObject (val));
+			cache_keep_nb_comborow.bind_name_model (store, (object) => {
+				unowned Hdy.ValueObject value_object = object as Hdy.ValueObject;
+				return value_object.get_string ();
+			});
+			uint64 keep_num_pkgs = config.clean_keep_num_pkgs;
+			if (keep_num_pkgs < 6) {
+				cache_keep_nb_comborow.selected_index = (int) keep_num_pkgs;
 			} else {
-				snap_config_box.visible = false;
+				cache_keep_nb_comborow.selected_index = 5;
 			}
-			if (transaction.database.config.support_flatpak) {
-				flatpak_config_box.visible = true;
-				enable_flatpak_button.active = transaction.database.config.enable_flatpak;
-				enable_flatpak_button.state_set.connect (on_enable_flatpak_button_state_set);
-				check_flatpak_updates_checkbutton.active = transaction.database.config.check_flatpak_updates;
-				check_flatpak_updates_checkbutton.sensitive = transaction.database.config.enable_flatpak;
-				check_flatpak_updates_checkbutton.toggled.connect (on_check_flatpak_updates_checkbutton_toggled);
-			} else {
-				flatpak_config_box.visible = false;
-			}
+			cache_keep_nb_comborow.notify["selected-index"].connect (on_cache_keep_nb_comborow_changed);
+			config.bind_property ("clean_rm_only_uninstalled", cache_only_uninstalled_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			cache_only_uninstalled_button.notify["active"].connect (on_cache_only_uninstalled_button_changed);
+			refresh_clean_cache_button.begin ();
+			// set advanced
+			local_config.bind_property ("software_mode", advanced_preferences_page, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
+			config.bind_property ("checkspace", check_space_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("recurse", remove_unrequired_deps_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			remove_unrequired_deps_button.notify["active"].connect (on_remove_unrequired_deps_button_changed);
+			config.bind_property ("simple_install", simple_install_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("enable_downgrade", enable_downgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			populate_ignorepkgs_list ();
+			// set third party
+			local_config.bind_property ("software_mode", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
+			config.bind_property ("enable_aur", enable_aur_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("enable_aur", enable_aur_expander, "expanded", BindingFlags.SYNC_CREATE);
+			config.bind_property ("keep_built_pkgs", keep_built_pkgs_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("check_aur_updates", check_aur_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("check_aur_vcs_updates", check_aur_vcs_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			aur_build_dir_file_chooser.label = Path.get_basename (config.aur_build_dir);
+			refresh_clean_build_files_button.begin ();
+			config.bind_property ("support_flatpak", flatpak_preferences_group, "visible", BindingFlags.SYNC_CREATE);
+			config.bind_property ("enable_flatpak", enable_flatpak_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("enable_flatpak", enable_flatpak_expander, "expanded", BindingFlags.SYNC_CREATE);
+			config.bind_property ("check_flatpak_updates", check_flatpak_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("support_snap", snap_preferences_group, "visible", BindingFlags.SYNC_CREATE);
+			config.bind_property ("enable_snap", enable_snap_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		}
 
 		async void refresh_clean_cache_button () {
-			HashTable<string, uint64?> details = yield transaction.database.get_clean_cache_details_async ();
+			HashTable<string, uint64?> details = yield database.get_clean_cache_details_async ();
 			var iter = HashTableIter<string, uint64?> (details);
 			uint64 total_size = 0;
 			uint files_nb = 0;
@@ -237,109 +288,75 @@ namespace Pamac {
 		}
 
 		async void refresh_clean_build_files_button () {
-			if (transaction.database.config.enable_aur) {
-				HashTable<string, uint64?> details = transaction.database.get_build_files_details ();
-				var iter = HashTableIter<string, uint64?> (details);
-				uint64 total_size = 0;
-				uint files_nb = 0;
-				uint64? size;
-				while (iter.next (null, out size)) {
-					total_size += size;
-					files_nb++;
-				}
-				clean_build_files_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
-				if (files_nb++ > 0) {
-					clean_build_files_button.sensitive = true;
-				} else {
-					clean_build_files_button.sensitive = false;
-				}
+			HashTable<string, uint64?> details = database.get_build_files_details ();
+			var iter = HashTableIter<string, uint64?> (details);
+			uint64 total_size = 0;
+			uint files_nb = 0;
+			uint64? size;
+			while (iter.next (null, out size)) {
+				total_size += size;
+				files_nb++;
+			}
+			clean_build_files_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
+			if (files_nb++ > 0) {
+				clean_build_files_button.sensitive = true;
 			} else {
-				clean_build_files_label.set_markup ("");
 				clean_build_files_button.sensitive = false;
 			}
 		}
 
-		bool on_remove_unrequired_deps_button_state_set (bool new_state) {
-			remove_unrequired_deps_button.state = new_state;
-			transaction.database.config.recurse = new_state;
+		void on_remove_unrequired_deps_button_changed () {
 			transaction.set_trans_flags ();
-			return true;
 		}
 
-		bool on_check_updates_button_state_set (bool new_state) {
-			check_updates_button.state = new_state;
-			refresh_period_label.sensitive = new_state;
-			refresh_period_spin_button.sensitive = new_state;
-			no_update_hide_icon_checkbutton.sensitive = new_state;
-			download_updates_checkbutton.sensitive = new_state;
-			if (new_state) {
-				transaction.database.config.refresh_period = previous_refresh_period;
+		void on_check_updates_expander_changed () {
+			if (check_updates_expander.enable_expansion) {
+				config.refresh_period = previous_refresh_period;
 			} else {
-				previous_refresh_period = transaction.database.config.refresh_period;
-				transaction.database.config.refresh_period = 0;
+				previous_refresh_period = config.refresh_period;
+				config.refresh_period = 0;
 			}
-			return true;
 		}
 
-		bool on_enable_downgrade_button_state_set (bool new_state) {
-			enable_downgrade_button.state = new_state;
-			transaction.database.config.enable_downgrade = new_state;
-			return true;
+		void on_refresh_period_comborow_changed () {
+			int index = refresh_period_comborow.selected_index;
+			if (index == 0) {
+				config.refresh_period = 3;
+			} else if (index == 1) {
+				config.refresh_period = 6;
+			} else if (index == 2) {
+				config.refresh_period = 12;
+			} else if (index == 3) {
+				config.refresh_period = 24;
+			} else {
+				config.refresh_period = 168;
+			}
 		}
 
-		void on_refresh_period_spin_button_value_changed () {
-			transaction.database.config.refresh_period = refresh_period_spin_button.get_value_as_int ();
+		void on_parallel_downloads_comborow_changed () {
+			int index = parallel_downloads_comborow.selected_index;
+			if (index == 0) {
+				config.max_parallel_downloads = 1;
+			} else if (index == 1) {
+				config.max_parallel_downloads = 2;
+			} else if (index == 2) {
+				config.max_parallel_downloads = 4;
+			} else if (index == 3) {
+				config.max_parallel_downloads = 6;
+			} else if (index == 4) {
+				config.max_parallel_downloads = 8;
+			} else {
+				config.max_parallel_downloads = 10;
+			}
 		}
 
-		void on_max_parallel_downloads_spin_button_value_changed () {
-			transaction.database.config.max_parallel_downloads = max_parallel_downloads_spin_button.get_value_as_int ();
-		}
-
-		void on_cache_keep_nb_spin_button_value_changed () {
-			transaction.database.config.clean_keep_num_pkgs = cache_keep_nb_spin_button.get_value_as_int ();
+		void on_cache_keep_nb_comborow_changed () {
+			config.clean_keep_num_pkgs = cache_keep_nb_comborow.selected_index;
 			refresh_clean_cache_button.begin ();
 		}
 
-		void on_cache_only_uninstalled_checkbutton_toggled () {
-			transaction.database.config.clean_rm_only_uninstalled = cache_only_uninstalled_checkbutton.active;
+		void on_cache_only_uninstalled_button_changed () {
 			refresh_clean_cache_button.begin ();
-		}
-
-		void on_no_update_hide_icon_checkbutton_toggled () {
-			transaction.database.config.no_update_hide_icon = no_update_hide_icon_checkbutton.active;
-		}
-
-		void on_download_updates_checkbutton_toggled () {
-			transaction.database.config.download_updates = download_updates_checkbutton.active;
-		}
-
-		bool on_enable_aur_button_state_set (bool new_state) {
-			enable_aur_button.state = new_state;
-			aur_build_dir_label.sensitive = new_state;
-			aur_build_dir_file_chooser.sensitive = new_state;
-			keep_built_pkgs_checkbutton.sensitive = new_state;
-			check_aur_updates_checkbutton.sensitive = new_state;
-			check_aur_vcs_updates_checkbutton.sensitive = new_state && check_aur_updates_checkbutton.active;
-			transaction.database.config.enable_aur = new_state;
-			refresh_clean_build_files_button.begin ();
-			return true;
-		}
-
-		bool on_enable_snap_button_state_set (bool new_state) {
-			enable_snap_button.state = new_state;
-			transaction.database.config.enable_snap = new_state;
-			return true;
-		}
-
-		bool on_enable_flatpak_button_state_set (bool new_state) {
-			enable_flatpak_button.state = new_state;
-			check_flatpak_updates_checkbutton.sensitive = new_state;
-			transaction.database.config.enable_flatpak = new_state;
-			return true;
-		}
-
-		void on_check_flatpak_updates_checkbutton_toggled () {
-			transaction.database.config.check_flatpak_updates = check_flatpak_updates_checkbutton.active;
 		}
 
 		[GtkCallback]
@@ -352,7 +369,7 @@ namespace Pamac {
 				dgettext (null, "_Choose"), Gtk.ResponseType.ACCEPT);
 			chooser.icon_name = "system-software-install";
 			string default_build_dir = "/var/tmp";
-			unowned string config_build_dir = transaction.database.config.aur_build_dir;
+			unowned string config_build_dir = config.aur_build_dir;
 			try {
 				chooser.add_shortcut_folder (default_build_dir);
 				if (config_build_dir != default_build_dir) {
@@ -366,7 +383,7 @@ namespace Pamac {
 				if (response == Gtk.ResponseType.ACCEPT) {
 					File choosen_dir = chooser.get_file ();
 					aur_build_dir_file_chooser.label = choosen_dir.get_basename ();
-					transaction.database.config.aur_build_dir = choosen_dir.get_path ();
+					config.aur_build_dir = choosen_dir.get_path ();
 					refresh_clean_build_files_button.begin ();
 				}
 				chooser.destroy ();
@@ -374,57 +391,70 @@ namespace Pamac {
 			chooser.show ();
 		}
 
-		void on_keep_built_pkgs_checkbutton_toggled () {
-			transaction.database.config.keep_built_pkgs = keep_built_pkgs_checkbutton.active;
-		}
-
-		void on_check_aur_updates_checkbutton_toggled () {
-			check_aur_vcs_updates_checkbutton.sensitive = transaction.database.config.enable_aur && check_aur_updates_checkbutton.active;
-			transaction.database.config.check_aur_updates = check_aur_updates_checkbutton.active;
-		}
-
-		void on_check_aur_vcs_updates_checkbutton_toggled () {
-			transaction.database.config.check_aur_vcs_updates = check_aur_vcs_updates_checkbutton.active;
-		}
-
-		bool on_check_space_button_state_set (bool new_state) {
-			check_space_button.state = new_state;
-			transaction.database.config.checkspace = new_state;
-			return true;
-		}
-
-		bool on_simple_install_button_state_set (bool new_state) {
-			simple_install_button.state = new_state;
-			transaction.database.config.simple_install = new_state;
-			return true;
-		}
-
-		void populate_ignorepkgs_liststore () {
-			ignorepkgs_liststore = new Gtk.ListStore (1, typeof (string));
-			ignorepkgs_treeview.set_model (ignorepkgs_liststore);
-			foreach (unowned string ignorepkg in transaction.database.config.ignorepkgs) {
-				ignorepkgs_liststore.insert_with_values (null, -1, 0, ignorepkg);
+		void populate_ignorepkgs_list () {
+			foreach (unowned string ignorepkg in config.ignorepkgs) {
+				add_ignorepkg (ignorepkg);
 			}
+			var image = new Gtk.Image.from_icon_name ("list-add-symbolic", Gtk.IconSize.BUTTON);
+			image.visible = true;
+			image.margin_top = 12;
+			image.margin_bottom = 12;
+			image.margin_start = 12;
+			image.margin_end = 12;
+			image.halign = Gtk.Align.CENTER;
+			ignorepkgs_listbox.add (image);
+			ignorepkgs_listbox.row_activated.connect (on_add_ignorepkgs_button_clicked);
 		}
 
-		[GtkCallback]
+		void add_ignorepkg (string name) {
+			var row = new Gtk.ListBoxRow ();
+			row.visible = true;
+			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 3);
+			box.visible = true;
+			var label = new Gtk.Label (name);
+			label.visible = true;
+			label.margin_top = 6;
+			label.margin_bottom = 6;
+			label.margin_start = 12;
+			label.margin_end = 12;
+			label.halign = Gtk.Align.START;
+			label.hexpand = true;
+			label.ellipsize = Pango.EllipsizeMode.END;
+			box.add (label);
+			var button = new Gtk.Button ();
+			button.visible = true;
+			button.relief = Gtk.ReliefStyle.NONE;
+			button.image = new Gtk.Image.from_icon_name ("list-remove-symbolic", Gtk.IconSize.BUTTON);
+			button.margin_top = 6;
+			button.margin_bottom = 6;
+			button.margin_start = 12;
+			button.margin_end = 12;
+			button.clicked.connect (() => {
+				row.destroy ();
+				config.remove_ignorepkg (name);
+			});
+			box.add (button);
+			row.add (box);
+			ignorepkgs_listbox.add (row);
+		}
+
 		void on_add_ignorepkgs_button_clicked () {
 			var choose_pkgs_dialog = transaction.create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			var pkgs = transaction.database.get_installed_pkgs ();
+			var pkgs = database.get_installed_pkgs ();
 			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
 			choose_pkgs_dialog.pkgs_list.clear ();
 			foreach (unowned Package pkg in pkgs) {
-				if (pkg.name in ignorepkgs_unique) {
+				unowned string pkgname = pkg.name;
+				if (pkgname in ignorepkgs_unique) {
 					continue;
 				}
-				ignorepkgs_unique.add (pkg.name);
-				if (pkg.name in transaction.database.config.ignorepkgs) {
-					choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, true, 1, pkg.name);
-				} else {
-					choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkg.name);
+				if (pkgname in config.ignorepkgs) {
+					continue;
 				}
+				ignorepkgs_unique.add (pkgname);
+				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkgname);
 			}
 			choose_pkgs_dialog.cancel_button.grab_focus ();
 			this.get_window ().set_cursor (null);
@@ -438,39 +468,28 @@ namespace Pamac {
 						// get value at column 1 to get the pkg name
 						model.get_value (iter, 1, out name);
 						if ((bool) ign) {
-							transaction.database.config.add_ignorepkg ((string) name);
-						} else {
-							transaction.database.config.remove_ignorepkg ((string) name);
+							unowned string str_name = (string) name;
+							config.add_ignorepkg (str_name);
+							add_ignorepkg (str_name);
 						}
 						return false;
 					});
-					ignorepkgs_liststore.clear ();
-					populate_ignorepkgs_liststore ();
 				}
 				choose_pkgs_dialog.destroy ();
 			});
 			choose_pkgs_dialog.show ();
 		}
 
-		[GtkCallback]
-		void on_remove_ignorepkgs_button_clicked () {
-			Gtk.TreeIter? iter;
-			Gtk.TreeSelection selection = ignorepkgs_treeview.get_selection ();
-			if (selection.get_selected (null, out iter)) {
-				GLib.Value name;
-				ignorepkgs_liststore.get_value (iter, 0, out name);
-				transaction.database.config.remove_ignorepkg ((string) name);
-				ignorepkgs_liststore.remove (ref iter);
-			}
-		}
-
-		void on_mirrors_country_comboboxtext_changed () {
+		void on_mirrors_country_comborow_changed () {
 			generate_mirrors_list_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 		}
 
 		[GtkCallback]
 		void on_generate_mirrors_list_button_clicked () {
-			preferences_choosen_country = mirrors_country_comboboxtext.get_active_text ();
+			unowned ListModel model = mirrors_country_comborow.get_model ();
+			Object object = model.get_item (mirrors_country_comborow.selected_index);
+			unowned Hdy.ValueObject value_object = object as Hdy.ValueObject;
+			string preferences_choosen_country = value_object.dup_string ();
 			if (preferences_choosen_country == dgettext (null, "Worldwide")) {
 				preferences_choosen_country = "all";
 			}
