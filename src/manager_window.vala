@@ -840,7 +840,7 @@ namespace Pamac {
 				}
 			}
 
-			// soup session to dwonload icons and screenshots
+			// soup session to download icons and screenshots
 			soup_session = new Soup.Session ();
 			soup_session.user_agent = "Pamac/%s".printf (VERSION);
 			soup_session.timeout = 30;
@@ -1253,10 +1253,9 @@ namespace Pamac {
 						var install_dep_button = new Gtk.ToggleButton ();
 						install_dep_button.visible = true;
 						install_dep_button.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
-						install_dep_button.margin_top = 12;
-						install_dep_button.margin_bottom = 12;
 						install_dep_button.margin_start = 19;
 						install_dep_button.margin_end = 12;
+						install_dep_button.valign = Gtk.Align.CENTER;
 						install_dep_button.toggled.connect (on_install_dep_button_toggled);
 						box.add (install_dep_button);
 						string dep_name = find_install_button_dep_name (install_dep_button, null);
@@ -1317,41 +1316,6 @@ namespace Pamac {
 			if (current_screenshots.length == 0) {
 				screenshots_box.visible = false;
  			}
-		}
-
-		async Gdk.Pixbuf? get_icon_pixbuf (string url) {
-			var uri = File.new_for_uri (url);
-			var cached_icon = File.new_for_path ("/tmp/pamac-app-icons/%s".printf (uri.get_basename ()));
-			Gdk.Pixbuf? pixbuf = null;
-			if (cached_icon.query_exists ()) {
-				try {
-					pixbuf = new Gdk.Pixbuf.from_file (cached_icon.get_path ());
-				} catch (Error e) {
-					warning ("%s: %s", url, e.message);
-				}
-			} else {
-				// download icon
-				try {
-					var request = soup_session.request (url);
-					try {
-						var inputstream = yield request.send_async (null);
-						pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
-						// scale pixbux at 64 pixels
-						int width = pixbuf.get_width ();
-						if (width > 64) {
-							pixbuf = pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
-						}
-						// save scaled image in tmp
-						FileOutputStream os = cached_icon.append_to (FileCreateFlags.NONE);
-						pixbuf.save_to_stream (os, "png");
-					} catch (Error e) {
-						warning ("%s: %s", url, e.message);
-					}
-				} catch (Error e) {
-					warning ("%s: %s", url, e.message);
-				}
-			}
-			return pixbuf;
 		}
 
 		void clear_details_grid () {
@@ -1789,8 +1753,8 @@ namespace Pamac {
 			if (icon != null) {
 				if ("http" in icon) {
 					app_image.pixbuf = package_icon;
-					get_icon_pixbuf.begin (icon, (obj, res) => {
-						app_image.pixbuf = get_icon_pixbuf.end (res);
+					transaction.get_icon_pixbuf.begin (icon, (obj, res) => {
+						app_image.pixbuf = transaction.get_icon_pixbuf.end (res);
 					});
 				} else {
 					try {
@@ -2292,24 +2256,24 @@ namespace Pamac {
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
 				if ("http" in icon) {
-					pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
-					get_icon_pixbuf.begin (icon, (obj, res) => {
-						var downloaded_pixbuf = get_icon_pixbuf.end (res);
+					pixbuf = package_icon;
+					transaction.get_icon_pixbuf.begin (icon, (obj, res) => {
+						var downloaded_pixbuf = transaction.get_icon_pixbuf.end (res);
 						if (downloaded_pixbuf != null) {
-							row.app_icon.pixbuf = downloaded_pixbuf.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+							row.app_icon.pixbuf = downloaded_pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
 						}
 					});
 				} else {
 					try {
-						pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 48, 48, true);
+						pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 64, 64, true);
 					} catch (Error e) {
 						if (pkg is SnapPackage && pkg.installed_version != null) {
-							pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+							pixbuf = package_icon;
 							// try to retrieve icon
 							database.get_installed_snap_icon_async.begin (pkg.name, (obj, res) => {
 								string downloaded_pixbuf_path = database.get_installed_snap_icon_async.end (res);
 								try {
-									pixbuf = new Gdk.Pixbuf.from_file_at_scale (downloaded_pixbuf_path, 48, 48, true);
+									pixbuf = new Gdk.Pixbuf.from_file_at_scale (downloaded_pixbuf_path, 64, 64, true);
 								} catch (Error e) {
 									warning ("%s: %s", pkg.name, e.message);
 								}
@@ -2323,16 +2287,16 @@ namespace Pamac {
 								new_icon = icon.replace ("community", "extra");
 							}
 							try {
-								pixbuf = new Gdk.Pixbuf.from_file_at_scale (new_icon, 48, 48, true);
+								pixbuf = new Gdk.Pixbuf.from_file_at_scale (new_icon, 64, 64, true);
 							} catch (Error e) {
-								pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+								pixbuf = package_icon;
 								warning ("%s: %s", icon, e.message);
 							}
 						}
 					}
 				}
 			} else {
-				pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+				pixbuf = package_icon;
 			}
 			row.app_icon.pixbuf = pixbuf;
 		}
@@ -2569,7 +2533,7 @@ namespace Pamac {
 				row.size_label.label = GLib.format_size (download_size);
 			}
 			row.repo_label.label = dgettext (null, "Official Repositories");
-			row.app_icon.pixbuf = package_icon.scale_simple (48, 48, Gdk.InterpType.BILINEAR);
+			row.app_icon.pixbuf = package_icon;
 			row.action_togglebutton.image = new Gtk.Image.from_icon_name ("emblem-synchronizing-symbolic", Gtk.IconSize.BUTTON);
 			row.action_togglebutton.active = true;
 			row.action_togglebutton.margin_start = 0;

@@ -392,9 +392,6 @@ namespace Pamac {
 		}
 
 		void populate_ignorepkgs_list () {
-			foreach (unowned string ignorepkg in config.ignorepkgs) {
-				add_ignorepkg (ignorepkg);
-			}
 			var image = new Gtk.Image.from_icon_name ("list-add-symbolic", Gtk.IconSize.BUTTON);
 			image.visible = true;
 			image.margin_top = 12;
@@ -404,34 +401,34 @@ namespace Pamac {
 			image.halign = Gtk.Align.CENTER;
 			ignorepkgs_listbox.add (image);
 			ignorepkgs_listbox.row_activated.connect (on_add_ignorepkgs_button_clicked);
+			foreach (unowned string ignorepkg in config.ignorepkgs) {
+				add_ignorepkg (ignorepkg);
+			}
 		}
 
-		void add_ignorepkg (string name) {
+		void add_ignorepkg (string pkgname) {
 			var row = new Gtk.ListBoxRow ();
 			row.visible = true;
-			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 3);
+			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 			box.visible = true;
-			var label = new Gtk.Label (name);
+			var label = new Gtk.Label (pkgname);
 			label.visible = true;
-			label.margin_top = 6;
-			label.margin_bottom = 6;
+			label.margin_top = 12;
+			label.margin_bottom = 12;
 			label.margin_start = 12;
-			label.margin_end = 12;
 			label.halign = Gtk.Align.START;
 			label.hexpand = true;
 			label.ellipsize = Pango.EllipsizeMode.END;
 			box.add (label);
 			var button = new Gtk.Button ();
 			button.visible = true;
-			button.relief = Gtk.ReliefStyle.NONE;
-			button.image = new Gtk.Image.from_icon_name ("list-remove-symbolic", Gtk.IconSize.BUTTON);
-			button.margin_top = 6;
-			button.margin_bottom = 6;
-			button.margin_start = 12;
 			button.margin_end = 12;
+			button.relief = Gtk.ReliefStyle.NONE;
+			button.valign = Gtk.Align.CENTER;
+			button.image = new Gtk.Image.from_icon_name ("list-remove-symbolic", Gtk.IconSize.BUTTON);
 			button.clicked.connect (() => {
 				row.destroy ();
-				config.remove_ignorepkg (name);
+				config.remove_ignorepkg (pkgname);
 			});
 			box.add (button);
 			row.add (box);
@@ -442,42 +439,33 @@ namespace Pamac {
 			var choose_pkgs_dialog = transaction.create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-			var pkgs = database.get_installed_pkgs ();
-			var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);;
-			choose_pkgs_dialog.pkgs_list.clear ();
-			foreach (unowned Package pkg in pkgs) {
-				unowned string pkgname = pkg.name;
-				if (pkgname in ignorepkgs_unique) {
-					continue;
+			database.get_installed_pkgs_async.begin ((obj, res) => {
+				var pkgs = database.get_installed_pkgs_async.end (res);
+				var ignorepkgs_unique = new GenericSet<string?> (str_hash, str_equal);
+				foreach (unowned Package pkg in pkgs) {
+					unowned string pkgname = pkg.name;
+					if (pkgname in ignorepkgs_unique) {
+						continue;
+					}
+					if (pkgname in config.ignorepkgs) {
+						continue;
+					}
+					ignorepkgs_unique.add (pkgname);
+					choose_pkgs_dialog.add_pkg (pkgname);
 				}
-				if (pkgname in config.ignorepkgs) {
-					continue;
-				}
-				ignorepkgs_unique.add (pkgname);
-				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, pkgname);
-			}
-			choose_pkgs_dialog.cancel_button.grab_focus ();
-			this.get_window ().set_cursor (null);
-			choose_pkgs_dialog.response.connect ((response) => {
-				if (response == Gtk.ResponseType.OK) {
-					choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
-						GLib.Value ign;
-						GLib.Value name;
-						// get value at column 0 to know if it is selected
-						model.get_value (iter, 0, out ign);
-						// get value at column 1 to get the pkg name
-						model.get_value (iter, 1, out name);
-						if ((bool) ign) {
-							unowned string str_name = (string) name;
-							config.add_ignorepkg (str_name);
-							add_ignorepkg (str_name);
+				choose_pkgs_dialog.cancel_button.grab_focus ();
+				this.get_window ().set_cursor (null);
+				choose_pkgs_dialog.response.connect ((response) => {
+					if (response == Gtk.ResponseType.OK) {
+						foreach (unowned string pkgname in choose_pkgs_dialog.get_selected_pkgs ()) {
+							config.add_ignorepkg (pkgname);
+							add_ignorepkg (pkgname);
 						}
-						return false;
-					});
-				}
-				choose_pkgs_dialog.destroy ();
+					}
+					choose_pkgs_dialog.destroy ();
+				});
+				choose_pkgs_dialog.show ();
 			});
-			choose_pkgs_dialog.show ();
 		}
 
 		void on_mirrors_country_comborow_changed () {

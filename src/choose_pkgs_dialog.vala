@@ -23,29 +23,35 @@ namespace Pamac {
 	public class ChoosePkgsDialog : Gtk.Dialog {
 
 		[GtkChild]
-		public unowned Gtk.TreeView treeview;
+		public unowned Gtk.ListBox listbox;
 		[GtkChild]
 		public unowned Gtk.Button cancel_button;
-
-		public Gtk.ListStore pkgs_list;
 
 		public ChoosePkgsDialog (Gtk.Window window) {
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
 			Object (transient_for: window, use_header_bar: use_header_bar);
-
-			pkgs_list = new Gtk.ListStore (2, typeof (bool), typeof (string));
-			treeview.set_model (pkgs_list);
 		}
 
-		[GtkCallback]
-		void on_renderertoggle_toggled (string path) {
-			Gtk.TreeIter iter;
-			bool selected;
-			if (pkgs_list.get_iter_from_string (out iter, path)) {
-				pkgs_list.get (iter, 0, out selected);
-				pkgs_list.set (iter, 0, !selected);
-			}
+		public void add_pkg (string pkgname) {
+			var label = new Gtk.Label (pkgname);
+			label.visible = true;
+			label.margin_top = 12;
+			label.margin_bottom = 12;
+			label.margin_start = 12;
+			label.margin_end = 12;
+			label.halign = Gtk.Align.START;
+			label.ellipsize = Pango.EllipsizeMode.END;
+			listbox.add (label);
+		}
+
+		public GenericArray<string> get_selected_pkgs () {
+			var selected = new GenericArray<string> ();
+			listbox.selected_foreach ((listbox, row) => {
+				unowned Gtk.Label label = row.get_child () as Gtk.Label;
+				selected.add (label.label);
+			});
+			return selected;
 		}
 	}
 }

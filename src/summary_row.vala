@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2021 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,17 +18,21 @@
  */
 
 namespace Pamac {
-	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_provider_dialog.ui")]
-	class ChooseProviderDialog : Gtk.Dialog {
+	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/summary_row.ui")]
+	class SummaryRow : Gtk.ListBoxRow {
 		[GtkChild]
-		public unowned Gtk.Box box;
+		public unowned Gtk.Image app_icon;
 		[GtkChild]
-		public unowned Gtk.Button valid_button;
+		public unowned Gtk.Label name_label;
+		[GtkChild]
+		public unowned Gtk.Label infos_label;
+		[GtkChild]
+		public unowned Gtk.Label version_label;
+		[GtkChild]
+		public unowned Gtk.Label repo_label;
+		[GtkChild]
+		public unowned Gtk.Label size_label;
 
-		public ChooseProviderDialog (Gtk.Window? window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
-		}
+		public SummaryRow () {}
 	}
 }

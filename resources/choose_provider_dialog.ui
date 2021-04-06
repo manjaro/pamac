@@ -4,17 +4,29 @@
   <template class="PamacChooseProviderDialog" parent="GtkDialog">
     <property name="title" translatable="yes">Choose a Provider</property>
     <property name="modal">1</property>
-    <property name="default_width">600</property>
+    <property name="default_width">500</property>
     <property name="icon_name">system-software-install</property>
     <property name="deletable">0</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox">
-        <property name="orientation">vertical</property>
-        <property name="margin-top">6</property>
-        <property name="margin-bottom">6</property>
-        <property name="margin-start">6</property>
-        <property name="margin-end">6</property>
-        <property name="spacing">6</property>
+      <object class="GtkBox">
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">1</property>
+            <property name="min_content_height">200</property>
+            <child>
+              <object class="GtkBox" id="box">
+                <property name="visible">1</property>
+                <property name="orientation">vertical</property>
+                <property name="margin-top">16</property>
+                <property name="margin-bottom">16</property>
+                <property name="margin-start">16</property>
+                <property name="margin-end">16</property>
+                <property name="spacing">16</property>
+                <property name="vexpand">1</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
     <child type="action">

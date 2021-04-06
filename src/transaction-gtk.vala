@@ -36,6 +36,8 @@ namespace Pamac {
 		bool summary_shown;
 		public bool commit_transaction_answer;
 
+		Soup.Session soup_session;
+
 		public signal void transaction_sum_populated ();
 
 		public TransactionGtk (Database database, Gtk.Application? application) {
@@ -87,9 +89,7 @@ namespace Pamac {
 			emit_script_output.connect (show_details);
 			emit_warning.connect ((msg) => {
 				show_details (msg);
-				lock (warning_textbuffer) {
-					warning_textbuffer.append (msg + "\n");
-				}
+				warning_textbuffer.append (msg + "\n");
 			});
 			emit_error.connect (display_error);
 			start_downloading.connect (() => {progress_box.progressbar.visible = true;});
@@ -105,6 +105,10 @@ namespace Pamac {
 			no_confirm_upgrade = false;
 			summary_shown = false;
 			commit_transaction_answer = false;
+			// soup session to download icons and screenshots
+			soup_session = new Soup.Session ();
+			soup_session.user_agent = "Pamac/%s".printf (VERSION);
+			soup_session.timeout = 30;
 		}
 
 		public void set_trans_flags () {
@@ -200,35 +204,26 @@ namespace Pamac {
 		}
 
 		protected override async string[] choose_optdeps (string pkgname, string[] optdeps) {
-			var optdeps_to_install = new GenericArray<string> ();
+			GenericArray<string> optdeps_to_install;
 			var choose_pkgs_dialog = create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
-			choose_pkgs_dialog.pkgs_list.clear ();
 			foreach (unowned string name in optdeps) {
-				choose_pkgs_dialog.pkgs_list.insert_with_values (null, -1, 0, false, 1, name);
+				choose_pkgs_dialog.add_pkg (name);
 			}
 			choose_pkgs_dialog.cancel_button.grab_focus ();
 			int response = Gtk.ResponseType.CANCEL;
 			choose_pkgs_dialog.response.connect ((res) => {
 				response = res;
 				Idle.add (choose_optdeps.callback);
-				choose_pkgs_dialog.destroy ();
 			});
 			choose_pkgs_dialog.show ();
 			yield;
 			if (response == Gtk.ResponseType.OK) {
-				choose_pkgs_dialog.pkgs_list.foreach ((model, path, iter) => {
-					GLib.Value val;
-					// get value at column 0 to know if it is selected
-					model.get_value (iter, 0, out val);
-					if ((bool) val) {
-						// get value at column 1 to get the pkg name
-						model.get_value (iter, 1, out val);
-						optdeps_to_install.add ((string) val);
-					}
-					return false;
-				});
+				optdeps_to_install = choose_pkgs_dialog.get_selected_pkgs ();
+			} else {
+				optdeps_to_install = new GenericArray<string> ();
 			}
+			choose_pkgs_dialog.destroy ();
 			return optdeps_to_install.data;
 		}
 
@@ -236,8 +231,7 @@ namespace Pamac {
 			var application_window = application.active_window;
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
-			unowned Gtk.Box box = choose_provider_dialog.get_content_area ();
-			box.vexpand = true;
+			unowned Gtk.Box box = choose_provider_dialog.box;
 			var pkgs = new GenericArray<Package> ();
 			foreach (unowned string provider in providers) {
 				var pkg = database.get_sync_pkg (provider);
@@ -417,23 +411,139 @@ namespace Pamac {
 			return full_pkg;
 		}
 
-		unowned string get_alpm_pkg_display_name (AlpmPackage alpm_pkg) {
-			unowned string app_name = alpm_pkg.app_name;
-			if (app_name != null) {
-				return app_name;
+		public async Gdk.Pixbuf? get_icon_pixbuf (string url) {
+			var uri = File.new_for_uri (url);
+			var cached_icon = File.new_for_path ("/tmp/pamac-app-icons/%s".printf (uri.get_basename ()));
+			Gdk.Pixbuf? pixbuf = null;
+			if (cached_icon.query_exists ()) {
+				try {
+					pixbuf = new Gdk.Pixbuf.from_file (cached_icon.get_path ());
+				} catch (Error e) {
+					warning ("%s: %s", url, e.message);
+				}
 			} else {
-				return alpm_pkg.name;
+				// download icon
+				try {
+					var request = soup_session.request (url);
+					try {
+						var inputstream = yield request.send_async (null);
+						pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
+						// scale pixbux at 64 pixels
+						int width = pixbuf.get_width ();
+						if (width > 64) {
+							pixbuf = pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
+						}
+						// save scaled image in tmp
+						FileOutputStream os = cached_icon.append_to (FileCreateFlags.NONE);
+						pixbuf.save_to_stream (os, "png");
+					} catch (Error e) {
+						warning ("%s: %s", url, e.message);
+					}
+				} catch (Error e) {
+					warning ("%s: %s", url, e.message);
+				}
 			}
+			return pixbuf;
 		}
 
-		unowned string get_pkg_display_name (Package pkg) {
-			if (pkg is FlatpakPackage) {
-				return pkg.app_name;
+		void set_row_app_icon (SummaryRow row, Package pkg) {
+			Gdk.Pixbuf pixbuf;
+			Gdk.Pixbuf? package_icon = null;
+			var icon_theme = Gtk.IconTheme.get_default ();
+			try {
+				package_icon = icon_theme.load_icon ("package-x-generic", 64, 0);
+			} catch (Error e) {
+				warning (e.message);
 			}
-			if (pkg is SnapPackage) {
-				return pkg.app_name;
+			unowned string? icon = pkg.icon;
+			if (icon != null) {
+				if ("http" in icon) {
+					pixbuf = package_icon;
+					get_icon_pixbuf.begin (icon, (obj, res) => {
+						var downloaded_pixbuf = get_icon_pixbuf.end (res);
+						if (downloaded_pixbuf != null) {
+							row.app_icon.pixbuf = downloaded_pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
+						}
+					});
+				} else {
+					try {
+						pixbuf = new Gdk.Pixbuf.from_file_at_scale (icon, 64, 64, true);
+					} catch (Error e) {
+						if (pkg is SnapPackage && pkg.installed_version != null) {
+							pixbuf = package_icon;
+							// try to retrieve icon
+							database.get_installed_snap_icon_async.begin (pkg.name, (obj, res) => {
+								string downloaded_pixbuf_path = database.get_installed_snap_icon_async.end (res);
+								try {
+									pixbuf = new Gdk.Pixbuf.from_file_at_scale (downloaded_pixbuf_path, 64, 64, true);
+								} catch (Error e) {
+									warning ("%s: %s", pkg.name, e.message);
+								}
+							});
+						} else {
+							// some icons are not in the right repo
+							string new_icon = icon;
+							if ("extra" in icon) {
+								new_icon = icon.replace ("extra", "community");
+							} else if ("community" in icon) {
+								new_icon = icon.replace ("community", "extra");
+							}
+							try {
+								pixbuf = new Gdk.Pixbuf.from_file_at_scale (new_icon, 64, 64, true);
+							} catch (Error e) {
+								pixbuf = package_icon;
+								warning ("%s: %s", icon, e.message);
+							}
+						}
+					}
+				}
+			} else {
+				pixbuf = package_icon;
 			}
-			return pkg.name;
+			row.app_icon.pixbuf = pixbuf;
+		}
+
+		SummaryRow create_summary_row (Package pkg, AlpmPackage? full_alpm_pkg, string? infos_string) {
+			var row = new SummaryRow ();
+			//populate info
+			unowned string? app_name = pkg.app_name;
+			if (app_name == null && full_alpm_pkg != null) {
+				app_name = full_alpm_pkg.app_name;
+			}
+			if (app_name == null) {
+				row.name_label.label = pkg.name;
+			} else if (full_alpm_pkg != null) {
+				row.name_label.label = "%s (%s)".printf (app_name, pkg.name);
+			} else {
+				row.name_label.label = app_name;
+			}
+			if (infos_string == null) {
+				row.infos_label.visible = false;
+			} else {
+				row.infos_label.label = infos_string;
+			}
+			row.version_label.label = pkg.version;
+			uint64 download_size = pkg.download_size;
+			if (download_size > 0) {
+				row.size_label.label = format_size (download_size);
+			}
+			if (pkg.repo != null) {
+				if (full_alpm_pkg != null) {
+					if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
+						row.repo_label.label = "%s (%s)".printf (dgettext (null, "Official Repositories"), pkg.repo);
+					} else if (pkg.repo == dgettext (null, "AUR")) {
+						row.repo_label.label = pkg.repo;
+					} else {
+						row.repo_label.label = "%s (%s)".printf (dgettext (null, "Repositories"), pkg.repo);
+					}
+				} else if (pkg is FlatpakPackage) {
+					row.repo_label.label = "%s (%s)".printf (dgettext (null, "Flatpak"), pkg.repo);
+				} else {
+					row.repo_label.label = pkg.repo;
+				}
+			}
+			set_row_app_icon (row, pkg);
+			return row;
 		}
 
 		string get_pkgname_display_name (string pkgname) {
@@ -447,92 +557,41 @@ namespace Pamac {
 			return pkgname;
 		}
 
-		string get_pkg_repo (Package pkg) {
-			string repo = pkg.repo;
-			if (pkg is AlpmPackage) {
-				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-					repo = dgettext (null, "Official Repositories");
-				} else if (pkg.repo != null && pkg.repo != dgettext (null, "AUR")) {
-					repo = "%s (%s)".printf (dgettext (null, "Repository"), pkg.repo);
-				}
-			} else if (pkg is FlatpakPackage) {
-				repo = "%s (%s)".printf (dgettext (null, "Flatpak"), pkg.repo);
-			}
-			return repo;
-		}
-
-		void get_display_name_and_id (Package pkg, out unowned string display_name, out unowned string id) {
+		void add_infos_to_summary (Gtk.ListBox listbox, Package pkg, string? infos_string) {
+			unowned string id;
 			var alpm_pkg = get_full_alpm_pkg (pkg);
 			if (alpm_pkg != null) {
-				display_name = get_alpm_pkg_display_name (alpm_pkg);
 				id = alpm_pkg.id;
 			} else {
-				display_name = get_pkg_display_name (pkg);
 				id = pkg.id;
 			}
-		}
-
-		string format_download_size (Package pkg) {
-			string formatted_download_size;
-			uint64 download_size = pkg.download_size;
-			if (download_size != 0) {
-				formatted_download_size = format_size (download_size);
-			} else {
-				formatted_download_size = "";
-			}
-			return formatted_download_size;
-		}
-
-		string format_title (string action) {
-			return "<b>%s:</b>".printf (dgettext (null, action));
-		}
-
-		void add_infos_to_summary (TransactionSumDialog transaction_sum_dialog,
-									Package pkg,
-									string title,
-									string infos_string,
-									string size) {
-			unowned string display_name;
-			unowned string id;
-			get_display_name_and_id (pkg, out display_name, out id);
 			transaction_summary_add (id);
-			transaction_sum_dialog.sum_list.insert_with_values (null, -1,
-																0, title,
-																1, display_name,
-																2, pkg.version,
-																3, infos_string,
-																4, get_pkg_repo (pkg),
-																5, size);
+			SummaryRow row = create_summary_row (pkg, alpm_pkg, infos_string);
+			listbox.add (row);
 		}
 
-		void add_remove_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = "";
-			string infos = "";
+		void add_remove_to_summary (Gtk.ListBox listbox, Package pkg) {
+			string? infos = null;
 			// check for remove reason to display in place of installed_version
 			var alpm_pkg = pkg as AlpmPackage;
 			if (alpm_pkg != null) {
 				unowned GenericArray<string> dep_list = alpm_pkg.depends;
 				if (dep_list.length != 0) {
 					// depends list populated in alpm_utils/get_transaction_summary, it contains only one element.
-					infos = "(%s: %s)".printf (dgettext (null, "Depends On"), get_pkgname_display_name (dep_list[0]));
+					infos = "%s: %s".printf (dgettext (null, "Depends On"), get_pkgname_display_name (dep_list[0]));
 				} else {
 					unowned GenericArray<string> requiredby_list = alpm_pkg.requiredby;
 					if (requiredby_list.length != 0) {
 						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						infos = "(%s: %s)".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (requiredby_list[0]));
+						infos = "%s: %s".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (requiredby_list[0]));
 					}
 				}
 			}
-			string title = "";
-			if (print_title) {
-				title = format_title ("To remove");
-			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_conflict_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = "";
-			string infos = "";
+		void add_conflict_to_summary (Gtk.ListBox listbox, Package pkg) {
+			string? infos = null;
 			var alpm_pkg = pkg as AlpmPackage;
 			if (alpm_pkg != null) {
 				// check for conflict to display in place of installed_version
@@ -542,29 +601,19 @@ namespace Pamac {
 					infos = "(%s: %s)".printf (dgettext (null, "Conflicts With"), get_pkgname_display_name (dep_list[0]));
 				}
 			}
-			string title = "";
-			if (print_title) {
-				title = format_title ("To remove");
-			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_downgrade_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = format_download_size (pkg);
-			string infos = "(%s)".printf (pkg.installed_version);
-			string title = "";
-			if (print_title) {
-				title = format_title ("To downgrade");
-			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		void add_downgrade_to_summary (Gtk.ListBox listbox, Package pkg) {
+			string? infos = null;
+			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_build_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = "";
-			string infos = "";
+		void add_build_to_summary (Gtk.ListBox listbox, Package pkg) {
+			string? infos = null;
 			if (pkg.installed_version != null) {
 				if (pkg.installed_version != pkg.version) {
-					infos = "(%s)".printf (pkg.installed_version);
+					infos = "%s".printf (pkg.installed_version);
 				}
 			} else {
 				// check for requiredby to display in place of installed_version
@@ -573,21 +622,16 @@ namespace Pamac {
 					unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
 					if (dep_list.length != 0) {
 						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						infos = "(%s: %s)".printf (dgettext (null, "Required By"), dep_list[0]);
+						infos = "%s: %s".printf (dgettext (null, "Required By"), dep_list[0]);
 					}
 				}
 			}
-			string title = "";
-			if (print_title) {
-				title = format_title ("To build");
-			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_install_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = format_download_size (pkg);
+		void add_install_to_summary (Gtk.ListBox listbox, Package pkg) {
 			// check for requiredby/replace to display in place of installed_version
-			string infos = "";
+			string? infos = null;
 			var alpm_pkg = pkg as AlpmPackage;
 			if (alpm_pkg != null) {
 				bool requiredby_found = false;
@@ -596,42 +640,50 @@ namespace Pamac {
 				if (dep_list.length != 0) {
 					requiredby_found = true;
 					// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-					infos = "(%s: %s)".printf (dgettext (null, "Required By"), get_pkgname_display_name (dep_list[0]));
+					infos = "%s: %s".printf (dgettext (null, "Required By"), get_pkgname_display_name (dep_list[0]));
 				}
 				// 2 - check for replaces
 				if (!requiredby_found) {
 					dep_list = alpm_pkg.replaces;
 					if (dep_list.length != 0) {
 						// replaces list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						infos = "(%s: %s)".printf (dgettext (null, "Replaces"), get_pkgname_display_name (dep_list[0]));
+						infos = "%s: %s".printf (dgettext (null, "Replaces"), get_pkgname_display_name (dep_list[0]));
 					}
 				}
 			}
-			string title = "";
-			if (print_title) {
-				title = format_title ("To install");
-			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_reinstall_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = format_download_size (pkg);
-			string infos = "";
-			string title = "";
-			if (print_title) {
-				title = format_title ("To reinstall");
-			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+		void add_reinstall_to_summary (Gtk.ListBox listbox, Package pkg) {
+			string? infos = null;
+			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_upgrade_to_summary (TransactionSumDialog transaction_sum_dialog, Package pkg, bool print_title) {
-			string size = format_download_size (pkg);
-			string infos = "(%s)".printf (pkg.installed_version);
-			string title = "";
-			if (print_title) {
-				title = format_title ("To upgrade");
+		void add_upgrade_to_summary (Gtk.ListBox listbox, Package pkg) {
+			string? infos = null;
+			add_infos_to_summary (listbox, pkg, infos);
+		}
+
+		Gtk.ListBox create_listbox (Gtk.Box box, string action, uint length) {
+			string info;
+			if (length > 1) {
+				info = "<b>%s (%u)</b>".printf (dgettext (null, action), length);
+			} else {
+				info = "<b>%s</b>".printf (dgettext (null, action));
 			}
-			add_infos_to_summary (transaction_sum_dialog, pkg, title, infos, size);
+			var expander = new Gtk.Expander (info);
+			expander.visible = true;
+			expander.use_markup = true;
+			expander.expanded = true;
+			expander.margin_top = 12;
+			box.add (expander);
+			var listbox = new Gtk.ListBox ();
+			listbox.visible = true;
+			listbox.margin_top = 6;
+			listbox.selection_mode = Gtk.SelectionMode.NONE;
+			listbox.get_style_context ().add_class ("content");
+			expander.add (listbox);
+			return listbox;
 		}
 
 		async int show_summary (TransactionSummary summary) {
@@ -639,105 +691,123 @@ namespace Pamac {
 			transaction_summary_remove_all ();
 			var application_window = application.active_window;
 			var transaction_sum_dialog = new TransactionSumDialog (application_window);
-			transaction_sum_dialog.edit_button.visible = false;
-			var iter = Gtk.TreeIter ();
+			unowned Gtk.Box box = transaction_sum_dialog.box;
 			unowned GenericArray<Package> pkgs;
+			unowned GenericArray<Package> conflict_pkgs;
 			unowned Package pkg;
 			uint i;
 			uint length;
-			bool to_remove_printed = false;
-			if (summary.to_remove.length != 0) {
-				pkgs = summary.to_remove;
+			uint conflicts_length;
+			Gtk.ListBox remove_listbox = null;
+			conflict_pkgs = summary.conflicts_to_remove;
+			conflicts_length = conflict_pkgs.length;
+			pkgs = summary.to_remove;
+			length = pkgs.length;
+			if (length > 0) {
+				remove_listbox = create_listbox (box, "To remove", length + conflicts_length);
 				pkg = pkgs[0];
-				add_remove_to_summary (transaction_sum_dialog, pkg, true);
-				to_remove_printed = true;
+				add_remove_to_summary (remove_listbox, pkg);
 				i = 1;
-				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
-					add_remove_to_summary (transaction_sum_dialog, pkg, false);
+					add_remove_to_summary (remove_listbox, pkg);
 					i++;
 				}
 			}
-			if (summary.conflicts_to_remove.length != 0) {
-				pkgs = summary.conflicts_to_remove;
-				pkg = pkgs[0];
-				add_conflict_to_summary (transaction_sum_dialog, pkg, !to_remove_printed);
+			if (conflicts_length > 0) {
+				// if length > 0, remove_listbox already created
+				if (length == 0) {
+					remove_listbox = create_listbox (box, "To remove", conflicts_length);
+				}
+				pkg = conflict_pkgs[0];
+				add_conflict_to_summary (remove_listbox, pkg);
 				i = 1;
-				length = pkgs.length;
-				while (i < length) {
-					pkg = pkgs[i];
-					add_conflict_to_summary (transaction_sum_dialog, pkg, false);
+				while (i < conflicts_length) {
+					pkg = conflict_pkgs[i];
+					add_conflict_to_summary (remove_listbox, pkg);
 					i++;
 				}
 			}
-			if (summary.to_downgrade.length != 0) {
-				pkgs = summary.to_downgrade;
+			pkgs = summary.to_downgrade;
+			length = pkgs.length;
+			if (length > 0) {
+				var listbox = create_listbox (box, "To downgrade", length);
 				pkg = pkgs[0];
 				dsize += pkg.download_size;
-				add_downgrade_to_summary (transaction_sum_dialog, pkg, true);
+				add_downgrade_to_summary (listbox, pkg);
 				i = 1;
-				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
 					dsize += pkg.download_size;
-					add_downgrade_to_summary (transaction_sum_dialog, pkg, false);
+					add_downgrade_to_summary (listbox, pkg);
 					i++;
 				}
 			}
-			if (summary.to_build.length != 0) {
-				transaction_sum_dialog.edit_button.visible = true;
-				pkgs = summary.to_build;
+			pkgs = summary.to_build;
+			length = pkgs.length;
+			if (length > 0) {
+				var listbox = create_listbox (box, "To build", length);
 				pkg = pkgs[0];
-				add_build_to_summary (transaction_sum_dialog, pkg, true);
+				add_build_to_summary (listbox, pkg);
 				i = 1;
-				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
-					add_build_to_summary (transaction_sum_dialog, pkg, false);
+					add_build_to_summary (listbox, pkg);
 					i++;
 				}
+				var button = new Gtk.Button.with_label (dgettext (null, "Edit build files"));
+				button.visible = true;
+				button.halign = Gtk.Align.END;
+				button.margin_top = 6;
+				button.clicked.connect (() => {
+					// call reject response will edit build files
+					transaction_sum_dialog.response (Gtk.ResponseType.REJECT);
+				});
+				box.add (button);
 			}
-			if (summary.to_install.length != 0) {
-				pkgs = summary.to_install;
+			pkgs = summary.to_install;
+			length = pkgs.length;
+			if (length > 0) {
+				var listbox = create_listbox (box, "To install", length);
 				pkg = pkgs[0];
 				dsize += pkg.download_size;
-				add_install_to_summary (transaction_sum_dialog, pkg, true);
+				add_install_to_summary (listbox, pkg);
 				i = 1;
-				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
 					dsize += pkg.download_size;
-					add_install_to_summary (transaction_sum_dialog, pkg, false);
+					add_install_to_summary (listbox, pkg);
 					i++;
 				}
 			}
-			if (summary.to_reinstall.length != 0) {
-				pkgs = summary.to_reinstall;
+			pkgs = summary.to_reinstall;
+			length = pkgs.length;
+			if (length > 0) {
+				var listbox = create_listbox (box, "To reinstall", length);
 				pkg = pkgs[0];
 				dsize += pkg.download_size;
-				add_reinstall_to_summary (transaction_sum_dialog, pkg, true);
+				add_reinstall_to_summary (listbox, pkg);
 				i = 1;
-				length = pkgs.length;
 				while (i < length) {
 					pkg = pkgs[i];
 					dsize += pkg.download_size;
-					add_reinstall_to_summary (transaction_sum_dialog, pkg, false);
+					add_reinstall_to_summary (listbox, pkg);
 					i++;
 				}
 			}
-			if (summary.to_upgrade.length != 0) {
+			pkgs = summary.to_upgrade;
+			length = pkgs.length;
+			if (length > 0) {
 				if (!no_confirm_upgrade) {
-					pkgs = summary.to_upgrade;
+					var listbox = create_listbox (box, "To upgrade", length);
 					pkg = pkgs[0];
 					dsize += pkg.download_size;
-					add_upgrade_to_summary (transaction_sum_dialog, pkg, true);
+					add_upgrade_to_summary (listbox, pkg);
 					i = 1;
-					length = pkgs.length;
 					while (i < length) {
 						pkg = pkgs[i];
 						dsize += pkg.download_size;
-						add_upgrade_to_summary (transaction_sum_dialog, pkg, false);
+						add_upgrade_to_summary (listbox, pkg);
 						i++;
 					}
 				}
@@ -751,17 +821,26 @@ namespace Pamac {
 			if (transaction_summary_length () == 0) {
 				// empty summary comes in case of transaction preparation failure
 				// with pkgs to build so we show warnings ans ask to edit build files
-				transaction_sum_dialog.edit_button.visible = true;
-				lock (warning_textbuffer) {
-					if (warning_textbuffer.len > 0) {
-						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-													0, Markup.escape_text (warning_textbuffer.str));
-						warning_textbuffer = new StringBuilder ();
-					} else {
-						transaction_sum_dialog.sum_list.insert_with_values (out iter, -1,
-													0, dgettext (null, "Failed to prepare transaction"));
-					}
+				var label = new Gtk.Label (null);
+				label.visible = true;
+				label.halign = Gtk.Align.START;
+				label.wrap = true;
+				label.margin_top = 12;
+				box.add (label);
+				if (warning_textbuffer.len > 0) {
+					label.label = warning_textbuffer.str;
+					warning_textbuffer = new StringBuilder ();
+				} else {
+					label.label = dgettext (null, "Failed to prepare transaction");
 				}
+				var button = new Gtk.Button.with_label (dgettext (null, "Edit build files"));
+				button.visible = true;
+				button.margin_top = 6;
+				button.clicked.connect (() => {
+					// call reject response will edit build files
+					transaction_sum_dialog.response (Gtk.ResponseType.REJECT);
+				});
+				box.add (button);
 			} else {
 				show_warnings (true);
 			}
@@ -790,10 +869,8 @@ namespace Pamac {
 					continue;
 				}
 				// remove noteboook from manager_window properties stack
-				unowned Gtk.Box? manager_box = build_files_notebook.get_parent () as Gtk.Box;
-				if (manager_box != null) {
-					manager_box.remove (build_files_notebook);
-				}
+				unowned Gtk.Box manager_box = build_files_notebook.get_parent () as Gtk.Box;
+				manager_box.remove (build_files_notebook);
 				// create dialog
 				var flags = Gtk.DialogFlags.MODAL;
 				int use_header_bar;
@@ -823,15 +900,13 @@ namespace Pamac {
 				dialog.response.connect ((res) => {
 					response = res;
 					Idle.add (edit_build_files.callback);
-					dialog.destroy ();
 				});
 				dialog.show ();
 				yield;
 				// re-add noteboook to manager_window properties stack
 				box.remove (build_files_notebook);
-				if (manager_box != null) {
-					manager_box.add (build_files_notebook);
-				}
+				dialog.destroy ();
+				manager_box.add (build_files_notebook);
 				if (response == Gtk.ResponseType.CLOSE) {
 					// save modifications
 					yield save_build_files_async (pkgname);
@@ -965,58 +1040,54 @@ namespace Pamac {
 		}
 
 		public void clear_warnings () {
-			lock (warning_textbuffer) {
-				warning_textbuffer = new StringBuilder ();
-			}
+			warning_textbuffer = new StringBuilder ();
 		}
 
 		public void show_warnings (bool block) {
-			lock (warning_textbuffer) {
-				if (warning_textbuffer.len > 0) {
-					Gtk.DialogFlags flags = 0;
-					if (block) {
-						flags |= Gtk.DialogFlags.MODAL;
-					}
-					int use_header_bar;
-					Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-					if (use_header_bar == 1) {
-						flags |= Gtk.DialogFlags.USE_HEADER_BAR;
-					}
-					var application_window = application.active_window;
-					var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
-															application_window,
-															flags);
-					dialog.margin_top = 3;
-					dialog.margin_bottom = 3;
-					dialog.margin_start = 3;
-					dialog.margin_end = 3;
-					dialog.icon_name = "system-software-install";
-					dialog.deletable = false;
-					unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-					widget.grab_default ();
-					var scrolledwindow = new Gtk.ScrolledWindow (null, null);
-					scrolledwindow.visible = true;
-					var label = new Gtk.Label (warning_textbuffer.str);
-					label.visible = true;
-					label.selectable = true;
-					label.margin_top = 12;
-					label.margin_bottom = 12;
-					label.margin_start = 12;
-					label.margin_end = 12;
-					scrolledwindow.add (label);
-					scrolledwindow.hexpand = true;
-					scrolledwindow.vexpand = true;
-					unowned Gtk.Box box = dialog.get_content_area ();
-					box.add (scrolledwindow);
-					box.spacing = 6;
-					dialog.default_width = 600;
-					dialog.default_height = 300;
-					dialog.response.connect (() => {
-						dialog.destroy ();
-						warning_textbuffer = new StringBuilder ();
-					});
-					dialog.show ();
+			if (warning_textbuffer.len > 0) {
+				Gtk.DialogFlags flags = 0;
+				if (block) {
+					flags |= Gtk.DialogFlags.MODAL;
 				}
+				int use_header_bar;
+				Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
+				if (use_header_bar == 1) {
+					flags |= Gtk.DialogFlags.USE_HEADER_BAR;
+				}
+				var application_window = application.active_window;
+				var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Warning"),
+														application_window,
+														flags);
+				dialog.margin_top = 3;
+				dialog.margin_bottom = 3;
+				dialog.margin_start = 3;
+				dialog.margin_end = 3;
+				dialog.icon_name = "system-software-install";
+				dialog.deletable = false;
+				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
+				widget.grab_default ();
+				var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+				scrolledwindow.visible = true;
+				var label = new Gtk.Label (warning_textbuffer.str);
+				label.visible = true;
+				label.selectable = true;
+				label.margin_top = 12;
+				label.margin_bottom = 12;
+				label.margin_start = 12;
+				label.margin_end = 12;
+				scrolledwindow.add (label);
+				scrolledwindow.hexpand = true;
+				scrolledwindow.vexpand = true;
+				unowned Gtk.Box box = dialog.get_content_area ();
+				box.add (scrolledwindow);
+				box.spacing = 6;
+				dialog.default_width = 600;
+				dialog.default_height = 300;
+				dialog.response.connect (() => {
+					dialog.destroy ();
+					warning_textbuffer = new StringBuilder ();
+				});
+				dialog.show ();
 			}
 		}
 

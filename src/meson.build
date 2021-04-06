@@ -27,7 +27,7 @@ common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 common_sources = ['package.vala', 'alpm_package.vala', 'pamac_config.vala']
 transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala',
-							'transaction_sum_dialog.vala', 'progress_box.vala']
+							'transaction_sum_dialog.vala', 'summary_row.vala', 'progress_box.vala', 'version.vala']
 preferences_sources = ['preferences_dialog.vala']
 
 libpamac_sources = [common_sources, 'version.vala', 'alpm_config.vala', 'aur.vala', 'database.vala',
@@ -116,7 +116,7 @@ executable('pamac-tray',
 
 libpamac_gtk = library('pamac-gtk',
 	sources: [transaction_gtk_sources, transaction_resources],
-	dependencies: [gio, gtk3, posix, math, libpamac_dep],
+	dependencies: [gio, gtk3, libhandy, libsoup, posix, math, libpamac_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true,
