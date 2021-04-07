@@ -131,106 +131,106 @@
                 <property name="visible">1</property>
                 <property name="transition-type">slide-left-right</property>
                 <child>
-                  <object class="GtkBox" id="browse_box">
+                  <object class="HdyFlap" id="browse_flap">
                     <property name="visible">1</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkBox" id="browse_head_box">
+                    <property name="reveal-duration">200</property>
+                    <property name="fold-duration">200</property>
+                    <property name="vexpand">1</property>
+                    <child type="content">
+                      <object class="GtkBox" id="browse_box">
                         <property name="visible">1</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-top">12</property>
-                        <property name="margin-bottom">12</property>
-                        <property name="spacing">18</property>
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkToggleButton" id="reveal_sidebar_button">
+                          <object class="GtkBox" id="browse_head_box">
                             <property name="visible">1</property>
-                            <property name="active" bind-source="browse_flap" bind-property="reveal-flap" bind-flags="bidirectional|sync-create"/>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
+                            <property name="margin-top">6</property>
+                            <property name="margin-bottom">6</property>
+                            <property name="spacing">18</property>
                             <child>
-                              <object class="GtkImage">
+                              <object class="GtkToggleButton" id="reveal_sidebar_button">
                                 <property name="visible">1</property>
-                                <property name="icon-name">view-sidebar-start-symbolic</property>
+                                <property name="active" bind-source="browse_flap" bind-property="reveal-flap" bind-flags="bidirectional|sync-create"/>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="visible">1</property>
+                                    <property name="icon-name">view-sidebar-start-symbolic</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="list_button_box">
+                                <property name="visible">1</property>
+                                <property name="hexpand">1</property>
+                                <property name="halign">end</property>
+                                <property name="spacing">12</property>
+                                <child>
+                                  <object class="GtkButton" id="remove_all_button">
+                                    <property name="visible">1</property>
+                                    <property name="label" translatable="yes">Remove all</property>
+                                    <property name="focus-on-click">0</property>
+                                    <property name="receives-default">1</property>
+                                    <property name="valign">center</property>
+                                    <signal name="clicked" handler="on_remove_all_button_clicked" swapped="no"/>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="install_all_button">
+                                    <property name="visible">1</property>
+                                    <property name="label" translatable="yes">Install all</property>
+                                    <property name="focus-on-click">0</property>
+                                    <property name="valign">center</property>
+                                    <signal name="clicked" handler="on_install_all_button_clicked" swapped="no"/>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="ignore_all_button">
+                                    <property name="visible">1</property>
+                                    <property name="label" translatable="yes">Ignore all</property>
+                                    <property name="focus-on-click">0</property>
+                                    <property name="receives-default">1</property>
+                                    <property name="valign">center</property>
+                                    <signal name="clicked" handler="on_ignore_all_button_clicked" swapped="no"/>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="sortby_box">
+                                <property name="visible">1</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="sortby_label">
+                                    <property name="visible">1</property>
+                                    <property name="label" translatable="yes">Sort by</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBoxText" id="sortby_combobox">
+                                    <property name="visible">1</property>
+                                    <property name="active">0</property>
+                                    <signal name="changed" handler="on_sortby_combobox_changed" swapped="no"/>
+                                    <items>
+                                      <item translatable="yes">Relevance</item>
+                                      <item translatable="yes">Name</item>
+                                      <item translatable="yes">Repository</item>
+                                      <item translatable="yes">Size</item>
+                                      <item translatable="yes">Date</item>
+                                    </items>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkBox" id="list_button_box">
+                          <object class="GtkSeparator" id="browse_separator">
                             <property name="visible">1</property>
-                            <property name="hexpand">1</property>
-                            <property name="halign">end</property>
-                            <property name="spacing">12</property>
-                            <child>
-                              <object class="GtkButton" id="remove_all_button">
-                                <property name="visible">1</property>
-                                <property name="label" translatable="yes">Remove all</property>
-                                <property name="focus-on-click">0</property>
-                                <property name="receives-default">1</property>
-                                <property name="valign">center</property>
-                                <signal name="clicked" handler="on_remove_all_button_clicked" swapped="no"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="install_all_button">
-                                <property name="visible">1</property>
-                                <property name="label" translatable="yes">Install all</property>
-                                <property name="focus-on-click">0</property>
-                                <property name="valign">center</property>
-                                <signal name="clicked" handler="on_install_all_button_clicked" swapped="no"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="ignore_all_button">
-                                <property name="visible">1</property>
-                                <property name="label" translatable="yes">Ignore all</property>
-                                <property name="focus-on-click">0</property>
-                                <property name="receives-default">1</property>
-                                <property name="valign">center</property>
-                                <signal name="clicked" handler="on_ignore_all_button_clicked" swapped="no"/>
-                              </object>
-                            </child>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkBox" id="sortby_box">
-                            <property name="visible">1</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <object class="GtkLabel" id="sortby_label">
-                                <property name="visible">1</property>
-                                <property name="label" translatable="yes">Sort by</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkComboBoxText" id="sortby_combobox">
-                                <property name="visible">1</property>
-                                <property name="active">0</property>
-                                <signal name="changed" handler="on_sortby_combobox_changed" swapped="no"/>
-                                <items>
-                                  <item translatable="yes">Relevance</item>
-                                  <item translatable="yes">Name</item>
-                                  <item translatable="yes">Repository</item>
-                                  <item translatable="yes">Size</item>
-                                  <item translatable="yes">Date</item>
-                                </items>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkSeparator" id="browse_separator">
-                        <property name="visible">1</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="HdyFlap" id="browse_flap">
-                        <property name="visible">1</property>
-                        <property name="reveal-duration">200</property>
-                        <property name="fold-duration">200</property>
-                        <property name="vexpand">1</property>
-                        <child type="content">
                           <object class="GtkStack" id="packages_stack">
                             <property name="visible">1</property>
                             <property name="transition-type">crossfade</property>
@@ -364,283 +364,283 @@
                             </child>
                           </object>
                         </child>
-                        <child type="separator">
-                          <object class="GtkSeparator" id="flap_separator">
+                      </object>
+                    </child>
+                    <child type="separator">
+                      <object class="GtkSeparator" id="flap_separator">
+                        <property name="visible">1</property>
+                      </object>
+                    </child>
+                    <child type="flap">
+                      <object class="GtkStack" id="view_stack">
+                        <property name="visible">1</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="GtkStack" id="browse_stack">
                             <property name="visible">1</property>
+                            <property name="transition-type">slide-left-right</property>
+                            <child>
+                              <object class="GtkScrolledWindow" id="filters_scrolledwindow">
+                                <property name="visible">1</property>
+                                <property name="hscrollbar-policy">never</property>
+                                <child>
+                                  <object class="GtkViewport" id="filters_viewport">
+                                    <property name="visible">1</property>
+                                    <child>
+                                      <object class="GtkListBox" id="filters_listbox">
+                                        <property name="visible">1</property>
+                                        <property name="selection-mode">none</property>
+                                        <signal name="row-activated" handler="on_filters_listbox_row_activated" swapped="no"/>
+                                        <child>
+                                          <object class="GtkListBoxRow" id="categories_row">
+                                            <property name="visible">1</property>
+                                            <property name="selectable">0</property>
+                                            <child>
+                                              <object class="GtkBox" id="categories_box">
+                                                <property name="visible">1</property>
+                                                <property name="margin-start">12</property>
+                                                <property name="margin-end">12</property>
+                                                <property name="margin-top">12</property>
+                                                <property name="margin-bottom">12</property>
+                                                <property name="spacing">12</property>
+                                                <child>
+                                                  <object class="GtkLabel" id="categories_label">
+                                                    <property name="visible">1</property>
+                                                    <property name="label" translatable="yes">Categories</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkImage" id="next_image1">
+                                                    <property name="visible">1</property>
+                                                    <property name="icon-name">go-next-symbolic</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkListBoxRow" id="groups_row">
+                                            <property name="visible">1</property>
+                                            <property name="selectable">0</property>
+                                            <child>
+                                              <object class="GtkBox" id="groups_box">
+                                                <property name="visible">1</property>
+                                                <property name="margin-start">12</property>
+                                                <property name="margin-end">12</property>
+                                                <property name="margin-top">12</property>
+                                                <property name="margin-bottom">12</property>
+                                                <property name="spacing">12</property>
+                                                <child>
+                                                  <object class="GtkLabel" id="groups_label">
+                                                    <property name="visible">1</property>
+                                                    <property name="label" translatable="yes">Groups</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkImage" id="next_image2">
+                                                    <property name="visible">1</property>
+                                                    <property name="icon-name">go-next-symbolic</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkListBoxRow" id="repos_row">
+                                            <property name="visible">1</property>
+                                            <property name="selectable">0</property>
+                                            <child>
+                                              <object class="GtkBox" id="repos_box">
+                                                <property name="visible">1</property>
+                                                <property name="margin-start">12</property>
+                                                <property name="margin-end">12</property>
+                                                <property name="margin-top">12</property>
+                                                <property name="margin-bottom">12</property>
+                                                <property name="spacing">12</property>
+                                                <child>
+                                                  <object class="GtkLabel" id="repos_label">
+                                                    <property name="visible">1</property>
+                                                    <property name="label" translatable="yes">Repositories</property>
+                                                    <property name="xalign">0</property>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkImage" id="next_image3">
+                                                    <property name="visible">1</property>
+                                                    <property name="icon-name">go-next-symbolic</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <style>
+                                          <class name="navigation-sidebar"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="name">filters</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow" id="categories_scolledwindow">
+                                <property name="visible">1</property>
+                                <child>
+                                  <object class="GtkViewport" id="categories_viewport">
+                                    <property name="visible">1</property>
+                                    <child>
+                                      <object class="GtkListBox" id="categories_listbox">
+                                        <property name="visible">1</property>
+                                        <property name="selection-mode">browse</property>
+                                        <signal name="row-activated" handler="on_categories_listbox_row_activated" swapped="no"/>
+                                        <style>
+                                          <class name="navigation-sidebar"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="name">categories</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow" id="groups_scrolledwindow">
+                                <property name="visible">1</property>
+                                <property name="hscrollbar-policy">never</property>
+                                <child>
+                                  <object class="GtkViewport" id="groups_viewport">
+                                    <property name="visible">1</property>
+                                    <child>
+                                      <object class="GtkListBox" id="groups_listbox">
+                                        <property name="visible">1</property>
+                                        <property name="selection-mode">browse</property>
+                                        <signal name="row-activated" handler="on_groups_listbox_row_activated" swapped="no"/>
+                                        <style>
+                                          <class name="navigation-sidebar"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="name">groups</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScrolledWindow" id="repos_scrolledwindow">
+                                <property name="visible">1</property>
+                                <property name="hscrollbar-policy">never</property>
+                                <property name="vscrollbar-policy">never</property>
+                                <child>
+                                  <object class="GtkViewport" id="repos_viewport">
+                                    <property name="visible">1</property>
+                                    <child>
+                                      <object class="GtkListBox" id="repos_listbox">
+                                        <property name="visible">1</property>
+                                        <property name="selection-mode">browse</property>
+                                        <signal name="row-activated" handler="on_repos_listbox_row_activated" swapped="no"/>
+                                        <style>
+                                          <class name="navigation-sidebar"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="name">repos</property>
+                              </packing>
+                            </child>
                           </object>
+                          <packing>
+                            <property name="name">browse</property>
+                            <property name="title" translatable="yes">Browse</property>
+                            <property name="icon_name">globe-symbolic</property>
+                          </packing>
                         </child>
-                        <child type="flap">
-                          <object class="GtkStack" id="view_stack">
+                        <child>
+                          <object class="GtkScrolledWindow" id="installed_scolledwindow">
                             <property name="visible">1</property>
-                            <property name="transition-type">crossfade</property>
                             <child>
-                              <object class="GtkStack" id="browse_stack">
-                                <property name="visible">1</property>
-                                <property name="transition-type">slide-left-right</property>
-                                <child>
-                                  <object class="GtkScrolledWindow" id="filters_scrolledwindow">
-                                    <property name="visible">1</property>
-                                    <property name="hscrollbar-policy">never</property>
-                                    <child>
-                                      <object class="GtkViewport" id="filters_viewport">
-                                        <property name="visible">1</property>
-                                        <child>
-                                          <object class="GtkListBox" id="filters_listbox">
-                                            <property name="visible">1</property>
-                                            <property name="selection-mode">none</property>
-                                            <signal name="row-activated" handler="on_filters_listbox_row_activated" swapped="no"/>
-                                            <child>
-                                              <object class="GtkListBoxRow" id="categories_row">
-                                                <property name="visible">1</property>
-                                                <property name="selectable">0</property>
-                                                <child>
-                                                  <object class="GtkBox" id="categories_box">
-                                                    <property name="visible">1</property>
-                                                    <property name="margin-start">12</property>
-                                                    <property name="margin-end">12</property>
-                                                    <property name="margin-top">12</property>
-                                                    <property name="margin-bottom">12</property>
-                                                    <property name="spacing">12</property>
-                                                    <child>
-                                                      <object class="GtkLabel" id="categories_label">
-                                                        <property name="visible">1</property>
-                                                        <property name="label" translatable="yes">Categories</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkImage" id="next_image1">
-                                                        <property name="visible">1</property>
-                                                        <property name="icon-name">go-next-symbolic</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkListBoxRow" id="groups_row">
-                                                <property name="visible">1</property>
-                                                <property name="selectable">0</property>
-                                                <child>
-                                                  <object class="GtkBox" id="groups_box">
-                                                    <property name="visible">1</property>
-                                                    <property name="margin-start">12</property>
-                                                    <property name="margin-end">12</property>
-                                                    <property name="margin-top">12</property>
-                                                    <property name="margin-bottom">12</property>
-                                                    <property name="spacing">12</property>
-                                                    <child>
-                                                      <object class="GtkLabel" id="groups_label">
-                                                        <property name="visible">1</property>
-                                                        <property name="label" translatable="yes">Groups</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkImage" id="next_image2">
-                                                        <property name="visible">1</property>
-                                                        <property name="icon-name">go-next-symbolic</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="GtkListBoxRow" id="repos_row">
-                                                <property name="visible">1</property>
-                                                <property name="selectable">0</property>
-                                                <child>
-                                                  <object class="GtkBox" id="repos_box">
-                                                    <property name="visible">1</property>
-                                                    <property name="margin-start">12</property>
-                                                    <property name="margin-end">12</property>
-                                                    <property name="margin-top">12</property>
-                                                    <property name="margin-bottom">12</property>
-                                                    <property name="spacing">12</property>
-                                                    <child>
-                                                      <object class="GtkLabel" id="repos_label">
-                                                        <property name="visible">1</property>
-                                                        <property name="label" translatable="yes">Repositories</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkImage" id="next_image3">
-                                                        <property name="visible">1</property>
-                                                        <property name="icon-name">go-next-symbolic</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                            </child>
-                                            <style>
-                                              <class name="navigation-sidebar"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="name">filters</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScrolledWindow" id="categories_scolledwindow">
-                                    <property name="visible">1</property>
-                                    <child>
-                                      <object class="GtkViewport" id="categories_viewport">
-                                        <property name="visible">1</property>
-                                        <child>
-                                          <object class="GtkListBox" id="categories_listbox">
-                                            <property name="visible">1</property>
-                                            <property name="selection-mode">browse</property>
-                                            <signal name="row-activated" handler="on_categories_listbox_row_activated" swapped="no"/>
-                                            <style>
-                                              <class name="navigation-sidebar"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="name">categories</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScrolledWindow" id="groups_scrolledwindow">
-                                    <property name="visible">1</property>
-                                    <property name="hscrollbar-policy">never</property>
-                                    <child>
-                                      <object class="GtkViewport" id="groups_viewport">
-                                        <property name="visible">1</property>
-                                        <child>
-                                          <object class="GtkListBox" id="groups_listbox">
-                                            <property name="visible">1</property>
-                                            <property name="selection-mode">browse</property>
-                                            <signal name="row-activated" handler="on_groups_listbox_row_activated" swapped="no"/>
-                                            <style>
-                                              <class name="navigation-sidebar"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="name">groups</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScrolledWindow" id="repos_scrolledwindow">
-                                    <property name="visible">1</property>
-                                    <property name="hscrollbar-policy">never</property>
-                                    <property name="vscrollbar-policy">never</property>
-                                    <child>
-                                      <object class="GtkViewport" id="repos_viewport">
-                                        <property name="visible">1</property>
-                                        <child>
-                                          <object class="GtkListBox" id="repos_listbox">
-                                            <property name="visible">1</property>
-                                            <property name="selection-mode">browse</property>
-                                            <signal name="row-activated" handler="on_repos_listbox_row_activated" swapped="no"/>
-                                            <style>
-                                              <class name="navigation-sidebar"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="name">repos</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="name">browse</property>
-                                <property name="title" translatable="yes">Browse</property>
-                                <property name="icon_name">globe-symbolic</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkScrolledWindow" id="installed_scolledwindow">
+                              <object class="GtkViewport" id="installed_viewport">
                                 <property name="visible">1</property>
                                 <child>
-                                  <object class="GtkViewport" id="installed_viewport">
+                                  <object class="GtkListBox" id="installed_listbox">
                                     <property name="visible">1</property>
-                                    <child>
-                                      <object class="GtkListBox" id="installed_listbox">
-                                        <property name="visible">1</property>
-                                        <property name="selection-mode">browse</property>
-                                        <signal name="row-activated" handler="on_installed_listbox_row_activated" swapped="no"/>
-                                        <style>
-                                          <class name="navigation-sidebar"/>
-                                        </style>
-                                      </object>
-                                    </child>
+                                    <property name="selection-mode">browse</property>
+                                    <signal name="row-activated" handler="on_installed_listbox_row_activated" swapped="no"/>
+                                    <style>
+                                      <class name="navigation-sidebar"/>
+                                    </style>
                                   </object>
                                 </child>
                               </object>
-                              <packing>
-                                <property name="name">installed</property>
-                                <property name="title" translatable="yes">Installed</property>
-                                <property name="icon_name">view-list-symbolic</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkScrolledWindow" id="search_scolledwindow">
-                                <property name="visible">1</property>
-                                <child>
-                                  <object class="GtkViewport" id="search_viewport">
-                                    <property name="visible">1</property>
-                                    <child>
-                                      <object class="GtkListBox" id="search_listbox">
-                                        <property name="visible">1</property>
-                                        <property name="selection-mode">browse</property>
-                                        <signal name="row-activated" handler="on_search_listbox_row_activated" swapped="no"/>
-                                        <style>
-                                          <class name="navigation-sidebar"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="name">search</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkScrolledWindow" id="updates_scolledwindow">
-                                <property name="visible">1</property>
-                                <child>
-                                  <object class="GtkViewport" id="updates_viewport">
-                                    <property name="visible">1</property>
-                                    <child>
-                                      <object class="GtkListBox" id="updates_listbox">
-                                        <property name="visible">1</property>
-                                        <property name="selection-mode">browse</property>
-                                        <signal name="row-activated" handler="on_updates_listbox_row_activated" swapped="no"/>
-                                        <style>
-                                          <class name="navigation-sidebar"/>
-                                        </style>
-                                      </object>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="name">updates</property>
-                                <property name="title" translatable="yes">Updates</property>
-                                <property name="icon_name">emblem-synchronizing-symbolic</property>
-                              </packing>
                             </child>
                           </object>
+                          <packing>
+                            <property name="name">installed</property>
+                            <property name="title" translatable="yes">Installed</property>
+                            <property name="icon_name">view-list-symbolic</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="search_scolledwindow">
+                            <property name="visible">1</property>
+                            <child>
+                              <object class="GtkViewport" id="search_viewport">
+                                <property name="visible">1</property>
+                                <child>
+                                  <object class="GtkListBox" id="search_listbox">
+                                    <property name="visible">1</property>
+                                    <property name="selection-mode">browse</property>
+                                    <signal name="row-activated" handler="on_search_listbox_row_activated" swapped="no"/>
+                                    <style>
+                                      <class name="navigation-sidebar"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="name">search</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow" id="updates_scolledwindow">
+                            <property name="visible">1</property>
+                            <child>
+                              <object class="GtkViewport" id="updates_viewport">
+                                <property name="visible">1</property>
+                                <child>
+                                  <object class="GtkListBox" id="updates_listbox">
+                                    <property name="visible">1</property>
+                                    <property name="selection-mode">browse</property>
+                                    <signal name="row-activated" handler="on_updates_listbox_row_activated" swapped="no"/>
+                                    <style>
+                                      <class name="navigation-sidebar"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="name">updates</property>
+                            <property name="title" translatable="yes">Updates</property>
+                            <property name="icon_name">emblem-synchronizing-symbolic</property>
+                          </packing>
                         </child>
                       </object>
                     </child>
@@ -1030,57 +1030,68 @@
           </object>
         </child>
         <child>
-          <object class="GtkSeparator" id="separator">
+          <object class="GtkRevealer" id="infobox_revealer">
             <property name="visible">1</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox" id="transaction_infobox">
-            <property name="visible">1</property>
-            <property name="margin-start">6</property>
-            <property name="margin-end">6</property>
-            <property name="margin-top">6</property>
-            <property name="margin-bottom">6</property>
-            <property name="spacing">12</property>
             <child>
-              <object class="GtkBox" id="transaction_infos_buttonbox">
+              <object class="GtkBox">
                 <property name="visible">1</property>
-                <property name="spacing">6</property>
-                <property name="homogeneous">True</property>
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkButton" id="cancel_button">
+                  <object class="GtkSeparator" id="separator">
                     <property name="visible">1</property>
-                    <property name="label" translatable="yes">_Cancel</property>
-                    <property name="focus-on-click">0</property>
-                    <property name="valign">center</property>
-                    <property name="use-underline">1</property>
-                    <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="apply_button">
+                  <object class="GtkBox" id="transaction_infobox">
                     <property name="visible">1</property>
-                    <property name="label" translatable="yes">_Apply</property>
-                    <property name="focus-on-click">0</property>
-                    <property name="valign">center</property>
-                    <property name="receives-default">1</property>
-                    <property name="use-underline">1</property>
-                    <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="details_button">
-                <property name="visible">1</property>
-                <property name="focus-on-click">0</property>
-                <property name="valign">center</property>
-                <property name="relief">none</property>
-                <signal name="clicked" handler="on_details_button_clicked" swapped="no"/>
-                <child>
-                  <object class="GtkImage" id="details_image">
-                    <property name="visible">1</property>
-                    <property name="icon-name">go-next-symbolic</property>
+                    <property name="margin-start">6</property>
+                    <property name="margin-end">6</property>
+                    <property name="margin-top">6</property>
+                    <property name="margin-bottom">6</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkBox" id="transaction_infos_buttonbox">
+                        <property name="visible">1</property>
+                        <property name="spacing">6</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkButton" id="cancel_button">
+                            <property name="visible">1</property>
+                            <property name="label" translatable="yes">_Cancel</property>
+                            <property name="focus-on-click">0</property>
+                            <property name="valign">center</property>
+                            <property name="use-underline">1</property>
+                            <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="apply_button">
+                            <property name="visible">1</property>
+                            <property name="label" translatable="yes">_Apply</property>
+                            <property name="focus-on-click">0</property>
+                            <property name="valign">center</property>
+                            <property name="receives-default">1</property>
+                            <property name="use-underline">1</property>
+                            <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="details_button">
+                        <property name="visible">1</property>
+                        <property name="focus-on-click">0</property>
+                        <property name="valign">center</property>
+                        <property name="relief">none</property>
+                        <signal name="clicked" handler="on_details_button_clicked" swapped="no"/>
+                        <child>
+                          <object class="GtkImage" id="details_image">
+                            <property name="visible">1</property>
+                            <property name="icon-name">go-next-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

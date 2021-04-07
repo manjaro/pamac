@@ -444,6 +444,8 @@ namespace Pamac {
 		public unowned Gtk.Button apply_button;
 		[GtkChild]
 		unowned Gtk.Button cancel_button;
+		[GtkChild]
+		unowned Gtk.Revealer infobox_revealer;
 
 		public Queue<Package> display_package_queue;
 		Package current_package_displayed;
@@ -982,6 +984,7 @@ namespace Pamac {
 						apply_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					}
 					cancel_button.sensitive = false;
+					infobox_revealer.reveal_child = true;
 				} else {
 					uint total_pending = to_install.length +
 										snap_to_install.length +
@@ -995,12 +998,14 @@ namespace Pamac {
 						cancel_button.sensitive = false;
 						apply_button.sensitive = false;
 						apply_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+						infobox_revealer.reveal_child = false;
 					} else {
 						string info = dngettext (null, "%u pending operation", "%u pending operations", total_pending).printf (total_pending);
 						transaction.progress_box.action_label.label = info;
 						cancel_button.sensitive = true;
 						apply_button.sensitive = true;
 						apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+						infobox_revealer.reveal_child = true;
 					}
 				}
 			}
