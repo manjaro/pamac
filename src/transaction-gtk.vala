@@ -1081,7 +1081,6 @@ namespace Pamac {
 				dialog.icon_name = "system-software-install";
 				dialog.deletable = false;
 				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-				widget.grab_default ();
 				var scrolledwindow = new Gtk.ScrolledWindow (null, null);
 				scrolledwindow.visible = true;
 				var label = new Gtk.Label (warning_textbuffer.str);
@@ -1096,7 +1095,27 @@ namespace Pamac {
 				scrolledwindow.vexpand = true;
 				unowned Gtk.Box box = dialog.get_content_area ();
 				box.add (scrolledwindow);
-				box.spacing = 6;
+				box.spacing = 12;
+				if (dgettext (null, "A restart is required for the changes to take effect") in warning_textbuffer.str) {
+					var button = new Gtk.Button.with_label (dgettext (null, "Restart"));
+					button.visible = true;
+					button.margin_top = 12;
+					button.margin_bottom = 12;
+					button.margin_start = 12;
+					button.margin_end = 12;
+					button.halign = Gtk.Align.END;
+					button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+					button.clicked.connect (() => {
+						try {
+							Process.spawn_command_line_sync ("reboot");
+						} catch (SpawnError e) {
+							warning (e.message);
+						}
+					});
+					box.add (button);
+				}
+				widget.grab_default ();
+				widget.has_focus = true;
 				dialog.default_width = 600;
 				dialog.default_height = 300;
 				dialog.response.connect (() => {
