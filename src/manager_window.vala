@@ -775,7 +775,7 @@ namespace Pamac {
 			previous_flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			previous_flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_updates = new GenericArray<FlatpakPackage> ();
-			transaction = new TransactionGtk (database, this.application);
+			transaction = new TransactionGtk (database, local_config, this.application);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
@@ -2304,7 +2304,7 @@ namespace Pamac {
 		PackageRow create_packagelist_row (Package pkg) {
 			bool is_update = view_stack.visible_child_name == "updates";
 			var row = new PackageRow (pkg);
-			//populate info
+			// populate infos
 			unowned string? app_name = pkg.app_name;
 			AlpmPackage? alpm_pkg = pkg as AlpmPackage;
 			bool software_mode = local_config.software_mode;

@@ -19,7 +19,7 @@
 
 namespace Pamac {
 	public class TransactionGtk: Transaction {
-		//dialogs
+		// dialogs
 		GenericSet<string?> transaction_summary;
 		StringBuilder warning_textbuffer;
 		string current_action;
@@ -29,8 +29,10 @@ namespace Pamac {
 		double scroll_value;
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
-		//parent window
-		public Gtk.Application? application{ get; construct; }
+		// parent window
+		public Gtk.Application? application { get; construct; }
+		// local config
+		public LocalConfig local_config { get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
@@ -40,8 +42,8 @@ namespace Pamac {
 
 		public signal void transaction_sum_populated ();
 
-		public TransactionGtk (Database database, Gtk.Application? application) {
-			Object (database: database, application: application);
+		public TransactionGtk (Database database, LocalConfig local_config, Gtk.Application? application) {
+			Object (database: database, local_config: local_config, application: application);
 		}
 
 		construct {
@@ -503,26 +505,29 @@ namespace Pamac {
 			row.app_icon.pixbuf = pixbuf;
 		}
 
-		SummaryRow create_summary_row (Package pkg, AlpmPackage? full_alpm_pkg, string? infos_string) {
+		SummaryRow? create_summary_row (Package pkg, AlpmPackage? full_alpm_pkg, string? infos_string) {
 			var row = new SummaryRow ();
-			//populate info
+			bool software_mode = local_config.software_mode;
+			// populate infos
 			unowned string? app_name = pkg.app_name;
 			if (app_name == null && full_alpm_pkg != null) {
 				app_name = full_alpm_pkg.app_name;
 			}
 			if (app_name == null) {
 				row.name_label.label = pkg.name;
-			} else if (full_alpm_pkg != null) {
+			} else if (full_alpm_pkg != null && !software_mode) {
 				row.name_label.label = "%s (%s)".printf (app_name, pkg.name);
 			} else {
 				row.name_label.label = app_name;
 			}
-			if (infos_string == null) {
+			if (infos_string == null || software_mode) {
 				row.infos_label.visible = false;
 			} else {
 				row.infos_label.label = infos_string;
 			}
-			row.version_label.label = pkg.version;
+			if (!software_mode) {
+				row.version_label.label = pkg.version;
+			}
 			uint64 download_size = pkg.download_size;
 			if (download_size > 0) {
 				row.size_label.label = format_size (download_size);
@@ -530,7 +535,11 @@ namespace Pamac {
 			if (pkg.repo != null) {
 				if (full_alpm_pkg != null) {
 					if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-						row.repo_label.label = "%s (%s)".printf (dgettext (null, "Official Repositories"), pkg.repo);
+						if (software_mode) {
+							row.repo_label.label = dgettext (null, "Official Repositories");
+						} else {
+							row.repo_label.label = "%s (%s)".printf (dgettext (null, "Official Repositories"), pkg.repo);
+						}
 					} else if (pkg.repo == dgettext (null, "AUR")) {
 						row.repo_label.label = pkg.repo;
 					} else {
@@ -542,7 +551,11 @@ namespace Pamac {
 					row.repo_label.label = pkg.repo;
 				}
 			}
-			set_row_app_icon (row, pkg);
+			if (full_alpm_pkg != null) {
+				set_row_app_icon (row, full_alpm_pkg);
+			} else {
+				set_row_app_icon (row, pkg);
+			}
 			return row;
 		}
 
@@ -566,8 +579,11 @@ namespace Pamac {
 				id = pkg.id;
 			}
 			transaction_summary_add (id);
-			SummaryRow row = create_summary_row (pkg, alpm_pkg, infos_string);
-			listbox.add (row);
+			SummaryRow? row = create_summary_row (pkg, alpm_pkg, infos_string);
+			// row null for standard pkg in software_mode
+			if (row != null) {
+				listbox.add (row);
+			}
 		}
 
 		void add_remove_to_summary (Gtk.ListBox listbox, Package pkg) {

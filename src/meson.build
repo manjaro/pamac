@@ -27,7 +27,8 @@ common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 common_sources = ['package.vala', 'alpm_package.vala', 'pamac_config.vala']
 transaction_gtk_sources = ['transaction-gtk.vala', 'choose_provider_dialog.vala', 'choose_pkgs_dialog.vala',
-							'transaction_sum_dialog.vala', 'summary_row.vala', 'progress_box.vala', 'version.vala']
+							'transaction_sum_dialog.vala', 'summary_row.vala', 'progress_box.vala', 'version.vala',
+							'local_config.vala']
 preferences_sources = ['preferences_dialog.vala']
 
 libpamac_sources = [common_sources, 'version.vala', 'alpm_config.vala', 'aur.vala', 'database.vala',
@@ -126,8 +127,8 @@ libpamac_gtk_dep = declare_dependency(link_with: libpamac_gtk)
 
 executable('pamac-manager',
 	sources: ['version.vala', 'history_dialog.vala', 'updates_dialog.vala', preferences_sources,
-			'local_config.vala', 'package_row.vala', 'simple_row.vala', 'back_row.vala',
-			'manager_window.vala', 'manager.vala', 'search-provider.vala', manager_resources],
+			'package_row.vala', 'simple_row.vala', 'back_row.vala','manager_window.vala', 'manager.vala',
+			'search-provider.vala', manager_resources],
 	dependencies: [gtk3, libhandy, libsoup, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,

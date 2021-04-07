@@ -47,12 +47,14 @@ namespace Pamac {
 			// do not remove orphans
 			config.recurse = false;
 			database = new Database (config);
+			var local_config = new LocalConfig ("%s/pamac/config".printf (Environment.get_user_config_dir ()));
+			local_config.software_mode = false;
 			// integrate progress box and term widget
 			progress_dialog = new ProgressDialog (this);
 			// set translated title
 			var appinfo = new DesktopAppInfo ("pamac-installer.desktop");
 			progress_dialog.title = appinfo.get_name ();
-			transaction = new TransactionGtk (database, this);
+			transaction = new TransactionGtk (database, local_config, this);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
