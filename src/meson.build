@@ -143,7 +143,7 @@ endif
 
 executable('pamac-installer',
 	sources: ['progress_dialog.vala', 'installer.vala', installer_resources],
-	dependencies: [gtk3, gio_unix, libpamac_dep, libpamac_gtk_dep],
+	dependencies: [gtk3, libhandy, gio_unix, libpamac_dep, libpamac_gtk_dep],
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true)

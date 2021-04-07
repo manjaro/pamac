@@ -40,6 +40,9 @@ namespace Pamac {
 
 			base.startup ();
 
+			// init libhandy
+			Hdy.init ();
+
 			important_details = false;
 			waiting = false;
 			cancelled = false;
