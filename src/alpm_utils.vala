@@ -705,7 +705,7 @@ namespace Pamac {
 			return success;
 		}
 
-		bool trans_prepare_real (Alpm.Handle? alpm_handle) {
+		bool trans_prepare_real (Alpm.Handle? alpm_handle, bool emit_error = true) {
 			bool success = true;
 			bool need_retry = false;
 			Alpm.List err_data;
@@ -792,10 +792,12 @@ namespace Pamac {
 					success = trans_prepare_real (alpm_handle);
 				} else {
 					trans_release (alpm_handle);
-					do_emit_error (_("Failed to prepare transaction"), details.data);
+					if (emit_error) {
+						do_emit_error (_("Failed to prepare transaction"), details.data);
+					}
 					success = false;
 				}
-			} else {
+			} else if (emit_error) {
 				var details = new GenericArray<string> ();
 				// Search for holdpkg in target list
 				bool found_locked_pkg = false;
@@ -1075,7 +1077,7 @@ namespace Pamac {
 					}
 				}
 				if (success) {
-					success = trans_prepare_real (alpm_handle);
+					success = trans_prepare_real (alpm_handle, false);
 				} else {
 					trans_release (alpm_handle);
 				}
@@ -1186,7 +1188,7 @@ namespace Pamac {
 					}
 				}
 				if (success) {
-					success = trans_prepare_real (alpm_handle);
+					success = trans_prepare_real (alpm_handle, false);
 				} else {
 					trans_release (alpm_handle);
 				}
