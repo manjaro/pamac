@@ -500,6 +500,8 @@ namespace Pamac {
 		HashTable<string, FlatpakPackage> previous_flatpak_to_install;
 		HashTable<string, FlatpakPackage> previous_flatpak_to_remove;
 
+		PreferencesWindow preferences_window;
+
 		public ManagerWindow (Gtk.Application application, Database database) {
 			Object (application: application, database: database);
 
@@ -692,20 +694,24 @@ namespace Pamac {
 				transaction.get_authorization_async.begin ((obj, res) => {
 					bool authorized = transaction.get_authorization_async.end (res);
 					if (authorized) {
-						var preferences_dialog = new PreferencesDialog (this, local_config);
-						preferences_dialog.response.connect (() => {
-							database.config.save ();
-							preferences_dialog.destroy ();
-							transaction.remove_authorization ();
-							check_aur_support ();
-							check_snap_support ();
-							check_flatpak_support ();
-							if (main_stack.visible_child_name == "details") {
-								refresh_details ();
-							}
-							refresh_packages_list ();
-						});
-						preferences_dialog.show ();
+						if (preferences_window == null) {
+							preferences_window = new PreferencesWindow (this, local_config);
+							preferences_window.set_transient_for (this);
+							preferences_window.close_request.connect (() => {
+								database.config.save ();
+								preferences_window.hide ();
+								transaction.remove_authorization ();
+								check_aur_support ();
+								check_snap_support ();
+								check_flatpak_support ();
+								if (main_stack.visible_child_name == "details") {
+									refresh_details ();
+								}
+								refresh_packages_list ();
+								return true;
+							});
+						}
+						preferences_window.show ();
 					} else {
 						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 					}
@@ -778,7 +784,7 @@ namespace Pamac {
 			previous_flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			previous_flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_updates = new GenericArray<FlatpakPackage> ();
-			transaction = new TransactionGtk (database, this.application);
+			transaction = new TransactionGtk (database, local_config, this.application);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
@@ -834,19 +840,13 @@ namespace Pamac {
 				}
 			}
 
-			// soup session to dwonload icons and screenshots
+			// soup session to download icons and screenshots
 			soup_session = new Soup.Session ();
 			soup_session.user_agent = "Pamac/%s".printf (VERSION);
 			soup_session.timeout = 30;
 
 			// refresh flatpak appstream_data
 			database.refresh_flatpak_appstream_data_async.begin ();
-		}
-
-		void set_header_func (Gtk.ListBoxRow row, Gtk.ListBoxRow? row_before) {
-			if (row_before != null) {
-				row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
-			}
 		}
 
 		void update_icons () {
@@ -1211,7 +1211,7 @@ namespace Pamac {
 			label.margin_top = 12;
 			deps_box.append (label);
 			var listbox = new Gtk.ListBox ();
-			listbox.set_header_func (set_header_func);
+			listbox.add_css_class ("content");
 			foreach (unowned string dep in dep_list) {
 				if (add_install_button) {
 					var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 3);
@@ -1231,10 +1231,9 @@ namespace Pamac {
 						box.append (select_image);
 						var install_dep_button = new Gtk.ToggleButton ();
 						install_dep_button.icon_name = "document-save-symbolic";
-						install_dep_button.margin_top = 12;
-						install_dep_button.margin_bottom = 12;
 						install_dep_button.margin_start = 19;
 						install_dep_button.margin_end = 12;
+						install_dep_button.valign = Gtk.Align.CENTER;
 						install_dep_button.toggled.connect (on_install_dep_button_toggled);
 						box.append (install_dep_button);
 						string dep_name = find_install_button_dep_name (install_dep_button, null);
@@ -1253,10 +1252,7 @@ namespace Pamac {
 				}
 			}
 			listbox.row_activated.connect (on_deps_listbox_row_activated);
-			var frame = new Gtk.Frame (null);
-			frame.valign = Gtk.Align.START;
-			frame.set_child (listbox);
-			deps_box.append (frame);
+			deps_box.append (listbox);
 		}
 
 		async void get_screenshots_pictures (GenericArray<string> urls) {
@@ -1296,30 +1292,6 @@ namespace Pamac {
 			if (current_screenshots.length == 0) {
 				screenshots_box.visible = false;
 			}
-		}
-
-		async File get_icon_file (string url) {
-			var uri = File.new_for_uri (url);
-			var cached_icon = File.new_for_path ("/tmp/pamac-app-icons/%s".printf (uri.get_basename ()));
-			try {
-				if (!cached_icon.query_exists ()) {
-					// download icon
-					var request = soup_session.request (url);
-					var inputstream = yield request.send_async (null);
-					var pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
-					// scale pixbux at 64 pixels
-					int width = pixbuf.get_width ();
-					if (width > 64) {
-						pixbuf = pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
-					}
-					// save scaled image in tmp
-					FileOutputStream os = cached_icon.append_to (FileCreateFlags.NONE);
-					pixbuf.save_to_stream (os, "png");
-				}
-			} catch (Error e) {
-				warning ("%s: %s", url, e.message);
-			}
-			return cached_icon;
 		}
 
 		void clear_details_grid () {
@@ -1750,8 +1722,8 @@ namespace Pamac {
 			if (icon != null) {
 				if ("http" in icon) {
 					app_image.paintable = package_paintable;
-					get_icon_file.begin (icon, (obj, res) => {
-						var file = get_icon_file.end (res);
+					transaction.get_icon_file.begin (icon, (obj, res) => {
+						var file = transaction.get_icon_file.end (res);
 						if (file.query_exists ()) {
 							app_image.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
 						}
@@ -2249,8 +2221,8 @@ namespace Pamac {
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
 				if ("http" in icon) {
-					get_icon_file.begin (icon, (obj, res) => {
-						var file = get_icon_file.end (res);
+					transaction.get_icon_file.begin (icon, (obj, res) => {
+						var file = transaction.get_icon_file.end (res);
 						if (file.query_exists ()) {
 							row.app_icon.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
 						}
@@ -2510,7 +2482,7 @@ namespace Pamac {
 
 		void create_os_updates_row (uint64 download_size) {
 			var row = new PackageRow (null);
-			// populate info
+			// populate infos
 			row.name_label.label = dgettext (null, "OS Updates");
 			row.desc_label.label = dgettext (null, "Includes performance, stability and security improvements");
 			row.version_label.visible = false;
@@ -2530,7 +2502,7 @@ namespace Pamac {
 
 		PackageRow create_update_row (Package pkg) {
 			var row = new PackageRow (pkg);
-			//populate info
+			// populate infos
 			unowned string? app_name = pkg.app_name;
 			AlpmPackage? alpm_pkg = pkg as AlpmPackage;
 			bool software_mode = local_config.software_mode;
@@ -2944,8 +2916,7 @@ namespace Pamac {
 				if (pamac_row.name_label.label == dgettext (null, "OS Updates")) {
 					var updates_dialog = new UpdatesDialog (this);
 					updates_dialog.label.label = dgettext (null, "Includes performance, stability and security improvements");
-					updates_dialog.listbox.set_header_func (set_header_func);
-					// populates updates
+					// populate updates
 					foreach (unowned Package update_pkg in current_packages_list) {
 						if (update_pkg.app_name == null) {
 							var update_row = create_update_row (update_pkg);
