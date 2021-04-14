@@ -895,11 +895,6 @@ namespace Pamac {
 				try {
 					var process = new Subprocess.newv (cmds, SubprocessFlags.STDIN_INHERIT);
 					yield process.wait_async ();
-					if (process.get_if_exited ()) {
-						if (process.get_exit_status () == 0) {
-							yield database.regenerate_srcinfo_async (pkgname);
-						}
-					}
 				} catch (Error e) {
 					warning (e.message);
 				}

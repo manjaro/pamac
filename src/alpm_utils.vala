@@ -728,9 +728,16 @@ namespace Pamac {
 					case Alpm.Errno.UNSATISFIED_DEPS:
 						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<Alpm.DepMissing*> list = err_data;
+						// display one error by unsatisfied dep
+						var depstrings = new GenericSet<string?> (str_hash, str_equal);
 						while (list != null) {
 							Alpm.DepMissing* miss = list.data;
 							string depstring = miss->depend.compute_string ();
+							if (depstring in depstrings) {
+								delete miss;
+								list.next ();
+								continue;
+							}
 							unowned Alpm.List<unowned Alpm.Package> trans_add = alpm_handle.trans_to_add ();
 							unowned Alpm.Package pkg;
 							if (miss->causingpkg == null) {
@@ -763,6 +770,7 @@ namespace Pamac {
 									details.add ("- " + _("if possible, remove %s and retry").printf (miss->target));
 								}
 							}
+							depstrings.add ((owned) depstring);
 							delete miss;
 							list.next ();
 						}
@@ -1085,7 +1093,7 @@ namespace Pamac {
 			if (success) {
 				// UNNEEDED flag could remove some packages
 				var to_remove_copy = (owned) to_remove;
-				to_remove = new GenericSet<string?> (str_hash, str_equal);;
+				to_remove = new GenericSet<string?> (str_hash, str_equal);
 				unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
 				while (pkgs_to_remove != null) {
 					unowned Alpm.Package trans_pkg = pkgs_to_remove.data;

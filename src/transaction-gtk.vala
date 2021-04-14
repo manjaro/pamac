@@ -1044,9 +1044,6 @@ namespace Pamac {
 						// writing a string to the stream
 						string text = textview.buffer.get_text (start_iter, end_iter, false);
 						yield fos.write_all_async (text.data, Priority.DEFAULT, null, null);
-						if (build_files_notebook.get_tab_label_text (child) == "PKGBUILD") {
-							yield database.regenerate_srcinfo_async (pkgname);
-						}
 					} catch (Error e) {
 						warning (e.message);
 					}
