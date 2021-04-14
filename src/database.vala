@@ -772,22 +772,32 @@ namespace Pamac {
 			return pkgs;
 		}
 
+		void get_explicitly_installed_pkgs_real (ref GenericArray<unowned AlpmPackage> pkgs) {
+			lock (alpm_config) {
+				Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package alpm_pkg = pkgcache.data;
+					if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
+						alpm_pkgs.add (alpm_pkg);
+					}
+					pkgcache.next ();
+				}
+				initialise_pkgs (alpm_pkgs, ref pkgs);
+			}
+		}
+
+		public GenericArray<unowned AlpmPackage> get_explicitly_installed_pkgs () {
+			var pkgs = new GenericArray<unowned AlpmPackage> ();
+			get_explicitly_installed_pkgs_real (ref pkgs);
+			return pkgs;
+		}
+
 		public async GenericArray<unowned AlpmPackage> get_explicitly_installed_pkgs_async () {
 			var pkgs = new GenericArray<unowned AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_explicitly_installed_pkgs", () => {
-					lock (alpm_config) {
-						Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
-						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-						while (pkgcache != null) {
-							unowned Alpm.Package alpm_pkg = pkgcache.data;
-							if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-								alpm_pkgs.add (alpm_pkg);
-							}
-							pkgcache.next ();
-						}
-						initialise_pkgs (alpm_pkgs, ref pkgs);
-					}
+					get_explicitly_installed_pkgs_real (ref pkgs);
 					context.invoke (get_explicitly_installed_pkgs_async.callback);
 					return 0;
 				});
