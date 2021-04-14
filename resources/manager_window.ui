@@ -9,7 +9,7 @@
         <attribute name="action">win.software-mode</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_Refresh databases</attribute>
+        <attribute name="label" translatable="yes">Refresh databases</attribute>
         <attribute name="action">win.refresh-databases</attribute>
       </item>
       <item>
