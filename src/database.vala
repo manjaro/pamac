@@ -55,12 +55,6 @@ namespace Pamac {
 			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
 			string user_agent = "Pamac/%s".printf (VERSION);
 			Environment.set_variable ("HTTP_USER_AGENT", user_agent, true);
-			// init appstream
-			app_store = new As.Store ();
-			app_store.add_filter (As.AppKind.DESKTOP);
-			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
-									| As.StoreAddFlags.ONLY_NATIVE_LANGS
-									| As.StoreAddFlags.USE_MERGE_HEURISTIC);
 			// load snap plugin
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
@@ -77,6 +71,11 @@ namespace Pamac {
 		}
 
 		public void enable_appstream () {
+			app_store = new As.Store ();
+			app_store.add_filter (As.AppKind.DESKTOP);
+			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
+									| As.StoreAddFlags.ONLY_NATIVE_LANGS
+									| As.StoreAddFlags.USE_MERGE_HEURISTIC);
 			try {
 				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM
 								| As.StoreLoadFlags.IGNORE_INVALID);
