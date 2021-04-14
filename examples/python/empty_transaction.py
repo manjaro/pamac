@@ -4,19 +4,19 @@ import gi
 gi.require_version('Pamac', '10.0')
 from gi.repository import GLib, Pamac
 
-def on_emit_action (transaction, action, data):
+def on_emit_action(transaction, action, data):
 	print(action)
 
-def on_emit_action_progress (transaction, action, status, progress, data):
-	print(f"{action} {status}")
+def on_emit_action_progress(transaction, action, status, progress, data):
+	print(f"{action} {status} {progress}")
 
-def on_emit_hook_progress (transaction, action, details, status, progress, data):
-	print(f"{action} {details} {status}")
+def on_emit_hook_progress(transaction, action, details, status, progress, data):
+	print(f"{action} {details} {status} {progress}")
 
-def on_emit_warning (transaction, message, data):
+def on_emit_warning(transaction, message, data):
 	print(message)
 
-def on_emit_error (transaction, message, details, details_length, data):
+def on_emit_error(transaction, message, details, details_length, data):
 	if details_length > 0:
 		print(f"{message}:")
 		for detail in details:
@@ -39,8 +39,8 @@ def run_transaction():
 	# /!\ the transaction will run without confirmation /!\
 	# you need to override Transaction.ask_confirmation() method
 	# in order to implement your own confirmation step
-	transaction.add_pkg_to_install ("pkgname");
-	transaction.run_async (on_transaction_finished_callback, None)
+	transaction.add_pkg_to_install("pkgname")
+	transaction.run_async(on_transaction_finished_callback, None)
 	# launch a loop to wait for the callback to be called
 	loop.run()
 
