@@ -57,6 +57,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.ListBox ignorepkgs_listbox;
 		[GtkChild]
+		unowned Hdy.PreferencesPage third_party_preferences_page;
+		[GtkChild]
 		unowned Hdy.PreferencesGroup aur_preferences_group;
 		[GtkChild]
 		unowned Hdy.ExpanderRow enable_aur_expander;
@@ -83,6 +85,7 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Switch enable_snap_button;
 
+		unowned LocalConfig local_config;
 		unowned Config config;
 		unowned Database database;
 		unowned TransactionGtk transaction;
@@ -94,6 +97,7 @@ namespace Pamac {
 			transaction = window.transaction;
 			database = transaction.database;
 			config = database.config;
+			local_config = window.local_config;
 			// set check updates
 			var store = new GLib.ListStore (typeof (Hdy.ValueObject));
 			var val = Value (typeof (string));
@@ -252,6 +256,7 @@ namespace Pamac {
 			config.bind_property ("enable_downgrade", enable_downgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			populate_ignorepkgs_list ();
 			// set third party
+			local_config.notify["software_mode"].connect (on_software_mode_changed);
 			local_config.bind_property ("software_mode", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
 			config.bind_property ("enable_aur", enable_aur_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_aur", enable_aur_expander, "expanded", BindingFlags.SYNC_CREATE);
@@ -357,6 +362,10 @@ namespace Pamac {
 
 		void on_cache_only_uninstalled_button_changed () {
 			refresh_clean_cache_button.begin ();
+		}
+
+		void on_software_mode_changed () {
+			third_party_preferences_page.visible = local_config.software_mode || config.support_flatpak || config.support_snap;
 		}
 
 		[GtkCallback]

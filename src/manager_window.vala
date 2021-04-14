@@ -458,7 +458,7 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
-		LocalConfig local_config;
+		public LocalConfig local_config;
 		Soup.Session soup_session;
 
 		bool important_details;
@@ -466,7 +466,7 @@ namespace Pamac {
 		public bool generate_mirrors_list;
 		bool waiting;
 
-		bool enable_aur;
+		public bool enable_aur { get; private set; }
 		bool updates_checked;
 		GenericArray<AlpmPackage> repos_updates;
 		GenericArray<AURPackage> aur_updates;
@@ -1298,7 +1298,7 @@ namespace Pamac {
 					try {
 						var request = soup_session.request (url);
 						var inputstream = yield request.send_async (null);
-						var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (inputstream, -1, 400, true);
+						var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (inputstream, -1, 300, true);
 						// save scaled image in tmp
 						FileOutputStream os = cached_screenshot.append_to (FileCreateFlags.NONE);
 						pixbuf.save_to_stream (os, "png");
@@ -4169,7 +4169,7 @@ namespace Pamac {
 				} else {
 					transaction.show_notification (dgettext (null, "Transaction successfully finished"));
 				}
-				transaction.show_warnings (false);
+				transaction.show_warnings (true);
 			} else {
 				transaction.clear_warnings ();
 				foreach (unowned string name in previous_to_install) {

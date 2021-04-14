@@ -51,7 +51,7 @@
                     <property name="visible">1</property>
                     <property name="visible">0</property>
                     <property name="halign">center</property>
-                    <property name="width-chars">30</property>
+                    <property name="max-width-chars">30</property>
                     <property name="placeholder-text" translatable="yes">Search</property>
                     <signal name="changed" handler="on_search_entry_changed" swapped="no"/>
                   </object>
@@ -414,7 +414,12 @@
                                                   <object class="GtkImage" id="next_image1">
                                                     <property name="visible">1</property>
                                                     <property name="icon-name">go-next-symbolic</property>
+                                                    <property name="halign">end</property>
+                                                    <property name="valign">center</property>
                                                   </object>
+                                                  <packing>
+                                                    <property name="expand">1</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>
@@ -443,7 +448,12 @@
                                                   <object class="GtkImage" id="next_image2">
                                                     <property name="visible">1</property>
                                                     <property name="icon-name">go-next-symbolic</property>
+                                                    <property name="halign">end</property>
+                                                    <property name="valign">center</property>
                                                   </object>
+                                                  <packing>
+                                                    <property name="expand">1</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>
@@ -472,7 +482,12 @@
                                                   <object class="GtkImage" id="next_image3">
                                                     <property name="visible">1</property>
                                                     <property name="icon-name">go-next-symbolic</property>
+                                                    <property name="halign">end</property>
+                                                    <property name="valign">center</property>
                                                   </object>
+                                                  <packing>
+                                                    <property name="expand">1</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>
@@ -787,72 +802,78 @@
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">12</property>
                                     <child>
-                                      <object class="GtkOverlay" id="screenshots_overlay">
+                                      <object class="GtkScrolledWindow">
                                         <property name="visible">1</property>
+                                        <property name="vscrollbar-policy">never</property>
                                         <child>
-                                          <object class="GtkBox" id="screenshots_box">
-                                            <property name="visible">1</property>
-                                            <property name="orientation">vertical</property>
-                                            <property name="height_request">300</property>
-                                            <child>
-                                              <object class="HdyCarousel" id="screenshots_carousel">
-                                                <property name="visible">1</property>
-                                                <property name="margin_top">12</property>
-                                                <property name="margin_bottom">6</property>
-                                                <property name="spacing">22</property>
-                                                <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
-                                              </object>
-                                            </child>
-                                            <child>
-                                              <object class="HdyCarouselIndicatorDots" id="screnshots_indicator">
-                                                <property name="visible">1</property>
-                                                <property name="margin_bottom">6</property>
-                                                <property name="carousel">screenshots_carousel</property>
-                                              </object>
-                                            </child>
-                                            <style>
-                                              <class name="screenshots-box"/>
-                                            </style>
-                                          </object>
-                                        </child>
-                                        <child type="overlay">
-                                          <object class="GtkBox" id="screenshots_buttons_box">
+                                          <object class="GtkOverlay" id="screenshots_overlay">
                                             <property name="visible">1</property>
                                             <child>
-                                              <object class="GtkButton" id="previous_screenshot_button">
+                                              <object class="GtkBox" id="screenshots_box">
                                                 <property name="visible">1</property>
-                                                <property name="halign">start</property>
-                                                <property name="valign">center</property>
-                                                <property name="margin-start">12</property>
-                                                <signal name="clicked" handler="on_previous_screenshot_button_clicked" swapped="no"/>
+                                                <property name="orientation">vertical</property>
+                                                <property name="height_request">300</property>
                                                 <child>
-                                                  <object class="GtkImage" id="previous_screenshot_image">
+                                                  <object class="HdyCarousel" id="screenshots_carousel">
                                                     <property name="visible">1</property>
-                                                    <property name="icon-name">go-previous-symbolic</property>
+                                                    <property name="margin_top">12</property>
+                                                    <property name="margin_bottom">6</property>
+                                                    <property name="spacing">22</property>
+                                                    <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="HdyCarouselIndicatorDots" id="screnshots_indicator">
+                                                    <property name="visible">1</property>
+                                                    <property name="margin_bottom">6</property>
+                                                    <property name="carousel">screenshots_carousel</property>
                                                   </object>
                                                 </child>
                                                 <style>
-                                                  <class name="osd"/>
+                                                  <class name="screenshots-box"/>
                                                 </style>
                                               </object>
                                             </child>
-                                            <child>
-                                              <object class="GtkButton" id="next_screenshot_button">
+                                            <child type="overlay">
+                                              <object class="GtkBox" id="screenshots_buttons_box">
                                                 <property name="visible">1</property>
-                                                <property name="halign">end</property>
-                                                <property name="valign">center</property>
-                                                <property name="margin-end">12</property>
-                                                <property name="hexpand">1</property>
-                                                <signal name="clicked" handler="on_next_screenshot_button_clicked" swapped="no"/>
                                                 <child>
-                                                  <object class="GtkImage" id="next_screenshot_image">
+                                                  <object class="GtkButton" id="previous_screenshot_button">
                                                     <property name="visible">1</property>
-                                                    <property name="icon-name">go-next-symbolic</property>
+                                                    <property name="halign">start</property>
+                                                    <property name="valign">center</property>
+                                                    <property name="margin-start">12</property>
+                                                    <signal name="clicked" handler="on_previous_screenshot_button_clicked" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkImage" id="previous_screenshot_image">
+                                                        <property name="visible">1</property>
+                                                        <property name="icon-name">go-previous-symbolic</property>
+                                                      </object>
+                                                    </child>
+                                                    <style>
+                                                      <class name="osd"/>
+                                                    </style>
                                                   </object>
                                                 </child>
-                                                <style>
-                                                  <class name="osd"/>
-                                                </style>
+                                                <child>
+                                                  <object class="GtkButton" id="next_screenshot_button">
+                                                    <property name="visible">1</property>
+                                                    <property name="halign">end</property>
+                                                    <property name="valign">center</property>
+                                                    <property name="margin-end">12</property>
+                                                    <property name="hexpand">1</property>
+                                                    <signal name="clicked" handler="on_next_screenshot_button_clicked" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkImage" id="next_screenshot_image">
+                                                        <property name="visible">1</property>
+                                                        <property name="icon-name">go-next-symbolic</property>
+                                                      </object>
+                                                    </child>
+                                                    <style>
+                                                      <class name="osd"/>
+                                                    </style>
+                                                  </object>
+                                                </child>
                                               </object>
                                             </child>
                                           </object>
@@ -1103,6 +1124,7 @@
             <property name="visible">1</property>
             <property name="stack">view_stack</property>
             <property name="reveal" bind-source="view_stack_switcher" bind-property="title-visible" bind-flags="sync-create"/>
+            <property name="visible" bind-source="view_stack_switcher" bind-property="visible" bind-flags="sync-create"/>
           </object>
         </child>
       </object>
