@@ -393,7 +393,7 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Label checking_label;
 		[GtkChild]
-		unowned Gtk.ScrolledWindow deps_scrolledwindow;
+		unowned Gtk.ScrolledWindow details_scrolledwindow;
 		[GtkChild]
 		unowned Gtk.Stack properties_stack;
 		[GtkChild]
@@ -1115,6 +1115,7 @@ namespace Pamac {
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
+			label.ellipsize = Pango.EllipsizeMode.END;
 			details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 			if (!transaction_running
 				&& detail_type == dgettext (null, "Install Reason")
@@ -1130,8 +1131,13 @@ namespace Pamac {
 				var mark_explicit_button = new Gtk.Button.with_label (dgettext (null, "Mark as explicitly installed"));
 				mark_explicit_button.visible = true;
 				mark_explicit_button.halign = Gtk.Align.START;
+				mark_explicit_button.margin_bottom = 6;
 				mark_explicit_button.clicked.connect (on_mark_explicit_button_clicked);
-				box.add (mark_explicit_button);
+				var scrolledwindow = new Gtk.ScrolledWindow (null, null);
+				scrolledwindow.visible = true;
+				scrolledwindow.vscrollbar_policy = Gtk.PolicyType.NEVER;
+				scrolledwindow.add (mark_explicit_button);
+				box.add (scrolledwindow);
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			} else {
 				var label2 = new Gtk.Label (detail);
@@ -1230,6 +1236,7 @@ namespace Pamac {
 			label.visible = true;
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
+			label.ellipsize = Pango.EllipsizeMode.END;
 			label.margin_top = 12;
 			deps_box.add (label);
 			var listbox = new Gtk.ListBox ();
@@ -1517,6 +1524,7 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
+					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 					box.visible = true;
@@ -1524,6 +1532,7 @@ namespace Pamac {
 						var label2 = new Gtk.Label (name);
 						label2.visible = true;
 						label2.halign = Gtk.Align.START;
+						label2.ellipsize = Pango.EllipsizeMode.END;
 						box.add (label2);
 					}
 					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
@@ -1561,6 +1570,7 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
+					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 					box.visible = true;
@@ -1568,6 +1578,7 @@ namespace Pamac {
 						var label2 = new Gtk.Label (name);
 						label2.visible = true;
 						label2.halign = Gtk.Align.START;
+						label2.ellipsize = Pango.EllipsizeMode.END;
 						box.add (label2);
 					}
 					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
@@ -1709,6 +1720,7 @@ namespace Pamac {
 				label.use_markup = true;
 				label.halign = Gtk.Align.START;
 				label.valign = Gtk.Align.START;
+				label.ellipsize = Pango.EllipsizeMode.END;
 				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 				box.visible = true;
@@ -1716,6 +1728,7 @@ namespace Pamac {
 					var label2 = new Gtk.Label (name);
 					label2.visible = true;
 					label2.halign = Gtk.Align.START;
+					label2.ellipsize = Pango.EllipsizeMode.END;
 					box.add (label2);
 				}
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
@@ -1833,6 +1846,7 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
+					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 					box.visible = true;
@@ -1846,6 +1860,7 @@ namespace Pamac {
 							var label2 = new Gtk.Label (channel);
 							label2.visible = true;
 							label2.halign = Gtk.Align.START;
+							label2.ellipsize = Pango.EllipsizeMode.END;
 							box2.add (label2);
 							var install_button = new Gtk.Button.with_label (dgettext (null, "Install"));
 							install_button.visible = true;
@@ -1877,6 +1892,7 @@ namespace Pamac {
 							var label2 = new Gtk.Label (channel);
 							label2.visible = true;
 							label2.halign = Gtk.Align.START;
+							label2.ellipsize = Pango.EllipsizeMode.END;
 							box.add (label2);
 						}
 					}
@@ -2840,7 +2856,7 @@ namespace Pamac {
 		}
 
 		public void display_details (Package pkg) {
-			deps_scrolledwindow.vadjustment.value = 0;
+			details_scrolledwindow.vadjustment.value = 0;
 			if (pkg is AURPackage) {
 				display_aur_details (pkg as AURPackage);
 			} else if (pkg is AlpmPackage) {
@@ -3183,6 +3199,9 @@ namespace Pamac {
 		}
 
 		void on_browse_stack_visible_child_changed () {
+			if (browse_flap.folded) {
+				return;
+			}
 			switch (browse_stack.visible_child_name) {
 				case "categories":
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
@@ -3242,6 +3261,10 @@ namespace Pamac {
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		[GtkCallback]
@@ -3281,9 +3304,11 @@ namespace Pamac {
 					this.get_window ().set_cursor (null);
 				}
 			});
-			install_all_button.visible = false;
-			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		async GenericArray<unowned Package> get_all_installed () {
@@ -3404,6 +3429,10 @@ namespace Pamac {
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		[GtkCallback]
@@ -3612,6 +3641,10 @@ namespace Pamac {
 			}
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 //~ 		[GtkCallback]
@@ -3790,6 +3823,13 @@ namespace Pamac {
 					this.get_window ().set_cursor (null);
 				}
 			});
+			install_all_button.visible = false;
+			remove_all_button.visible = false;
+			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		void on_main_stack_visible_child_changed () {
