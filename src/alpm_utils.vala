@@ -333,18 +333,15 @@ namespace Pamac {
 		}
 
 		bool update_dbs (Alpm.Handle? alpm_handle, int force) {
-			bool success = false;
+			bool success = true;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				if (cancellable.is_cancelled ()) {
 					break;
 				}
 				unowned Alpm.DB db = syncdbs.data;
-				if (db.update (force) >= 0) {
-					// We should always succeed if at least one DB was upgraded - we may possibly
-					// fail later with unresolved deps, but that should be rare, and would be expected
-					success = true;
-				} else {
+				if (db.update (force) < 0) {
+					success = false;
 					Alpm.Errno err_no = alpm_handle.errno ();
 					if (err_no != 0) {
 						// download error details are set in cb_fetch

@@ -2245,12 +2245,15 @@ namespace Pamac {
 				if (refresh_tmp_dbs) {
 					// refresh tmp dbs
 					// count this step as 90% of the total
+					bool success = true;
 					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
 					size_t dbs_count = syncdbs.length ();
 					size_t i = 0;
 					while (syncdbs != null) {
 						unowned Alpm.DB db = syncdbs.data;
-						db.update (0);
+						if (db.update (0) < 0) {
+							success = false;
+						}
 						syncdbs.next ();
 						i++;
 						context.invoke (() => {
@@ -2258,13 +2261,15 @@ namespace Pamac {
 							return false;
 						});
 					}
-					// save now as last refresh time
-					try {
-						// touch the file
-						string timestamp_path = "/tmp/pamac/dbs/sync/refresh_timestamp";
-						Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
-					} catch (SpawnError e) {
-						warning (e.message);
+					if (success) {
+						// save now as last refresh time
+						try {
+							// touch the file
+							string timestamp_path = "/tmp/pamac/dbs/sync/refresh_timestamp";
+							Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
+						} catch (SpawnError e) {
+							warning (e.message);
+						}
 					}
 				} else {
 					// refresh step skipped
