@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Greek (http://www.transifex.com/manjarolinux/manjaro-pamac/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,8 @@ msgstr "το πακέτο %s δεν έχει την σωστή αρχιτεκτ�
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "αδυναμία να ικανοποιηθεί η εξάρτηση '%s' που απαιτείται από το %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
@@ -123,7 +124,7 @@ msgstr ""
 msgid "removing %s from target list"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr ""
 
@@ -335,7 +336,7 @@ msgid "Timeout expired"
 msgstr "Το χρονικό όριο έχει λήξει"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -396,6 +397,11 @@ msgstr "Δεν υπάρχει τίποτε να γίνει"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Δημιουργία %s"
 
@@ -423,8 +429,9 @@ msgid "Trust and Import"
 msgstr "Εμπιστοσύνη και εισαγωγή"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "Άκυρο"
 
@@ -443,13 +450,13 @@ msgstr "Εμπιστοσύνη %sκαι εισαγωγή του PGP κλειδι
 msgid "Official Repositories"
 msgstr "Επίσημα αποθετήρια"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Αποθετήριο"
+msgid "Repositories"
+msgstr "Αποθετήρια"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -477,6 +484,10 @@ msgstr "Απαιτείτε από"
 msgid "Replaces"
 msgstr "Αντικαθιστά"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Επεξεργασία αρχείων κατασκευής"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Συνολικό μέγεθος προς λήψη:"
@@ -491,9 +502,13 @@ msgid "Save"
 msgstr "Αποθήκευση"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Κλείσιμο"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -562,18 +577,22 @@ msgid "Checking for Updates"
 msgstr "Έλεγχος για Ενημερώσεις"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Προτεινόμενα"
+msgid "Install Local Packages"
+msgstr "Εγκατάσταση Τοπικών Πακέτων"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Όλα"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "Άνοιγμα"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Κατηγορίες"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Πακέτο Alpm"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr ""
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -584,6 +603,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u εκκρεμείς διαδικασίες"
 msgstr[1] "%u εκκρεμείς διαδικασίες"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Όλα"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Εγκαταστάθηκε ρητά"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Ορφανά"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Εξωτερικά (AUR)"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Εγκατεστημένα"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -604,6 +647,10 @@ msgstr "Άδειες"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Άγνωστο"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Αποθετήριο"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -685,38 +732,6 @@ msgstr "Περιορίζεται σε ένα Sandbox"
 msgid "Channels"
 msgstr "Κανάλια"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Συνάφεια"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Όνομα"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Μέγεθος"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Αποθετήρια"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Αναβάθμιση"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Δόμηση"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Απεγκατάσταση"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr ""
@@ -725,93 +740,105 @@ msgstr ""
 msgid "Includes performance, stability and security improvements"
 msgstr ""
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Εγκατεστημένα"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Προτεινόμενα"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Φωτογραφία & Βίντεο"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Μουσική & Ήχος"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Παραγωγικότητα"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Επικοινωνία & Νέα"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Εκπαίδευση & Επιστήμη"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Παιχνίδια"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Βοηθήματα"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Ανάπτυξη"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Εγκαταστάθηκε ρητά"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Ορφανά"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Εξωτερικά (AUR)"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Εγκατάσταση Τοπικών Πακέτων"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "Άνοιγμα"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Πακέτο Alpm"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Πόσο συχνά να γίνεται έλεγχος για αναβαθμίσεις, τιμή σε ώρες"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Μέγιστες παράλληλες λήψεις"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Πλήθος των εκδόσεων για κάθε πακέτο που θα παραμένουν στην αποθήκη"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Παγκοσμίως"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Κατάλογος δημιουργίας"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -823,6 +850,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u  αρχείο"
 msgstr[1] "%u αρχεία"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -853,10 +888,6 @@ msgstr "ν"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "ναι"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Επεξεργασία αρχείων κατασκευής"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -992,6 +1023,10 @@ msgstr "αποθετήριο(α)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "εμφάνιση εγκατεστημένων πακέτων"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1241,6 +1276,10 @@ msgstr "μην αφαιρείς αρχεία, βρες μόνο υποψήφια
 msgid "also display all files names"
 msgstr "εμφάνισε επίσης όλα τα ονόματα αρχείων"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Όνομα"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Έκδοση"
@@ -1274,15 +1313,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%uαγνοημένες αναβαθμίσεις"
 msgstr[1] "%uαγνοημένες αναβαθμίσεις"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Διέγραψε μόνο τις εκδόσεις των απεγκατεστημένων πακέτων."
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Πλήθος των εκδόσεων για κάθε πακέτο που θα παραμένουν στην αποθήκη"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Καθαρισμός προσωρινής αποθήκης"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Καθάρισε τα αρχεία κατασκευής"
 
@@ -1357,7 +1400,7 @@ msgstr "Ανανέωση βάσης δεδομένων"
 msgid "View History"
 msgstr "Εμφάνιση Ιστορικού"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -1366,16 +1409,8 @@ msgid "About"
 msgstr "Σχετικά"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Ταξινόμηση κατά"
+msgid "Search"
+msgstr "Αναζήτηση"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1390,20 +1425,52 @@ msgid "Ignore all"
 msgstr "Αγνόησε τα όλα"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Ταξινόμηση κατά"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Συνάφεια"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Κατηγορίες"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Αναζήτηση"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Ενημερώσεις"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Φόρτωση"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Απεγκατάσταση"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Επανεγκατάσταση"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Δόμηση"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1421,33 +1488,61 @@ msgstr "Επαναφορά αρχείων κατασκευής"
 msgid "Build files"
 msgstr "Αρχεία κατασκευής"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Αναζήτηση"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Εκκρεμή"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Ενημερώσεις"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Γενικά"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Έλεγχος για αναβαθμίσεις"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Αυτόματη λήψη ενημερώσεων"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Απόκρυψη εικονιδίου όταν δεν υπάρχει διαθέσιμη ενημέρωση"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Γενικά"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Προσωρινή Αποθήκευση"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Προχωρημένα"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1464,12 +1559,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Αφαίρεση  μη χρησιμοποιούμενων εξαρτήσεων"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Όταν αφαιρείται ένα πακέτο, επίσης να αφαιρούνται και οι εξαρτήσεις του, που δεν απαιτούνται από άλλα πακέτα"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Μην ελέγχεις για ενημερώσεις κατά την εγκατάσταση"
 
@@ -1478,20 +1567,12 @@ msgid "Enable downgrade"
 msgstr "Να επιτρέπεται η υποβάθμιση"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Παράβλεψη αναβαθμίσεων για:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Προχωρημένα"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Χρησιμοποίησε διακομιστές από:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Ανανέωση της λίστας διακομιστών (servers)"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1504,28 +1585,16 @@ msgid "Enable AUR support"
 msgstr "Ενεργοποίηση υποστήριξης AUR"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Επέτρεψε στον Pamac να ψάξει και να εγκαταστήσει πακέτα απο το AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Διατήρησε τα κατασκευασμένα πακέτα στην αποθήκη"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Έλεγχος για αναβαθμίσεις των development packages"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Τα πακέτα Snap συντηρούνται από τον εκδότη τους."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Ενεργοποίηση υποστήριξης Snap"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgid "Build directory"
+msgstr "Κατάλογος δημιουργίας"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1536,9 +1605,9 @@ msgid "Enable Flatpak support"
 msgstr "Ενεργοποίηση υποστήριξης Flatpak"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgid "Snap packages are maintained by their publisher."
+msgstr "Τα πακέτα Snap συντηρούνται από τον εκδότη τους."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Προσωρινή Αποθήκευση"
+msgid "Enable Snap support"
+msgstr "Ενεργοποίηση υποστήριξης Snap"

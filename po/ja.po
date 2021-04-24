@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-02-09 05:19+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 23:06+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,8 @@ msgstr "パッケージ %s は有効なアーキテクチャではありませ�
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "依存パッケージ '%s' を満たすことができません。%s に必要です"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "警告"
 
@@ -111,7 +112,7 @@ msgstr "AURデータベースの初期化に失敗しました"
 msgid "removing %s from target list"
 msgstr "ターゲットリストから %s を削除しています"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "変更を有効にするには再起動が必要です"
 
@@ -171,11 +172,11 @@ msgstr "トランザクションのコミットに失敗しました"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "依存するものを確認しています"
+msgstr "依存を確認しています"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr "競合するものを確認しています"
+msgstr "競合を確認しています"
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
@@ -183,7 +184,7 @@ msgstr "依存関係を解決しています"
 
 #: src/alpm_utils.vala
 msgid "Checking inter-conflicts"
-msgstr "内部で競合するものを確認しています"
+msgstr "内部の競合を確認しています"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -321,7 +322,7 @@ msgid "Timeout expired"
 msgstr "タイムアウト期限切れ"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -352,7 +353,7 @@ msgstr "%s の情報を生成できませんでした"
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "%s が依存するものを確認しています"
+msgstr "%s の依存を確認しています"
 
 #: src/transaction.vala
 #, c-format
@@ -382,6 +383,11 @@ msgstr "何もすることがありません"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: パッケージのアップグレードを無視 (%s => %s)\n"
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "%s をビルドしています"
 
@@ -393,12 +399,12 @@ msgstr "%s のビルドに失敗しました "
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose optional dependencies for %s"
-msgstr "%s のオプションとしてインストールするものを選択"
+msgstr "%s のオプション依存を選択"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 #, c-format
 msgid "Choose a provider for %s"
-msgstr "%s を提供するものを選択"
+msgstr "%s の提供元を選択"
 
 #: src/transaction-gtk.vala
 msgid "Import PGP key"
@@ -409,8 +415,9 @@ msgid "Trust and Import"
 msgstr "信用とインポート"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
@@ -429,39 +436,43 @@ msgstr "%s を信用してPGP鍵をインポートしますか"
 msgid "Official Repositories"
 msgstr "公式リポジトリ"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
+msgid "Repositories"
 msgstr "リポジトリ"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Depends On"
-msgstr "必要"
+msgstr "以下に依存"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr "次から孤立したパッケージ"
+msgstr "以下から孤立している"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Conflicts With"
-msgstr "競合"
+msgstr "以下と競合する"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Required By"
-msgstr "必要とされる"
+msgstr "以下に必要"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
 msgid "Replaces"
-msgstr "置換"
+msgstr "以下を置き換える"
+
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "ビルドファイルの編集"
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
@@ -477,9 +488,13 @@ msgid "Save"
 msgstr "保存"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "閉じる (_C)"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "再起動"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -547,18 +562,22 @@ msgid "Checking for Updates"
 msgstr "アップデートがあるか確認しています"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "おすすめ"
+msgid "Install Local Packages"
+msgstr "ローカルパッケージをインストール"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "全て"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "開く (_O)"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "カテゴリ"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm パッケージ"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Alpm、AUR、Flatpak、Snap をサポートするパッケージマネージャー"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -569,17 +588,41 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u 個の操作を保留しています"
 
+#: src/manager_window.vala
+msgid "All"
+msgstr "全て"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "明示的にインストール"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "孤立"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "外部"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "インストール済み"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr "無視"
+
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
-msgstr "インストールした理由"
+msgstr "インストール理由"
 
 #: src/manager_window.vala
 msgid "Installed as a dependency for another package"
-msgstr "他のパッケージから必要とされたもの"
+msgstr "他のパッケージの依存としてインストール"
 
 #: src/manager_window.vala
 msgid "Mark as explicitly installed"
-msgstr "明示的にインストールしたものとしてマーク"
+msgstr "明示的なインストールとしてマーク"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Licenses"
@@ -588,6 +631,10 @@ msgstr "ライセンス"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "不明"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "リポジトリ"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -611,7 +658,7 @@ msgstr "投票数"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Out of Date"
-msgstr "古くなっています"
+msgstr "期限切れ"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Groups"
@@ -623,11 +670,11 @@ msgstr "パッケージ作成者"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Build Date"
-msgstr "ビルドした日"
+msgstr "ビルド日"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Date"
-msgstr "インストールした日"
+msgstr "インストール日"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Signatures"
@@ -643,15 +690,15 @@ msgstr "オプション"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Make Dependencies"
-msgstr "Makeに必要なパッケージ"
+msgstr "作成時の依存"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
-msgstr "必要なパッケージを確認"
+msgstr "依存を確認"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
-msgstr "オプションとされる"
+msgstr "以下のオプション"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Provides"
@@ -669,38 +716,6 @@ msgstr "Sandboxに限定する"
 msgid "Channels"
 msgstr "チャンネル"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "関連度"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "名前"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "サイズ"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "日付"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "リポジトリ"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "アップグレード"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "ビルド"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "削除"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "OSアップデート"
@@ -709,97 +724,109 @@ msgstr "OSアップデート"
 msgid "Includes performance, stability and security improvements"
 msgstr "パフォーマンス、安定性、セキュリティの改善が含まれています"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "インストール済み"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "おすすめ"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "写真とビデオ"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "音楽とオーディオ"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "文書"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "通信とニュース"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "教育と科学"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "ゲーム"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "ユーティリティ"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "開発"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "明示的に入れたもの"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "孤立したパッケージ"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "外部のパッケージ"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "ローカルパッケージをインストール"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "開く (_O)"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm パッケージ"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Alpm、AUR、Flatpak、Snapをサポートするパッケージマネージャー"
-
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr "最後の更新"
+msgstr "最終更新"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "アップデートを確認する間隔 (1時間単位)"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "3時間ごと"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "最大同時ダウンロード数"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "6時間ごと"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "キャッシュに保存するパッケージのバージョン数"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "12時間ごと"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "1日ごと"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "1週間ごと"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "全世界"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "ビルドディレクトリ"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
-msgstr "削除するもの"
+msgstr "以下を削除"
 
 #: src/preferences_dialog.vala src/cli.vala
 #, c-format
@@ -808,13 +835,21 @@ msgid_plural "%u files"
 msgstr[0] "%u ファイル"
 
 #: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr "ビルドディレクトリを選択"
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr "選択(_C)"
+
+#: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
 msgstr "無視するアップグレードを選択"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
 msgid "Enter a selection (default=%s)"
-msgstr "選択するものを入力 (デフォルト=%s)"
+msgstr "選択を入力 (デフォルト=%s)"
 
 #: src/transaction-cli.vala
 msgid "none"
@@ -837,10 +872,6 @@ msgstr "y"
 msgid "yes"
 msgstr "yes"
 
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "ビルドファイルの編集"
-
 #: src/transaction-cli.vala
 msgid "[e]"
 msgstr "[e]"
@@ -859,27 +890,27 @@ msgstr "e"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
-msgstr "アップグレードするもの"
+msgstr "以下をアップグレード"
 
 #: src/transaction-cli.vala
 msgid "To reinstall"
-msgstr "再インストールするもの"
+msgstr "以下を再インストール"
 
 #: src/transaction-cli.vala
 msgid "To install"
-msgstr "インストールするもの"
+msgstr "以下をインストール"
 
 #: src/transaction-cli.vala
 msgid "To build"
-msgstr "ビルドするもの"
+msgstr "以下をビルド"
 
 #: src/transaction-cli.vala
 msgid "To downgrade"
-msgstr "ダウングレードするもの"
+msgstr "以下をダウングレード"
 
 #: src/transaction-cli.vala
 msgid "To remove"
-msgstr "削除するもの"
+msgstr "以下を削除"
 
 #: src/transaction-cli.vala
 msgid "Total installed size"
@@ -974,7 +1005,11 @@ msgstr "リポジトリ"
 
 #: src/cli.vala
 msgid "list installed packages"
-msgstr "インストール済みのパッケージのリスト"
+msgstr "インストール済みパッケージのリスト"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr "明示的にインストールされたパッケージのリスト"
 
 #: src/cli.vala
 msgid ""
@@ -1049,7 +1084,7 @@ msgstr "キャッシュ内のビルド済みパッケージをインストール
 
 #: src/cli.vala
 msgid "do not keep built packages in cache after installation"
-msgstr "インストール後はビルドされたパッケージをキャッシュに保持しない"
+msgstr "インストール後はビルド済みパッケージをキャッシュに保持しない"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
@@ -1085,7 +1120,7 @@ msgstr "全てのパッケージをダウンロードするがインストール
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr "インストールされている全てのパッケージを必要とされるものとしてマーク"
+msgstr "インストールされる全てのパッケージを依存としてマーク"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
@@ -1224,6 +1259,10 @@ msgstr "ファイルを削除せず、候補パッケージの検索のみを行
 msgid "also display all files names"
 msgstr "全てのファイル名も表示する"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "名前"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "バージョン"
@@ -1256,15 +1295,19 @@ msgid "%u ignored update"
 msgid_plural "%u ignored updates"
 msgstr[0] "%u 個のアップデートを無視する"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "アンインストール済みのパッケージのバージョンのみ削除する"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "キャッシュに保存するパッケージのバージョン数"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "キャッシュを削除"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "ビルドファイルを空にする"
 
@@ -1304,7 +1347,7 @@ msgstr "いいえ"
 
 #: resources/choose_provider_dialog.ui
 msgid "Choose a Provider"
-msgstr "提供するものを選択"
+msgstr "提供元を選択"
 
 #: resources/choose_provider_dialog.ui resources/choose_pkgs_dialog.ui
 msgid "Choose"
@@ -1332,31 +1375,23 @@ msgstr "ソフトウェアモード"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
-msgstr "データベースをアップデートする"
+msgstr "データベースをアップデート"
 
 #: resources/manager_window.ui
 msgid "View History"
 msgstr "履歴を見る"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "設定"
 
 #: resources/manager_window.ui
 msgid "About"
-msgstr "About"
+msgstr "このソフトについて"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "閲覧"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "対象"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "ソート"
+msgid "Search"
+msgstr "検索"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1371,20 +1406,52 @@ msgid "Ignore all"
 msgstr "全て無視"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "ソート"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "関連度"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "サイズ"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "日付"
+
+#: resources/manager_window.ui
 msgid "Refresh"
-msgstr "更新"
+msgstr "アップデート"
+
+#: resources/manager_window.ui
+msgid "Categories"
+msgstr "カテゴリ"
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "閲覧"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "アップデート"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "実行"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "削除"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "再インストール"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "ビルド"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1402,39 +1469,67 @@ msgstr "ビルドファイルをリセット"
 msgid "Build files"
 msgstr "ビルドファイル"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "検索"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "保留中"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "アップデート"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "一般"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "アップデートがあるか確認する"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "アップデートを確認する頻度"
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "アップデートを自動的にダウンロード"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "アップデートがない時はトレイアイコンを隠す"
+msgid "Hide tray icon when no update"
+msgstr "更新がない場合はトレイアイコンを非表示にする"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "一般"
+msgid "Downloads"
+msgstr "ダウンロード"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "並行ダウンロード"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr "次のミラーを使用する"
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr "ミラーをアップデート"
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "キャッシュ"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr "各パッケージの保持するバージョン数"
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr "アンインストール済みのパッケージのみ削除する"
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr "削除"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "高度な設定"
 
 #: resources/preferences_dialog.ui
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "これらのオプションの設定を誤ると、システムが壊れる可能性があります。\n自分が行っていることを理解している場合にのみ、それらを変更してください。"
+msgstr "これらのオプションの設定を誤ると、システムが壊れる可能性があります。\n自分が何をしているのか理解している場合にのみ、それらを変更してください。"
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
@@ -1445,12 +1540,6 @@ msgid "Remove unrequired dependencies"
 msgstr "不要になった依存パッケージを削除する"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "パッケージを削除するときに、他のパッケージからは必要とされない依存パッケージも削除する"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "インストール時にアップデートを確認しない"
 
@@ -1459,20 +1548,12 @@ msgid "Enable downgrade"
 msgstr "ダウングレードを有効にする"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "次のアップグレードを無視する:"
+msgid "Ignored upgrades"
+msgstr "無視するアップグレード"
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "高度な設定"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "使用するミラーサーバ:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "ミラーリストをアップデートする"
+msgid "Third Party"
+msgstr "サードパーティー"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1485,28 +1566,16 @@ msgid "Enable AUR support"
 msgstr "AURサポートを有効にする"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "PamacがAURパッケージを検索してインストールすることを許可する"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "キャッシュ内のビルド済みパッケージを保持する"
+msgid "Keep built packages"
+msgstr "ビルド済みパッケージを保持する"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "開発用パッケージのアップデートを確認する"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Snapパッケージは発行元によって管理されています。"
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Snapサポートを有効にする"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "PamacがSnapを検索してインストールできるようにする"
+msgid "Build directory"
+msgstr "ビルドディレクトリ"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1517,9 +1586,9 @@ msgid "Enable Flatpak support"
 msgstr "Flatpakサポートを有効にする"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "PamacがFlatpakを検索してインストールできるようにする"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Snapパッケージは発行元によって管理されています。"
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "キャッシュ"
+msgid "Enable Snap support"
+msgstr "Snapサポートを有効にする"

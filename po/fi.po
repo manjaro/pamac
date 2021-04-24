@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Finnish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,8 @@ msgstr "pakettilla %s ei ole kelvollista arkkitehtuuria"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "puuttuva riippuvuus '%s' paketilla %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -123,7 +124,7 @@ msgstr "AUR-tietokannan alustaminen epäonnistui"
 msgid "removing %s from target list"
 msgstr "poistetaan %s kohdeluettelosta"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Uudelleenkäynnistys vaaditaan jotta muutokset tulevat voimaan"
 
@@ -335,7 +336,7 @@ msgid "Timeout expired"
 msgstr "Aikakatkaisu vanhentui"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -396,6 +397,11 @@ msgstr "Ei mitään tehtävää"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Kasataan %s"
 
@@ -423,8 +429,9 @@ msgid "Trust and Import"
 msgstr "Luota ja tuo"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Peruuta"
 
@@ -443,13 +450,13 @@ msgstr "Merkitse luotetuksi, ja tuo PGP-avain %s"
 msgid "Official Repositories"
 msgstr "Viralliset pakettilähteet"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Pakettivarasto"
+msgid "Repositories"
+msgstr "Pakettivarastot"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak-paketit"
 
@@ -477,6 +484,10 @@ msgstr "Riippuvuutena paketeille"
 msgid "Replaces"
 msgstr "Korvaa"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Muokkaa koontitiedostoja"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Latauksen kokonaiskoko"
@@ -491,9 +502,13 @@ msgid "Save"
 msgstr "Tallenna"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Sulje"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -562,18 +577,22 @@ msgid "Checking for Updates"
 msgstr "Päivitetään pakettilista"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Suositeltu"
+msgid "Install Local Packages"
+msgstr "Asenna paikalliset paketit"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Kaikki"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Avaa"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategoriat"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm paketti"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Paketinhallintaohjelma Alpm, AUR, Flatpak ja Snap tuella"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap-paketit"
@@ -584,6 +603,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operaatio odottaa"
 msgstr[1] "%u operaatiota odottaa"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Kaikki"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Käyttäjän asentama"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Orvot"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Vieras"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Asennettuna"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -604,6 +647,10 @@ msgstr "Lisenssit"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Tuntematon"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Pakettivarasto"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -685,38 +732,6 @@ msgstr "Rajoitettu hiekkalaatikkoon"
 msgid "Channels"
 msgstr "Kanavat"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Tärkeys"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nimi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Koko"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Päivämäärä"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Pakettivarastot"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Päivitä"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Koonti"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Poista"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "Käyttöjärjestelmäpäivitykset"
@@ -725,93 +740,105 @@ msgstr "Käyttöjärjestelmäpäivitykset"
 msgid "Includes performance, stability and security improvements"
 msgstr "Sisältää parannuksia suorituskykyyn, vakauteen sekä turvallisuuteen"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Asennettuna"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Suositeltu"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Kuva & video"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Musiikki ja ääni"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Tuottavuus"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Viestintä ja uutiset"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Koulutus ja tiede"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Pelit"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Apuohjelmat"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Kehitys"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Käyttäjän asentama"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Orvot"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Vieras"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Asenna paikalliset paketit"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Avaa"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm paketti"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Paketinhallintaohjelma Alpm, AUR, Flatpak ja Snap tuella"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Viimeisin virkistys"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Kuinka usein tarkistetaan päivityksiä, arvo tunneissa"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Yhtäaikaisten latausten enimmäismäärä"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Paketin versioiden määrä joka säilytetään välimuistissa"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Maailmanlaajuinen"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Koontihakemisto"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -823,6 +850,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u tiedosto"
 msgstr[1] "%u tiedostoa"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -853,10 +888,6 @@ msgstr "k"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "kyllä"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Muokkaa koontitiedostoja"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -992,6 +1023,10 @@ msgstr "pakettivarasto(t)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "Listaa asennetut paketit"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1241,6 +1276,10 @@ msgstr "älä poista tiedostoja, etsi vain ehdokaspaketit"
 msgid "also display all files names"
 msgstr "näytä myös kaikkien tiedostojen nimet"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nimi"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versio"
@@ -1274,15 +1313,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%u sivuutti päivityksen "
 msgstr[1] "%u sivuutti päivitykset"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Poista vain asentamattomien pakettien versiot"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Paketin versioiden määrä joka säilytetään välimuistissa"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Tyhjennä välimuisti"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Tyhjennä koontitiedostot"
 
@@ -1357,7 +1400,7 @@ msgstr "Päivitä tietokannat"
 msgid "View History"
 msgstr "Näytä historia"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Asetukset"
 
@@ -1366,16 +1409,8 @@ msgid "About"
 msgstr "Tietoja"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Selaa kriteerein"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Näytä"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Lajittelutapa"
+msgid "Search"
+msgstr "Etsi"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1390,20 +1425,52 @@ msgid "Ignore all"
 msgstr "Sivuuta kaikki"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Lajittelutapa"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Tärkeys"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Koko"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Virkistä"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategoriat"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Selaa"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Päivitykset"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Käynnistä"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Poista"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Asenna uudelleen"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Koonti"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1421,33 +1488,61 @@ msgstr "Nollaa koontitiedostot"
 msgid "Build files"
 msgstr "Koontitiedostot"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Etsi"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Odottaa"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Päivitykset"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Yleiset"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Tarkista päivitykset"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Lataa päivitykset automaattisesti"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Piilota pikku kuvake kun ei ole päivitettävää"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Yleiset"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Välimuisti"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Kehittyneet"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1464,12 +1559,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Poista ei-vaaditut riippuvuudet"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Pakettia poistettaessa, poista myös pakettiriippuvuudet jotka eivät ole muiden pakettien käytössä"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Älä tarkista päivityksiä asennettaessa"
 
@@ -1478,20 +1567,12 @@ msgid "Enable downgrade"
 msgstr "Ota vanhentaminen käyttöön"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ohita päivitykset paketeille:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Kehittyneet"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Käytä peilipalvelimia sijainnista:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Päivitä peilipalvelin lista"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1504,28 +1585,16 @@ msgid "Enable AUR support"
 msgstr "Ota AUR-tuki käyttöön"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Anna Pamacin etsiä ja asentaa paketteja AUR:sta"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Pidä kasatut paketit välimuistissa"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Tarkista kehityspakettien päivitykset"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Snap-paketteja ylläpitää niiden julkaisija."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Ota Snap-tuki käyttöön"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Salli Pamacin etsiä ja asentaa Snap-paketteja"
+msgid "Build directory"
+msgstr "Koontihakemisto"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1536,9 +1605,9 @@ msgid "Enable Flatpak support"
 msgstr "Ota Flatpak-tuki käyttöön"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Salli Pamacin etsiä ja asentaa Flatpak-paketteja"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Snap-paketteja ylläpitää niiden julkaisija."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Välimuisti"
+msgid "Enable Snap support"
+msgstr "Ota Snap-tuki käyttöön"

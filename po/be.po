@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-01-02 19:08+0000\n"
-"Last-Translator: Źmicier Turok <nashtlumach@gmail.com>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Belarusian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,8 @@ msgstr "пакунак %s не мае неабходнай архітэктур�
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "немагчыма задаволіць залежнасць \"%s\", неабходную для %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Увага"
 
@@ -108,7 +109,7 @@ msgstr "Не атрымалася ініцыялізаваць базу даны
 msgid "removing %s from target list"
 msgstr "выдаленне %s з мэтавага спіса"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Каб змены набылі моц, спатрэбіцца перазапусціць праграму"
 
@@ -324,7 +325,7 @@ msgid "Timeout expired"
 msgstr "Час чакання сышоў"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -385,6 +386,11 @@ msgstr "Няма задач"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Зборка %s"
 
@@ -412,8 +418,9 @@ msgid "Trust and Import"
 msgstr "Ухваліць і імпартаваць"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Скасаваць"
 
@@ -432,13 +439,13 @@ msgstr "Даверыцца %s і імпартаваць ключ PGP"
 msgid "Official Repositories"
 msgstr "Афіцыйныя рэпазіторыі"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Рэпазіторый"
+msgid "Repositories"
+msgstr "Рэпазіторыі"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -466,6 +473,10 @@ msgstr "Патрабуецца для"
 msgid "Replaces"
 msgstr "Замяняе"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Рэдагаваць файлы зборкі"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Агульны памер спампоўкі"
@@ -480,9 +491,13 @@ msgid "Save"
 msgstr "Захаваць"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Закрыць"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -553,18 +568,22 @@ msgid "Checking for Updates"
 msgstr "Праверка на абнаўленні"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Папулярнае"
+msgid "Install Local Packages"
+msgstr "Усталяваць лакальныя пакункі"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Усе"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Адкрыць"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Катэгорыі"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Пакунак Alpm"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Кіраўнік пакункаў з падтрымкай Alpm, AUR, Flatpak і Snap"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -577,6 +596,30 @@ msgstr[0] "%u чакае апрацоўкі"
 msgstr[1] "%u чакаюць апрацоўкі"
 msgstr[2] "%u чакаюць апрацоўкі"
 msgstr[3] "%u чакаюць апрацоўкі"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Усе"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Усталявана адмыслова"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Непатрэбныя"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Вонкавыя"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Усталявана"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -597,6 +640,10 @@ msgstr "Ліцэнзіі"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Невядома"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Рэпазіторый"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -678,38 +725,6 @@ msgstr "Абмежавана пясочняй"
 msgid "Channels"
 msgstr "Каналы"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Актуальнасць"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Назва"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Памер"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Дата"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Рэпазіторыі"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Абнавіць"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Сабраць"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Выдаліць"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "Абнаўленне аперацыйнай сістэмы"
@@ -718,93 +733,105 @@ msgstr "Абнаўленне аперацыйнай сістэмы"
 msgid "Includes performance, stability and security improvements"
 msgstr "Уключае паляпшэнні прадукцыйнасці, стабільнасці і бяспекі"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Усталявана"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Папулярнае"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Фота і відэа"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Аўдыё"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Прадукцыйнасць"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Камунікацыя і навіны"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Адукацыя і навука"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Гульні"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Утыліты"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Распрацоўка"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Усталявана адмыслова"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Непатрэбныя"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Вонкавыя"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Усталяваць лакальныя пакункі"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Адкрыць"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Пакунак Alpm"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Кіраўнік пакункаў з падтрымкай Alpm, AUR, Flatpak і Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Апошняе абнаўленне"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Як часта правяраць на абнаўленні (значэнне ў гадзінах)"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Максімум адначасовых спампоўванняў"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Захоўваць у кэшы папярэднія версіі пакункаў колькасцю"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Сусветны"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Каталог зборкі"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -818,6 +845,14 @@ msgstr[0] "%u файл"
 msgstr[1] "%u файла"
 msgstr[2] "%u файлаў"
 msgstr[3] "%u файлаў"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -848,10 +883,6 @@ msgstr "т"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "так"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Рэдагаваць файлы зборкі"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -987,6 +1018,10 @@ msgstr "рэпазіторый(і)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "спіс усталяваных пакункаў"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1236,6 +1271,10 @@ msgstr "не выдаляць пакункі, толькі знаходзіць 
 msgid "also display all files names"
 msgstr "таксама паказваць усе назвы файлаў"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Назва"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Версія"
@@ -1271,15 +1310,19 @@ msgstr[1] "%u абнаўленні праігнаравана"
 msgstr[2] "%u абнаўленняў праігнаравана"
 msgstr[3] "%u абнаўленняў праігнаравана"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Выдаляць папярэднія версіі толькі выдаленых пакункаў"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Захоўваць у кэшы папярэднія версіі пакункаў колькасцю"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Ачысціць кэш"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Ачысціць файлы зборкі"
 
@@ -1356,7 +1399,7 @@ msgstr "Абнавіць базы даных"
 msgid "View History"
 msgstr "Прагляд гісторыі"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Налады"
 
@@ -1365,16 +1408,8 @@ msgid "About"
 msgstr "Пра праграму"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Рэжым паказу"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Група"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Сартаванне"
+msgid "Search"
+msgstr "Пошук"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1389,20 +1424,52 @@ msgid "Ignore all"
 msgstr "Ігнараваць усё"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Сартаванне"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Актуальнасць"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Памер"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Дата"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Абнавіць"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Катэгорыі"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Агляд"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Абнаўленні"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Запусціць"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Выдаліць"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Пераўсталяваць"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Сабраць"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1420,33 +1487,61 @@ msgstr "Скінуць файлы зборкі"
 msgid "Build files"
 msgstr "Файлы зборкі"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Пошук"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Да апрацоўкі"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Абнаўленні"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Асноўныя"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Правяраць на абнаўленні"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Аўтаматычна спампоўваць абнаўленні"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Хаваць значок на прасторы апавяшчэнняў пры адсутнасці абнаўленняў"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Асноўныя"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Кэш"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Дадаткова"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1463,12 +1558,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Выдаляць непатрэбныя залежнасці"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Пры выдаленні пакунка таксама выдаляць яго залежнасці"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Не правяраць на абнаўленні падчас усталёўкі"
 
@@ -1477,20 +1566,12 @@ msgid "Enable downgrade"
 msgstr "Уключыць вяртанне да папярэдніх версій"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Не зважаць на абнаўленні для:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Дадаткова"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Выкарыстоўваць люстэркі з:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Абнавіць спіс люстэркаў"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1503,28 +1584,16 @@ msgid "Enable AUR support"
 msgstr "Уключыць падтрымку AUR"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Дазволіць Pamac пошук і ўсталёўку з AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Пакідаць сабраныя пакункі ў кэшы"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Праверка наяўнасці абнаўленняў пакункаў да нестабільных версій"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Пакункі Snap падтрымліваюцца іх выдаўцамі."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Уключыць падтрымку Snap"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Дазволіць Pamac пошук і ўсталёўку Snap"
+msgid "Build directory"
+msgstr "Каталог зборкі"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1535,9 +1604,9 @@ msgid "Enable Flatpak support"
 msgstr "Уключыць падтрымку Flatpak"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Дазволіць Pamac пошук і ўсталёўку Flatpak"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Пакункі Snap падтрымліваюцца іх выдаўцамі."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Кэш"
+msgid "Enable Snap support"
+msgstr "Уключыць падтрымку Snap"

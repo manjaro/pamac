@@ -13,7 +13,7 @@
 # Jørgen Lyngstad <leedslyngstad@hotmail.com>, 2017
 # Kristoffer Ulseth <ulseth85@gmail.com>, 2014,2016
 # philm <philm@manjaro.org>, 2014
-# Martin Solhaug, 2021
+# 3bb08c3510fe0f0fb576502bd38027e0_fb120ae, 2021
 # Morten Rene <arath.inc@gmail.com>, 2014
 # Øystein Steffensen-Alværvik, 2017
 # Øystein Steffensen-Alværvik, 2017
@@ -30,9 +30,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-03-05 18:27+0000\n"
-"Last-Translator: Martin Solhaug\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,8 @@ msgstr "Pakken %s har ikke en gyldig arkitektur"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "kunne ikke tilfredsstille avhengighet '1%s'  som kreves av 1%s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -127,7 +128,7 @@ msgstr "Kunne ikke initialisere AUR-databasen"
 msgid "removing %s from target list"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Det kreves en omstart for at endringene skal tre i kraft"
 
@@ -339,7 +340,7 @@ msgid "Timeout expired"
 msgstr "Tidsavbrudd utløpt"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -400,6 +401,11 @@ msgstr "Ingenting å gjøre"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Bygger %s"
 
@@ -427,8 +433,9 @@ msgid "Trust and Import"
 msgstr "Stol på og importer"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -447,13 +454,13 @@ msgstr "Stol på 1%s og importer PGP nøkkelen"
 msgid "Official Repositories"
 msgstr "Offisielle pakkebrønner "
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Arkiv"
+msgid "Repositories"
+msgstr "Pakkebrønner"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr ""
 
@@ -481,6 +488,10 @@ msgstr "Krevd av"
 msgid "Replaces"
 msgstr "Erstatter"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Rediger byggefiler"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Samlet nedlastingsstørrelse"
@@ -495,9 +506,13 @@ msgid "Save"
 msgstr "Lagre"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Lukk"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -566,18 +581,22 @@ msgid "Checking for Updates"
 msgstr "Ser etter oppdateringer"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
+msgid "Install Local Packages"
+msgstr "Installer lokale pakker"
+
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Åpne"
+
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm-pakke"
+
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Alle"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategorier"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr ""
@@ -588,6 +607,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operasjoner venter"
 msgstr[1] "%u operasjoner venter"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Alle"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Explisitt installert"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Foreldreløs"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Fremmed"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Installert"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -608,6 +651,10 @@ msgstr "Lisenser"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Ukjent"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Arkiv"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -689,38 +736,6 @@ msgstr ""
 msgid "Channels"
 msgstr "Kanaler"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevans"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Navn"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Størrelse"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Dato"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Pakkebrønner"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Oppgrader"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Bygg"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Fjern"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "OS-oppdateringer"
@@ -729,93 +744,105 @@ msgstr "OS-oppdateringer"
 msgid "Includes performance, stability and security improvements"
 msgstr "Inkluderer ytelse, stabilitet og sikkerhetsforbedringer"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Installert"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Bilde og Video"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Musikk og Audio"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Produktivitet"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Kommunikasjon og Nyheter"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Undervisning og Vitenskap"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Spill"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Verktøy"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Utvikling"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Explisitt installert"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Foreldreløs"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Fremmed"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Installer lokale pakker"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Åpne"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm-pakke"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Siste oppdatering"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Hvor ofte skal oppdateringer sees etter, verdi i timer "
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Maks parallelle nedlastninger"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Antall versjoner av hver pakke som skal beholdes i hurtiglageret"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Verdensomspennende"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Byggkatalog"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -827,6 +854,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "1%u fil"
 msgstr[1] "%u filer"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -857,10 +892,6 @@ msgstr "j"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "ja"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Rediger byggefiler"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -996,6 +1027,10 @@ msgstr ""
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "liste opp installerte pakker"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1245,6 +1280,10 @@ msgstr ""
 msgid "also display all files names"
 msgstr ""
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Navn"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versjon"
@@ -1278,15 +1317,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Bare fjern versjoner av ikke-installerte pakker"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Antall versjoner av hver pakke som skal beholdes i hurtiglageret"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Tøm hurtiglageret"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Rensk opp byggefiler"
 
@@ -1361,7 +1404,7 @@ msgstr "Oppdater databaser"
 msgid "View History"
 msgstr "Vis historikk"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Valg"
 
@@ -1370,16 +1413,8 @@ msgid "About"
 msgstr "Om"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Se"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Sorter etter"
+msgid "Search"
+msgstr "Søk"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1394,20 +1429,52 @@ msgid "Ignore all"
 msgstr "Ignorer alle"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Sorter etter"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevans"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Størrelse"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Dato"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Oppdater"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategorier"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Bla"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Oppdateringer"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Oppstart"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Fjern"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Installer på nytt"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Bygg"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1425,33 +1492,61 @@ msgstr "Tilbakestill bygg filer"
 msgid "Build files"
 msgstr "Byggefiler"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Søk"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Venter på behandling"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Oppdateringer"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Generelt"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Se etter oppdateringer"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Automatisk last ned oppdateringer"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Gjem ikon når det ikke finnes noen oppdateringer"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Generelt"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Hurtiglager"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Avansert"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1468,12 +1563,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Fjern avhengige pakker som er unødvendige"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Når du fjerner en pakke, fjern også dets avhengigheter som ikke kreves av andre pakker"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Ikke se etter oppdateringer når du installerer"
 
@@ -1482,20 +1571,12 @@ msgid "Enable downgrade"
 msgstr "Aktiver nedgradering"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignorer oppgraderinger for:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Avansert"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Benytt pakkearkiv fra:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Oppdater listen over pakkearkiv"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1508,11 +1589,7 @@ msgid "Enable AUR support"
 msgstr "Aktiver AUR-støtte"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Tillat Pamac å søke etter og installere pakker fra AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
+msgid "Keep built packages"
 msgstr ""
 
 #: resources/preferences_dialog.ui
@@ -1520,16 +1597,8 @@ msgid "Check for development packages updates"
 msgstr "Se etter oppdateringer for utviklerpakker"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Snap-pakker vedlikeholdes av utgiveren."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Aktiver Snap støtte"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "La Pamac søk og installere snaps"
+msgid "Build directory"
+msgstr "Byggkatalog"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1540,9 +1609,9 @@ msgid "Enable Flatpak support"
 msgstr "Aktiver Flatpak støtte"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
+msgid "Snap packages are maintained by their publisher."
+msgstr "Snap-pakker vedlikeholdes av utgiveren."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Hurtiglager"
+msgid "Enable Snap support"
+msgstr "Aktiver Snap støtte"

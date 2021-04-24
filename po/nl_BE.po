@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-02-15 16:09+0000\n"
-"Last-Translator: Vanhoorne Michael <michaeltjevanhoorne@gmail.com>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Dutch (Belgium) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/nl_BE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,8 @@ msgstr "pakket %s heeft geen valide architectuur"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr ""
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Waarschuwing"
 
@@ -107,7 +108,7 @@ msgstr ""
 msgid "removing %s from target list"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr ""
 
@@ -319,7 +320,7 @@ msgid "Timeout expired"
 msgstr ""
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -380,6 +381,11 @@ msgstr "Niets te doen"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr ""
 
@@ -407,8 +413,9 @@ msgid "Trust and Import"
 msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Annuleer "
 
@@ -427,13 +434,13 @@ msgstr ""
 msgid "Official Repositories"
 msgstr "Officiële Repositories"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Repository"
+msgid "Repositories"
+msgstr "Repositories"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -461,6 +468,10 @@ msgstr "Nodig voor"
 msgid "Replaces"
 msgstr "Vervangt"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr ""
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Volledige download grootte"
@@ -475,9 +486,13 @@ msgid "Save"
 msgstr "Opslaan"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Sluiten"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -546,18 +561,22 @@ msgid "Checking for Updates"
 msgstr ""
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
+msgid "Install Local Packages"
+msgstr "Installeer lokale pakketten"
+
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Open"
+
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm pakket"
+
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Alles"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Categorie"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr ""
@@ -568,6 +587,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Alles"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Expliciet geïnstalleerd"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Wezen"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr ""
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Geïnstalleerd"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -588,6 +631,10 @@ msgstr "Licensies "
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Onbekend"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Repository"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -669,38 +716,6 @@ msgstr ""
 msgid "Channels"
 msgstr "Kanalen"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr ""
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Naam"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Grootte"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Datum"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repositories"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Verwijder"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr ""
@@ -709,84 +724,88 @@ msgstr ""
 msgid "Includes performance, stability and security improvements"
 msgstr ""
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Geïnstalleerd"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Foto & Films"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Muziek & Geluid"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Spelletjes"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Gereedschap"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Ontwikkeling"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Expliciet geïnstalleerd"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Wezen"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Installeer lokale pakketten"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Open"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm pakket"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Hoe vaak voor updates kijken, waarde in uren"
-
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
 msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
 msgstr ""
 
 #: src/preferences_dialog.vala
@@ -794,7 +813,15 @@ msgid "Worldwide"
 msgstr "Wereldwijd "
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
 msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
@@ -807,6 +834,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -837,10 +872,6 @@ msgstr "j"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "ja"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr ""
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -975,6 +1006,10 @@ msgstr ""
 
 #: src/cli.vala
 msgid "list installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1225,6 +1260,10 @@ msgstr ""
 msgid "also display all files names"
 msgstr ""
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Naam"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versie"
@@ -1258,15 +1297,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr ""
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr ""
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr ""
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr ""
 
@@ -1341,7 +1384,7 @@ msgstr "Databanken vernieuwen"
 msgid "View History"
 msgstr "Bekijk geschiedenis"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Voorkeuren"
 
@@ -1350,16 +1393,8 @@ msgid "About"
 msgstr "Over"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Bladeren door"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr ""
+msgid "Search"
+msgstr "Zoek"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1374,20 +1409,52 @@ msgid "Ignore all"
 msgstr "Negeer alles"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Grootte"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Vernieuwen"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Categorie"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr ""
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Updates"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Verwijder"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Herinstalleer"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1405,33 +1472,61 @@ msgstr ""
 msgid "Build files"
 msgstr ""
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Zoek"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "in afwachting"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Updates"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Algemeen"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Naar updates zoeken"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Het tray icoon verbergen wanneer er geen updates zijn"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Algemeen"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Cache"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1448,12 +1543,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Verwijder onnodige afhankelijkheiden"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Bij het verwijderen van een pakket, ook zijn afhankelijkheden verwijderen die niet nodig zijn voor andere pakketten"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr ""
 
@@ -1462,20 +1551,12 @@ msgid "Enable downgrade"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
+msgid "Ignored upgrades"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
+msgid "Third Party"
 msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Linken gebruiken van:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Lijst van linken vernieuwen"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1488,11 +1569,7 @@ msgid "Enable AUR support"
 msgstr "AUR ondersteuning aanzetten "
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac toestaan om pakketten van het AUR op te zoeken en te installeren"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
+msgid "Keep built packages"
 msgstr ""
 
 #: resources/preferences_dialog.ui
@@ -1500,15 +1577,7 @@ msgid "Check for development packages updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
+msgid "Build directory"
 msgstr ""
 
 #: resources/preferences_dialog.ui
@@ -1520,9 +1589,9 @@ msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
+msgid "Snap packages are maintained by their publisher."
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Cache"
+msgid "Enable Snap support"
+msgstr ""

@@ -5,14 +5,14 @@
 # 
 # Translators:
 # Agron Selimaj <as9902613@gmail.com>, 2020
-# Algent Albrahimi <algent23@gmail.com>, 2019-2020
+# Algent Albrahimi <algent@protonmail.com>, 2019-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:46+0000\n"
+"Last-Translator: Algent Albrahimi <algent@protonmail.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,8 @@ msgstr "paketa %s nuk ka një arkitekturë të vlefshme"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "pamundësi për të plotësuar varësinë '%s' kërkuar nga %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Paralajmërim"
 
@@ -107,7 +108,7 @@ msgstr "Dështoi inicializimi i bazës së të dhënave të AUR"
 msgid "removing %s from target list"
 msgstr "Duke hequr %s nga lista e synuar"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Kërkohet një rinisje që ndryshimet të hyjnë në fuqi"
 
@@ -142,7 +143,7 @@ msgstr "%s: %s tashmë ekziston në sistemin e skedarëve"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backed up to %s"
-msgstr ""
+msgstr "Është bërë kopja rezervë në %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -319,7 +320,7 @@ msgid "Timeout expired"
 msgstr "koha e ndërprerjes skadoi"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -380,6 +381,11 @@ msgstr "Asgjë për të bërë"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Duke ndërtuar %s"
 
@@ -407,8 +413,9 @@ msgid "Trust and Import"
 msgstr "Besimi dhe Importi"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Fshij"
 
@@ -427,13 +434,13 @@ msgstr "Beso %s dhe importo çelësin PGP"
 msgid "Official Repositories"
 msgstr "Repozitorët Zyrtarë"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Repozitor"
+msgid "Repositories"
+msgstr "Repozitorët"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -461,6 +468,10 @@ msgstr "Kërkohet Nga"
 msgid "Replaces"
 msgstr "Zëvendëson"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Redakto skedarët e ndërtuar "
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Madhësia totale shkarkimit"
@@ -475,9 +486,13 @@ msgid "Save"
 msgstr "Ruaj"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Mbyll"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "Rifillo"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -546,18 +561,22 @@ msgid "Checking for Updates"
 msgstr "Duke kërkuar për Përditësime"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "I paraqitur"
+msgid "Install Local Packages"
+msgstr "Instalo Paketat Lokale"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Të gjitha"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Hap"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategoritë"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Paketë Alpm"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Një Menaxhues Paketash me mbështetjen e Alpm, AUR, Flatpak dhe Snap"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -568,6 +587,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operacion në pritje"
 msgstr[1] "%u operacione në pritje "
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Të gjitha"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Instaluar në mënyrë të qartë"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Jetimët"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Të huaja"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Të instaluara"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr "Injoruar"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -588,6 +631,10 @@ msgstr "Licencat"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "I panjohur"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Repozitor"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -669,38 +716,6 @@ msgstr "I izoluar në një Sandbox"
 msgid "Channels"
 msgstr "Kanalet"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Rëndësia"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Emër"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Madhësi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Data"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repozitorët"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Përmirëso"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Ndërto"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Fshij"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "Përditësimet e OS"
@@ -709,93 +724,105 @@ msgstr "Përditësimet e OS"
 msgid "Includes performance, stability and security improvements"
 msgstr "Përfshin përmirësimet e performancës, stabilitetit dhe sigurisë"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Të instaluara"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "I paraqitur"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Foto dhe Video"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Muzikë dhe Audio"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Produktiviteti"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Komunikimi dhe Lajmet"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Edukimi dhe Shkenca"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Lojëra"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Veglat"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Zhvillim"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Instaluar në mënyrë të qartë"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Jetimët"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Të huaja"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Instalo Paketat Lokale"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Hap"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Paketë Alpm"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Një Menaxhues Paketash me mbështetjen e Alpm, AUR, Flatpak dhe Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Rifreskimi i fundit"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Sa shpesh të kontrollohet për përditësime, vlera në orë"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "çdo 3 orë"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Maksimumi i shkarkime paralele"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "çdo 6 orë"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Numri i versioneve për secilën paketë për të mbajtur në depon e fshehtë"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "çdo 12 orë"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "çdo ditë"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "çdo javë"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Botëror"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Direktoria e ndërtimit"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -807,6 +834,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u skedar"
 msgstr[1] "%u skedarë"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr "Zgjidhni Diretorinë e Ndërtimit"
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr "_Zgjedh"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -837,10 +872,6 @@ msgstr "p"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "po"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Redakto skedarët e ndërtuar "
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -976,6 +1007,10 @@ msgstr "depo(t)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "listo paketat e instaluara"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1225,6 +1260,10 @@ msgstr "mos fshi skedarët, gjej vetëm paketat kandiduese"
 msgid "also display all files names"
 msgstr "gjithashtu shfaqni të gjitha emrat e skedarëve"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Emër"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versioni"
@@ -1258,15 +1297,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%upërditësim i injoruar"
 msgstr[1] "%upërditësime të injoruara"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Hiq vetëm versionet e paketave të çinstaluara"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Numri i versioneve për secilën paketë për të mbajtur në depon e fshehtë"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Pastro depon e fshehtë"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Pastro skedarët e ndërtuar"
 
@@ -1299,7 +1342,7 @@ msgstr "Shto %s per ta riinstaluar"
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "Instalo %s nga %s"
 
 #: src/snap_plugin.vala
 msgid "No"
@@ -1341,7 +1384,7 @@ msgstr "Rifreskoni bazat e të dhënave"
 msgid "View History"
 msgstr "Shiko Historikun"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Parapëlqimet"
 
@@ -1350,16 +1393,8 @@ msgid "About"
 msgstr "Rreth"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Shfleto sipas"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Pamje"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Ndaj sipas"
+msgid "Search"
+msgstr "Kërko"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1374,20 +1409,52 @@ msgid "Ignore all"
 msgstr "Injoro të gjitha"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Ndaj sipas"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Rëndësia"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Madhësi"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Rifresko"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategoritë"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Shfleto"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Të pa përditësuara"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Lësho"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Fshij"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Reinstalo"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Ndërto"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1405,33 +1472,61 @@ msgstr "Rivendos skedarët e ndërtuar"
 msgid "Build files"
 msgstr "Skedarët e ndërtuar"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Kërko"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Në pritje"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Të pa përditësuara"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Përgjithshme"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Kontrolloni për përditësime"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "Frekuenca e kontrollit të përditësimeve"
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Shkarko përditësimet automatikisht"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Fshih ikonën nga paneli kur nuk ka përditësime"
+msgid "Hide tray icon when no update"
+msgstr "Fshih ikonën në tabaka kur nuk ka përditësime"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Përgjithshme"
+msgid "Downloads"
+msgstr "Shkarkime"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "Shkarkime paralele"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Depo e fshehtë"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Përparuar"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1448,12 +1543,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Hiqni varësitë e padëshiruara"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Kur të hiqet një paketë, të heqë edhe varësitë e saj që nuk janë të kërkuara nga paketa të tjera"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Mos kontrollo për përditësime gjatë instalimeve"
 
@@ -1462,20 +1551,12 @@ msgid "Enable downgrade"
 msgstr "Mundëso uljen në gradë"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Injoro përditësimet për:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Përparuar"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Përdorni pasqyra nga:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Rifreskoni Listen e Lasqyrave"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1488,28 +1569,16 @@ msgid "Enable AUR support"
 msgstr "Aktivizo mbështetjen e AUR"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Lejoni Pamac të kërkojë dhe instalojë paketa nga AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Mbani paketat e ndërtuara në memorje të fshehtë"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Kontrolloni për përditësimet e paketave të zhvillimit"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Paketat Snap mirëmbahen nga botuesi i tyre."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Aktivizo mbështetjen e Snap"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Lejo Pamac të kërkojë dhe instalojë snap-et"
+msgid "Build directory"
+msgstr "Direktoria e ndërtimit"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1520,9 +1589,9 @@ msgid "Enable Flatpak support"
 msgstr "Aktivizoni mbështetjen e Flatpak"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Lejoni Pamac të kërkojë dhe instalojë flatpaks"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Paketat Snap mirëmbahen nga botuesi i tyre."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Depo e fshehtë"
+msgid "Enable Snap support"
+msgstr "Aktivizo mbështetjen e Snap"

@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-01-11 15:47+0000\n"
-"Last-Translator: Seyed Mahdi Nagavi Kalajahi <smahdink@protonmail.com>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +74,8 @@ msgstr "بستهٔ %s فاقد معماری معتبر است"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "وابستگی «%s» مورد‌‌نیاز برای «%s» برطرف نشد"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "هشدار"
 
@@ -117,7 +118,7 @@ msgstr "خطا در مقدار‌دهی اولیهٔ پایگاه دادهٔ AUR
 msgid "removing %s from target list"
 msgstr "حذف %s از لیست هدف"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "برای اعمال تغییرات لازم است رایانه را restart کنید"
 
@@ -329,7 +330,7 @@ msgid "Timeout expired"
 msgstr "مهلت منقضی شد"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -390,6 +391,11 @@ msgstr "کاری برای انجام دادن وجود ندارد"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "در حال ساخت %s"
 
@@ -417,8 +423,9 @@ msgid "Trust and Import"
 msgstr "اعتماد و وارد کردن"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -437,13 +444,13 @@ msgstr "اعتماد به %s و وارد کردن کلید PGP"
 msgid "Official Repositories"
 msgstr "مخازن رسمی"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "مخزن"
+msgid "Repositories"
+msgstr "مخازن"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -471,6 +478,10 @@ msgstr "مورد‌نیاز برای"
 msgid "Replaces"
 msgstr "جایگزین‌ها"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "ویرایش پرونده‌های ساخت"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "مجموع حجم بارگیری"
@@ -485,9 +496,13 @@ msgid "Save"
 msgstr "ذخیره"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_بستن"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -556,18 +571,22 @@ msgid "Checking for Updates"
 msgstr "در حال بررسی برای به‌روزرسانی‌ها"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "برگزیده"
+msgid "Install Local Packages"
+msgstr "نصب بسته‌های محلی"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "همه"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_بازکردن"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "دسته‌ها"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "بسته Aplm"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "یک مدیر بسته با پشتیبانی از Alpm، AUR، Flatpak و Snap"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -578,6 +597,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "فرایندهای در حال انتظار %u"
 msgstr[1] "%uفرآیند در حال انتظار"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "همه"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "صریحاً نصب شده"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "بی‌سرپرست‌ها"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "خارجی"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "نصب شده"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -598,6 +641,10 @@ msgstr "لایسنس‌ها"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "نامشخص"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "مخزن"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -679,38 +726,6 @@ msgstr "محدود شده در یک جعبهٔ بازی"
 msgid "Channels"
 msgstr "کانال‌ها"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "ارتباط"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "نام"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "حجم"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "تاریخ"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "مخازن"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "به‌روزرسانی"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "ساخت"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "حذف"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr ""
@@ -719,93 +734,105 @@ msgstr ""
 msgid "Includes performance, stability and security improvements"
 msgstr ""
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "نصب شده"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "برگزیده"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "عکس و ویدئو"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "موسیقی و صدا"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "بهره‌وری"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "ارتباطات و اخبار"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "آموزش و علم"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "بازی‌ها"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "ابزار‌ها"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "توسعه"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "صریحاً نصب شده"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "بی‌سرپرست‌ها"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "خارجی"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "نصب بسته‌های محلی"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_بازکردن"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "بسته Aplm"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "یک مدیر بسته با پشتیبانی از Alpm، AUR، Flatpak و Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "هر چند وقت یکبار برای به‌روزرسانی‌ها بررسی شود، واحد ساعت"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "حداکثر تعداد بارگیری‌های هم‌زمان"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "تعدادی از نسخه های هر بسته که در حافظه موقت نگهداری شود"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "در سراسر جهان"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "پوشه ساخت"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -817,6 +844,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%uپرونده"
 msgstr[1] "%uپرونده"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -847,10 +882,6 @@ msgstr "بله"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "بله"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "ویرایش پرونده‌های ساخت"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -986,6 +1017,10 @@ msgstr "مخزن(ها)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "لیست کردن بسته‌های نصب شده"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1235,6 +1270,10 @@ msgstr "فایل‌ها را حذف نکن، فقط بسته‌های مورد �
 msgid "also display all files names"
 msgstr "تمام اسامی فایل‌ها نیز نمایش داده شود"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "نام"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "نسخه"
@@ -1268,15 +1307,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%uبه‌روزرسانی نادیده گرفته‌شده"
 msgstr[1] "%uبه‌روزرسانی نادیده گرفته‌شده"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "فقط حذف نسخه‌های بسته‌های حذف شده"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "تعدادی از نسخه های هر بسته که در حافظه موقت نگهداری شود"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "پاک کردن حافظه موقت"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "پاک کردن پرونده‌های ساخت"
 
@@ -1351,7 +1394,7 @@ msgstr "به‌روزرسانی بانک اطلاعاتی"
 msgid "View History"
 msgstr "مشاهده تاریخچه"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "تنظیمات"
 
@@ -1360,16 +1403,8 @@ msgid "About"
 msgstr "درباره"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "مرتب کردن بر اساس"
+msgid "Search"
+msgstr "جستجو"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1384,20 +1419,52 @@ msgid "Ignore all"
 msgstr "نادیده گرفتن همه"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "مرتب کردن بر اساس"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "ارتباط"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "حجم"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "تاریخ"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "دسته‌ها"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "مرور کردن"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "به‌روزرسانی‌ها"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "اجرا کردن"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "حذف"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "نصب دوباره"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "ساخت"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1415,33 +1482,61 @@ msgstr "بازنشانی پرونده‌های ساخت"
 msgid "Build files"
 msgstr "پرونده‌های ساخت"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "جستجو"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "معلق"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "به‌روزرسانی‌ها"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "عمومی"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "بررسی برای به‌روزرسانی"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "بارگیری خودکار به‌روزرسانی‌ها"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr " مخفی کردن آیکون سینی زمانی که هیچ به‌روز رسانی موجود نیست"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "عمومی"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "حافظه موقت"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "پیشرفته"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1458,12 +1553,6 @@ msgid "Remove unrequired dependencies"
 msgstr "حذف وابستگی‌های غیرضروری"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "زمانی که  یک بسته را حذف می کنید، وابستگی‌های آن نیز که توسط بسته‌های دیگر مورد نیاز نیست حذف می گردد."
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "در حین نصب برای به‌روزرسانی‌ها جستجو نشود"
 
@@ -1472,20 +1561,12 @@ msgid "Enable downgrade"
 msgstr "فعال کردن به عقب برگرداندن"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "نادیده گرفتن به‌روزرسانی‌ها برای: "
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "پیشرفته"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "استفاده از آیینه‌های: "
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "تازه‌کردن لیست آینه‌ها"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1498,28 +1579,16 @@ msgid "Enable AUR support"
 msgstr "فعال کردن پشتیبانی از AUR"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "اجازه دادن به Pamac برای جستجو و نصب بسته‌ها از AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "نگه‌داشتن بسته‌های ساخته‌شده در حافظه موقت"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "بررسی به‌روزرسانی‌ها برای بسته‌های در حال توسعه"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "بسته‌های Snap توسط ناشرشان نگه‌داری می‌شوند."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "فعّال‌سازی پشتیبانی از Snap"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "اجازه دادن به Pamac برای جستجو و نصب Snap ها"
+msgid "Build directory"
+msgstr "پوشه ساخت"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1530,9 +1599,9 @@ msgid "Enable Flatpak support"
 msgstr "فعال‌سازی پشتیبانی از Flatpak"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "اجازه دادن به Pamac برای جستجو و نصب flatpak ها"
+msgid "Snap packages are maintained by their publisher."
+msgstr "بسته‌های Snap توسط ناشرشان نگه‌داری می‌شوند."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "حافظه موقت"
+msgid "Enable Snap support"
+msgstr "فعّال‌سازی پشتیبانی از Snap"

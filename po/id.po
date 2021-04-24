@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Indonesian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,8 @@ msgstr "paket %s tidak memiliki arsitektur yang valid"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "tidak dapat memenuhi dependensi '%s' yang dibutuhkan oleh %s "
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Peringatan"
 
@@ -124,7 +125,7 @@ msgstr "Gagal menginisialisasi database AUR"
 msgid "removing %s from target list"
 msgstr "menghapus 1%s dari daftar target"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr ""
 
@@ -334,7 +335,7 @@ msgid "Timeout expired"
 msgstr "Telah melebih batas waktu"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -395,6 +396,11 @@ msgstr "Tidak ada yang harus dilakukan"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Building %s"
 
@@ -422,8 +428,9 @@ msgid "Trust and Import"
 msgstr "Kenpercayaan dan Impor"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Batal"
 
@@ -442,13 +449,13 @@ msgstr "Percayai %s dan impor PGP key"
 msgid "Official Repositories"
 msgstr "Repositori Resmi"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Gudang"
+msgid "Repositories"
+msgstr "Repositori"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -476,6 +483,10 @@ msgstr "Dibutuhkan Oleh"
 msgid "Replaces"
 msgstr "Gantikan"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr ""
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Total ukuran unduhan"
@@ -490,9 +501,13 @@ msgid "Save"
 msgstr "Simpan"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Tutup"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -560,18 +575,22 @@ msgid "Checking for Updates"
 msgstr "Mengecek Update"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
+msgid "Install Local Packages"
+msgstr "Pasang Paket-paket Lokal"
+
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Buka"
+
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Paket Alpm"
+
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Semua"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategori"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -581,6 +600,30 @@ msgstr "Snap"
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operasi menunggu"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Semua"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Terpasang secara jelas"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Yatim"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Asing"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Terpasang"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -601,6 +644,10 @@ msgstr "Lisensi"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Tidak diketahui"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Gudang"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -682,38 +729,6 @@ msgstr "Terbatas didalam sandbox"
 msgid "Channels"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevansi"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nama"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Ukuran"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repositori"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Upgrade"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Hapus"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr ""
@@ -722,93 +737,105 @@ msgstr ""
 msgid "Includes performance, stability and security improvements"
 msgstr ""
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Terpasang"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Foto & Video"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Musik & Audio"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Produktivitas"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Komunikasi & Berita"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Edukasi & Sains"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Game"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Development"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Terpasang secara jelas"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Yatim"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Asing"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Pasang Paket-paket Lokal"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Buka"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Paket Alpm"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr ""
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Berapa lama untuk memeriksa pembaharuan, nilai dalam jam"
-
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
 msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Jumlah versi setiap paket untuk disimpan di dalam cache"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Seluruh dunia"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Build direktori"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -819,6 +846,14 @@ msgstr ""
 msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u files"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -849,10 +884,6 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "ya"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr ""
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -987,6 +1018,10 @@ msgstr ""
 
 #: src/cli.vala
 msgid "list installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1237,6 +1272,10 @@ msgstr ""
 msgid "also display all files names"
 msgstr ""
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nama"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versi"
@@ -1269,15 +1308,19 @@ msgid "%u ignored update"
 msgid_plural "%u ignored updates"
 msgstr[0] ""
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Hapus versi paket yang sudah diuninstal"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Jumlah versi setiap paket untuk disimpan di dalam cache"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Bersihkan cache"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr ""
 
@@ -1351,7 +1394,7 @@ msgstr "Segarkan basis data"
 msgid "View History"
 msgstr "Lihat Riwayat"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Preferensi"
 
@@ -1360,16 +1403,8 @@ msgid "About"
 msgstr "Tentang"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr ""
+msgid "Search"
+msgstr "Cari"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1384,20 +1419,52 @@ msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevansi"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Ukuran"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategori"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Jelajahi"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Update"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Hapus"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Memasang ulang"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr ""
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1415,33 +1482,61 @@ msgstr ""
 msgid "Build files"
 msgstr "Membangun files"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Cari"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Menunggu"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Update"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Umum"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Periksa pembaharuan"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Sembunyikan ikon baki ketika tidak ada pembaruan yang tersedia"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Umum"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Cache"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1458,12 +1553,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Hapus dependensi yang tidak dibutuhkan"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Ketika menghapus paket, hapus juga dependensi paket tersebut yang tidak dibuthkan paket lainnya"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr ""
 
@@ -1472,20 +1561,12 @@ msgid "Enable downgrade"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
+msgid "Ignored upgrades"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
+msgid "Third Party"
 msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Gunakan cermin dari:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Segarkan Daftar Cermin"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1498,11 +1579,7 @@ msgid "Enable AUR support"
 msgstr "Izinkan dukungan AUR"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Biarkan Pamac untuk mencari dan memasang paket dari AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
+msgid "Keep built packages"
 msgstr ""
 
 #: resources/preferences_dialog.ui
@@ -1510,16 +1587,8 @@ msgid "Check for development packages updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgid "Build directory"
+msgstr "Build direktori"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1530,9 +1599,9 @@ msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
+msgid "Snap packages are maintained by their publisher."
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Cache"
+msgid "Enable Snap support"
+msgstr ""

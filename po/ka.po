@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Georgian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ka/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,8 @@ msgstr "პაკეტ %s-ს არ აქვს დაშვებული �
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "შეუძლებელია %s-ის მიერ მოთხოვნილი '%s' დამოკიდებულების დაკმაყოფილება"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "გაფრთხილება"
 
@@ -108,7 +109,7 @@ msgstr ""
 msgid "removing %s from target list"
 msgstr ""
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr ""
 
@@ -320,7 +321,7 @@ msgid "Timeout expired"
 msgstr "დრო ამოიწურა"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -381,6 +382,11 @@ msgstr "გასაკეთებელი არაფერია"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "იგება %s"
 
@@ -408,8 +414,9 @@ msgid "Trust and Import"
 msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "გაუქმება"
 
@@ -428,13 +435,13 @@ msgstr ""
 msgid "Official Repositories"
 msgstr "ოფიციალური საცავები"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "საცავი"
+msgid "Repositories"
+msgstr "საცავები"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr ""
 
@@ -462,6 +469,10 @@ msgstr "მოითხოვა შემდეგმა"
 msgid "Replaces"
 msgstr "ანაცვლებს"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "აგების ფაილების რედაქტირება"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "ჩამოტვირთვის სრული ზომა"
@@ -476,9 +487,13 @@ msgid "Save"
 msgstr "შენახვა"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "დახურვა"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -547,18 +562,22 @@ msgid "Checking for Updates"
 msgstr "მიმდინარეობს განახლებების შემოწმება"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
+msgid "Install Local Packages"
+msgstr "ადგილობრივი პაკეტების დაყენება"
+
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "გახსნა"
+
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm პაკეტი"
+
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "ყველა"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "კატეგორიები"
-
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr ""
@@ -569,6 +588,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "მოლოდინშია %u ოპერაცია"
 msgstr[1] "მოლოდინშია %u ოპერაცია"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "ყველა"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "განზრახ დაყენებული"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "ობლები"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "უცხო"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "დაყენებული"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -589,6 +632,10 @@ msgstr "ლიცენზიები"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "უცნობი"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "საცავი"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -670,38 +717,6 @@ msgstr ""
 msgid "Channels"
 msgstr "არხები"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr ""
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "სახელი"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "ზომა"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "საცავები"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "განახლება"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "აგება"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "მოცილება"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr ""
@@ -710,93 +725,105 @@ msgstr ""
 msgid "Includes performance, stability and security improvements"
 msgstr ""
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "დაყენებული"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "ფოტო და ვიდეო"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "მუსიკა და აუდიო"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "თამაშები"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr ""
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
-msgstr ""
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "განზრახ დაყენებული"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "ობლები"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "უცხო"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "ადგილობრივი პაკეტების დაყენება"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "გახსნა"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm პაკეტი"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
 msgstr ""
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "რა სიხშირით შემოწმდეს განახლებები, რიცხვი საათებში"
-
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
 msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "ქეშში დასატოვებელი თითოეული პაკეტის ვერსიების რაოდენობა"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "მსოფლიოს მასშტაბით"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "აგების კატალოგი"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -808,6 +835,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u ფაილი"
 msgstr[1] "%u ფაილი"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -838,10 +873,6 @@ msgstr ""
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "დიახ"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "აგების ფაილების რედაქტირება"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -976,6 +1007,10 @@ msgstr ""
 
 #: src/cli.vala
 msgid "list installed packages"
+msgstr ""
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
 msgstr ""
 
 #: src/cli.vala
@@ -1226,6 +1261,10 @@ msgstr ""
 msgid "also display all files names"
 msgstr ""
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "სახელი"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "ვერსია"
@@ -1259,15 +1298,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "მხოლოდ წაშლილი პაკეტების ვერსიების მოცილება"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "ქეშში დასატოვებელი თითოეული პაკეტის ვერსიების რაოდენობა"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "ქეშის გაწმენდა"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr ""
 
@@ -1342,7 +1385,7 @@ msgstr "მონაცემთა ბაზების განახლე�
 msgid "View History"
 msgstr "ისტორიის ნახვა"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "პარამეტრები"
 
@@ -1351,16 +1394,8 @@ msgid "About"
 msgstr "შესახებ"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr ""
+msgid "Search"
+msgstr "ძებნა"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1375,20 +1410,52 @@ msgid "Ignore all"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr ""
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "ზომა"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr ""
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr ""
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "კატეგორიები"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "დათვალიერება"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "განახლებები"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "გაშვება"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "მოცილება"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "ხელახლა დაყენება"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "აგება"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1406,33 +1473,61 @@ msgstr ""
 msgid "Build files"
 msgstr "აგების ფაილები"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "ძებნა"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "მოლოდინში"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "განახლებები"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "ზოგადი"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "განახლებების შემოწმება"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "განახლებების ავტომატურად ჩამოტვირთვა"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "დამალე ხატულა ლანგარზე, როდესაც განახლებები არაა ხელმისაწვდომი"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "ზოგადი"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "ქეში"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "დამატებითი"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1449,12 +1544,6 @@ msgid "Remove unrequired dependencies"
 msgstr "არასაჭირო დამოკიდებულებების მოცილება"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "პაკეტის მოცილებისას, ასევე მოაცილე მისი ის დამოკიდებულებები, რომლებიც არ ესაჭიროება სხვა პაკეტებს"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr ""
 
@@ -1463,20 +1552,12 @@ msgid "Enable downgrade"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "გამოტოვე მათი განახლებები:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "დამატებითი"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "გამოიყენე სარკეები:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "სარკეების სიის განახლება"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1489,11 +1570,7 @@ msgid "Enable AUR support"
 msgstr "AUR-ის მხარდაჭერის ჩართვა"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "ნება დართეთ Pamac-ს, რომ მოძებნოს და დააყენოს პაკეტები AUR-იდან"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
+msgid "Keep built packages"
 msgstr ""
 
 #: resources/preferences_dialog.ui
@@ -1501,16 +1578,8 @@ msgid "Check for development packages updates"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgid "Build directory"
+msgstr "აგების კატალოგი"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1521,9 +1590,9 @@ msgid "Enable Flatpak support"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
+msgid "Snap packages are maintained by their publisher."
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "ქეში"
+msgid "Enable Snap support"
+msgstr ""

@@ -4,15 +4,15 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
-# Xəyyam Qocayev <xxmn77@gmail.com>, 2020-2021
+# xxmn77 <xxmn77@gmail.com>, 2020-2021
 # Zaur Baku <zaurbaku15@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-03-03 21:19+0000\n"
-"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-23 06:12+0000\n"
+"Last-Translator: xxmn77 <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Install, update, or remove packages"
-msgstr "Paketləri quraşdırmaq, yeniləmək və ləğv etmək"
+msgstr "Paketləri quraşdırın, yeniləyin və ləğv edin"
 
 #: data/polkit/org.manjaro.pamac.policy.in
 msgid "Authentication is required to install, update, or remove packages"
@@ -30,11 +30,11 @@ msgstr "Paketləri quraşdırmaq, yeniləmək və ləğv etmək üçün identifi
 
 #: src/alpm_utils.vala src/database.vala
 msgid "Failed to initialize alpm library"
-msgstr "Uğursuz alpm kitabxanası hazırlanması"
+msgstr "Alpm kitabxanası başladıla bilmədi"
 
 #: src/alpm_utils.vala
 msgid "Synchronizing package databases"
-msgstr "Paket məlumat bazalarının eyniləşdirilməsi"
+msgstr "Paket məlumat bazaları eyniləşdirilır"
 
 #: src/alpm_utils.vala
 msgid "Failed to synchronize databases"
@@ -47,7 +47,7 @@ msgstr "Əməliyyat başladıla bilmədi"
 #: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
 #: src/installer.vala
 msgid "Failed to prepare transaction"
-msgstr "Əməliyyat hazırlanmasında uğursuzluq"
+msgstr "Əməliyyata hazırlıq baş tutmadı"
 
 #: src/alpm_utils.vala src/transaction.vala src/installer.vala src/cli.vala
 #, c-format
@@ -64,7 +64,8 @@ msgstr "%s paket uyğun arxitekturaya sahib deyil"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "%s tələb olunan '%s' asılılığı təmin etmək mümkün deyil"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Xəbərdarlıq"
 
@@ -107,7 +108,7 @@ msgstr "AUR verilənlər bazası işə salına bilmədi"
 msgid "removing %s from target list"
 msgstr "%s hədəf siyahısından silinir"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Dəyişikliklərin qüvvəyə minməsi üçün sistemin yenidən başladılması tələb olunur"
 
@@ -167,7 +168,7 @@ msgstr "Əməliyyatın yerinə yetirilməsi uğursuz oldu"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr "Aslılıqların yoxlanılır"
+msgstr "Aslılıqlar yoxlanılır"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
@@ -226,7 +227,7 @@ msgstr "%s tənzimlənməsi zamanı xəta"
 
 #: src/alpm_utils.vala
 msgid "Checking available disk space"
-msgstr "Diskin boş sahəsinin yoxlanılır"
+msgstr "Diskin boş sahəsi yoxlanılır"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -319,7 +320,7 @@ msgid "Timeout expired"
 msgstr "Boşdayanma vaxtı bitmişdir"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -350,12 +351,12 @@ msgstr "%s məlumatı yaradıla bilmədi"
 #: src/transaction.vala
 #, c-format
 msgid "Checking %s dependencies"
-msgstr "%s asılılıqları yoxlanılır"
+msgstr "%s asılılıq yoxlanılır"
 
 #: src/transaction.vala
 #, c-format
 msgid "Failed to check %s dependencies"
-msgstr "%s asılılıqların yoxlanılması alınmadı"
+msgstr "%s asılılıq yoxlanıla bilmədi"
 
 #: src/transaction.vala
 #, c-format
@@ -377,6 +378,11 @@ msgstr "Bəli"
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "Etməli bir şey yoxdur"
+
+#: src/transaction.vala
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s:paketin yenilınməsi nəzərə alınmır (%s => %s)\n"
 
 #: src/transaction.vala
 #, c-format
@@ -407,8 +413,9 @@ msgid "Trust and Import"
 msgstr "Etibar etmək və idxal etmək"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_İmtina etmək"
 
@@ -427,13 +434,13 @@ msgstr "%s etibar etmək və PGP açarın idxalı"
 msgid "Official Repositories"
 msgstr "Rəsmi Repositorilər"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
+msgid "Repositories"
 msgstr "Repositorilər"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -461,6 +468,10 @@ msgstr "Tələb olunur"
 msgid "Replaces"
 msgstr "Dəyişdirir"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Yığma fayllara düzəliş etmək"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Ümumi yükləmə ölçüsü"
@@ -475,9 +486,13 @@ msgid "Save"
 msgstr "Saxlamaq"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Bağlamaq"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "Yenidən başladın"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -543,21 +558,25 @@ msgstr "Heç bir paket tapılmadı"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
-msgstr "Yenilənmələr üçün yoxla"
+msgstr "Yenilənmələr yoxlanılır"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Tanınmış"
+msgid "Install Local Packages"
+msgstr "Yerli paketlərin quraşdırılması"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Hamısı"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Açmaq"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kateqoriyalar"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm paketi"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Alpm, AUR, Flatpak, və Snap dəstəkli Paket Meneceri"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -568,6 +587,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u gözləyən əməliyyat"
 msgstr[1] "%u gözləyən əməliyyatlar"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Hamısı"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Tam olaraq quraşdırıldı"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Kimsəsiz qalmış"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Yad"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Quraşdırılmış"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr "Nəzərə alınmadı"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -588,6 +631,10 @@ msgstr "Lisenziyalar"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Naməlum"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Repositorilər"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -647,7 +694,7 @@ msgstr "Asılılıqlar yaradılması"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Check Dependencies"
-msgstr "Aslılığın yoxlanılması"
+msgstr "Aslılıqları yoxlanıyın"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Optional For"
@@ -669,38 +716,6 @@ msgstr "Təcrid edilib"
 msgid "Channels"
 msgstr "Kanallar"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Uyğunluq"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Ad"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Ölçü"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Tarix"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repositorilər"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Yeniləmək"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Qurmaq"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Silmək"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "ƏS Yenilənmələri"
@@ -709,93 +724,105 @@ msgstr "ƏS Yenilənmələri"
 msgid "Includes performance, stability and security improvements"
 msgstr "Sistemin məhsuldarlığı, stabilliyi və təhlükəsizlik təkmilləşdirilmələri daxildir"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Quraşdırılmış"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Tanınmış"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Foto və Video"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Musiqi və Audio"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Faydalı"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Ünsiyyət və Yeniliklər"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Təhsil və Elm"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Oyunlar"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Faydalı alətlər"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Tərtibat"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Tam olaraq quraşdırıldı"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Kimsəsiz qalmış"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Yad"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Yerli paketlərin quraşdırılması"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Açmaq"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm paketi"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Alpm, AUR, Flatpak, və Snap dəstəkli Paket Meneceri"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Sonuncu təzələmə"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Yenilənmələri bir saat ərzində hansı tezlikdə yoxlamaq"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "hər 3 saatda"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Ən çox paralel yükləmələr"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "hər 6 saatda"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Keşdə saxlamaq üçün hər paketin versiyalarının sayı"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "hər 12 saatda"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "hər gün"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "hər həftə"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Dünya üzrə"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Qovluq yarat"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -809,8 +836,16 @@ msgstr[0] "%u fayllar"
 msgstr[1] "%u fayllar"
 
 #: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr "Yığım qovluğunu seçin"
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr "_Seçim"
+
+#: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
-msgstr "İnkar edilən yeniləndirmələri seç"
+msgstr "İnkar edilən yeniləndirmələri seçin"
 
 #: src/transaction-cli.vala src/cli.vala
 #, c-format
@@ -837,10 +872,6 @@ msgstr "b"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "bəli"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Yığma fayllara düzəliş etmək"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -978,6 +1009,10 @@ msgid "list installed packages"
 msgstr "quraşdırılmış paketləri sirala"
 
 #: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr "açıq-aşkar quraşdırılmış paketlərin siyahısı"
+
+#: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
@@ -1094,11 +1129,11 @@ msgstr "xüsusi quraşdırılmış bütün paketləri işarələmək"
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr "yenilənmələri yoxlamaq"
+msgstr "yenilənmələri yoxlayın"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr "yenilənmələri yoxlamamaq"
+msgstr "yenilənmələri yoxlamayın"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1124,7 +1159,7 @@ msgstr "yedək faylları inkar etmək"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
-msgstr "Yenilənmələrin, verilənlər bazasına dəyişiklik etmədən, təhlükəsiz yoxlanılması"
+msgstr "Verilənlər bazasına dəyişiklik etmədən yenilənmələri təhlükəsiz yoxlayın"
 
 #: src/cli.vala
 msgid "Exit code is 100 if updates are available"
@@ -1138,7 +1173,7 @@ msgstr "qovluq yarat (--devel istifadə et), əgər heç bir qovluq verilməyibs
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr "həmçinin AUR yenilənmələrini yoxlamaq"
+msgstr "həmçinin AUR yenilənmələri yoxlanılsın"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
@@ -1150,7 +1185,7 @@ msgstr "hər yenilənmə üçün yalnız bir sətir göstərmək"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
-msgstr "həmçinin hazırlanmaq mərhələsində olan paketlərin yenilənmələrini yoxlamaq (--aur əmri ilə istifadə etmək)"
+msgstr "həmçinin hazırlanmaq mərhələsində olan paketlərin yenilənmələri yoxlanılsın (--aur əmri ilə)"
 
 #: src/cli.vala
 msgid "do not check development packages updates"
@@ -1225,6 +1260,10 @@ msgstr "faylları silməyin, yalnız silinməyə namizəd olan paketləri tapmaq
 msgid "also display all files names"
 msgstr "həmçinin bütün fayl adlarını göstərmək"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Ad"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versiya"
@@ -1258,15 +1297,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%u nəzərə alınmayan yenilənmələr"
 msgstr[1] "%u nəzərə alınmayan yenilənmələr"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Yalnız silinmiş paketlərin versiyalarını ləğv etmək"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Keşdə saxlamaq üçün hər paketin versiyalarının sayı"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Keşi təmizləmək"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Yığılmış faylları təmizləmək"
 
@@ -1341,7 +1384,7 @@ msgstr "Bazaları yeniləmək"
 msgid "View History"
 msgstr "Tarixi göstər"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Seçimlər"
 
@@ -1350,16 +1393,8 @@ msgid "About"
 msgstr "Haqqında"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Buna görə baxmaq"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Baxış"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Çeşidləmək"
+msgid "Search"
+msgstr "Axtarmaq"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1374,20 +1409,52 @@ msgid "Ignore all"
 msgstr "Hamısını inkar etmək"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Çeşidləmək"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Uyğunluq"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Ölçü"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Tarix"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Təzələmək"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kateqoriyalar"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Gözdən keçirin"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Yenilənmələr"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Başlatmaq"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Silmək"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Yenidən quraşdırmaq"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Qurmaq"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1405,33 +1472,61 @@ msgstr "Yığılmış faylları sıfırlamaq"
 msgid "Build files"
 msgstr "Yığılma fayllar"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Axtarmaq"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Gözləyən"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Yenilənmələr"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Ümumi"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
-msgstr "Yenilikləri yoxlamaq"
+msgstr "Yenilənmələri yoxlayın"
+
+#: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "Yenilənmələrin yoxlanması tezliyi"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Yenilənmələri avtomatik yükləmək"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Yenilənmələr mövcud olmazsa treydəki yenilənmə işarəsini gizlətmək"
+msgid "Hide tray icon when no update"
+msgstr "Yenilənmə olmadıqda treydə nişan göstərilməsin"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Ümumi"
+msgid "Downloads"
+msgstr "Endirmələr"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "Paralel endirmələr"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr "Güzgüləri buradan istifadə edin:"
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr "Güzgüləri yeniləyin"
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Keş"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr "Saxlanılacaq hər paketin versiyalarının sayı"
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr "Yalnız ləğv edilmiş paketlər silin"
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr "Təmizləyin"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Təkmilləşdirilmiş"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1441,41 +1536,27 @@ msgstr "Bu seçimlərin səhv qurulması sistemin korlanmasına səbəb ola bil�
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr "Diskin boş qalan sahəsini yoxlaymaq"
+msgstr "Diskin boş qalan sahəsi yoxlanılsın"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Təlabat olmayan asılılıqları silmək"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Digər paketlər tərəfindən tələbat yoxdursa, paketləri silən zaman, həmçinin onların asılılıqlarını da silin"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr "Quraşdırılma zamanı yenilənmələri yoxlamaq"
+msgstr "Quraşdırılma zamanı yenilənmələr yoxlanılmasın"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
 msgstr "Versiyanın aşağı salınmasını aktiv etmək"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Bu sistem yenilənmələri nəzərə alma:"
+msgid "Ignored upgrades"
+msgstr "Yenilənmələr gözardı edildi"
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Təkmilləşdirilmiş"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Güzgülərin siyahısı:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Güzgü Siyahısını Yeniləmək"
+msgid "Third Party"
+msgstr "Üçüncü tərəf"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1488,28 +1569,16 @@ msgid "Enable AUR support"
 msgstr "AUR dəstəyini aktiv etmək"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac -a paketləri AUR -dan axtarmağa və qurmağa icazə vermək"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Yığılmış paketləri keşdə saxlamaq"
+msgid "Keep built packages"
+msgstr "Yığılmış paketlər saxlanılsın"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr "Hazırlanmaq mərhələsində olan paketlərin yenilənmələrini yoxlamaq"
+msgstr "Tərtibat mərhələsində olan paketlərin yenilənmələri yoxlanılsın"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Snap paketlər məhz öz yaradıcıları tərəfindən dəstəklənir"
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Snap dəstəklənməsini aktiv etmək"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Pamac -a snap paketləri axtarmağa və qurmağa icazə vermək"
+msgid "Build directory"
+msgstr "Qovluq yarat"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1520,9 +1589,9 @@ msgid "Enable Flatpak support"
 msgstr "Flatpak dəstəklənməsinin aktiv etmək"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Pamac -a flatpak paketlərini axtarmağa və qurmağa icazə vermək"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Snap paketlər məhz öz yaradıcıları tərəfindən dəstəklənir"
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Keş"
+msgid "Enable Snap support"
+msgstr "Snap dəstəklənməsini aktiv etmək"

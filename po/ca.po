@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2021-01-22 09:31+0000\n"
-"Last-Translator: manolollr <manolollr@gmail.com>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-16 10:46+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +75,8 @@ msgstr "El paquet %s no té una arquitectura vàlida."
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "No es pot satisfer la dependència \"%s\" requerida per %s."
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Avís"
 
@@ -118,7 +119,7 @@ msgstr "Ha fallat iniciar la base de dades de l'AUR."
 msgid "removing %s from target list"
 msgstr "Se suprimeix %s de la llista d'objectius."
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Cal reiniciar el sistema perquè els canvis tinguin efecte."
 
@@ -330,7 +331,7 @@ msgid "Timeout expired"
 msgstr "S'ha esgotat el temps d'espera."
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -391,6 +392,11 @@ msgstr "Res per fer."
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: s'ignora l'actualització del paquet (%s => %s)\n"
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Es construeix %s"
 
@@ -418,8 +424,9 @@ msgid "Trust and Import"
 msgstr "Confia-hi i importa-la"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -438,13 +445,13 @@ msgstr "Confia en %s i importa'n la clau PGP."
 msgid "Official Repositories"
 msgstr "Repositoris oficials"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Repositori"
+msgid "Repositories"
+msgstr "Repositoris"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -472,6 +479,10 @@ msgstr "Requerit per"
 msgid "Replaces"
 msgstr "Reemplaça"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Edita els fitxers de construcció"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Mida total de la baixada"
@@ -486,9 +497,13 @@ msgid "Save"
 msgstr "Desa"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Tanca"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "Reinicia"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -557,18 +572,22 @@ msgid "Checking for Updates"
 msgstr "Comprovant si hi ha actualitzacions:"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Destacat"
+msgid "Install Local Packages"
+msgstr "Instal·la paquets locals"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Tot"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Obre"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Categories"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Paquet alpm"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Un Gestor de paquets amb suport per a Alpm, AUR, Flatpak i Snap"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -579,6 +598,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u operació pendent"
 msgstr[1] "%u operacions pendents"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Tot"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Explícitament instal·lat"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Orfes"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Aliè"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instal·lat"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr "Ignorat"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -599,6 +642,10 @@ msgstr "Llicències"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Desconegut"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Repositori"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -680,38 +727,6 @@ msgstr "Confinada en un Sandbox"
 msgid "Channels"
 msgstr "Canals"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Rellevància"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nom"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Mida"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Data"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repositoris"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Actualitza"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Construeix"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Suprimeix"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "Actualitzacions del sistema operatiu"
@@ -720,93 +735,105 @@ msgstr "Actualitzacions del sistema operatiu"
 msgid "Includes performance, stability and security improvements"
 msgstr "Inclou rendiment, estabilitat i millores de seguretat."
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instal·lat"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Destacat"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Fotografies i vídeos"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Música i àudio"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Productivitat"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Comunicació i notícies"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Educació i ciència"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Jocs"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Utilitats"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Desenvolupament"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Explícitament instal·lat"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Orfes"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Aliè"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Instal·la paquets locals"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Obre"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Paquet alpm"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Un Gestor de paquets amb suport per a Alpm, AUR, Flatpak i Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Darrera comprovació"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Freqüència per comprovar si hi ha actualitzacions, valor en hores"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "cada 3 hores"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Màxim de baixades en paral·lel"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "cada 6 hores"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "cada 12 hores"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "cada dia"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "cada setmana"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Arreu del món"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Directori de construcció"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -818,6 +845,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u fitxer"
 msgstr[1] "%u fitxers"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr "Seleccioneu el directori de construcció"
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr "_Trieu"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -848,10 +883,6 @@ msgstr "s"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "sí"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Edita els fitxers de construcció"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -987,6 +1018,10 @@ msgstr "Repositori/s"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "Llista els paquets instal·lats."
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr "llista els paquets instal·lats explícitament"
 
 #: src/cli.vala
 msgid ""
@@ -1236,6 +1271,10 @@ msgstr "No suprimeixis fitxers, troba només els paquets candidats."
 msgid "also display all files names"
 msgstr "Mostra també tots els noms dels fitxers."
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nom"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versió"
@@ -1269,15 +1308,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%u actualització ignorada"
 msgstr[1] "%u actualitzacions ignorades"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Suprimeix només les versions dels paquets desinstal·lats."
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Nombre de versions de cada paquet per mantenir a la memòria cau"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Neteja la memòria cau."
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Neteja els fitxers de construcció."
 
@@ -1352,7 +1395,7 @@ msgstr "Actualitza les bases de dades"
 msgid "View History"
 msgstr "Mostra'n l'historial"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Preferències"
 
@@ -1361,16 +1404,8 @@ msgid "About"
 msgstr "Quant a"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Navega per"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Vista"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Ordena per"
+msgid "Search"
+msgstr "Cerca"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1385,20 +1420,52 @@ msgid "Ignore all"
 msgstr "Ignora-ho tot"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Ordena per"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Rellevància"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Mida"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Comprova-ho"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Categories"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Navega"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Actualitzacions"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Obre"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Suprimeix"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Reinstal·la"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Construeix"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1416,33 +1483,61 @@ msgstr "Restableix els fitxers de construcció."
 msgid "Build files"
 msgstr "Fitxers de construcció"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Cerca"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Pendent"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Actualitzacions"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "General"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Comprova si hi ha actualitzacions."
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "Freqüència de comprovació d'actualitzacions"
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Baixa les actualitzacions automàticament."
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Amaga la icona de la safata quan no hi hagi actualitzacions disponibles."
+msgid "Hide tray icon when no update"
+msgstr "Amaga la icona de la safata quan no hi hagi actualitzacions."
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "General"
+msgid "Downloads"
+msgstr "Baixades"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "Baixades paral·leles"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr "Usa rèpliques de"
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr "Actualitza les rèpliques"
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Memòria cau"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr "Nombre de versions de cada paquet per mantenir"
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr "Suprimeix només els paquets desinstal·lats."
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr "Neteja"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Avançat"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1459,12 +1554,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Suprimeix les dependències no requerides."
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "En suprimir un paquet, suprimeix-ne també les dependències no requerides per altres paquets."
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "No comprovis si hi ha actualitzacions en instal·lar."
 
@@ -1473,20 +1562,12 @@ msgid "Enable downgrade"
 msgstr "Habilita la desactualització."
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignora les actualitzacions per als paquets següents:"
+msgid "Ignored upgrades"
+msgstr "Actualitzacions ignorades"
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Avançat"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Usa les rèpliques de:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Actualitza la llista de rèpliques"
+msgid "Third Party"
+msgstr "De tercers"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1499,28 +1580,16 @@ msgid "Enable AUR support"
 msgstr "Habilita el suport per a l'AUR."
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Permet que Pamac cerqui i instal·li paquets des de l'AUR."
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Mantén els paquets construïts a la cau."
+msgid "Keep built packages"
+msgstr "Mantén els paquets construïts."
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Comprova si hi ha actualitzacions de paquets de desenvolupament."
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Els paquets de Snap són mantinguts pels seus editors."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Habilita el suport per a Snap."
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Permet que el Pamac cerqui i instal·li snaps."
+msgid "Build directory"
+msgstr "Directori de construcció"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1531,9 +1600,9 @@ msgid "Enable Flatpak support"
 msgstr "Habilita el suport per a Flatpak."
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Permet que el Pamac cerqui i instal·li flatpacks."
+msgid "Snap packages are maintained by their publisher."
+msgstr "Els paquets de Snap són mantinguts pels seus editors."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Memòria cau"
+msgid "Enable Snap support"
+msgstr "Habilita el suport per a Snap."
