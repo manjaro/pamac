@@ -435,9 +435,19 @@ namespace Pamac {
 				if (already_checked_aur_dep.contains (pkgname)) {
 					continue;
 				}
-				File? clone_dir;
+				string real_aur_build_dir;
+				if (Posix.geteuid () == 0) {
+					// build as root with systemd-run
+					// set aur_build_dir to "/var/cache/pamac"
+					real_aur_build_dir = "/var/cache/pamac";
+				} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+					real_aur_build_dir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
+				} else {
+					real_aur_build_dir = config.aur_build_dir;
+				}
+				unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
+				File? clone_dir = File.new_for_path (Path.build_filename (real_aur_build_dir, pkgname));
 				if (clone_build_files) {
-					unowned AURPackage? aur_pkg = aur_pkgs.lookup (pkgname);
 					if (aur_pkg == null) {
 						// may be a virtual package
 						// use search and add results
@@ -454,31 +464,22 @@ namespace Pamac {
 						// make this error not fatal to propose to edit build files
 						continue;
 					}
-					// clone build files
-					// use packagebase in case of split package
-					emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
-					clone_dir = yield database.clone_build_files_async (aur_pkg.packagebase, false, build_cancellable);
-					if (build_cancellable.is_cancelled ()) {
-						return false;
-					}
-					if (clone_dir == null) {
-						// error
-						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to clone %s build files").printf (aur_pkg.packagebase)});
-						return false;
+					if (clone_dir.query_exists ()) {
+						// refresh build files
+						// use packagebase in case of split package
+						emit_action (dgettext (null, "Cloning %s build files").printf (aur_pkg.packagebase) + "...");
+						clone_dir = yield database.clone_build_files_async (aur_pkg.packagebase, false, build_cancellable);
+						if (build_cancellable.is_cancelled ()) {
+							return false;
+						}
+						if (clone_dir == null) {
+							// error
+							emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to clone %s build files").printf (aur_pkg.packagebase)});
+							return false;
+						}
 					}
 					already_checked_aur_dep.add (aur_pkg.packagebase);
 				} else {
-					string real_aur_build_dir;
-					if (Posix.geteuid () == 0) {
-						// build as root with systemd-run
-						// set aur_build_dir to "/var/cache/pamac"
-						real_aur_build_dir = "/var/cache/pamac";
-					} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
-						real_aur_build_dir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()));
-					} else {
-						real_aur_build_dir = config.aur_build_dir;
-					}
-					clone_dir = File.new_for_path (Path.build_filename (real_aur_build_dir, pkgname));
 					if (!clone_dir.query_exists ()) {
 						// didn't find the target
 						// parse all builddir to be sure to find it
@@ -510,166 +511,242 @@ namespace Pamac {
 					return false;
 				}
 				emit_action (dgettext (null, "Checking %s dependencies").printf (pkgname) + "...");
-				var srcinfo = clone_dir.get_child (".SRCINFO");
-				try {
-					// read .SRCINFO
-					var dis = new DataInputStream (yield srcinfo.read_async ());
-					string? line;
-					string current_section = "";
-					bool current_section_is_pkgbase = true;
-					var version = new StringBuilder ("");
-					string pkgbase = "";
-					string desc = "";
-					string arch = Posix.utsname ().machine;
-					var pkgnames_found = new GenericArray<string> ();
-					var global_depends = new GenericArray<string> ();
-					var global_checkdepends = new GenericArray<string> ();
-					var global_makedepends = new GenericArray<string> ();
-					var global_conflicts = new GenericArray<string> ();
-					var global_provides = new GenericArray<string> ();
-					var global_replaces = new GenericArray<string> ();
-					var global_validpgpkeys = new GenericArray<string> ();
-					var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
-					while ((line = yield dis.read_line_async ()) != null) {
-						if ("pkgbase = " in line) {
-							pkgbase = line.split (" = ", 2)[1];
-						} else if ("pkgdesc = " in line) {
-							desc = line.split (" = ", 2)[1];
-							if (!current_section_is_pkgbase) {
-								unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
-								if (aur_pkg != null) {
-									aur_pkg.desc = desc;
+				string arch = Posix.utsname ().machine;
+				if (clone_dir.query_exists ()) {
+					// use .SRCINFO
+					var srcinfo = clone_dir.get_child (".SRCINFO");
+					try {
+						// read .SRCINFO
+						var dis = new DataInputStream (yield srcinfo.read_async ());
+						string? line;
+						string current_section = "";
+						bool current_section_is_pkgbase = true;
+						var version = new StringBuilder ("");
+						string pkgbase = "";
+						string desc = "";
+						var pkgnames_found = new GenericArray<string> ();
+						var global_depends = new GenericArray<string> ();
+						var global_checkdepends = new GenericArray<string> ();
+						var global_makedepends = new GenericArray<string> ();
+						var global_conflicts = new GenericArray<string> ();
+						var global_provides = new GenericArray<string> ();
+						var global_replaces = new GenericArray<string> ();
+						var global_validpgpkeys = new GenericArray<string> ();
+						var pkgnames_table = new HashTable<string, AURPackage> (str_hash, str_equal);
+						while ((line = yield dis.read_line_async ()) != null) {
+							if ("pkgbase = " in line) {
+								pkgbase = line.split (" = ", 2)[1];
+							} else if ("pkgdesc = " in line) {
+								desc = line.split (" = ", 2)[1];
+								if (!current_section_is_pkgbase) {
+									unowned AURPackage? aur_pkg_found = pkgnames_table.get (current_section);
+									if (aur_pkg_found != null) {
+										aur_pkg_found.desc = desc;
+									}
 								}
-							}
-						} else if ("pkgver = " in line) {
-							version.append (line.split (" = ", 2)[1]);
-						} else if ("pkgrel = " in line) {
-							version.append ("-");
-							version.append (line.split (" = ", 2)[1]);
-						} else if ("epoch = " in line) {
-							version.prepend (":");
-							version.prepend (line.split (" = ", 2)[1]);
-						// don't compute optdepends, it will be done by makepkg
-						} else if ("optdepends" in line) {
-							// pass
-							continue;
-						// compute depends, makedepends and checkdepends:
-						// list name may contains arch, e.g. depends_x86_64
-						// depends, provides, replaces and conflicts in pkgbase section are stored
-						// in order to be added after if the list in pkgname is empty,
-						// makedepends and checkdepends will be added in depends
-						} else if ("depends" in line) {
-							if ("depends = " in line || "depends_%s = ".printf (arch) in line) {
-								string depend = line.split (" = ", 2)[1];
-								if (current_section_is_pkgbase){
-									if ("checkdepends" in line) {
-										global_checkdepends.add ((owned) depend);
-									} else if ("makedepends" in line) {
-										global_makedepends.add ((owned) depend);
+							} else if ("pkgver = " in line) {
+								version.append (line.split (" = ", 2)[1]);
+							} else if ("pkgrel = " in line) {
+								version.append ("-");
+								version.append (line.split (" = ", 2)[1]);
+							} else if ("epoch = " in line) {
+								version.prepend (":");
+								version.prepend (line.split (" = ", 2)[1]);
+							// don't compute optdepends, it will be done by makepkg
+							} else if ("optdepends" in line) {
+								// pass
+								continue;
+							// compute depends, makedepends and checkdepends:
+							// list name may contains arch, e.g. depends_x86_64
+							// depends, provides, replaces and conflicts in pkgbase section are stored
+							// in order to be added after if the list in pkgname is empty,
+							// makedepends and checkdepends will be added in depends
+							} else if ("depends" in line) {
+								if ("depends = " in line || "depends_%s = ".printf (arch) in line) {
+									string depend = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase){
+										if ("checkdepends" in line) {
+											global_checkdepends.add ((owned) depend);
+										} else if ("makedepends" in line) {
+											global_makedepends.add ((owned) depend);
+										} else {
+											global_depends.add ((owned) depend);
+										}
 									} else {
-										global_depends.add ((owned) depend);
-									}
-								} else {
-									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
-									if (aur_pkg != null) {
-										aur_pkg.depends.add ((owned) depend);
+										unowned AURPackage? aur_pkg_found = pkgnames_table.get (current_section);
+										if (aur_pkg_found != null) {
+											aur_pkg_found.depends.add ((owned) depend);
+										}
 									}
 								}
-							}
-						} else if ("provides" in line) {
-							if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
-								string provide = line.split (" = ", 2)[1];
-								if (current_section_is_pkgbase) {
-									global_provides.add ((owned) provide);
-								} else {
-									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
-									if (aur_pkg != null) {
-										aur_pkg.provides.add ((owned) provide);
+							} else if ("provides" in line) {
+								if ("provides = " in line || "provides_%s = ".printf (arch) in line) {
+									string provide = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase) {
+										global_provides.add ((owned) provide);
+									} else {
+										unowned AURPackage? aur_pkg_found = pkgnames_table.get (current_section);
+										if (aur_pkg_found != null) {
+											aur_pkg_found.provides.add ((owned) provide);
+										}
 									}
 								}
-							}
-						} else if ("conflicts" in line) {
-							if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
-								string conflict = line.split (" = ", 2)[1];
-								if (current_section_is_pkgbase) {
-									global_conflicts.add ((owned) conflict);
-								} else {
-									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
-									if (aur_pkg != null) {
-										aur_pkg.conflicts.add ((owned) conflict);
+							} else if ("conflicts" in line) {
+								if ("conflicts = " in line || "conflicts_%s = ".printf (arch) in line) {
+									string conflict = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase) {
+										global_conflicts.add ((owned) conflict);
+									} else {
+										unowned AURPackage? aur_pkg_found = pkgnames_table.get (current_section);
+										if (aur_pkg_found != null) {
+											aur_pkg_found.conflicts.add ((owned) conflict);
+										}
 									}
 								}
-							}
-						} else if ("replaces" in line) {
-							if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
-								string replace = line.split (" = ", 2)[1];
-								if (current_section_is_pkgbase) {
-									global_replaces.add ((owned) replace);
-								} else {
-									unowned AURPackage? aur_pkg = pkgnames_table.get (current_section);
-									if (aur_pkg != null) {
-										aur_pkg.replaces.add ((owned) replace);
+							} else if ("replaces" in line) {
+								if ("replaces = " in line || "replaces_%s = ".printf (arch) in line) {
+									string replace = line.split (" = ", 2)[1];
+									if (current_section_is_pkgbase) {
+										global_replaces.add ((owned) replace);
+									} else {
+										unowned AURPackage? aur_pkg_found = pkgnames_table.get (current_section);
+										if (aur_pkg_found != null) {
+											aur_pkg_found.replaces.add ((owned) replace);
+										}
 									}
 								}
-							}
-						// grab validpgpkeys to check if they are imported
-						} else if ("validpgpkeys" in line) {
-							if ("validpgpkeys = " in line) {
-								global_validpgpkeys.add (line.split (" = ", 2)[1]);
-							}
-						} else if ("pkgname = " in line) {
-							string pkgname_found = line.split (" = ", 2)[1];
-							current_section = pkgname_found;
-							current_section_is_pkgbase = false;
-							if (!pkgnames_table.contains (pkgname_found)) {
-								var aur_pkg = new AURPackageData ();
-								aur_pkg.name = pkgname_found;
-								aur_pkg.version = version.str;
-								aur_pkg.desc = desc;
-								aur_pkg.packagebase = pkgbase;
-								pkgnames_table.insert (pkgname_found, aur_pkg);
-								pkgnames_found.add ((owned) pkgname_found);
+							// grab validpgpkeys to check if they are imported
+							} else if ("validpgpkeys" in line) {
+								if ("validpgpkeys = " in line) {
+									global_validpgpkeys.add (line.split (" = ", 2)[1]);
+								}
+							} else if ("pkgname = " in line) {
+								string pkgname_found = line.split (" = ", 2)[1];
+								current_section = pkgname_found;
+								current_section_is_pkgbase = false;
+								if (!pkgnames_table.contains (pkgname_found)) {
+									var aur_pkg_found = new AURPackageData ();
+									aur_pkg_found.name = pkgname_found;
+									aur_pkg_found.version = version.str;
+									aur_pkg_found.desc = desc;
+									aur_pkg_found.packagebase = pkgbase;
+									pkgnames_table.insert (pkgname_found, aur_pkg_found);
+									pkgnames_found.add ((owned) pkgname_found);
+								}
 							}
 						}
+						foreach (unowned string pkgname_found in pkgnames_found) {
+							already_checked_aur_dep.add (pkgname_found);
+						}
+						// create fake aur db entries
+						foreach (unowned string pkgname_found in pkgnames_found) {
+							unowned AURPackage? aur_pkg_found = pkgnames_table.get (pkgname_found);
+							// populate empty list will global ones
+							if (global_depends.length != 0 && aur_pkg_found.depends.length == 0) {
+								aur_pkg_found.depends = global_depends.copy (strdup);
+							}
+							if (global_provides.length != 0 && aur_pkg_found.provides.length == 0) {
+								aur_pkg_found.provides = global_provides.copy (strdup);
+							}
+							if (global_conflicts.length != 0 && aur_pkg_found.conflicts.length == 0) {
+								aur_pkg_found.conflicts = global_conflicts.copy (strdup);
+							}
+							if (global_replaces.length != 0 && aur_pkg_found.replaces.length == 0) {
+								aur_pkg_found.replaces = global_replaces.copy (strdup);
+							}
+							// add checkdepends and makedepends in depends
+							foreach (unowned string global_checkdepend in global_checkdepends) {
+								aur_pkg_found.depends.add (global_checkdepend);
+							}
+							foreach (unowned string global_makedepend in global_makedepends) {
+								aur_pkg_found.depends.add (global_makedepend);
+							}
+							// check deps
+							foreach (unowned string dep_string in aur_pkg_found.depends) {
+								if (!database.has_installed_satisfier (dep_string) &&
+									!database.has_sync_satisfier (dep_string)) {
+									string dep_name = database.get_alpm_dep_name (dep_string);
+									if (!(dep_name in already_checked_aur_dep)) {
+										dep_to_check.add ((owned) dep_name);
+									}
+								}
+							}
+							// write desc file
+							string pkgdir = "%s-%s".printf (pkgname_found, aur_pkg_found.version);
+							string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
+							aur_desc_list.add (pkgdir);
+							var file = GLib.File.new_for_path (pkgdir_path);
+							if (!file.query_exists ()) {
+								yield file.make_directory_async ();
+							}
+							file = GLib.File.new_for_path ("%s/desc".printf (pkgdir_path));
+							FileOutputStream fos;
+							// always recreate desc in case of .SRCINFO modifications
+							if (file.query_exists ()) {
+								fos = yield file.replace_async (null, false, FileCreateFlags.NONE);
+							} else {
+								fos = yield file.create_async (FileCreateFlags.NONE);
+							}
+							// creating a DataOutputStream to the file
+							var dos = new DataOutputStream (fos);
+							// fake filename
+							dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar\n\n".printf (pkgname_found, aur_pkg_found.version));
+							// name
+							dos.put_string ("%NAME%\n%s\n\n".printf (pkgname_found));
+							// version
+							dos.put_string ("%VERSION%\n%s\n\n".printf (aur_pkg_found.version));
+							// base
+							dos.put_string ("%BASE%\n%s\n\n".printf (aur_pkg_found.packagebase));
+							// desc
+							dos.put_string ("%DESC%\n%s\n\n".printf (aur_pkg_found.desc));
+							// arch (double %% before ARCH to escape %A)
+							dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
+							// depends
+							if (aur_pkg_found.depends.length != 0) {
+								dos.put_string ("%DEPENDS%\n");
+								foreach (unowned string name in aur_pkg_found.depends) {
+									dos.put_string ("%s\n".printf (name));
+								}
+								dos.put_string ("\n");
+							}
+							// conflicts
+							if (aur_pkg_found.conflicts.length != 0) {
+								dos.put_string ("%CONFLICTS%\n");
+								foreach (unowned string name in aur_pkg_found.conflicts) {
+									dos.put_string ("%s\n".printf (name));
+								}
+								dos.put_string ("\n");
+							}
+							// provides
+							if (aur_pkg_found.provides.length != 0) {
+								dos.put_string ("%PROVIDES%\n");
+								foreach (unowned string name in aur_pkg_found.provides) {
+									dos.put_string ("%s\n".printf (name));
+								}
+								dos.put_string ("\n");
+							}
+							// replaces
+							if (aur_pkg_found.replaces.length != 0) {
+								dos.put_string ("%REPLACES%\n");
+								foreach (unowned string name in aur_pkg_found.replaces) {
+									dos.put_string ("%s\n".printf (name));
+								}
+								dos.put_string ("\n");
+							}
+						}
+						// check signature
+						if (global_validpgpkeys.length > 0) {
+							yield check_signature (pkgname, global_validpgpkeys);
+						}
+					} catch (Error e) {
+						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to check %s dependencies").printf (pkgname)});
+						return false;
 					}
-					foreach (unowned string pkgname_found in pkgnames_found) {
-						already_checked_aur_dep.add (pkgname_found);
-					}
-					// create fake aur db entries
-					foreach (unowned string pkgname_found in pkgnames_found) {
-						unowned AURPackage? aur_pkg = pkgnames_table.get (pkgname_found);
-						// populate empty list will global ones
-						if (global_depends.length != 0 && aur_pkg.depends.length == 0) {
-							aur_pkg.depends = global_depends.copy (strdup);
-						}
-						if (global_provides.length != 0 && aur_pkg.provides.length == 0) {
-							aur_pkg.provides = global_provides.copy (strdup);
-						}
-						if (global_conflicts.length != 0 && aur_pkg.conflicts.length == 0) {
-							aur_pkg.conflicts = global_conflicts.copy (strdup);
-						}
-						if (global_replaces.length != 0 && aur_pkg.replaces.length == 0) {
-							aur_pkg.replaces = global_replaces.copy (strdup);
-						}
-						// add checkdepends and makedepends in depends
-						foreach (unowned string global_checkdepend in global_checkdepends) {
-							aur_pkg.depends.add (global_checkdepend);
-						}
-						foreach (unowned string global_makedepend in global_makedepends) {
-							aur_pkg.depends.add (global_makedepend);
-						}
-						// check deps
-						foreach (unowned string dep_string in aur_pkg.depends) {
-							if (!database.has_installed_satisfier (dep_string) &&
-								!database.has_sync_satisfier (dep_string)) {
-								string dep_name = database.get_alpm_dep_name (dep_string);
-								if (!(dep_name in already_checked_aur_dep)) {
-									dep_to_check.add ((owned) dep_name);
-								}
-							}
-						}
-						// write desc file
-						string pkgdir = "%s-%s".printf (pkgname_found, aur_pkg.version);
+				} else {
+					// use aur infos
+					// write desc file
+					try {
+						string pkgdir = "%s-%s".printf (aur_pkg.name, aur_pkg.version);
 						string pkgdir_path = "%s/%s".printf (aurdb_path, pkgdir);
 						aur_desc_list.add (pkgdir);
 						var file = GLib.File.new_for_path (pkgdir_path);
@@ -687,9 +764,9 @@ namespace Pamac {
 						// creating a DataOutputStream to the file
 						var dos = new DataOutputStream (fos);
 						// fake filename
-						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar\n\n".printf (pkgname_found, aur_pkg.version));
+						dos.put_string ("%FILENAME%\n" + "%s-%s-any.pkg.tar\n\n".printf (aur_pkg.name, aur_pkg.version));
 						// name
-						dos.put_string ("%NAME%\n%s\n\n".printf (pkgname_found));
+						dos.put_string ("%NAME%\n%s\n\n".printf (aur_pkg.name));
 						// version
 						dos.put_string ("%VERSION%\n%s\n\n".printf (aur_pkg.version));
 						// base
@@ -699,11 +776,59 @@ namespace Pamac {
 						// arch (double %% before ARCH to escape %A)
 						dos.put_string ("%%ARCH%\n%s\n\n".printf (arch));
 						// depends
+						bool depends_created = false;
 						if (aur_pkg.depends.length != 0) {
 							dos.put_string ("%DEPENDS%\n");
+							depends_created = true;
 							foreach (unowned string name in aur_pkg.depends) {
 								dos.put_string ("%s\n".printf (name));
+								// check dep
+								if (!database.has_installed_satisfier (name) &&
+									!database.has_sync_satisfier (name)) {
+									string dep_name = database.get_alpm_dep_name (name);
+									if (!(dep_name in already_checked_aur_dep)) {
+										dep_to_check.add ((owned) dep_name);
+									}
+								}
 							}
+						}
+						// add checkdepends and makedepends in depends
+						if (aur_pkg.checkdepends.length != 0) {
+							if (!depends_created) {
+								dos.put_string ("%DEPENDS%\n");
+								depends_created = true;
+							}
+							foreach (unowned string name in aur_pkg.checkdepends) {
+								dos.put_string ("%s\n".printf (name));
+								// check dep
+								if (!database.has_installed_satisfier (name) &&
+									!database.has_sync_satisfier (name)) {
+									string dep_name = database.get_alpm_dep_name (name);
+									if (!(dep_name in already_checked_aur_dep)) {
+										dep_to_check.add ((owned) dep_name);
+									}
+								}
+							}
+						}
+						if (aur_pkg.makedepends.length != 0) {
+							if (!depends_created) {
+								dos.put_string ("%DEPENDS%\n");
+								depends_created = true;
+							}
+							foreach (unowned string name in aur_pkg.makedepends) {
+								dos.put_string ("%s\n".printf (name));
+								// check dep
+								if (!database.has_installed_satisfier (name) &&
+									!database.has_sync_satisfier (name)) {
+									string dep_name = database.get_alpm_dep_name (name);
+									if (!(dep_name in already_checked_aur_dep)) {
+										dep_to_check.add ((owned) dep_name);
+									}
+								}
+							}
+						}
+						// add after %DEPENDS new line
+						if (depends_created) {
 							dos.put_string ("\n");
 						}
 						// conflicts
@@ -730,18 +855,31 @@ namespace Pamac {
 							}
 							dos.put_string ("\n");
 						}
+					} catch (Error e) {
+						emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to check %s dependencies").printf (pkgname)});
+						return false;
 					}
-					// check signature
-					if (global_validpgpkeys.length > 0) {
-						yield check_signature (pkgname, global_validpgpkeys);
-					}
-				} catch (Error e) {
-					emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to check %s dependencies").printf (pkgname)});
-					return false;
 				}
 			}
 			if (dep_to_check.length > 0) {
 				return yield check_aur_dep_list (dep_to_check.data);
+			}
+			return true;
+		}
+
+		async bool clone_build_files_if_needed (string pkgdir, string pkgname) {
+			File? clone_dir = File.new_for_path (pkgdir);
+			if (!clone_dir.query_exists ()) {
+				// clone build files
+				emit_action (dgettext (null, "Cloning %s build files").printf (pkgname) + "...");
+				clone_dir = yield database.clone_build_files_async (pkgname, false, build_cancellable);
+				if (build_cancellable.is_cancelled ()) {
+					return false;
+				}
+				if (clone_dir == null) {
+					// error
+					return false;
+				}
 			}
 			return true;
 		}
@@ -1128,10 +1266,32 @@ namespace Pamac {
 								unresolvables.add (name);
 							}
 						}
+						foreach (unowned string pkgname in unresolvables) {
+							string pkgdir;
+							bool as_root = Posix.geteuid () == 0;
+							if (as_root) {
+								// build as root with systemd-run
+								// set aur_build_dir to "/var/cache/pamac"
+								pkgdir = Path.build_filename ("/var/cache/pamac", pkgname);
+							} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+								pkgdir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+							} else {
+								pkgdir = Path.build_filename (config.aur_build_dir, pkgname);
+							}
+							success = yield clone_build_files_if_needed (pkgdir, pkgname);
+							if (!success) {
+								emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to clone %s build files").printf (pkgname)});
+								unresolvables = new GenericArray<string> ();
+								return false;
+							}
+						}
 						yield edit_build_files (unresolvables.data);
 						unresolvables = new GenericArray<string> ();
 						emit_script_output ("");
+						bool clone_build_files_old = clone_build_files;
+						clone_build_files = false;
 						success = yield compute_aur_build_list ();
+						clone_build_files = clone_build_files_old;
 						if (!success) {
 							return false;
 						}
@@ -1147,9 +1307,30 @@ namespace Pamac {
 		async bool trans_run (TransactionSummary summary) {
 			if (summary.aur_pkgbases_to_build.length != 0) {
 				if (yield ask_edit_build_files_real (summary)) {
+					foreach (unowned string pkgname in summary.aur_pkgbases_to_build) {
+						string pkgdir;
+						bool as_root = Posix.geteuid () == 0;
+						if (as_root) {
+							// build as root with systemd-run
+							// set aur_build_dir to "/var/cache/pamac"
+							pkgdir = Path.build_filename ("/var/cache/pamac", pkgname);
+						} else if (config.aur_build_dir == "/var/tmp" || config.aur_build_dir == "/tmp") {
+							pkgdir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
+						} else {
+							pkgdir = Path.build_filename (config.aur_build_dir, pkgname);
+						}
+						bool success = yield clone_build_files_if_needed (pkgdir, pkgname);
+						if (!success) {
+							emit_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "Failed to clone %s build files").printf (pkgname)});
+							return false;
+						}
+					}
 					yield edit_build_files (summary.aur_pkgbases_to_build.data);
 					emit_script_output ("");
+					bool clone_build_files_old = clone_build_files;
+					clone_build_files = false;
 					bool success = yield compute_aur_build_list ();
+					clone_build_files = clone_build_files_old;
 					TransactionSummary new_summary;
 					success = yield trans_prepare (out new_summary);
 					if (success) {
@@ -1468,6 +1649,12 @@ namespace Pamac {
 					pkgdir = Path.build_filename (config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname);
 				} else {
 					pkgdir = Path.build_filename (config.aur_build_dir, pkgname);
+				}
+				success = yield clone_build_files_if_needed (pkgdir, pkgname);
+				if (!success) {
+					emit_error (dgettext (null, "Failed to build %s").printf (pkgname), {});
+					to_build_queue.clear ();
+					return false;
 				}
 				// building
 				building = true;

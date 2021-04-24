@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Lovro Kudelić <lovro.kudelic@outlook.com>, 2016
-# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2020
+# Lovro Kudelić <lovro.kudelic@outlook.com>, 2016-2021
 # philm <philm@manjaro.org>, 2015
 # ssik64 <ssik64@gmail.com>, 2014
 # ssik64 <ssik64@gmail.com>, 2014
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 20:02+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-17 18:25+0000\n"
 "Last-Translator: Lovro Kudelić <lovro.kudelic@outlook.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,8 @@ msgstr "paket %s nema valjanu arhitekturu"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "ne mogu ispuniti ovisnost '%s' koju zahtijeva %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Upozorenje"
 
@@ -110,7 +111,7 @@ msgstr "Inicijalizacija AUR baze podataka nije uspjela"
 msgid "removing %s from target list"
 msgstr "uklanjam %s s ciljanog popisa"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Potrebno je ponovno pokretanje sustava da bi promjene stupile na snagu"
 
@@ -324,7 +325,7 @@ msgid "Timeout expired"
 msgstr "Timeout je istekao"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -385,6 +386,11 @@ msgstr "Ništa za učiniti"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: ignoriram nadogradnju paketa (%s=>%s)\n"
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Stvaram %s"
 
@@ -412,8 +418,9 @@ msgid "Trust and Import"
 msgstr "Povjerenje i uvoz"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Odustani"
 
@@ -432,13 +439,13 @@ msgstr "Povjeri %s i uvezi PGP ključ"
 msgid "Official Repositories"
 msgstr "Službeni repozitoriji"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Repozitorij"
+msgid "Repositories"
+msgstr "Repozitoriji"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -466,6 +473,10 @@ msgstr "Zahtijevan od"
 msgid "Replaces"
 msgstr "Zamjenjuje"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Uredi datoteke za stvaranje paketa"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Ukupna veličina za preuzimanje"
@@ -480,9 +491,13 @@ msgid "Save"
 msgstr "Spremi"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Zatvori"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "Ponovno pokreni sustav"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -552,18 +567,22 @@ msgid "Checking for Updates"
 msgstr "Provjeravam ažuriranja"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Istaknuto"
+msgid "Install Local Packages"
+msgstr "Instaliraj lokalne pakete"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Sve"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Otvori"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategorije"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm paket"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Upravitelj paketa s podrškom za Alpm, AUR, Flatpak i Snap"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -575,6 +594,30 @@ msgid_plural "%u pending operations"
 msgstr[0] "%u operacija na čekanju"
 msgstr[1] "%u operacije na čekanju"
 msgstr[2] "%u operacija na čekanju"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Sve"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Eksplicitno instalirano"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Nepotrebni paketi"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Vanjski paketi"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Instalirano"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr "Ignorirano"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -595,6 +638,10 @@ msgstr "Licence"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Nepoznato"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Repozitorij"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -676,38 +723,6 @@ msgstr "Zatvoren u sandbox-u"
 msgid "Channels"
 msgstr "Kanali"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Relevantnost"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Ime"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Veličina"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Datum"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Repozitoriji"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Nadogradnja"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Stvori paket"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Ukloni"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "Ažuriranja operacijskog sustava"
@@ -716,93 +731,105 @@ msgstr "Ažuriranja operacijskog sustava"
 msgid "Includes performance, stability and security improvements"
 msgstr "Uključuje poboljšanja performansi, stabilnosti i sigurnosti"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Instalirano"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Istaknuto"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Foto i video"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Glazba i zvuk"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Produktivnost"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Komunikacija i vijesti"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Obrazovanje i znanost"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Igre"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Alati"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Razvoj"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Eksplicitno instalirano"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Nepotrebni paketi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Vanjski paketi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Instaliraj lokalne pakete"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Otvori"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm paket"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Upravitelj paketa s podrškom za Alpm, AUR, Flatpak i Snap"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Posljednja provjera"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Koliko često provjeravati ažuriranja, vrijednost u satima"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "svaka 3 sata"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Maksimum paralelnih preuzimanja"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "svakih 6 sati"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Broj različitih verzija paketa za zadržavanje u predmemoriji"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "svakih 12 sati"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "svaki dan"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "svaki tjedan"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Globalno"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Direktorij za stvaranje paketa"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -815,6 +842,14 @@ msgid_plural "%u files"
 msgstr[0] "%u datoteka"
 msgstr[1] "%u datoteke"
 msgstr[2] "%u datoteka"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr "Odaberi direktorij za stvaranje paketa"
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr "_Odaberi"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -845,10 +880,6 @@ msgstr "da"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "da"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Uredi datoteke za stvaranje paketa"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -984,6 +1015,10 @@ msgstr "repozitorij(i)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "prikaži instalirane pakete"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr "prikaži eksplicitno instalirane pakete"
 
 #: src/cli.vala
 msgid ""
@@ -1233,6 +1268,10 @@ msgstr "ne uklanjajte datoteke, samo pronađite pakete kandidata"
 msgid "also display all files names"
 msgstr "također prikaži imena svih datoteka"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Ime"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Verzija"
@@ -1267,15 +1306,19 @@ msgstr[0] "%uignorirano ažuriranje"
 msgstr[1] "%u ignoriranih ažuriranja"
 msgstr[2] "%u ignorirana ažuriranja"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Ukloni samo verzije deinstaliranih paketa"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Broj različitih verzija paketa za zadržavanje u predmemoriji"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Očisti predmemoriju"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Očistite datoteke za stvaranje paketa"
 
@@ -1351,7 +1394,7 @@ msgstr "Osvježi bazu podataka"
 msgid "View History"
 msgstr "Pregledaj povijest"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Postavke"
 
@@ -1360,16 +1403,8 @@ msgid "About"
 msgstr "O programu"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Pregledajte po"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Pogled"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Sortiraj prema"
+msgid "Search"
+msgstr "Traži"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1384,20 +1419,52 @@ msgid "Ignore all"
 msgstr "Ignoriraj sve"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Sortiraj prema"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Relevantnost"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Veličina"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Datum"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Osvježi"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategorije"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Traži"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Ažuriranja"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Lansiraj"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Ukloni"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Ponovno instaliraj"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Stvori paket"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1415,33 +1482,61 @@ msgstr "Ponovno postavi datoteke za stvaranje paketa"
 msgid "Build files"
 msgstr "Datoteke za stvaranje paketa"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Traži"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Na čekanju"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Ažuriranja"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Općenito"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Provjeri ažuriranja"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "Učestalost provjere ažuriranja"
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Automatsko preuzimanje ažuriranja"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
+msgid "Hide tray icon when no update"
 msgstr "Sakrij ikonu na programskoj traci kada nema dostupnih ažuriranja"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Općenito"
+msgid "Downloads"
+msgstr "Preuzimanja"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "Paralelna preuzimanja"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr "Koristi zrcalne poslužitelje iz"
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr "Osvježi zrcalne poslužitelje"
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Predmemorija"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr "Broj različitih verzija paketa za zadržavanje"
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr "Ukloni samo deinstalirane pakete"
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr "Očisti"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Napredno"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1458,12 +1553,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Ukloni nepotrebne ovisnosti"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Prilikom uklanjanja paketa, ukloniti njegove ovisnosti koje ne zahtijevaju drugi paketi"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Nemoj provjeravati nadogradnje tijekom instaliranja"
 
@@ -1472,20 +1561,12 @@ msgid "Enable downgrade"
 msgstr "Dopusti povratak na staru verziju paketa"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Ignoriraj nadogradnje za:"
+msgid "Ignored upgrades"
+msgstr "Ignorirane nadogradnje"
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Napredno"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Koristi zrcalne poslužitelje iz:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Osvježi listu zrcalnih poslužitelja"
+msgid "Third Party"
+msgstr "Treće strane"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1498,28 +1579,16 @@ msgid "Enable AUR support"
 msgstr "Omogući AUR podršku"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Dozvoli Pamac-u da traži i instalira pakete iz AUR-a"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Zadrži stvorene pakete u predmemoriji"
+msgid "Keep built packages"
+msgstr "Zadrži stvorene pakete"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Provjeri ažuriranja razvojnih paketa"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Snap pakete održava njihov izdavač."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Omogući Snap podršku"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Dozvoli Pamac-u da traži i instalira snap pakete"
+msgid "Build directory"
+msgstr "Direktorij za stvaranje paketa"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1530,9 +1599,9 @@ msgid "Enable Flatpak support"
 msgstr "Omogući Flatpak podršku"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Dozvoli Pamac-u da traži i instalira flatpak pakete"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Snap pakete održava njihov izdavač."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Predmemorija"
+msgid "Enable Snap support"
+msgstr "Omogući Snap podršku"

@@ -5,14 +5,14 @@
 # 
 # Translators:
 # Moo, 2015
-# Moo, 2015-2020
+# Moo, 2015-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 20:33+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,8 @@ msgstr "paketas %s neturi teisingos architektūros"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nepavyko patenkinti \"%s\" priklausomybių, kurių reikia paketui %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Įspėjimas"
 
@@ -107,7 +108,7 @@ msgstr "Nepavyko inicijuoti AUR duomenų bazės"
 msgid "removing %s from target list"
 msgstr "šalinamas %s iš paskirties sąrašo"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Tam, kad įsigaliotų pakeitimai, reikia paleisti iš naujo"
 
@@ -323,7 +324,7 @@ msgid "Timeout expired"
 msgstr "Pasibaigė laiko limitas"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -384,6 +385,11 @@ msgstr "Nėra ką atlikti"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: nepaisoma paketo atnaujinimo (%s => %s)\n"
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Kompiliuojama %s"
 
@@ -411,8 +417,9 @@ msgid "Trust and Import"
 msgstr "Pasitikėti ir importuoti"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
@@ -431,13 +438,13 @@ msgstr "Pasitikėti %s ir importuoti PGP raktą"
 msgid "Official Repositories"
 msgstr "Oficialios saugyklos"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Saugykla"
+msgid "Repositories"
+msgstr "Saugyklos"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -465,6 +472,10 @@ msgstr "Reikalauja"
 msgid "Replaces"
 msgstr "Pakeičia"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Taisyti kompiliavimo failus"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Visų atsiuntimų dydis"
@@ -479,9 +490,13 @@ msgid "Save"
 msgstr "Įrašyti"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Užverti"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "Paleisti iš naujo"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -552,18 +567,22 @@ msgid "Checking for Updates"
 msgstr "Tikrinama, ar yra atnaujinimų"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Pasižymėjusios"
+msgid "Install Local Packages"
+msgstr "Įdiegti vietinius paketus"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Visi"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Atverti"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategorijos"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm paketas"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Paketų tvarkytuvė su Alpm, AUR, Flatpak ir Snap palaikymu"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -576,6 +595,30 @@ msgstr[0] "%u laukianti operacija"
 msgstr[1] "%u laukiančios operacijos"
 msgstr[2] "%u laukiančių operacijų"
 msgstr[3] "%u laukiančių operacijų"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Visi"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Savarankiškai įdiegtas"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Liekamieji"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Svetimi"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Yra įdiegti"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -596,6 +639,10 @@ msgstr "Licencijos"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Nežinoma"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Saugykla"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -677,38 +724,6 @@ msgstr "Izoliuota smėliadėžėje"
 msgid "Channels"
 msgstr "Kanalai"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Atitikimas"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Pavadinimas"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Dydis"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Data"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Saugyklos"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Naujinti"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Kompiliuoti"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Šalinti"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "OS atnaujinimai"
@@ -717,93 +732,105 @@ msgstr "OS atnaujinimai"
 msgid "Includes performance, stability and security improvements"
 msgstr "Apima našumo, stabilumo ir saugumo patobulinimus"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Yra įdiegti"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Pasižymėjusios"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Nuotraukos ir vaizdas"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Muzika ir garsas"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Produktyvumas"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Komunikacija ir naujienos"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Švietimas ir mokslas"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Žaidimai"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Paslaugų programos"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Programavimas"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Savarankiškai įdiegtas"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Liekamieji"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Svetimi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Įdiegti vietinius paketus"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Atverti"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm paketas"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Paketų tvarkytuvė su Alpm, AUR, Flatpak ir Snap palaikymu"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Paskutinis įkėlimas iš naujo"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Kaip dažnai tikrinti ar yra atnaujinimų, reikšmė valandomis"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "kas 3 valandas"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Daugiausia lygiagrečių atsisiuntimų"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "kas 6 valandas"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "kas 12 valandų"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "kiekvieną dieną"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "kiekvieną savaitę"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Viso pasaulio"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Kompiliavimo katalogas"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -817,6 +844,14 @@ msgstr[0] "%u failas"
 msgstr[1] "%u failai"
 msgstr[2] "%u failų"
 msgstr[3] "%u failas"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -847,10 +882,6 @@ msgstr "t"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "taip"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Taisyti kompiliavimo failus"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -986,6 +1017,10 @@ msgstr "saugykla(-os)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "išvardyti įdiegtus paketus"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1235,6 +1270,10 @@ msgstr "nešalinti failų, tik rasti potencialius paketus"
 msgid "also display all files names"
 msgstr "taip pat rodyti visus failų pavadinimus"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Pavadinimas"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Versija"
@@ -1270,15 +1309,19 @@ msgstr[1] "%u nepaisomi atnaujinimai"
 msgstr[2] "%u nepaisomų atnaujinimų"
 msgstr[3] "%u nepaisomas atnaujinimas"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Šalinti tik pašalintų paketų versijas"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Podėlyje laikomas kiekvieno paketo versijų skaičius"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Išvalyti podėlį"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Išvalyti kompiliavimo failus"
 
@@ -1355,7 +1398,7 @@ msgstr "Iš naujo įkelti duomenų bazes"
 msgid "View History"
 msgstr "Žiūrėti žurnalą"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Nuostatos"
 
@@ -1364,16 +1407,8 @@ msgid "About"
 msgstr "Apie"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "Naršyti pagal"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "Rodinys"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Rikiuoti pagal"
+msgid "Search"
+msgstr "Paieška"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1388,20 +1423,52 @@ msgid "Ignore all"
 msgstr "Nepaisyti visų"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Rikiuoti pagal"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Atitikimas"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Dydis"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Data"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "Įkelti iš naujo"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategorijos"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "Naršyti"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Atnaujinimai"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Paleidimas"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Šalinti"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Įdiegti iš naujo"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Kompiliuoti"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1419,33 +1486,61 @@ msgstr "Atstatyti kompiliavimo failus"
 msgid "Build files"
 msgstr "Kompiliuoti failus"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Paieška"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Laukiama"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Atnaujinimai"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Bendra"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Tikrinti, ar yra atnaujinimų"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Automatiškai atsisiųsti atnaujinimus"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
+msgid "Hide tray icon when no update"
 msgstr "Slėpti dėklo piktogramą, kai nėra atnaujinimų"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Bendra"
+msgid "Downloads"
+msgstr "Atsiuntimai"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "Lygiagretūs atsiuntimai"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr "Naudoti tinklavietes iš"
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr "Įkelti tinklavietes iš naujo"
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Podėlis"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Išplėstiniai"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1462,12 +1557,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Šalinti nereikalingas priklausomybes"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Šalinant paketą, tuo pačiu šalinti ir jo priklausomybes, kurios nėra reikalaujamos kitų paketų"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Įdiegiant, netikrinti, ar yra atnaujinimų"
 
@@ -1476,20 +1565,12 @@ msgid "Enable downgrade"
 msgstr "Įjungti sendinimą"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Nepaisyti atnaujinimų paketams:"
+msgid "Ignored upgrades"
+msgstr "Nepaisomi naujinimai"
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Išplėstiniai"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Naudoti tinklavietes iš:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Iš naujo įkelti tinklaviečių sąrašą"
+msgid "Third Party"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1502,28 +1583,16 @@ msgid "Enable AUR support"
 msgstr "Įjungti AUR palaikymą"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Leisti Pamac ieškoti ir diegti paketus iš AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Palikti sukompiliuotus paketus podėlyje"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Tikrinti, ar yra plėtojimo paketų atnaujinimų"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "Snap paketus palaiko jų leidėjas."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Įjungti Snap palaikymą"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Leisti Pamac ieškoti ir diegti snap paketus"
+msgid "Build directory"
+msgstr "Kompiliavimo katalogas"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1534,9 +1603,9 @@ msgid "Enable Flatpak support"
 msgstr "Įjungti Flatpak palaikymą"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Leisti Pamac ieškoti ir diegti flatpak paketus"
+msgid "Snap packages are maintained by their publisher."
+msgstr "Snap paketus palaiko jų leidėjas."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Podėlis"
+msgid "Enable Snap support"
+msgstr "Įjungti Snap palaikymą"

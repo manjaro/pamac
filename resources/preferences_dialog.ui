@@ -195,12 +195,12 @@ Modify them only if you know what you are doing.</property>
       </object>
     </child>
     <child>
-      <object class="AdwPreferencesPage">
+      <object class="AdwPreferencesPage" id="third_party_preferences_page">
         <property name="title" translatable="yes">Third Party</property>
         <child>
           <object class="AdwPreferencesGroup" id="aur_preferences_group">
-            <property name="title">AUR</property>
-            <property name="description">AUR is a community maintained repository so it presents potential risks and problems.
+            <property name="title" translatable="yes">AUR</property>
+            <property name="description" translatable="yes">AUR is a community maintained repository so it presents potential risks and problems.
 All AUR users should be familiar with the build process.</property>
             <child>
               <object class="AdwExpanderRow" id="enable_aur_expander">
@@ -294,8 +294,8 @@ All AUR users should be familiar with the build process.</property>
         </child>
         <child>
           <object class="AdwPreferencesGroup" id="flatpak_preferences_group">
-            <property name="title">Flatpak</property>
-            <property name="description">Flatpak packages are maintained by their publisher.</property>
+            <property name="title" translatable="yes">Flatpak</property>
+            <property name="description" translatable="yes">Flatpak packages are maintained by their publisher.</property>
             <child>
               <object class="AdwExpanderRow" id="enable_flatpak_expander">
                 <property name="show_enable_switch">1</property>
@@ -316,8 +316,8 @@ All AUR users should be familiar with the build process.</property>
         </child>
         <child>
           <object class="AdwPreferencesGroup" id="snap_preferences_group">
-            <property name="title">Snap</property>
-            <property name="description">Snap packages are maintained by their publisher.</property>
+            <property name="title" translatable="yes">Snap</property>
+            <property name="description" translatable="yes">Snap packages are maintained by their publisher.</property>
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Enable Snap support</property>

@@ -7,11 +7,12 @@
 # Ács Zoltán <acszoltan111@gmail.com>, 2020
 # Ferenc Papp <pappfer@gmail.com>, 2017
 # Gabor Nagy, 2018
+# Gyula Szabó <gyhun95@gmail.com>, 2021
 # HowAbout No <tasnadi98@freemail.hu>, 2018
 # Lajos Pasztor <mrlajos@gmail.com>, 2013
 # Lajos Pasztor <mrlajos@gmail.com>, 2013-2017,2019
-# miku84, 2015-2017,2019
-# PB, 2020
+# miku84, 2015-2017,2019,2021
+# PB, 2020-2021
 # philm <philm@manjaro.org>, 2015
 # 271a73fe325823f2941533b778424ef0, 2018
 # sivananda <kotagirisivananda@gmail.com>, 2014
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-19 08:36+0000\n"
+"Last-Translator: PB\n"
 "Language-Team: Hungarian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +77,8 @@ msgstr "a csomag %s nem tartalmaz megfelelő architektúrát"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "nem lehet kielégíteni a \"%s\" függőséget, melyre a %s csomagnak szüksége van"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Figyelem"
 
@@ -117,11 +119,11 @@ msgstr "Nem sikerült inicializálni az AUR adatbázist"
 #: src/alpm_utils.vala
 #, c-format
 msgid "removing %s from target list"
-msgstr ""
+msgstr "%s eltávolítása a cél listáról"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
-msgstr ""
+msgstr "Újraindítás szükséges a változások érvényesítéséhez"
 
 #: src/alpm_utils.vala src/daemon.vala src/transaction.vala
 msgid "Transaction cancelled"
@@ -154,11 +156,11 @@ msgstr "%s: %s már létezett a fájlrendszerben"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backed up to %s"
-msgstr ""
+msgstr "Visszaállítva erre: %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
-msgstr ""
+msgstr "Hibás fájlok eltávolítása és újrapróbálkozás"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -284,8 +286,8 @@ msgstr "Hiba az eseménykezelők (hook) futtatásakor"
 #, c-format
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Körülbelül %lu másodperc van hátra"
+msgstr[1] "Körülbelül %lu másodperc van hátra"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -331,7 +333,7 @@ msgid "Timeout expired"
 msgstr "Az időkorlát lejárt"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -392,6 +394,11 @@ msgstr "Semmi teendő"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: csomagfrissítés kihagyása (%s => %s)\n"
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Telepítés %s"
 
@@ -419,8 +426,9 @@ msgid "Trust and Import"
 msgstr "Megbízom benne és betöltöm"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "Mégse"
 
@@ -439,13 +447,13 @@ msgstr "Megbíz a(z) %s PGP kulcsban és importálja"
 msgid "Official Repositories"
 msgstr "Hivatalos tárolók"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Tároló"
+msgid "Repositories"
+msgstr "Tárolók"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -456,7 +464,7 @@ msgstr "Függőségek"
 
 #: src/transaction-gtk.vala src/transaction-cli.vala
 msgid "Orphan Of"
-msgstr ""
+msgstr "Elárvult fájlja a következőnek: "
 
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 #: src/cli.vala
@@ -473,6 +481,10 @@ msgstr "Igényelt"
 msgid "Replaces"
 msgstr "Helyettesít"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Build fájlok szerkesztése"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Teljes letöltési méret"
@@ -487,9 +499,13 @@ msgid "Save"
 msgstr "Mentés"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "Bezár"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "Újraindítás"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -528,7 +544,7 @@ msgstr "csomag(ok)"
 
 #: src/tray.vala
 msgid "Updates Available"
-msgstr ""
+msgstr "Frissítések Elérhetőek"
 
 #: src/tray.vala src/manager_window.vala src/cli.vala
 msgid "Your system is up-to-date"
@@ -558,18 +574,22 @@ msgid "Checking for Updates"
 msgstr "Frissítések keresése"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Kiemelt"
+msgid "Install Local Packages"
+msgstr "Helyi csomagok telepítése"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Összes"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "Megnyit"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Kategóriák"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm csomag"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Csomagkezelő Alpm, AUR, Flatpak és Snap támogatással"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -580,6 +600,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u függőben lévő művelet"
 msgstr[1] "%u függőben lévő művelet"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Összes"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Kifejezetten telepített"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Árvák"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Külső"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Telepített"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -600,6 +644,10 @@ msgstr "Licenszek"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Ismeretlen"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Tároló"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -681,133 +729,113 @@ msgstr "Homokozóba (sandbox) zárva"
 msgid "Channels"
 msgstr "Csatornák"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Fontosság"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Név"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Méret"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Dátum"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Tárolók"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Frissítés"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Build"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Eltávolít"
-
 #: src/manager_window.vala
 msgid "OS Updates"
-msgstr ""
+msgstr "Rendszer Frissítések"
 
 #: src/manager_window.vala
 msgid "Includes performance, stability and security improvements"
-msgstr ""
+msgstr "Tartalmaz teljesítmény, stabilitási és biztonsági fejlesztéseket is."
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Telepített"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Kiemelt"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Fotó és Videó"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Zene és Hang"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Produktivitás"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Kommunikáció és Hírek"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Oktatás és Tudomány"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Játékok"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Kellékek"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Fejlesztés"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Kifejezetten telepített"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Árvák"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Külső"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Helyi csomagok telepítése"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "Megnyit"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm csomag"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Csomagkezelő Alpm, AUR, Flatpak és Snap támogatással"
-
 #: src/manager_window.vala
 msgid "Last refresh"
-msgstr ""
+msgstr "Legutóbbi frissítés"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Milyen gyakran ellenőrizze a frissítéseket? Értékek órában"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "3 óránként"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Maximum párhuzamos letöltés"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "6 óránként"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "A cache- ben csomagonként megtartandó példányok száma:"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "12 óránként"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "naponta"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "hetente"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Világszerte"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Építési könyvtár"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -819,6 +847,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u fájlok"
 msgstr[1] "%u fájlok"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -850,13 +886,9 @@ msgstr "i"
 msgid "yes"
 msgstr "igen"
 
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Build fájlok szerkesztése"
-
 #: src/transaction-cli.vala
 msgid "[e]"
-msgstr ""
+msgstr "[e]"
 
 #: src/transaction-cli.vala
 msgid "Apply transaction"
@@ -864,11 +896,11 @@ msgstr "Tranzakció végrehajtása"
 
 #: src/transaction-cli.vala
 msgid "[e/y/N]"
-msgstr ""
+msgstr "[e/I/N]"
 
 #: src/transaction-cli.vala
 msgid "e"
-msgstr ""
+msgstr "e"
 
 #: src/transaction-cli.vala
 msgid "To upgrade"
@@ -909,12 +941,12 @@ msgstr "%s build fájlok közötti különbségek"
 
 #: src/cli.vala
 msgid "Building packages as root"
-msgstr ""
+msgstr "Csomagok építése root-ként"
 
 #: src/cli.vala
 #, c-format
 msgid "Setting build directory to %s"
-msgstr ""
+msgstr "A felépítési mappa beállítása ide: %s"
 
 #: src/cli.vala
 msgid "No PKGBUILD file found in current directory"
@@ -922,7 +954,7 @@ msgstr "PKGBUILD fájl nem található az aktuális könyvtárban"
 
 #: src/cli.vala
 msgid "Checking development packages updates as root"
-msgstr ""
+msgstr "Fejlesztői csomagok frissítésének ellenőrzése root-ként"
 
 #: src/cli.vala
 msgid "Available actions"
@@ -988,6 +1020,10 @@ msgstr "tároló(k)"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "telepített csomagok listázása"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
 
 #: src/cli.vala
 msgid ""
@@ -1237,6 +1273,10 @@ msgstr "ne távolítson el fájlokat, csak keresse a megfelelő csomagokat"
 msgid "also display all files names"
 msgstr "jelenítse meg a fájl neveket"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Név"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "Verzió"
@@ -1270,15 +1310,19 @@ msgid_plural "%u ignored updates"
 msgstr[0] "%u figyelmen kívül hagyott frissítés"
 msgstr[1] "%u figyelmen kívül hagyott frissítés"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Csak az eltávolított csomagok verzióinak eltávolítása"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "A cache- ben csomagonként megtartandó példányok száma:"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Cache törlés"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "Átmeneti telepítő fájlok tisztítása"
 
@@ -1311,7 +1355,7 @@ msgstr "%shozzáadása az újratelepítendőkhöz"
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "Telepítse a következőt %s innen: %s"
 
 #: src/snap_plugin.vala
 msgid "No"
@@ -1343,7 +1387,7 @@ msgstr "Alkalmaz"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Szoftver Mód"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1353,7 +1397,7 @@ msgstr "Adatbázis frissítése"
 msgid "View History"
 msgstr "Előzmények megtekintése"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Beállítások"
 
@@ -1362,16 +1406,8 @@ msgid "About"
 msgstr "A Pamac-ról"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Sorrend"
+msgid "Search"
+msgstr "Keresés"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1386,20 +1422,52 @@ msgid "Ignore all"
 msgstr "Mindent figyelmen kivül hagy"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Sorrend"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Fontosság"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Méret"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Dátum"
+
+#: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Frissítés"
+
+#: resources/manager_window.ui
+msgid "Categories"
+msgstr "Kategóriák"
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Keresés"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Frissítések"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Indítás"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Eltávolít"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Újra telepít"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Build"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1417,33 +1485,61 @@ msgstr "Build fájlok visszaállítása"
 msgid "Build files"
 msgstr "Build fájlok"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Keresés"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Függőben lévő"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Frissítések"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Általános"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Frissítések keresése"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "Frissítések ellenőrzésének gyakorisága"
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Frissítések automatikus letöltése"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Az ikon elrejtése, ha nincs elérhető frissítés"
+msgid "Hide tray icon when no update"
+msgstr "Tálcaikon elrejtése ha nincsenek frissítések"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Általános"
+msgid "Downloads"
+msgstr "Letöltések"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "Párhuzamos letöltések"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Cache"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr "Tisztítás"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Haladó"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1460,12 +1556,6 @@ msgid "Remove unrequired dependencies"
 msgstr "Nem megkövetelt függőségek eltávolítása"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Csomag eltávolításakor távolítsa el a függőségeket amik nem megköveteltek más csomagok által"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "Telepítéskor ne keressen frissítéseket"
 
@@ -1474,20 +1564,12 @@ msgid "Enable downgrade"
 msgstr "Régi verziókra való lépés engedélyezése"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "Hagyja figyelmen kívül a frissítéseket:"
+msgid "Ignored upgrades"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "Haladó"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Tükrözések használata innen:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Tükrök listájának frissítése"
+msgid "Third Party"
+msgstr "Harmadik féltől származó"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1500,28 +1582,16 @@ msgid "Enable AUR support"
 msgstr "AUR támogatás engedélyezése"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac kereshet és telepíthet csomagokat az AUR -ból"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "Tartsa az összerakott csomagokat a gyorsítótárban"
+msgid "Keep built packages"
+msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "Ellenőrizze a fejlesztés alatt álló csomagok frissítéseit"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "A Snap-csomagokat a kiadó tartja karban."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "Snap támogatás engedélyezése"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Pamac kereshet és telepíthet snap csomagokat"
+msgid "Build directory"
+msgstr "Építési könyvtár"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1532,9 +1602,9 @@ msgid "Enable Flatpak support"
 msgstr "Flatpak támogatás engedélyezése"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Pamac kereshet és telepíthet Flatpak csomagokat"
+msgid "Snap packages are maintained by their publisher."
+msgstr "A Snap csomagokat a kiadó tartja karban."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Cache"
+msgid "Enable Snap support"
+msgstr "Snap támogatás engedélyezése"

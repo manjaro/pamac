@@ -1005,9 +1005,6 @@ namespace Pamac {
 						// writing a string to the stream
 						string text = textview.buffer.get_text (start_iter, end_iter, false);
 						yield fos.write_all_async (text.data, Priority.DEFAULT, null, null);
-						if (build_files_notebook.get_tab_label_text (child) == "PKGBUILD") {
-							yield database.regenerate_srcinfo_async (pkgname);
-						}
 					} catch (Error e) {
 						warning (e.message);
 					}
@@ -1062,7 +1059,6 @@ namespace Pamac {
 					button.margin_start = 12;
 					button.margin_end = 12;
 					button.halign = Gtk.Align.END;
-					button.add_css_class ("suggested-action");
 					button.clicked.connect (() => {
 						try {
 							Process.spawn_command_line_sync ("reboot");

@@ -209,6 +209,7 @@ namespace Pamac {
 			} else if (args[1] == "list") {
 				if (args.length > 2) {
 					bool installed = false;
+					bool explicitly_installed = false;
 					bool orphans = false;
 					bool foreign = false;
 					bool groups = false;
@@ -216,15 +217,16 @@ namespace Pamac {
 					bool files = false;
 					bool quiet = false;
 					try {
-						var options = new OptionEntry[8];
+						var options = new OptionEntry[9];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "installed", 'i', 0, OptionArg.NONE, ref installed, null, null };
-						options[2] = { "orphans", 'o', 0, OptionArg.NONE, ref orphans, null, null };
-						options[3] = { "foreign", 'm', 0, OptionArg.NONE, ref foreign, null, null };
-						options[4] = { "groups", 'g', 0, OptionArg.NONE, ref groups, null, null };
-						options[5] = { "repos", 'r', 0, OptionArg.NONE, ref repos, null, null };
-						options[6] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
-						options[7] = { "quiet", 'q', 0, OptionArg.NONE, ref quiet, null, null };
+						options[2] = { "explicitly-installed", 'e', 0, OptionArg.NONE, ref explicitly_installed, null, null };
+						options[3] = { "orphans", 'o', 0, OptionArg.NONE, ref orphans, null, null };
+						options[4] = { "foreign", 'm', 0, OptionArg.NONE, ref foreign, null, null };
+						options[5] = { "groups", 'g', 0, OptionArg.NONE, ref groups, null, null };
+						options[6] = { "repos", 'r', 0, OptionArg.NONE, ref repos, null, null };
+						options[7] = { "files", 'f', 0, OptionArg.NONE, ref files, null, null };
+						options[8] = { "quiet", 'q', 0, OptionArg.NONE, ref quiet, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -245,6 +247,12 @@ namespace Pamac {
 							display_list_help ();
 						} else {
 							list_installed (quiet);
+						}
+					} else if (explicitly_installed) {
+						if (orphans || foreign || groups || repos || files) {
+							display_list_help ();
+						} else {
+							list_explicitly_installed (quiet);
 						}
 					} else if (orphans) {
 						if (foreign || groups || repos || files) {
@@ -1147,6 +1155,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  --installed, -i",
+								"  --explicitly-installed, -e",
 								"  --orphans, -o",
 								"  --foreign, -m",
 								"  --groups, -g [%s]".printf (dgettext (null, "group(s)")),
@@ -1160,6 +1169,7 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "list installed packages"),
+								dgettext (null, "list explicitly installed packages"),
 								dgettext (null, "list packages that were installed as dependencies but are no longer required by any installed package"),
 								dgettext (null, "list packages that were not found in the repositories"),
 								dgettext (null, "list all packages that are members of the given groups, if no group is given list all groups"),
@@ -1780,6 +1790,11 @@ namespace Pamac {
 
 		void list_installed (bool quiet) {
 			var pkgs = database.get_installed_pkgs ();
+			print_pkgs (pkgs, false, quiet);
+		}
+
+		void list_explicitly_installed (bool quiet) {
+			var pkgs = database.get_explicitly_installed_pkgs ();
 			print_pkgs (pkgs, false, quiet);
 		}
 

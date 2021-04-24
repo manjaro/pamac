@@ -333,18 +333,15 @@ namespace Pamac {
 		}
 
 		bool update_dbs (Alpm.Handle? alpm_handle, int force) {
-			bool success = false;
+			bool success = true;
 			unowned Alpm.List<unowned Alpm.DB> syncdbs = alpm_handle.syncdbs;
 			while (syncdbs != null) {
 				if (cancellable.is_cancelled ()) {
 					break;
 				}
 				unowned Alpm.DB db = syncdbs.data;
-				if (db.update (force) >= 0) {
-					// We should always succeed if at least one DB was upgraded - we may possibly
-					// fail later with unresolved deps, but that should be rare, and would be expected
-					success = true;
-				} else {
+				if (db.update (force) < 0) {
+					success = false;
 					Alpm.Errno err_no = alpm_handle.errno ();
 					if (err_no != 0) {
 						// download error details are set in cb_fetch
@@ -728,9 +725,16 @@ namespace Pamac {
 					case Alpm.Errno.UNSATISFIED_DEPS:
 						details.add (Alpm.strerror (err_no) + ":");
 						unowned Alpm.List<Alpm.DepMissing*> list = err_data;
+						// display one error by unsatisfied dep
+						var depstrings = new GenericSet<string?> (str_hash, str_equal);
 						while (list != null) {
 							Alpm.DepMissing* miss = list.data;
 							string depstring = miss->depend.compute_string ();
+							if (depstring in depstrings) {
+								delete miss;
+								list.next ();
+								continue;
+							}
 							unowned Alpm.List<unowned Alpm.Package> trans_add = alpm_handle.trans_to_add ();
 							unowned Alpm.Package pkg;
 							if (miss->causingpkg == null) {
@@ -763,6 +767,7 @@ namespace Pamac {
 									details.add ("- " + _("if possible, remove %s and retry").printf (miss->target));
 								}
 							}
+							depstrings.add ((owned) depstring);
 							delete miss;
 							list.next ();
 						}
@@ -1085,7 +1090,7 @@ namespace Pamac {
 			if (success) {
 				// UNNEEDED flag could remove some packages
 				var to_remove_copy = (owned) to_remove;
-				to_remove = new GenericSet<string?> (str_hash, str_equal);;
+				to_remove = new GenericSet<string?> (str_hash, str_equal);
 				unowned Alpm.List<unowned Alpm.Package> pkgs_to_remove = alpm_handle.trans_to_remove ();
 				while (pkgs_to_remove != null) {
 					unowned Alpm.Package trans_pkg = pkgs_to_remove.data;

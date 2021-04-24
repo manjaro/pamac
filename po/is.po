@@ -5,15 +5,15 @@
 # 
 # Translators:
 # Kristján Magnússon, 2015
-# Kristján Magnússon, 2015-2020
+# Kristján Magnússon, 2015-2021
 # Ólafur Víðir Guðbjargarson <olividir@gmail.com>, 2020
 # Sveinn í Felli <sv1@fellsnet.is>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-14 13:28+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: Icelandic (http://www.transifex.com/manjarolinux/manjaro-pamac/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,8 @@ msgstr "pakkinn %s hefur ekki gilt kerfissnið (architecture)"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "Ekki hægt að fullnægja framfærslu '%s' sem er krafist af %s"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "Aðvörun"
 
@@ -109,7 +110,7 @@ msgstr "Mistókst að frumstilla AUR gagnagrunn"
 msgid "removing %s from target list"
 msgstr "eyði %s frá markaðsskrá"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "Það þarf að endurræsa til að virkja breytingar"
 
@@ -144,7 +145,7 @@ msgstr "%s: %s hefur verið til í skráarkerfinu"
 #: src/alpm_utils.vala
 #, c-format
 msgid "It has been backed up to %s"
-msgstr ""
+msgstr "Hefur verið afritað til %s"
 
 #: src/alpm_utils.vala
 msgid "Removing invalid files and retrying"
@@ -321,7 +322,7 @@ msgid "Timeout expired"
 msgstr "Tímamörk runnu út"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -382,6 +383,11 @@ msgstr "Ekkert sem hægt er að gera"
 
 #: src/transaction.vala
 #, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr ""
+
+#: src/transaction.vala
+#, c-format
 msgid "Building %s"
 msgstr "Byggi %s"
 
@@ -409,8 +415,9 @@ msgid "Trust and Import"
 msgstr "Traust og uppsetning"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "_Hætta við"
 
@@ -429,13 +436,13 @@ msgstr "Treystu %s og setja inn PGP lykil"
 msgid "Official Repositories"
 msgstr "Opinber pakkageymslur"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
-msgstr "Pakkageymsla"
+msgid "Repositories"
+msgstr "Pakkageymslur"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -463,6 +470,10 @@ msgstr "Krafist af"
 msgid "Replaces"
 msgstr "Kemur í staðinn fyrir"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "Breyta bygginga skrám"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "Heildarstærð niðurhals"
@@ -477,9 +488,13 @@ msgid "Save"
 msgstr "Vista"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "_Loka"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr ""
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -541,25 +556,29 @@ msgstr "Nánar"
 
 #: src/manager_window.vala
 msgid "No package found"
-msgstr "Einginn pakki fanst"
+msgstr "Enginn pakki fannst"
 
 #: src/manager_window.vala
 msgid "Checking for Updates"
 msgstr "Athuga með uppfærslum"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "Valið"
+msgid "Install Local Packages"
+msgstr "Setja upp staðværan pakka"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "Allt"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "_Opna"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "Flokkar"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm pakki"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Pakkastjórnandi með stuðning fyrir Alpm, AUR, Flatpak og Snap "
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "Snap"
@@ -570,6 +589,30 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "%u aðgerð í bið"
 msgstr[1] "%u aðgerðir í bið"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "Allt"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "Sérstaklega uppsett"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "Munaðarleysingjar"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "Utanaðkomandi"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "Uppsett"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr ""
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -590,6 +633,10 @@ msgstr "Notkunarleyfi"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "Óþekkt"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "Pakkageymsla"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -671,38 +718,6 @@ msgstr "Innilokað í sandkassa"
 msgid "Channels"
 msgstr "Stöðvar/leiðir"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "Mikilvægi"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "Nafn"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "Stærð"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "Dagsetning"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "Pakkageymslur"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "Uppfærsla"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "Byggja"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "Fjarlægja"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "Stýrikerfis uppfærslur"
@@ -711,93 +726,105 @@ msgstr "Stýrikerfis uppfærslur"
 msgid "Includes performance, stability and security improvements"
 msgstr "Felur í sér bætingu í afköstum, stöðuleika og öryggi"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "Uppsett"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "Valið"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "Myndir og Myndbönd"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "Tónlist og Hljóð"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "Framleiðni"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "Samskipti og Fréttir"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "Nám og Vísindi"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "Leikir"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "Gagnlegt"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "Þróun"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "Sérstaklega uppsett"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "Munaðarleysingjar"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "Utanaðkomandi"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "Setja upp staðværan pakka"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "_Opna"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm pakki"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Pakkastjórnandi með stuðning fyrir Alpm, AUR, Flatpak og Snap "
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "Síðasta endurnýjun"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "Hversu oft á að athuga með uppfærslur, í klukkustundum"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "Hámark samsíða niðurhal"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr ""
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "Fjöldi af útgáfum af hverjum pakka til að halda í skyndiminni"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "Út um allan heim"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "Byggja skrá"
+msgid "0"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr ""
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -809,6 +836,14 @@ msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u skrá"
 msgstr[1] "%u skrár"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr ""
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr ""
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -839,10 +874,6 @@ msgstr "j"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "já"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "Breyta bygginga skrám"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -980,6 +1011,10 @@ msgid "list installed packages"
 msgstr "Lista niður pakka"
 
 #: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr ""
+
+#: src/cli.vala
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
@@ -1096,11 +1131,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "check for updates"
-msgstr ""
+msgstr "Athuga með uppfærslur"
 
 #: src/cli.vala
 msgid "do not check for updates"
-msgstr ""
+msgstr "Ekki athuga með uppfærslur"
 
 #: src/cli.vala
 msgid "Reinstall packages"
@@ -1122,7 +1157,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "ignore files backup"
-msgstr ""
+msgstr "hunsa afrit af skrám"
 
 #: src/cli.vala
 msgid "Safely check for updates without modifiying the databases"
@@ -1140,15 +1175,15 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also check updates in AUR"
-msgstr ""
+msgstr "Líka athuga með uppfærslur frá AUR"
 
 #: src/cli.vala
 msgid "do not check updates in AUR"
-msgstr ""
+msgstr "Ekki athuga með uppfærslur frá AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr ""
+msgstr "Aðeins prenta eina línu fyrir uppfærslu"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
@@ -1156,7 +1191,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not check development packages updates"
-msgstr ""
+msgstr "Ekki athuga þróunar pakka uppfærslu"
 
 #: src/cli.vala
 msgid "Upgrade your system"
@@ -1164,15 +1199,15 @@ msgstr "Uppfærðu kerfið þitt"
 
 #: src/cli.vala
 msgid "force the refresh of the databases"
-msgstr ""
+msgstr "Knýja fram endurlesa gagnagrunna"
 
 #: src/cli.vala
 msgid "enable package downgrades"
-msgstr ""
+msgstr "virkja pakka niðurfærslur"
 
 #: src/cli.vala
 msgid "disable package downgrades"
-msgstr ""
+msgstr "afvirkja pakka niðurfærslur"
 
 #: src/cli.vala
 msgid "also upgrade packages installed from AUR"
@@ -1188,7 +1223,7 @@ msgstr ""
 
 #: src/cli.vala
 msgid "do not upgrade development packages"
-msgstr ""
+msgstr "Ekki athuga þróunar uppfærslu pakka"
 
 #: src/cli.vala
 msgid ""
@@ -1225,7 +1260,11 @@ msgstr ""
 
 #: src/cli.vala
 msgid "also display all files names"
-msgstr ""
+msgstr "sýna einnig öll skránöfn"
+
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "Nafn"
 
 #: src/cli.vala
 msgid "Version"
@@ -1246,7 +1285,7 @@ msgstr "Uppsett stærð"
 #: src/cli.vala
 #, c-format
 msgid "No package owns %s"
-msgstr ""
+msgstr "Enginn pakki á %s"
 
 #: src/cli.vala
 #, c-format
@@ -1257,30 +1296,34 @@ msgstr "%s er í eigu %s"
 #, c-format
 msgid "%u ignored update"
 msgid_plural "%u ignored updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u hunsa uppfærslu"
+msgstr[1] "%u hunsa uppfærslur"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "Aðeins fjarlægja útgáfum af eyddum pökkum"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "Fjöldi af útgáfum af hverjum pakka til að halda í skyndiminni"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "Hreinsa skyndiminni"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr ""
 
 #: src/cli.vala
 #, c-format
 msgid "Add %s to install"
-msgstr ""
+msgstr "Bæta við %s til uppsettningar"
 
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr ""
+msgstr "%s er aðeins fráanlegt frá AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1296,12 +1339,12 @@ msgstr "allt"
 #: src/cli.vala
 #, c-format
 msgid "Add %s to reinstall"
-msgstr ""
+msgstr "Bæta við %s til enduruppsettningar"
 
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "Set upp %s frá %s"
 
 #: src/snap_plugin.vala
 msgid "No"
@@ -1333,7 +1376,7 @@ msgstr "_Virkja"
 
 #: resources/manager_window.ui
 msgid "Software Mode"
-msgstr ""
+msgstr "Hugbúnaðaraðferð"
 
 #: resources/manager_window.ui
 msgid "Refresh databases"
@@ -1343,7 +1386,7 @@ msgstr "Endurlesa gagnagrunna"
 msgid "View History"
 msgstr "Skoða feril"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "Valkostir"
 
@@ -1352,16 +1395,8 @@ msgid "About"
 msgstr "Um"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr ""
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "Raða eftir"
+msgid "Search"
+msgstr "Leita"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1376,20 +1411,52 @@ msgid "Ignore all"
 msgstr "Hunsa allt"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "Raða eftir"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "Mikilvægi"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "Stærð"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "Dagsetning"
+
+#: resources/manager_window.ui
 msgid "Refresh"
-msgstr ""
+msgstr "Endurnýjun"
+
+#: resources/manager_window.ui
+msgid "Categories"
+msgstr "Flokkar"
 
 #: resources/manager_window.ui
 msgid "Browse"
 msgstr "Flakka"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "Uppfærslur"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "Ræsa"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "Fjarlægja"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "Enduruppsetning"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "Byggja"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1401,39 +1468,67 @@ msgstr "Skrár"
 
 #: resources/manager_window.ui
 msgid "Reset build files"
-msgstr ""
+msgstr "Endurræsa bygginga skrám"
 
 #: resources/manager_window.ui
 msgid "Build files"
-msgstr ""
+msgstr "Bygginga skrám"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "Leita"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "Óútkljáður"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "Uppfærslur"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "Almennt"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "Athuga með uppfærslur"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr ""
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "Sjálfkrafa niðurhala uppfærslur"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "Fela táknmynd í bakka þegar engar uppfærslur eru tiltækar"
+msgid "Hide tray icon when no update"
+msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "Almennt"
+msgid "Downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "Skyndiminni"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr ""
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "Þróaður"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1443,41 +1538,27 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"
-msgstr ""
+msgstr "Athuga tiltækt diskpláss"
 
 #: resources/preferences_dialog.ui
 msgid "Remove unrequired dependencies"
 msgstr "Fjarlægja ónauðsynlegar kerfiskröfur"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "Þegar pakki er fjarlægður, fjarlægja þá einnig pakka sem honum eru háðir ef þeirra er ekki krafist af öðrum pökkum"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
-msgstr ""
+msgstr "Ekki athuga með uppfærslur þegar þú ert í uppsetningum"
 
 #: resources/preferences_dialog.ui
 msgid "Enable downgrade"
+msgstr "Virkja niðurfærslu"
+
+#: resources/preferences_dialog.ui
+msgid "Ignored upgrades"
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
+msgid "Third Party"
 msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "Nota spegla frá:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "Endurlesa speglalista"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1490,28 +1571,16 @@ msgid "Enable AUR support"
 msgstr "Virkja AUR-stuðning"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Leyfa Pamac að leita að og setja inn pakka frá AUR"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
+msgid "Keep built packages"
 msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
-msgstr ""
+msgstr "Athuga þróunar uppfærslu pakka"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr ""
+msgid "Build directory"
+msgstr "Byggja skrá"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1519,12 +1588,12 @@ msgstr ""
 
 #: resources/preferences_dialog.ui
 msgid "Enable Flatpak support"
+msgstr "Virkja Flatpak-stuðning"
+
+#: resources/preferences_dialog.ui
+msgid "Snap packages are maintained by their publisher."
 msgstr ""
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr ""
-
-#: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "Skyndiminni"
+msgid "Enable Snap support"
+msgstr "Virkja Snap-stuðning"

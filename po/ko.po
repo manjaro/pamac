@@ -4,6 +4,7 @@
 # Guillaume Benoit <guillaume@manjaro.org>, 2013-2020.
 # 
 # Translators:
+# JungHee Lee <daemul72@gmail.com>, 2021
 # Cybertramp <paran_son@outlook.com>, 2018
 # JungHee Lee <daemul72@gmail.com>, 2020
 # JungHee Lee <daemul72@gmail.com>, 2019-2020
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2020-12-26 15:31+0100\n"
-"PO-Revision-Date: 2020-12-26 16:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"PO-Revision-Date: 2021-04-16 15:45+0000\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +75,8 @@ msgstr "%s 패키지에 올바른 아키텍처가 없습니다"
 msgid "unable to satisfy dependency '%s' required by %s"
 msgstr "%s에 필요한 종속성 '%s'을(를) 충족시킬 수 없습니다"
 
-#: src/alpm_utils.vala src/transaction-gtk.vala src/cli.vala
+#: src/alpm_utils.vala src/transaction.vala src/transaction-gtk.vala
+#: src/cli.vala
 msgid "Warning"
 msgstr "경고"
 
@@ -117,7 +119,7 @@ msgstr "AUR 데이터베이스를 초기화하지 못했습니다"
 msgid "removing %s from target list"
 msgstr "대상 목록에서 %s 제거중"
 
-#: src/alpm_utils.vala
+#: src/alpm_utils.vala src/transaction-gtk.vala
 msgid "A restart is required for the changes to take effect"
 msgstr "변경 사항을 적용하려면 다시 시작해야합니다"
 
@@ -327,7 +329,7 @@ msgid "Timeout expired"
 msgstr "시간초과로 만료되었습니다"
 
 #: src/database.vala src/transaction-gtk.vala src/manager_window.vala
-#: src/cli.vala resources/manager_window.ui resources/preferences_dialog.ui
+#: src/cli.vala resources/preferences_dialog.ui
 msgid "AUR"
 msgstr "AUR"
 
@@ -380,11 +382,16 @@ msgstr "준비중"
 
 #: src/transaction.vala src/snap_plugin.vala
 msgid "Yes"
-msgstr "네"
+msgstr "예"
 
 #: src/transaction.vala src/installer.vala src/cli.vala
 msgid "Nothing to do"
 msgstr "아무 것도 할 것이 없습니다"
+
+#: src/transaction.vala
+#, c-format
+msgid "%s: ignoring package upgrade (%s => %s)\n"
+msgstr "%s: 패키지 업그레이드 무시하는 중 (%s => %s)\n"
 
 #: src/transaction.vala
 #, c-format
@@ -415,8 +422,9 @@ msgid "Trust and Import"
 msgstr "신용 및 가져오기"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/progress_dialog.ui resources/transaction_sum_dialog.ui
-#: resources/manager_window.ui resources/choose_pkgs_dialog.ui
+#: src/preferences_dialog.vala resources/progress_dialog.ui
+#: resources/transaction_sum_dialog.ui resources/manager_window.ui
+#: resources/choose_pkgs_dialog.ui
 msgid "_Cancel"
 msgstr "취소 (_C)"
 
@@ -435,13 +443,13 @@ msgstr "%s을(를) 신용하고 PGP 키 가져 오기"
 msgid "Official Repositories"
 msgstr "공식 저장소"
 
-#: src/transaction-gtk.vala src/manager_window.vala src/cli.vala
+#: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
-msgid "Repository"
+msgid "Repositories"
 msgstr "저장소"
 
 #: src/transaction-gtk.vala src/manager_window.vala
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/preferences_dialog.ui
 msgid "Flatpak"
 msgstr "Flatpak"
 
@@ -469,6 +477,10 @@ msgstr "필요 항목 :"
 msgid "Replaces"
 msgstr "대체"
 
+#: src/transaction-gtk.vala src/transaction-cli.vala
+msgid "Edit build files"
+msgstr "빌드 파일 편집"
+
 #: src/transaction-gtk.vala src/manager_window.vala src/transaction-cli.vala
 msgid "Total download size"
 msgstr "전체 다운로드 크기"
@@ -483,9 +495,13 @@ msgid "Save"
 msgstr "저장"
 
 #: src/transaction-gtk.vala resources/progress_dialog.ui
-#: resources/history_dialog.ui resources/preferences_dialog.ui
+#: resources/history_dialog.ui
 msgid "_Close"
 msgstr "닫기 (_C)"
+
+#: src/transaction-gtk.vala
+msgid "Restart"
+msgstr "재시작"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -553,18 +569,22 @@ msgid "Checking for Updates"
 msgstr "업데이트 확인중"
 
 #: src/manager_window.vala resources/manager_window.ui
-msgid "Featured"
-msgstr "추천"
+msgid "Install Local Packages"
+msgstr "로컬 패키지 설치"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "All"
-msgstr "모두"
+#: src/manager_window.vala
+msgid "_Open"
+msgstr "열기 (_O)"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Categories"
-msgstr "카테고리"
+#: src/manager_window.vala
+msgid "Alpm Package"
+msgstr "Alpm 패키지"
 
-#: src/manager_window.vala src/snap_plugin.vala resources/manager_window.ui
+#: src/manager_window.vala
+msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
+msgstr "Alpm, AUR, Flatpak 및 스냅 지원이 있는 패키지 관리자"
+
+#: src/manager_window.vala src/snap_plugin.vala
 #: resources/preferences_dialog.ui
 msgid "Snap"
 msgstr "스냅"
@@ -574,6 +594,30 @@ msgstr "스냅"
 msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] "보류중인 작업 %u 개"
+
+#: src/manager_window.vala
+msgid "All"
+msgstr "모두"
+
+#: src/manager_window.vala
+msgid "Explicitly installed"
+msgstr "완전히 설치됨"
+
+#: src/manager_window.vala
+msgid "Orphans"
+msgstr "독립 패키지"
+
+#: src/manager_window.vala
+msgid "Foreign"
+msgstr "외부 패키지"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Installed"
+msgstr "설치됨"
+
+#: src/manager_window.vala
+msgid "Ignored"
+msgstr "무시됨"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -594,6 +638,10 @@ msgstr "라이센스"
 #: src/manager_window.vala
 msgid "Unknown"
 msgstr "알 수 없음"
+
+#: src/manager_window.vala src/cli.vala resources/manager_window.ui
+msgid "Repository"
+msgstr "저장소"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Package Base"
@@ -675,38 +723,6 @@ msgstr "샌드박스에 고정되었습니다"
 msgid "Channels"
 msgstr "채널"
 
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Relevance"
-msgstr "관련성"
-
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Name"
-msgstr "이름"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Size"
-msgstr "크기"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Date"
-msgstr "날짜"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Repositories"
-msgstr "저장소"
-
-#: src/manager_window.vala
-msgid "Upgrade"
-msgstr "업그레이드"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Build"
-msgstr "빌드"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Remove"
-msgstr "제거"
-
 #: src/manager_window.vala
 msgid "OS Updates"
 msgstr "OS 업데이트"
@@ -715,93 +731,105 @@ msgstr "OS 업데이트"
 msgid "Includes performance, stability and security improvements"
 msgstr "성능, 안정성 및 보안 개선사항 포함"
 
-#: src/manager_window.vala src/cli.vala resources/manager_window.ui
-msgid "Installed"
-msgstr "설치됨"
+#: src/manager_window.vala
+msgid "Featured"
+msgstr "추천"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Photo & Video"
 msgstr "사진 및 비디오"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Music & Audio"
 msgstr "음악 및 오디오"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Productivity"
 msgstr "생산성"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Communication & News"
 msgstr "통신 및 뉴스"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Education & Science"
 msgstr "교육 및 과학"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Games"
 msgstr "게임"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Utilities"
 msgstr "유틸리티"
 
-#: src/manager_window.vala resources/manager_window.ui
+#: src/manager_window.vala
 msgid "Development"
 msgstr "개발"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Explicitly installed"
-msgstr "완전히 설치됨"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Orphans"
-msgstr "독립 패키지"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Foreign"
-msgstr "외부 패키지"
-
-#: src/manager_window.vala resources/manager_window.ui
-msgid "Install Local Packages"
-msgstr "로컬 패키지 설치"
-
-#: src/manager_window.vala
-msgid "_Open"
-msgstr "열기 (_O)"
-
-#: src/manager_window.vala
-msgid "Alpm Package"
-msgstr "Alpm 패키지"
-
-#: src/manager_window.vala
-msgid "A Package Manager with Alpm, AUR, Flatpak and Snap support"
-msgstr "Alpm, AUR, Flatpak 및 스냅 지원이 있는 패키지 관리자"
 
 #: src/manager_window.vala
 msgid "Last refresh"
 msgstr "마지막 새로고침"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "How often to check for updates, value in hours"
-msgstr "업데이트 확인 빈도 (1시간 단위)"
+#: src/preferences_dialog.vala
+msgid "every 3 hours"
+msgstr "3시간 마다"
 
-#: src/preferences_dialog.vala resources/preferences_dialog.ui
-msgid "Maximum parallel downloads"
-msgstr "최대 동시 다운로드수"
+#: src/preferences_dialog.vala
+msgid "every 6 hours"
+msgstr "6시간 마다"
 
-#: src/preferences_dialog.vala src/cli.vala resources/preferences_dialog.ui
-msgid "Number of versions of each package to keep in the cache"
-msgstr "캐시에 저장된 패키지 버전 번호"
+#: src/preferences_dialog.vala
+msgid "every 12 hours"
+msgstr "12시간 마다"
+
+#: src/preferences_dialog.vala
+msgid "every day"
+msgstr "매일"
+
+#: src/preferences_dialog.vala
+msgid "every week"
+msgstr "매주"
+
+#: src/preferences_dialog.vala
+msgid "1"
+msgstr "1"
+
+#: src/preferences_dialog.vala
+msgid "2"
+msgstr "2"
+
+#: src/preferences_dialog.vala
+msgid "4"
+msgstr "4"
+
+#: src/preferences_dialog.vala
+msgid "6"
+msgstr "6"
+
+#: src/preferences_dialog.vala
+msgid "8"
+msgstr "8"
+
+#: src/preferences_dialog.vala
+msgid "10"
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
 msgstr "월드와이드"
 
 #: src/preferences_dialog.vala
-msgid "Build directory"
-msgstr "빌드 디렉토리"
+msgid "0"
+msgstr "0"
+
+#: src/preferences_dialog.vala
+msgid "3"
+msgstr "3"
+
+#: src/preferences_dialog.vala
+msgid "5"
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -812,6 +840,14 @@ msgstr "삭제 대상:"
 msgid "%u file"
 msgid_plural "%u files"
 msgstr[0] "%u 파일"
+
+#: src/preferences_dialog.vala
+msgid "Select Build Directory"
+msgstr "빌드 디렉토리 선택"
+
+#: src/preferences_dialog.vala
+msgid "_Choose"
+msgstr "선택하기(_C)"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -842,10 +878,6 @@ msgstr "y"
 #: src/transaction-cli.vala
 msgid "yes"
 msgstr "yes"
-
-#: src/transaction-cli.vala resources/transaction_sum_dialog.ui
-msgid "Edit build files"
-msgstr "빌드 파일 편집"
 
 #: src/transaction-cli.vala
 msgid "[e]"
@@ -981,6 +1013,10 @@ msgstr "저장소"
 #: src/cli.vala
 msgid "list installed packages"
 msgstr "설치된 패키지 목록"
+
+#: src/cli.vala
+msgid "list explicitly installed packages"
+msgstr "완전히 설치된 패키지 목록"
 
 #: src/cli.vala
 msgid ""
@@ -1230,6 +1266,10 @@ msgstr "파일을 제거하지 않고 후보 패키지만 찾습니다"
 msgid "also display all files names"
 msgstr "또한 모든 파일 이름 표시"
 
+#: src/cli.vala resources/manager_window.ui
+msgid "Name"
+msgstr "이름"
+
 #: src/cli.vala
 msgid "Version"
 msgstr "버전"
@@ -1262,15 +1302,19 @@ msgid "%u ignored update"
 msgid_plural "%u ignored updates"
 msgstr[0] "%u가 무시한 업데이트"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
 msgstr "삭제된 패키지의 버전만 제거"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
+msgid "Number of versions of each package to keep in the cache"
+msgstr "캐시에 저장된 패키지 버전 번호"
+
+#: src/cli.vala
 msgid "Clean cache"
 msgstr "캐시 정리"
 
-#: src/cli.vala resources/preferences_dialog.ui
+#: src/cli.vala
 msgid "Clean build files"
 msgstr "빌드 파일 정리"
 
@@ -1302,7 +1346,7 @@ msgstr "재설치할 %s 추가"
 #: src/cli.vala
 #, c-format
 msgid "Install %s from %s"
-msgstr ""
+msgstr "%s 설치 (%s)"
 
 #: src/snap_plugin.vala
 msgid "No"
@@ -1344,7 +1388,7 @@ msgstr "데이터베이스 새로고침"
 msgid "View History"
 msgstr "이전기록 보기"
 
-#: resources/manager_window.ui resources/preferences_dialog.ui
+#: resources/manager_window.ui
 msgid "Preferences"
 msgstr "환경 설정"
 
@@ -1353,16 +1397,8 @@ msgid "About"
 msgstr "프로그램 소개"
 
 #: resources/manager_window.ui
-msgid "Browse by"
-msgstr "찾아보기:"
-
-#: resources/manager_window.ui
-msgid "View"
-msgstr "보기"
-
-#: resources/manager_window.ui
-msgid "Sort by"
-msgstr "정렬:"
+msgid "Search"
+msgstr "검색"
 
 #: resources/manager_window.ui
 msgid "Remove all"
@@ -1377,20 +1413,52 @@ msgid "Ignore all"
 msgstr "모두 무시"
 
 #: resources/manager_window.ui
+msgid "Sort by"
+msgstr "정렬:"
+
+#: resources/manager_window.ui
+msgid "Relevance"
+msgstr "관련성"
+
+#: resources/manager_window.ui
+msgid "Size"
+msgstr "크기"
+
+#: resources/manager_window.ui
+msgid "Date"
+msgstr "날짜"
+
+#: resources/manager_window.ui
 msgid "Refresh"
 msgstr "새로고침"
 
 #: resources/manager_window.ui
+msgid "Categories"
+msgstr "카테고리"
+
+#: resources/manager_window.ui
 msgid "Browse"
 msgstr "찾아보기"
+
+#: resources/manager_window.ui resources/preferences_dialog.ui
+msgid "Updates"
+msgstr "업데이트"
 
 #: resources/manager_window.ui
 msgid "Launch"
 msgstr "실행"
 
 #: resources/manager_window.ui
+msgid "Remove"
+msgstr "제거"
+
+#: resources/manager_window.ui
 msgid "Reinstall"
 msgstr "재설치"
+
+#: resources/manager_window.ui
+msgid "Build"
+msgstr "빌드"
 
 #: resources/manager_window.ui
 msgid "Dependencies"
@@ -1408,33 +1476,61 @@ msgstr "빌드 파일 재설정"
 msgid "Build files"
 msgstr "빌드 파일"
 
-#: resources/manager_window.ui
-msgid "Search"
-msgstr "검색"
-
-#: resources/manager_window.ui
-msgid "Pending"
-msgstr "보류중"
-
-#: resources/manager_window.ui
-msgid "Updates"
-msgstr "업데이트"
+#: resources/preferences_dialog.ui
+msgid "General"
+msgstr "일반"
 
 #: resources/preferences_dialog.ui
 msgid "Check for updates"
 msgstr "업데이트 확인"
 
 #: resources/preferences_dialog.ui
+msgid "Updates check frequency"
+msgstr "업데이트 확인 빈도"
+
+#: resources/preferences_dialog.ui
 msgid "Automatically download updates"
 msgstr "자동으로 업데이트 다운로드"
 
 #: resources/preferences_dialog.ui
-msgid "Hide tray icon when no update available"
-msgstr "사용 가능한 업데이트가 없을 때 트레이 아이콘 숨기기"
+msgid "Hide tray icon when no update"
+msgstr "업데이트되지 않은 경우 트레이 아이콘 숨김"
 
 #: resources/preferences_dialog.ui
-msgid "General"
-msgstr "일반"
+msgid "Downloads"
+msgstr "다운로드"
+
+#: resources/preferences_dialog.ui
+msgid "Parallel downloads"
+msgstr "동시 다운로드"
+
+#: resources/preferences_dialog.ui
+msgid "Use mirrors from"
+msgstr "사용하는 미러 서버:"
+
+#: resources/preferences_dialog.ui
+msgid "Refresh Mirrors"
+msgstr "미러 새로고침"
+
+#: resources/preferences_dialog.ui
+msgid "Cache"
+msgstr "캐시"
+
+#: resources/preferences_dialog.ui
+msgid "Number of versions of each package to keep"
+msgstr "보관할 각 패키지의 버전 번호"
+
+#: resources/preferences_dialog.ui
+msgid "Remove only the uninstalled packages"
+msgstr "제거되지 않은 패키지만 제거"
+
+#: resources/preferences_dialog.ui
+msgid "Clean"
+msgstr "비우기"
+
+#: resources/preferences_dialog.ui
+msgid "Advanced"
+msgstr "고급"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1451,12 +1547,6 @@ msgid "Remove unrequired dependencies"
 msgstr "불필요하게된 의존 패키지 제거"
 
 #: resources/preferences_dialog.ui
-msgid ""
-"When removing a package, also remove its dependencies that are not required "
-"by other packages"
-msgstr "패키지를 제거할 때, 다른 패키지에서 필요로 하지 않는 종속 패키지를 제거합니다"
-
-#: resources/preferences_dialog.ui
 msgid "Do not check for updates when installing"
 msgstr "설치할 때 업데이트 확인안함"
 
@@ -1465,20 +1555,12 @@ msgid "Enable downgrade"
 msgstr "다운 그레이드 사용"
 
 #: resources/preferences_dialog.ui
-msgid "Ignore upgrades for:"
-msgstr "업그레이드 무시할 대상:"
+msgid "Ignored upgrades"
+msgstr "무시된 업그레이드"
 
 #: resources/preferences_dialog.ui
-msgid "Advanced"
-msgstr "고급"
-
-#: resources/preferences_dialog.ui
-msgid "Use mirrors from:"
-msgstr "사용하는 미러 서버:"
-
-#: resources/preferences_dialog.ui
-msgid "Refresh Mirrors List"
-msgstr "미러 목록 새로고침"
+msgid "Third Party"
+msgstr "서드 파티"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1491,28 +1573,16 @@ msgid "Enable AUR support"
 msgstr "AUR 지원 사용"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install packages from AUR"
-msgstr "Pamac이 AUR로부터 패키지를 검색하고 설치하도록 허용"
-
-#: resources/preferences_dialog.ui
-msgid "Keep built packages in cache"
-msgstr "빌드된 패키지를 캐시에 보관"
+msgid "Keep built packages"
+msgstr "빌드된 패키지 유지"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
 msgstr "개발 패키지 업데이트 확인"
 
 #: resources/preferences_dialog.ui
-msgid "Snap packages are maintained by their publisher."
-msgstr "스냅 패키지는 제작자가 유지 관리합니다."
-
-#: resources/preferences_dialog.ui
-msgid "Enable Snap support"
-msgstr "스냅 지원 사용"
-
-#: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install snaps"
-msgstr "Pamac이 스냅을 검색하고 설치하도록 허용"
+msgid "Build directory"
+msgstr "빌드 디렉토리"
 
 #: resources/preferences_dialog.ui
 msgid "Flatpak packages are maintained by their publisher."
@@ -1523,9 +1593,9 @@ msgid "Enable Flatpak support"
 msgstr "Flatpak 지원 사용가능"
 
 #: resources/preferences_dialog.ui
-msgid "Allow Pamac to search and install flatpaks"
-msgstr "Pamac이 flatpak을 검색하고 설치하도록 허용"
+msgid "Snap packages are maintained by their publisher."
+msgstr "스냅 패키지는 제작자가 유지 관리합니다."
 
 #: resources/preferences_dialog.ui
-msgid "Cache"
-msgstr "캐시"
+msgid "Enable Snap support"
+msgstr "스냅 지원 사용"

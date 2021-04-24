@@ -75,6 +75,7 @@ List packages, groups, repositories or files
 *pamac list* [options]::
 
 *--installed, -i* ::: list installed packages
+*--explicitly-installed, -e* ::: list explicitly installed packages
 *--orphans, -o* ::: list packages that were installed as dependencies but are no
 longer required by any installed package
 *--foreign, -m* ::: list packages that were not found in the repositories

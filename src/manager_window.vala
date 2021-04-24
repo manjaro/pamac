@@ -393,7 +393,7 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Label checking_label;
 		[GtkChild]
-		unowned Gtk.ScrolledWindow deps_scrolledwindow;
+		unowned Gtk.ScrolledWindow details_scrolledwindow;
 		[GtkChild]
 		unowned Gtk.Stack properties_stack;
 		[GtkChild]
@@ -446,6 +446,8 @@ namespace Pamac {
 		public unowned Gtk.Button apply_button;
 		[GtkChild]
 		unowned Gtk.Button cancel_button;
+		[GtkChild]
+		unowned Gtk.Revealer infobox_revealer;
 
 		public Queue<Package> display_package_queue;
 		Package current_package_displayed;
@@ -458,7 +460,7 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
-		LocalConfig local_config;
+		public LocalConfig local_config;
 		Soup.Session soup_session;
 
 		bool important_details;
@@ -466,7 +468,7 @@ namespace Pamac {
 		public bool generate_mirrors_list;
 		bool waiting;
 
-		bool enable_aur;
+		public bool enable_aur { get; private set; }
 		bool updates_checked;
 		GenericArray<AlpmPackage> repos_updates;
 		GenericArray<AURPackage> aur_updates;
@@ -976,6 +978,7 @@ namespace Pamac {
 						apply_button.remove_css_class ("suggested-action");
 					}
 					cancel_button.sensitive = false;
+					infobox_revealer.reveal_child = true;
 				} else {
 					uint total_pending = to_install.length +
 										snap_to_install.length +
@@ -989,12 +992,14 @@ namespace Pamac {
 						cancel_button.sensitive = false;
 						apply_button.sensitive = false;
 						apply_button.remove_css_class ("suggested-action");
+						infobox_revealer.reveal_child = false;
 					} else {
 						string info = dngettext (null, "%u pending operation", "%u pending operations", total_pending).printf (total_pending);
 						transaction.progress_box.action_label.label = info;
 						cancel_button.sensitive = true;
 						apply_button.sensitive = true;
 						apply_button.add_css_class ("suggested-action");
+						infobox_revealer.reveal_child = true;
 					}
 				}
 			}
@@ -1105,6 +1110,7 @@ namespace Pamac {
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
+			label.ellipsize = Pango.EllipsizeMode.END;
 			details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 			if (!transaction_running
 				&& detail_type == dgettext (null, "Install Reason")
@@ -1117,8 +1123,13 @@ namespace Pamac {
 				box.append (label2);
 				var mark_explicit_button = new Gtk.Button.with_label (dgettext (null, "Mark as explicitly installed"));
 				mark_explicit_button.halign = Gtk.Align.START;
+				mark_explicit_button.margin_bottom = 6;
 				mark_explicit_button.clicked.connect (on_mark_explicit_button_clicked);
-				box.append (mark_explicit_button);
+				var scrolledwindow = new Gtk.ScrolledWindow ();
+				scrolledwindow.visible = true;
+				scrolledwindow.vscrollbar_policy = Gtk.PolicyType.NEVER;
+				scrolledwindow.set_child (mark_explicit_button);
+				box.append (scrolledwindow);
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			} else {
 				var label2 = new Gtk.Label (detail);
@@ -1208,6 +1219,7 @@ namespace Pamac {
 			var label = new Gtk.Label ("<b>%s:</b>".printf (dep_type));
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
+			label.ellipsize = Pango.EllipsizeMode.END;
 			label.margin_top = 12;
 			deps_box.append (label);
 			var listbox = new Gtk.ListBox ();
@@ -1264,12 +1276,13 @@ namespace Pamac {
 				var cached_screenshot = File.new_for_path ("/tmp/pamac-app-screenshots/%s".printf (uri.get_basename ()));
 				if (cached_screenshot.query_exists ()) {
 					picture = new Gtk.Picture.for_file (cached_screenshot);
+					picture.can_shrink = true;
 				} else {
 					// download screenshot
 					try {
 						var request = soup_session.request (url);
 						var inputstream = yield request.send_async (null);
-						var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (inputstream, -1, 1000, true);
+						var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (inputstream, -1, 300, true);
 						// save scaled image in tmp
 						FileOutputStream os = cached_screenshot.append_to (FileCreateFlags.NONE);
 						pixbuf.save_to_stream (os, "png");
@@ -1489,11 +1502,13 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
+					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 					foreach (unowned string name in pkg.groups) {
 						var label2 = new Gtk.Label (name);
 						label2.halign = Gtk.Align.START;
+						label2.ellipsize = Pango.EllipsizeMode.END;
 						box.append (label2);
 					}
 					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
@@ -1530,11 +1545,13 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
+					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 					foreach (unowned string name in pkg.backups) {
 						var label2 = new Gtk.Label (name);
 						label2.halign = Gtk.Align.START;
+						label2.ellipsize = Pango.EllipsizeMode.END;
 						box.append (label2);
 					}
 					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
@@ -1675,11 +1692,13 @@ namespace Pamac {
 				label.use_markup = true;
 				label.halign = Gtk.Align.START;
 				label.valign = Gtk.Align.START;
+				label.ellipsize = Pango.EllipsizeMode.END;
 				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 				foreach (unowned string name in aur_pkg.backups) {
 					var label2 = new Gtk.Label (name);
 					label2.halign = Gtk.Align.START;
+					label2.ellipsize = Pango.EllipsizeMode.END;
 					box.append (label2);
 				}
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
@@ -1798,6 +1817,7 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
+					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 					foreach (unowned string channel in snap_pkg.channels) {
@@ -1808,6 +1828,7 @@ namespace Pamac {
 							box2.homogeneous = false;
 							var label2 = new Gtk.Label (channel);
 							label2.halign = Gtk.Align.START;
+							label.ellipsize = Pango.EllipsizeMode.END;
 							box2.append (label2);
 							var install_button = new Gtk.Button.with_label (dgettext (null, "Install"));
 							install_button.margin_top = 3;
@@ -1837,6 +1858,7 @@ namespace Pamac {
 						} else {
 							var label2 = new Gtk.Label (channel);
 							label2.halign = Gtk.Align.START;
+							label.ellipsize = Pango.EllipsizeMode.END;
 							box.append (label2);
 						}
 					}
@@ -2797,7 +2819,7 @@ namespace Pamac {
 		}
 
 		public void display_details (Package pkg) {
-			deps_scrolledwindow.vadjustment.value = 0;
+			details_scrolledwindow.vadjustment.value = 0;
 			if (pkg is AURPackage) {
 				display_aur_details (pkg as AURPackage);
 			} else if (pkg is AlpmPackage) {
@@ -3142,6 +3164,9 @@ namespace Pamac {
 		}
 
 		void on_browse_stack_visible_child_changed () {
+			if (browse_flap.folded) {
+				return;
+			}
 			switch (browse_stack.visible_child_name) {
 				case "categories":
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
@@ -3201,6 +3226,10 @@ namespace Pamac {
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		[GtkCallback]
@@ -3240,9 +3269,11 @@ namespace Pamac {
 					this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 				}
 			});
-			install_all_button.visible = false;
-			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		async GenericArray<unowned Package> get_all_installed () {
@@ -3363,6 +3394,10 @@ namespace Pamac {
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		[GtkCallback]
@@ -3454,6 +3489,10 @@ namespace Pamac {
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 
@@ -3571,6 +3610,10 @@ namespace Pamac {
 			}
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 //~ 		[GtkCallback]
@@ -3749,6 +3792,13 @@ namespace Pamac {
 					this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 				}
 			});
+			install_all_button.visible = false;
+			remove_all_button.visible = false;
+			ignore_all_button.visible = false;
+			// hide sidebar in folded mode
+			if (browse_flap.folded && browse_flap.reveal_flap) {
+				browse_flap.reveal_flap = false;
+			}
 		}
 
 		void on_main_stack_visible_child_changed () {
@@ -4128,7 +4178,7 @@ namespace Pamac {
 				} else {
 					transaction.show_notification (dgettext (null, "Transaction successfully finished"));
 				}
-				transaction.show_warnings (false);
+				transaction.show_warnings (true);
 			} else {
 				transaction.clear_warnings ();
 				foreach (unowned string name in previous_to_install) {

@@ -55,12 +55,6 @@ namespace Pamac {
 			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
 			string user_agent = "Pamac/%s".printf (VERSION);
 			Environment.set_variable ("HTTP_USER_AGENT", user_agent, true);
-			// init appstream
-			app_store = new As.Store ();
-			app_store.add_filter (As.AppKind.DESKTOP);
-			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
-									| As.StoreAddFlags.ONLY_NATIVE_LANGS
-									| As.StoreAddFlags.USE_MERGE_HEURISTIC);
 			// load snap plugin
 			if (config.support_snap) {
 				snap_plugin = config.get_snap_plugin ();
@@ -77,6 +71,11 @@ namespace Pamac {
 		}
 
 		public void enable_appstream () {
+			app_store = new As.Store ();
+			app_store.add_filter (As.AppKind.DESKTOP);
+			app_store.set_add_flags (As.StoreAddFlags.USE_UNIQUE_ID
+									| As.StoreAddFlags.ONLY_NATIVE_LANGS
+									| As.StoreAddFlags.USE_MERGE_HEURISTIC);
 			try {
 				app_store.load (As.StoreLoadFlags.APP_INFO_SYSTEM
 								| As.StoreLoadFlags.IGNORE_INVALID);
@@ -773,22 +772,32 @@ namespace Pamac {
 			return pkgs;
 		}
 
+		void get_explicitly_installed_pkgs_real (ref GenericArray<unowned AlpmPackage> pkgs) {
+			lock (alpm_config) {
+				Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
+				unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
+				while (pkgcache != null) {
+					unowned Alpm.Package alpm_pkg = pkgcache.data;
+					if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
+						alpm_pkgs.add (alpm_pkg);
+					}
+					pkgcache.next ();
+				}
+				initialise_pkgs (alpm_pkgs, ref pkgs);
+			}
+		}
+
+		public GenericArray<unowned AlpmPackage> get_explicitly_installed_pkgs () {
+			var pkgs = new GenericArray<unowned AlpmPackage> ();
+			get_explicitly_installed_pkgs_real (ref pkgs);
+			return pkgs;
+		}
+
 		public async GenericArray<unowned AlpmPackage> get_explicitly_installed_pkgs_async () {
 			var pkgs = new GenericArray<unowned AlpmPackage> ();
 			try {
 				new Thread<int>.try ("get_explicitly_installed_pkgs", () => {
-					lock (alpm_config) {
-						Alpm.List<unowned Alpm.Package> alpm_pkgs = null;
-						unowned Alpm.List<unowned Alpm.Package> pkgcache = alpm_handle.localdb.pkgcache;
-						while (pkgcache != null) {
-							unowned Alpm.Package alpm_pkg = pkgcache.data;
-							if (alpm_pkg.reason == Alpm.Package.Reason.EXPLICIT) {
-								alpm_pkgs.add (alpm_pkg);
-							}
-							pkgcache.next ();
-						}
-						initialise_pkgs (alpm_pkgs, ref pkgs);
-					}
+					get_explicitly_installed_pkgs_real (ref pkgs);
 					context.invoke (get_explicitly_installed_pkgs_async.callback);
 					return 0;
 				});
@@ -2236,12 +2245,15 @@ namespace Pamac {
 				if (refresh_tmp_dbs) {
 					// refresh tmp dbs
 					// count this step as 90% of the total
+					bool success = true;
 					unowned Alpm.List<unowned Alpm.DB> syncdbs = tmp_handle.syncdbs;
 					size_t dbs_count = syncdbs.length ();
 					size_t i = 0;
 					while (syncdbs != null) {
 						unowned Alpm.DB db = syncdbs.data;
-						db.update (0);
+						if (db.update (0) < 0) {
+							success = false;
+						}
 						syncdbs.next ();
 						i++;
 						context.invoke (() => {
@@ -2249,13 +2261,15 @@ namespace Pamac {
 							return false;
 						});
 					}
-					// save now as last refresh time
-					try {
-						// touch the file
-						string timestamp_path = "/tmp/pamac/dbs/sync/refresh_timestamp";
-						Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
-					} catch (SpawnError e) {
-						warning (e.message);
+					if (success) {
+						// save now as last refresh time
+						try {
+							// touch the file
+							string timestamp_path = "/tmp/pamac/dbs/sync/refresh_timestamp";
+							Process.spawn_command_line_sync ("touch %s".printf (timestamp_path));
+						} catch (SpawnError e) {
+							warning (e.message);
+						}
 					}
 				} else {
 					// refresh step skipped

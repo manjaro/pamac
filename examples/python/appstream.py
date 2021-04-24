@@ -4,12 +4,12 @@ import gi
 gi.require_version('Pamac', '10.0')
 from gi.repository import Pamac
 
-def print_pkg_details (details):
-    print (" -Name:", details.get_name())
-    print (" -Desc:", details.get_desc())
-    print (" -Long Desc:", details.get_long_desc())
-    print (" -Icon:", details.get_icon())
-    print (" -Screenshots:", details.get_screenshots())
+def print_pkg_details(details):
+    print(" -Name:", details.get_name())
+    print(" -Desc:", details.get_desc())
+    print(" -Long Desc:", details.get_long_desc())
+    print(" -Icon:", details.get_icon())
+    print(" -Screenshots:", details.get_screenshots())
 
 if __name__ == "__main__":
     config = Pamac.Config(conf_path="/etc/pamac.conf")
@@ -17,14 +17,14 @@ if __name__ == "__main__":
 
     pkgname = "gimp"
 
-    print ("Without appstream support:")
-    pkgs = db.search_pkgs (pkgname)
+    print("Without appstream support:")
+    pkgs = db.search_pkgs(pkgname)
     for pkg in pkgs:
-        print_pkg_details (pkg)
+        print_pkg_details(pkg)
 
-    print ("")
-    print ("With appstream support:")
+    print("")
+    print("With appstream support:")
     db.enable_appstream()
-    pkgs = db.search_pkgs (pkgname)
+    pkgs = db.search_pkgs(pkgname)
     for pkg in pkgs:
-        print_pkg_details (pkg)
+        print_pkg_details(pkg)

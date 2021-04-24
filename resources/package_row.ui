@@ -4,11 +4,11 @@
   <template class="PamacPackageRow" parent="GtkListBoxRow">
     <property name="child">
       <object class="GtkBox" id="main_box">
-        <property name="margin-start">16</property>
-        <property name="margin-end">16</property>
-        <property name="margin-top">16</property>
-        <property name="margin-bottom">16</property>
-        <property name="spacing">18</property>
+        <property name="margin-start">12</property>
+        <property name="margin-end">12</property>
+        <property name="margin-top">12</property>
+        <property name="margin-bottom">12</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkImage" id="app_icon">
             <property name="pixel-size">64</property>
@@ -26,7 +26,7 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="name_label">
-                    <property name="wrap">1</property>
+                    <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -35,8 +35,8 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="old_version_label">
+                    <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
-                    <property name="valign">center</property>
                     <property name="visible">0</property>
                     <style>
                       <class name="old-version-label"/>
@@ -45,8 +45,8 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="version_label">
+                    <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
-                    <property name="valign">center</property>
                     <style>
                       <class name="version-label"/>
                     </style>
@@ -57,12 +57,13 @@
             <child>
               <object class="GtkLabel" id="desc_label">
                 <property name="use-markup">1</property>
-                <property name="wrap">1</property>
+                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="repo_label">
+                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="dim-label"/>
