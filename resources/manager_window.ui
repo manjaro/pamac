@@ -704,6 +704,7 @@
                               <object class="GtkBox" id="properties_box2">
                                 <property name="visible">1</property>
                                 <property name="spacing">18</property>
+                                <property name="halign">center</property>
                                 <child>
                                   <object class="GtkImage" id="app_image">
                                     <property name="visible">1</property>
@@ -731,7 +732,6 @@
                                     <child>
                                       <object class="GtkLabel" id="desc_label">
                                         <property name="visible">1</property>
-                                        <property name="halign">start</property>
                                         <property name="wrap">1</property>
                                         <property name="lines">2</property>
                                         <property name="ellipsize">end</property>
@@ -751,6 +751,8 @@
                                   <object class="GtkBox" id="button_box">
                                     <property name="visible">1</property>
                                     <property name="spacing">12</property>
+                                    <property name="halign">center</property>
+                                    <property name="margin-bottom">6</property>
                                     <child>
                                       <object class="GtkButton" id="launch_button">
                                         <property name="visible">1</property>

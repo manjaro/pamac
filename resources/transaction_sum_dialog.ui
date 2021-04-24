@@ -32,6 +32,7 @@
                     <child>
                       <object class="GtkLabel" id="top_label">
                         <property name="visible">1</property>
+                        <property name="ellipsize">end</property>
                         <property name="margin_top">6</property>
                       </object>
                     </child>

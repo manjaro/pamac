@@ -33,7 +33,7 @@
                 <child>
                   <object class="GtkLabel" id="name_label">
                     <property name="visible">1</property>
-                    <property name="wrap">1</property>
+                    <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -55,40 +55,29 @@
             <child>
               <object class="GtkLabel" id="infos_label">
                 <property name="visible">1</property>
-                <property name="wrap">1</property>
+                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="repo_label">
                 <property name="visible">1</property>
+                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="dim-label"/>
+                  <class name="size-label"/>
                 </style>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="button_box">
+          <object class="GtkLabel" id="size_label">
             <property name="visible">1</property>
-            <property name="halign">end</property>
+            <property name="ellipsize">end</property>
+            <property name="xalign">1</property>
             <property name="hexpand">1</property>
-            <property name="valign">center</property>
-            <child>
-              <object class="GtkButton" id="edit_button">
-                <property name="visible">0</property>
-                <property name="label" translatable="yes">Edit build files</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="size_label">
-                <property name="visible">1</property>
-                <property name="xalign">1</property>
-                <property name="hexpand">1</property>
-              </object>
-            </child>
           </object>
         </child>
       </object>

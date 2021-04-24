@@ -1101,7 +1101,6 @@ namespace Pamac {
 					button.margin_start = 12;
 					button.margin_end = 12;
 					button.halign = Gtk.Align.END;
-					button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					button.clicked.connect (() => {
 						try {
 							Process.spawn_command_line_sync ("reboot");
