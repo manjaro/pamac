@@ -38,8 +38,6 @@ namespace Pamac {
 		bool summary_shown;
 		public bool commit_transaction_answer;
 
-		Soup.Session soup_session;
-
 		public signal void transaction_sum_populated ();
 
 		public TransactionGtk (Database database, LocalConfig local_config, Gtk.Application? application) {
@@ -107,10 +105,6 @@ namespace Pamac {
 			no_confirm_upgrade = false;
 			summary_shown = false;
 			commit_transaction_answer = false;
-			// soup session to download icons and screenshots
-			soup_session = new Soup.Session ();
-			soup_session.user_agent = "Pamac/%s".printf (VERSION);
-			soup_session.timeout = 30;
 		}
 
 		public void set_trans_flags () {
@@ -426,21 +420,16 @@ namespace Pamac {
 			} else {
 				// download icon
 				try {
-					var request = soup_session.request (url);
-					try {
-						var inputstream = yield request.send_async (null);
-						pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
-						// scale pixbux at 64 pixels
-						int width = pixbuf.get_width ();
-						if (width > 64) {
-							pixbuf = pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
-						}
-						// save scaled image in tmp
-						FileOutputStream os = cached_icon.append_to (FileCreateFlags.NONE);
-						pixbuf.save_to_stream (os, "png");
-					} catch (Error e) {
-						warning ("%s: %s", url, e.message);
+					var inputstream = yield database.get_url_stream (url);
+					pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
+					// scale pixbux at 64 pixels
+					int width = pixbuf.get_width ();
+					if (width > 64) {
+						pixbuf = pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
 					}
+					// save scaled image in tmp
+					FileOutputStream os = cached_icon.append_to (FileCreateFlags.NONE);
+					pixbuf.save_to_stream (os, "png");
 				} catch (Error e) {
 					warning ("%s: %s", url, e.message);
 				}

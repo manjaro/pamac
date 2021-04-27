@@ -28,14 +28,8 @@ namespace Pamac {
 		HashTable<unowned string, Json.Object> cached_infos;
 		HashTable<string, Json.Array> search_results;
 
-		public AUR () {
-			Object ();
-		}
-
-		construct {
-			session = new Soup.Session ();
-			session.user_agent = "Pamac/%s".printf (VERSION);
-			session.timeout = 30;
+		public AUR (Soup.Session session) {
+			this.session = session;
 			cached_infos = new HashTable<unowned string, Json.Object> (str_hash, str_equal);
 			search_results = new HashTable<string, Json.Array> (str_hash, str_equal);
 		}

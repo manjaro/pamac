@@ -117,7 +117,7 @@ namespace Pamac {
 		public signal void important_details_outpout (string sender, bool must_show);
 		public signal bool get_authorization (string sender);
 
-		public AlpmUtils (Config config) {
+		public AlpmUtils (Config config, Soup.Session soup_session) {
 			this.config = config;
 			multi_progress_mutex = Mutex ();
 			multi_progress = new HashTable<string, uint64?> (str_hash, str_equal);
@@ -142,11 +142,7 @@ namespace Pamac {
 			rate_timer = new Timer ();
 			download_rates = new Queue<double?> ();
 			cancellable = new Cancellable ();
-			soup_session = new Soup.Session ();
-			string user_agent = "Pamac/%s".printf (VERSION);
-			soup_session.user_agent = user_agent;
-			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
-			Environment.set_variable ("HTTP_USER_AGENT", user_agent, true);
+			this.soup_session = soup_session;
 			soup_session.timeout = 30;
 			downloading_updates = false;
 			check_old_lock ();

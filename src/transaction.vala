@@ -104,7 +104,7 @@ namespace Pamac {
 			overwrite_files = new GenericSet<string?> (str_hash, str_equal);
 			to_install_as_dep = new GenericSet<string?> (str_hash, str_equal);
 			// alpm_utils global variable declared in alpm_utils.vala
-			alpm_utils = new AlpmUtils (config);
+			alpm_utils = new AlpmUtils (config, database.soup_session);
 			alpm_utils.choose_provider.connect (choose_provider_real);
 			alpm_utils.emit_action.connect ((sender, action) => {
 				context.invoke (() => {

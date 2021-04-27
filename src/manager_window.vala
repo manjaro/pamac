@@ -459,7 +459,6 @@ namespace Pamac {
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
 		public LocalConfig local_config;
-		Soup.Session soup_session;
 
 		bool important_details;
 		bool transaction_running;
@@ -841,11 +840,6 @@ namespace Pamac {
 					}
 				}
 			}
-
-			// soup session to download icons and screenshots
-			soup_session = new Soup.Session ();
-			soup_session.user_agent = "Pamac/%s".printf (VERSION);
-			soup_session.timeout = 30;
 
 			// refresh flatpak appstream_data
 			database.refresh_flatpak_appstream_data_async.begin ();
@@ -1291,9 +1285,7 @@ namespace Pamac {
 		}
 
 		async void get_screenshots_images (GenericArray<string> urls) {
-			// keep a copy of urls because of async
-			GenericArray<string> urls_copy = urls.copy (strdup);
-			foreach (unowned string url in urls_copy) {
+			foreach (unowned string url in urls) {
 				Gtk.Image image = null;
 				var uri = File.new_for_uri (url);
 				var cached_screenshot = File.new_for_path ("/tmp/pamac-app-screenshots/%s".printf (uri.get_basename ()));
@@ -1303,8 +1295,7 @@ namespace Pamac {
 				} else {
 					// download screenshot
 					try {
-						var request = soup_session.request (url);
-						var inputstream = yield request.send_async (null);
+						var inputstream = yield database.get_url_stream (url);
 						var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (inputstream, -1, 300, true);
 						// save scaled image in tmp
 						FileOutputStream os = cached_screenshot.append_to (FileCreateFlags.NONE);
@@ -3144,7 +3135,7 @@ namespace Pamac {
 			if (search_entry_timeout_id != 0) {
 				Source.remove (search_entry_timeout_id);
 			}
-			search_entry_timeout_id = Timeout.add (300, search_entry_timeout_callback);
+			search_entry_timeout_id = Timeout.add (1000, search_entry_timeout_callback);
 		}
 
 		[GtkCallback]

@@ -38,6 +38,7 @@ namespace Pamac {
 
 		public Config config { get; construct set; }
 		internal unowned MainContext context { get; private set; }
+		internal Soup.Session soup_session { get; private set; }
 
 		public signal void get_updates_progress (uint percent);
 
@@ -51,9 +52,12 @@ namespace Pamac {
 			aur_vcs_pkgs = new HashTable<string, AURPackageData> (str_hash, str_equal);
 			pkgs_cache = new HashTable<unowned string, AlpmPackageLinked> (str_hash, str_equal);
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);
-			aur = new AUR ();
-			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
 			string user_agent = "Pamac/%s".printf (VERSION);
+			soup_session = new Soup.Session ();
+			soup_session.user_agent = user_agent;
+			soup_session.timeout = 30;
+			aur = new AUR (soup_session);
+			// set HTTP_USER_AGENT needed when downloading using libalpm like refreshing dbs
 			Environment.set_variable ("HTTP_USER_AGENT", user_agent, true);
 			// load snap plugin
 			if (config.support_snap) {
@@ -1040,6 +1044,16 @@ namespace Pamac {
 				pkg = snap_plugin.get_snap_by_app_id (app_id);
 			}
 			return pkg;
+		}
+
+		public async InputStream get_url_stream (string url) throws Error {
+			try {
+				var request = soup_session.request (url);
+				var inputstream = yield request.send_async (null);
+				return inputstream;
+			} catch (Error e) {
+				throw e;
+			}
 		}
 
 		Alpm.List<unowned Alpm.Package> custom_db_search (Alpm.DB db, Alpm.List<unowned string> needles) {
