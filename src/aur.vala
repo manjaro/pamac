@@ -44,6 +44,11 @@ namespace Pamac {
 			try {
 				var message = new Soup.Message ("GET", uri);
 				InputStream input_stream = session.send (message);
+				uint status_code = message.status_code;
+				if (status_code >= 400) {
+					stderr.printf ("Failed to query %s from AUR: error %u\n", uri, status_code);
+					return null;
+				}
 				var parser = new Json.Parser.immutable_new ();
 				parser.load_from_stream (input_stream);
 				unowned Json.Node? root = parser.get_root ();
@@ -57,8 +62,7 @@ namespace Pamac {
 					}
 				}
 			} catch (Error e) {
-				warning (e.message);
-				stderr.printf ("Failed to query %s from AUR\n", uri);
+				stderr.printf ("Failed to query %s from AUR: %s\n", uri, e.message);
 			}
 			return null;
 		}
