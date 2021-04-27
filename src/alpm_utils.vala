@@ -28,6 +28,34 @@ Mutex multi_progress_mutex;
 HashTable<string, uint64?> multi_progress;
 GenericArray<string> unresolvables;
 
+string? get_os_id () {
+	var file = GLib.File.new_for_path ("/etc/os-release");
+	if (file.query_exists ()) {
+		try {
+			var dis = new DataInputStream (file.read ());
+			string? line;
+			// Read lines until end of file (null) is reached
+			while ((line = dis.read_line ()) != null) {
+				if (line.has_prefix ("ID=")) {
+					return (owned) line.split ("ID=", 2)[1];
+				}
+			}
+		} catch (Error e) {
+			// silent error
+		}
+	}
+	return null;
+}
+
+string get_user_agent () {
+	string? id = get_os_id ();
+	if (id == null) {
+		return "Pamac/%s".printf (VERSION);
+	} else {
+		return "Pamac/%s_%s".printf (VERSION, id);
+	}
+}
+
 class Download: Object {
 	unowned string cachedir;
 	unowned Alpm.Package alpm_pkg;

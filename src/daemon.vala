@@ -69,8 +69,8 @@ namespace Pamac {
 
 		public Daemon () {
 			config = new Config ("/etc/pamac.conf");
-			// alpm_utils global variable declared in alpm_utils.vala
-			string user_agent = "Pamac/%s".printf (VERSION);
+			// get_user_agent define in alpm_utils.vala
+			string user_agent = get_user_agent ();
 			var soup_session = new Soup.Session ();
 			soup_session.user_agent = user_agent;
 			soup_session.timeout = 30;
