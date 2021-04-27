@@ -637,6 +637,7 @@ namespace Pamac {
 			// refresh databases action
 			action = new SimpleAction ("refresh-databases", null);
 			action.activate.connect (() => {
+				infobox_revealer.reveal_child = true;
 				run_sysupgrade (true, false);
 			});
 			this.add_action (action);
