@@ -54,7 +54,6 @@ namespace Pamac {
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);
 			// get_user_agent define in alpm_utils.vala
 			string user_agent = get_user_agent ();
-			print ("%s\n", user_agent);
 			soup_session = new Soup.Session ();
 			soup_session.user_agent = user_agent;
 			soup_session.timeout = 30;
