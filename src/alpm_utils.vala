@@ -171,7 +171,6 @@ namespace Pamac {
 			download_rates = new Queue<double?> ();
 			cancellable = new Cancellable ();
 			this.soup_session = soup_session;
-			soup_session.timeout = 30;
 			downloading_updates = false;
 			check_old_lock ();
 		}

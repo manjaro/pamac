@@ -27,6 +27,8 @@ namespace Pamac {
 		public TransactionInterfaceRoot (MainContext context) {
 			this.context = context;
 			trans_cancellable = new Cancellable ();
+			// alpm_utils global variable declared in alpm_utils.vala
+			// and initialized in transaction.vala
 		}
 
 		public async bool get_authorization () {

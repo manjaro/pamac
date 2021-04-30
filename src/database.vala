@@ -52,7 +52,7 @@ namespace Pamac {
 			aur_vcs_pkgs = new HashTable<string, AURPackageData> (str_hash, str_equal);
 			pkgs_cache = new HashTable<unowned string, AlpmPackageLinked> (str_hash, str_equal);
 			aur_pkgs_cache = new HashTable<unowned string, AURPackageLinked> (str_hash, str_equal);
-			// get_user_agent define in alpm_utils.vala
+			// get_user_agent defined in alpm_utils.vala
 			string user_agent = get_user_agent ();
 			soup_session = new Soup.Session ();
 			soup_session.user_agent = user_agent;
@@ -1872,7 +1872,7 @@ namespace Pamac {
 							cmdline = dynamic_user_cmdline;
 							cmdline += "git";
 							cmdline += "diff";
-							//cmdline += "--exit-code";
+							cmdline += "--exit-code";
 							cmdline += "origin/master";
 							FileEnumerator enumerator = pkgdir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE);
 							FileInfo info;
