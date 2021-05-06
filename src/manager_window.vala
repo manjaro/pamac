@@ -33,16 +33,6 @@ namespace Pamac {
 	HashTable<string, FlatpakPackage> flatpak_to_remove;
 
 	int sort_search_pkgs_by_relevance (Package pkg_a, Package pkg_b) {
-		if (pkg_a is AURPackage) {
-			if (pkg_b is AURPackage) {
-				sort_aur_by_relevance (pkg_a, pkg_b);
-			} else {
-				return 1;
-			}
-		}
-		if (pkg_b is AURPackage) {
-			return -1;
-		}
 		if (search_string != null) {
 			// display exact match first
 			unowned string? a_app_name = pkg_a.app_name;
@@ -82,15 +72,6 @@ namespace Pamac {
 				if (b_app_name_down != null && b_app_name_down.has_prefix (search_string)) {
 				return 1;
 			}
-			if (a_app_name_down != null && a_app_name_down.contains (search_string)) {
-				if (b_app_name_down != null && b_app_name_down.contains (search_string)) {
-					return sort_pkgs_by_relevance (pkg_a, pkg_b);
-				}
-				return -1;
-			}
-				if (b_app_name_down != null && b_app_name_down.contains (search_string)) {
-				return 1;
-			}
 			if (pkg_a.name.has_prefix (search_string + "-")) {
 				if (pkg_b.name.has_prefix (search_string + "-")) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
@@ -107,6 +88,15 @@ namespace Pamac {
 				return -1;
 			}
 			if (pkg_b.name.has_prefix (search_string)) {
+				return 1;
+			}
+			if (a_app_name_down != null && a_app_name_down.contains (search_string)) {
+				if (b_app_name_down != null && b_app_name_down.contains (search_string)) {
+					return sort_pkgs_by_relevance (pkg_a, pkg_b);
+				}
+				return -1;
+			}
+				if (b_app_name_down != null && b_app_name_down.contains (search_string)) {
 				return 1;
 			}
 			if (pkg_a.name.contains (search_string)) {
