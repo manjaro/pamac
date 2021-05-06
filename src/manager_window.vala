@@ -2372,6 +2372,7 @@ namespace Pamac {
 			}
 			if (is_update) {
 				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("emblem-synchronizing-symbolic", Gtk.IconSize.BUTTON);
+				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				if (!(pkg.name in temporary_ignorepkgs)) {
 					row.action_togglebutton.active = true;
 					row.action_togglebutton.margin_start = 0;
@@ -2394,6 +2395,7 @@ namespace Pamac {
 			} else if (pkg.installed_version == null) {
 				if (pkg is AURPackage) {
 					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in to_build) {
 						row.action_togglebutton.active = true;
 						row.action_togglebutton.margin_start = 0;
@@ -2410,6 +2412,7 @@ namespace Pamac {
 					});
 				} else if (pkg is SnapPackage) {
 					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in snap_to_install) {
 						row.action_togglebutton.active = true;
 						row.action_togglebutton.margin_start = 0;
@@ -2426,6 +2429,7 @@ namespace Pamac {
 					});
 				} else if (pkg is FlatpakPackage) {
 					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in flatpak_to_install) {
 						row.action_togglebutton.active = true;
 						row.action_togglebutton.margin_start = 0;
@@ -2442,6 +2446,7 @@ namespace Pamac {
 					});
 				} else {
 					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in to_install) {
 						row.action_togglebutton.active = true;
 						row.action_togglebutton.margin_start = 0;
@@ -2459,6 +2464,7 @@ namespace Pamac {
 				}
 			} else if (pkg is SnapPackage) {
 				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("user-trash-symbolic", Gtk.IconSize.BUTTON);
+				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				if (pkg.name in snap_to_remove) {
 					row.action_togglebutton.active = true;
 					row.action_togglebutton.margin_start = 0;
@@ -2475,6 +2481,7 @@ namespace Pamac {
 				});
 			} else if (pkg is FlatpakPackage) {
 				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("user-trash-symbolic", Gtk.IconSize.BUTTON);
+				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				if (pkg.name in flatpak_to_remove) {
 					row.action_togglebutton.active = true;
 					row.action_togglebutton.margin_start = 0;
@@ -2499,6 +2506,7 @@ namespace Pamac {
 				});
 			} else {
 				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("user-trash-symbolic", Gtk.IconSize.BUTTON);
+				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				if (database.should_hold (pkg.name)) {
 					row.action_togglebutton.sensitive = false;
 				} else if (pkg.name in to_remove) {

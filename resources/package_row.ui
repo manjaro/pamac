@@ -108,6 +108,9 @@
                   <object class="GtkToggleButton" id="action_togglebutton">
                     <property name="visible">1</property>
                     <property name="margin-start">19</property>
+                    <!--empty label needed to display background color-->
+                    <property name="label"></property>
+                    <property name="always-show-image">1</property>
                   </object>
                 </child>
               </object>

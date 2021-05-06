@@ -770,6 +770,9 @@
                                         <property name="label" translatable="yes">Install</property>
                                         <property name="focus-on-click">0</property>
                                         <signal name="toggled" handler="on_install_togglebutton_toggled" swapped="no"/>
+                                        <style>
+                                          <class name="suggested-action"/>
+                                        </style>
                                       </object>
                                     </child>
                                     <child>
@@ -797,6 +800,9 @@
                                         <property name="label" translatable="yes">Build</property>
                                         <property name="focus-on-click">0</property>
                                         <signal name="toggled" handler="on_build_togglebutton_toggled" swapped="no"/>
+                                        <style>
+                                          <class name="suggested-action"/>
+                                        </style>
                                       </object>
                                     </child>
                                   </object>
