@@ -370,6 +370,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_aur_build_dir_file_chooser_clicked () {
+			this.hide ();
 			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
 				dgettext (null, "Select Build Directory"),
 				this,
@@ -396,6 +397,7 @@ namespace Pamac {
 					refresh_clean_build_files_button.begin ();
 				}
 				chooser.destroy ();
+				this.show ();
 			});
 			chooser.show ();
 		}

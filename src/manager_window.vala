@@ -683,7 +683,6 @@ namespace Pamac {
 					if (authorized) {
 						if (preferences_window == null) {
 							preferences_window = new PreferencesWindow (this, local_config);
-							preferences_window.set_transient_for (this);
 							preferences_window.delete_event.connect (() => {
 								database.config.save ();
 								preferences_window.hide ();

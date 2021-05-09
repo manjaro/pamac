@@ -17,6 +17,7 @@
                 <property name="show_enable_switch">1</property>
                 <property name="title" translatable="yes">Check for updates</property>
                 <property name="visible">1</property>
+                <property name="has_focus">1</property>
                 <child>
                   <object class="HdyComboRow" id="refresh_period_comborow">
                     <property name="title" translatable="yes">Updates check frequency</property>
