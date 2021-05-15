@@ -345,6 +345,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Hdy.Flap browse_flap;
 		[GtkChild]
+		unowned Gtk.ListBox filters_listbox;
+		[GtkChild]
 		unowned Gtk.ListBox categories_listbox;
 		[GtkChild]
 		unowned Gtk.ListBox groups_listbox;
@@ -461,6 +463,10 @@ namespace Pamac {
 		GenericArray<AURPackage> aur_updates;
 		GenericArray<FlatpakPackage> flatpak_updates;
 		BackRow categories_backrow;
+		SimpleRow filters_pending_row;
+		Gtk.ListBoxRow filters_pending_row_separator;
+		SimpleRow categories_pending_row;
+		Gtk.ListBoxRow categories_pending_row_separator;
 		SimpleRow installed_snap_row;
 		SimpleRow installed_flatpak_row;
 		SimpleRow search_aur_row;
@@ -947,7 +953,7 @@ namespace Pamac {
 			}
 		}
 
-		void set_pendings_operations () {
+		void set_pending_operations () {
 			if (!transaction_running && !generate_mirrors_list) {
 				if (view_stack.visible_child_name == "updates") {
 					uint64 total_dsize = 0;
@@ -985,6 +991,11 @@ namespace Pamac {
 						apply_button.sensitive = false;
 						apply_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 						infobox_revealer.reveal_child = false;
+						// hide all in case of software_mode changed
+						categories_pending_row_separator.visible = false;
+						categories_pending_row.visible = false;
+						filters_pending_row_separator.visible = false;
+						filters_pending_row.visible = false;
 					} else {
 						string info = dngettext (null, "%u pending operation", "%u pending operations", total_pending).printf (total_pending);
 						transaction.progress_box.action_label.label = info;
@@ -992,17 +1003,46 @@ namespace Pamac {
 						apply_button.sensitive = true;
 						apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 						infobox_revealer.reveal_child = true;
+						if (local_config.software_mode) {
+							categories_pending_row_separator.visible = true;
+							categories_pending_row.visible = true;
+						} else {
+							filters_pending_row_separator.visible = true;
+							filters_pending_row.visible = true;
+						}
 					}
 				}
 			}
 		}
 
 		void create_all_listbox () {
+			filters_pending_row_separator = new Gtk.ListBoxRow ();
+			var separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+			separator.visible = true;
+			filters_pending_row_separator.add (separator);
+			filters_pending_row_separator.selectable = false;
+			filters_pending_row_separator.activatable = false;
+			filters_listbox.add (filters_pending_row_separator);
+			filters_pending_row = new SimpleRow (dgettext (null, "Pending"));
+			filters_pending_row.visible = false;
+			filters_listbox.add (filters_pending_row);
+
 			categories_backrow = new BackRow ();
 			categories_listbox.add (categories_backrow);
 			foreach (unowned string name in database.get_categories_names ()) {
 				categories_listbox.add (new SimpleRow (dgettext (null, name)));
 			}
+			categories_pending_row_separator = new Gtk.ListBoxRow ();
+			separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+			separator.visible = true;
+			categories_pending_row_separator.add (separator);
+			categories_pending_row_separator.selectable = false;
+			categories_pending_row_separator.activatable = false;
+			categories_listbox.add (categories_pending_row_separator);
+			categories_pending_row = new SimpleRow (dgettext (null, "Pending"));
+			categories_pending_row.visible = false;
+			categories_listbox.add (categories_pending_row);
+
 			categories_listbox.select_row (categories_listbox.get_row_at_index (1));
 
 			repos_listbox.add (new BackRow ());
@@ -1168,7 +1208,7 @@ namespace Pamac {
 				select_image.visible = false;
 				button.margin_start = 19;
 			}
-			set_pendings_operations ();
+			set_pending_operations ();
 		}
 
 		[GtkCallback]
@@ -2027,7 +2067,7 @@ namespace Pamac {
 					to_install.remove (current_package_displayed.name);
 				}
 			}
-			set_pendings_operations ();
+			set_pending_operations ();
 			refresh_listbox_buttons ();
 		}
 
@@ -2041,7 +2081,7 @@ namespace Pamac {
 			} else {
 				to_build.remove (current_package_displayed.name);
 			}
-			set_pendings_operations ();
+			set_pending_operations ();
 			refresh_listbox_buttons ();
 		}
 
@@ -2090,7 +2130,7 @@ namespace Pamac {
 					to_remove.remove (current_package_displayed.name);
 				}
 			}
-			set_pendings_operations ();
+			set_pending_operations ();
 			refresh_listbox_buttons ();
 		}
 
@@ -2109,7 +2149,7 @@ namespace Pamac {
 				to_install.remove (current_package_displayed.name);
 				to_build.remove (current_package_displayed.name);
 			}
-			set_pendings_operations ();
+			set_pending_operations ();
 			refresh_listbox_buttons ();
 		}
 
@@ -2388,7 +2428,7 @@ namespace Pamac {
 					}
 					updates_ignored_row.visible = temporary_ignorepkgs.length > 0;
 					refresh_listbox_buttons ();
-					set_pendings_operations ();
+					set_pending_operations ();
 				});
 			} else if (pkg.installed_version == null) {
 				if (pkg is AURPackage) {
@@ -2405,7 +2445,7 @@ namespace Pamac {
 							to_build.remove (pkg.name);
 						}
 						refresh_listbox_buttons ();
-						set_pendings_operations ();
+						set_pending_operations ();
 					});
 				} else if (pkg is SnapPackage) {
 					row.action_icon.icon_name = "software-install-symbolic";
@@ -2421,7 +2461,7 @@ namespace Pamac {
 							snap_to_install.remove (pkg.name);
 						}
 						refresh_listbox_buttons ();
-						set_pendings_operations ();
+						set_pending_operations ();
 					});
 				} else if (pkg is FlatpakPackage) {
 					row.action_icon.icon_name = "software-install-symbolic";
@@ -2437,7 +2477,7 @@ namespace Pamac {
 							flatpak_to_install.remove (pkg.id);
 						}
 						refresh_listbox_buttons ();
-						set_pendings_operations ();
+						set_pending_operations ();
 					});
 				} else {
 					row.action_icon.icon_name = "software-install-symbolic";
@@ -2453,7 +2493,7 @@ namespace Pamac {
 							to_install.remove (pkg.name);
 						}
 						refresh_listbox_buttons ();
-						set_pendings_operations ();
+						set_pending_operations ();
 					});
 				}
 			} else if (pkg is SnapPackage) {
@@ -2470,7 +2510,7 @@ namespace Pamac {
 						snap_to_remove.remove (pkg.name);
 					}
 					refresh_listbox_buttons ();
-					set_pendings_operations ();
+					set_pending_operations ();
 				});
 			} else if (pkg is FlatpakPackage) {
 				row.action_icon.icon_name = "software-remove-symbolic";
@@ -2486,7 +2526,7 @@ namespace Pamac {
 						flatpak_to_remove.remove (pkg.id);
 					}
 					refresh_listbox_buttons ();
-					set_pendings_operations ();
+					set_pending_operations ();
 				});
 			} else {
 				row.action_icon.icon_name = "software-remove-symbolic";
@@ -2513,7 +2553,7 @@ namespace Pamac {
 						to_remove.remove (pkg.name);
 					}
 					refresh_listbox_buttons ();
-					set_pendings_operations ();
+					set_pending_operations ();
 				});
 			}
 			return row;
@@ -2607,7 +2647,7 @@ namespace Pamac {
 					to_update.remove (pkg.name);
 					temporary_ignorepkgs.add (pkg.name);
 				}
-				set_pendings_operations ();
+				set_pending_operations ();
 			});
 			return row;
 		}
@@ -2729,18 +2769,18 @@ namespace Pamac {
 						default:
 							break;
 					}
-					set_pendings_operations ();
+					set_pending_operations ();
 					break;
 				case "installed":
 					show_sidebar (!local_config.software_mode);
 					search_button.visible = main_stack.visible_child_name == "browse";
 					on_installed_listbox_row_activated (installed_listbox.get_selected_row ());
-					set_pendings_operations ();
+					set_pending_operations ();
 					break;
 				case "search":
 					show_sidebar (!local_config.software_mode);
 					on_search_listbox_row_activated (search_listbox.get_selected_row ());
-					set_pendings_operations ();
+					set_pending_operations ();
 					break;
 				case "updates":
 					if (local_config.software_mode) {
@@ -2758,65 +2798,6 @@ namespace Pamac {
 				default:
 					break;
 			}
-			// old pending code
-//~ 			if (view_stack.visible_child_name == "pending") {
-//~ 				remove_all_button.visible = false;
-//~ 				install_all_button.visible = false;
-//~ 				ignore_all_button.visible = false;
-//~ 				if (local_config.software_mode) {
-//~ 				} else {
-//~ 					view_installed_button.visible = false;
-//~ 					view_explicitly_installed_button.visible = false;
-//~ 					view_orphans_button.visible = false;
-//~ 					view_foreign_button.visible = false;
-//~ 					view_repositories_button.visible = true;
-//~ 					if ((to_install.length + to_remove.length) > 0) {
-//~ 						view_repositories_button.sensitive = true;
-//~ 					} else {
-//~ 						view_repositories_button.sensitive = false;
-//~ 					}
-//~ 					view_aur_button.visible = enable_aur;
-//~ 					if (to_build.length > 0) {
-//~ 						view_aur_button.sensitive = true;
-//~ 					} else {
-//~ 						view_aur_button.sensitive = false;
-//~ 					}
-//~ 					if (database.config.enable_snap) {
-//~ 						view_snap_button.visible = true;
-//~ 						if ((snap_to_install.length + snap_to_remove.length) > 0) {
-//~ 							view_snap_button.sensitive = true;
-//~ 						} else {
-//~ 							view_snap_button.sensitive = false;
-//~ 						}
-//~ 					} else {
-//~ 						view_snap_button.visible = false;
-//~ 					}
-//~ 					if (database.config.enable_flatpak) {
-//~ 						view_flatpak_button.visible = true;
-//~ 						if ((flatpak_to_install.length + flatpak_to_remove.length) > 0) {
-//~ 							view_flatpak_button.sensitive = true;
-//~ 						} else {
-//~ 							view_flatpak_button.sensitive = false;
-//~ 						}
-//~ 					} else {
-//~ 						view_flatpak_button.visible = false;
-//~ 					}
-//~ 				}
-//~ 				browse_head_box.visible = true;
-//~ 				browse_separator.visible = true;
-//~ 				unowned string filter = view_button_label.label;
-//~ 				if (filter == dgettext (null, "All")) {
-//~ 					on_view_all_button_clicked ();
-//~ 				} else if (filter == dgettext (null, "Repositories")) {
-//~ 					on_view_repositories_button_clicked ();
-//~ 				} else if (filter == dgettext (null, "AUR")) {
-//~ 					on_view_aur_button_clicked ();
-//~ 				} else if (filter == dgettext (null, "Snap")) {
-//~ 					on_view_snap_button_clicked ();
-//~ 				} else if (filter == dgettext (null, "Flatpak")) {
-//~ 					on_view_flatpak_button_clicked ();
-//~ 				}
-//~ 			}
 		}
 
 		public void display_details (Package pkg) {
@@ -2983,22 +2964,66 @@ namespace Pamac {
 			}
 		}
 
-//~ 		async GenericArray<unowned AURPackage> get_pendings_aur_pkgs () {
-//~ 			var aur_pkgs = new GenericArray<unowned AURPackage> ();
-//~ 			var to_build_array = new GenericArray<string> (to_build.length);
-//~ 			foreach (unowned string name in to_build)  {
-//~ 				to_build_array.add (name);
-//~ 			}
-//~ 			var table = yield database.get_aur_pkgs_async (to_build_array.data);
-//~ 			var iter = HashTableIter<string, unowned AURPackage?> (table);
-//~ 			unowned AURPackage? aur_pkg;
-//~ 			while (iter.next (null, out aur_pkg)) {
-//~ 				if (aur_pkg != null) {
-//~ 					aur_pkgs.add (aur_pkg);
-//~ 				}
-//~ 			}
-//~ 			return aur_pkgs;
-//~ 		}
+		async GenericArray<unowned AURPackage> get_pending_aur_pkgs () {
+			var aur_pkgs = new GenericArray<unowned AURPackage> ();
+			var to_build_array = new GenericArray<string> (to_build.length);
+			foreach (unowned string name in to_build)  {
+				to_build_array.add (name);
+			}
+			var table = yield database.get_aur_pkgs_async (to_build_array.data);
+			var iter = HashTableIter<string, unowned AURPackage?> (table);
+			unowned AURPackage? aur_pkg;
+			while (iter.next (null, out aur_pkg)) {
+				if (aur_pkg != null) {
+					aur_pkgs.add (aur_pkg);
+				}
+			}
+			return aur_pkgs;
+		}
+
+		async GenericArray<unowned Package> get_pending_pkgs () {
+			var pkgs = new GenericArray<unowned Package> ();
+			foreach (unowned string pkgname in to_install) {
+				var pkg = database.get_installed_pkg (pkgname);
+				if (pkg == null) {
+					pkg = database.get_sync_pkg (pkgname);
+				}
+				if (pkg != null) {
+					pkgs.add (pkg);
+				}
+			}
+			foreach (unowned string pkgname in to_remove) {
+				var pkg = database.get_installed_pkg (pkgname);
+				if (pkg != null) {
+					pkgs.add (pkg);
+				}
+			}
+			var snap_iter = HashTableIter<string, SnapPackage?> (snap_to_install);
+			unowned SnapPackage? snap_pkg;
+			while (snap_iter.next (null, out snap_pkg)) {
+				pkgs.add (snap_pkg);
+			}
+			snap_iter = HashTableIter<string, SnapPackage?> (snap_to_remove);
+			while (snap_iter.next (null, out snap_pkg)) {
+				pkgs.add (snap_pkg);
+			}
+			var flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_install);
+			unowned FlatpakPackage? flatpak_pkg;
+			while (flatpak_iter.next (null, out flatpak_pkg)) {
+				pkgs.add (flatpak_pkg);
+			}
+			flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_remove);
+			while (flatpak_iter.next (null, out flatpak_pkg)) {
+				pkgs.add (flatpak_pkg);
+			}
+			if (to_build.length > 0) {
+				var aur_pkgs = yield get_pending_aur_pkgs ();
+				foreach (unowned Package aur_pkg in aur_pkgs) {
+					pkgs.add (aur_pkg);
+				}
+			}
+			return pkgs;
+		}
 
 		async GenericArray<unowned Package> search_all_pkgs () {
 			var pkgs = new GenericArray<unowned Package> ();
@@ -3057,7 +3082,7 @@ namespace Pamac {
 				}
 			}
 			refresh_listbox_buttons ();
-			set_pendings_operations ();
+			set_pending_operations ();
 		}
 
 		[GtkCallback]
@@ -3068,7 +3093,7 @@ namespace Pamac {
 				}
 			}
 			refresh_listbox_buttons ();
-			set_pendings_operations ();
+			set_pending_operations ();
 		}
 
 		[GtkCallback]
@@ -3078,7 +3103,7 @@ namespace Pamac {
 				temporary_ignorepkgs.add (pkg.name);
 			}
 			refresh_listbox_buttons ();
-			set_pendings_operations ();
+			set_pending_operations ();
 		}
 
 		bool search_entry_timeout_callback () {
@@ -3157,6 +3182,27 @@ namespace Pamac {
 				case 2: // repos
 					browse_stack.visible_child_name = "repos";
 					break;
+				// separator
+				// case 3:
+				case 4: // pending
+					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+					current_packages_list_name = "Pending";
+					get_pending_pkgs.begin ((obj, res) => {
+						var pkgs = get_pending_pkgs.end (res);
+						if (view_stack.visible_child_name == "browse" && current_packages_list_name == "Pending") {
+							populate_packages_list (pkgs);
+						} else {
+							this.get_window ().set_cursor (null);
+						}
+					});
+					install_all_button.visible = false;
+					remove_all_button.visible = false;
+					ignore_all_button.visible = false;
+					// hide sidebar in folded mode
+					if (browse_flap.folded && browse_flap.reveal_flap) {
+						browse_flap.reveal_flap = false;
+					}
+					break;
 				default:
 					break;
 			}
@@ -3168,6 +3214,11 @@ namespace Pamac {
 			}
 			switch (browse_stack.visible_child_name) {
 				case "categories":
+					unowned Gtk.ListBoxRow selected_row = categories_listbox.get_selected_row ();
+					if (!selected_row.visible) {
+						// occurs if pending was selected and selection has been cleared
+						categories_listbox.select_row (categories_listbox.get_row_at_index (1));
+					}
 					on_categories_listbox_row_activated (categories_listbox.get_selected_row ());
 					break;
 				case "groups":
@@ -3184,6 +3235,8 @@ namespace Pamac {
 		[GtkCallback]
 		void on_categories_listbox_row_activated (Gtk.ListBoxRow row) {
 			if (row is BackRow) {
+				// unselect pending row
+				filters_listbox.select_row (null);
 				browse_stack.visible_child_name = "filters";
 				return;
 			}
@@ -3211,6 +3264,8 @@ namespace Pamac {
 				category = "Utilities";
 			} else if (category_name == dgettext (null, "Development")) {
 				category = "Development";
+			} else if (category_name == dgettext (null, "Pending")) {
+				category = "Pending";
 			}
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			current_packages_list_name = "category_%s".printf (category);
@@ -3234,6 +3289,8 @@ namespace Pamac {
 		[GtkCallback]
 		void on_groups_listbox_row_activated (Gtk.ListBoxRow row) {
 			if (row is BackRow) {
+				// unselect pending row
+				filters_listbox.select_row (null);
 				browse_stack.visible_child_name = "filters";
 				return;
 			}
@@ -3611,164 +3668,11 @@ namespace Pamac {
 			}
 		}
 
-//~ 		[GtkCallback]
-//~ 		void on_view_all_button_clicked () {
-//~ 			if (view_stack.visible_child_name == "pending") { // pending
-//~ 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-//~ 				current_packages_list_name = "all_pending";
-//~ 				var pkgs = new GenericArray<unowned Package> ();
-//~ 				foreach (unowned string pkgname in to_install) {
-//~ 					var pkg = database.get_installed_pkg (pkgname);
-//~ 					if (pkg == null) {
-//~ 						pkg = database.get_sync_pkg (pkgname);
-//~ 					}
-//~ 					if (pkg != null) {
-//~ 						pkgs.add (pkg);
-//~ 					}
-//~ 				}
-//~ 				foreach (unowned string pkgname in to_remove) {
-//~ 					var pkg = database.get_installed_pkg (pkgname);
-//~ 					if (pkg != null) {
-//~ 						pkgs.add (pkg);
-//~ 					} else {
-//~ 					}
-//~ 				}
-//~ 				var snap_iter = HashTableIter<string, SnapPackage?> (snap_to_install);
-//~ 				unowned SnapPackage? snap_pkg;
-//~ 				while (snap_iter.next (null, out snap_pkg)) {
-//~ 					pkgs.add (snap_pkg);
-//~ 				}
-//~ 				snap_iter = HashTableIter<string, SnapPackage?> (snap_to_remove);
-//~ 				while (snap_iter.next (null, out snap_pkg)) {
-//~ 					pkgs.add (snap_pkg);
-//~ 				}
-//~ 				var flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_install);
-//~ 				unowned FlatpakPackage? flatpak_pkg;
-//~ 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-//~ 					pkgs.add (flatpak_pkg);
-//~ 				}
-//~ 				flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_remove);
-//~ 				while (flatpak_iter.next (null, out flatpak_pkg)) {
-//~ 					pkgs.add (flatpak_pkg);
-//~ 				}
-//~ 				if (to_build.length > 0) {
-//~ 					get_pendings_aur_pkgs.begin ((obj, res) => {
-//~ 						var aur_pkgs = get_pendings_aur_pkgs.end (res);
-//~ 						foreach (unowned AURPackage pkg in aur_pkgs) {
-//~ 							pkgs.add (pkg);
-//~ 						}
-//~ 						if (view_stack.visible_child_name == "pending" && current_packages_list_name == "all_pending") {
-//~ 							populate_packages_list (pkgs);
-//~ 						} else {
-//~ 							this.get_window ().set_cursor (null);
-//~ 						}
-//~ 					});
-//~ 				} else {
-//~ 					if (view_stack.visible_child_name == "pending" && current_packages_list_name == "all_pending") {
-//~ 						populate_packages_list (pkgs);
-//~ 					} else {
-//~ 						this.get_window ().set_cursor (null);
-//~ 					}
-//~ 				}
-//~ 			}
-//~ 		}
-
-//~ 		[GtkCallback]
-//~ 		void on_view_repositories_button_clicked () {
-//~ 			if (view_stack.visible_child_name == "pending") { //pending
-//~ 				if ((to_install.length + to_remove.length) > 0) {
-//~ 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-//~ 					current_packages_list_name = "repos_pending";
-//~ 					var pkgs = new GenericArray<unowned AlpmPackage> ();
-//~ 					foreach (unowned string pkgname in to_install) {
-//~ 						var pkg = database.get_installed_pkg (pkgname);
-//~ 						if (pkg == null) {
-//~ 							pkg = database.get_sync_pkg (pkgname);
-//~ 						}
-//~ 						if (pkg != null) {
-//~ 							pkgs.add (pkg);
-//~ 						}
-//~ 					}
-//~ 					foreach (unowned string pkgname in to_remove) {
-//~ 						var pkg = database.get_installed_pkg (pkgname);
-//~ 						if (pkg != null) {
-//~ 							pkgs.add (pkg);
-//~ 						}
-//~ 					}
-//~ 					if (view_stack.visible_child_name == "pending" && current_packages_list_name == "repos_pending") {
-//~ 						populate_packages_list (pkgs);
-//~ 					} else {
-//~ 						this.get_window ().set_cursor (null);
-//~ 					}
-//~ 				}
-//~ 			}
-//~ 		}
-
-//~ 		[GtkCallback]
-//~ 		void on_view_aur_button_clicked () {
-//~ 			if (view_stack.visible_child_name == "pending") { // pending
-//~ 				if (to_build.length > 0) {
-//~ 					this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-//~ 					current_packages_list_name = "aur_pending";
-//~ 					get_pendings_aur_pkgs.begin ((obj, res) => {
-//~ 						var pkgs = get_pendings_aur_pkgs.end (res);
-//~ 						if (view_stack.visible_child_name == "pending" && current_packages_list_name == "aur_pending") {
-//~ 							populate_aur_list (pkgs);
-//~ 						} else {
-//~ 							this.get_window ().set_cursor (null);
-//~ 						}
-//~ 					});
-//~ 				}
-//~ 			}
-//~ 		}
-
-//~ 		[GtkCallback]
-//~ 		void on_view_snap_button_clicked () {
-//~ 			if (view_stack.visible_child_name == "pending") { // pending
-//~ 				current_packages_list_name = "snap_pending";
-//~ 				var pkgs = new GenericArray<unowned Package> ();
-//~ 				var snap_iter = HashTableIter<string, SnapPackage?> (snap_to_install);
-//~ 				unowned SnapPackage? pkg;
-//~ 				while (snap_iter.next (null, out pkg)) {
-//~ 					pkgs.add (pkg);
-//~ 				}
-//~ 				snap_iter = HashTableIter<string, SnapPackage?> (snap_to_remove);
-//~ 				while (snap_iter.next (null, out pkg)) {
-//~ 					pkgs.add (pkg);
-//~ 				}
-//~ 				if (view_stack.visible_child_name == "pending" && current_packages_list_name == "snap_pending") {
-//~ 					populate_packages_list (pkgs);
-//~ 				} else {
-//~ 					this.get_window ().set_cursor (null);
-//~ 				}
-//~ 			}
-//~ 		}
-
-//~ 		[GtkCallback]
-//~ 		void on_view_flatpak_button_clicked () {
-//~ 			if (view_stack.visible_child_name == "pending") { // pending
-//~ 				current_packages_list_name = "flatpak_pending";
-//~ 				var pkgs = new GenericArray<unowned Package> ();
-//~ 				var flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_install);
-//~ 				unowned FlatpakPackage? pkg;
-//~ 				while (flatpak_iter.next (null, out pkg)) {
-//~ 					pkgs.add (pkg);
-//~ 				}
-//~ 				flatpak_iter = HashTableIter<string, FlatpakPackage?> (flatpak_to_remove);
-//~ 				while (flatpak_iter.next (null, out pkg)) {
-//~ 					pkgs.add (pkg);
-//~ 				}
-//~ 				if (view_stack.visible_child_name == "pending" && current_packages_list_name == "flatpak_pending") {
-//~ 					populate_packages_list (pkgs);
-//~ 				} else {
-//~ 					this.get_window ().set_cursor (null);
-//~ 				}
-//~ 			}
-//~ 		}
-
 		[GtkCallback]
 		void on_repos_listbox_row_activated (Gtk.ListBoxRow row) {
 			if (row is BackRow) {
+				// unselect pending row
+				filters_listbox.select_row (null);
 				browse_stack.visible_child_name = "filters";
 				return;
 			}
@@ -3858,6 +3762,9 @@ namespace Pamac {
 		}
 
 		async GenericArray<unowned Package> get_category_pkgs (string category) {
+			if (category == "Pending") {
+				return yield get_pending_pkgs ();
+			}
 			var pkgs = new GenericArray<unowned Package> ();
 			var snaps = new GenericArray<unowned SnapPackage> ();
 			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
@@ -3970,13 +3877,13 @@ namespace Pamac {
 				waiting = false;
 				transaction.cancel ();
 				transaction.stop_progressbar_pulse ();
-				set_pendings_operations ();
+				set_pending_operations ();
 			} else if (transaction_running) {
 				transaction_running = false;
 				transaction.cancel ();
 			} else {
 				clear_lists ();
-				set_pendings_operations ();
+				set_pending_operations ();
 				refresh_listbox_buttons ();
 				if (main_stack.visible_child_name == "details") {
 					if (install_togglebutton.active) {
@@ -4095,7 +4002,7 @@ namespace Pamac {
 				updates_ignored_row.visible = temporary_ignorepkgs.length > 0;
 				show_sidebar (!local_config.software_mode);
 				on_updates_listbox_row_activated (updates_listbox.get_selected_row ());
-				set_pendings_operations ();
+				set_pending_operations ();
 			}
 		}
 

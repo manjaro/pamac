@@ -406,7 +406,7 @@
                                     <child>
                                       <object class="GtkListBox" id="filters_listbox">
                                         <property name="visible">1</property>
-                                        <property name="selection-mode">none</property>
+                                        <property name="selection-mode">single</property>
                                         <signal name="row-activated" handler="on_filters_listbox_row_activated" swapped="no"/>
                                         <child>
                                           <object class="GtkListBoxRow" id="categories_row">
