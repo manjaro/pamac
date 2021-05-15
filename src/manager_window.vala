@@ -1250,7 +1250,7 @@ namespace Pamac {
 						box.add (select_image);
 						var install_dep_button = new Gtk.ToggleButton ();
 						install_dep_button.visible = true;
-						install_dep_button.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+						install_dep_button.image = new Gtk.Image.from_icon_name ("software-install-symbolic", Gtk.IconSize.BUTTON);
 						install_dep_button.margin_start = 19;
 						install_dep_button.margin_end = 12;
 						install_dep_button.valign = Gtk.Align.CENTER;
@@ -2370,12 +2370,11 @@ namespace Pamac {
 				row.action_togglebutton.sensitive = false;
 			}
 			if (is_update) {
-				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("emblem-synchronizing-symbolic", Gtk.IconSize.BUTTON);
+				row.action_icon.icon_name = "software-update-symbolic";
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 				if (!(pkg.name in temporary_ignorepkgs)) {
 					row.action_togglebutton.active = true;
-					row.action_togglebutton.margin_start = 0;
-					row.action_icon.visible = true;
+					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
@@ -2393,12 +2392,11 @@ namespace Pamac {
 				});
 			} else if (pkg.installed_version == null) {
 				if (pkg is AURPackage) {
-					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_icon.icon_name = "software-install-symbolic";
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in to_build) {
 						row.action_togglebutton.active = true;
-						row.action_togglebutton.margin_start = 0;
-						row.action_icon.visible = true;
+						row.action_icon.icon_name = "software-select-symbolic";
 					}
 					row.action_togglebutton.toggled.connect ((button) => {
 						if (button.active) {
@@ -2410,12 +2408,11 @@ namespace Pamac {
 						set_pendings_operations ();
 					});
 				} else if (pkg is SnapPackage) {
-					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_icon.icon_name = "software-install-symbolic";
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in snap_to_install) {
 						row.action_togglebutton.active = true;
-						row.action_togglebutton.margin_start = 0;
-						row.action_icon.visible = true;
+						row.action_icon.icon_name = "software-select-symbolic";
 					}
 					row.action_togglebutton.toggled.connect ((button) => {
 						if (button.active) {
@@ -2427,12 +2424,11 @@ namespace Pamac {
 						set_pendings_operations ();
 					});
 				} else if (pkg is FlatpakPackage) {
-					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_icon.icon_name = "software-install-symbolic";
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in flatpak_to_install) {
 						row.action_togglebutton.active = true;
-						row.action_togglebutton.margin_start = 0;
-						row.action_icon.visible = true;
+						row.action_icon.icon_name = "software-select-symbolic";
 					}
 					row.action_togglebutton.toggled.connect ((button) => {
 						if (button.active) {
@@ -2444,12 +2440,11 @@ namespace Pamac {
 						set_pendings_operations ();
 					});
 				} else {
-					row.action_togglebutton.image = new Gtk.Image.from_icon_name ("document-save-symbolic", Gtk.IconSize.BUTTON);
+					row.action_icon.icon_name = "software-install-symbolic";
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					if (pkg.name in to_install) {
 						row.action_togglebutton.active = true;
-						row.action_togglebutton.margin_start = 0;
-						row.action_icon.visible = true;
+						row.action_icon.icon_name = "software-select-symbolic";
 					}
 					row.action_togglebutton.toggled.connect ((button) => {
 						if (button.active) {
@@ -2462,12 +2457,11 @@ namespace Pamac {
 					});
 				}
 			} else if (pkg is SnapPackage) {
-				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("user-trash-symbolic", Gtk.IconSize.BUTTON);
+				row.action_icon.icon_name = "software-remove-symbolic";
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				if (pkg.name in snap_to_remove) {
 					row.action_togglebutton.active = true;
-					row.action_togglebutton.margin_start = 0;
-					row.action_icon.visible = true;
+					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
@@ -2479,12 +2473,11 @@ namespace Pamac {
 					set_pendings_operations ();
 				});
 			} else if (pkg is FlatpakPackage) {
-				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("user-trash-symbolic", Gtk.IconSize.BUTTON);
+				row.action_icon.icon_name = "software-remove-symbolic";
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				if (pkg.name in flatpak_to_remove) {
 					row.action_togglebutton.active = true;
-					row.action_togglebutton.margin_start = 0;
-					row.action_icon.visible = true;
+					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
@@ -2504,14 +2497,13 @@ namespace Pamac {
 					set_pendings_operations ();
 				});
 			} else {
-				row.action_togglebutton.image = new Gtk.Image.from_icon_name ("user-trash-symbolic", Gtk.IconSize.BUTTON);
+				row.action_icon.icon_name = "software-remove-symbolic";
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
 				if (database.should_hold (pkg.name)) {
 					row.action_togglebutton.sensitive = false;
 				} else if (pkg.name in to_remove) {
 					row.action_togglebutton.active = true;
-					row.action_togglebutton.margin_start = 0;
-					row.action_icon.visible = true;
+					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
@@ -2546,10 +2538,8 @@ namespace Pamac {
 			}
 			row.repo_label.label = dgettext (null, "Official Repositories");
 			row.app_icon.pixbuf = package_icon;
-			row.action_togglebutton.image = new Gtk.Image.from_icon_name ("emblem-synchronizing-symbolic", Gtk.IconSize.BUTTON);
 			row.action_togglebutton.active = true;
-			row.action_togglebutton.margin_start = 0;
-			row.action_icon.visible = true;
+			row.action_icon.icon_name = "software-select-symbolic";
 			row.action_togglebutton.sensitive = false;
 			// insert
 			packages_listbox.add (row);
@@ -2605,25 +2595,23 @@ namespace Pamac {
 			if (transaction.transaction_summary_contains (pkg.id)) {
 				row.action_togglebutton.sensitive = false;
 			}
-			row.action_togglebutton.image = new Gtk.Image.from_icon_name ("emblem-synchronizing-symbolic", Gtk.IconSize.BUTTON);
 			if (!(pkg.name in temporary_ignorepkgs)) {
 				row.action_togglebutton.active = true;
-				row.action_togglebutton.margin_start = 0;
-				row.action_icon.visible = true;
+				row.action_icon.icon_name = "software-select-symbolic";
+			} else {
+				row.action_icon.icon_name = "software-update-symbolic";
 			}
 			row.action_togglebutton.toggled.connect ((button) => {
 				if (button.active) {
 					row.action_togglebutton.active = true;
-					row.action_togglebutton.margin_start = 0;
-					row.action_icon.visible = true;
+					row.action_icon.icon_name = "software-select-symbolic";
 					to_update.add (pkg.name);
 					temporary_ignorepkgs.remove (pkg.name);
 					// remove from config.ignorepkgs to override config
 					database.config.ignorepkgs.remove (pkg.name);
 				} else {
 					row.action_togglebutton.active = false;
-					row.action_togglebutton.margin_start = 19;
-					row.action_icon.visible = false;
+					row.action_icon.icon_name = "software-update-symbolic";
 					to_update.remove (pkg.name);
 					temporary_ignorepkgs.add (pkg.name);
 				}
@@ -2644,80 +2632,73 @@ namespace Pamac {
 				}
 				if (transaction.transaction_summary_contains (pkg.id)) {
 					pamac_row.action_togglebutton.active = false;
-					pamac_row.action_togglebutton.margin_start = 19;
-					pamac_row.action_icon.visible = false;
 					pamac_row.action_togglebutton.sensitive = false;
 					return;
 				}
 				if (!database.should_hold (pkg.name)) {
 					pamac_row.action_togglebutton.sensitive = true;
-					pamac_row.action_togglebutton.margin_start = 0;
-					pamac_row.action_icon.visible = true;
 				}
 				if (pkg is AURPackage) {
 					if (pkg.name in to_build ||
 						pkg.name in to_remove ||
 						pkg.name in to_update) {
 						pamac_row.action_togglebutton.active = true;
-						pamac_row.action_togglebutton.margin_start = 0;
-						pamac_row.action_icon.visible = true;
+						pamac_row.action_icon.icon_name = "software-select-symbolic";
+					} else if (pkg.installed_version == null) {
+						pamac_row.action_togglebutton.active = false;
+						pamac_row.action_icon.icon_name = "software-install-symbolic";
 					} else {
 						pamac_row.action_togglebutton.active = false;
-						pamac_row.action_togglebutton.margin_start = 19;
-						pamac_row.action_icon.visible = false;
+						pamac_row.action_icon.icon_name = "software-remove-symbolic";
 					}
 				} else if (pkg is SnapPackage) {
 					if (pkg.name in snap_to_install ||
 						pkg.name in snap_to_remove) {
 						pamac_row.action_togglebutton.active = true;
-						pamac_row.action_togglebutton.margin_start = 0;
-						pamac_row.action_icon.visible = true;
+						pamac_row.action_icon.icon_name = "software-select-symbolic";
+					} else if (pkg.installed_version == null) {
+						pamac_row.action_togglebutton.active = false;
+						pamac_row.action_icon.icon_name = "software-install-symbolic";
 					} else {
 						pamac_row.action_togglebutton.active = false;
-						pamac_row.action_togglebutton.margin_start = 19;
-						pamac_row.action_icon.visible = false;
+						pamac_row.action_icon.icon_name = "software-remove-symbolic";
 					}
 				} else if (pkg is FlatpakPackage) {
 					if (pkg.name in flatpak_to_install ||
 						pkg.name in flatpak_to_remove ||
 						pkg.name in to_update) {
 						pamac_row.action_togglebutton.active = true;
-						pamac_row.action_togglebutton.margin_start = 0;
-						pamac_row.action_icon.visible = true;
+						pamac_row.action_icon.icon_name = "software-select-symbolic";
+					} else if (pkg.installed_version == null) {
+						pamac_row.action_togglebutton.active = false;
+						pamac_row.action_icon.icon_name = "software-install-symbolic";
 					} else {
 						pamac_row.action_togglebutton.active = false;
-						pamac_row.action_togglebutton.margin_start = 19;
-						pamac_row.action_icon.visible = false;
+						pamac_row.action_icon.icon_name = "software-remove-symbolic";
 					}
 				} else if (pkg is AlpmPackage){
 					if (pkg.installed_version == null) {
 						if (pkg.name in to_install) {
 							pamac_row.action_togglebutton.active = true;
-							pamac_row.action_togglebutton.margin_start = 0;
-							pamac_row.action_icon.visible = true;
+							pamac_row.action_icon.icon_name = "software-select-symbolic";
 						} else {
 							pamac_row.action_togglebutton.active = false;
-							pamac_row.action_togglebutton.margin_start = 19;
-							pamac_row.action_icon.visible = false;
+							pamac_row.action_icon.icon_name = "software-install-symbolic";
 						}
 					} else if (view_stack.visible_child_name == "updates") {
 						if (pkg.name in to_update) {
 							pamac_row.action_togglebutton.active = true;
-							pamac_row.action_togglebutton.margin_start = 0;
-							pamac_row.action_icon.visible = true;
+							pamac_row.action_icon.icon_name = "software-select-symbolic";
 						} else {
 							pamac_row.action_togglebutton.active = false;
-							pamac_row.action_togglebutton.margin_start = 19;
-							pamac_row.action_icon.visible = false;
+							pamac_row.action_icon.icon_name = "software-update-symbolic";
 						}
 					} else if (pkg.name in to_remove) {
 						pamac_row.action_togglebutton.active = true;
-						pamac_row.action_togglebutton.margin_start = 0;
-						pamac_row.action_icon.visible = true;
+						pamac_row.action_icon.icon_name = "software-select-symbolic";
 					} else {
 						pamac_row.action_togglebutton.active = false;
-						pamac_row.action_togglebutton.margin_start = 19;
-						pamac_row.action_icon.visible = false;
+						pamac_row.action_icon.icon_name = "software-remove-symbolic";
 					}
 				}
 			});
