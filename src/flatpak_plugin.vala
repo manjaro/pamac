@@ -215,10 +215,6 @@ namespace Pamac {
 					unowned As.Release? release = as_app.get_release_default ();
 					if (release != null) {
 						_version = release.get_version ();
-					} else {
-						_version = "";
-						// do not warning here about no version found
-						// to not add output lines to checkupdates -q
 					}
 				} else {
 					_version = _installed_version;
@@ -230,9 +226,6 @@ namespace Pamac {
 					unowned As.Release? release = as_app.get_release_default ();
 					if (release != null) {
 						_version = release.get_version ();
-					} else {
-						_version = "";
-						warning ("no version found for %s", as_app.get_id_filename ());
 					}
 				}
 			}

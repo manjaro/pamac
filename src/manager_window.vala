@@ -2367,7 +2367,12 @@ namespace Pamac {
 				if (software_mode) {
 					row.version_label.visible = false;
 				} else if (pkg is FlatpakPackage) {
-					row.version_label.label = pkg.version;
+					unowned string? version = pkg.version;
+					if (pkg.version != null) {
+						row.version_label.label = pkg.version;
+					} else {
+						row.version_label.visible = false;
+					}
 				} else {
 					row.version_label.label = pkg.version;
 					row.old_version_label.label = pkg.installed_version;
@@ -2377,7 +2382,7 @@ namespace Pamac {
 					row.size_label.label = GLib.format_size (pkg.download_size);
 				}
 			} else {
-				if (software_mode) {
+				if (software_mode || pkg.version == null) {
 					row.version_label.visible = false;
 				} else {
 					row.version_label.label = pkg.version;
