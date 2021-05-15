@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2021-04-14 11:22+0200\n"
-"PO-Revision-Date: 2021-04-23 19:40+0000\n"
+"PO-Revision-Date: 2021-05-01 18:19+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -850,7 +850,7 @@ msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
-msgstr "Мировой"
+msgstr "Мировые"
 
 #: src/preferences_dialog.vala
 msgid "0"
@@ -1316,7 +1316,7 @@ msgstr "Описание"
 
 #: src/cli.vala
 msgid "URL"
-msgstr "URL"
+msgstr "Адрес"
 
 #: src/cli.vala
 msgid "Installed Size"
@@ -1548,7 +1548,7 @@ msgstr "Параллельные загрузки"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from"
-msgstr "Задействовать зеркала"
+msgstr "Использовать зеркала"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors"

@@ -6,12 +6,13 @@
 # Translators:
 # Agron Selimaj <as9902613@gmail.com>, 2020
 # Algent Albrahimi <algent@protonmail.com>, 2019-2021
+# Algent Albrahimi <algent@protonmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2021-04-14 11:22+0200\n"
-"PO-Revision-Date: 2021-04-14 13:46+0000\n"
+"PO-Revision-Date: 2021-05-12 09:32+0000\n"
 "Last-Translator: Algent Albrahimi <algent@protonmail.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/manjarolinux/manjaro-pamac/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -168,7 +169,7 @@ msgstr "Dështoi në kryerjen e transaksionit"
 
 #: src/alpm_utils.vala
 msgid "Checking dependencies"
-msgstr " Duke kontrolluar varësitë"
+msgstr "Duke kontrolluar varësitë"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
@@ -232,7 +233,7 @@ msgstr "Duke kontrolluar hapësirën në dispozicion të diskut"
 #: src/alpm_utils.vala
 #, c-format
 msgid "%s optionally requires %s"
-msgstr "%smundësisht kërkon %s "
+msgstr "%smundësisht kërkon %s"
 
 #: src/alpm_utils.vala
 #, c-format
@@ -274,7 +275,7 @@ msgstr "Gabim gjatë ekzekutimit të grepave"
 msgid "About %lu second remaining"
 msgid_plural "About %lu seconds remaining"
 msgstr[0] "Rreth %lu sekonda të mbetura"
-msgstr[1] "Rreth %lu të sekondave të mbetura"
+msgstr[1] "Rreth %lu sekonda të mbetura"
 
 #: src/alpm_utils.vala src/snap_plugin.vala
 #, c-format
@@ -382,7 +383,7 @@ msgstr "Asgjë për të bërë"
 #: src/transaction.vala
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr ""
+msgstr "%s: duke injoruar azhurnimin e paketës (%s => %s)\n"
 
 #: src/transaction.vala
 #, c-format
@@ -1410,19 +1411,19 @@ msgstr "Injoro të gjitha"
 
 #: resources/manager_window.ui
 msgid "Sort by"
-msgstr "Ndaj sipas"
+msgstr "Rendit sipas"
 
 #: resources/manager_window.ui
 msgid "Relevance"
-msgstr "Rëndësia"
+msgstr "Rëndësisë"
 
 #: resources/manager_window.ui
 msgid "Size"
-msgstr "Madhësi"
+msgstr "Madhësisë"
 
 #: resources/manager_window.ui
 msgid "Date"
-msgstr "Data"
+msgstr "Datës"
 
 #: resources/manager_window.ui
 msgid "Refresh"
@@ -1502,11 +1503,11 @@ msgstr "Shkarkime paralele"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from"
-msgstr ""
+msgstr "Përdorni pasqyra nga"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors"
-msgstr ""
+msgstr "Rifresko Pasqyrat"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
@@ -1514,15 +1515,15 @@ msgstr "Depo e fshehtë"
 
 #: resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep"
-msgstr ""
+msgstr "Numri i versioneve të secilës paketë për t'u mbajtur"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the uninstalled packages"
-msgstr ""
+msgstr "Hiqni vetëm paketat e çinstaluara"
 
 #: resources/preferences_dialog.ui
 msgid "Clean"
-msgstr ""
+msgstr "Pastro"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
@@ -1552,11 +1553,11 @@ msgstr "Mundëso uljen në gradë"
 
 #: resources/preferences_dialog.ui
 msgid "Ignored upgrades"
-msgstr ""
+msgstr "Përditësimet e injoruara"
 
 #: resources/preferences_dialog.ui
 msgid "Third Party"
-msgstr ""
+msgstr "Pala e tretë"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1570,7 +1571,7 @@ msgstr "Aktivizo mbështetjen e AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages"
-msgstr ""
+msgstr "Mbani paketat e ndërtuara"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"

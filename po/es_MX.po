@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2021-04-14 11:22+0200\n"
-"PO-Revision-Date: 2021-04-14 15:03+0000\n"
+"PO-Revision-Date: 2021-04-27 21:26+0000\n"
 "Last-Translator: Pedro Delgado\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -968,11 +968,11 @@ msgstr "Archivo(s)"
 
 #: src/cli.vala
 msgid "only search for installed packages"
-msgstr "Sólo buscar paquetes instalados"
+msgstr "Solo buscar paquetes instalados"
 
 #: src/cli.vala
 msgid "only search for packages in repositories"
-msgstr "Sólo buscar paquetes en los repositorios"
+msgstr "Solo buscar paquetes en los repositorios"
 
 #: src/cli.vala
 msgid "also search in AUR"
@@ -989,7 +989,7 @@ msgstr "Buscar paquetes que posean los nombres de los archivos proporcionados (l
 
 #: src/cli.vala
 msgid "only print names"
-msgstr "Sólo mostrar nombres"
+msgstr "Solo mostrar nombres"
 
 #: src/cli.vala
 msgid "Display package details, multiple packages can be specified"
@@ -1092,11 +1092,11 @@ msgstr "No mantener paquetes construidos en caché después de la instalación"
 
 #: src/cli.vala
 msgid "only print what would be done but do not run the transaction"
-msgstr "Sólo mostrar lo que se haría pero no ejecutar la transacción"
+msgstr "Solo mostrar lo que se haría pero no ejecutar la transacción"
 
 #: src/cli.vala
 msgid "do not clone build files from AUR, only use local files"
-msgstr "No clonar archivos de construcción del AUR, sólo usar archivos locales"
+msgstr "No clonar archivos de construcción del AUR, solo usar archivos locales"
 
 #: src/cli.vala
 msgid "bypass any and all confirmation messages"
@@ -1144,7 +1144,7 @@ msgstr "Reinstalar paquetes"
 
 #: src/cli.vala
 msgid "remove packages only if they are not required by any other packages"
-msgstr "Remover paquetes sólo si no son requeridos por otros paquetes"
+msgstr "Remover paquetes solo si no son requeridos por otros paquetes"
 
 #: src/cli.vala
 msgid ""
@@ -1184,7 +1184,7 @@ msgstr "No verificar actualizaciones en el AUR"
 
 #: src/cli.vala
 msgid "only print one line per update"
-msgstr "Sólo mostrar una linea por actualización"
+msgstr "Solo mostrar una linea por actualización"
 
 #: src/cli.vala
 msgid "also check development packages updates (use with --aur)"
@@ -1247,7 +1247,7 @@ msgstr "Especifique cuántas versiones de cada paquete se mantendrán en el dire
 
 #: src/cli.vala
 msgid "only target uninstalled packages"
-msgstr "Sólo apuntar a paquetes desinstalados"
+msgstr "Solo apuntar a paquetes desinstalados"
 
 #: src/cli.vala
 msgid ""
@@ -1257,7 +1257,7 @@ msgstr "Remover todos los archivos de construcción, el directorio de construcci
 
 #: src/cli.vala
 msgid "do not remove files, only find candidate packages"
-msgstr "No remover archivos, sólo encontrar paquetes candidatos"
+msgstr "No remover archivos, solo encontrar paquetes candidatos"
 
 #: src/cli.vala
 msgid "also display all files names"
@@ -1302,7 +1302,7 @@ msgstr[1] "%u actualizaciones ignoradas"
 
 #: src/cli.vala
 msgid "Remove only the versions of uninstalled packages"
-msgstr "Sólo remover versiones de paquetes desinstalados"
+msgstr "Solo remover versiones de paquetes desinstalados"
 
 #: src/cli.vala
 msgid "Number of versions of each package to keep in the cache"
@@ -1324,7 +1324,7 @@ msgstr "Agregar %s para instalar"
 #: src/cli.vala
 #, c-format
 msgid "%s is only available from AUR"
-msgstr "%s sólo disponible del AUR"
+msgstr "%s solo disponible del AUR"
 
 #: src/cli.vala
 #, c-format
@@ -1521,7 +1521,7 @@ msgstr "Número de versiones de cada paquete para conservar"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the uninstalled packages"
-msgstr "Remover sólo los paquetes desinstalados"
+msgstr "Remover solo los paquetes desinstalados"
 
 #: resources/preferences_dialog.ui
 msgid "Clean"
@@ -1535,7 +1535,7 @@ msgstr "Avanzado"
 msgid ""
 "Misconfiguration of these options can lead to system breakage.\n"
 "Modify them only if you know what you are doing."
-msgstr "La configuración incorrecta de estas opciones pueden romper el sistema.\nModifíquelas sólo si sabe lo que está haciendo."
+msgstr "La configuración incorrecta de estas opciones pueden romper el sistema.\nModifíquelas solo si sabe lo que está haciendo."
 
 #: resources/preferences_dialog.ui
 msgid "Check available disk space"

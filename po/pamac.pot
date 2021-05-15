@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
-"POT-Creation-Date: 2021-04-14 11:22+0200\n"
+"POT-Creation-Date: 2021-05-15 16:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -580,6 +580,10 @@ msgid "%u pending operation"
 msgid_plural "%u pending operations"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/manager_window.vala
+msgid "Pending"
+msgstr ""
 
 #: src/manager_window.vala
 msgid "All"

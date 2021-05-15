@@ -9,8 +9,8 @@
 # GenghisKhan <genghiskhan@gmx.ca>, 2013-2016
 # Ido Dana <idodana01@gmail.com>, 2019
 # Xc Vb <kassavlt@gmail.com>, 2014
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# Omeritzics Games <omeritzicschwartz@gmail.com>, 2020
+# Omeritzics Games <omeritzicschwartz@gmail.com>, 2020
 # philm <philm@manjaro.org>, 2015
 # Xc Vb <kassavlt@gmail.com>, 2014
 msgid ""

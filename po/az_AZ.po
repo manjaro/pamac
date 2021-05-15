@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2021-04-14 11:22+0200\n"
-"PO-Revision-Date: 2021-04-25 12:11+0000\n"
+"PO-Revision-Date: 2021-05-05 19:27+0000\n"
 "Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://www.transifex.com/manjarolinux/manjaro-pamac/language/az_AZ/)\n"
 "MIME-Version: 1.0\n"
@@ -172,7 +172,7 @@ msgstr "Aslılıqlar yoxlanılır"
 
 #: src/alpm_utils.vala
 msgid "Checking file conflicts"
-msgstr "Fayllar arası ziddiyyətlərin yoxlanılır"
+msgstr "Fayllar arası ziddiyyətlər yoxlanılır"
 
 #: src/alpm_utils.vala
 msgid "Resolving dependencies"
@@ -606,7 +606,7 @@ msgstr "Yad"
 
 #: src/manager_window.vala src/cli.vala resources/manager_window.ui
 msgid "Installed"
-msgstr "Quraşdırılmış"
+msgstr "Quraşdırılan"
 
 #: src/manager_window.vala
 msgid "Ignored"
@@ -1016,7 +1016,7 @@ msgstr "açıq-aşkar quraşdırılmış paketlərin siyahısı"
 msgid ""
 "list packages that were installed as dependencies but are no longer required"
 " by any installed package"
-msgstr "Quraşdırılmış, ancaq artıq hər hansı bir quraşdırılmış paketin tələb etmədiyi asılılıqları sırala"
+msgstr "Quraşdırılmış, ancaq artıq hər hansı bir quraşdırılmış paketin tələb etmədiyi asılılıqların siyahısı"
 
 #: src/cli.vala
 msgid "list packages that were not found in the repositories"
@@ -1121,7 +1121,7 @@ msgstr "bütün paketləri yükləmək, ancaq heç birini quraşdırmamaq/yenil�
 
 #: src/cli.vala
 msgid "mark all packages installed as a dependency"
-msgstr "bütün paketləri quraşdırılmış asılılıq kimi işarələmək"
+msgstr "bütün paketləri, quraşdırılmış asılılıq kimi işarələmək"
 
 #: src/cli.vala
 msgid "mark all packages explicitly installed"
@@ -1434,7 +1434,7 @@ msgstr "Kateqoriyalar"
 
 #: resources/manager_window.ui
 msgid "Browse"
-msgstr "Gözdən keçirin"
+msgstr "Göz atın"
 
 #: resources/manager_window.ui resources/preferences_dialog.ui
 msgid "Updates"

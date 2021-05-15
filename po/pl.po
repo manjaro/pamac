@@ -21,7 +21,7 @@
 # Michał Nowakowski <nowakowski@offshore.rocks>, 2020
 # Piotr Komur <pkomur@gmail.com>, 2018-2019
 # Piotr Miller <nwg.piotr@gmail.com>, 2018
-# Piotr Strębski <strebski@gmail.com>, 2017-2019
+# Piotr Strębski <strebski@gmail.com>, 2017-2019,2021
 # Piotr Strębski <strebski@gmail.com>, 2013-2017
 # 6d4bfc21a6a6ee066757ddb3507f70b2_37d3db3 <85058123d41b6aff08a61620f76d019e_92355>, 2013
 # Rafał Wiśniewski <wisniew99@gmail.com>, 2018
@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: manjaro-pamac\n"
 "Report-Msgid-Bugs-To: guillaume@manjaro.org\n"
 "POT-Creation-Date: 2021-04-14 11:22+0200\n"
-"PO-Revision-Date: 2021-04-14 13:28+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-05-13 13:22+0000\n"
+"Last-Translator: Piotr Strębski <strebski@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/manjarolinux/manjaro-pamac/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -407,7 +407,7 @@ msgstr "Nie ma nic do zrobienia"
 #: src/transaction.vala
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr ""
+msgstr "%s: ignorowanie aktualizacji pakietu (%s => %s)\n"
 
 #: src/transaction.vala
 #, c-format
@@ -517,7 +517,7 @@ msgstr "Zamknij"
 
 #: src/transaction-gtk.vala
 msgid "Restart"
-msgstr ""
+msgstr "Uruchom ponownie"
 
 #: src/transaction-gtk.vala src/manager_window.vala
 #: resources/manager_window.ui
@@ -639,7 +639,7 @@ msgstr "Zainstalowane"
 
 #: src/manager_window.vala
 msgid "Ignored"
-msgstr ""
+msgstr "Ignorowane"
 
 #: src/manager_window.vala src/cli.vala
 msgid "Install Reason"
@@ -795,47 +795,47 @@ msgstr "Ostatnio uaktualniane"
 
 #: src/preferences_dialog.vala
 msgid "every 3 hours"
-msgstr ""
+msgstr "co 3 godziny"
 
 #: src/preferences_dialog.vala
 msgid "every 6 hours"
-msgstr ""
+msgstr "co 6 godzin"
 
 #: src/preferences_dialog.vala
 msgid "every 12 hours"
-msgstr ""
+msgstr "co 12 godzin"
 
 #: src/preferences_dialog.vala
 msgid "every day"
-msgstr ""
+msgstr "codziennie"
 
 #: src/preferences_dialog.vala
 msgid "every week"
-msgstr ""
+msgstr "co tydzień"
 
 #: src/preferences_dialog.vala
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: src/preferences_dialog.vala
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: src/preferences_dialog.vala
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: src/preferences_dialog.vala
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: src/preferences_dialog.vala
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: src/preferences_dialog.vala
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: src/preferences_dialog.vala
 msgid "Worldwide"
@@ -843,15 +843,15 @@ msgstr "Ogólnoświatowe"
 
 #: src/preferences_dialog.vala
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/preferences_dialog.vala
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: src/preferences_dialog.vala
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: src/preferences_dialog.vala src/cli.vala
 msgid "To delete"
@@ -868,11 +868,11 @@ msgstr[3] "%u plików"
 
 #: src/preferences_dialog.vala
 msgid "Select Build Directory"
-msgstr ""
+msgstr "Wybierz katalog budowania"
 
 #: src/preferences_dialog.vala
 msgid "_Choose"
-msgstr ""
+msgstr "_Wybierz"
 
 #: src/preferences_dialog.vala
 msgid "Choose Ignored Upgrades"
@@ -1041,7 +1041,7 @@ msgstr "wyświetl listę zainstalowanych pakietów"
 
 #: src/cli.vala
 msgid "list explicitly installed packages"
-msgstr ""
+msgstr "wyświetl listę bezpośrednio zainstalowanych pakietów"
 
 #: src/cli.vala
 msgid ""
@@ -1517,7 +1517,7 @@ msgstr "Sprawdzaj aktualizacje"
 
 #: resources/preferences_dialog.ui
 msgid "Updates check frequency"
-msgstr ""
+msgstr "Częstotliwość sprawdzania aktualizacji"
 
 #: resources/preferences_dialog.ui
 msgid "Automatically download updates"
@@ -1525,23 +1525,23 @@ msgstr "Pobieraj aktualizacje automatycznie"
 
 #: resources/preferences_dialog.ui
 msgid "Hide tray icon when no update"
-msgstr ""
+msgstr "Ukryj ikonę zasobnika, gdy nie ma aktualizacji"
 
 #: resources/preferences_dialog.ui
 msgid "Downloads"
-msgstr ""
+msgstr "Pobrane"
 
 #: resources/preferences_dialog.ui
 msgid "Parallel downloads"
-msgstr ""
+msgstr "Równoległe pobieranie"
 
 #: resources/preferences_dialog.ui
 msgid "Use mirrors from"
-msgstr ""
+msgstr "Użyj serwerów zwierciadlanych z"
 
 #: resources/preferences_dialog.ui
 msgid "Refresh Mirrors"
-msgstr ""
+msgstr "Odśwież serwery zwierciadlane"
 
 #: resources/preferences_dialog.ui
 msgid "Cache"
@@ -1549,15 +1549,15 @@ msgstr "Pamięć podręczna"
 
 #: resources/preferences_dialog.ui
 msgid "Number of versions of each package to keep"
-msgstr ""
+msgstr "Liczba wersji każdego pakietu do przechowania"
 
 #: resources/preferences_dialog.ui
 msgid "Remove only the uninstalled packages"
-msgstr ""
+msgstr "Usuń tylko odinstalowane pakiety"
 
 #: resources/preferences_dialog.ui
 msgid "Clean"
-msgstr ""
+msgstr "Wyczyść"
 
 #: resources/preferences_dialog.ui
 msgid "Advanced"
@@ -1587,11 +1587,11 @@ msgstr "Włącz obniżanie wersji"
 
 #: resources/preferences_dialog.ui
 msgid "Ignored upgrades"
-msgstr ""
+msgstr "Aktualizacje ignorowane"
 
 #: resources/preferences_dialog.ui
 msgid "Third Party"
-msgstr ""
+msgstr "Strony trzecie"
 
 #: resources/preferences_dialog.ui
 msgid ""
@@ -1605,7 +1605,7 @@ msgstr "Włącz obsługę AUR"
 
 #: resources/preferences_dialog.ui
 msgid "Keep built packages"
-msgstr ""
+msgstr "Zachowaj zbudowane pakiety"
 
 #: resources/preferences_dialog.ui
 msgid "Check for development packages updates"
