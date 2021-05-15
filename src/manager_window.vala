@@ -1934,14 +1934,14 @@ namespace Pamac {
 				reinstall_togglebutton.visible = false;
 				remove_togglebutton.visible = true;
 				remove_togglebutton.sensitive = true;
-				remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.name);
+				remove_togglebutton.active = flatpak_to_remove.contains (flatpak_pkg.id);
 			} else {
 				launch_button.visible = false;
 				remove_togglebutton.visible = false;
 				reinstall_togglebutton.visible = false;
 				build_togglebutton.visible = false;
 				install_togglebutton.visible = true;
-				install_togglebutton.active = flatpak_to_install.contains (flatpak_pkg.name);
+				install_togglebutton.active = flatpak_to_install.contains (flatpak_pkg.id);
 			}
 			// details
 			clear_details_grid ();
@@ -2014,7 +2014,7 @@ namespace Pamac {
 				if (current_package_displayed is SnapPackage) {
 					snap_to_install.insert (current_package_displayed.name, current_package_displayed as SnapPackage);
 				} else if (current_package_displayed is FlatpakPackage) {
-					flatpak_to_install.insert (current_package_displayed.name, current_package_displayed as FlatpakPackage);
+					flatpak_to_install.insert (current_package_displayed.id, current_package_displayed as FlatpakPackage);
 				} else {
 					to_install.add (current_package_displayed.name);
 				}
@@ -2022,7 +2022,7 @@ namespace Pamac {
 				if (current_package_displayed is SnapPackage) {
 					snap_to_install.remove (current_package_displayed.name);
 				} else if (current_package_displayed is FlatpakPackage) {
-					flatpak_to_install.remove (current_package_displayed.name);
+					flatpak_to_install.remove (current_package_displayed.id);
 				} else {
 					to_install.remove (current_package_displayed.name);
 				}
@@ -2059,12 +2059,12 @@ namespace Pamac {
 					snap_to_install.remove (current_package_displayed.name);
 					snap_to_remove.insert (current_package_displayed.name, current_package_displayed as SnapPackage);
 				} else if (current_package_displayed is FlatpakPackage) {
-					flatpak_to_install.remove (current_package_displayed.name);
+					flatpak_to_install.remove (current_package_displayed.id);
 					if (current_package_displayed.name in to_update) {
 						to_update.remove (current_package_displayed.name);
 						temporary_ignorepkgs.add (current_package_displayed.name);
 					}
-					flatpak_to_remove.insert (current_package_displayed.name, current_package_displayed as FlatpakPackage);
+					flatpak_to_remove.insert (current_package_displayed.id, current_package_displayed as FlatpakPackage);
 				} else {
 					to_install.remove (current_package_displayed.name);
 					if (current_package_displayed.name in to_update) {
@@ -2081,7 +2081,7 @@ namespace Pamac {
 						to_update.add (current_package_displayed.name);
 						temporary_ignorepkgs.remove (current_package_displayed.name);
 					}
-					flatpak_to_remove.remove (current_package_displayed.name);
+					flatpak_to_remove.remove (current_package_displayed.id);
 				} else {
 					if (current_package_displayed.name in temporary_ignorepkgs) {
 						to_update.add (current_package_displayed.name);
@@ -2372,19 +2372,19 @@ namespace Pamac {
 			if (is_update) {
 				row.action_icon.icon_name = "software-update-symbolic";
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-				if (!(pkg.name in temporary_ignorepkgs)) {
+				if (!(pkg.id in temporary_ignorepkgs)) {
 					row.action_togglebutton.active = true;
 					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
-						to_update.add (pkg.name);
-						temporary_ignorepkgs.remove (pkg.name);
+						to_update.add (pkg.id);
+						temporary_ignorepkgs.remove (pkg.id);
 						// remove from config.ignorepkgs to override config
-						database.config.ignorepkgs.remove (pkg.name);
+						database.config.ignorepkgs.remove (pkg.id);
 					} else {
-						to_update.remove (pkg.name);
-						temporary_ignorepkgs.add (pkg.name);
+						to_update.remove (pkg.id);
+						temporary_ignorepkgs.add (pkg.id);
 					}
 					updates_ignored_row.visible = temporary_ignorepkgs.length > 0;
 					refresh_listbox_buttons ();
@@ -2426,15 +2426,15 @@ namespace Pamac {
 				} else if (pkg is FlatpakPackage) {
 					row.action_icon.icon_name = "software-install-symbolic";
 					row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-					if (pkg.name in flatpak_to_install) {
+					if (pkg.id in flatpak_to_install) {
 						row.action_togglebutton.active = true;
 						row.action_icon.icon_name = "software-select-symbolic";
 					}
 					row.action_togglebutton.toggled.connect ((button) => {
 						if (button.active) {
-							flatpak_to_install.insert (pkg.name, pkg as FlatpakPackage);
+							flatpak_to_install.insert (pkg.id, pkg as FlatpakPackage);
 						} else {
-							flatpak_to_install.remove (pkg.name);
+							flatpak_to_install.remove (pkg.id);
 						}
 						refresh_listbox_buttons ();
 						set_pendings_operations ();
@@ -2475,23 +2475,15 @@ namespace Pamac {
 			} else if (pkg is FlatpakPackage) {
 				row.action_icon.icon_name = "software-remove-symbolic";
 				row.action_togglebutton.get_style_context ().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION);
-				if (pkg.name in flatpak_to_remove) {
+				if (pkg.id in flatpak_to_remove) {
 					row.action_togglebutton.active = true;
 					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
-						if (pkg.name in to_update) {
-							to_update.remove (pkg.name);
-							temporary_ignorepkgs.add (pkg.name);
-						}
-						flatpak_to_remove.insert (pkg.name, pkg as FlatpakPackage);
+						flatpak_to_remove.insert (pkg.id, pkg as FlatpakPackage);
 					} else {
-						if (pkg.name in temporary_ignorepkgs) {
-							to_update.add (pkg.name);
-							temporary_ignorepkgs.remove (pkg.name);
-						}
-						flatpak_to_remove.remove (pkg.name);
+						flatpak_to_remove.remove (pkg.id);
 					}
 					refresh_listbox_buttons ();
 					set_pendings_operations ();
@@ -2664,9 +2656,9 @@ namespace Pamac {
 						pamac_row.action_icon.icon_name = "software-remove-symbolic";
 					}
 				} else if (pkg is FlatpakPackage) {
-					if (pkg.name in flatpak_to_install ||
-						pkg.name in flatpak_to_remove ||
-						pkg.name in to_update) {
+					if (pkg.id in flatpak_to_install ||
+						pkg.id in flatpak_to_remove ||
+						pkg.id in to_update) {
 						pamac_row.action_togglebutton.active = true;
 						pamac_row.action_icon.icon_name = "software-select-symbolic";
 					} else if (pkg.installed_version == null) {
@@ -3942,11 +3934,11 @@ namespace Pamac {
 			}
 			foreach (unowned FlatpakPackage pkg in flatpak_to_install.get_values ()) {
 				transaction.add_flatpak_to_install (pkg);
-				previous_flatpak_to_install.insert (pkg.name, pkg);
+				previous_flatpak_to_install.insert (pkg.id, pkg);
 			}
 			foreach (unowned FlatpakPackage pkg in flatpak_to_remove.get_values ()) {
 				transaction.add_flatpak_to_remove (pkg);
-				previous_flatpak_to_remove.insert (pkg.name, pkg);
+				previous_flatpak_to_remove.insert (pkg.id, pkg);
 			}
 			clear_lists ();
 			transaction.run_async.begin ((obj, res) => {
@@ -4210,13 +4202,13 @@ namespace Pamac {
 					}
 				}
 				foreach (unowned FlatpakPackage pkg in previous_flatpak_to_install.get_values ()) {
-					if (!database.is_installed_flatpak (pkg.name)) {
-						flatpak_to_install.insert (pkg.name, pkg);
+					if (!database.is_installed_flatpak (pkg.id)) {
+						flatpak_to_install.insert (pkg.id, pkg);
 					}
 				}
 				foreach (unowned FlatpakPackage pkg in previous_flatpak_to_remove.get_values ()) {
-					if (database.is_installed_flatpak (pkg.name)) {
-						flatpak_to_remove.insert (pkg.name, pkg);
+					if (database.is_installed_flatpak (pkg.id)) {
+						flatpak_to_remove.insert (pkg.id, pkg);
 					}
 				}
 			}
