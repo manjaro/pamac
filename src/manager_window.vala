@@ -437,7 +437,7 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Button cancel_button;
 		[GtkChild]
-		unowned Gtk.Revealer infobox_revealer;
+		public unowned Gtk.Revealer infobox_revealer;
 
 		public Queue<Package> display_package_queue;
 		Package current_package_displayed;
@@ -452,8 +452,8 @@ namespace Pamac {
 		public Database database { get; construct; }
 		public LocalConfig local_config;
 
-		bool important_details;
-		bool transaction_running;
+		public bool important_details;
+		public bool transaction_running;
 		public bool generate_mirrors_list;
 		bool waiting;
 
@@ -967,8 +967,7 @@ namespace Pamac {
 					} else {
 						transaction.progress_box.action_label.label = "";
 					}
-					if (!transaction_running && !generate_mirrors_list
-						&& (to_update.length > 0)) {
+					if (to_update.length > 0) {
 						apply_button.sensitive = true;
 						apply_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 					} else {
@@ -990,7 +989,9 @@ namespace Pamac {
 						cancel_button.sensitive = false;
 						apply_button.sensitive = false;
 						apply_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
-						infobox_revealer.reveal_child = false;
+						if (!important_details) {
+							infobox_revealer.reveal_child = false;
+						}
 						// hide all in case of software_mode changed
 						categories_pending_row_separator.visible = false;
 						categories_pending_row.visible = false;
@@ -2368,8 +2369,8 @@ namespace Pamac {
 					row.version_label.visible = false;
 				} else if (pkg is FlatpakPackage) {
 					unowned string? version = pkg.version;
-					if (pkg.version != null) {
-						row.version_label.label = pkg.version;
+					if (version != null) {
+						row.version_label.label = version;
 					} else {
 						row.version_label.visible = false;
 					}

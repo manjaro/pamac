@@ -485,6 +485,10 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_generate_mirrors_list_button_clicked () {
+			unowned ManagerWindow manager_window = this.transient_for as ManagerWindow;
+			if (manager_window.transaction_running || manager_window.generate_mirrors_list) {
+				return;
+			}
 			unowned ListModel model = mirrors_country_comborow.get_model ();
 			Object object = model.get_item (mirrors_country_comborow.selected_index);
 			unowned Hdy.ValueObject value_object = object as Hdy.ValueObject;
@@ -493,10 +497,11 @@ namespace Pamac {
 				preferences_choosen_country = "all";
 			}
 			transaction.start_progressbar_pulse ();
-			unowned ManagerWindow manager_window = this.transient_for as ManagerWindow;
+			manager_window.important_details = true;
 			manager_window.generate_mirrors_list = true;
 			manager_window.apply_button.sensitive = false;
 			manager_window.details_button.sensitive = true;
+			manager_window.infobox_revealer.reveal_child = true;
 			transaction.generate_mirrors_list_async.begin (preferences_choosen_country, (obj, res) => {
 				manager_window.generate_mirrors_list = false;
 				transaction.reset_progress_box ();
