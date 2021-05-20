@@ -280,58 +280,64 @@ All AUR users should be familiar with the build process.</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkListBoxRow">
                     <property name="visible">1</property>
-                    <property name="margin-start">12</property>
-                    <property name="margin-end">12</property>
-                    <property name="margin-top">12</property>
-                    <property name="margin-bottom">12</property>
-                    <property name="spacing">12</property>
-                    <property name="orientation">vertical</property>
+                    <property name="activatable">0</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">1</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
                         <property name="spacing">12</property>
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkLabel" id="aur_build_dir_label">
-                            <property name="label" translatable="yes">Build directory</property>
+                          <object class="GtkBox">
                             <property name="visible">1</property>
-                            <property name="halign">start</property>
-                            <property name="wrap">1</property>
-                            <property name="hexpand">1</property>
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkLabel" id="aur_build_dir_label">
+                                <property name="label" translatable="yes">Build directory</property>
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="wrap">1</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="aur_build_dir_file_chooser">
+                                <property name="visible">1</property>
+                                <property name="halign">end</property>
+                                <signal name="clicked" handler="on_aur_build_dir_file_chooser_clicked" swapped="no"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkButton" id="aur_build_dir_file_chooser">
+                          <object class="GtkBox">
                             <property name="visible">1</property>
-                            <property name="halign">end</property>
-                            <signal name="clicked" handler="on_aur_build_dir_file_chooser_clicked" swapped="no"/>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">1</property>
-                        <property name="spacing">12</property>
-                        <child>
-                          <object class="GtkLabel" id="clean_build_files_label">
-                            <property name="visible">1</property>
-                            <property name="halign">end</property>
-                            <property name="wrap">1</property>
-                            <property name="hexpand">1</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="clean_build_files_button">
-                            <property name="visible">1</property>
-                            <property name="label" translatable="yes">Clean</property>
-                            <property name="halign">end</property>
-                            <property name="valign">center</property>
-                            <signal name="clicked" handler="on_clean_build_files_button_clicked" swapped="no"/>
-                            <style>
-                              <class name="destructive-action"/>
-                            </style>
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkLabel" id="clean_build_files_label">
+                                <property name="visible">1</property>
+                                <property name="halign">end</property>
+                                <property name="wrap">1</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="clean_build_files_button">
+                                <property name="visible">1</property>
+                                <property name="label" translatable="yes">Clean</property>
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <signal name="clicked" handler="on_clean_build_files_button_clicked" swapped="no"/>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
