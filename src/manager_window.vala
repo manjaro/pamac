@@ -703,6 +703,8 @@ namespace Pamac {
 								return true;
 							});
 						}
+						bool transaction_running = (transaction_running || generate_mirrors_list);
+						preferences_window.refresh (transaction_running);
 						preferences_window.show ();
 					} else {
 						this.get_window ().set_cursor (null);
@@ -4140,6 +4142,9 @@ namespace Pamac {
 			scroll_to_top = false;
 			updates_checked = false;
 			refresh_packages_list ();
+			if (preferences_window != null) {
+				preferences_window.refresh (true);
+			}
 		}
 	}
 }

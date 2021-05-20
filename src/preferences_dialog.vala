@@ -91,6 +91,8 @@ namespace Pamac {
 		unowned TransactionGtk transaction;
 		uint64 previous_refresh_period;
 
+		bool transaction_running;
+
 		public PreferencesWindow (ManagerWindow window, LocalConfig local_config) {
 			Object (transient_for: window);
 
@@ -256,7 +258,8 @@ namespace Pamac {
 			config.bind_property ("enable_downgrade", enable_downgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			populate_ignorepkgs_list ();
 			// set third party
-			local_config.notify["software_mode"].connect (on_software_mode_changed);
+			third_party_preferences_page.visible = !local_config.software_mode || config.support_flatpak || config.support_snap;
+			local_config.notify["software-mode"].connect (on_software_mode_changed);
 			local_config.bind_property ("software_mode", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
 			config.bind_property ("enable_aur", enable_aur_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_aur", enable_aur_expander, "expanded", BindingFlags.SYNC_CREATE);
@@ -274,6 +277,24 @@ namespace Pamac {
 			config.bind_property ("enable_snap", enable_snap_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 		}
 
+		public void refresh (bool transaction_running) {
+			this.transaction_running = transaction_running;
+			bool sensitive = !transaction_running;
+			parallel_downloads_comborow.sensitive = sensitive;
+			generate_mirrors_list_button.sensitive = sensitive;
+			clean_cache_button.sensitive = sensitive;
+			check_space_button.sensitive = sensitive;
+			remove_unrequired_deps_button.sensitive = sensitive;
+			simple_install_button.sensitive = sensitive;
+			enable_downgrade_button.sensitive = sensitive;
+			enable_aur_expander.sensitive = sensitive;
+			keep_built_pkgs_button.sensitive = sensitive;
+			aur_build_dir_file_chooser.sensitive = sensitive;
+			clean_build_files_button.sensitive = sensitive;
+			enable_flatpak_expander.sensitive = sensitive;
+			enable_snap_button.sensitive = sensitive;
+		}
+
 		async void refresh_clean_cache_button () {
 			HashTable<string, uint64?> details = yield database.get_clean_cache_details_async ();
 			var iter = HashTableIter<string, uint64?> (details);
@@ -285,7 +306,7 @@ namespace Pamac {
 				files_nb++;
 			}
 			clean_cache_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
-			if (files_nb++ > 0) {
+			if (files_nb++ > 0 && !transaction_running) {
 				clean_cache_button.sensitive = true;
 			} else {
 				clean_cache_button.sensitive = false;
@@ -303,7 +324,7 @@ namespace Pamac {
 				files_nb++;
 			}
 			clean_build_files_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
-			if (files_nb++ > 0) {
+			if (files_nb++ > 0 && !transaction_running) {
 				clean_build_files_button.sensitive = true;
 			} else {
 				clean_build_files_button.sensitive = false;
@@ -365,7 +386,7 @@ namespace Pamac {
 		}
 
 		void on_software_mode_changed () {
-			third_party_preferences_page.visible = local_config.software_mode || config.support_flatpak || config.support_snap;
+			third_party_preferences_page.visible = !local_config.software_mode || config.support_flatpak || config.support_snap;
 		}
 
 		[GtkCallback]
@@ -420,6 +441,7 @@ namespace Pamac {
 		void add_ignorepkg (string pkgname) {
 			var row = new Gtk.ListBoxRow ();
 			row.visible = true;
+			row.activatable = false;
 			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 			box.visible = true;
 			var label = new Gtk.Label (pkgname);
