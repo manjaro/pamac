@@ -497,6 +497,7 @@ namespace Pamac {
 					}
 					choose_pkgs_dialog.destroy ();
 				});
+				choose_pkgs_dialog.enable_search ();
 				choose_pkgs_dialog.show ();
 			});
 		}
