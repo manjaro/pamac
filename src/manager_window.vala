@@ -2687,6 +2687,9 @@ namespace Pamac {
 					} else if (pkg.installed_version == null) {
 						pamac_row.action_togglebutton.active = false;
 						pamac_row.action_icon.icon_name = "software-install-symbolic";
+					} else if (view_stack.visible_child_name == "updates") {
+						pamac_row.action_togglebutton.active = false;
+						pamac_row.action_icon.icon_name = "software-update-symbolic";
 					} else {
 						pamac_row.action_togglebutton.active = false;
 						pamac_row.action_icon.icon_name = "software-remove-symbolic";
