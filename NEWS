@@ -1,12 +1,6 @@
 v10.0
 =====
 
-- libpamac
-   - many speed improvements
-   - Package string properties can be null
-   - Database has with sync and async methods
-   - returned lists are GenericArrays (g_ptr_array)
-   - Transaction methods are async
 - tray
   - tray-appindicator code removed
 - pamac-gtk

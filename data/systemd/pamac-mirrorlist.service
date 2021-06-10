@@ -1,8 +1,0 @@
-[Unit]
-Description=Generate mirrorlist
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/pacman-mirrors -f8
