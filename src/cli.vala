@@ -370,9 +370,6 @@ namespace Pamac {
 				}
 				init_transaction ();
 				database.config.enable_aur = true;
-				if (no_clone) {
-					transaction.clone_build_files = false;
-				}
 				if (no_confirm) {
 					transaction.no_confirm = true;
 				}
@@ -411,8 +408,6 @@ namespace Pamac {
 						stdout.printf ("\n");
 						return;
 					}
-					// set no clone is required
-					transaction.clone_build_files = false;
 					// set buildir to the parent dir
 					File? parent = current_dir.get_parent ();
 					if (parent != null) {
@@ -425,24 +420,37 @@ namespace Pamac {
 						// add pkgnames of srcinfo to targets
 						bool success = database.regenerate_srcinfo (pkgbase, null);
 						if (success) {
-							var srcinfo_pkgnames = database.get_srcinfo_pkgnames (pkgbase);
-							foreach (unowned string name in srcinfo_pkgnames) {
-								targets.add (name);
+							var pkgnames = new GenericArray<string> ();
+							var srcinfo = current_dir.get_child (".SRCINFO");
+							try {
+								// read .SRCINFO
+								var dis = new DataInputStream (srcinfo.read ());
+								string line;
+								while ((line = dis.read_line ()) != null) {
+									if ("pkgname = " in line) {
+										string pkgname = line.split (" = ", 2)[1];
+										pkgnames.add ((owned) pkgname);
+									}
+								}
+								foreach (unowned string name in pkgnames) {
+									targets.add (name);
+								}
+								build_pkgs (targets.data, false, !no_clone);
+							} catch (Error e) {
+								warning (e.message);
 							}
 						}
 					}
-					build_pkgs (targets.data);
-					return;
-				} else if (transaction.clone_build_files) {
+				} else if (!no_clone) {
 					// check if targets exist
 					var checked_targets = new GenericArray<string> ();
 					bool success = check_build_pkgs (args[2:args.length], no_confirm, ref checked_targets);
 					if (success) {
-						build_pkgs (checked_targets.data);
+						build_pkgs (checked_targets.data, true, true);
 					}
-					return;
+				} else {
+					build_pkgs (args[2:args.length], false, false);
 				}
-				build_pkgs (args[2:args.length]);
 			} else if (args[1] == "install") {
 				if (args.length > 2) {
 					bool no_confirm = false;
@@ -515,7 +523,16 @@ namespace Pamac {
 					if (no_upgrade) {
 						transaction.database.config.simple_install = true;
 					}
-					install_pkgs (args[2:args.length], download_only, as_deps, as_explicit);
+					if (download_only) {
+						transaction.download_only = true;
+					}
+					if (as_deps) {
+						transaction.install_as_dep = true;
+					}
+					if (as_explicit) {
+						transaction.install_as_explicit = true;
+					}
+					install_pkgs (args[2:args.length]);
 				} else {
 					display_install_help ();
 				}
@@ -564,9 +581,18 @@ namespace Pamac {
 					if (no_confirm) {
 						transaction.no_confirm = true;
 					}
+					if (download_only) {
+						transaction.download_only = true;
+					}
+					if (as_deps) {
+						transaction.install_as_dep = true;
+					}
+					if (as_explicit) {
+						transaction.install_as_explicit = true;
+					}
 					// no upgrade because version will be checked
 					transaction.database.config.simple_install = true;
-					reinstall_pkgs (args[2:args.length], download_only, as_deps, as_explicit);
+					reinstall_pkgs (args[2:args.length]);
 				} else {
 					display_reinstall_help ();
 				}
@@ -632,7 +658,13 @@ namespace Pamac {
 						if (no_orphans) {
 							database.config.recurse = false;
 						}
-						remove_pkgs (args[2:args.length], unneeded, no_save);
+						if (unneeded) {
+							transaction.remove_if_unneeded = true;
+						}
+						if (no_save) {
+							transaction.keep_config_files = false;
+						}
+						remove_pkgs (args[2:args.length]);
 					}
 				} else {
 					display_remove_help ();
@@ -1678,34 +1710,29 @@ namespace Pamac {
 						print_property (properties[24], aur_pkg.maintainer, max_length);
 					}
 					// First Submitted
-					if (aur_pkg.firstsubmitted != 0) {
-						var time = GLib.Time.local ((time_t) aur_pkg.firstsubmitted);
-						print_property (properties[25], time.format ("%x"), max_length);
+					if (aur_pkg.firstsubmitted != null) {
+						print_property (properties[25], aur_pkg.firstsubmitted.format ("%x"), max_length);
 					}
 					// Last Modified
-					if (aur_pkg.lastmodified != 0) {
-						var time = GLib.Time.local ((time_t) aur_pkg.lastmodified);
-						print_property (properties[26], time.format ("%x"), max_length);
+					if (aur_pkg.lastmodified != null) {
+						print_property (properties[26], aur_pkg.lastmodified.format ("%x"), max_length);
 					}
 					// Votes
 					if (aur_pkg.numvotes != 0) {
 						print_property (properties[27], aur_pkg.numvotes.to_string (), max_length);
 					}
 					// Out of Date
-					if (aur_pkg.outofdate != 0) {
-						var time = GLib.Time.local ((time_t) aur_pkg.outofdate);
-						print_property (properties[28], time.format ("%x"), max_length);
+					if (aur_pkg.outofdate != null) {
+						print_property (properties[28], aur_pkg.outofdate.format ("%x"), max_length);
 					}
 				}
 				// Build date
-				if (pkg.build_date != 0) {
-					var time = GLib.Time.local ((time_t) pkg.build_date);
-					print_property (properties[18], time.format ("%x"), max_length);
+				if (pkg.build_date != null) {
+					print_property (properties[18], pkg.build_date.format ("%x"), max_length);
 				}
 				// Install date
-				if (pkg.install_date != 0) {
-					var time = GLib.Time.local ((time_t) pkg.install_date);
-					print_property (properties[19], time.format ("%x"), max_length);
+				if (pkg.install_date != null) {
+					print_property (properties[19], pkg.install_date.format ("%x"), max_length);
 				}
 				// Reason
 				if (pkg.reason != null) {
@@ -1852,22 +1879,27 @@ namespace Pamac {
 
 		void list_files (string[] names, bool quiet) {
 			foreach (unowned string name in names) {
-				var files = database.get_pkg_files (name);
-				if (files.length == 0) {
+				var pkg = database.get_pkg (name);
+				if (pkg == null) {
 					if (!quiet) {
 						print_error (dgettext (null, "target not found: %s").printf (name));
 					}
 				} else {
+					var files = pkg.get_files ();
 					foreach (unowned string path in files) {
 						stdout.printf ("%s\n", path);
 					}
+					stdout.printf ("\n");
 				}
-				stdout.printf ("\n");
 			}
 		}
 
 		void search_files (string[] files, bool quiet) {
-			HashTable<string, GenericArray<string>> result = database.search_files (files);
+			var files_array = new GenericArray<string> ();
+			foreach (unowned string file in files) {
+				files_array.add (file);
+			}
+			HashTable<string, GenericArray<string>> result = database.search_files (files_array);
 			if (result.size () == 0) {
 				if (!quiet) {
 					foreach (unowned string file in files) {
@@ -2237,7 +2269,7 @@ namespace Pamac {
 			}
 		}
 
-		void install_pkgs (string[] targets, bool download_only, bool as_deps, bool as_explicit) {
+		void install_pkgs (string[] targets) {
 			var to_install = new GenericArray<string> ();
 			var to_load = new GenericArray<string> ();
 			var to_build = new GenericArray<string> ();
@@ -2311,17 +2343,6 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
-			// do not install a package if it is already installed and up to date
-			int flags = (1 << 13); //Alpm.TransFlag.NEEDED
-			if (download_only) {
-				flags |= (1 << 9); //Alpm.TransFlag.DOWNLOADONLY
-			}
-			if (as_deps) {
-				flags |= (1 << 8); //Alpm.TransFlag.ALLDEPS
-			} else if (as_explicit) {
-				flags |= (1 << 14); //Alpm.TransFlag.ALLEXPLICIT
-			}
-			transaction.set_flags (flags);
 			foreach (unowned string name in to_install) {
 				transaction.add_pkg_to_install (name);
 			}
@@ -2329,7 +2350,7 @@ namespace Pamac {
 				transaction.add_path_to_load (path);
 			}
 			foreach (unowned string name in to_build) {
-				transaction.add_aur_pkg_to_build (name);
+				transaction.add_pkg_to_build (name, true, true);
 			}
 			run_transaction ();
 		}
@@ -2376,8 +2397,8 @@ namespace Pamac {
 				if (ans == null) {
 					break;
 				}
-				uint64 nb;
-				uint64[] numbers = {};
+				uint nb;
+				var numbers = new GenericArray<uint> ();
 				// remvove trailing newline
 				ans = ans.replace ("\n", "");
 				// just return use default
@@ -2394,32 +2415,28 @@ namespace Pamac {
 						if ("-" in part) {
 							string[] splitted2 = part.split ("-", 2);
 							// get all numbers in range
-							int64 beg_num, end_num;
-							if (int64.try_parse (splitted2[0], out beg_num)) {
-								if (int64.try_parse (splitted2[1], out end_num)) {
+							uint beg_num, end_num;
+							if (uint.try_parse (splitted2[0], out beg_num)) {
+								if (uint.try_parse (splitted2[1], out end_num)) {
 									nb = beg_num;
 									while (nb <= end_num) {
 										if (nb >= 1 && nb <= pkgs_length) {
-											numbers += nb;
+											numbers.add (nb);
 										}
 										nb++;
 									}
 								}
 							}
-						} else if (uint64.try_parse (part, out nb)) {
+						} else if (uint.try_parse (part, out nb)) {
 							if (nb >= 1 && nb <= pkgs_length) {
-								numbers += nb;
+								numbers.add (nb);
 							}
 						}
 					}
 				}
 				if (numbers.length > 0) {
-					uint64 index = 1;
-					foreach (unowned AlpmPackage pkg in pkgs) {
-						if (index in numbers) {
-							to_install.add (pkg.name);
-						}
-						index++;
+					foreach (uint number in numbers) {
+						to_install.add (pkgs[number - 1].name);
 					}
 					break;
 				}
@@ -2427,7 +2444,7 @@ namespace Pamac {
 			stdout.printf ("\n");
 		}
 
-		void reinstall_pkgs (string[] names, bool download_only, bool as_deps, bool as_explicit) {
+		void reinstall_pkgs (string[] names) {
 			var to_install = new GenericArray<string> ();
 			foreach (unowned string name in names) {
 				bool found = false;
@@ -2487,20 +2504,11 @@ namespace Pamac {
 			foreach (unowned string name in to_install) {
 				transaction.add_pkg_to_install (name);
 			}
-			int flags = 0;
-			if (download_only) {
-				flags |= (1 << 9); //Alpm.TransFlag.DOWNLOADONLY
-			}
-			if (as_deps) {
-				flags |= (1 << 8); //Alpm.TransFlag.ALLDEPS
-			} else if (as_explicit) {
-				flags |= (1 << 14); //Alpm.TransFlag.ALLEXPLICIT
-			}
-			transaction.set_flags (flags);
+			transaction.install_if_needed = false;
 			run_transaction ();
 		}
 
-		void remove_pkgs (string[] names, bool unneeded, bool no_save) {
+		void remove_pkgs (string[] names) {
 			var to_remove = new GenericArray<string> ();
 			bool group_found = false;
 			foreach (unowned string name in names) {
@@ -2541,19 +2549,9 @@ namespace Pamac {
 				stdout.printf (dgettext (null, "Nothing to do") + ".\n");
 				return;
 			}
-			int flags;
-			if (group_found || unneeded) {
-				flags = (1 << 15); //Alpm.TransFlag.UNNEEDED
-			} else {
-				flags = (1 << 4); //Alpm.TransFlag.CASCADE
+			if (group_found) {
+				transaction.remove_if_unneeded = true;
 			}
-			if (database.config.recurse) {
-				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
-			}
-			if (no_save) {
-				flags |= (1 << 2); //Alpm.TransFlag.NOSAVE
-			}
-			transaction.set_flags (flags);
 			foreach (unowned string name in to_remove) {
 				transaction.add_pkg_to_remove (name);
 			}
@@ -2565,20 +2563,22 @@ namespace Pamac {
 			foreach (unowned AlpmPackage pkg in pkgs) {
 				transaction.add_pkg_to_remove (pkg.name);
 			}
-			int flags = (1 << 4); //Alpm.TransFlag.CASCADE
-			flags |= (1 << 5); //Alpm.TransFlag.RECURSE
-			transaction.set_flags (flags);
+			database.config.recurse = true;
 			run_transaction ();
 		}
 
 		void clone_build_files (string[] pkgnames, bool overwrite, bool recurse, bool quiet) {
 			already_checked_aur_dep = new GenericSet<string?> (str_hash, str_equal);
+			var pkgnames_array = new GenericArray<string> ();
+			foreach (unowned string pkgname in pkgnames) {
+				pkgnames_array.add (pkgname);
+			}
 			cloning = true;
-			clone_build_files_real (pkgnames, overwrite, recurse, quiet);
+			clone_build_files_real (pkgnames_array, overwrite, recurse, quiet);
 			cloning = false;
 		}
 
-		void clone_build_files_real (string[] pkgnames, bool overwrite, bool recurse, bool quiet) {
+		void clone_build_files_real (GenericArray<string> pkgnames, bool overwrite, bool recurse, bool quiet) {
 			var dep_to_check = new GenericArray<string> ();
 			var aur_pkgs = database.get_aur_pkgs (pkgnames);
 			var iter = HashTableIter<string, unowned AURPackage?> (aur_pkgs);
@@ -2656,12 +2656,12 @@ namespace Pamac {
 				return;
 			}
 			if (dep_to_check.length > 0) {
-				clone_build_files_real (dep_to_check.data, overwrite, recurse, quiet);
+				clone_build_files_real (dep_to_check, overwrite, recurse, quiet);
 			}
 		}
 
 		bool check_build_pkgs (string[] targets, bool no_confirm, ref GenericArray<string> checked_targets) {
-			string[] real_targets = {};
+			var real_targets = new GenericArray<string> ();
 			var not_found = new HashTable<unowned string, unowned string?> (str_hash, str_equal);
 			foreach (unowned string target in targets) {
 				if (!no_confirm) {
@@ -2673,7 +2673,7 @@ namespace Pamac {
 						}
 					}
 				}
-				real_targets += target;
+				real_targets.add (target);
 				// populate not found and remove them when found
 				not_found.replace (target, target);
 			}
@@ -2721,10 +2721,11 @@ namespace Pamac {
 			return true;
 		}
 
-		void build_pkgs (string[] names) {
+		void build_pkgs (string[] names, bool clone_build_files, bool clone_deps_build_files) {
 			foreach (unowned string name in names) {
-				transaction.add_aur_pkg_to_build (name);
+				transaction.add_pkg_to_build (name, clone_build_files, clone_deps_build_files);
 			}
+			transaction.install_if_needed = false;
 			run_transaction ();
 		}
 
@@ -2756,7 +2757,7 @@ namespace Pamac {
 
 		void run_sysupgrade (bool force_refresh, bool download_only) {
 			if (download_only) {
-				transaction.set_flags ((1 << 9)); //Alpm.TransFlag.DOWNLOADONLY
+				transaction.download_only = true; //Alpm.TransFlag.DOWNLOADONLY
 			}
 			transaction.add_pkgs_to_upgrade (force_refresh);
 			run_transaction ();

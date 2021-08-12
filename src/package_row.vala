@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/package_row.ui")]
-	public class PackageRow : Gtk.ListBoxRow {
+	public class PackageRow : Gtk.FlowBoxChild {
 
 		[GtkChild]
 		public unowned Gtk.Image app_icon;

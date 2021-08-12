@@ -76,10 +76,10 @@ namespace Pamac {
 		public override int command_line (ApplicationCommandLine cmd) {
 			this.cmd = cmd;
 			string[] args = cmd.get_arguments ();
-			string[] to_install = {};
-			string[] to_remove = {};
-			string[] to_load = {};
-			string[] to_build = {};
+			var to_install = new GenericArray<unowned string> ();
+			var to_remove = new GenericArray<unowned string> ();
+			var to_load = new GenericArray<string> ();
+			var to_build = new GenericArray<string> ();
 			if (args.length == 1) {
 				display_help ();
 				this.release ();
@@ -103,9 +103,9 @@ namespace Pamac {
 						add_to_remove = false;
 					} else {
 						if (add_to_remove) {
-							to_remove += target;
+							to_remove.add (target);
 						} else if (add_to_build) {
-							to_build += target;
+							to_build.add (target);
 						} else if (".pkg.tar" in target) {
 							// check for local or remote path
 							if ("://" in target) {
@@ -114,22 +114,22 @@ namespace Pamac {
 									var file = File.new_for_uri (target);
 									string? absolute_path = file.get_path ();
 									if (absolute_path != null) {
-										to_load += absolute_path;
+										to_load.add ((owned) absolute_path);
 									}
 								} else {
 									// add url in to_load, pkg will be downloaded by system_daemon
-									to_load += target;
+									to_load.add (target);
 								}
 							} else {
 								// handle local or absolute path
 								var file = File.new_for_path (target);
 								string? absolute_path = file.get_path ();
 								if (absolute_path != null) {
-									to_load += absolute_path;
+									to_load.add ((owned) absolute_path);
 								}
 							}
 						} else {
-							to_install += target;
+							to_install.add (target);
 						}
 					}
 					i++;
@@ -146,7 +146,7 @@ namespace Pamac {
 					bool success = check_build_pkgs (to_build);
 					if (success) {
 						foreach (unowned string name in to_build) {
-							transaction.add_aur_pkg_to_build (name);
+							transaction.add_pkg_to_build (name, true, true);
 						}
 					} else {
 						this.release ();
@@ -181,14 +181,16 @@ namespace Pamac {
 			return cmd.get_exit_status ();
 		}
 
-		bool check_build_pkgs (string[] targets) {
+		bool check_build_pkgs (GenericArray<string> targets) {
 			var aur_pkgs = database.get_aur_pkgs (targets);
 			var iter = HashTableIter<string, unowned AURPackage?> (aur_pkgs);
 			unowned string pkgname;
 			unowned AURPackage? aur_pkg;
 			while (iter.next (out pkgname, out aur_pkg)) {
 				if (aur_pkg == null) {
-					transaction.display_error (dgettext (null, "Failed to prepare transaction"), {dgettext (null, "target not found: %s").printf (pkgname)});
+					var details = new GenericArray<string> (1);
+					details.add (dgettext (null, "target not found: %s").printf (pkgname));
+					transaction.display_error (dgettext (null, "Failed to prepare transaction"), details);
 					return false;
 				}
 			}

@@ -98,7 +98,13 @@ namespace Pamac {
 				AlpmPackage? pkg = this.database.get_pkg (pkgname);
 				if (pkg != null) {
 					manager_window.display_package_details (pkg);
-					manager_window.main_stack.visible_child_name = "details";
+					manager_window.main_stack.visible_child_name = "browse";
+					manager_window.packages_leaflet.visible_child_name = "details";
+					manager_window.main_details_box.visible = true;
+					manager_window.browse_flap.visible = false;
+					manager_window.view_stack_switcher.visible = false;
+					manager_window.search_button.visible = false;
+					manager_window.button_back.visible = true;
 				}
 				manager_window.present ();
 			});
@@ -111,7 +117,13 @@ namespace Pamac {
 				Package? pkg = this.database.get_app_by_id (app_id);
 				if (pkg != null) {
 					manager_window.display_details (pkg);
-					manager_window.main_stack.visible_child_name = "details";
+					manager_window.main_stack.visible_child_name = "browse";
+					manager_window.packages_leaflet.visible_child_name = "details";
+					manager_window.main_details_box.visible = true;
+					manager_window.browse_flap.visible = false;
+					manager_window.view_stack_switcher.visible = false;
+					manager_window.search_button.visible = false;
+					manager_window.button_back.visible = true;
 				}
 				manager_window.present ();
 			});

@@ -99,20 +99,10 @@ namespace Pamac {
 			stop_preparing.connect (stop_progressbar_pulse);
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
-			// flags
-			set_trans_flags ();
 			// ask_confirmation option
 			no_confirm_upgrade = false;
 			summary_shown = false;
 			commit_transaction_answer = false;
-		}
-
-		public void set_trans_flags () {
-			int flags = (1 << 4); //Alpm.TransFlag.CASCADE
-			if (database.config.recurse) {
-				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
-			}
-			set_flags (flags);
 		}
 
 		public void show_details (string message) {
@@ -199,7 +189,7 @@ namespace Pamac {
 			return new ChoosePkgsDialog (application_window);
 		}
 
-		protected override async string[] choose_optdeps (string pkgname, string[] optdeps) {
+		protected override async GenericArray<string> choose_optdeps (string pkgname, GenericArray<string> optdeps) {
 			GenericArray<string> optdeps_to_install;
 			var choose_pkgs_dialog = create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
@@ -220,10 +210,10 @@ namespace Pamac {
 				optdeps_to_install = new GenericArray<string> ();
 			}
 			choose_pkgs_dialog.destroy ();
-			return optdeps_to_install.data;
+			return optdeps_to_install;
 		}
 
-		protected override async int choose_provider (string depend, string[] providers) {
+		protected override async int choose_provider (string depend, GenericArray<string> providers) {
 			var application_window = application.active_window;
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
@@ -864,7 +854,7 @@ namespace Pamac {
 			return response;
 		}
 
-		protected override async void edit_build_files (string[] pkgnames) {
+		protected override async void edit_build_files (GenericArray<string> pkgnames) {
 			foreach (unowned string pkgname in pkgnames) {
 				string action = dgettext (null, "Edit %s build files".printf (pkgname));
 				display_action (action);
@@ -1111,7 +1101,7 @@ namespace Pamac {
 			}
 		}
 
-		public void display_error (string message, string[] details) {
+		public void display_error (string message, GenericArray<string> details) {
 			reset_progress_box ();
 			var flags = Gtk.DialogFlags.MODAL;
 			int use_header_bar;

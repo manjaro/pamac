@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <template class="PamacPackageRow" parent="GtkListBoxRow">
+  <template class="PamacPackageRow" parent="GtkFlowBoxChild">
     <property name="visible">1</property>
+    <style>
+      <class name="package-box"/>
+    </style>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">1</property>
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
-        <property name="margin-top">12</property>
-        <property name="margin-bottom">12</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkImage" id="app_icon">
             <property name="visible">1</property>
+            <property name="valign">center</property>
             <property name="pixel-size">64</property>
             <style>
               <class name="icon-dropshadow"/>
@@ -23,6 +27,7 @@
         <child>
           <object class="GtkBox" id="second_box">
             <property name="visible">1</property>
+            <property name="valign">center</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
@@ -32,6 +37,9 @@
                 <child>
                   <object class="GtkLabel" id="name_label">
                     <property name="visible">1</property>
+                    <property name="wrap">1</property>
+                    <property name="lines">2</property>
+                    <property name="max_width_chars">40</property>
                     <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
                     <attributes>
@@ -44,6 +52,7 @@
                     <property name="visible">0</property>
                     <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
+                    <property name="valign">center</property>
                     <style>
                       <class name="old-version-label"/>
                     </style>
@@ -54,6 +63,7 @@
                     <property name="visible">1</property>
                     <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
+                    <property name="valign">center</property>
                     <style>
                       <class name="version-label"/>
                     </style>
@@ -65,6 +75,9 @@
               <object class="GtkLabel" id="desc_label">
                 <property name="visible">1</property>
                 <property name="use-markup">1</property>
+                <property name="wrap">1</property>
+                <property name="lines">2</property>
+                <property name="max_width_chars">40</property>
                 <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
               </object>

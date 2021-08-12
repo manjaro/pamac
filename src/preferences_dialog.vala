@@ -253,7 +253,6 @@ namespace Pamac {
 			local_config.bind_property ("software_mode", advanced_preferences_page, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
 			config.bind_property ("checkspace", check_space_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("recurse", remove_unrequired_deps_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-			remove_unrequired_deps_button.notify["active"].connect (on_remove_unrequired_deps_button_changed);
 			config.bind_property ("simple_install", simple_install_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_downgrade", enable_downgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			populate_ignorepkgs_list ();
@@ -275,24 +274,6 @@ namespace Pamac {
 			config.bind_property ("check_flatpak_updates", check_flatpak_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("support_snap", snap_preferences_group, "visible", BindingFlags.SYNC_CREATE);
 			config.bind_property ("enable_snap", enable_snap_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-		}
-
-		public void refresh (bool transaction_running) {
-			this.transaction_running = transaction_running;
-			bool sensitive = !transaction_running;
-			parallel_downloads_comborow.sensitive = sensitive;
-			generate_mirrors_list_button.sensitive = sensitive;
-			clean_cache_button.sensitive = sensitive;
-			check_space_button.sensitive = sensitive;
-			remove_unrequired_deps_button.sensitive = sensitive;
-			simple_install_button.sensitive = sensitive;
-			enable_downgrade_button.sensitive = sensitive;
-			enable_aur_expander.sensitive = sensitive;
-			keep_built_pkgs_button.sensitive = sensitive;
-			aur_build_dir_file_chooser.sensitive = sensitive;
-			clean_build_files_button.sensitive = sensitive;
-			enable_flatpak_expander.sensitive = sensitive;
-			enable_snap_button.sensitive = sensitive;
 		}
 
 		async void refresh_clean_cache_button () {
@@ -329,10 +310,6 @@ namespace Pamac {
 			} else {
 				clean_build_files_button.sensitive = false;
 			}
-		}
-
-		void on_remove_unrequired_deps_button_changed () {
-			transaction.set_trans_flags ();
 		}
 
 		void on_check_updates_expander_changed () {

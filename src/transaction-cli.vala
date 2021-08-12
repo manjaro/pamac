@@ -24,7 +24,6 @@ namespace Pamac {
 		bool summary_shown;
 		bool commit_transaction_answer;
 		public bool no_confirm { get; set; }
-		public bool dry_run { get; set; }
 
 		public TransactionCli (Database database) {
 			Object (database: database);
@@ -35,7 +34,6 @@ namespace Pamac {
 			current_action = "";
 			summary_shown = false;
 			no_confirm = false;
-			dry_run = false;
 			commit_transaction_answer = false;
 			// connect to signal
 			emit_action.connect (print_action);
@@ -47,7 +45,7 @@ namespace Pamac {
 			emit_error.connect (print_error);
 		}
 
-		protected override async int run_cmd_line_async (string[] args, string? working_directory, Cancellable cancellable) {
+		protected override async int run_cmd_line_async (GenericArray<string> args, string? working_directory, Cancellable cancellable) {
 			int status = 1;
 			var launcher = new SubprocessLauncher (SubprocessFlags.STDIN_INHERIT);
 			if (working_directory != null) {
@@ -55,7 +53,10 @@ namespace Pamac {
 			}
 			launcher.set_environ (Environ.get ());
 			try {
-				Subprocess process = launcher.spawnv (args);
+				// spawnv needs a null terminated array
+				GenericArray<string> args_copy = args.copy (strdup);
+				args_copy.length = args_copy.length + 1;
+				Subprocess process = launcher.spawnv (args_copy.data);
 				try {
 					yield process.wait_async (cancellable);
 					if (process.get_if_exited ()) {
@@ -67,7 +68,7 @@ namespace Pamac {
 					process.send_signal (Posix.Signal.KILL);
 				}
 			} catch (Error e) {
-				print_error (e.message, {});
+				print_error (e.message, new GenericArray<string> ());
 			}
 			return status;
 		}
@@ -169,7 +170,7 @@ namespace Pamac {
 			stdout.printf ("\n");
 		}
 
-		void print_error (string message, string[] details) {
+		void print_error (string message, GenericArray<string> details) {
 			display_current_line ();
 			if (details.length > 0) {
 				if (details.length == 1) {
@@ -185,9 +186,10 @@ namespace Pamac {
 			}
 		}
 
-		protected override async string[] choose_optdeps (string pkgname, string[] optdeps) {
+		protected override async GenericArray<string> choose_optdeps (string pkgname, GenericArray<string> optdeps) {
+			var optdeps_to_install = new GenericArray<string> ();
 			if (no_confirm) {
-				return {};
+				return optdeps_to_install;
 			}
 			stdout.printf ("\n");
 			// print pkgs
@@ -200,7 +202,6 @@ namespace Pamac {
 								name);
 				num++;
 			}
-			var optdeps_to_install = new GenericArray<unowned string> ();
 			// get user input
 			while (true) {
 				stdout.printf ("\n");
@@ -209,8 +210,8 @@ namespace Pamac {
 				if (ans == null) {
 					break;
 				}
-				uint64 nb;
-				uint64[] numbers = {};
+				uint nb;
+				uint[] numbers = {};
 				// remvove trailing newline
 				ans = ans.replace ("\n", "");
 				// just return use default
@@ -224,9 +225,9 @@ namespace Pamac {
 						if ("-" in part) {
 							string[] splitted2 = part.split ("-", 2);
 							// get all numbers in range
-							int64 beg_num, end_num;
-							if (int64.try_parse (splitted2[0], out beg_num)) {
-								if (int64.try_parse (splitted2[1], out end_num)) {
+							uint beg_num, end_num;
+							if (int.try_parse (splitted2[0], out beg_num)) {
+								if (int.try_parse (splitted2[1], out end_num)) {
 									nb = beg_num;
 									while (nb <= end_num) {
 										if (nb >= 1 && nb <= optdeps.length) {
@@ -236,7 +237,7 @@ namespace Pamac {
 									}
 								}
 							}
-						} else if (uint64.try_parse (part, out nb)) {
+						} else if (uint.try_parse (part, out nb)) {
 							if (nb >= 1 && nb <= optdeps.length) {
 								numbers += nb;
 							}
@@ -244,17 +245,17 @@ namespace Pamac {
 					}
 				}
 				if (numbers.length > 0) {
-					foreach (uint64 number in numbers) {
+					foreach (uint number in numbers) {
 						optdeps_to_install.add (optdeps[number -1]);
 					}
 					break;
 				}
 			}
 			stdout.printf ("\n");
-			return optdeps_to_install.data;
+			return optdeps_to_install;
 		}
 
-		protected override async int choose_provider (string depend, string[] providers) {
+		protected override async int choose_provider (string depend, GenericArray<string> providers) {
 			if (no_confirm) {
 				// choose first provider
 				return 0;
@@ -901,7 +902,7 @@ namespace Pamac {
 			}
 		}
 
-		protected override async void edit_build_files (string[] pkgnames) {
+		protected override async void edit_build_files (GenericArray<string> pkgnames) {
 			if (pkgnames.length == 1) {
 				ask_view_diff (pkgnames[0]);
 				yield edit_single_build_files (pkgnames[0]);
