@@ -353,6 +353,10 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.ToggleButton reveal_details_button;
 		[GtkChild]
+		unowned Gtk.ScrolledWindow browse_head_box_scrolledwindow;
+		[GtkChild]
+		unowned Gtk.Label sortby_label;
+		[GtkChild]
 		public unowned Hdy.Flap browse_flap;
 		[GtkChild]
 		unowned Gtk.ListBox filters_listbox;
@@ -462,6 +466,7 @@ namespace Pamac {
 
 		public TransactionGtk transaction;
 		public Database database { get; construct; }
+		public bool mobile { get; construct; }
 		public LocalConfig local_config;
 
 		public bool important_details;
@@ -513,8 +518,8 @@ namespace Pamac {
 		SimpleAction refresh_action;
 		SimpleAction install_local_action;
 
-		public ManagerWindow (Gtk.Application application, Database database) {
-			Object (application: application, database: database);
+		public ManagerWindow (Gtk.Application application, Database database, bool mobile) {
+			Object (application: application, database: database, mobile: mobile);
 
 			// load custom styling
 			var css_provider = new Gtk.CssProvider ();
@@ -540,6 +545,14 @@ namespace Pamac {
 			important_details = false;
 			transaction_running = false;
 			generate_mirrors_list = false;
+
+			// mobile
+			if (mobile) {
+				view_stack_switcher.view_switcher_enabled = false;
+				browse_head_box_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+				sortby_label.ellipsize = Pango.EllipsizeMode.END;
+				details_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
+			}
 
 			updated_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Your system is up-to-date")));
 			no_item_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "No package found")));
@@ -928,11 +941,16 @@ namespace Pamac {
 
 		void show_sidebar (bool visible) {
 			if (visible) {
-				browse_flap.fold_policy = Hdy.FlapFoldPolicy.AUTO;
+				if (mobile) {
+					browse_flap.fold_policy = Hdy.FlapFoldPolicy.AUTO;
+					reveal_sidebar_button.visible = true;
+				} else {
+					browse_flap.fold_policy = Hdy.FlapFoldPolicy.NEVER;
+				}
 			} else {
 				browse_flap.fold_policy = Hdy.FlapFoldPolicy.ALWAYS;
+				reveal_sidebar_button.visible = false;
 			}
-			reveal_sidebar_button.visible = visible;
 		}
 
 		void check_aur_support () {
@@ -2373,7 +2391,7 @@ namespace Pamac {
 
 		PackageRow create_packagelist_row (Package pkg) {
 			bool is_update = view_stack.visible_child_name == "updates";
-			var row = new PackageRow (pkg);
+			var row = new PackageRow (pkg, mobile);
 			// populate infos
 			unowned string? app_name = pkg.app_name;
 			AlpmPackage? alpm_pkg = pkg as AlpmPackage;
@@ -2591,7 +2609,7 @@ namespace Pamac {
 		}
 
 		void create_os_updates_row (uint64 download_size) {
-			var row = new PackageRow (null);
+			var row = new PackageRow (null, mobile);
 			// populate info
 			row.name_label.label = dgettext (null, "OS Updates");
 			row.desc_label.label = dgettext (null, "Includes performance, stability and security improvements");
@@ -2609,7 +2627,7 @@ namespace Pamac {
 		}
 
 		PackageRow create_update_row (Package pkg) {
-			var row = new PackageRow (pkg);
+			var row = new PackageRow (pkg, mobile);
 			//populate info
 			unowned string? app_name = pkg.app_name;
 			AlpmPackage? alpm_pkg = pkg as AlpmPackage;
@@ -2966,6 +2984,9 @@ namespace Pamac {
 					}
 					if (packages_leaflet.folded) {
 						packages_leaflet.visible_child_name = "details";
+						set_adaptative_details (true);
+					} else if (mobile) {
+						browse_flap.visible = false;
 						set_adaptative_details (true);
 					}
 				} else if (packages_leaflet.folded) {
@@ -3355,6 +3376,7 @@ namespace Pamac {
 			get_category_pkgs.begin (category, (obj, res) => {
 				var pkgs = get_category_pkgs.end (res);
 				if (view_stack.visible_child_name == "browse" && current_packages_list_name == "category_%s".printf (category)) {
+					view_stack_switcher.title = category_name;
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3403,6 +3425,7 @@ namespace Pamac {
 				}
 				remove_all_button.visible = found;
 				if (view_stack.visible_child_name == "browse" && current_packages_list_name == "group_%s".printf (group_name)) {
+					view_stack_switcher.title = group_name;
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3457,6 +3480,7 @@ namespace Pamac {
 					get_all_installed.begin ((obj, res) => {
 						var pkgs = get_all_installed.end (res);
 						if (view_stack.visible_child_name == "installed" && current_packages_list_name == "installed_all") {
+							view_stack_switcher.title = dgettext (null, "Installed");
 							populate_packages_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
@@ -3468,6 +3492,7 @@ namespace Pamac {
 					database.get_explicitly_installed_pkgs_async.begin ((obj, res) => {
 						var pkgs = database.get_explicitly_installed_pkgs_async.end (res);
 						if (view_stack.visible_child_name == "installed" && current_packages_list_name == "explicitly_installed") {
+							view_stack_switcher.title = dgettext (null, "Explicitly installed");
 							populate_packages_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
@@ -3479,6 +3504,7 @@ namespace Pamac {
 					database.get_orphans_async.begin ((obj, res) => {
 						var pkgs = database.get_orphans_async.end (res);
 						if (view_stack.visible_child_name == "installed" && current_packages_list_name == "orphans") {
+							view_stack_switcher.title = dgettext (null, "Orphans");
 							populate_packages_list (pkgs);
 							remove_all_button.visible = pkgs.length > 0;
 						} else {
@@ -3491,6 +3517,7 @@ namespace Pamac {
 					database.get_foreign_pkgs_async.begin ((obj, res) => {
 						var pkgs = database.get_foreign_pkgs_async.end (res);
 						if (view_stack.visible_child_name == "installed" && current_packages_list_name == "foreign") {
+							view_stack_switcher.title = dgettext (null, "Foreign");
 							populate_packages_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
@@ -3510,6 +3537,7 @@ namespace Pamac {
 						database.get_installed_snaps_async.begin ((obj, res) => {
 							var pkgs = database.get_installed_snaps_async.end (res);
 							if (view_stack.visible_child_name == "installed" && current_packages_list_name == "installed_snaps") {
+								view_stack_switcher.title = dgettext (null, "Snap");
 								populate_packages_list (pkgs);
 							} else {
 								this.get_window ().set_cursor (null);
@@ -3520,6 +3548,7 @@ namespace Pamac {
 						database.get_installed_flatpaks_async.begin ((obj, res) => {
 							var pkgs = database.get_installed_flatpaks_async.end (res);
 							if (view_stack.visible_child_name == "installed" && current_packages_list_name == "installed_flatpaks") {
+								view_stack_switcher.title = dgettext (null, "Flatpak");
 								populate_packages_list (pkgs);
 							} else {
 								this.get_window ().set_cursor (null);
@@ -3649,6 +3678,7 @@ namespace Pamac {
 						pkgs.add (pkg);
 					}
 					if (view_stack.visible_child_name == "updates" && current_packages_list_name == "all_updates") {
+						view_stack_switcher.title = dgettext (null, "Updates");
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3666,6 +3696,7 @@ namespace Pamac {
 						}
 					}
 					if (view_stack.visible_child_name == "updates" && current_packages_list_name == "repos_updates") {
+						view_stack_switcher.title = dgettext (null, "Repositories");
 						populate_packages_list (pkgs);
 					} else {
 						this.get_window ().set_cursor (null);
@@ -3692,6 +3723,7 @@ namespace Pamac {
 							}
 						}
 						if (view_stack.visible_child_name == "updates" && current_packages_list_name == "aur_updates") {
+							view_stack_switcher.title = dgettext (null, "AUR");
 							populate_aur_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
@@ -3708,6 +3740,7 @@ namespace Pamac {
 							}
 						}
 						if (view_stack.visible_child_name == "updates" && current_packages_list_name == "flatpak_updates") {
+							view_stack_switcher.title = dgettext (null, "Flatpak");
 							populate_packages_list (pkgs);
 						} else {
 							this.get_window ().set_cursor (null);
@@ -3735,6 +3768,7 @@ namespace Pamac {
 						}
 						if (view_stack.visible_child_name == "updates" && current_packages_list_name == "ignored_updates") {
 							if (pkgs.length > 0) {
+								view_stack_switcher.title = dgettext (null, "Ignored");
 								populate_packages_list (pkgs);
 							} else {
 								updates_listbox.select_row (updates_listbox.get_row_at_index (0));
@@ -3775,6 +3809,7 @@ namespace Pamac {
 			database.get_repo_pkgs_async.begin (repo, (obj, res) => {
 				var pkgs = database.get_repo_pkgs_async.end (res);
 				if (view_stack.visible_child_name == "browse" && current_packages_list_name == "repo_%s".printf (repo)) {
+					view_stack_switcher.title = repo;
 					populate_packages_list (pkgs);
 				} else {
 					this.get_window ().set_cursor (null);
@@ -3818,8 +3853,14 @@ namespace Pamac {
 			if (packages_leaflet.folded) {
 				reveal_details_button.visible = false;
 			} else if (browse_flap.visible == true && main_details_box.visible == true) {
-				reveal_details_button.visible = true;
-				set_adaptative_details (false);
+				if (mobile) {
+					reveal_details_button.visible = false;
+					main_details_box.visible = false;
+				} else {
+					reveal_details_button.visible = true;
+					set_adaptative_details (false);
+				}
+				packages_leaflet.visible_child_name = "list";
 				if (view_stack.visible_child_name == "search") {
 					search_entry.visible = true;
 				} else if (view_stack.visible_child_name == "updates"
@@ -3832,17 +3873,15 @@ namespace Pamac {
 					button_back.visible = false;
 					search_button.visible = true;
 				}
-			} else {
+			} else if (!mobile) {
 				reveal_details_button.visible = true;
 			}
 		}
 
 		void set_adaptative_details (bool enabled) {
 			if (enabled) {
-				details_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 				main_details_box.hexpand = true;
 			} else {
-				details_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.NEVER;
 				main_details_box.hexpand = false;
 			}
 		}
@@ -3949,6 +3988,7 @@ namespace Pamac {
 				previous_flatpak_to_remove.insert (pkg.id, pkg);
 			}
 			clear_lists ();
+			transaction.install_if_needed = false;
 			transaction.run_async.begin ((obj, res) => {
 				bool success = transaction.run_async.end (res);
 				on_transaction_finished (success);
@@ -4047,6 +4087,7 @@ namespace Pamac {
 				&& aur_updates.length == 0
 				&& flatpak_updates.length == 0) {
 				show_sidebar (false);
+				view_stack_switcher.title = dgettext (null, "Updates");
 				packages_stack.visible_child_name = "updated";
 				DateTime? last_refresh_time = database.get_last_refresh_time ();
 				if (last_refresh_time == null) {
@@ -4237,7 +4278,6 @@ namespace Pamac {
 			scroll_to_top = false;
 			updates_checked = false;
 			refresh_packages_list ();
-			print ("done\n");
 		}
 	}
 }

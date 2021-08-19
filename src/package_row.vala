@@ -43,8 +43,11 @@ namespace Pamac {
 
 		public Package? pkg;
 
-		public PackageRow (Package? pkg) {
+		public PackageRow (Package? pkg, bool mobile) {
 			this.pkg = pkg;
+			if (mobile) {
+				desc_label.width_chars = -1;
+			}
 		}
 
 	}

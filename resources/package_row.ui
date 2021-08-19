@@ -39,9 +39,10 @@
                     <property name="visible">1</property>
                     <property name="wrap">1</property>
                     <property name="lines">2</property>
-                    <property name="max_width_chars">40</property>
+                    <property name="max_width_chars">25</property>
                     <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
+                    <property name="hexpand">1</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -52,6 +53,7 @@
                     <property name="visible">0</property>
                     <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
+                    <property name="max_width_chars">15</property>
                     <property name="valign">center</property>
                     <style>
                       <class name="old-version-label"/>
@@ -63,6 +65,7 @@
                     <property name="visible">1</property>
                     <property name="ellipsize">end</property>
                     <property name="xalign">0</property>
+                    <property name="max_width_chars">15</property>
                     <property name="valign">center</property>
                     <style>
                       <class name="version-label"/>
@@ -77,6 +80,7 @@
                 <property name="use-markup">1</property>
                 <property name="wrap">1</property>
                 <property name="lines">2</property>
+                <property name="width_chars">40</property>
                 <property name="max_width_chars">40</property>
                 <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
@@ -135,4 +139,10 @@
       </object>
     </child>
   </template>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="name_box"/>
+      <widget name="desc_label"/>
+    </widgets>
+  </object>
 </interface>

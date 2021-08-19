@@ -139,11 +139,14 @@
                     <property name="transition-type">slide</property>
                     <property name="hhomogeneous-folded">0</property>
                     <property name="hhomogeneous-unfolded">0</property>
+                    <property name="can-swipe-back">0</property>
+                    <property name="can-swipe-forward">0</property>
                     <child>
                       <object class="HdyFlap" id="browse_flap">
                         <property name="visible">1</property>
                         <property name="reveal-duration">200</property>
                         <property name="fold-duration">200</property>
+                        <property name="fold-policy">never</property>
                         <property name="vexpand">1</property>
                         <child type="content">
                           <object class="GtkBox" id="browse_box">
@@ -157,7 +160,7 @@
                                 <property name="spacing">18</property>
                                 <child>
                                   <object class="GtkToggleButton" id="reveal_sidebar_button">
-                                    <property name="visible">1</property>
+                                    <property name="visible">0</property>
                                     <property name="valign">center</property>
                                     <property name="active" bind-source="browse_flap" bind-property="reveal-flap" bind-flags="bidirectional|sync-create"/>
                                     <child>
@@ -169,10 +172,11 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkScrolledWindow">
+                                  <object class="GtkScrolledWindow" id="browse_head_box_scrolledwindow">
                                     <property name="visible">1</property>
                                     <property name="valign">center</property>
                                     <property name="vscrollbar-policy">never</property>
+                                    <property name="hscrollbar-policy">never</property>
                                     <child>
                                       <object class="GtkBox" id="list_button_box">
                                         <property name="visible">1</property>
@@ -223,7 +227,6 @@
                                     <child>
                                       <object class="GtkLabel" id="sortby_label">
                                         <property name="visible">1</property>
-                                        <property name="ellipsize">end</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Sort by</property>
                                       </object>
@@ -824,16 +827,6 @@
                                   </object>
                                 </child>
                                 <child>
-<!--
-                                  <object class="GtkScrolledWindow" id="properties_stack_switcher_scrolledwindow">
-                                    <property name="visible">1</property>
-                                    <property name="vscrollbar-policy">never</property>
-                                    <property name="hscrollbar-policy">never</property>
-                                    <property name="margin-start">24</property>
-                                    <property name="margin-end">24</property>
-                                    <property name="margin-top">36</property>
-                                    <child>
--->
                                   <object class="GtkStackSwitcher" id="properties_stack_switcher">
                                     <property name="visible">1</property>
                                     <property name="margin-bottom">12</property>
@@ -1169,19 +1162,9 @@
             <property name="visible">1</property>
             <property name="stack">view_stack</property>
             <property name="reveal" bind-source="view_stack_switcher" bind-property="title-visible" bind-flags="sync-create"/>
-            <property name="visible" bind-source="view_stack_switcher" bind-property="visible" bind-flags="sync-create"/>
           </object>
         </child>
       </object>
     </child>
   </template>
-<!--
-  <object class="GtkSizeGroup">
-    <widgets>
-      <widget name="properties_box1"/>
-      <widget name="details_box2"/>
-      <widget name="deps_box"/>
-    </widgets>
-  </object>
--->
 </interface>

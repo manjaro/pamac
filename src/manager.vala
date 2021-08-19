@@ -25,6 +25,7 @@ namespace Pamac {
 		uint search_provider_id;
 		bool version;
 		bool updates;
+		bool mobile;
 		string? pkgname;
 		string? app_id;
 		string? search;
@@ -41,12 +42,14 @@ namespace Pamac {
 			pkgname = null;
 			app_id = null;
 			search = null;
-			options = new OptionEntry[5];
+			mobile = false;
+			options = new OptionEntry[6];
 			options[0] = { "version", 0, 0, OptionArg.NONE, ref version, "Display version number", null };
 			options[1] = { "updates", 0, 0, OptionArg.NONE, ref updates, "Display updates", null };
 			options[2] = { "details", 0, 0, OptionArg.STRING, ref pkgname, "Display package details", "PACKAGE_NAME" };
 			options[3] = { "details-id", 0, 0, OptionArg.STRING, ref app_id, "Display package details", "APP_ID" };
 			options[4] = { "search", 0, 0, OptionArg.STRING, ref search, "Search packages", "SEARCH" };
+			options[5] = { "mobile", 0, 0, OptionArg.NONE, ref mobile, "Mobile version", null };
 			add_main_option_entries (options);
 
 			search_provider_id = 0;
@@ -145,7 +148,7 @@ namespace Pamac {
 			ManagerWindow manager_window;
 			unowned Gtk.Window window = this.active_window;
 			if (window == null) {
-				manager_window = new ManagerWindow (this, database);
+				manager_window = new ManagerWindow (this, database, mobile);
 			} else {
 				manager_window = window as ManagerWindow;
 			}
