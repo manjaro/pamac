@@ -46,7 +46,8 @@ _pamac_opts_build=(
 
 _pamac_build() {
     _arguments -s : \
-		"$_pamac_opts_build[@]"
+		"$_pamac_opts_build[@]" \
+    '*:package:_pamac_completions_all_packages'
 }
 
 # Checkupdates 
@@ -92,7 +93,8 @@ _pamac_opts_clone=(
 
 _pamac_clone() {
     _arguments -s : \
-		"$_pamac_opts_clone[@]"
+		"$_pamac_opts_clone[@]" \
+    '*:package:_pamac_completions_all_packages'
 }
 
 # Info 
@@ -104,8 +106,8 @@ _pamac_opts_info=(
 
 _pamac_info() {
     _arguments -s : \
-        "$_pamac_opts_info[@]" \
-        '*:package:_pamac_completions_installed_packages'
+    "$_pamac_opts_info[@]" \
+    '*:package:_pamac_completions_all_packages'
 }
 
 # Install 
@@ -125,7 +127,7 @@ _pamac_opts_install=(
 _pamac_install() {
     _arguments -s : \
 		"$_pamac_opts_install[@]" \
-        '*:package:_pamac_completions_all_packages'
+    '*:package:_pamac_completions_all_packages'
 }
 
 # List 
