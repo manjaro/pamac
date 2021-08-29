@@ -29,7 +29,7 @@ _pamac_completions_installed_packages() {
 
 _pamac_completions_all_packages() {
 	local -a cmd packages
-    packages=($(pamac search -q ${words[CURRENT]}))
+  packages=($(pamac search -q ${words[CURRENT]}))
 	compadd "$@" -a packages
 }
 
@@ -45,9 +45,9 @@ _pamac_opts_build=(
 )
 
 _pamac_build() {
-    _arguments -s : \
-		"$_pamac_opts_build[@]" \
-    '*:package:_pamac_completions_all_packages'
+  _arguments -s : \
+  "$_pamac_opts_build[@]" \
+  '*:package:_pamac_completions_all_packages'
 }
 
 # Checkupdates 
@@ -62,8 +62,8 @@ _pamac_opts_checkupdates=(
 )
 
 _pamac_checkupdates() {
-    _arguments -s : \
-		"$_pamac_opts_checkupdates[@]"
+  _arguments -s : \
+  "$_pamac_opts_checkupdates[@]"
 }
 
 # Clean
@@ -78,8 +78,8 @@ _pamac_opts_clean=(
 )
 
 _pamac_clean() {
-    _arguments -s : \
-		"$_pamac_opts_clean[@]"
+  _arguments -s : \
+  "$_pamac_opts_clean[@]"
 }
 
 # Clone
@@ -92,9 +92,9 @@ _pamac_opts_clone=(
 )
 
 _pamac_clone() {
-    _arguments -s : \
-		"$_pamac_opts_clone[@]" \
-    '*:package:_pamac_completions_all_packages'
+  _arguments -s : \
+  "$_pamac_opts_clone[@]" \
+  '*:package:_pamac_completions_all_packages'
 }
 
 # Info 
@@ -105,9 +105,9 @@ _pamac_opts_info=(
 )
 
 _pamac_info() {
-    _arguments -s : \
-    "$_pamac_opts_info[@]" \
-    '*:package:_pamac_completions_all_packages'
+  _arguments -s : \
+  "$_pamac_opts_info[@]" \
+  '*:package:_pamac_completions_all_packages'
 }
 
 # Install 
@@ -125,9 +125,9 @@ _pamac_opts_install=(
 )
 
 _pamac_install() {
-    _arguments -s : \
-		"$_pamac_opts_install[@]" \
-    '*:package:_pamac_completions_all_packages'
+  _arguments -s : \
+  "$_pamac_opts_install[@]" \
+  '*:package:_pamac_completions_all_packages'
 }
 
 # List 
@@ -144,8 +144,8 @@ _pamac_opts_list=(
   {-q,--quiet}'[only print names]'
 )
 _pamac_list() {
-    _arguments -s : \
-		"$_pamac_opts_list[@]"
+  _arguments -s : \
+  "$_pamac_opts_list[@]"
 }
 
 # Reinstall
@@ -159,9 +159,9 @@ _pamac_opts_reinstall=(
 )
 
 _pamac_reinstall() {
-    _arguments -s : \
-		"$_pamac_opts_reinstall[@]" \
-        '*:package:_pamac_completions_installed_packages'
+  _arguments -s : \
+  "$_pamac_opts_reinstall[@]" \
+  '*:package:_pamac_completions_installed_packages'
 }
 
 # Remove
@@ -176,9 +176,9 @@ _pamac_opts_remove=(
 )
 
 _pamac_remove() {
-    _arguments -s : \
-		"$_pamac_opts_reinstall[@]" \
-        '*:package:_pamac_completions_installed_packages'
+  _arguments -s : \
+  "$_pamac_opts_reinstall[@]" \
+  '*:package:_pamac_completions_installed_packages'
 }
 
 # Search
@@ -193,8 +193,8 @@ _pamac_opts_search=(
 )
 
 _pamac_search() {
-    _arguments -s : \
-		"$_pamac_opts_search[@]"
+  _arguments -s : \
+  "$_pamac_opts_search[@]"
 }
 
 # Update|grade
@@ -215,99 +215,99 @@ _pamac_opts_updategrade=(
 )
 
 _pamac_updategrade() {
-    _arguments -s : \
-		"$_pamac_opts_updategrade[@]"
+  _arguments -s : \
+  "$_pamac_opts_updategrade[@]"
 }
 
 
 # Main handle
 _pamac() {
-    local curcontext="$curcontext" ret=1
-    local -a state line commands
+  local curcontext="$curcontext" ret=1
+  local -a state line commands
 
-    commands=(
-      "build:Build packages from AUR and install them with their dependencies"
-      "checkupdates:Safely check for updates without modifiying the databases"
-      "clean:Clean packages cache or build files"
-      "clone:Clone or sync packages build files from AUR"
-      "info:Display package details, multiple packages can be specified"
-      "install:Install packages from repositories, path or url"
-      "list:List packages, groups, repositories or files"
-      "reinstall:Reinstall packages"
-      "remove:Remove packages"
-      "search:Search for packages or files, multiple search terms can be specified"
-      "update:Update your system"
-      "upgrade:Upgrade your system"
-    )
+  commands=(
+    "build:Build packages from AUR and install them with their dependencies"
+    "checkupdates:Safely check for updates without modifiying the databases"
+    "clean:Clean packages cache or build files"
+    "clone:Clone or sync packages build files from AUR"
+    "info:Display package details, multiple packages can be specified"
+    "install:Install packages from repositories, path or url"
+    "list:List packages, groups, repositories or files"
+    "reinstall:Reinstall packages"
+    "remove:Remove packages"
+    "search:Search for packages or files, multiple search terms can be specified"
+    "update:Update your system"
+    "upgrade:Upgrade your system"
+  )
 
-     _arguments -C -s -S -n \
-        '(- 1 *)'--version"[display version information]: :->full" \
-        '(- 1 *)'{-h,--help}'[display usage information]: :->full' \
-        '1:cmd:->cmds' \
-        '*:: :->args' && ret=0
+  _arguments -C -s -S -n \
+    '(- 1 *)'--version"[display version information]: :->full" \
+    '(- 1 *)'{-h,--help}'[display usage information]: :->full' \
+    '1:cmd:->cmds' \
+    '*:: :->args' && ret=0
 
-    case "$state" in
-      (cmds)
-          _describe -t commands 'commands' commands
-      ;;
-      (args)
-         local cmd
-         cmd=$words[1]
-         case "$cmd" in
-             (build)
-                 _pamac_build && ret=0
-             ;;
+  case "$state" in
+    (cmds)
+      _describe -t commands 'commands' commands
+    ;;
+    (args)
+      local cmd
+      cmd=$words[1]
+      case "$cmd" in
+        (build)
+            _pamac_build && ret=0
+        ;;
 
-             (checkupdates)
-                 _pamac_checkupdates && ret=0
-             ;;
+        (checkupdates)
+            _pamac_checkupdates && ret=0
+        ;;
 
-             (clean)
-                 _pamac_clean && ret=0
-             ;;
+        (clean)
+            _pamac_clean && ret=0
+        ;;
 
-             (clone)
-                 _pamac_clone && ret=0
-             ;;
-             
-             (info)
-                 _pamac_info && ret=0
-             ;;
+        (clone)
+            _pamac_clone && ret=0
+        ;;
+        
+        (info)
+            _pamac_info && ret=0
+        ;;
 
-             (install)
-                 _pamac_install && ret=0
-             ;;
-             
-             (list)
-                 _pamac_list && ret=0
-             ;;
+        (install)
+            _pamac_install && ret=0
+        ;;
+        
+        (list)
+            _pamac_list && ret=0
+        ;;
 
-             (reinstall)
-                 _pamac_reinstall && ret=0
-             ;;
+        (reinstall)
+            _pamac_reinstall && ret=0
+        ;;
 
-             (remove)
-                 _pamac_remove && ret=0
-             ;;
+        (remove)
+            _pamac_remove && ret=0
+        ;;
 
-             (search)
-                 _pamac_search && ret=0
-             ;;
+        (search)
+            _pamac_search && ret=0
+        ;;
 
-             (update|upgrade)
-                 _pamac_updategrade && ret=0
-             ;;
+        (update|upgrade)
+            _pamac_updategrade && ret=0
+        ;;
 
-             (*)
-                 _default && ret=0
-             ;;
-         esac
-      ;;
-      (*)
-      ;;
-    esac
+        (*)
+            _default && ret=0
+        ;;
+      esac
+    ;;
+    (*)
+    ;;
+  esac
 
-    return ret
+  return ret
 }
 
 _pamac
