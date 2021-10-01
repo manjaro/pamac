@@ -2435,7 +2435,7 @@ namespace Pamac {
 					}
 				}
 				if (numbers.length > 0) {
-					foreach (uint number in numbers) {
+					foreach (unowned uint number in numbers) {
 						to_install.add (pkgs[number - 1].name);
 					}
 					break;
