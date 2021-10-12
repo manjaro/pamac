@@ -285,7 +285,7 @@ namespace Pamac {
 			unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL);
 			widget.grab_default ();
 			var textbuffer = new StringBuilder ();
-			textbuffer.append (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname));
+			textbuffer.append (dgettext (null, "The PGP key %1$s is needed to verify %2$s source files").printf (key, pkgname));
 			textbuffer.append (".\n");
 			textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
 			textbuffer.append (" ?");

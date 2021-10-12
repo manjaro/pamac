@@ -2378,8 +2378,8 @@ namespace Pamac {
 			}
 			uint pkgs_length = pkgs.length;
 			int num_length = pkgs_length.to_string ().length + 1;
-			stdout.printf ("%s:\n".printf (dngettext (null, "There is %u member in group %s",
-						"There are %u members in group %s", pkgs_length).printf (pkgs_length, grpname)));
+			stdout.printf ("%s:\n".printf (dngettext (null, "There is %1$u member in group %2$s",
+						"There are %1$u members in group %2$s", pkgs_length).printf (pkgs_length, grpname)));
 			int num = 1;
 			foreach (unowned AlpmPackage pkg in pkgs) {
 				stdout.printf ("%*s  %-*s  %-*s  %s\n",
