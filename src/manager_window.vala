@@ -585,13 +585,19 @@ namespace Pamac {
 			// search action
 			action = new SimpleAction ("search", null);
 			action.activate.connect (() => {
-				search_button.visible = false;
-				view_stack_switcher.visible = false;
-				button_back.visible = true;
-				search_entry.visible = true;
-				previous_view_stack_visible_child_name = view_stack.visible_child_name;
-				view_stack.visible_child_name = "search";
-				search_entry.grab_focus_without_selecting ();
+				if (main_stack.visible_child_name == "browse"
+					&& browse_flap.visible && !packages_leaflet.folded
+					&& (view_stack.visible_child_name == "browse"
+					|| view_stack.visible_child_name == "search"
+					|| view_stack.visible_child_name == "installed")) {
+					search_button.visible = false;
+					view_stack_switcher.visible = false;
+					button_back.visible = true;
+					search_entry.visible = true;
+					previous_view_stack_visible_child_name = view_stack.visible_child_name;
+					view_stack.visible_child_name = "search";
+					search_entry.grab_focus_without_selecting ();
+				}
 			});
 			this.add_action (action);
 			application.set_accels_for_action ("win.search", {"<Ctrl>F"});
@@ -615,8 +621,7 @@ namespace Pamac {
 								}
 								if (view_stack.visible_child_name == "search") {
 									search_entry.visible = true;
-								} else if (view_stack.visible_child_name == "updates"
-									|| view_stack.visible_child_name == "pending") {
+								} else if (view_stack.visible_child_name == "updates") {
 									view_stack_switcher.visible = true;
 									button_back.visible = false;
 									search_button.visible = false;
@@ -870,6 +875,7 @@ namespace Pamac {
 			// enable "type to search"
 			this.key_press_event.connect ((event) => {
 				if (main_stack.visible_child_name == "browse"
+					&& browse_flap.visible && !packages_leaflet.folded
 					&& (view_stack.visible_child_name == "browse"
 					|| view_stack.visible_child_name == "search"
 					|| view_stack.visible_child_name == "installed")) {
@@ -3863,8 +3869,7 @@ namespace Pamac {
 				packages_leaflet.visible_child_name = "list";
 				if (view_stack.visible_child_name == "search") {
 					search_entry.visible = true;
-				} else if (view_stack.visible_child_name == "updates"
-					|| view_stack.visible_child_name == "pending") {
+				} else if (view_stack.visible_child_name == "updates") {
 					view_stack_switcher.visible = true;
 					button_back.visible = false;
 					search_button.visible = false;
