@@ -581,7 +581,7 @@ namespace Pamac {
 			action.activate.connect  (() => {this.close ();});
 			this.add_action (action);
 			string[] accels = {"<Ctrl>Q", "<Ctrl>W"};
-			application.set_accels_for_action ("app.quit", accels);
+			application.set_accels_for_action ("win.quit", accels);
 			// search action
 			action = new SimpleAction ("search", null);
 			action.activate.connect (() => {
