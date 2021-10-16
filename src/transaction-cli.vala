@@ -341,7 +341,7 @@ namespace Pamac {
 		}
 
 		protected override async bool ask_import_key (string pkgname, string key, string owner) {
-			stdout.printf ("%s.\n".printf (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname)));
+			stdout.printf ("%s.\n".printf (dgettext (null, "The PGP key %1$s is needed to verify %2$s source files").printf (key, pkgname)));
 			if (no_confirm) {
 				return true;
 			}
