@@ -2847,7 +2847,6 @@ namespace Pamac {
 					search_button.visible = false;
 					apply_button.sensitive = false;
 					cancel_button.sensitive = false;
-					main_details_box.visible = false;
 					if (updates_checked) {
 						populate_updates ();
 					} else {
