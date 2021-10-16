@@ -105,6 +105,7 @@ namespace Pamac {
 					manager_window.packages_leaflet.visible_child_name = "details";
 					manager_window.main_details_box.visible = true;
 					manager_window.browse_flap.visible = false;
+					manager_window.set_adaptative_details (true);
 					manager_window.view_stack_switcher.visible = false;
 					manager_window.search_button.visible = false;
 					manager_window.button_back.visible = true;
@@ -124,6 +125,7 @@ namespace Pamac {
 					manager_window.packages_leaflet.visible_child_name = "details";
 					manager_window.main_details_box.visible = true;
 					manager_window.browse_flap.visible = false;
+					manager_window.set_adaptative_details (true);
 					manager_window.view_stack_switcher.visible = false;
 					manager_window.search_button.visible = false;
 					manager_window.button_back.visible = true;

@@ -3882,7 +3882,7 @@ namespace Pamac {
 			}
 		}
 
-		void set_adaptative_details (bool enabled) {
+		public void set_adaptative_details (bool enabled) {
 			if (enabled) {
 				main_details_box.hexpand = true;
 			} else {
