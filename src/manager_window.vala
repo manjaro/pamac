@@ -3122,12 +3122,6 @@ namespace Pamac {
 				pkgs = database.search_pkgs_async.end (res);
 				search_all_pkgs.callback ();
 			});
-			if (enable_aur) {
-				database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
-					aur_pkgs = database.search_aur_pkgs_async.end (res);
-					search_all_pkgs.callback ();
-				});
-			}
 			if (database.config.enable_snap) {
 				database.search_snaps_async.begin (search_string, (obj, res) => {
 					snaps = database.search_snaps_async.end (res);
@@ -3141,19 +3135,11 @@ namespace Pamac {
 				});
 			}
 			yield;
-			if (enable_aur) {
-				yield;
-			}
 			if (database.config.enable_snap) {
 				yield;
 			}
 			if (database.config.enable_flatpak) {
 				yield;
-			}
-			foreach (unowned AURPackage pkg in aur_pkgs) {
-				if (pkg.installed_version == null) {
-					pkgs.add (pkg);
-				}
 			}
 			pkgs.extend (snaps, null);
 			pkgs.extend (flatpaks, null);
