@@ -206,6 +206,8 @@ namespace Pamac {
 			while (true) {
 				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=%s)").printf (dgettext (null, "none")));
+				stdout.flush ();
+				Posix.tcflush (stdin.fileno (), Posix.TCIFLUSH);
 				string? ans = stdin.read_line ();
 				if (ans == null) {
 					break;
@@ -296,6 +298,8 @@ namespace Pamac {
 			while (true) {
 				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a number (default=%d)").printf (1));
+				stdout.flush ();
+				Posix.tcflush (stdin.fileno (), Posix.TCIFLUSH);
 				string? ans = stdin.read_line  ();
 				if (ans == null) {
 					stdout.printf ("\n");
@@ -321,6 +325,8 @@ namespace Pamac {
 		public bool ask_user (string question) {
 			// ask user confirmation
 			stdout.printf ("%s ? %s ", question, dgettext (null, "[y/N]"));
+			stdout.flush ();
+			Posix.tcflush (stdin.fileno (), Posix.TCIFLUSH);
 			char buf[32];
 			if (stdin.gets (buf) != null) {
 				string ans = (string) buf;
@@ -364,6 +370,8 @@ namespace Pamac {
 			stdout.printf ("%s : %s ", dgettext (null, "Edit build files"), dgettext (null, "[e]"));
 			stdout.printf ("\n");
 			stdout.printf ("%s ? %s ", dgettext (null, "Apply transaction"), dgettext (null, "[e/y/N]"));
+			stdout.flush ();
+			Posix.tcflush (stdin.fileno (), Posix.TCIFLUSH);
 			char buf[32];
 			if (stdin.gets (buf) != null) {
 				string ans = (string) buf;

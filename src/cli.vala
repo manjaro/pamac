@@ -2393,6 +2393,8 @@ namespace Pamac {
 			while (true) {
 				stdout.printf ("\n");
 				stdout.printf ("%s: ", dgettext (null, "Enter a selection (default=%s)").printf (dgettext (null, "all")));
+				stdout.flush ();
+				Posix.tcflush (stdin.fileno (), Posix.TCIFLUSH);
 				string? ans = stdin.read_line ();
 				if (ans == null) {
 					break;
