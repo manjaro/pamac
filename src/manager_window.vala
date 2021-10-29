@@ -586,7 +586,7 @@ namespace Pamac {
 			action = new SimpleAction ("search", null);
 			action.activate.connect (() => {
 				if (main_stack.visible_child_name == "browse"
-					&& browse_flap.visible && !packages_leaflet.folded
+					&& browse_flap.visible
 					&& (view_stack.visible_child_name == "browse"
 					|| view_stack.visible_child_name == "search"
 					|| view_stack.visible_child_name == "installed")) {
@@ -875,7 +875,7 @@ namespace Pamac {
 			// enable "type to search"
 			this.key_press_event.connect ((event) => {
 				if (main_stack.visible_child_name == "browse"
-					&& browse_flap.visible && !packages_leaflet.folded
+					&& browse_flap.visible && packages_leaflet.visible_child_name == "list"
 					&& (view_stack.visible_child_name == "browse"
 					|| view_stack.visible_child_name == "search"
 					|| view_stack.visible_child_name == "installed")) {
