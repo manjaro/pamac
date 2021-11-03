@@ -202,7 +202,7 @@ namespace Pamac {
 					if (no_aur) {
 						database.config.enable_aur = false;
 					}
-					display_pkg_infos (args[2:args.length]);
+					display_pkgs_infos (args[2:args.length]);
 				} else {
 					display_info_help ();
 				}
@@ -1583,7 +1583,7 @@ namespace Pamac {
 			}
 		}
 
-		void display_pkg_infos (string[] pkgnames) {
+		void display_pkgs_infos (string[] pkgnames) {
 			string[] properties = { dgettext (null, "Name"),
 									dgettext (null, "Version"),
 									dgettext (null, "Description"),
@@ -1622,17 +1622,41 @@ namespace Pamac {
 				}
 			}
 			foreach (unowned string pkgname in pkgnames) {
-				AURPackage? aur_pkg = database.get_aur_pkg (pkgname);
-				AlpmPackage? pkg;
+				unowned AURPackage? aur_pkg = database.get_aur_pkg (pkgname);
+				unowned AlpmPackage? pkg;
 				if (aur_pkg == null) {
 					pkg = database.get_pkg (pkgname);
+					if (pkg == null) {
+						print_error (dgettext (null, "target not found: %s").printf (pkgname));
+					} else {
+						display_pkg_infos (pkg, null, properties, max_length);
+					}
 				} else {
-					pkg = aur_pkg as AlpmPackage;
+					if (aur_pkg.installed_version == null) {
+						// check if pkg is available from repos
+						pkg = database.get_sync_pkg (pkgname);
+						if (pkg != null) {
+							// we need to also display pkg
+							display_pkg_infos (pkg, null, properties, max_length);
+						}
+						pkg = aur_pkg as AlpmPackage;
+						display_pkg_infos (pkg, aur_pkg, properties, max_length);
+					} else {
+						// check if pkg is available from repos
+						if (database.is_sync_pkg (pkgname)) {
+							pkg = database.get_pkg (pkgname);
+							// we only display pkg because we can't know if it was installed from repos or from AUR
+							display_pkg_infos (pkg, null, properties, max_length);
+						} else {
+							pkg = aur_pkg as AlpmPackage;
+							display_pkg_infos (pkg, aur_pkg, properties, max_length);
+						}
+					}
 				}
-				if (pkg == null) {
-					print_error (dgettext (null, "target not found: %s").printf (pkgname));
-					continue;
-				}
+			}
+		}
+
+		void display_pkg_infos (AlpmPackage? pkg, AURPackage? aur_pkg, string[] properties, int max_length) {
 				// Name
 				print_property (properties[0], pkg.name, max_length);
 				if (aur_pkg != null) {
@@ -1642,7 +1666,12 @@ namespace Pamac {
 					}
 				}
 				// Version
-				print_property (properties[1], pkg.version, max_length);
+				unowned string installed_version = pkg.installed_version;
+				if (installed_version != null) {
+					print_property (properties[1], installed_version, max_length);
+				} else {
+					print_property (properties[1], pkg.version, max_length);
+				}
 				// Description
 				print_property (properties[2], pkg.desc, max_length);
 				// URL
@@ -1747,7 +1776,6 @@ namespace Pamac {
 				// Backup files
 				print_property_list (properties[22], pkg.backups, max_length);
 				stdout.printf ("\n");
-			}
 		}
 
 		void print_pkgs (GenericArray<unowned AlpmPackage> pkgs, bool print_installed, bool quiet) {
