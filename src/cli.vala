@@ -1498,9 +1498,7 @@ namespace Pamac {
 			if (database.config.enable_aur) {
 				var aur_pkgs = database.search_aur_pkgs (search_string);
 				foreach (unowned AURPackage aur_pkg in aur_pkgs) {
-					if (aur_pkg.installed_version == null) {
 						pkgs.add (aur_pkg);
-					}
 				}
 			}
 			pkgs.sort (sort_search_pkgs_by_relevance);
