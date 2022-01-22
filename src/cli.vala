@@ -1612,7 +1612,7 @@ namespace Pamac {
 									dgettext (null, "Build Date"),
 									dgettext (null, "Install Date"),
 									dgettext (null, "Install Reason"),
-									dgettext (null, "Signatures"),
+									dgettext (null, "Validated By"),
 									dgettext (null, "Backup files"),
 									dgettext (null, "Package Base"),
 									dgettext (null, "Maintainer"),
@@ -1776,9 +1776,17 @@ namespace Pamac {
 				if (pkg.reason != null) {
 					print_property (properties[20], pkg.reason, max_length);
 				}
-				// Signature
-				if (pkg.has_signature != null) {
-					print_property (properties[21], pkg.has_signature, max_length);
+				// Validations
+				// custom concatenate function to add 2 sapces between validation strings
+				if (pkg.validations.length != 0) {
+					var str_builder = new StringBuilder ();
+					foreach (unowned string name in pkg.validations) {
+						if (str_builder.len > 0) {
+							str_builder.append ("  ");
+						}
+						str_builder.append (name);
+					}
+					print_property (properties[21], str_builder.str, max_length);
 				}
 				// Backup files
 				print_property_list (properties[22], pkg.backups, max_length);

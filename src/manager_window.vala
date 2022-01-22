@@ -1643,8 +1643,23 @@ namespace Pamac {
 				if (pkg.reason != null) {
 					previous_widget = populate_details_grid (dgettext (null, "Install Reason"), pkg.reason, previous_widget);
 				}
-				if (pkg.has_signature != null) {
-					previous_widget = populate_details_grid (dgettext (null, "Signatures"), pkg.has_signature, previous_widget);
+				if (pkg.validations.length != 0) {
+					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Validated By") + ":"));
+					label.visible = true;
+					label.use_markup = true;
+					label.halign = Gtk.Align.START;
+					label.valign = Gtk.Align.START;
+					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+					box.visible = true;
+					foreach (unowned string name in pkg.validations) {
+						var label2 = new Gtk.Label (name);
+						label2.visible = true;
+						label2.halign = Gtk.Align.START;
+						box.add (label2);
+					}
+					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+					previous_widget = label as Gtk.Widget;
 				}
 				if (pkg.backups.length != 0) {
 					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
@@ -1653,7 +1668,7 @@ namespace Pamac {
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 					box.visible = true;
 					foreach (unowned string name in pkg.backups) {
 						var label2 = new Gtk.Label (name);
@@ -1786,9 +1801,6 @@ namespace Pamac {
 			}
 			if (aur_pkg.reason != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Install Reason"), aur_pkg.reason, previous_widget);
-			}
-			if (aur_pkg.has_signature != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Signatures"), aur_pkg.has_signature, previous_widget);
 			}
 			if (aur_pkg.backups.length != 0) {
 				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
