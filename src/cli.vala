@@ -1717,15 +1717,11 @@ namespace Pamac {
 					}
 				}
 				// Make Depends
-				if (pkg.makedepends.length != 0) {
-					print_property_list (properties[10], pkg.makedepends, max_length);
-				} else if (aur_pkg != null && aur_pkg.makedepends.length != 0) {
+				if (aur_pkg != null) {
 					print_property_list (properties[10], aur_pkg.makedepends, max_length);
 				}
 				// Check Depends
-				if (pkg.checkdepends.length != 0) {
-					print_property_list (properties[11], pkg.checkdepends, max_length);
-				} else if (aur_pkg != null && aur_pkg.checkdepends.length != 0) {
+				if (aur_pkg != null) {
 					print_property_list (properties[11], aur_pkg.checkdepends, max_length);
 				}
 				// Required by

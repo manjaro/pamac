@@ -1687,12 +1687,6 @@ namespace Pamac {
 			if (pkg.optdepends.length != 0) {
 				populate_deps_box (dgettext (null, "Optional Dependencies"), pkg.optdepends, true);
 			}
-			if (pkg.makedepends.length != 0) {
-				populate_deps_box (dgettext (null, "Make Dependencies"), pkg.makedepends);
-			}
-			if (pkg.checkdepends.length != 0) {
-				populate_deps_box (dgettext (null, "Check Dependencies"), pkg.checkdepends);
-			}
 			if (pkg.requiredby.length != 0) {
 				populate_deps_box (dgettext (null, "Required By"), pkg.requiredby);
 			}
