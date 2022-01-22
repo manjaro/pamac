@@ -1749,11 +1749,11 @@ namespace Pamac {
 					}
 					// First Submitted
 					if (aur_pkg.firstsubmitted != null) {
-						print_property (properties[25], aur_pkg.firstsubmitted.format ("%x"), max_length);
+						print_property (properties[25], aur_pkg.firstsubmitted.format ("%c"), max_length);
 					}
 					// Last Modified
 					if (aur_pkg.lastmodified != null) {
-						print_property (properties[26], aur_pkg.lastmodified.format ("%x"), max_length);
+						print_property (properties[26], aur_pkg.lastmodified.format ("%c"), max_length);
 					}
 					// Votes
 					if (aur_pkg.numvotes != 0) {
@@ -1761,16 +1761,16 @@ namespace Pamac {
 					}
 					// Out of Date
 					if (aur_pkg.outofdate != null) {
-						print_property (properties[28], aur_pkg.outofdate.format ("%x"), max_length);
+						print_property (properties[28], aur_pkg.outofdate.format ("%c"), max_length);
 					}
 				}
 				// Build date
 				if (pkg.build_date != null) {
-					print_property (properties[18], pkg.build_date.format ("%x"), max_length);
+					print_property (properties[18], pkg.build_date.format ("%c"), max_length);
 				}
 				// Install date
 				if (pkg.install_date != null) {
-					print_property (properties[19], pkg.install_date.format ("%x"), max_length);
+					print_property (properties[19], pkg.install_date.format ("%c"), max_length);
 				}
 				// Reason
 				if (pkg.reason != null) {

@@ -1591,16 +1591,16 @@ namespace Pamac {
 					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
 				}
 				if (aur_pkg.firstsubmitted != null) {
-					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg.firstsubmitted.format ("%x"), previous_widget);
+					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg.firstsubmitted.format ("%c"), previous_widget);
 				}
 				if (aur_pkg.lastmodified != null) {
-					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg.lastmodified.format ("%x"), previous_widget);
+					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg.lastmodified.format ("%c"), previous_widget);
 				}
 				if (aur_pkg.numvotes != 0) {
 					previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg.numvotes.to_string (), previous_widget);
 				}
 				if (aur_pkg.outofdate != null) {
-					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg.outofdate.format ("%x"), previous_widget);
+					previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg.outofdate.format ("%c"), previous_widget);
 				}
 			}
 			if (!software_mode) {
@@ -1634,10 +1634,10 @@ namespace Pamac {
 				previous_widget = populate_details_grid (dgettext (null, "Packager"), pkg.packager, previous_widget);
 			}
 			if (!software_mode) {
-				previous_widget = populate_details_grid (dgettext (null, "Build Date"), pkg.build_date.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Build Date"), pkg.build_date.format ("%c"), previous_widget);
 			}
 			if (pkg.install_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Install Date"), pkg.install_date.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Install Date"), pkg.install_date.format ("%c"), previous_widget);
 			}
 			if (!software_mode) {
 				if (pkg.reason != null) {
@@ -1757,14 +1757,14 @@ namespace Pamac {
 				previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
 			}
 			if (aur_pkg.firstsubmitted != null) {
-				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg.firstsubmitted.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg.firstsubmitted.format ("%c"), previous_widget);
 			}
 			if (aur_pkg.lastmodified != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg.lastmodified.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg.lastmodified.format ("%c"), previous_widget);
 			}
 			previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg.numvotes.to_string (), previous_widget);
 			if (aur_pkg.outofdate != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg.outofdate.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg.outofdate.format ("%c"), previous_widget);
 			}
 			if (aur_pkg.packager != null) {
 				// make packager mail clickable
@@ -1779,10 +1779,10 @@ namespace Pamac {
 				}
 			}
 			if (aur_pkg.build_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Build Date"), aur_pkg.build_date.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Build Date"), aur_pkg.build_date.format ("%c"), previous_widget);
 			}
 			if (aur_pkg.install_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Install Date"), aur_pkg.install_date.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Install Date"), aur_pkg.install_date.format ("%c"), previous_widget);
 			}
 			if (aur_pkg.reason != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Install Reason"), aur_pkg.reason, previous_widget);
@@ -1913,7 +1913,7 @@ namespace Pamac {
 				previous_widget = populate_details_grid (dgettext (null, "Confined in a Sandbox"), snap_pkg.confined, previous_widget);
 			}
 			if (snap_pkg.install_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Install Date"), snap_pkg.install_date.format ("%x"), previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Install Date"), snap_pkg.install_date.format ("%c"), previous_widget);
 				if (snap_pkg.channels.length != 0) {
 					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Channels") + ":"));
 					label.visible = true;
