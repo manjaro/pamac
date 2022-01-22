@@ -604,8 +604,9 @@ namespace Pamac {
 					bool no_orphans = false;
 					bool unneeded = false;
 					bool dry_run = false;
+					bool cascade = false;
 					try {
-						var options = new OptionEntry[7];
+						var options = new OptionEntry[8];
 						options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 						options[1] = { "no-confirm", 0, 0, OptionArg.NONE, ref no_confirm, null, null };
 						options[2] = { "orphans", 'o', 0, OptionArg.NONE, ref orphans, null, null };
@@ -613,6 +614,7 @@ namespace Pamac {
 						options[4] = { "unneeded", 'u', 0, OptionArg.NONE, ref unneeded, null, null };
 						options[5] = { "no-save", 'n', 0, OptionArg.NONE, ref no_save, null, null };
 						options[6] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
+						options[7] = { "cascade", 'c', 0, OptionArg.NONE, ref cascade, null, null };
 						var opt_context = new OptionContext (null);
 						opt_context.set_help_enabled (false);
 						opt_context.add_main_entries (options, null);
@@ -660,6 +662,9 @@ namespace Pamac {
 						}
 						if (unneeded) {
 							transaction.remove_if_unneeded = true;
+						}
+						if (cascade) {
+							transaction.cascade = true;
 						}
 						if (no_save) {
 							transaction.keep_config_files = false;
@@ -1359,6 +1364,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  --unneeded, -u",
+								"  --cascade, -c",
 								"  --orphans, -o",
 								"  --no-orphans",
 								"  --no-save, -n",
@@ -1371,6 +1377,7 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "remove packages only if they are not required by any other packages"),
+								dgettext (null, "remove all target packages, as well as all packages that depend on one or more target packages"),
 								dgettext (null, "remove dependencies that are not required by other packages, if this option is used without package name remove all orphans"),
 								dgettext (null, "do not remove dependencies that are not required by other packages"),
 								dgettext (null, "ignore files backup"),
