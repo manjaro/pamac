@@ -1210,14 +1210,20 @@ namespace Pamac {
 			});
 		}
 
-		Gtk.Widget populate_details_grid (string detail_type, string detail, Gtk.Widget? previous_widget) {
+		Gtk.Widget populate_details_grid (string detail_type, string? detail, Gtk.Widget? previous_widget) {
 			var label = new Gtk.Label ("<b>%s:</b>".printf (detail_type));
 			label.visible = true;
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
 			details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-			if (!transaction_running
+			if (detail == null) {
+				var label2 = new Gtk.Label (dgettext (null, "None"));
+				label2.visible = true;
+				label2.use_markup = true;
+				label2.halign = Gtk.Align.START;
+				details_grid.attach_next_to (label2, label, Gtk.PositionType.RIGHT);
+			} else if (!transaction_running
 				&& detail_type == dgettext (null, "Install Reason")
 				&& detail == dgettext (null, "Installed as a dependency for another package")) {
 				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -1539,12 +1545,12 @@ namespace Pamac {
 							reinstall_togglebutton.active = to_install.contains (pkg.name);
 						}
 					} else {
-						// always show reinstall button for VCS package
+						// always show build button for VCS package
 						if (aur_pkg.name.has_suffix ("-git") ||
 							aur_pkg.name.has_suffix ("-svn") ||
 							aur_pkg.name.has_suffix ("-bzr") ||
 							aur_pkg.name.has_suffix ("-hg") ||
-							aur_pkg.version == pkg.version) {
+							aur_pkg.version == pkg.installed_version) {
 							build_togglebutton.visible = true;
 							build_togglebutton.active = to_build.contains (pkg.name);
 						}
@@ -1572,29 +1578,29 @@ namespace Pamac {
 			} else {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
-			if (pkg.repo != null) {
-				if (software_mode) {
-					if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-						previous_widget = populate_details_grid (dgettext (null, "Repository"), dgettext (null, "Official Repositories"), previous_widget);
-					} else {
-						previous_widget = populate_details_grid (dgettext (null, "Repository"), pkg.repo, previous_widget);
-					}
+			if (software_mode) {
+				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
+					previous_widget = populate_details_grid (dgettext (null, "Repository"), dgettext (null, "Official Repositories"), previous_widget);
 				} else {
 					previous_widget = populate_details_grid (dgettext (null, "Repository"), pkg.repo, previous_widget);
 				}
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "Repository"), pkg.repo, previous_widget);
 			}
 			if (aur_pkg != null) {
 				if (aur_pkg.packagebase != pkg.name) {
 					previous_widget = populate_details_grid (dgettext (null, "Package Base"), aur_pkg.packagebase, previous_widget);
 				}
-				if (aur_pkg.maintainer != null) {
-					previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
-				}
+				previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
 				if (aur_pkg.firstsubmitted != null) {
 					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg.firstsubmitted.format ("%c"), previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), dgettext (null, "Unknown"), previous_widget);
 				}
 				if (aur_pkg.lastmodified != null) {
 					previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg.lastmodified.format ("%c"), previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "First Submitted"), dgettext (null, "Unknown"), previous_widget);
 				}
 				if (aur_pkg.numvotes != 0) {
 					previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg.numvotes.to_string (), previous_widget);
@@ -1624,24 +1630,40 @@ namespace Pamac {
 				}
 			}
 			// make packager mail clickable
-			string[] splitted = pkg.packager.split ("<", 2);
-			unowned string packager_name = splitted[0];
-			if (splitted.length > 1) {
-				string packager_mail = splitted[1].split (">", 2)[0];
-				string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
-				previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
+			if (pkg.packager != null) {
+				string[] splitted = pkg.packager.split ("<", 2);
+				unowned string packager_name = splitted[0];
+				if (splitted.length > 1) {
+					string packager_mail = splitted[1].split (">", 2)[0];
+					string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
+					previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Packager"), pkg.packager, previous_widget);
+				}
 			} else {
-				previous_widget = populate_details_grid (dgettext (null, "Packager"), pkg.packager, previous_widget);
+				previous_widget = populate_details_grid (dgettext (null, "Packager"), dgettext (null, "Unknown"), previous_widget);
 			}
 			if (!software_mode) {
-				previous_widget = populate_details_grid (dgettext (null, "Build Date"), pkg.build_date.format ("%c"), previous_widget);
+				if (pkg.build_date != null) {
+					previous_widget = populate_details_grid (dgettext (null, "Build Date"), pkg.build_date.format ("%c"), previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Build Date"), dgettext (null, "Unknown"), previous_widget);
+				}
 			}
-			if (pkg.install_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Install Date"), pkg.install_date.format ("%c"), previous_widget);
+			if (pkg.installed_version != null) {
+				if (pkg.install_date != null) {
+					previous_widget = populate_details_grid (dgettext (null, "Install Date"), pkg.install_date.format ("%c"), previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Install Date"), dgettext (null, "Unknown"), previous_widget);
+				}
 			}
 			if (!software_mode) {
-				if (pkg.reason != null) {
-					previous_widget = populate_details_grid (dgettext (null, "Install Reason"), pkg.reason, previous_widget);
+				if (pkg.installed_version != null) {
+					if (pkg.reason != null) {
+						previous_widget = populate_details_grid (dgettext (null, "Install Reason"), pkg.reason, previous_widget);
+					} else {
+						previous_widget = populate_details_grid (dgettext (null, "Install Reason"), dgettext (null, "Unknown"), previous_widget);
+					}
 				}
 				if (pkg.validations.length != 0) {
 					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Validated By") + ":"));
@@ -1660,6 +1682,8 @@ namespace Pamac {
 					}
 					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 					previous_widget = label as Gtk.Widget;
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Validated By"), dgettext (null, "Unknown"), previous_widget);
 				}
 				if (pkg.backups.length != 0) {
 					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
@@ -1721,7 +1745,6 @@ namespace Pamac {
 			previous_screenshot_button.visible = false;
 			next_screenshot_button.visible = false;
 			launch_button.visible = false;
-			remove_togglebutton.visible = false;
 			reinstall_togglebutton.visible = false;
 			install_togglebutton.visible = false;
 			// first infos
@@ -1733,11 +1756,25 @@ namespace Pamac {
 				build_togglebutton.visible = false;
 				remove_togglebutton.visible = false;
 			} else {
-				build_togglebutton.visible = true;
-				build_togglebutton.active = to_build.contains (aur_pkg.name);
-				if (database.is_installed_pkg (aur_pkg.name)) {
+				if (aur_pkg.installed_version != null) {
+					// always show build button for VCS package
+					if (aur_pkg.name.has_suffix ("-git") ||
+						aur_pkg.name.has_suffix ("-svn") ||
+						aur_pkg.name.has_suffix ("-bzr") ||
+						aur_pkg.name.has_suffix ("-hg") ||
+						aur_pkg.version == aur_pkg.installed_version) {
+						build_togglebutton.visible = true;
+						build_togglebutton.active = to_build.contains (aur_pkg.name);
+					} else {
+						build_togglebutton.visible = false;
+					}
 					remove_togglebutton.visible = true;
+					remove_togglebutton.sensitive = true;
 					remove_togglebutton.active = to_remove.contains (aur_pkg.name);
+				} else {
+					remove_togglebutton.visible = false;
+					build_togglebutton.visible = true;
+					build_togglebutton.active = to_build.contains (aur_pkg.name);
 				}
 			}
 			// infos
@@ -1756,62 +1793,92 @@ namespace Pamac {
 			} else {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
-			if (aur_pkg.repo != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Repository"), aur_pkg.repo, previous_widget);
-			}
+			previous_widget = populate_details_grid (dgettext (null, "Repository"), aur_pkg.repo, previous_widget);
 			if (aur_pkg.packagebase != aur_pkg.name) {
 				previous_widget = populate_details_grid (dgettext (null, "Package Base"), aur_pkg.packagebase, previous_widget);
 			}
-			if (aur_pkg.maintainer != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
-			}
+			previous_widget = populate_details_grid (dgettext (null, "Maintainer"), aur_pkg.maintainer, previous_widget);
 			if (aur_pkg.firstsubmitted != null) {
 				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), aur_pkg.firstsubmitted.format ("%c"), previous_widget);
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "First Submitted"), dgettext (null, "Unknown"), previous_widget);
 			}
 			if (aur_pkg.lastmodified != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), aur_pkg.lastmodified.format ("%c"), previous_widget);
+			} else {
+				previous_widget = populate_details_grid (dgettext (null, "Last Modified"), dgettext (null, "Unknown"), previous_widget);
 			}
 			previous_widget = populate_details_grid (dgettext (null, "Votes"), aur_pkg.numvotes.to_string (), previous_widget);
 			if (aur_pkg.outofdate != null) {
 				previous_widget = populate_details_grid (dgettext (null, "Out of Date"), aur_pkg.outofdate.format ("%c"), previous_widget);
 			}
-			if (aur_pkg.packager != null) {
-				// make packager mail clickable
-				string[] splitted = aur_pkg.packager.split ("<", 2);
-				unowned string packager_name = splitted[0];
-				if (splitted.length > 1) {
-					string packager_mail = splitted[1].split (">", 2)[0];
-					string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
-					previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
+			if (aur_pkg.installed_version != null) {
+				if (aur_pkg.packager != null) {
+					// make packager mail clickable
+					string[] splitted = aur_pkg.packager.split ("<", 2);
+					unowned string packager_name = splitted[0];
+					if (splitted.length > 1) {
+						string packager_mail = splitted[1].split (">", 2)[0];
+						string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
+						previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
+					} else {
+						previous_widget = populate_details_grid (dgettext (null, "Packager"), aur_pkg.packager, previous_widget);
+					}
 				} else {
-					previous_widget = populate_details_grid (dgettext (null, "Packager"), aur_pkg.packager, previous_widget);
+					previous_widget = populate_details_grid (dgettext (null, "Packager"), dgettext (null, "Unknown"), previous_widget);
 				}
-			}
-			if (aur_pkg.build_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Build Date"), aur_pkg.build_date.format ("%c"), previous_widget);
-			}
-			if (aur_pkg.install_date != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Install Date"), aur_pkg.install_date.format ("%c"), previous_widget);
-			}
-			if (aur_pkg.reason != null) {
-				previous_widget = populate_details_grid (dgettext (null, "Install Reason"), aur_pkg.reason, previous_widget);
-			}
-			if (aur_pkg.backups.length != 0) {
-				var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
-				label.visible = true;
-				label.use_markup = true;
-				label.halign = Gtk.Align.START;
-				label.valign = Gtk.Align.START;
-				details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
-				var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-				box.visible = true;
-				foreach (unowned string name in aur_pkg.backups) {
-					var label2 = new Gtk.Label (name);
-					label2.visible = true;
-					label2.halign = Gtk.Align.START;
-					box.add (label2);
+				if (aur_pkg.build_date != null) {
+					previous_widget = populate_details_grid (dgettext (null, "Build Date"), aur_pkg.build_date.format ("%c"), previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Build Date"), dgettext (null, "Unknown"), previous_widget);
 				}
-				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+				if (aur_pkg.install_date != null) {
+					previous_widget = populate_details_grid (dgettext (null, "Install Date"), aur_pkg.install_date.format ("%c"), previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Install Date"), dgettext (null, "Unknown"), previous_widget);
+				}
+				if (aur_pkg.reason != null) {
+					previous_widget = populate_details_grid (dgettext (null, "Install Reason"), aur_pkg.reason, previous_widget);
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Install Reason"), dgettext (null, "Unknown"), previous_widget);
+				}
+				if (aur_pkg.validations.length != 0) {
+					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Validated By") + ":"));
+					label.visible = true;
+					label.use_markup = true;
+					label.halign = Gtk.Align.START;
+					label.valign = Gtk.Align.START;
+					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+					box.visible = true;
+					foreach (unowned string name in aur_pkg.validations) {
+						var label2 = new Gtk.Label (name);
+						label2.visible = true;
+						label2.halign = Gtk.Align.START;
+						box.add (label2);
+					}
+					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+					previous_widget = label as Gtk.Widget;
+				} else {
+					previous_widget = populate_details_grid (dgettext (null, "Validated By"), dgettext (null, "Unknown"), previous_widget);
+				}
+				if (aur_pkg.backups.length != 0) {
+					var label = new Gtk.Label ("<b>%s</b>".printf (dgettext (null, "Backup files") + ":"));
+					label.visible = true;
+					label.use_markup = true;
+					label.halign = Gtk.Align.START;
+					label.valign = Gtk.Align.START;
+					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
+					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+					box.visible = true;
+					foreach (unowned string name in aur_pkg.backups) {
+						var label2 = new Gtk.Label (name);
+						label2.visible = true;
+						label2.halign = Gtk.Align.START;
+						box.add (label2);
+					}
+					details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
+				}
 			}
 			// deps
 			if (aur_pkg.depends.length != 0) {
@@ -2940,11 +3007,14 @@ namespace Pamac {
 
 		void display_aur_details (AURPackage aur_pkg) {
 			current_package_displayed = aur_pkg;
-			// select details if files was selected
-			if (properties_stack.visible_child_name == "files") {
-				properties_stack.visible_child_name = "details";
+			unowned string installed_version = aur_pkg.installed_version;
+			if (installed_version == null) {
+				// select details if files was selected
+				if (properties_stack.visible_child_name == "files") {
+					properties_stack.visible_child_name = "details";
+				}
 			}
-			files_scrolledwindow.visible = false;
+			files_scrolledwindow.visible = installed_version != null;
 			build_files_box.visible = true;
 			properties_stack_switcher.visible = true;
 			set_aur_details (aur_pkg);

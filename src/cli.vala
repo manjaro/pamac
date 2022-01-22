@@ -1047,7 +1047,11 @@ namespace Pamac {
 			stdout.printf ("%s\n", str_builder.str);
 		}
 
-		void print_property (string property, string val, int width) {
+		void print_property (string property, string? val, int width) {
+			if (val == null) {
+				print_aligned (property, " : %s".printf (dgettext (null, "None")), width);
+				return;
+			}
 			GenericArray<string> cuts = split_string (val, width + 3);
 			uint length = cuts.length;
 			if (length > 0) {
@@ -1063,6 +1067,8 @@ namespace Pamac {
 		void print_property_list (string property, GenericArray<string> list, int width) {
 			if (list.length > 0) {
 				print_property (property, concatenate_strings_list (list), width);
+			} else {
+				print_property (property, "--", width);
 			}
 		}
 
@@ -1684,11 +1690,13 @@ namespace Pamac {
 				// URL
 				print_property (properties[3], pkg.url, max_length);
 				// Licenses
-				print_property (properties[4], pkg.license, max_length);
-				// Repository
-				if (pkg.repo != null) {
-					print_property (properties[5], pkg.repo, max_length);
+				if (pkg.license != null) {
+					print_property (properties[4], pkg.license, max_length);
+				} else {
+					print_property (properties[4], dgettext (null, "Unknown"), max_length);
 				}
+				// Repository
+				print_property (properties[5], pkg.repo, max_length);
 				if (pkg.installed_size != 0){
 					// Size
 					print_property (properties[6], format_size (pkg.installed_size), max_length);
@@ -1715,6 +1723,8 @@ namespace Pamac {
 						print_aligned ("", depstring, max_length + 3);
 						i++;
 					}
+				} else {
+					print_property (properties[9], dgettext (null, "--"), max_length);
 				}
 				// Make Depends
 				if (aur_pkg != null) {
@@ -1724,32 +1734,38 @@ namespace Pamac {
 				if (aur_pkg != null) {
 					print_property_list (properties[11], aur_pkg.checkdepends, max_length);
 				}
-				// Required by
-				print_property_list (properties[12], pkg.requiredby, max_length);
-				// Optional for
-				print_property_list (properties[13], pkg.optionalfor, max_length);
+				if (installed_version != null) {
+					// Required by
+					print_property_list (properties[12], pkg.requiredby, max_length);
+					// Optional for
+					print_property_list (properties[13], pkg.optionalfor, max_length);
+				}
 				// Provides
 				print_property_list (properties[14], pkg.provides, max_length);
 				// Replaces
 				print_property_list (properties[15], pkg.replaces, max_length);
 				// Conflicts
 				print_property_list (properties[16], pkg.conflicts, max_length);
+				// Packager
 				if (pkg.packager != null) {
-					// Packager
 					print_property (properties[17], pkg.packager, max_length);
+				} else {
+					print_property (properties[17], dgettext (null, "Unknown"), max_length);
 				}
 				if (aur_pkg != null) {
 					// Maintainer
-					if (aur_pkg.maintainer != null) {
-						print_property (properties[24], aur_pkg.maintainer, max_length);
-					}
+					print_property (properties[24], aur_pkg.maintainer, max_length);
 					// First Submitted
 					if (aur_pkg.firstsubmitted != null) {
 						print_property (properties[25], aur_pkg.firstsubmitted.format ("%c"), max_length);
+					} else {
+						print_property (properties[25], dgettext (null, "Unknown"), max_length);
 					}
 					// Last Modified
 					if (aur_pkg.lastmodified != null) {
 						print_property (properties[26], aur_pkg.lastmodified.format ("%c"), max_length);
+					} else {
+						print_property (properties[26], dgettext (null, "Unknown"), max_length);
 					}
 					// Votes
 					if (aur_pkg.numvotes != 0) {
@@ -1763,18 +1779,26 @@ namespace Pamac {
 				// Build date
 				if (pkg.build_date != null) {
 					print_property (properties[18], pkg.build_date.format ("%c"), max_length);
+				} else {
+					print_property (properties[18], dgettext (null, "Unknown"), max_length);
 				}
 				// Install date
-				if (pkg.install_date != null) {
-					print_property (properties[19], pkg.install_date.format ("%c"), max_length);
-				}
-				// Reason
-				if (pkg.reason != null) {
-					print_property (properties[20], pkg.reason, max_length);
+				if (installed_version != null) {
+					if (pkg.install_date != null) {
+						print_property (properties[19], pkg.install_date.format ("%c"), max_length);
+					} else {
+						print_property (properties[19], dgettext (null, "Unknown"), max_length);
+					}
+					// Reason
+					if (pkg.reason != null) {
+						print_property (properties[20], pkg.reason, max_length);
+					} else {
+						print_property (properties[20], dgettext (null, "Unknown"), max_length);
+					}
 				}
 				// Validations
 				// custom concatenate function to add 2 sapces between validation strings
-				if (pkg.validations.length != 0) {
+				if (pkg.validations.length > 0) {
 					var str_builder = new StringBuilder ();
 					foreach (unowned string name in pkg.validations) {
 						if (str_builder.len > 0) {
@@ -1783,9 +1807,13 @@ namespace Pamac {
 						str_builder.append (name);
 					}
 					print_property (properties[21], str_builder.str, max_length);
+				} else {
+					print_property (properties[21], dgettext (null, "Unknown"), max_length);
 				}
 				// Backup files
-				print_property_list (properties[22], pkg.backups, max_length);
+				if (installed_version != null) {
+					print_property_list (properties[22], pkg.backups, max_length);
+				}
 				stdout.printf ("\n");
 		}
 
