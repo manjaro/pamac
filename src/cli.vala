@@ -634,41 +634,44 @@ namespace Pamac {
 								display_remove_help ();
 								return;
 							}
-							init_transaction ();
-							if (no_confirm) {
-								transaction.no_confirm = true;
-							}
-							remove_orphans ();
 						} else {
 							display_remove_help ();
+							return;
 						}
-					} else {
-						init_transaction ();
-						if (no_confirm) {
-							transaction.no_confirm = true;
-						}
-						if (dry_run) {
-							transaction.dry_run = true;
-						}
-						if (orphans) {
-							if (no_orphans) {
-								display_remove_help ();
-								return;
-							}
-							database.config.recurse = true;
-						}
+					}
+					init_transaction ();
+					if (no_confirm) {
+						transaction.no_confirm = true;
+					}
+					if (dry_run) {
+						transaction.dry_run = true;
+					}
+					if (orphans) {
 						if (no_orphans) {
-							database.config.recurse = false;
+							display_remove_help ();
+							return;
 						}
-						if (unneeded) {
-							transaction.remove_if_unneeded = true;
+						database.config.recurse = true;
+					}
+					if (no_orphans) {
+						if (orphans) {
+							display_remove_help ();
+							return;
 						}
-						if (cascade) {
-							transaction.cascade = true;
-						}
-						if (no_save) {
-							transaction.keep_config_files = false;
-						}
+						database.config.recurse = false;
+					}
+					if (unneeded) {
+						transaction.remove_if_unneeded = true;
+					}
+					if (cascade) {
+						transaction.cascade = true;
+					}
+					if (no_save) {
+						transaction.keep_config_files = false;
+					}
+					if (args.length == 2) {
+						remove_orphans ();
+					} else {
 						remove_pkgs (args[2:args.length]);
 					}
 				} else {
