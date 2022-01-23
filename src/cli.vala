@@ -388,7 +388,7 @@ namespace Pamac {
 				}
 				if (Posix.geteuid () == 0) {
 					// building as root
-					stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root"));
+					stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as dynamic user"));
 					stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Setting build directory to %s").printf ("/var/cache/pamac"));
 				} else {
 					get_aur_dest_variable ();
