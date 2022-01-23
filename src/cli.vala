@@ -2748,7 +2748,7 @@ namespace Pamac {
 				if (!no_confirm) {
 					var sync_pkg = database.get_sync_pkg (target);
 					if (sync_pkg != null) {
-						if (transaction.ask_user (dgettext (null, "Install %s from %s").printf (target, sync_pkg.repo))) {
+						if (transaction.ask_user (dgettext (null, "Install %1$s from %2$s").printf (target, sync_pkg.repo))) {
 							transaction.add_pkg_to_install (sync_pkg.name);
 							continue;
 						}

@@ -1462,15 +1462,19 @@ namespace Pamac {
 			set_screenshots (pkg);
 			bool software_mode = local_config.software_mode;
 			// infos
+			unowned string? version = pkg.installed_version;
+			if (version == null) {
+				version = pkg.version;
+			}
 			unowned string? app_name = pkg.app_name;
 			if (app_name == null) {
-				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg.name, pkg.version));
+				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg.name, version));
 				app_image.pixbuf = package_icon;
 			} else {
 				if (software_mode) {
-					name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (app_name), pkg.version));
+					name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (app_name), version));
 				} else {
-					name_label.set_markup ("<big><b>%s (%s)  %s</b></big>".printf (Markup.escape_text (app_name), pkg.name, pkg.version));
+					name_label.set_markup ("<big><b>%s (%s)  %s</b></big>".printf (Markup.escape_text (app_name), pkg.name, version));
 				}
 				unowned string? icon = pkg.icon;
 				if (icon != null) {
@@ -1540,7 +1544,7 @@ namespace Pamac {
 					remove_togglebutton.sensitive = true;
 					remove_togglebutton.active = to_remove.contains (pkg.name);
 					if (aur_pkg == null) {
-						if (pkg.repo != null) {
+						if (pkg.repo != null && pkg.version == pkg.installed_version) {
 							reinstall_togglebutton.visible = true;
 							reinstall_togglebutton.active = to_install.contains (pkg.name);
 						}
@@ -2508,7 +2512,12 @@ namespace Pamac {
 				if (software_mode || pkg.version == null) {
 					row.version_label.visible = false;
 				} else {
-					row.version_label.label = pkg.version;
+					unowned string? installed_version = pkg.installed_version;
+					if (installed_version == null) {
+						row.version_label.label = pkg.version;
+					} else {
+						row.version_label.label = pkg.installed_version;
+					}
 				}
 				if (pkg.installed_size > 0) {
 					row.size_label.label = GLib.format_size (pkg.installed_size);
