@@ -171,6 +171,7 @@ _pamac_opts_remove=(
   {-o,--orphans}'[remove dependencies that are not required by other packages, if this option is used without package name remove all orphans]'
   "--no-orphans[do not remove dependencies that are not required by other packages]"
   {-n,--no-save}'[ignore files backup]'
+  {-c,--cascade}'[remove all target packages, as well as all packages that depend on one or more target packages]'
   {-d,--dry-run}'[only print what would be done but do not run the transaction]'
   "--no-confirm[bypass any and all confirmation messages]"
 )
@@ -204,6 +205,7 @@ _pamac_opts_updategrade=(
   "--enable-downgrade[enable package downgrades]"
   "--disable-downgrade[disable package downgrades]"
   {-w,--download-only}'[download all packages but do not install/upgrade anything]'
+  {-d,--dry-run}'[only print what would be done but do not run the transaction]'
   "--ignore[ignore a package upgrade, multiple packages can be specified by separating them with comma]:package:_pamac_completions_installed_packages"
   "--overwrite[overwrite conflicting files, multiple patterns can be specified by separating them with comma]"
   "--no-confirm[bypass any and all confirmation messages]"

@@ -173,6 +173,7 @@ Upgrade your system
 *--disable-downgrade* ::: disable package downgrades
 *--download-only, -w* ::: download all packages but do not install/upgrade
 anything
+*--dry-run, -d* ::: only print what would be done but do not run the transaction
 *--ignore* <package(s)> ::: ignore a package upgrade, multiple packages can be
 specified by separating them with comma
 *--overwrite* <glob> ::: overwrite conflicting files, multiple patterns can be

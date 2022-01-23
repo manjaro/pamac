@@ -765,8 +765,9 @@ namespace Pamac {
 				string? builddir = null;
 				string? overwrite = null;
 				string? ignore = null;
+				bool dry_run = false;
 				try {
-					var options = new OptionEntry[13];
+					var options = new OptionEntry[14];
 					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 					options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
 					options[2] = { "no-aur", 0, 0, OptionArg.NONE, ref no_aur, null, null };
@@ -780,6 +781,7 @@ namespace Pamac {
 					options[10] = { "overwrite", 0, 0, OptionArg.STRING, ref overwrite, null, null };
 					options[11] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
 					options[12] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
+					options[13] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
 					var opt_context = new OptionContext (null);
 					opt_context.set_help_enabled (false);
 					opt_context.add_main_entries (options, null);
@@ -793,6 +795,9 @@ namespace Pamac {
 					return;
 				}
 				init_transaction ();
+				if (dry_run) {
+					transaction.dry_run = true;
+				}
 				if (aur) {
 					if (no_aur) {
 						display_upgrade_help ();
@@ -1444,6 +1449,7 @@ namespace Pamac {
 								"  --enable-downgrade",
 								"  --disable-downgrade",
 								"  --download-only, -w",
+								"  --dry-run, -d",
 								"  --ignore <%s>".printf (dgettext (null, "package(s)")),
 								"  --overwrite <%s>".printf (dgettext (null, "glob")),
 								"  --no-confirm",
@@ -1462,6 +1468,7 @@ namespace Pamac {
 								dgettext (null, "enable package downgrades"),
 								dgettext (null, "disable package downgrades"),
 								dgettext (null, "download all packages but do not install/upgrade anything"),
+								dgettext (null, "only print what would be done but do not run the transaction"),
 								dgettext (null, "ignore a package upgrade, multiple packages can be specified by separating them with a comma"),
 								dgettext (null, "overwrite conflicting files, multiple patterns can be specified by separating them with a comma"),
 								dgettext (null, "bypass any and all confirmation messages"),

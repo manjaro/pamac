@@ -162,6 +162,8 @@ _pamac()
                   --as-deps
                   --as-explicit
                   -w --download-only
+                  -c --cascade
+                  -d --dry-run
                   --no-confirm
                   ' -- "$cur" ) )
                 return 0
@@ -186,6 +188,7 @@ _pamac()
                   --devel
                   --disable-downgrade
                   -w --download-only
+                  -d --dry-run
                   --enable-downgrade
                   --force-refresh
                   --ignore
