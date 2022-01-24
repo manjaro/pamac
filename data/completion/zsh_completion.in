@@ -29,7 +29,7 @@ _pamac_completions_installed_packages() {
 
 _pamac_completions_all_packages() {
 	local -a cmd packages
-  packages=($(pamac search -q ${words[CURRENT]}))
+  packages=($(pamac list -qr $(pamac list -qr)))
 	compadd "$@" -a packages
 }
 
@@ -178,7 +178,7 @@ _pamac_opts_remove=(
 
 _pamac_remove() {
   _arguments -s : \
-  "$_pamac_opts_reinstall[@]" \
+  "$_pamac_opts_remove[@]" \
   '*:package:_pamac_completions_installed_packages'
 }
 
