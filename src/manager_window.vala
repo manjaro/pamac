@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2022 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -777,7 +777,7 @@ namespace Pamac {
 					"icon_name", "system-software-install",
 					"logo_icon_name", "system-software-install",
 					"comments", dgettext (null, "A Package Manager with Alpm, AUR, Flatpak and Snap support"),
-					"copyright", "Copyright © 2021 Guillaume Benoit",
+					"copyright", "Copyright © 2022 Guillaume Benoit",
 					"authors", authors,
 					"version", VERSION,
 					"license_type", Gtk.License.GPL_3_0,

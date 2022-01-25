@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2019-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019-2022 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1087,7 +1087,7 @@ namespace Pamac {
 
 		void display_version () {
 			stdout.printf ("Pamac %s  -  libpamac %s\n", VERSION, Pamac.get_version ());
-			stdout.printf ("Copyright © 2019-2021 Guillaume Benoit\n");
+			stdout.printf ("Copyright © 2019-2022 Guillaume Benoit\n");
 			stdout.printf ("This program is free software, you can redistribute it under the terms of the GNU GPL.\n");
 		}
 
