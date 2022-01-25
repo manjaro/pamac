@@ -828,7 +828,7 @@ namespace Pamac {
 				if (database.config.check_aur_updates) {
 					if (Posix.geteuid () == 0) {
 						// building as root
-						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as root"));
+						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Building packages as dynamic user"));
 						stdout.printf ("%s: %s\n", dgettext (null, "Warning"), dgettext (null, "Setting build directory to %s").printf ("/var/cache/pamac"));
 					} else {
 						get_aur_dest_variable ();
@@ -1734,7 +1734,7 @@ namespace Pamac {
 						i++;
 					}
 				} else {
-					print_property (properties[9], dgettext (null, "--"), max_length);
+					print_property (properties[9], "--", max_length);
 				}
 				// Make Depends
 				if (aur_pkg != null) {
