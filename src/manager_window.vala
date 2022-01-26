@@ -72,13 +72,14 @@ namespace Pamac {
 				if (b_app_name_down != null && b_app_name_down.has_prefix (search_string)) {
 				return 1;
 			}
-			if (pkg_a.name.has_prefix (search_string + "-")) {
-				if (pkg_b.name.has_prefix (search_string + "-")) {
+			string search_string_prefix = search_string + "-";
+			if (pkg_a.name.has_prefix (search_string_prefix)) {
+				if (pkg_b.name.has_prefix (search_string_prefix)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return -1;
 			}
-			if (pkg_b.name.has_prefix (search_string + "-")) {
+			if (pkg_b.name.has_prefix (search_string_prefix)) {
 				return 1;
 			}
 			if (pkg_a.name.has_prefix (search_string)) {
@@ -3268,7 +3269,7 @@ namespace Pamac {
 			string tmp_search_string = search_entry.get_text ().strip ();
 			if (tmp_search_string.char_count () > 1) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
-				search_string = (owned) tmp_search_string;
+				search_string = tmp_search_string.down ();
 				view_stack.visible_child_name = "search";
 				refresh_packages_list ();
 			}

@@ -147,7 +147,7 @@ namespace Pamac {
 							display_search_help ();
 							return;
 						} else {
-							search_string = concatenate_strings (args[2:args.length]);
+							search_string = concatenate_strings (args[2:args.length]).down ();
 							search_installed_pkgs (quiet);
 						}
 					} else if (repos) {
@@ -155,11 +155,11 @@ namespace Pamac {
 							display_search_help ();
 							return;
 						} else {
-							search_string = concatenate_strings (args[2:args.length]);
+							search_string = concatenate_strings (args[2:args.length]).down ();
 							search_repos_pkgs (quiet);
 						}
 					} else {
-						search_string = concatenate_strings (args[2:args.length]);
+						search_string = concatenate_strings (args[2:args.length]).down ();
 						search_pkgs (quiet);
 					}
 				} else {
@@ -2876,13 +2876,14 @@ namespace Pamac {
 			if (pkg_b.name == search_string) {
 				return 1;
 			}
-			if (pkg_a.name.has_prefix (search_string + "-")) {
-				if (pkg_b.name.has_prefix (search_string + "-")) {
+			string search_string_prefix = search_string + "-";
+			if (pkg_a.name.has_prefix (search_string_prefix)) {
+				if (pkg_b.name.has_prefix (search_string_prefix)) {
 					return sort_pkgs_by_relevance (pkg_a, pkg_b);
 				}
 				return -1;
 			}
-			if (pkg_b.name.has_prefix (search_string + "-")) {
+			if (pkg_b.name.has_prefix (search_string_prefix)) {
 				return 1;
 			}
 			if (pkg_a.name.has_prefix (search_string)) {
