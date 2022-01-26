@@ -1549,15 +1549,9 @@ namespace Pamac {
 							reinstall_togglebutton.active = to_install.contains (pkg.name);
 						}
 					} else {
-						// always show build button for VCS package
-						if (aur_pkg.name.has_suffix ("-git") ||
-							aur_pkg.name.has_suffix ("-svn") ||
-							aur_pkg.name.has_suffix ("-bzr") ||
-							aur_pkg.name.has_suffix ("-hg") ||
-							aur_pkg.version == pkg.installed_version) {
-							build_togglebutton.visible = true;
-							build_togglebutton.active = to_build.contains (pkg.name);
-						}
+						// always show build button
+						build_togglebutton.visible = true;
+						build_togglebutton.active = to_build.contains (pkg.name);
 						string aur_url = "http://aur.archlinux.org/packages/" + pkg.name;
 						if (escaped_url != null) {
 							link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url, aur_url, aur_url));
@@ -1760,25 +1754,15 @@ namespace Pamac {
 				build_togglebutton.visible = false;
 				remove_togglebutton.visible = false;
 			} else {
+				// always show build button
+				build_togglebutton.visible = true;
+				build_togglebutton.active = to_build.contains (aur_pkg.name);
 				if (aur_pkg.installed_version != null) {
-					// always show build button for VCS package
-					if (aur_pkg.name.has_suffix ("-git") ||
-						aur_pkg.name.has_suffix ("-svn") ||
-						aur_pkg.name.has_suffix ("-bzr") ||
-						aur_pkg.name.has_suffix ("-hg") ||
-						aur_pkg.version == aur_pkg.installed_version) {
-						build_togglebutton.visible = true;
-						build_togglebutton.active = to_build.contains (aur_pkg.name);
-					} else {
-						build_togglebutton.visible = false;
-					}
 					remove_togglebutton.visible = true;
 					remove_togglebutton.sensitive = true;
 					remove_togglebutton.active = to_remove.contains (aur_pkg.name);
 				} else {
 					remove_togglebutton.visible = false;
-					build_togglebutton.visible = true;
-					build_togglebutton.active = to_build.contains (aur_pkg.name);
 				}
 			}
 			// infos
