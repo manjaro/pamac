@@ -750,6 +750,7 @@ namespace Pamac {
 								database.config.save ();
 								preferences_window.hide ();
 								transaction.remove_authorization ();
+								updates_checked = false;
 								check_aur_support ();
 								check_snap_support ();
 								check_flatpak_support ();

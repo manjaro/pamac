@@ -265,7 +265,7 @@ namespace Pamac {
 			config.bind_property ("keep_built_pkgs", keep_built_pkgs_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_updates", check_aur_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_vcs_updates", check_aur_vcs_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE);
 			aur_build_dir_file_chooser.label = Path.get_basename (config.aur_build_dir);
 			refresh_clean_build_files_button.begin ();
 			config.bind_property ("support_flatpak", flatpak_preferences_group, "visible", BindingFlags.SYNC_CREATE);
