@@ -555,7 +555,7 @@ namespace Pamac {
 				details_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 			}
 
-			updated_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Your system is up-to-date")));
+			updated_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Your system is up to date")));
 			no_item_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "No package found")));
 			checking_label.set_markup ("<big><b>%s</b></big>".printf (dgettext (null, "Checking for Updates")));
 
@@ -689,7 +689,7 @@ namespace Pamac {
 					run_sysupgrade (true, false);
 				}
 			});
-			// neded to further disabling it
+			// needed to further disabling it
 			refresh_action.set_enabled (false);
 			this.add_action (refresh_action);
 			refresh_action.set_enabled (true);
@@ -733,7 +733,7 @@ namespace Pamac {
 				});
 				chooser.show ();
 			});
-			// neded to further disabling it
+			// needed to further disabling it
 			install_local_action.set_enabled (false);
 			this.add_action (install_local_action);
 			install_local_action.set_enabled (true);
@@ -765,7 +765,7 @@ namespace Pamac {
 					}
 				});
 			});
-			// neded to further disabling it
+			// needed to further disabling it
 			preferences_action.set_enabled (false);
 			this.add_action (preferences_action);
 			preferences_action.set_enabled (true);
@@ -3266,7 +3266,7 @@ namespace Pamac {
 		}
 
 		[GtkCallback]
-			void on_search_entry_activated () {
+		void on_search_entry_activated () {
 			string tmp_search_string = search_entry.get_text ().strip ();
 			if (tmp_search_string.char_count () > 1) {
 				this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));

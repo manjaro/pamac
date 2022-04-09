@@ -25,7 +25,7 @@ namespace Pamac {
 		string update_icon_name = "pamac-tray-update";
 		string noupdate_icon_name = "pamac-tray-no-update";
 		unowned string update_info = _("Updates Available");
-		unowned string noupdate_info = _("Your system is up-to-date");
+		unowned string noupdate_info = _("Your system is up to date");
 		Notify.Notification notification;
 		Gtk.IconTheme icon_theme;
 		protected UpdatesChecker updates_checker;

@@ -2009,7 +2009,7 @@ namespace Pamac {
 				if (quiet) {
 					return;
 				}
-				stdout.printf ("%s.\n", dgettext (null, "Your system is up-to-date"));
+				stdout.printf ("%s.\n", dgettext (null, "Your system is up to date"));
 				// check if we have ignored pkgs or out of date
 				uint ignored_updates_nb = updates.ignored_repos_updates.length + updates.ignored_aur_updates.length;
 				if (ignored_updates_nb > 0 || updates.outofdate.length != 0) {
