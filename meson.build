@@ -2,7 +2,7 @@ project('pamac', 'c', 'vala',
 		default_options : [
 		'prefix=/usr',
 		'sysconfdir=/etc',],
-		version : '10.3')
+		version : '10.4')
 
 subdir('resources')
 subdir('src')
