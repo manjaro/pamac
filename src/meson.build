@@ -4,7 +4,7 @@ libsoup = dependency('libsoup-2.4')
 libnotify = dependency('libnotify')
 gio_unix = dependency('gio-unix-2.0')
 
-libpamac = dependency('pamac', version : '>=11.2')
+libpamac = dependency('pamac', version : '>=11.3.1')
 
 gtk3 = dependency('gtk+-3.0', version : '>=3.22')
 libhandy = dependency('libhandy-1')
