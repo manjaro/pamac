@@ -766,8 +766,9 @@ namespace Pamac {
 				string? overwrite = null;
 				string? ignore = null;
 				bool dry_run = false;
+				bool no_refresh = false;
 				try {
-					var options = new OptionEntry[14];
+					var options = new OptionEntry[15];
 					options[0] = { "help", 'h', 0, OptionArg.NONE, ref help, null, null };
 					options[1] = { "aur", 'a', 0, OptionArg.NONE, ref aur, null, null };
 					options[2] = { "no-aur", 0, 0, OptionArg.NONE, ref no_aur, null, null };
@@ -782,6 +783,7 @@ namespace Pamac {
 					options[11] = { "ignore", 0, 0, OptionArg.STRING, ref ignore, null, null };
 					options[12] = { "download-only", 'w', 0, OptionArg.NONE, ref download_only, null, null };
 					options[13] = { "dry-run", 'd', 0, OptionArg.NONE, ref dry_run, null, null };
+					options[14] = { "no-refresh", 0, 0, OptionArg.NONE, ref no_refresh, null, null };
 					var opt_context = new OptionContext (null);
 					opt_context.set_help_enabled (false);
 					opt_context.add_main_entries (options, null);
@@ -860,7 +862,17 @@ namespace Pamac {
 				if (no_confirm) {
 					transaction.no_confirm = true;
 				}
-				run_sysupgrade (force_refresh, download_only);
+				if (download_only) {
+					transaction.download_only = true;
+				}
+				if (no_refresh) {
+					if (force_refresh) {
+						display_upgrade_help ();
+						return;
+					}
+					transaction.no_refresh = true;
+				}
+				run_sysupgrade (force_refresh);
 			} else if (args[1] == "clean") {
 				bool verbose = false;
 				bool build_files = false;
@@ -1446,6 +1458,7 @@ namespace Pamac {
 			stdout.printf (dgettext (null, "options") + ":\n");
 			int max_length = 0;
 			string[] options = {"  --force-refresh",
+								"  --no-refresh",
 								"  --enable-downgrade",
 								"  --disable-downgrade",
 								"  --download-only, -w",
@@ -1465,6 +1478,7 @@ namespace Pamac {
 				}
 			}
 			string[] details = {dgettext (null, "force the refresh of the databases"),
+								dgettext (null, "do not refresh the databases"),
 								dgettext (null, "enable package downgrades"),
 								dgettext (null, "disable package downgrades"),
 								dgettext (null, "download all packages but do not install/upgrade anything"),
@@ -2836,10 +2850,7 @@ namespace Pamac {
 			loop.run ();
 		}
 
-		void run_sysupgrade (bool force_refresh, bool download_only) {
-			if (download_only) {
-				transaction.download_only = true; //Alpm.TransFlag.DOWNLOADONLY
-			}
+		void run_sysupgrade (bool force_refresh) {
 			transaction.add_pkgs_to_upgrade (force_refresh);
 			run_transaction ();
 		}
