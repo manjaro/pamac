@@ -109,15 +109,12 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 		this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
 		this.managerMenuItem.connect('activate', Lang.bind(this, this._openManager));
 
-		// Load config
-		this._updatesChecker = new Pamac.UpdatesChecker();
-		this._updatesChecker.connect('updates-available', Lang.bind(this, this._onUpdatesAvailable));
-		this._applyConfig();
-		this._updateMenuExpander(false, _("Your system is up to date"));
-
 		if (FIRST_BOOT && CHECK_INTERVAL > 0) {
-			// Schedule first check only if this is the first extension load
 			// This won't be run again if extension is disabled/enabled (like when screen is locked)
+			this._updatesChecker = new Pamac.UpdatesChecker();
+			this._updatesChecker.connect('updates-available', Lang.bind(this, this._onUpdatesAvailable));
+			this._applyConfig();
+			this._updateMenuExpander(false, _("Your system is up to date"));
 			let that = this;
 			this._FirstTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, BOOT_WAIT, function () {
 				that._checkUpdates();
