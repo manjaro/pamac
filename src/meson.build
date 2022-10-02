@@ -1,6 +1,5 @@
 gobject = dependency('gobject-2.0')
 gio = dependency('gio-2.0')
-libsoup = dependency('libsoup-2.4')
 libnotify = dependency('libnotify')
 gio_unix = dependency('gio-unix-2.0')
 
