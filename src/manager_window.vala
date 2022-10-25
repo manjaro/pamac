@@ -2918,7 +2918,7 @@ namespace Pamac {
 					if (updates_checked) {
 						populate_updates ();
 					} else {
-						on_refresh_button_clicked ();
+						refresh_updates (true);
 					}
 					break;
 				default:
@@ -4115,11 +4115,15 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_refresh_button_clicked () {
+			refresh_updates (false);
+		}
+
+		void refresh_updates (bool use_timestamp) {
 			packages_stack.visible_child_name = "checking";
 			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
 			bool check_aur_updates_backup = database.config.check_aur_updates;
 			database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
-			database.get_updates_async.begin (false, (obj, res) => {
+			database.get_updates_async.begin (use_timestamp, (obj, res) => {
 				database.config.check_aur_updates = check_aur_updates_backup;
 				var updates = database.get_updates_async.end (res);
 				// copy updates in lists
