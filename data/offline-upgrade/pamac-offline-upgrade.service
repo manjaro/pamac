@@ -1,0 +1,17 @@
+[Unit]
+Description=Offline System Upgrade using Pamac
+ConditionPathExists=/system-update
+Documentation=http://www.freedesktop.org/wiki/Software/systemd/SystemUpdates
+
+DefaultDependencies=no
+Before=shutdown.target
+
+[Service]
+# We are done when the script exits, not before
+Type=oneshot
+# Upgrade output goes to journal and on-screen.
+#StandardOutput=journal+console
+StandardOutput=tty
+ExecStartPre=/usr/bin/rm /system-update
+ExecStart=/usr/bin/pamac upgrade --no-aur --no-refresh --no-confirm
+ExecStart=/usr/bin/sleep 2

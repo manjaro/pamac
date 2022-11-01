@@ -29,6 +29,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Switch download_updates_button;
 		[GtkChild]
+		unowned Gtk.Switch offline_upgrade_button;
+		[GtkChild]
 		unowned Hdy.ComboRow parallel_downloads_comborow;
 		[GtkChild]
 		unowned Hdy.PreferencesGroup mirrors_preferences_group;
@@ -146,6 +148,8 @@ namespace Pamac {
 			check_updates_expander.notify["enable-expansion"].connect (on_check_updates_expander_changed);
 			refresh_period_comborow.notify["selected-index"].connect (on_refresh_period_comborow_changed);
 			config.bind_property ("download_updates", download_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("offline_upgrade", offline_upgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("download_updates", offline_upgrade_button, "sensitive", BindingFlags.SYNC_CREATE);
 			config.bind_property ("no_update_hide_icon", no_update_hide_icon_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			// set parallel downloads
 			store = new GLib.ListStore (typeof (Hdy.ValueObject));

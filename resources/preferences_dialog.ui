@@ -38,6 +38,18 @@
                 </child>
                 <child>
                   <object class="HdyActionRow">
+                    <property name="title" translatable="yes">Upgrade the system at shutdown</property>
+                    <property name="visible">1</property>
+                    <child>
+                      <object class="GtkSwitch" id="offline_upgrade_button">
+                        <property name="visible">1</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow">
                     <property name="title" translatable="yes">Hide tray icon when no update</property>
                     <property name="visible">1</property>
                     <child>
