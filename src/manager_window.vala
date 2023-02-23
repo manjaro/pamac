@@ -466,7 +466,7 @@ namespace Pamac {
 		GenericSet<string?> previous_to_build;
 
 		public TransactionGtk transaction;
-		public Database database { get; construct; }
+		public DatabaseGtk database { get; construct; }
 		public bool mobile { get; construct; }
 		public LocalConfig local_config;
 
@@ -519,7 +519,7 @@ namespace Pamac {
 		SimpleAction refresh_action;
 		SimpleAction install_local_action;
 
-		public ManagerWindow (Gtk.Application application, Database database, bool mobile) {
+		public ManagerWindow (Gtk.Application application, DatabaseGtk database, bool mobile) {
 			Object (application: application, database: database, mobile: mobile);
 
 			// load custom styling

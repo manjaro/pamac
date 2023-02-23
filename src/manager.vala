@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	class Manager : Gtk.Application {
-		Database database;
+		DatabaseGtk database;
 		SearchProvider search_provider;
 		uint search_provider_id;
 		bool version;
@@ -32,7 +32,7 @@ namespace Pamac {
 		OptionEntry[] options;
 
 
-		public Manager (Database database) {
+		public Manager (DatabaseGtk database) {
 			Object (application_id: "org.manjaro.pamac.manager", flags: ApplicationFlags.HANDLES_OPEN);
 			this.database = database;
 			database.enable_appstream ();
@@ -151,6 +151,7 @@ namespace Pamac {
 			unowned Gtk.Window window = this.active_window;
 			if (window == null) {
 				manager_window = new ManagerWindow (this, database, mobile);
+				database.window = manager_window;
 			} else {
 				manager_window = window as ManagerWindow;
 			}
@@ -264,7 +265,7 @@ namespace Pamac {
 
 int main (string[] args) {
 	var config = new Pamac.Config ("/etc/pamac.conf");
-	var database = new Pamac.Database (config);
+	var database = new Pamac.DatabaseGtk (config);
 	var manager = new Pamac.Manager (database);
 	// set translated app name
 	var appinfo = new DesktopAppInfo ("org.manjaro.pamac.manager.desktop");
