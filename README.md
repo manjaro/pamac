@@ -1,4 +1,4 @@
-Pamac is a Gtk and CLI front ends of libpamac
+Pamac is a Gtk and CLI front ends of [libpamac](https://gitlab.manjaro.org/applications/libpamac)
 
 #### Features
 
