@@ -963,7 +963,8 @@ namespace Pamac {
 			if (Posix.geteuid () != 0) {
 				// Use tty polkit authentication agent if needed
 				try {
-					pkttyagent = new Subprocess.newv ({"pkttyagent", "--fallback"}, SubprocessFlags.NONE);
+					//pkttyagent = new Subprocess.newv ({"pkttyagent", "--fallback"}, SubprocessFlags.NONE);
+					pkttyagent = new Subprocess.newv ({"pkttyagent"}, SubprocessFlags.NONE);
 				} catch (Error e) {
 					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
 				}
