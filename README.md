@@ -20,3 +20,7 @@ In the source directory run:
 `meson compile`
 
 `sudo meson install`
+
+#### Translation
+
+If you want to contribute in Pamac translations, use [Transifex](https://www.transifex.com/manjarolinux/manjaro-pamac).
