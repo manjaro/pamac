@@ -438,7 +438,7 @@ namespace Pamac {
 			}
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
-				if ("http" in icon) {
+				if (icon.has_prefix ("http")) {
 					pixbuf = package_icon;
 					get_icon_pixbuf.begin (icon, (obj, res) => {
 						var downloaded_pixbuf = get_icon_pixbuf.end (res);

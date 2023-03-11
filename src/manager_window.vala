@@ -1907,7 +1907,7 @@ namespace Pamac {
 			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (snap_pkg.app_name), snap_pkg.version));
 			unowned string? icon = snap_pkg.icon;
 			if (icon != null) {
-				if ("http" in icon) {
+				if (icon.has_prefix ("http")) {
 					app_image.pixbuf = package_icon;
 					transaction.get_icon_pixbuf.begin (icon, (obj, res) => {
 						app_image.pixbuf = transaction.get_icon_pixbuf.end (res);
@@ -2412,7 +2412,7 @@ namespace Pamac {
 			Gdk.Pixbuf pixbuf;
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
-				if ("http" in icon) {
+				if (icon.has_prefix ("http")) {
 					pixbuf = package_icon;
 					transaction.get_icon_pixbuf.begin (icon, (obj, res) => {
 						var downloaded_pixbuf = transaction.get_icon_pixbuf.end (res);
