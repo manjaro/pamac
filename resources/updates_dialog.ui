@@ -14,7 +14,7 @@
           <object class="GtkScrolledWindow" id="scrolledwindow">
             <property name="hscrollbar-policy">never</property>
             <child>
-              <object class="HdyClamp">
+              <object class="AdwClamp">
                 <property name="vexpand">1</property>
                 <property name="maximum_size">900</property>
                 <property name="margin-top">24</property>

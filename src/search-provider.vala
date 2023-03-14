@@ -2,7 +2,7 @@
  *  pamac-vala
  *
  *  Copyright (C) 2014  Paolo Borelli <pborelli@gnome.org>
- *  Copyright (C) 2018-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -33,15 +33,15 @@ namespace Pamac {
 			this.database = database;
 		}
 
-		string[] normalize_terms (string[] terms) {
+		GenericArray<string> normalize_terms (string[] terms) {
 			var normalized_terms = new GenericArray<string> ();
 			foreach (string t in terms) {
 				normalized_terms.add (t.normalize ().casefold ());
 			}
-			return normalized_terms.data;
+			return normalized_terms;
 		}
 
-		string[] search_pkgs (string[] normalized_terms) {
+		string[] search_pkgs (GenericArray<string> normalized_terms) {
 			GenericArray<unowned Package> pkgs = database.search_uninstalled_apps (normalized_terms);
 			var result = new GenericArray<string> ();
 			foreach (unowned Package pkg in pkgs) {

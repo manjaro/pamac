@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2018-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -37,8 +37,6 @@ namespace Pamac {
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
 		public bool commit_transaction_answer;
-
-		Soup.Session soup_session;
 
 		public signal void transaction_sum_populated ();
 
@@ -98,24 +96,10 @@ namespace Pamac {
 			stop_preparing.connect (stop_progressbar_pulse);
 			start_building.connect (start_progressbar_pulse);
 			stop_building.connect (stop_progressbar_pulse);
-			// flags
-			set_trans_flags ();
 			// ask_confirmation option
 			no_confirm_upgrade = false;
 			summary_shown = false;
 			commit_transaction_answer = false;
-			// soup session to download icons and screenshots
-			soup_session = new Soup.Session ();
-			soup_session.user_agent = "Pamac/%s".printf (VERSION);
-			soup_session.timeout = 30;
-		}
-
-		public void set_trans_flags () {
-			int flags = (1 << 4); //Alpm.TransFlag.CASCADE
-			if (database.config.recurse) {
-				flags |= (1 << 5); //Alpm.TransFlag.RECURSE
-			}
-			set_flags (flags);
 		}
 
 		public void show_details (string message) {
@@ -202,7 +186,7 @@ namespace Pamac {
 			return new ChoosePkgsDialog (application_window);
 		}
 
-		protected override async string[] choose_optdeps (string pkgname, string[] optdeps) {
+		protected override async GenericArray<string> choose_optdeps (string pkgname, GenericArray<string> optdeps) {
 			GenericArray<string> optdeps_to_install;
 			var choose_pkgs_dialog = create_choose_pkgs_dialog ();
 			choose_pkgs_dialog.title = dgettext (null, "Choose optional dependencies for %s").printf (pkgname);
@@ -223,10 +207,10 @@ namespace Pamac {
 				optdeps_to_install = new GenericArray<string> ();
 			}
 			choose_pkgs_dialog.destroy ();
-			return optdeps_to_install.data;
+			return optdeps_to_install;
 		}
 
-		protected override async int choose_provider (string depend, string[] providers) {
+		protected override async int choose_provider (string depend, GenericArray<string> providers) {
 			var application_window = application.active_window;
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.title = dgettext (null, "Choose a provider for %s").printf (depend);
@@ -413,8 +397,7 @@ namespace Pamac {
 			try {
 				if (!cached_icon.query_exists ()) {
 					// download icon
-					var request = soup_session.request (url);
-					var inputstream = yield request.send_async (null);
+					var inputstream = yield database.get_url_stream (url);
 					var pixbuf = new Gdk.Pixbuf.from_stream (inputstream);
 					// scale pixbux at 64 pixels
 					int width = pixbuf.get_width ();
@@ -839,7 +822,7 @@ namespace Pamac {
 			return response;
 		}
 
-		protected override async void edit_build_files (string[] pkgnames) {
+		protected override async void edit_build_files (GenericArray<string> pkgnames) {
 			foreach (unowned string pkgname in pkgnames) {
 				string action = dgettext (null, "Edit %s build files".printf (pkgname));
 				display_action (action);
@@ -1079,7 +1062,7 @@ namespace Pamac {
 			}
 		}
 
-		public void display_error (string message, string[] details) {
+		public void display_error (string message, GenericArray<string> details) {
 			reset_progress_box ();
 			var flags = Gtk.DialogFlags.MODAL;
 			int use_header_bar;

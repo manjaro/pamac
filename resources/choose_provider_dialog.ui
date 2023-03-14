@@ -4,7 +4,7 @@
   <template class="PamacChooseProviderDialog" parent="GtkDialog">
     <property name="title" translatable="yes">Choose a Provider</property>
     <property name="modal">1</property>
-    <property name="default_width">600</property>
+    <property name="default_width">500</property>
     <property name="icon_name">system-software-install</property>
     <property name="deletable">0</property>
     <child internal-child="content_area">
@@ -20,7 +20,6 @@
                 <property name="margin-start">16</property>
                 <property name="margin-end">16</property>
                 <property name="spacing">16</property>
-                <property name="hexpand">1</property>
                 <property name="vexpand">1</property>
               </object>
             </child>

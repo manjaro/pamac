@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2015-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2015-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@ namespace Pamac {
 		unowned Gtk.Switch no_update_hide_icon_button;
 		[GtkChild]
 		unowned Gtk.Switch download_updates_button;
+		[GtkChild]
+		unowned Gtk.Switch offline_upgrade_button;
 		[GtkChild]
 		unowned Adw.ComboRow parallel_downloads_comborow;
 		[GtkChild]
@@ -91,6 +93,8 @@ namespace Pamac {
 		unowned TransactionGtk transaction;
 		uint64 previous_refresh_period;
 
+		bool transaction_running;
+
 		public PreferencesWindow (ManagerWindow window, LocalConfig local_config) {
 			Object (transient_for: window);
 
@@ -99,23 +103,17 @@ namespace Pamac {
 			config = database.config;
 			local_config = window.local_config;
 			// set check updates
-			var store = new GLib.ListStore (typeof (Adw.ValueObject));
-			var val = Value (typeof (string));
-			string str = dgettext (null, "every 3 hours");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "every 6 hours");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "every 12 hours");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "every day");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "every week");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
+			var store = new GLib.ListStore (typeof (Gtk.StringObject));
+			var obj = new Gtk.StringObject (dgettext (null, "every 3 hours"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "every 6 hours"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "every 12 hours"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "every day"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "every week"));
+			store.append (obj);
 			refresh_period_comborow.set_model (store);
 			var factory = new Gtk.SignalListItemFactory ();
 			factory.setup.connect ((listitem) => {
@@ -126,8 +124,8 @@ namespace Pamac {
 				unowned Gtk.Widget child = listitem.child;
 				unowned Gtk.Label label = child as Gtk.Label;
 				unowned Object object = listitem.item;
-				unowned Adw.ValueObject value_object = object as Adw.ValueObject;
-				label.label = value_object.get_string ();
+				unowned Gtk.StringObject string_object = object as Gtk.StringObject;
+				label.label = string_object.get_string ();
 			});
 			refresh_period_comborow.set_factory (factory);
 			if (config.refresh_period == 0) {
@@ -154,27 +152,23 @@ namespace Pamac {
 			check_updates_expander.notify["enable-expansion"].connect (on_check_updates_expander_changed);
 			refresh_period_comborow.notify["selected-index"].connect (on_refresh_period_comborow_changed);
 			config.bind_property ("download_updates", download_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("offline_upgrade", offline_upgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("download_updates", offline_upgrade_button, "sensitive", BindingFlags.SYNC_CREATE);
 			config.bind_property ("no_update_hide_icon", no_update_hide_icon_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			// set parallel downloads
-			store = new GLib.ListStore (typeof (Adw.ValueObject));
-			str = dgettext (null, "1");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "2");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "4");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "6");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "8");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "10");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
+			store = new GLib.ListStore (typeof (Gtk.StringObject));
+			obj = new Gtk.StringObject (dgettext (null, "1"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "2"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "4"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "6"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "8"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "10"));
+			store.append (obj);
 			parallel_downloads_comborow.set_model (store);
 			parallel_downloads_comborow.set_factory (factory);
 			uint64 max_parallel_downloads = config.max_parallel_downloads;
@@ -194,18 +188,17 @@ namespace Pamac {
 			parallel_downloads_comborow.notify["selected-index"].connect (on_parallel_downloads_comborow_changed);
 			// set mirrors
 			if (database.has_installed_satisfier ("pacman-mirrors")) {
-				var mirrors_store = new GLib.ListStore (typeof (Adw.ValueObject));
-				str = dgettext (null, "Worldwide");
-				val.set_string (str);
-				mirrors_store.append (new Adw.ValueObject (val));
+				var mirrors_store = new GLib.ListStore (typeof (Gtk.StringObject));
+				obj = new Gtk.StringObject (dgettext (null, "Worldwide"));
+				mirrors_store.append (obj);
 				int index = 1;
 				database.get_mirrors_choosen_country_async.begin ((obj, res) => {
 					string preferences_choosen_country = database.get_mirrors_choosen_country_async.end (res);
 					database.get_mirrors_countries_async.begin ((obj, res) => {
 						var countries = database.get_mirrors_countries_async.end (res);
 						foreach (unowned string country in countries) {
-							val.set_string (country);
-							mirrors_store.append (new Adw.ValueObject (val));
+							var country_obj = new Gtk.StringObject (country);
+							mirrors_store.append (country_obj);
 							if (country == preferences_choosen_country) {
 								mirrors_country_comborow.selected = index;
 							}
@@ -220,25 +213,19 @@ namespace Pamac {
 				mirrors_preferences_group.visible = false;
 			}
 			// set cache options
-			store = new GLib.ListStore (typeof (Adw.ValueObject));
-			str = dgettext (null, "0");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "1");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "2");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "3");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "4");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
-			str = dgettext (null, "5");
-			val.set_string (str);
-			store.append (new Adw.ValueObject (val));
+			store = new GLib.ListStore (typeof (Gtk.StringObject));
+			obj = new Gtk.StringObject (dgettext (null, "0"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "1"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "2"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "3"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "4"));
+			store.append (obj);
+			obj = new Gtk.StringObject (dgettext (null, "5"));
+			store.append (obj);
 			cache_keep_nb_comborow.set_model (store);
 			cache_keep_nb_comborow.set_factory (factory);
 			uint64 keep_num_pkgs = config.clean_keep_num_pkgs;
@@ -255,19 +242,19 @@ namespace Pamac {
 			local_config.bind_property ("software_mode", advanced_preferences_page, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
 			config.bind_property ("checkspace", check_space_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("recurse", remove_unrequired_deps_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-			remove_unrequired_deps_button.notify["active"].connect (on_remove_unrequired_deps_button_changed);
 			config.bind_property ("simple_install", simple_install_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_downgrade", enable_downgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			populate_ignorepkgs_list ();
 			// set third party
-			local_config.notify["software_mode"].connect (on_software_mode_changed);
+			third_party_preferences_page.visible = !local_config.software_mode || config.support_flatpak || config.support_snap;
+			local_config.notify["software-mode"].connect (on_software_mode_changed);
 			local_config.bind_property ("software_mode", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
 			config.bind_property ("enable_aur", enable_aur_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_aur", enable_aur_expander, "expanded", BindingFlags.SYNC_CREATE);
 			config.bind_property ("keep_built_pkgs", keep_built_pkgs_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_updates", check_aur_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_vcs_updates", check_aur_vcs_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE);
 			aur_build_dir_file_chooser.label = Path.get_basename (config.aur_build_dir);
 			refresh_clean_build_files_button.begin ();
 			config.bind_property ("support_flatpak", flatpak_preferences_group, "visible", BindingFlags.SYNC_CREATE);
@@ -289,7 +276,7 @@ namespace Pamac {
 				files_nb++;
 			}
 			clean_cache_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
-			if (files_nb++ > 0) {
+			if (files_nb++ > 0 && !transaction_running) {
 				clean_cache_button.sensitive = true;
 			} else {
 				clean_cache_button.sensitive = false;
@@ -307,15 +294,11 @@ namespace Pamac {
 				files_nb++;
 			}
 			clean_build_files_label.set_markup ("<b>%s:  %s  (%s)</b>".printf (dgettext (null, "To delete"), dngettext (null, "%u file", "%u files", files_nb).printf (files_nb), format_size (total_size)));
-			if (files_nb++ > 0) {
+			if (files_nb++ > 0 && !transaction_running) {
 				clean_build_files_button.sensitive = true;
 			} else {
 				clean_build_files_button.sensitive = false;
 			}
-		}
-
-		void on_remove_unrequired_deps_button_changed () {
-			transaction.set_trans_flags ();
 		}
 
 		void on_check_updates_expander_changed () {
@@ -369,7 +352,7 @@ namespace Pamac {
 		}
 
 		void on_software_mode_changed () {
-			third_party_preferences_page.visible = local_config.software_mode || config.support_flatpak || config.support_snap;
+			third_party_preferences_page.visible = !local_config.software_mode || config.support_flatpak || config.support_snap;
 		}
 
 		[GtkCallback]
@@ -422,6 +405,7 @@ namespace Pamac {
 
 		void add_ignorepkg (string pkgname) {
 			var row = new Gtk.ListBoxRow ();
+			row.activatable = false;
 			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 			var label = new Gtk.Label (pkgname);
 			label.margin_top = 12;
@@ -474,6 +458,7 @@ namespace Pamac {
 					}
 					choose_pkgs_dialog.destroy ();
 				});
+				choose_pkgs_dialog.enable_search ();
 				choose_pkgs_dialog.show ();
 			});
 		}
@@ -484,17 +469,22 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_generate_mirrors_list_button_clicked () {
+			unowned ManagerWindow manager_window = this.transient_for as ManagerWindow;
+			if (manager_window.transaction_running || manager_window.generate_mirrors_list) {
+				return;
+			}
 			Object object = mirrors_country_comborow.selected_item;
-			unowned Adw.ValueObject value_object = object as Adw.ValueObject;
-			string preferences_choosen_country = value_object.dup_string ();
+			unowned Gtk.StringObject string_object = object as Gtk.StringObject;
+			string preferences_choosen_country = string_object.get_string ();
 			if (preferences_choosen_country == dgettext (null, "Worldwide")) {
 				preferences_choosen_country = "all";
 			}
 			transaction.start_progressbar_pulse ();
-			unowned ManagerWindow manager_window = this.transient_for as ManagerWindow;
+			manager_window.important_details = true;
 			manager_window.generate_mirrors_list = true;
 			manager_window.apply_button.sensitive = false;
 			manager_window.details_button.sensitive = true;
+			manager_window.infobox_revealer.reveal_child = true;
 			transaction.generate_mirrors_list_async.begin (preferences_choosen_country, (obj, res) => {
 				manager_window.generate_mirrors_list = false;
 				transaction.reset_progress_box ();

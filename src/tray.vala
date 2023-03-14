@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Pamac {
 		string update_icon_name = "pamac-tray-update";
 		string noupdate_icon_name = "pamac-tray-no-update";
 		unowned string update_info = _("Updates Available");
-		unowned string noupdate_info = _("Your system is up-to-date");
+		unowned string noupdate_info = _("Your system is up to date");
 		Notify.Notification notification;
 		Gtk3.IconTheme icon_theme;
 		protected UpdatesChecker updates_checker;

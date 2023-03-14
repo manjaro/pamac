@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2021 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,18 +20,19 @@
 namespace Pamac {
 
 	class Manager : Gtk.Application {
-		Database database;
+		DatabaseGtk database;
 		SearchProvider search_provider;
 		uint search_provider_id;
 		bool version;
 		bool updates;
+		bool mobile;
 		string? pkgname;
 		string? app_id;
 		string? search;
 		OptionEntry[] options;
 
 
-		public Manager (Database database) {
+		public Manager (DatabaseGtk database) {
 			Object (application_id: "org.manjaro.pamac.manager", flags: ApplicationFlags.HANDLES_OPEN);
 			this.database = database;
 			database.enable_appstream ();
@@ -41,12 +42,14 @@ namespace Pamac {
 			pkgname = null;
 			app_id = null;
 			search = null;
-			options = new OptionEntry[5];
+			mobile = false;
+			options = new OptionEntry[6];
 			options[0] = { "version", 0, 0, OptionArg.NONE, ref version, "Display version number", null };
 			options[1] = { "updates", 0, 0, OptionArg.NONE, ref updates, "Display updates", null };
 			options[2] = { "details", 0, 0, OptionArg.STRING, ref pkgname, "Display package details", "PACKAGE_NAME" };
 			options[3] = { "details-id", 0, 0, OptionArg.STRING, ref app_id, "Display package details", "APP_ID" };
 			options[4] = { "search", 0, 0, OptionArg.STRING, ref search, "Search packages", "SEARCH" };
+			options[5] = { "mobile", 0, 0, OptionArg.NONE, ref mobile, "Mobile version", null };
 			add_main_option_entries (options);
 
 			search_provider_id = 0;
@@ -98,7 +101,14 @@ namespace Pamac {
 				AlpmPackage? pkg = this.database.get_pkg (pkgname);
 				if (pkg != null) {
 					manager_window.display_package_details (pkg);
-					manager_window.main_stack.visible_child_name = "details";
+					manager_window.main_stack.visible_child_name = "browse";
+					manager_window.packages_leaflet.visible_child_name = "details";
+					manager_window.main_details_box.visible = true;
+					manager_window.browse_flap.visible = false;
+					manager_window.set_adaptative_details (true);
+					manager_window.view_stack_switcher.visible = false;
+					manager_window.search_button.visible = false;
+					manager_window.button_back.visible = true;
 				}
 				manager_window.present ();
 			});
@@ -111,7 +121,14 @@ namespace Pamac {
 				Package? pkg = this.database.get_app_by_id (app_id);
 				if (pkg != null) {
 					manager_window.display_details (pkg);
-					manager_window.main_stack.visible_child_name = "details";
+					manager_window.main_stack.visible_child_name = "browse";
+					manager_window.packages_leaflet.visible_child_name = "details";
+					manager_window.main_details_box.visible = true;
+					manager_window.browse_flap.visible = false;
+					manager_window.set_adaptative_details (true);
+					manager_window.view_stack_switcher.visible = false;
+					manager_window.search_button.visible = false;
+					manager_window.button_back.visible = true;
 				}
 				manager_window.present ();
 			});
@@ -133,7 +150,8 @@ namespace Pamac {
 			ManagerWindow manager_window;
 			unowned Gtk.Window window = this.active_window;
 			if (window == null) {
-				manager_window = new ManagerWindow (this, database);
+				manager_window = new ManagerWindow (this, database, mobile);
+				database.window = manager_window;
 			} else {
 				manager_window = window as ManagerWindow;
 			}
@@ -247,7 +265,7 @@ namespace Pamac {
 
 int main (string[] args) {
 	var config = new Pamac.Config ("/etc/pamac.conf");
-	var database = new Pamac.Database (config);
+	var database = new Pamac.DatabaseGtk (config);
 	var manager = new Pamac.Manager (database);
 	// set translated app name
 	var appinfo = new DesktopAppInfo ("org.manjaro.pamac.manager.desktop");

@@ -4,6 +4,14 @@
 	border-bottom: 1px solid @borders;
 }
 
+.package-box{
+	background-color: @theme_base_color;
+	border-top: 1px solid @borders;
+	border-bottom: 1px solid @borders;
+	border-left: 1px solid @borders;
+	border-right: 1px solid @borders;
+}
+
 .old-version-label{
 	color: white;
 	background-color: #C01C28;
@@ -17,8 +25,8 @@
 
 .version-label{
 	color: white;
-	background-color: blue;
-	border: 3px solid blue;
+	background-color: #3584e4;
+	border: 3px solid #3584e4;
 	border-radius: 100px;
 	font-size: smaller;
 	font-weight: bold;

@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.0"/>
   <template class="PamacPreferencesWindow" parent="AdwPreferencesWindow">
-    <property name="can-swipe-back">1</property>
+    <property name="can-navigate-back">1</property>
     <child>
       <object class="AdwPreferencesPage">
         <property name="title" translatable="yes">General</property>
@@ -24,6 +24,16 @@
                     <property name="title" translatable="yes">Automatically download updates</property>
                     <child>
                       <object class="GtkSwitch" id="download_updates_button">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Upgrade the system at shutdown</property>
+                    <child>
+                      <object class="GtkSwitch" id="offline_upgrade_button">
                         <property name="valign">center</property>
                       </object>
                     </child>
@@ -237,51 +247,57 @@ All AUR users should be familiar with the build process.</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
-                    <property name="margin-start">12</property>
-                    <property name="margin-end">12</property>
-                    <property name="margin-top">12</property>
-                    <property name="margin-bottom">12</property>
-                    <property name="spacing">12</property>
-                    <property name="orientation">vertical</property>
+                  <object class="GtkListBoxRow">
+                    <property name="visible">1</property>
+                    <property name="activatable">0</property>
                     <child>
                       <object class="GtkBox">
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
                         <property name="spacing">12</property>
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkLabel" id="aur_build_dir_label">
-                            <property name="label" translatable="yes">Build directory</property>
-                            <property name="halign">start</property>
-                            <property name="wrap">1</property>
-                            <property name="hexpand">1</property>
+                          <object class="GtkBox">
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkLabel" id="aur_build_dir_label">
+                                <property name="label" translatable="yes">Build directory</property>
+                                <property name="halign">start</property>
+                                <property name="wrap">1</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="aur_build_dir_file_chooser">
+                                <property name="halign">end</property>
+                                <signal name="clicked" handler="on_aur_build_dir_file_chooser_clicked" swapped="no"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkButton" id="aur_build_dir_file_chooser">
-                            <property name="halign">end</property>
-                            <signal name="clicked" handler="on_aur_build_dir_file_chooser_clicked" swapped="no"/>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="spacing">12</property>
-                        <child>
-                          <object class="GtkLabel" id="clean_build_files_label">
-                            <property name="halign">end</property>
-                            <property name="wrap">1</property>
-                            <property name="hexpand">1</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="clean_build_files_button">
-                            <property name="label" translatable="yes">Clean</property>
-                            <property name="halign">end</property>
-                            <property name="valign">center</property>
-                            <signal name="clicked" handler="on_clean_build_files_button_clicked" swapped="no"/>
-                            <style>
-                              <class name="destructive-action"/>
-                            </style>
+                          <object class="GtkBox">
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkLabel" id="clean_build_files_label">
+                                <property name="halign">end</property>
+                                <property name="wrap">1</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="clean_build_files_button">
+                                <property name="label" translatable="yes">Clean</property>
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <signal name="clicked" handler="on_clean_build_files_button_clicked" swapped="no"/>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
