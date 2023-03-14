@@ -136,7 +136,9 @@ Remove packages
 
 *--unneeded, -u* ::: remove packages only if they are not required by any other
 packages
-*--orphans, -o* ::: remove dependencies that are not required by other packages,qq
+*--cascade, -c* ::: remove all target packages, as well as all packages that
+depend on one or more target packages
+*--orphans, -o* ::: remove dependencies that are not required by other packages,
 if this option is used without package name remove all orphans
 *--no-orphans* ::: do not remove dependencies that are not required by other
 packages
@@ -171,6 +173,7 @@ Upgrade your system
 *--disable-downgrade* ::: disable package downgrades
 *--download-only, -w* ::: download all packages but do not install/upgrade
 anything
+*--dry-run, -d* ::: only print what would be done but do not run the transaction
 *--ignore* <package(s)> ::: ignore a package upgrade, multiple packages can be
 specified by separating them with comma
 *--overwrite* <glob> ::: overwrite conflicting files, multiple patterns can be

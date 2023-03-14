@@ -1,6 +1,0 @@
-[Unit]
-Description=Clean packages cache
-
-[Service]
-Type=oneshot
-ExecStart=@bindir@/pamac clean --no-confirm
