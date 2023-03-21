@@ -3191,7 +3191,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_search_entry_search_changed () {
-			on_search_entry_activated ();
+			//on_search_entry_activated ();
 		}
 
 		[GtkCallback]
