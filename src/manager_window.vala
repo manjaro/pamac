@@ -330,8 +330,6 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.HeaderBar headerbar;
 		[GtkChild]
-		unowned Gtk.MenuButton menu_button;
-		[GtkChild]
 		public unowned Gtk.Stack main_stack;
 		[GtkChild]
 		public unowned Gtk.Button button_back;
