@@ -74,8 +74,6 @@
                 <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
                 <property name="max_width_chars">15</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
                 <style>
                   <class name="old-version-label"/>
                 </style>
@@ -86,8 +84,6 @@
                 <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
                 <property name="max_width_chars">15</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
                 <style>
                   <class name="version-label"/>
                 </style>
@@ -99,6 +95,7 @@
           <object class="GtkBox" id="button_box">
             <property name="halign">end</property>
             <property name="valign">center</property>
+            <property name="hexpand">1</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
@@ -108,7 +105,6 @@
                 <property name="spacing">3</property>
                 <child>
                   <object class="GtkToggleButton" id="action_togglebutton">
-                    <property name="visible">1</property>
                         <child>
                           <object class="GtkImage" id="action_icon">
                           </object>

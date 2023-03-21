@@ -7,8 +7,9 @@
     <child>
       <object class="AdwPreferencesPage">
         <property name="title" translatable="yes">General</property>
+        <property name="icon_name">applications-system-symbolic</property>
         <child>
-          <object class="AdwPreferencesGroup">
+          <object class="AdwPreferencesGroup"  id="updates_preferences_group">
             <property name="title" translatable="yes">Updates</property>
             <child>
               <object class="AdwExpanderRow" id="check_updates_expander">
@@ -129,6 +130,7 @@
     <child>
       <object class="AdwPreferencesPage" id="advanced_preferences_page">
         <property name="title" translatable="yes">Advanced</property>
+        <property name="icon_name">applications-science-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Advanced</property>
@@ -194,7 +196,7 @@ Modify them only if you know what you are doing.</property>
                       <property name="selection-mode">none</property>
                       <property name="activate-on-single-click">1</property>
                       <style>
-                        <class name="content"/>
+                        <class name="boxed-list"/>
                       </style>
                     </object>
                   </child>
@@ -207,6 +209,7 @@ Modify them only if you know what you are doing.</property>
     <child>
       <object class="AdwPreferencesPage" id="third_party_preferences_page">
         <property name="title" translatable="yes">Third Party</property>
+        <property name="icon_name">emoji-symbols-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup" id="aur_preferences_group">
             <property name="title" translatable="yes">AUR</property>

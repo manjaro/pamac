@@ -36,7 +36,7 @@
                         <property name="selection-mode">none</property>
                         <property name="activate-on-single-click">0</property>
                         <style>
-                          <class name="content"/>
+                          <class name="boxed-list"/>
                         </style>
                       </object>
                     </child>

@@ -21,6 +21,8 @@ namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/preferences/preferences_dialog.ui")]
 	class PreferencesWindow : Adw.PreferencesWindow {
 		[GtkChild]
+		unowned Adw.PreferencesGroup updates_preferences_group;
+		[GtkChild]
 		unowned Adw.ExpanderRow check_updates_expander;
 		[GtkChild]
 		unowned Adw.ComboRow refresh_period_comborow;
@@ -263,6 +265,8 @@ namespace Pamac {
 			config.bind_property ("check_flatpak_updates", check_flatpak_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("support_snap", snap_preferences_group, "visible", BindingFlags.SYNC_CREATE);
 			config.bind_property ("enable_snap", enable_snap_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+			// set_correct_focus
+			updates_preferences_group.grab_focus ();
 		}
 
 		async void refresh_clean_cache_button () {

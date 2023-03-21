@@ -505,10 +505,8 @@ namespace Pamac {
 		GenericArray<Gtk.Picture> current_screenshots;
 		uint current_screenshots_index;
 
-//~ 		Gtk.ListStore search_completion_store;
 		bool scroll_to_top;
 		uint in_app_notification_timeout_id;
-		bool first_details_click;
 
 		HashTable<string, SnapPackage> previous_snap_to_install;
 		HashTable<string, SnapPackage> previous_snap_to_remove;
@@ -592,11 +590,9 @@ namespace Pamac {
 					search_button.visible = false;
 					view_stack_switcher.visible = false;
 					search_entry.visible = true;
-//~ 					search_entry.set_position (-1);
 					button_back.visible = true;
 					previous_view_stack_visible_child_name = view_stack.visible_child_name;
 					view_stack.visible_child_name = "search";
-//~ 					search_entry.grab_focus_without_selecting ();
 				}
 			});
 			this.add_action (action);
@@ -877,16 +873,6 @@ namespace Pamac {
 
 			// enable "type to search"
 			search_entry.set_key_capture_widget (this);
-
-			// search entry completion
-//~ 			search_completion_store = new Gtk.ListStore (1, typeof (string));
-//~ 			var search_entry_completion = new Gtk.EntryCompletion ();
-//~ 			search_entry_completion.set_model (search_completion_store);
-//~ 			search_entry_completion.text_column = 0;
-//~ 			search_entry_completion.minimum_key_length = 3;
-//~ 			search_entry_completion.popup_completion = true;
-//~ 			search_entry_completion.match_selected.connect (on_search_completion_match_selected);
-//~ 			search_entry.completion = search_entry_completion;
 
 			// create screenshots and icons tmp dir
 			string[] tmp_dirs = {"/tmp/pamac-app-screenshots", "/tmp/pamac-app-icons"};
@@ -1288,7 +1274,7 @@ namespace Pamac {
 			label.margin_top = 12;
 			deps_box.append (label);
 			var listbox = new Gtk.ListBox ();
-			listbox.add_css_class ("content");
+			listbox.add_css_class ("boxed-list");
 			foreach (unowned string dep in dep_list) {
 				if (add_install_button) {
 					var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 3);
@@ -1340,6 +1326,8 @@ namespace Pamac {
 				if (cached_screenshot.query_exists ()) {
 					picture = new Gtk.Picture.for_file (cached_screenshot);
 					picture.can_shrink = true;
+					picture.halign = Gtk.Align.CENTER;
+					picture.valign = Gtk.Align.CENTER;
 				} else {
 					// download screenshot
 					try {
@@ -1350,6 +1338,8 @@ namespace Pamac {
 						pixbuf.save_to_stream (os, "png");
 						picture = new Gtk.Picture.for_pixbuf (pixbuf);
 						picture.can_shrink = true;
+						picture.halign = Gtk.Align.CENTER;
+						picture.valign = Gtk.Align.CENTER;
 					} catch (Error e) {
 						warning ("%s: %s", url, e.message);
 					}
@@ -2221,6 +2211,10 @@ namespace Pamac {
 			do {
 				complete_packages_list ();
 			} while (need_more_packages ());
+			if (current_package_displayed == null) {
+				// display first pkg detail
+				display_details (current_packages_list[0]);
+			}
 			// scroll to top
 			if (scroll_to_top) {
 				packages_scrolledwindow.vadjustment.value = 0;
@@ -2973,16 +2967,8 @@ namespace Pamac {
 				display_details (pkg);
 				if (!main_details_box.visible) {
 					main_details_box.visible = true;
-					if (!first_details_click) {
-						first_details_click = true;
-					} else {
-						browse_flap.visible = false;
-						set_adaptative_details (true);
-					}
-					// needed to compute the folded state
-//~ 					while (Gtk.events_pending ()) {
-//~ 						Gtk.main_iteration ();
-//~ 					}
+					browse_flap.visible = false;
+					set_adaptative_details (true);
 					if (packages_leaflet.folded) {
 						packages_leaflet.visible_child_name = "details";
 						set_adaptative_details (true);
@@ -3221,33 +3207,7 @@ namespace Pamac {
 				search_entry.grab_focus ();
 				search_button.clicked ();
 			}
-//~ 			string tmp_search_string = search_entry.get_text ().strip ();
-//~ 			if (tmp_search_string.char_count () > 2) {
-//~ 				database.suggest_pkgnames_async.begin (tmp_search_string, (obj, res) => {
-//~ 					var pkgnames = database.suggest_pkgnames_async.end (res);
-//~ 					search_completion_store.clear ();
-//~ 					// take the 40 first pkgnames
-//~ 					int i = 0;
-//~ 					foreach (unowned string pkgname in pkgnames) {
-//~ 						search_completion_store.insert_with_values (null, -1, 0, pkgname);
-//~ 						if (i == 39) {
-//~ 							break;
-//~ 						}
-//~ 						i++;
-//~ 					}
-//~ 				});
-//~ 			}
 		}
-
-//~ 		bool on_search_completion_match_selected (Gtk.TreeModel model, Gtk.TreeIter iter) {
-//~ 			// populate search string with selected value and activate the search
-//~ 			Value selected_value;
-//~ 			model.get_value (iter, 0, out selected_value);
-//~ 			search_entry.set_text ((string) selected_value);
-//~ 			search_entry.set_position (-1);
-//~ 			on_search_entry_activated ();
-//~ 			return true;
-//~  		}
 
 		[GtkCallback]
 		void on_sortby_combobox_changed () {
@@ -3579,7 +3539,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_search_listbox_row_activated (Gtk.ListBoxRow row) {
-//~ 			search_entry.grab_focus ();
+			search_entry.grab_focus ();
 			if (search_string == null) {
 				return;
 			}
@@ -3894,14 +3854,12 @@ namespace Pamac {
 			}
 		}
 
-//~ 		[GtkCallback]
-//~ 		void on_menu_button_toggled () {
-//~ 			if (menu_button.active) {
-//~ 				preferences_action.set_enabled (!transaction_running);
-//~ 				refresh_action.set_enabled (!transaction_running);
-//~ 				install_local_action.set_enabled (!transaction_running);
-//~ 			}
-//~ 		}
+		[GtkCallback]
+		void on_menu_popover_shown () {
+			preferences_action.set_enabled (!transaction_running);
+			refresh_action.set_enabled (!transaction_running);
+			install_local_action.set_enabled (!transaction_running);
+		}
 
 		[GtkCallback]
 		void on_details_button_clicked () {

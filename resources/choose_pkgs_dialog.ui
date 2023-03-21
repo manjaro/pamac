@@ -21,7 +21,6 @@
             <property name="margin-end">16</property>
             <child>
               <object class="GtkSearchEntry" id="search_entry">
-                <property name="visible">1</property>
                 <signal name="search-changed" handler="on_search_text_changed"/>
               </object>
             </child>
@@ -48,9 +47,8 @@
                 <child>
                   <object class="GtkListBox" id="listbox">
                     <property name="selection-mode">none</property>
-                    <signal name="row-activated" handler="on_row_activated" swapped="no"/>
                     <style>
-                      <class name="content"/>
+                      <class name="boxed-list"/>
                     </style>
                   </object>
                 </child>

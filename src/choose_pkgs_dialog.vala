@@ -40,26 +40,19 @@ namespace Pamac {
 		public void enable_search () {
 			// enable "type to search"
 			search_entry.set_key_capture_widget (this);
+			search_clamp.visible = true;
+			search_separator.visible = true;
 		}
 
 		public void add_pkg (string pkgname) {
-			var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-			box.margin_top = 12;
-			box.margin_bottom = 12;
-			box.margin_start = 12;
-			box.margin_end = 12;
-			var select_image = new Gtk.Image.from_icon_name ("object-select-symbolic");
-			select_image.visible = false;
-			select_image.pixel_size = 16;
-			box.append (select_image);
-			var label = new Gtk.Label (pkgname);
-			label.visible = true;
-			label.margin_start = 22;
-			label.margin_end = 22;
-			label.halign = Gtk.Align.START;
-			label.ellipsize = Pango.EllipsizeMode.END;
-			box.append (label);
-			listbox.append (box);
+
+			var radiobutton = new Gtk.CheckButton.with_label (pkgname);
+			radiobutton.margin_top = 12;
+			radiobutton.margin_bottom = 12;
+			radiobutton.margin_start = 12;
+			radiobutton.margin_end = 12;
+			radiobutton.get_style_context ().add_class ("selection-mode");
+			listbox.append (radiobutton);
 		}
 
 		public GenericArray<string> get_selected_pkgs () {
@@ -68,52 +61,13 @@ namespace Pamac {
 			while (widget != null) {
 				unowned Gtk.ListBoxRow row = widget as Gtk.ListBoxRow;
 				unowned Gtk.Widget child = row.get_child ();
-				unowned Gtk.Box box = child as Gtk.Box;
-				bool select = false;
-				unowned Gtk.Widget? widget2 = box.get_first_child ();
-				while (widget2 != null) {
-					if (widget2.name == "GtkImage") {
-						unowned Gtk.Image select_image = widget2 as Gtk.Image;
-						select = select_image.visible;
-					}
-					if (widget2.name == "GtkLabel") {
-						unowned Gtk.Label label = widget2 as Gtk.Label;
-						if (select) {
-							selected.add (label.label);
-							select = false;
-						}
-					}
-					widget2 = widget2.get_next_sibling ();
+				unowned Gtk.CheckButton radiobutton = child as Gtk.CheckButton;
+				if (radiobutton.active) {
+					selected.add (radiobutton.label);
 				}
 				widget = widget.get_next_sibling ();
 			}
 			return selected;
-		}
-
-		[GtkCallback]
-		void on_row_activated (Gtk.ListBoxRow row) {
-			unowned Gtk.Widget child = row.get_child ();
-			unowned Gtk.Box box = child as Gtk.Box;
-			unowned Gtk.Widget? widget = box.get_first_child ();
-			while (widget != null) {
-				if (widget.name == "GtkImage") {
-					unowned Gtk.Image select_image = widget as Gtk.Image;
-					if (select_image.visible) {
-						select_image.visible = false;
-					} else {
-						select_image.visible = true;
-					}
-				}
-				if (widget.name == "GtkLabel") {
-					unowned Gtk.Label label = widget as Gtk.Label;
-					if (label.margin_start == 22) {
-						label.margin_start = 0;
-					} else {
-						label.margin_start = 22;
-					}
-				}
-				widget = widget.get_next_sibling ();
-			}
 		}
 
 		[GtkCallback]
@@ -122,16 +76,9 @@ namespace Pamac {
 			if (search_string != "") {
 				listbox.set_filter_func ((row) => {
 					unowned Gtk.Widget child = row.get_child ();
-					unowned Gtk.Box box = child as Gtk.Box;
-					unowned Gtk.Widget? widget = box.get_first_child ();
-					while (widget != null) {
-						if (widget.name == "GtkLabel") {
-							unowned Gtk.Label label = widget as Gtk.Label;
-							if (label.label.has_prefix (search_string)) {
-								return true;
-							}
-						}
-						widget = widget.get_next_sibling ();
+					unowned Gtk.CheckButton radiobutton = child as Gtk.CheckButton;
+					if (radiobutton.label.has_prefix (search_string)) {
+						return true;
 					}
 					return false;
 				});

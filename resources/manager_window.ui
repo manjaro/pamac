@@ -44,10 +44,6 @@
             <child type="title">
               <object class="GtkBox" id="header_center_buttonbox">
                 <child>
-<!--
-                  <object class="GtkSearchBar" id="search_bar">
-                    <property name="child">
--->
                   <object class="GtkSearchEntry" id="search_entry">
                     <property name="halign">center</property>
                     <property name="max-width-chars">30</property>
@@ -56,10 +52,6 @@
                     <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
                     <signal name="activate" handler="on_search_entry_activated" swapped="no"/>
                   </object>
-<!--
-                    </property>
-                  </object>
--->
                 </child>
                 <child>
                   <object class="AdwViewSwitcherTitle" id="view_stack_switcher">
@@ -100,8 +92,13 @@
               <object class="GtkBox" id="header_right_buttonbox">
                 <child>
                   <object class="GtkMenuButton" id="menu_button">
-                    <property name="menu_model">primary-menu</property>
                     <property name="icon-name">open-menu-symbolic</property>
+                    <property name="popover">
+                      <object class="GtkPopoverMenu" id="menu_popover">
+                        <property name="menu_model">primary-menu</property>
+                        <signal name="show" handler="on_menu_popover_shown" swapped="no"/>
+                      </object>
+                    </property>
                   </object>
                 </child>
               </object>
@@ -254,15 +251,12 @@
                                                     <property name="column_spacing">6</property>
                                                     <property name="valign">start</property>
                                                     <property name="halign">center</property>
-                                                    <property name="selection_mode">none</property>
+                                                    <property name="selection_mode">single</property>
                                                     <property name="margin_top">6</property>
                                                     <property name="margin_bottom">6</property>
                                                     <property name="margin_start">6</property>
                                                     <property name="margin_end">6</property>
                                                     <signal name="child-activated" handler="on_packages_listbox_row_activated" swapped="no"/>
-                                                    <style>
-                                                      <class name="boxed-list"/>
-                                                    </style>
                                                   </object>
                                                 </property>
                                               </object>
@@ -641,7 +635,7 @@
                             <property name="name">details</property>
                             <property name="child">
                               <object class="GtkBox" id="main_details_box">
-                                <property name="visible">0</property>
+                                <property name="visible">1</property>
                                 <property name="hexpand">0</property>
                                 <property name="width-request">700</property>
                                 <child>
@@ -776,14 +770,14 @@
                                                       <object class="GtkOverlay" id="screenshots_overlay">
                                                         <property name="child">
                                                           <object class="GtkBox" id="screenshots_box">
+                                                            <property name="valign">center</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="height_request">300</property>
+                                                            <property name="height_request">400</property>
                                                             <child>
                                                               <object class="AdwCarousel" id="screenshots_carousel">
                                                                 <property name="margin_top">12</property>
                                                                 <property name="margin_bottom">6</property>
                                                                 <property name="spacing">22</property>
-                                                                <property name="vexpand">0</property>
                                                                 <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
                                                               </object>
                                                             </child>
@@ -1060,13 +1054,4 @@
       </object>
     </child>
   </template>
-<!--
-  <object class="GtkSizeGroup">
-    <widgets>
-      <widget name="properties_box1"/>
-      <widget name="details_box2"/>
-      <widget name="deps_box"/>
-    </widgets>
-  </object>
--->
 </interface>

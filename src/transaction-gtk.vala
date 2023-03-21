@@ -229,6 +229,7 @@ namespace Pamac {
 			foreach (unowned Package pkg in pkgs) {
 				string provider = "%s  %s  %s".printf (pkg.name, pkg.version, pkg.repo);
 				var radiobutton = new Gtk.CheckButton.with_label (provider);
+				radiobutton.get_style_context ().add_class ("selection-mode");
 				// active first provider
 				if (last_radiobutton == null) {
 					radiobutton.active = true;
