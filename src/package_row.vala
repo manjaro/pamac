@@ -47,6 +47,8 @@ namespace Pamac {
 			this.pkg = pkg;
 			if (mobile) {
 				desc_label.width_chars = -1;
+				version_label.ellipsize = Pango.EllipsizeMode.END;
+				old_version_label.ellipsize = Pango.EllipsizeMode.END;
 			}
 		}
 

@@ -366,6 +366,10 @@
                                 </child>
                                 <child type="flap">
                                   <object class="AdwViewStack" id="view_stack">
+                                    <style>
+                                      <!--make flap background opaque-->
+                                      <class name="background"/>
+                                    </style>
                                     <child>
                                       <object class="AdwViewStackPage">
                                         <property name="name">browse</property>

@@ -71,7 +71,6 @@
             <child>
               <object class="GtkLabel" id="old_version_label">
                 <property name="visible">0</property>
-                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
                 <property name="max_width_chars">15</property>
                 <style>
@@ -81,7 +80,6 @@
             </child>
             <child>
               <object class="GtkLabel" id="version_label">
-                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
                 <property name="max_width_chars">15</property>
                 <style>

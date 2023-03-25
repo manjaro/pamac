@@ -547,8 +547,10 @@ namespace Pamac {
 			// mobile
 			if (mobile) {
 				view_stack_switcher.view_switcher_enabled = false;
+				main_details_box.visible = false;
 				browse_head_box_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 				sortby_label.ellipsize = Pango.EllipsizeMode.END;
+				main_details_box.width_request = 0;
 				details_scrolledwindow.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
 			}
 
@@ -1187,7 +1189,6 @@ namespace Pamac {
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
 			label.valign = Gtk.Align.START;
-			label.ellipsize = Pango.EllipsizeMode.END;
 			details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 			if (detail == null) {
 				var label2 = new Gtk.Label (dgettext (null, "None"));
@@ -1268,7 +1269,6 @@ namespace Pamac {
 			var label = new Gtk.Label ("<b>%s:</b>".printf (dep_type));
 			label.use_markup = true;
 			label.halign = Gtk.Align.START;
-			label.ellipsize = Pango.EllipsizeMode.END;
 			label.margin_top = 12;
 			deps_box.append (label);
 			var listbox = new Gtk.ListBox ();
@@ -1283,7 +1283,6 @@ namespace Pamac {
 					dep_label.margin_end = 12;
 					dep_label.halign = Gtk.Align.START;
 					dep_label.hexpand = true;
-					dep_label.ellipsize = Pango.EllipsizeMode.END;
 					box.append (dep_label);
 					if (!database.has_installed_satisfier (dep)) {
 						var select_image = new Gtk.Image.from_icon_name ("object-select-symbolic");
@@ -1308,7 +1307,6 @@ namespace Pamac {
 					dep_label.margin_start = 12;
 					dep_label.margin_end = 12;
 					dep_label.halign = Gtk.Align.START;
-					dep_label.ellipsize = Pango.EllipsizeMode.END;
 					listbox.append (dep_label);
 				}
 			}
@@ -1564,7 +1562,7 @@ namespace Pamac {
 				unowned string packager_name = splitted[0];
 				if (splitted.length > 1) {
 					string packager_mail = splitted[1].split (">", 2)[0];
-					string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
+					string packager_detail = "%s\n <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
 					previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
 				} else {
 					previous_widget = populate_details_grid (dgettext (null, "Packager"), pkg.packager, previous_widget);
@@ -1901,7 +1899,6 @@ namespace Pamac {
 					label.use_markup = true;
 					label.halign = Gtk.Align.START;
 					label.valign = Gtk.Align.START;
-					label.ellipsize = Pango.EllipsizeMode.END;
 					details_grid.attach_next_to (label, previous_widget, Gtk.PositionType.BOTTOM);
 					var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 					foreach (unowned string channel in snap_pkg.channels) {
@@ -3847,8 +3844,10 @@ namespace Pamac {
 		public void set_adaptative_details (bool enabled) {
 			if (enabled) {
 				main_details_box.hexpand = true;
+				main_details_box.width_request = 0;
 			} else {
 				main_details_box.hexpand = false;
+				main_details_box.width_request = 700;
 			}
 		}
 

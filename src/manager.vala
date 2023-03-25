@@ -87,6 +87,7 @@ namespace Pamac {
 			action.activate.connect (() => {
 				var manager_window = get_manager_window ();
 				manager_window.display_package_queue.clear ();
+				manager_window.main_details_box.visible = false;
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.view_stack.visible_child_name = "updates";
 				manager_window.activate_action ("back", null);
