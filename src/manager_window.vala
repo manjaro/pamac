@@ -768,18 +768,17 @@ namespace Pamac {
 			// about action
 			action = new SimpleAction ("about", null);
 			action.activate.connect (() => {
-				string[] authors = {"Guillaume Benoit"};
-				Gtk.show_about_dialog (
-					this,
-					"program_name", "Pamac",
-					"icon_name", "system-software-install",
-					"logo_icon_name", "system-software-install",
-					"comments", dgettext (null, "A Package Manager with Alpm, AUR, Flatpak and Snap support"),
-					"copyright", "Copyright © 2023 Guillaume Benoit",
-					"authors", authors,
-					"version", VERSION,
-					"license_type", Gtk.License.GPL_3_0,
-					"website", "https://gitlab.manjaro.org/applications/pamac");
+				var about = new Adw.AboutWindow ();
+				about.transient_for = this;
+				about.developer_name = "Guillaume Benoit";
+				about.application_name = "Pamac";
+				about.application_icon = "system-software-install";
+				about.comments = dgettext (null, "A Package Manager with Alpm, AUR, Flatpak and Snap support");
+				about.copyright = "Copyright © 2023 Guillaume Benoit";
+				about.version = VERSION;
+				about.license_type = Gtk.License.GPL_3_0;
+				about.website = "https://gitlab.manjaro.org/applications/pamac";
+				about.show ();
 			});
 			this.add_action (action);
 
