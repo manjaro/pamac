@@ -835,20 +835,15 @@ namespace Pamac {
 		}
 
 		public async bool populate_build_files_async (string pkgname, bool clone, bool overwrite) {
+			int num_pages = build_files_notebook.get_n_pages ();
+			for (int i = num_pages - 1; i >= 0; i--) {
+				build_files_notebook.remove_page (i);
+			}
 			if (clone) {
 				File? clone_dir = yield database.clone_build_files_async (pkgname, overwrite);
 				if (clone_dir == null) {
-					// error
-					int num_pages = build_files_notebook.get_n_pages ();
-					for (int i = 0; i < num_pages; i++) {
-						build_files_notebook.remove_page (i);
-					}
 					return false;
 				}
-			}
-			int num_pages = build_files_notebook.get_n_pages ();
-			for (int i = 0; i < num_pages; i++) {
-				build_files_notebook.remove_page (i);
 			}
 			GenericArray<string> file_paths = yield get_build_files_async (pkgname);
 			if (file_paths.length == 0) {
