@@ -19,39 +19,25 @@
 
 namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_pkgs_dialog.ui")]
-	public class ChoosePkgsDialog : Gtk.Dialog {
-		[GtkChild]
-		public unowned Adw.Clamp search_clamp;
+	public class ChoosePkgsDialog : Adw.MessageDialog {
 		[GtkChild]
 		public unowned Gtk.SearchEntry search_entry;
 		[GtkChild]
-		public unowned Gtk.Separator search_separator;
-		[GtkChild]
 		public unowned Gtk.ListBox listbox;
-		[GtkChild]
-		public unowned Gtk.Button cancel_button;
 
 		public ChoosePkgsDialog (Gtk.Window window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
+			Object (transient_for: window);
 		}
 
 		public void enable_search () {
 			// enable "type to search"
+			search_entry.visible = true;
 			search_entry.set_key_capture_widget (this);
-			search_clamp.visible = true;
-			search_separator.visible = true;
 		}
 
 		public void add_pkg (string pkgname) {
-
 			var radiobutton = new Gtk.CheckButton.with_label (pkgname);
-			radiobutton.margin_top = 12;
-			radiobutton.margin_bottom = 12;
-			radiobutton.margin_start = 12;
-			radiobutton.margin_end = 12;
-			radiobutton.get_style_context ().add_class ("selection-mode");
+			radiobutton.add_css_class ("selection-mode");
 			listbox.append (radiobutton);
 		}
 

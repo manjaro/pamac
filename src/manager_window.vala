@@ -386,7 +386,7 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Button ignore_all_button;
 		[GtkChild]
-		unowned Gtk.ComboBoxText sortby_combobox;
+		unowned Gtk.DropDown sortby_dropdown;
 		[GtkChild]
 		unowned Gtk.ScrolledWindow packages_scrolledwindow;
 		[GtkChild]
@@ -484,7 +484,6 @@ namespace Pamac {
 		SimpleRow filters_pending_row;
 		Gtk.ListBoxRow filters_pending_row_separator;
 		SimpleRow categories_pending_row;
-		Gtk.ListBoxRow categories_pending_row_separator;
 		SimpleRow installed_snap_row;
 		SimpleRow installed_flatpak_row;
 		SimpleRow search_aur_row;
@@ -511,7 +510,6 @@ namespace Pamac {
 		HashTable<string, FlatpakPackage> previous_flatpak_to_install;
 		HashTable<string, FlatpakPackage> previous_flatpak_to_remove;
 
-		PreferencesWindow preferences_window;
 		SimpleAction preferences_action;
 		SimpleAction refresh_action;
 		SimpleAction install_local_action;
@@ -694,39 +692,33 @@ namespace Pamac {
 				this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 				var history_dialog = new HistoryDialog (this);
 				this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-				history_dialog.response.connect (() => {
-					history_dialog.destroy ();
-				});
 				history_dialog.show ();
 			});
 			this.add_action (action);
 			// install local action
 			install_local_action = new SimpleAction ("install-local", null);
 			install_local_action.activate.connect (() => {
-				Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-					dgettext (null, "Install Local Packages"), this, Gtk.FileChooserAction.OPEN,
-					dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
-					dgettext (null, "_Open"),Gtk.ResponseType.ACCEPT);
-				chooser.icon_name = "system-software-install";
-				chooser.select_multiple = true;
-				chooser.create_folders = false;
-				Gtk.FileFilter package_filter = new Gtk.FileFilter ();
+				var chooser = new Gtk.FileDialog ();
+				chooser.title = dgettext (null, "Install Local Packages");
+				var filters_list = new ListStore (typeof (Gtk.FileFilter));
+				var package_filter = new Gtk.FileFilter ();
 				package_filter.set_filter_name (dgettext (null, "Alpm Package"));
 				package_filter.add_mime_type ("application/x-alpm-package");
-				chooser.add_filter (package_filter);
-				chooser.response.connect ((res) => {
-					if (res == Gtk.ResponseType.ACCEPT) {
-						ListModel packages_files = chooser.get_files ();
+				filters_list.append (package_filter);
+				chooser.filters = filters_list;
+				chooser.open_multiple.begin (this, null, (obj, res) => {
+					try {
+						ListModel packages_files = chooser.open_multiple.end (res);
 						uint num_files = packages_files.get_n_items ();
 						for (uint i = 0; i < num_files; i++) {
 							File file = packages_files.get_item (i) as File;
 							to_load.add (file.get_path ());
 						}
 						run_transaction ();
+					} catch (Error e) {
+						warning (e.message);
 					}
-					chooser.destroy ();
 				});
-				chooser.show ();
 			});
 			// needed to further disabling it
 			install_local_action.set_enabled (false);
@@ -739,22 +731,19 @@ namespace Pamac {
 				transaction.get_authorization_async.begin ((obj, res) => {
 					bool authorized = transaction.get_authorization_async.end (res);
 					if (authorized) {
-						if (preferences_window == null) {
-							preferences_window = new PreferencesWindow (this, local_config);
-							preferences_window.set_transient_for (this);
-							preferences_window.close_request.connect (() => {
-								database.config.save ();
-								preferences_window.hide ();
-								transaction.remove_authorization ();
-								updates_checked = false;
-								check_aur_support ();
-								check_snap_support ();
-								check_flatpak_support ();
-								refresh_details ();
-								refresh_packages_list ();
-								return true;
-							});
-						}
+						var preferences_window = new PreferencesWindow (this);
+						preferences_window.close_request.connect (() => {
+							database.config.save ();
+							preferences_window.destroy ();
+							transaction.remove_authorization ();
+							updates_checked = false;
+							check_aur_support ();
+							check_snap_support ();
+							check_flatpak_support ();
+							refresh_details ();
+							refresh_packages_list ();
+							return true;
+						});
 						preferences_window.show ();
 					} else {
 						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -869,6 +858,7 @@ namespace Pamac {
 			browse_stack.notify["visible-child"].connect (on_browse_stack_visible_child_changed);
 			properties_stack.notify["visible-child"].connect (on_properties_stack_visible_child_changed);
 			packages_leaflet.notify["folded"].connect (on_packages_leaflet_folded_changed);
+			sortby_dropdown.notify["selected"].connect (on_sortby_dropdown_selected_changed);
 
 			// enable "type to search"
 			search_entry.set_key_capture_widget (this);
@@ -1040,7 +1030,6 @@ namespace Pamac {
 							infobox_revealer.reveal_child = false;
 						}
 						// hide all in case of software_mode changed
-						categories_pending_row_separator.visible = false;
 						categories_pending_row.visible = false;
 						filters_pending_row_separator.visible = false;
 						filters_pending_row.visible = false;
@@ -1052,7 +1041,6 @@ namespace Pamac {
 						apply_button.add_css_class ("suggested-action");
 						infobox_revealer.reveal_child = true;
 						if (local_config.software_mode) {
-							categories_pending_row_separator.visible = true;
 							categories_pending_row.visible = true;
 						} else {
 							filters_pending_row_separator.visible = true;
@@ -1069,6 +1057,7 @@ namespace Pamac {
 			filters_pending_row_separator.set_child (separator);
 			filters_pending_row_separator.selectable = false;
 			filters_pending_row_separator.activatable = false;
+			filters_pending_row_separator.visible = false;
 			filters_listbox.append (filters_pending_row_separator);
 			filters_pending_row = new SimpleRow (dgettext (null, "Pending"));
 			filters_pending_row.visible = false;
@@ -1079,12 +1068,6 @@ namespace Pamac {
 			foreach (unowned string name in database.get_categories_names ()) {
 				categories_listbox.append (new SimpleRow (dgettext (null, name)));
 			}
-			categories_pending_row_separator = new Gtk.ListBoxRow ();
-			separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
-			categories_pending_row_separator.set_child (separator);
-			categories_pending_row_separator.selectable = false;
-			categories_pending_row_separator.activatable = false;
-			categories_listbox.append (categories_pending_row_separator);
 			categories_pending_row = new SimpleRow (dgettext (null, "Pending"));
 			categories_pending_row.visible = false;
 			categories_listbox.append (categories_pending_row);
@@ -2220,7 +2203,7 @@ namespace Pamac {
 		}
 
 		void sort_aur_list (ref GenericArray<unowned Package> pkgs) {
-			int index = sortby_combobox.active;
+			uint index = sortby_dropdown.selected;
 			switch (index) {
 				case 0: // relevance
 					pkgs.sort (sort_aur_by_relevance);
@@ -2251,7 +2234,7 @@ namespace Pamac {
 		}
 
 		void sort_packages_list (ref GenericArray<unowned Package> pkgs) {
-			int index = sortby_combobox.active;
+			uint index = sortby_dropdown.selected;
 			switch (index) {
 				case 0: // relevance
 					if (view_stack.visible_child_name == "search") {
@@ -2992,9 +2975,6 @@ namespace Pamac {
 						}
 					}
 					updates_dialog.show ();
-					updates_dialog.response.connect (() => {
-						updates_dialog.destroy ();
-					});
 				}
 			}
 		}
@@ -3203,9 +3183,8 @@ namespace Pamac {
 			}
 		}
 
-		[GtkCallback]
-		void on_sortby_combobox_changed () {
-			int index = sortby_combobox.active;
+		void on_sortby_dropdown_selected_changed () {
+			uint index = sortby_dropdown.selected;
 			switch (index) {
 				case 0: // relevance
 				case 4: // date
@@ -4192,7 +4171,7 @@ namespace Pamac {
 				} else {
 					transaction.show_notification (dgettext (null, "Transaction successfully finished"));
 				}
-				transaction.show_warnings (true);
+				transaction.show_warnings.begin ();
 			} else {
 				transaction.clear_warnings ();
 				foreach (unowned string name in previous_to_install) {

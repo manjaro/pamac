@@ -202,17 +202,19 @@
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="sortby_combobox">
-                                                <items>
-                                                  <item translatable="yes">Relevance</item>
-                                                  <item translatable="yes">Name</item>
-                                                  <item translatable="yes">Repository</item>
-                                                  <item translatable="yes">Size</item>
-                                                  <item translatable="yes">Date</item>
-                                                </items>
+                                              <object class="GtkDropDown" id="sortby_dropdown">
+                                                <property name="model">
+                                                  <object class="GtkStringList">
+                                                    <items>
+                                                      <item translatable="yes">Relevance</item>
+                                                      <item translatable="yes">Name</item>
+                                                      <item translatable="yes">Repository</item>
+                                                      <item translatable="yes">Size</item>
+                                                      <item translatable="yes">Date</item>
+                                                    </items>
+                                                  </object>
+                                                </property>
                                                 <property name="valign">center</property>
-                                                <property name="active">0</property>
-                                                <signal name="changed" handler="on_sortby_combobox_changed" swapped="no"/>
                                               </object>
                                             </child>
                                           </object>
@@ -474,9 +476,6 @@
                                                                 </property>
                                                               </object>
                                                             </child>
-                                                            <style>
-                                                              <class name="navigation-sidebar"/>
-                                                            </style>
                                                           </object>
                                                         </property>
                                                       </object>
@@ -999,45 +998,51 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="transaction_infobox">
+                    <property name="orientation">vertical</property>
                     <property name="margin-start">6</property>
                     <property name="margin-end">6</property>
                     <property name="margin-top">6</property>
                     <property name="margin-bottom">6</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkBox" id="transaction_infos_buttonbox">
-                        <property name="spacing">6</property>
-                        <property name="homogeneous">1</property>
+                      <object class="GtkBox">
+                        <property name="halign">end</property>
                         <child>
-                          <object class="GtkButton" id="cancel_button">
-                            <property name="label" translatable="yes">_Cancel</property>
-                            <property name="focus-on-click">0</property>
-                            <property name="valign">center</property>
-                            <property name="use-underline">1</property>
-                            <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
+                          <object class="GtkBox" id="transaction_infos_buttonbox">
+                            <property name="spacing">6</property>
+                            <property name="homogeneous">1</property>
+                            <child>
+                              <object class="GtkButton" id="cancel_button">
+                                <property name="label" translatable="yes">_Cancel</property>
+                                <property name="focus-on-click">0</property>
+                                <property name="valign">center</property>
+                                <property name="use-underline">1</property>
+                                <signal name="clicked" handler="on_cancel_button_clicked" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="apply_button">
+                                <property name="label" translatable="yes">_Apply</property>
+                                <property name="focus-on-click">0</property>
+                                <property name="valign">center</property>
+                                <property name="receives-default">1</property>
+                                <property name="use-underline">1</property>
+                                <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkButton" id="apply_button">
-                            <property name="label" translatable="yes">_Apply</property>
+                          <object class="GtkButton" id="details_button">
                             <property name="focus-on-click">0</property>
                             <property name="valign">center</property>
-                            <property name="receives-default">1</property>
-                            <property name="use-underline">1</property>
-                            <signal name="clicked" handler="on_apply_button_clicked" swapped="no"/>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="details_button">
-                        <property name="focus-on-click">0</property>
-                        <property name="valign">center</property>
-                        <property name="has-frame">0</property>
-                        <signal name="clicked" handler="on_details_button_clicked" swapped="no"/>
-                        <child>
-                          <object class="GtkImage" id="details_image">
-                            <property name="icon-name">go-next-symbolic</property>
+                            <property name="has-frame">0</property>
+                            <signal name="clicked" handler="on_details_button_clicked" swapped="no"/>
+                            <child>
+                              <object class="GtkImage" id="details_image">
+                                <property name="icon-name">go-next-symbolic</property>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>

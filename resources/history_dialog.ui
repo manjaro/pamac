@@ -2,13 +2,12 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.0"/>
-  <template class="PamacHistoryDialog" parent="GtkDialog">
+  <template class="PamacHistoryDialog" parent="GtkWindow">
     <property name="title" translatable="yes">Pamac History</property>
     <property name="default_width">600</property>
     <property name="default_height">500</property>
-    <property name="icon_name">system-software-install</property>
-    <child internal-child="content_area">
-      <object class="GtkBox" id="dialog-vbox">
+    <child>
+      <object class="GtkBox">
         <property name="orientation">vertical</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
@@ -74,14 +73,5 @@
         </child>
       </object>
     </child>
-    <child type="action">
-      <object class="GtkButton" id="close_button">
-        <property name="label" translatable="yes">_Close</property>
-        <property name="use_underline">1</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="close">close_button</action-widget>
-    </action-widgets>
   </template>
 </interface>

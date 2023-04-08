@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/history_dialog.ui")]
-	class HistoryDialog : Gtk.Dialog {
+	class HistoryDialog : Gtk.Window {
 
 		[GtkChild]
 		unowned Gtk.TextView textview;
@@ -30,9 +30,7 @@ namespace Pamac {
 		Gtk.TextIter search_start;
 
 		public HistoryDialog (Gtk.ApplicationWindow window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
+			Object (transient_for: window);
 
 			// populate history
 			var file = GLib.File.new_for_path ("/var/log/pacman.log");

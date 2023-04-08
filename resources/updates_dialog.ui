@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="PamacUpdatesDialog" parent="GtkDialog">
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PamacUpdatesDialog" parent="GtkWindow">
     <property name="title" translatable="yes">OS Updates</property>
-    <property name="modal">1</property>
-    <property name="default-width">650</property>
+    <property name="default-width">500</property>
     <property name="default-height">500</property>
-    <property name="icon-name">system-software-install</property>
-    <child internal-child="content_area">
+    <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
         <child>
@@ -48,14 +47,5 @@
         </child>
       </object>
     </child>
-    <child type="action">
-      <object class="GtkButton" id="close_button">
-        <property name="label" translatable="yes">_Close</property>
-        <property name="use_underline">1</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="close">close_button</action-widget>
-    </action-widgets>
   </template>
 </interface>

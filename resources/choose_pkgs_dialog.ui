@@ -2,76 +2,45 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.0"/>
-  <template class="PamacChoosePkgsDialog" parent="GtkDialog">
-    <property name="modal">1</property>
-    <property name="default_width">600</property>
-    <property name="icon_name">system-software-install</property>
-    <property name="deletable">0</property>
-    <child internal-child="content_area">
+  <template class="PamacChoosePkgsDialog" parent="AdwMessageDialog">
+    <property name="default_width">400</property>
+    <property name="extra_child">
       <object class="GtkBox">
         <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
         <child>
-          <object class="AdwClamp" id="search_clamp">
+          <object class="GtkSearchEntry" id="search_entry">
             <property name="visible">0</property>
-            <property name="hexpand">1</property>
-            <property name="maximum_size">500</property>
-            <property name="margin-top">6</property>
-            <property name="margin-bottom">6</property>
-            <property name="margin-start">16</property>
-            <property name="margin-end">16</property>
-            <child>
-              <object class="GtkSearchEntry" id="search_entry">
-                <signal name="search-changed" handler="on_search_text_changed"/>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkSeparator"  id="search_separator">
-            <property name="visible">0</property>
+            <signal name="search-changed" handler="on_search_text_changed"/>
           </object>
         </child>
         <child>
           <object class="GtkScrolledWindow">
             <property name="vexpand">1</property>
+            <property name="hexpand">1</property>
             <property name="min_content_width">300</property>
             <property name="min_content_height">400</property>
             <child>
-              <object class="AdwClamp">
-                <property name="hexpand">1</property>
-                <property name="maximum_size">500</property>
-                <property name="margin-top">16</property>
-                <property name="margin-bottom">16</property>
-                <property name="margin-start">16</property>
-                <property name="margin-end">16</property>
-                <child>
-                  <object class="GtkListBox" id="listbox">
-                    <property name="selection-mode">none</property>
-                    <style>
-                      <class name="boxed-list"/>
-                    </style>
-                  </object>
-                </child>
+              <object class="GtkListBox" id="listbox">
+                <property name="margin_top">16</property>
+                <property name="margin_bottom">16</property>
+                <property name="margin_start">16</property>
+                <property name="margin_end">16</property>
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
               </object>
             </child>
           </object>
         </child>
       </object>
-    </child>
-    <child type="action">
-      <object class="GtkButton" id="cancel_button">
-        <property name="label" translatable="yes">_Cancel</property>
-        <property name="use_underline">1</property>
-      </object>
-    </child>
-    <child type="action">
-      <object class="GtkButton" id="valid_button">
-        <property name="label" translatable="yes">Choose</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="cancel" default="true">cancel_button</action-widget>
-      <action-widget response="ok">valid_button</action-widget>
-    </action-widgets>
+    </property>
+    <property name="default-response">cancel</property>
+    <property name="close-response">cancel</property>
+    <responses>
+      <response id="cancel" translatable="yes">_Cancel</response>
+      <response id="choose" translatable="yes" appearance="suggested">Choose</response>
+    </responses>
   </template>
 </interface>

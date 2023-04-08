@@ -19,18 +19,12 @@
 
 namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/transaction_sum_dialog.ui")]
-	class TransactionSumDialog : Gtk.Dialog {
-		[GtkChild]
-		public unowned Gtk.Label top_label;
+	class TransactionSumDialog : Adw.MessageDialog {
 		[GtkChild]
 		public unowned Gtk.Box box;
-		[GtkChild]
-		public unowned Gtk.Button cancel_button;
 
 		public TransactionSumDialog (Gtk.Window? window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
+			Object (transient_for: window);
 		}
 	}
 }

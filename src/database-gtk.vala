@@ -33,42 +33,13 @@ namespace Pamac {
 				if (message.length == 0) {
 					return;
 				}
-				var flags = Gtk.DialogFlags.MODAL;
-				int use_header_bar;
-				Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-				if (use_header_bar == 1) {
-					flags |= Gtk.DialogFlags.USE_HEADER_BAR;
-				}
-				var dialog = new Gtk.Dialog.with_buttons (dgettext (null, "Error"),
-														window,
-														flags);
-				dialog.margin_top = 3;
-				dialog.margin_bottom = 3;
-				dialog.margin_start = 3;
-				dialog.margin_end = 3;
-				dialog.icon_name = "system-software-install";
-				dialog.deletable = false;
-				unowned Gtk.Widget widget = dialog.add_button (dgettext (null, "_Close"), Gtk.ResponseType.CLOSE);
-				dialog.focus_widget = widget;
-				var scrolledwindow = new Gtk.ScrolledWindow ();
-				var label = new Gtk.Label (message);
-				label.selectable = true;
-				label.margin_top = 12;
-				label.margin_bottom = 12;
-				label.margin_start = 12;
-				label.margin_end = 12;
-				scrolledwindow.set_child (label);
-				scrolledwindow.hexpand = true;
-				scrolledwindow.vexpand = true;
-				unowned Gtk.Box box = dialog.get_content_area ();
-				box.append (scrolledwindow);
-				box.spacing = 6;
-				dialog.default_width = 600;
-				dialog.default_height = 300;
-				dialog.response.connect (() => {
-					dialog.destroy ();
-				});
-				dialog.show ();
+				var dialog = new Adw.MessageDialog (window, dgettext (null, "Error"), message);
+				string close_id = "close";
+				dialog.add_response (close_id, dgettext (null, "_Close"));
+				dialog.default_response = close_id;
+				dialog.close_response = close_id;
+				// run
+				dialog.present ();
 			});
 			// load dbs
 			string needle = "firefox";

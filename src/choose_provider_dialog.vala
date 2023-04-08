@@ -19,14 +19,45 @@
 
 namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/transaction/choose_provider_dialog.ui")]
-	class ChooseProviderDialog : Gtk.Dialog {
+	class ChooseProviderDialog : Adw.MessageDialog {
 		[GtkChild]
-		public unowned Gtk.Box box;
+		unowned Gtk.Box box;
 
 		public ChooseProviderDialog (Gtk.Window? window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
+			Object (transient_for: window);
+		}
+
+		public void add_providers (GenericArray<Package> pkgs) {
+			unowned Gtk.CheckButton? last_radiobutton = null;
+			foreach (unowned Package pkg in pkgs) {
+				string provider = "%s  %s  %s".printf (pkg.name, pkg.version, pkg.repo);
+				var radiobutton = new Gtk.CheckButton.with_label (provider);
+				radiobutton.add_css_class ("selection-mode");
+				// active first provider
+				if (last_radiobutton == null) {
+					radiobutton.active = true;
+				} else {
+					radiobutton.set_group (last_radiobutton);
+				}
+				last_radiobutton = radiobutton;
+				box.append (radiobutton);
+			}
+		}
+
+		public async int choose_provider () {
+			int index = 0;
+			yield this.choose (null);
+			unowned Gtk.Widget child = box.get_first_child ();
+			var radiobutton = child as Gtk.CheckButton;
+			while (radiobutton != null) {
+				if (radiobutton.active) {
+					break;
+				}
+				index++;
+				child = radiobutton.get_next_sibling ();
+				radiobutton = child as Gtk.CheckButton;
+			}
+			return index;
 		}
 	}
 }

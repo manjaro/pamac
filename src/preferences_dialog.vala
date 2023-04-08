@@ -97,7 +97,7 @@ namespace Pamac {
 
 		bool transaction_running;
 
-		public PreferencesWindow (ManagerWindow window, LocalConfig local_config) {
+		public PreferencesWindow (ManagerWindow window) {
 			Object (transient_for: window);
 
 			transaction = window.transaction;
@@ -241,15 +241,18 @@ namespace Pamac {
 			cache_only_uninstalled_button.notify["active"].connect (on_cache_only_uninstalled_button_changed);
 			refresh_clean_cache_button.begin ();
 			// set advanced
-			local_config.bind_property ("software_mode", advanced_preferences_page, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
+			if (local_config.software_mode) {
+				this.remove (advanced_preferences_page);
+			}
 			config.bind_property ("checkspace", check_space_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("recurse", remove_unrequired_deps_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("simple_install", simple_install_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_downgrade", enable_downgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			populate_ignorepkgs_list ();
 			// set third party
-			third_party_preferences_page.visible = !local_config.software_mode || config.support_flatpak || config.support_snap;
-			local_config.notify["software-mode"].connect (on_software_mode_changed);
+			if (local_config.software_mode && !config.support_flatpak && !config.support_snap) {
+				this.remove (third_party_preferences_page);
+			}
 			local_config.bind_property ("software_mode", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
 			config.bind_property ("enable_aur", enable_aur_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_aur", enable_aur_expander, "expanded", BindingFlags.SYNC_CREATE);
@@ -355,42 +358,22 @@ namespace Pamac {
 			refresh_clean_cache_button.begin ();
 		}
 
-		void on_software_mode_changed () {
-			third_party_preferences_page.visible = !local_config.software_mode || config.support_flatpak || config.support_snap;
-		}
-
 		[GtkCallback]
 		void on_aur_build_dir_file_chooser_clicked () {
-			Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-				dgettext (null, "Select Build Directory"),
-				this,
-				Gtk.FileChooserAction.SELECT_FOLDER,
-				dgettext (null, "_Cancel"), Gtk.ResponseType.CANCEL,
-				dgettext (null, "_Choose"), Gtk.ResponseType.ACCEPT);
-			chooser.icon_name = "system-software-install";
-			string default_build_dir = "/var/tmp";
-			unowned string config_build_dir = config.aur_build_dir;
-			var default_build_dir_file = File.new_for_path (default_build_dir);
-			var config_build_dir_file = File.new_for_path (config_build_dir);
-			try {
-				chooser.add_shortcut_folder (default_build_dir_file);
-				if (config_build_dir != default_build_dir) {
-					chooser.add_shortcut_folder (config_build_dir_file);
-				}
-				chooser.set_current_folder (config_build_dir_file);
-			} catch (Error e) {
-				warning (e.message);
-			}
-			chooser.response.connect ((response) => {
-				if (response == Gtk.ResponseType.ACCEPT) {
-					File choosen_dir = chooser.get_file ();
+			var chooser = new Gtk.FileDialog ();
+			chooser.title = dgettext (null, "Select Build Directory");
+			var default_build_dir_file = File.new_for_path ("/var/tmp");
+			chooser.initial_folder = default_build_dir_file;
+			chooser.select_folder.begin (this, null, (obj, res) => {
+				try {
+					File choosen_dir = chooser.select_folder.end (res);
 					aur_build_dir_file_chooser.label = choosen_dir.get_basename ();
 					config.aur_build_dir = choosen_dir.get_path ();
 					refresh_clean_build_files_button.begin ();
+				} catch (Error e) {
+					warning (e.message);
 				}
-				chooser.destroy ();
 			});
-			chooser.show ();
 		}
 
 		void populate_ignorepkgs_list () {
@@ -435,7 +418,7 @@ namespace Pamac {
 
 		void on_add_ignorepkgs_button_clicked () {
 			var choose_pkgs_dialog = transaction.create_choose_pkgs_dialog ();
-			choose_pkgs_dialog.title = dgettext (null, "Choose Ignored Upgrades");
+			choose_pkgs_dialog.heading = dgettext (null, "Choose Ignored Upgrades");
 			this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 			database.get_installed_pkgs_async.begin ((obj, res) => {
 				var pkgs = database.get_installed_pkgs_async.end (res);
@@ -451,19 +434,17 @@ namespace Pamac {
 					ignorepkgs_unique.add (pkgname);
 					choose_pkgs_dialog.add_pkg (pkgname);
 				}
-				choose_pkgs_dialog.cancel_button.grab_focus ();
 				this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 				choose_pkgs_dialog.response.connect ((response) => {
-					if (response == Gtk.ResponseType.OK) {
+					if (response == "choose") {
 						foreach (unowned string pkgname in choose_pkgs_dialog.get_selected_pkgs ()) {
 							config.add_ignorepkg (pkgname);
 							add_ignorepkg (pkgname);
 						}
 					}
-					choose_pkgs_dialog.destroy ();
 				});
 				choose_pkgs_dialog.enable_search ();
-				choose_pkgs_dialog.show ();
+				choose_pkgs_dialog.present ();
 			});
 		}
 
