@@ -5,12 +5,12 @@ gio_unix = dependency('gio-unix-2.0')
 
 libpamac = dependency('pamac', version : '>=11.5.0')
 
-gtk3 = dependency('gtk+-3.0', version : '>=3.22')
-gtk4 = dependency('gtk4')
+gtk3 = dependency('gtk+-3.0', version : '>=3.24')
+gtk4 = dependency('gtk4', version : '>=4.10')
 libadwaita = dependency('libadwaita-1')
 
 
-common_vala_args = ['--pkg=posix', '--target-glib=2.38', '--vapidir=' + join_paths(meson.source_root(), 'vapi')]
+common_vala_args = ['--pkg=posix', '--vapidir=' + join_paths(meson.source_root(), 'vapi')]
 common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 executable('pamac',
