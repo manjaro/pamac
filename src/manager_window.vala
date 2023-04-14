@@ -1511,7 +1511,7 @@ namespace Pamac {
 			if (long_desc == null) {
 				long_desc_label.visible = false;
 			} else {
-				string markup_long_desc = long_desc.replace ("em>", "i>").replace ("code>", "tt>");
+				string markup_long_desc = Markup.escape_text (long_desc.replace ("em>", "i>").replace ("code>", "tt>"));
 				long_desc_label.set_markup (markup_long_desc);
 				long_desc_label.visible = true;
 			}
