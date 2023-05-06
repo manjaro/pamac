@@ -638,13 +638,7 @@
                             <property name="name">details</property>
                             <property name="child">
                               <object class="GtkBox" id="main_details_box">
-                                <property name="visible">1</property>
-                                <property name="hexpand">0</property>
                                 <property name="width-request">700</property>
-                                <child>
-                                  <object class="GtkSeparator">
-                                  </object>
-                                </child>
                                 <child>
                                   <object class="GtkScrolledWindow" id="details_scrolledwindow">
                                     <property name="hscrollbar-policy">never</property>
@@ -698,6 +692,7 @@
                                               <object class="GtkBox" id="button_box">
                                                 <property name="spacing">12</property>
                                                 <property name="halign">center</property>
+                                                <property name="homogeneous">1</property>
                                                 <property name="margin-bottom">12</property>
                                                 <child>
                                                   <object class="GtkButton" id="launch_button">
@@ -1007,6 +1002,7 @@
                     <child>
                       <object class="GtkBox">
                         <property name="halign">end</property>
+                        <property name="spacing">6</property>
                         <child>
                           <object class="GtkBox" id="transaction_infos_buttonbox">
                             <property name="spacing">6</property>

@@ -4,12 +4,12 @@
   <requires lib="libadwaita" version="1.0"/>
   <template class="PamacTransactionSumDialog" parent="AdwMessageDialog">
     <property name="heading" translatable="yes">Transaction Summary</property>
-    <property name="default_width">600</property>
+    <property name="resizable">1</property>
     <property name="extra_child">
       <object class="GtkScrolledWindow" id="scrolledwindow">
         <property name="hscrollbar-policy">never</property>
         <property name="min_content_width">200</property>
-        <property name="min_content_height">600</property>
+        <property name="min_content_height">400</property>
         <child>
           <object class="AdwClamp">
             <property name="vexpand">1</property>

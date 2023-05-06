@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.0"/>
   <template class="PamacChoosePkgsDialog" parent="AdwMessageDialog">
-    <property name="default_width">400</property>
+    <property name="resizable">1</property>
     <property name="extra_child">
       <object class="GtkBox">
         <property name="orientation">vertical</property>

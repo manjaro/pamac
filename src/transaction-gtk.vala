@@ -35,13 +35,15 @@ namespace Pamac {
 		public LocalConfig local_config { get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
+		// mobile
+		public bool mobile { get; construct; }
 		bool summary_shown;
 		public bool commit_transaction_answer;
 
 		public signal void transaction_sum_populated ();
 
-		public TransactionGtk (Database database, LocalConfig local_config, Gtk.Application? application) {
-			Object (database: database, local_config: local_config, application: application);
+		public TransactionGtk (Database database, LocalConfig local_config, Gtk.Application? application, bool mobile) {
+			Object (database: database, local_config: local_config, application: application, mobile: mobile);
 		}
 
 		construct {
@@ -183,7 +185,11 @@ namespace Pamac {
 
 		public ChoosePkgsDialog create_choose_pkgs_dialog () {
 			var application_window = application.active_window;
-			return new ChoosePkgsDialog (application_window);
+			var dialog = new ChoosePkgsDialog (application_window);
+			if (!mobile) {
+				dialog.default_width = 400;
+			}
+			return dialog;
 		}
 
 		protected override async GenericArray<string> choose_optdeps (string pkgname, GenericArray<string> optdeps) {
@@ -217,6 +223,9 @@ namespace Pamac {
 				}
 			}
 			choose_provider_dialog.add_providers (pkgs);
+			if (!mobile) {
+				choose_provider_dialog.default_width = 400;
+			}
 			int index = yield choose_provider_dialog.choose_provider ();
 			return index;
 		}
@@ -238,7 +247,10 @@ namespace Pamac {
 			textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
 			textbuffer.append (" ?");
 			dialog.body = textbuffer.str;
-			dialog.default_width = 800;
+			dialog.resizable = true;
+			if (!mobile) {
+				dialog.default_width = 800;
+			}
 			dialog.default_height = 150;
 			// run
 			string response_id = yield dialog.choose (null);
@@ -745,6 +757,9 @@ namespace Pamac {
 			} else {
 				yield show_warnings ();
 			}
+			if (!mobile) {
+				transaction_sum_dialog.default_width = 600 ;
+			}
 			string response = yield transaction_sum_dialog.choose (null);
 			if (response == "apply") {
 				transaction_sum_populated ();
@@ -777,7 +792,10 @@ namespace Pamac {
 				dialog.close_response = cancel_id;
 				// add notebook to the dialog
 				dialog.extra_child = build_files_notebook;
-				dialog.default_width = 700;
+				dialog.resizable = true;
+				if (!mobile) {
+					dialog.default_width = 700;
+				}
 				dialog.default_height = 500;
 				// run
 				string response_id = yield dialog.choose (null);
@@ -938,9 +956,12 @@ namespace Pamac {
 					scrolledwindow.hexpand = true;
 					scrolledwindow.vexpand = true;
 					dialog.extra_child = scrolledwindow;
-					dialog.default_width = 600;
+					if (mobile) {
+						dialog.default_width = 600;
+					}
 					dialog.default_height = 300;
 				}
+				dialog.resizable = true;
 				// run
 				string response_id = yield dialog.choose (null);
 				warning_textbuffer = new StringBuilder ();
@@ -985,7 +1006,10 @@ namespace Pamac {
 			scrolledwindow.hexpand = true;
 			scrolledwindow.vexpand = true;
 			dialog.extra_child = scrolledwindow;
-			dialog.default_width = 600;
+			dialog.resizable = true;
+			if (mobile) {
+				dialog.default_width = 600;
+			}
 			dialog.default_height = 300;
 			// run
 			Timeout.add (1000, () => {
@@ -1013,7 +1037,10 @@ namespace Pamac {
 			textbuffer.append (dgettext (null, "Install %s anyway").printf (name));
 			textbuffer.append (" ?");
 			dialog.body = textbuffer.str;
-			dialog.default_width = 900;
+			dialog.resizable = true;
+			if (mobile) {
+				dialog.default_width = 900;
+			}
 			dialog.default_height = 150;
 			// run
 			string response_id = yield dialog.choose (null);

@@ -692,6 +692,9 @@ namespace Pamac {
 				this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 				var history_dialog = new HistoryDialog (this);
 				this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+				if (mobile) {
+					history_dialog.maximize ();
+				}
 				history_dialog.show ();
 			});
 			this.add_action (action);
@@ -744,6 +747,9 @@ namespace Pamac {
 							refresh_packages_list ();
 							return true;
 						});
+						if (mobile) {
+							preferences_window.maximize ();
+						}
 						preferences_window.show ();
 					} else {
 						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -819,7 +825,7 @@ namespace Pamac {
 			previous_flatpak_to_install = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			previous_flatpak_to_remove = new HashTable<string, FlatpakPackage> (str_hash, str_equal);
 			flatpak_updates = new GenericArray<FlatpakPackage> ();
-			transaction = new TransactionGtk (database, local_config, this.application);
+			transaction = new TransactionGtk (database, local_config, this.application, mobile);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);
@@ -2974,6 +2980,10 @@ namespace Pamac {
 							updates_dialog.listbox.append (update_row);
 						}
 					}
+					if (!mobile) {
+						updates_dialog.default_width = 500;
+					}
+					updates_dialog.default_height = 500;
 					updates_dialog.show ();
 				}
 			}

@@ -4,7 +4,7 @@
   <requires lib="libadwaita" version="1.0"/>
   <template class="PamacChooseProviderDialog" parent="AdwMessageDialog">
     <property name="heading" translatable="yes">Choose a Provider</property>
-    <property name="default_width">400</property>
+    <property name="resizable">1</property>
     <property name="extra_child">
       <object class="GtkScrolledWindow">
         <property name="min_content_height">200</property>
