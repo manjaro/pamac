@@ -969,6 +969,11 @@ namespace Pamac {
 					stdout.printf ("%s: %s\n", dgettext (null, "Error"), e.message);
 				}
 			}
+			var loop = new MainLoop ();
+			transaction.check_dbs.begin ((obj, res) => {
+				loop.quit ();
+			});
+			loop.run ();
 		}
 
 		bool trans_cancel () {

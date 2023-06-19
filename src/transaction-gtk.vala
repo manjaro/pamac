@@ -102,6 +102,14 @@ namespace Pamac {
 			no_confirm_upgrade = false;
 			summary_shown = false;
 			commit_transaction_answer = false;
+			// check_dbs and refresh flatpak appstream_data
+			var loop = new MainLoop ();
+			check_dbs.begin ((obj, res) => {
+				database.refresh_flatpak_appstream_data_async.begin ((obj, res) => {
+					loop.quit ();
+				});
+			});
+			loop.run ();
 		}
 
 		public void show_details (string message) {
