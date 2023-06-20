@@ -13,13 +13,6 @@ libadwaita = dependency('libadwaita-1', version : '>=1.3')
 common_vala_args = ['--pkg=posix', '--vapidir=' + join_paths(meson.source_root(), 'vapi')]
 common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
-executable('pamac',
-	sources: ['version.vala', 'transaction-cli.vala', 'cli.vala'],
-	dependencies: [gio, libpamac],
-	vala_args: [common_vala_args, '--pkg=linux'],
-	c_args: common_c_args,
-	install: true)
-
 executable('pamac-tray',
 	sources: ['tray.vala', 'tray-gtk.vala'],
 	dependencies: [gtk3, libnotify, libpamac],
