@@ -909,9 +909,6 @@ namespace Pamac {
 					}
 				}
 			}
-
-			// refresh flatpak appstream_data
-			database.refresh_flatpak_appstream_data_async.begin ();
 		}
 
 		void update_icons () {
