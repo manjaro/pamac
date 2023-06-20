@@ -2,8 +2,8 @@ Pamac is a Gtk and CLI front ends of [libpamac](https://gitlab.manjaro.org/appli
 
 #### Features
 
- - pamac: an easy CLI
- - pamac-manager: a Gtk3 GUI
+ - pamac: an easy [CLI](https://gitlab.manjaro.org/applications/pamac-cli)
+ - pamac-manager: a Gtk4 GUI
  - pamac-tray: a Gtk3 tray icon with updates notifications
  - pamac updates indicator: a gnome-shell extension with updates notifications
 
