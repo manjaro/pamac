@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2022 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -79,14 +79,15 @@ namespace Pamac {
 			Intl.setlocale (LocaleCategory.ALL, "");
 			base.startup ();
 
-			// init libhandy
-			Hdy.init ();
+			// init libadwaita
+			Adw.init ();
 
 			// updates
 			var action = new SimpleAction ("updates", null);
 			action.activate.connect (() => {
 				var manager_window = get_manager_window ();
 				manager_window.display_package_queue.clear ();
+				manager_window.main_details_box.visible = false;
 				manager_window.main_stack.visible_child_name = "browse";
 				manager_window.view_stack.visible_child_name = "updates";
 				manager_window.activate_action ("back", null);

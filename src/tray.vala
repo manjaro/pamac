@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2022 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
 const string GETTEXT_PACKAGE = "pamac";
 
 namespace Pamac {
-	public abstract class TrayIcon: Gtk.Application {
+	public abstract class TrayIcon: Gtk3.Application {
 		string update_icon_name = "pamac-tray-update";
 		string noupdate_icon_name = "pamac-tray-no-update";
 		unowned string update_info = _("Updates Available");
 		unowned string noupdate_info = _("Your system is up to date");
 		Notify.Notification notification;
-		Gtk.IconTheme icon_theme;
+		Gtk3.IconTheme icon_theme;
 		protected UpdatesChecker updates_checker;
 
 		protected TrayIcon () {
@@ -49,12 +49,12 @@ namespace Pamac {
 		public abstract void init_status_icon ();
 
 		// Create menu for right button
-		public Gtk.Menu create_menu () {
-			var menu = new Gtk.Menu ();
-			var item = new Gtk.MenuItem.with_label (_("Package Manager"));
+		public Gtk3.Menu create_menu () {
+			var menu = new Gtk3.Menu ();
+			var item = new Gtk3.MenuItem.with_label (_("Package Manager"));
 			item.activate.connect (execute_manager);
 			menu.append (item);
-			item = new Gtk.MenuItem.with_mnemonic (_("_Quit"));
+			item = new Gtk3.MenuItem.with_mnemonic (_("_Quit"));
 			item.activate.connect (this.release);
 			menu.append (item);
 			menu.show_all ();
@@ -146,7 +146,7 @@ namespace Pamac {
 		}
 
 		void on_icon_theme_changed () {
-			icon_theme = Gtk.IconTheme.get_default ();
+			icon_theme = Gtk3.IconTheme.get_default ();
 			if (updates_checker.updates_nb > 0) {
 				set_icon (update_icon_name);
 			} else {
@@ -167,7 +167,7 @@ namespace Pamac {
 				return;
 			}
 
-			icon_theme = Gtk.IconTheme.get_default ();
+			icon_theme = Gtk3.IconTheme.get_default ();
 			icon_theme.changed.connect (on_icon_theme_changed);
 			init_status_icon ();
 			set_icon (noupdate_icon_name);

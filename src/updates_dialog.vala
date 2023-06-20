@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2020-2022 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2020-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,14 @@
 
 namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/updates_dialog.ui")]
-	class UpdatesDialog : Gtk.Dialog {
+	class UpdatesDialog : Gtk.Window {
 		[GtkChild]
 		public unowned Gtk.Label label;
 		[GtkChild]
 		public unowned Gtk.ListBox listbox;
 
 		public UpdatesDialog (Gtk.ApplicationWindow window) {
-			int use_header_bar;
-			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);
-			Object (transient_for: window, use_header_bar: use_header_bar);
+			Object (transient_for: window);
 		}
 	}
 }

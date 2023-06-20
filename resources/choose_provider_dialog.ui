@@ -1,43 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.24"/>
-  <template class="PamacChooseProviderDialog" parent="GtkDialog">
-    <property name="title" translatable="yes">Choose a Provider</property>
-    <property name="modal">1</property>
-    <property name="default_width">500</property>
-    <property name="icon_name">system-software-install</property>
-    <property name="deletable">0</property>
-    <child internal-child="vbox">
-      <object class="GtkBox">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PamacChooseProviderDialog" parent="AdwMessageDialog">
+    <property name="heading" translatable="yes">Choose a Provider</property>
+    <property name="resizable">1</property>
+    <property name="extra_child">
+      <object class="GtkScrolledWindow">
+        <property name="min_content_height">200</property>
         <child>
-          <object class="GtkScrolledWindow">
-            <property name="visible">1</property>
-            <property name="min_content_height">200</property>
-            <child>
-              <object class="GtkBox" id="box">
-                <property name="visible">1</property>
-                <property name="orientation">vertical</property>
-                <property name="margin-top">16</property>
-                <property name="margin-bottom">16</property>
-                <property name="margin-start">16</property>
-                <property name="margin-end">16</property>
-                <property name="spacing">16</property>
-                <property name="vexpand">1</property>
-              </object>
-            </child>
+          <object class="GtkBox" id="box">
+            <property name="orientation">vertical</property>
+            <property name="vexpand">1</property>
+            <property name="hexpand">1</property>
+            <property name="margin_top">16</property>
+            <property name="margin_bottom">16</property>
+            <property name="margin_start">16</property>
+            <property name="margin_end">16</property>
           </object>
         </child>
       </object>
-    </child>
-    <child type="action">
-      <object class="GtkButton" id="valid_button">
-        <property name="visible">1</property>
-        <property name="can-default">1</property>
-        <property name="label" translatable="yes">Choose</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="ok" default="true">valid_button</action-widget>
-    </action-widgets>
+    </property>
+    <property name="default-response">choose</property>
+    <property name="close-response">choose</property>
+    <responses>
+      <response id="choose" translatable="yes">Choose</response>
+    </responses>
   </template>
 </interface>

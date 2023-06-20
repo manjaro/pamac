@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2019-2022 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2019-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -47,6 +47,8 @@ namespace Pamac {
 			this.pkg = pkg;
 			if (mobile) {
 				desc_label.width_chars = -1;
+				version_label.ellipsize = Pango.EllipsizeMode.END;
+				old_version_label.ellipsize = Pango.EllipsizeMode.END;
 			}
 		}
 

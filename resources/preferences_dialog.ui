@@ -1,60 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.24"/>
-  <requires lib="libhandy" version="1.1"/>
-  <template class="PamacPreferencesWindow" parent="HdyPreferencesWindow">
-    <property name="can-swipe-back">1</property>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PamacPreferencesWindow" parent="AdwPreferencesWindow">
+    <property name="can-navigate-back">1</property>
     <child>
-      <object class="HdyPreferencesPage">
+      <object class="AdwPreferencesPage">
         <property name="title" translatable="yes">General</property>
-        <property name="visible">1</property>
+        <property name="icon_name">applications-system-symbolic</property>
         <child>
-          <object class="HdyPreferencesGroup">
+          <object class="AdwPreferencesGroup"  id="updates_preferences_group">
             <property name="title" translatable="yes">Updates</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyExpanderRow" id="check_updates_expander">
+              <object class="AdwExpanderRow" id="check_updates_expander">
                 <property name="show_enable_switch">1</property>
                 <property name="title" translatable="yes">Check for updates</property>
-                <property name="visible">1</property>
-                <property name="has_focus">1</property>
                 <child>
-                  <object class="HdyComboRow" id="refresh_period_comborow">
+                  <object class="AdwComboRow" id="refresh_period_comborow">
                     <property name="title" translatable="yes">Updates check frequency</property>
-                    <property name="visible">1</property>
                   </object>
                 </child>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Automatically download updates</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="download_updates_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Upgrade the system at shutdown</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="offline_upgrade_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Hide tray icon when no update</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="no_update_hide_icon_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
@@ -65,30 +55,25 @@
           </object>
         </child>
         <child>
-          <object class="HdyPreferencesGroup">
+          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Downloads</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyComboRow" id="parallel_downloads_comborow">
+              <object class="AdwComboRow" id="parallel_downloads_comborow">
                 <property name="title" translatable="yes">Parallel downloads</property>
-                <property name="visible">1</property>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="HdyPreferencesGroup" id="mirrors_preferences_group">
+          <object class="AdwPreferencesGroup" id="mirrors_preferences_group">
             <property name="title" translatable="yes">Official Repositories</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyComboRow" id="mirrors_country_comborow">
+              <object class="AdwComboRow" id="mirrors_country_comborow">
                 <property name="title" translatable="yes">Use mirrors from</property>
-                <property name="visible">1</property>
               </object>
             </child>
             <child>
               <object class="GtkButton" id="generate_mirrors_list_button">
-                <property name="visible">1</property>
                 <property name="label" translatable="yes">Refresh Mirrors</property>
                 <property name="halign">end</property>
                 <property name="margin-top">12</property>
@@ -98,22 +83,18 @@
           </object>
         </child>
         <child>
-          <object class="HdyPreferencesGroup">
+          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Cache</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyComboRow" id="cache_keep_nb_comborow">
+              <object class="AdwComboRow" id="cache_keep_nb_comborow">
                 <property name="title" translatable="yes">Number of versions of each package to keep</property>
-                <property name="visible">1</property>
               </object>
             </child>
             <child>
-              <object class="HdyActionRow">
+              <object class="AdwActionRow">
                 <property name="title" translatable="yes">Remove only the uninstalled packages</property>
-                <property name="visible">1</property>
                 <child>
                   <object class="GtkSwitch" id="cache_only_uninstalled_button">
-                    <property name="visible">1</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -121,12 +102,10 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="visible">1</property>
                 <property name="margin-top">12</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="clean_cache_label">
-                    <property name="visible">1</property>
                     <property name="halign">end</property>
                     <property name="wrap">1</property>
                     <property name="hexpand">1</property>
@@ -134,7 +113,6 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="clean_cache_button">
-                    <property name="visible">1</property>
                     <property name="label" translatable="yes">Clean</property>
                     <property name="halign">end</property>
                     <signal name="clicked" handler="on_clean_cache_button_clicked" swapped="no"/>
@@ -150,58 +128,49 @@
       </object>
     </child>
     <child>
-      <object class="HdyPreferencesPage" id="advanced_preferences_page">
+      <object class="AdwPreferencesPage" id="advanced_preferences_page">
         <property name="title" translatable="yes">Advanced</property>
-        <property name="visible">1</property>
+        <property name="icon_name">applications-science-symbolic</property>
         <child>
-          <object class="HdyPreferencesGroup">
+          <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Advanced</property>
             <property name="description" translatable="yes">Misconfiguration of these options can lead to system breakage.
 Modify them only if you know what you are doing.</property>
-            <property name="visible">1</property>
               <child>
-                <object class="HdyActionRow">
+                <object class="AdwActionRow">
                   <property name="title" translatable="yes">Check available disk space</property>
-                  <property name="visible">1</property>
                   <child>
                     <object class="GtkSwitch" id="check_space_button">
-                      <property name="visible">1</property>
                       <property name="valign">center</property>
                     </object>
                   </child>
                 </object>
               </child>
               <child>
-                <object class="HdyActionRow">
+                <object class="AdwActionRow">
                   <property name="title" translatable="yes">Remove unrequired dependencies</property>
-                  <property name="visible">1</property>
                   <child>
                     <object class="GtkSwitch" id="remove_unrequired_deps_button">
-                      <property name="visible">1</property>
                       <property name="valign">center</property>
                     </object>
                   </child>
                 </object>
               </child>
               <child>
-                <object class="HdyActionRow">
+                <object class="AdwActionRow">
                   <property name="title" translatable="yes">Do not check for updates when installing</property>
-                  <property name="visible">1</property>
                   <child>
                     <object class="GtkSwitch" id="simple_install_button">
-                      <property name="visible">1</property>
                       <property name="valign">center</property>
                     </object>
                   </child>
                 </object>
               </child>
               <child>
-                <object class="HdyActionRow">
+                <object class="AdwActionRow">
                   <property name="title" translatable="yes">Enable downgrade</property>
-                  <property name="visible">1</property>
                   <child>
                     <object class="GtkSwitch" id="enable_downgrade_button">
-                      <property name="visible">1</property>
                       <property name="valign">center</property>
                     </object>
                   </child>
@@ -209,7 +178,6 @@ Modify them only if you know what you are doing.</property>
               </child>
               <child>
                 <object class="GtkBox">
-                  <property name="visible">1</property>
                   <property name="margin-top">24</property>
                   <property name="margin-bottom">12</property>
                   <property name="hexpand">1</property>
@@ -217,7 +185,6 @@ Modify them only if you know what you are doing.</property>
                   <child>
                     <object class="GtkLabel">
                       <property name="label" translatable="yes">Ignored upgrades</property>
-                      <property name="visible">1</property>
                       <property name="margin-start">12</property>
                       <property name="margin-end">12</property>
                       <property name="margin-bottom">12</property>
@@ -226,11 +193,10 @@ Modify them only if you know what you are doing.</property>
                   </child>
                   <child>
                     <object class="GtkListBox" id="ignorepkgs_listbox">
-                      <property name="visible">1</property>
                       <property name="selection-mode">none</property>
                       <property name="activate-on-single-click">1</property>
                       <style>
-                        <class name="content"/>
+                        <class name="boxed-list"/>
                       </style>
                     </object>
                   </child>
@@ -241,51 +207,43 @@ Modify them only if you know what you are doing.</property>
       </object>
     </child>
     <child>
-      <object class="HdyPreferencesPage" id="third_party_preferences_page">
+      <object class="AdwPreferencesPage" id="third_party_preferences_page">
         <property name="title" translatable="yes">Third Party</property>
-        <property name="visible">1</property>
+        <property name="icon_name">emoji-symbols-symbolic</property>
         <child>
-          <object class="HdyPreferencesGroup" id="aur_preferences_group">
+          <object class="AdwPreferencesGroup" id="aur_preferences_group">
             <property name="title" translatable="yes">AUR</property>
             <property name="description" translatable="yes">AUR is a community maintained repository so it presents potential risks and problems.
 All AUR users should be familiar with the build process.</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyExpanderRow" id="enable_aur_expander">
+              <object class="AdwExpanderRow" id="enable_aur_expander">
                 <property name="show_enable_switch">1</property>
                 <property name="title" translatable="yes">Enable AUR support</property>
-                <property name="visible">1</property>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Keep built packages</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="keep_built_pkgs_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Check for updates</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="check_aur_updates_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Check for development packages updates</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="check_aur_vcs_updates_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
@@ -297,7 +255,6 @@ All AUR users should be familiar with the build process.</property>
                     <property name="activatable">0</property>
                     <child>
                       <object class="GtkBox">
-                        <property name="visible">1</property>
                         <property name="margin-start">12</property>
                         <property name="margin-end">12</property>
                         <property name="margin-top">12</property>
@@ -306,12 +263,10 @@ All AUR users should be familiar with the build process.</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkBox">
-                            <property name="visible">1</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkLabel" id="aur_build_dir_label">
                                 <property name="label" translatable="yes">Build directory</property>
-                                <property name="visible">1</property>
                                 <property name="halign">start</property>
                                 <property name="wrap">1</property>
                                 <property name="hexpand">1</property>
@@ -319,7 +274,6 @@ All AUR users should be familiar with the build process.</property>
                             </child>
                             <child>
                               <object class="GtkButton" id="aur_build_dir_file_chooser">
-                                <property name="visible">1</property>
                                 <property name="halign">end</property>
                                 <signal name="clicked" handler="on_aur_build_dir_file_chooser_clicked" swapped="no"/>
                               </object>
@@ -328,11 +282,9 @@ All AUR users should be familiar with the build process.</property>
                         </child>
                         <child>
                           <object class="GtkBox">
-                            <property name="visible">1</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkLabel" id="clean_build_files_label">
-                                <property name="visible">1</property>
                                 <property name="halign">end</property>
                                 <property name="wrap">1</property>
                                 <property name="hexpand">1</property>
@@ -340,7 +292,6 @@ All AUR users should be familiar with the build process.</property>
                             </child>
                             <child>
                               <object class="GtkButton" id="clean_build_files_button">
-                                <property name="visible">1</property>
                                 <property name="label" translatable="yes">Clean</property>
                                 <property name="halign">end</property>
                                 <property name="valign">center</property>
@@ -361,22 +312,18 @@ All AUR users should be familiar with the build process.</property>
           </object>
         </child>
         <child>
-          <object class="HdyPreferencesGroup" id="flatpak_preferences_group">
+          <object class="AdwPreferencesGroup" id="flatpak_preferences_group">
             <property name="title" translatable="yes">Flatpak</property>
             <property name="description" translatable="yes">Flatpak packages are maintained by their publisher.</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyExpanderRow" id="enable_flatpak_expander">
+              <object class="AdwExpanderRow" id="enable_flatpak_expander">
                 <property name="show_enable_switch">1</property>
                 <property name="title" translatable="yes">Enable Flatpak support</property>
-                <property name="visible">1</property>
                 <child>
-                  <object class="HdyActionRow">
+                  <object class="AdwActionRow">
                     <property name="title" translatable="yes">Check for updates</property>
-                    <property name="visible">1</property>
                     <child>
                       <object class="GtkSwitch" id="check_flatpak_updates_button">
-                        <property name="visible">1</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
@@ -387,17 +334,14 @@ All AUR users should be familiar with the build process.</property>
           </object>
         </child>
         <child>
-          <object class="HdyPreferencesGroup" id="snap_preferences_group">
+          <object class="AdwPreferencesGroup" id="snap_preferences_group">
             <property name="title" translatable="yes">Snap</property>
             <property name="description" translatable="yes">Snap packages are maintained by their publisher.</property>
-            <property name="visible">1</property>
             <child>
-              <object class="HdyActionRow">
+              <object class="AdwActionRow">
                 <property name="title" translatable="yes">Enable Snap support</property>
-                <property name="visible">1</property>
                 <child>
                   <object class="GtkSwitch" id="enable_snap_button">
-                    <property name="visible">1</property>
                     <property name="valign">center</property>
                   </object>
                 </child>

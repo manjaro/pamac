@@ -1,7 +1,7 @@
 /*
  *  pamac-vala
  *
- *  Copyright (C) 2014-2022 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
 namespace Pamac {
 
 	class GtkTrayIcon: TrayIcon {
-		Gtk.StatusIcon status_icon;
+		Gtk3.StatusIcon status_icon;
 
 		public override void init_status_icon () {
-			status_icon = new Gtk.StatusIcon ();
+			status_icon = new Gtk3.StatusIcon ();
 			status_icon.visible = false;
 			status_icon.activate.connect (left_clicked);
 			status_icon.popup_menu.connect (menu_popup);
