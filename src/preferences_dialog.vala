@@ -152,7 +152,7 @@ namespace Pamac {
 				}
 			}
 			check_updates_expander.notify["enable-expansion"].connect (on_check_updates_expander_changed);
-			refresh_period_comborow.notify["selected-index"].connect (on_refresh_period_comborow_changed);
+			refresh_period_comborow.notify["selected"].connect (on_refresh_period_comborow_changed);
 			config.bind_property ("download_updates", download_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("offline_upgrade", offline_upgrade_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("download_updates", offline_upgrade_button, "sensitive", BindingFlags.SYNC_CREATE);
@@ -187,7 +187,7 @@ namespace Pamac {
 			} else {
 				parallel_downloads_comborow.selected = 5;
 			}
-			parallel_downloads_comborow.notify["selected-index"].connect (on_parallel_downloads_comborow_changed);
+			parallel_downloads_comborow.notify["selected"].connect (on_parallel_downloads_comborow_changed);
 			// set mirrors
 			if (database.has_installed_satisfier ("pacman-mirrors")) {
 				var mirrors_store = new GLib.ListStore (typeof (Gtk.StringObject));
@@ -206,7 +206,7 @@ namespace Pamac {
 							}
 							index += 1;
 						}
-						mirrors_country_comborow.notify["selected-index"].connect (on_mirrors_country_comborow_changed);
+						mirrors_country_comborow.notify["selected"].connect (on_mirrors_country_comborow_changed);
 					});
 				});
 				mirrors_country_comborow.set_model (mirrors_store);
@@ -236,7 +236,7 @@ namespace Pamac {
 			} else {
 				cache_keep_nb_comborow.selected = 5;
 			}
-			cache_keep_nb_comborow.notify["selected-index"].connect (on_cache_keep_nb_comborow_changed);
+			cache_keep_nb_comborow.notify["selected"].connect (on_cache_keep_nb_comborow_changed);
 			config.bind_property ("clean_rm_only_uninstalled", cache_only_uninstalled_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			cache_only_uninstalled_button.notify["active"].connect (on_cache_only_uninstalled_button_changed);
 			refresh_clean_cache_button.begin ();
