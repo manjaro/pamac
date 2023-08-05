@@ -45,7 +45,6 @@ namespace Pamac {
 			string needle = "firefox";
 			search_pkgs_async.begin (needle);
 			search_aur_pkgs_async.begin (needle);
-			search_flatpaks_async.begin (needle);
 			search_snaps_async.begin (needle);
 		}
 	}

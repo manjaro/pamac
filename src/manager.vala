@@ -35,7 +35,6 @@ namespace Pamac {
 		public Manager (DatabaseGtk database) {
 			Object (application_id: "org.manjaro.pamac.manager", flags: ApplicationFlags.HANDLES_OPEN);
 			this.database = database;
-			database.enable_appstream ();
 
 			version = false;
 			updates = false;

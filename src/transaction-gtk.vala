@@ -105,9 +105,7 @@ namespace Pamac {
 			// check_dbs and refresh flatpak appstream_data
 			var loop = new MainLoop ();
 			check_dbs.begin ((obj, res) => {
-				database.refresh_flatpak_appstream_data_async.begin ((obj, res) => {
-					loop.quit ();
-				});
+				loop.quit ();
 			});
 			loop.run ();
 		}
@@ -238,7 +236,7 @@ namespace Pamac {
 			return index;
 		}
 
-		protected override async bool ask_import_key (string pkgname, string key, string owner) {
+		protected override async bool ask_import_key (string pkgname, string key, string? owner) {
 			var application_window = application.active_window;
 			var dialog = new Adw.MessageDialog (application_window, dgettext (null, "Import PGP key"), null);
 			string import_id = "import";
@@ -252,7 +250,11 @@ namespace Pamac {
 			var textbuffer = new StringBuilder ();
 			textbuffer.append (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname));
 			textbuffer.append (".\n");
-			textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
+			if (owner == null) {
+				textbuffer.append (dgettext (null, "Import the PGP key"));
+			} else {
+				textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
+			}
 			textbuffer.append (" ?");
 			dialog.body = textbuffer.str;
 			dialog.resizable = true;

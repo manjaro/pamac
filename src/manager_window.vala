@@ -360,6 +360,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.ListBox filters_listbox;
 		[GtkChild]
+		unowned Gtk.ListBoxRow categories_row;
+		[GtkChild]
 		unowned Gtk.ListBox categories_listbox;
 		[GtkChild]
 		unowned Gtk.ListBox groups_listbox;
@@ -561,7 +563,15 @@ namespace Pamac {
 			// populate filters
 			create_all_listbox ();
 			// check software mode
-			bool software_mode_enabled = local_config.software_mode;;
+			bool appstream_enabled = database.config.enable_appstream;
+			if (!appstream_enabled) {
+				local_config.software_mode = false;
+				categories_row.visible = false;
+				// select repos in filters
+				current_filters_index = 2;
+				view_stack.visible_child_name = "installed";
+			}
+			bool software_mode_enabled = local_config.software_mode;
 			if (software_mode_enabled) {
 				categories_backrow.visible = false;
 				browse_stack.visible_child_name = "categories";
@@ -650,30 +660,32 @@ namespace Pamac {
 			this.add_action (action);
 			application.set_accels_for_action ("win.back", {"<Alt>Left"});
 			// software mode action
-			var software_mode_action = new SimpleAction.stateful ("software-mode", null, new Variant.boolean (software_mode_enabled));
-			software_mode_action.activate.connect (() => {
-				Variant state = software_mode_action.get_state ();
-				bool old_state = state.get_boolean ();
-				bool enabled = !old_state;
-				software_mode_action.set_state (new Variant.boolean (enabled));
-				local_config.software_mode = enabled;
-				if (enabled) {
-					enable_aur = false;
-					properties_stack.visible_child_name = "details";
-					categories_backrow.visible = false;
-					browse_stack.visible_child_name = "categories";
-					details_button.visible = false;
-					installed_listbox.select_row (installed_listbox.get_row_at_index (0));
-					updates_listbox.select_row (updates_listbox.get_row_at_index (0));
-				} else {
-					enable_aur = database.config.enable_aur;
-					categories_backrow.visible = true;
-					details_button.visible = true;
-				}
-				refresh_details ();
-				refresh_packages_list ();
-			});
-			this.add_action (software_mode_action);
+			if (appstream_enabled) {
+				var software_mode_action = new SimpleAction.stateful ("software-mode", null, new Variant.boolean (software_mode_enabled));
+				software_mode_action.activate.connect (() => {
+					Variant state = software_mode_action.get_state ();
+					bool old_state = state.get_boolean ();
+					bool enabled = !old_state;
+					software_mode_action.set_state (new Variant.boolean (enabled));
+					local_config.software_mode = enabled;
+					if (enabled) {
+						enable_aur = false;
+						properties_stack.visible_child_name = "details";
+						categories_backrow.visible = false;
+						browse_stack.visible_child_name = "categories";
+						details_button.visible = false;
+						installed_listbox.select_row (installed_listbox.get_row_at_index (0));
+						updates_listbox.select_row (updates_listbox.get_row_at_index (0));
+					} else {
+						enable_aur = database.config.enable_aur;
+						categories_backrow.visible = true;
+						details_button.visible = true;
+					}
+					refresh_details ();
+					refresh_packages_list ();
+				});
+				this.add_action (software_mode_action);
+			}
 			// refresh databases action
 			refresh_action = new SimpleAction ("refresh-databases", null);
 			refresh_action.activate.connect (() => {
@@ -2034,6 +2046,10 @@ namespace Pamac {
 							AURPackage pkg = database.get_aur_pkg_async.end (res);
 							if (pkg != null) {
 								transaction.populate_build_files_async.begin (pkg.packagebase, true, false, () => {
+									// get focus to the first file
+									unowned Gtk.Widget widget = transaction.build_files_notebook.get_nth_page (0);
+									unowned Gtk.ScrolledWindow scrolledwindow = widget as Gtk.ScrolledWindow;
+									scrolledwindow.get_child ().grab_focus ();
 									this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 								});
 							} else {
@@ -2764,7 +2780,7 @@ namespace Pamac {
 				case "browse":
 					show_sidebar (true);
 					search_entry.visible = false;
-					search_button.visible = browse_flap.visible;
+					search_button.visible = main_stack.visible_child_name == "browse" && browse_flap.visible;
 					switch (browse_stack.visible_child_name) {
 						case "filters":
 							switch (current_filters_index) {

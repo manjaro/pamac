@@ -254,14 +254,17 @@ namespace Pamac {
 				this.remove (third_party_preferences_page);
 			}
 			local_config.bind_property ("software_mode", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
+			config.bind_property ("support_aur", aur_preferences_group, "visible", BindingFlags.SYNC_CREATE);
 			config.bind_property ("enable_aur", enable_aur_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_aur", enable_aur_expander, "expanded", BindingFlags.SYNC_CREATE);
 			config.bind_property ("keep_built_pkgs", keep_built_pkgs_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_updates", check_aur_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_vcs_updates", check_aur_vcs_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE);
-			aur_build_dir_file_chooser.label = Path.get_basename (config.aur_build_dir);
-			refresh_clean_build_files_button.begin ();
+			if (config.support_aur) {
+				aur_build_dir_file_chooser.label = Path.get_basename (config.aur_build_dir);
+				refresh_clean_build_files_button.begin ();
+			}
 			config.bind_property ("support_flatpak", flatpak_preferences_group, "visible", BindingFlags.SYNC_CREATE);
 			config.bind_property ("enable_flatpak", enable_flatpak_expander, "enable_expansion", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("enable_flatpak", enable_flatpak_expander, "expanded", BindingFlags.SYNC_CREATE);

@@ -28,7 +28,7 @@ libpamac_gtk = library('pamac-gtk',
 	vala_args: common_vala_args,
 	c_args: common_c_args,
 	install: true,
-	install_dir: [true, true, true])
+	install_dir: [true])
 
 libpamac_gtk_dep = declare_dependency(link_with: libpamac_gtk)
 
