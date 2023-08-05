@@ -272,7 +272,7 @@ namespace Pamac {
 			return index;
 		}
 
-		protected override async bool ask_import_key (string pkgname, string key, string owner) {
+		protected override async bool ask_import_key (string pkgname, string key, string? owner) {
 			var flags = Gtk.DialogFlags.MODAL;
 			int use_header_bar;
 			Gtk.Settings.get_default ().get ("gtk-dialogs-use-header", out use_header_bar);

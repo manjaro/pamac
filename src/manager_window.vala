@@ -504,7 +504,6 @@ namespace Pamac {
 		uint current_screenshots_index;
 		uint screenshots_overlay_timeout_id;
 
-		Gtk.ListStore search_completion_store;
 		bool scroll_to_top;
 		uint in_app_notification_timeout_id;
 		bool first_details_click;
@@ -885,16 +884,6 @@ namespace Pamac {
 				}
 				return false;
 			});
-
-			// search entry completion
-			search_completion_store = new Gtk.ListStore (1, typeof (string));
-			var search_entry_completion = new Gtk.EntryCompletion ();
-			search_entry_completion.set_model (search_completion_store);
-			search_entry_completion.text_column = 0;
-			search_entry_completion.minimum_key_length = 3;
-			search_entry_completion.popup_completion = true;
-			search_entry_completion.match_selected.connect (on_search_completion_match_selected);
-			search_entry.completion = search_entry_completion;
 
 			// create screenshots and icons tmp dir
 			string[] tmp_dirs = {"/tmp/pamac-app-screenshots", "/tmp/pamac-app-icons"};
@@ -3285,33 +3274,7 @@ namespace Pamac {
 				|| view_stack.visible_child_name == "installed") {
 				search_button.clicked ();
 			}
-			string tmp_search_string = search_entry.get_text ().strip ();
-			if (tmp_search_string.char_count () > 2) {
-				database.suggest_pkgnames_async.begin (tmp_search_string, (obj, res) => {
-					var pkgnames = database.suggest_pkgnames_async.end (res);
-					search_completion_store.clear ();
-					// take the 40 first pkgnames
-					int i = 0;
-					foreach (unowned string pkgname in pkgnames) {
-						search_completion_store.insert_with_values (null, -1, 0, pkgname);
-						if (i == 39) {
-							break;
-						}
-						i++;
-					}
-				});
-			}
 		}
-
-		bool on_search_completion_match_selected (Gtk.TreeModel model, Gtk.TreeIter iter) {
-			// populate search string with selected value and activate the search
-			Value selected_value;
-			model.get_value (iter, 0, out selected_value);
-			search_entry.set_text ((string) selected_value);
-			search_entry.set_position (-1);
-			on_search_entry_activated ();
-			return true;
- 		}
 
 		[GtkCallback]
 		void on_sortby_combobox_changed () {
