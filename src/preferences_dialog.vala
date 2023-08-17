@@ -118,15 +118,17 @@ namespace Pamac {
 			store.append (obj);
 			refresh_period_comborow.set_model (store);
 			var factory = new Gtk.SignalListItemFactory ();
-			factory.setup.connect ((listitem) => {
+			factory.setup.connect ((object) => {
+				unowned Gtk.ListItem listitem = object as Gtk.ListItem;
 				var label = new Gtk.Label (null);
 				listitem.set_child (label);
 			});
-			factory.bind.connect ((listitem) => {
+			factory.bind.connect ((object) => {
+				unowned Gtk.ListItem listitem = object as Gtk.ListItem;
 				unowned Gtk.Widget child = listitem.child;
 				unowned Gtk.Label label = child as Gtk.Label;
-				unowned Object object = listitem.item;
-				unowned Gtk.StringObject string_object = object as Gtk.StringObject;
+				unowned Object item_object = listitem.item;
+				unowned Gtk.StringObject string_object = item_object as Gtk.StringObject;
 				label.label = string_object.get_string ();
 			});
 			refresh_period_comborow.set_factory (factory);
