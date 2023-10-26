@@ -1,8 +1,8 @@
 /*
  *  pamac-vala
  *
- *  Copyright 2016 Raphaël Rochet
- *  Copyright (C) 2018 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright 2016-2023 Raphaël Rochet
+ *  Copyright (C) 2018-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,15 +23,6 @@
 	padding-left: 20px;
 }
 
-.pamac-updates-menubutton {
-	/* Meant to be used as an override to display a small system-menu-action */
-	border-radius: 10px;
-	padding: 0px 4px;
-}
-.pamac-updates-menubutton:hover, .pamac-updates-menubutton:focus {
-	/* 1px borders disapears, need to compensate */
-	padding: 1px 5px;
-}
-.pamac-updates-menubutton > StIcon {
-	icon-size: 16px;
+.pamac-updates-update-name {
+	padding-right: 1em;
 }

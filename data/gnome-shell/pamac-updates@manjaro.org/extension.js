@@ -1,8 +1,8 @@
 /*
  *  pamac-vala
  *
- *  Copyright 2016 Raphaël Rochet
- *  Copyright (C) 2018-2020 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright 2016-2023 Raphaël Rochet
+ *  Copyright (C) 2018-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,37 +18,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Clutter = imports.gi.Clutter;
-const Lang = imports.lang;
+import Clutter from 'gi://Clutter';
+import St from 'gi://St';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 
-const St = imports.gi.St;
-const GObject = imports.gi.GObject;
-const GLib = imports.gi.GLib;
-//const Gtk = imports.gi.Gtk;
-const Gio = imports.gi.Gio;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {Button} from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
-const Main = imports.ui.main;
-const Panel = imports.ui.panel;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
-const MessageTray = imports.ui.messageTray;
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import {Extension, gettext as _, ngettext as __} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-const Util = imports.misc.util;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-
-const Gettext = imports.gettext.domain("pamac");
-const _ = Gettext.gettext;
-
-const Pamac = imports.gi.Pamac;
+import Pamac from 'gi://Pamac';
 
 /* Options */
 let HIDE_NO_UPDATE     = false;
-let SHOW_COUNT         = false;
 let BOOT_WAIT          = 30;  // 30s
 let CHECK_INTERVAL     = 1;   // 1h
 let NOTIFY             = true;
-let TRANSIENT          = false;
+let TRANSIENT          = true;
 let UPDATER_CMD        = "pamac-manager --updates";
 let MANAGER_CMD        = "pamac-manager";
 
@@ -57,44 +48,47 @@ let FIRST_BOOT         = 1;
 let UPDATES_PENDING    = 0;
 let UPDATES_LIST       = [];
 
-
-function init() {
+export default class PamacUpdateIndicatorExtension extends Extension {
+	constructor(metadata) {
+		super(metadata);
+	}
+	init() {
+		String.prototype.format = Format.format;
+	}
+	enable() {
+		this.pamacupdateindicator = new PamacUpdateIndicator(this);
+		Main.panel.addToStatusArea('PamacUpdateIndicator', this.pamacupdateindicator);
+	}
+	disable() {
+		this.pamacupdateindicator.destroy();
+		this.pamacupdateindicator = null;
+	}
 }
 
 const PamacUpdateIndicator = GObject.registerClass(
-class PamacUpdateIndicator extends PanelMenu.Button {
-	_init() {
-		super._init(0.0, "PamacUpdateIndicator");
+	{
+		_TimeoutId: null,
+		_FirstTimeoutId: null,
+		_updateProcess_sourceId: null,
+		_updateProcess_stream: null,
+		_updateProcess_pid: null,
+		_updateList: [],
+	},
+class PamacUpdateIndicator extends Button {
 
-		this._TimeoutId = null;
-		this._FirstTimeoutId = null;
-		this._updateList = [];
-		this._updatesChecker = null;
-		// this._icon_theme = null;
-
-		// Set icon theme
-		//let that = this;
-		//this._icon_theme = Gtk.IconTheme.get_default();
-		//this._icon_theme.connect('changed', function () {
-			//that._icon_theme = Gtk.IconTheme.get_default();
-		//});
+	_init(ext) {
+		super._init(0);
 
 		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", style_class: 'system-status-icon'});
 
 		let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
-		this.label = new St.Label({ text: '',
-			y_expand: true,
-			y_align: Clutter.ActorAlign.CENTER });
 
 		box.add_child(this.updateIcon);
-		box.add_child(this.label);
 		this.add_child(box);
 
 		// Prepare the special menu : a submenu for updates list that will look like a regular menu item when disabled
 		// Scrollability will also be taken care of by the popupmenu
 		this.menuExpander = new PopupMenu.PopupSubMenuMenuItem('');
-		this.updatesListMenuLabel = new St.Label();
-		this.menuExpander.menu.box.add(this.updatesListMenuLabel);
 		this.menuExpander.menu.box.style_class = 'pamac-updates-list';
 
 		// Other standard menu items
@@ -106,13 +100,13 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 		this.menu.addMenuItem(this.managerMenuItem);
 
 		// Bind some events
-		this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
-		this.managerMenuItem.connect('activate', Lang.bind(this, this._openManager));
+		this.menu.connect('open-state-changed', this._onMenuOpened.bind(this));
+		this.managerMenuItem.connect('activate', this._openManager.bind(this));
 
 		if (FIRST_BOOT && CHECK_INTERVAL > 0) {
 			// This won't be run again if extension is disabled/enabled (like when screen is locked)
 			this._updatesChecker = new Pamac.UpdatesChecker();
-			this._updatesChecker.connect('updates-available', Lang.bind(this, this._onUpdatesAvailable));
+			this._updatesChecker.connect('updates-available', this._onUpdatesAvailable.bind(this));
 			this._applyConfig();
 			this._updateMenuExpander(false, _("Your system is up to date"));
 			let that = this;
@@ -165,7 +159,7 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 			GLib.source_remove(this._TimeoutId);
 			this._TimeoutId = null;
 		}
-		this.emit('destroy');
+		super.destroy();
 	}
 
 	_checkShowHide() {
@@ -174,7 +168,6 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 		} else {
 			this.visible = true;
 		}
-		this.label.visible = SHOW_COUNT && UPDATES_PENDING > 0;
 	}
 
 	_onMenuOpened() {
@@ -188,9 +181,7 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 		if (updatesCount > 0) {
 			// Updates pending
 			this.updateIcon.set_icon_name("pamac-tray-update");
-			this._updateMenuExpander(true, Gettext.ngettext( "%u available update", "%u available updates", updatesCount ).replace("%u", updatesCount.toString()));
-			this.updatesListMenuLabel.set_text( this._updateList.join("\n") );
-			this.label.set_text(updatesCount.toString());
+			this._updateMenuExpander(true, __( "%u available update", "%u available updates", updatesCount ).replace("%u", updatesCount.toString()));
 			if (NOTIFY && UPDATES_PENDING < updatesCount) {
 				this._showNotification(
 					_("Updates Available")
@@ -199,8 +190,6 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 			// Store the new list
 			UPDATES_LIST = this._updateList;
 		} else {
-			this.updatesListMenuLabel.set_text("");
-			this.label.set_text("");
 			// Up to date
 			this.updateIcon.set_icon_name("pamac-tray-no-update");
 			this._updateMenuExpander(false, _("Your system is up to date"));
@@ -211,16 +200,30 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 	}
 
 	_updateMenuExpander(enabled, label) {
+		this.menuExpander.menu.box.destroy_all_children();
 		if (label == "") {
 			// No text, hide the menuitem
-			this.menuExpander.visible = false;
+			this.menuExpander.actor.visible = false;
 		} else {
 		// We make our expander look like a regular menu label if disabled
-			this.menuExpander.reactive = enabled;
+			this.menuExpander.actor.reactive = enabled;
 			this.menuExpander._triangle.visible = enabled;
 			this.menuExpander.label.set_text(label);
-			this.menuExpander.visible = true;
+			this.menuExpander.actor.visible = true;
+			if (enabled && this._updateList.length > 0) {
+				this._updateList.forEach( item => {
+					this.menuExpander.menu.box.add( this._createPackageLabel(item) );
+				} );
+			}
 		}
+	}
+
+	_createPackageLabel(name) {
+		return new St.Label({
+			text: name,
+			x_expand: true,
+			style_class: 'pamac-updates-update-name'
+		});
 	}
 
 	_checkUpdates() {
@@ -240,7 +243,7 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 				return new St.Icon({ icon_name: "system-software-install-symbolic" });
 			};
 			// Take care of note leaving unneeded sources
-			this._notifSource.connect('destroy', Lang.bind(this, function() {this._notifSource = null;}));
+			this._notifSource.connect('destroy', ()=>{this._notifSource = null;});
 			Main.messageTray.add(this._notifSource);
 		}
 		let notification = null;
@@ -248,7 +251,7 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 		// instead we will update previous
 		if (this._notifSource.notifications.length == 0) {
 			notification = new MessageTray.Notification(this._notifSource, _("Package Manager"), message);
-			notification.addAction( _("Details") , Lang.bind(this, function() {this._openManager()}) );
+			notification.addAction( _("Details") , ()=>{this._openManager();} );
 		} else {
 			notification = this._notifSource.notifications[0];
 			notification.update(_("Package Manager"), message, { clear: true });
@@ -256,16 +259,5 @@ class PamacUpdateIndicator extends PanelMenu.Button {
 		notification.setTransient(TRANSIENT);
 		this._notifSource.showNotification(notification);
 	}
+
 });
-
-let pamacupdateindicator = null;
-
-function enable() {
-	pamacupdateindicator = new PamacUpdateIndicator();
-	Main.panel.addToStatusArea('PamacUpdateIndicator', pamacupdateindicator);
-}
-
-function disable() {
-	pamacupdateindicator?.destroy();
-	pamacupdateindicator = null;
-}
