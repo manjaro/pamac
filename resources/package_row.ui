@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="PamacPackageRow" parent="GtkFlowBoxChild">
-    <style>
-      <class name="package-box"/>
-    </style>
-    <property name="child">
+  <template class="PamacPackageRow" parent="GtkListBoxRow">
+    <child>
       <object class="GtkBox" id="main_box">
         <property name="valign">center</property>
         <property name="margin-start">12</property>
@@ -23,67 +20,52 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="second_box">
+          <object class="GtkBox">
+            <property name="hexpand">1</property>
             <property name="valign">center</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
-              <object class="GtkLabel" id="name_label">
-                <property name="wrap">1</property>
-                <property name="lines">2</property>
-                <property name="max_width_chars">25</property>
-                <property name="ellipsize">end</property>
-                <property name="xalign">0</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+              <object class="GtkBox">
+                <property name="spacing">12</property>
+                <child>
+                  <object class="GtkLabel" id="name_label">
+                    <property name="wrap">1</property>>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox" id="version_box">
+                    <property name="valign">start</property>
+                    <property name="halign">start</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="version_label">
+                        <property name="xalign">0</property>
+                        <property name="ellipsize">end</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="desc_label">
                 <property name="use-markup">1</property>
                 <property name="wrap">1</property>
-                <property name="lines">2</property>
-                <property name="width_chars">40</property>
-                <property name="max_width_chars">40</property>
-                <property name="ellipsize">end</property>
                 <property name="xalign">0</property>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="repo_label">
-                <property name="ellipsize">end</property>
+                <property name="wrap">1</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="dim-label"/>
-                  <class name="size-label"/>
-                </style>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox" id="version_box">
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <child>
-              <object class="GtkLabel" id="old_version_label">
-                <property name="visible">0</property>
-                <property name="xalign">0</property>
-                <property name="max_width_chars">15</property>
-                <style>
-                  <class name="old-version-label"/>
-                </style>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="version_label">
-                <property name="xalign">0</property>
-                <property name="max_width_chars">15</property>
-                <style>
-                  <class name="version-label"/>
+                  <class name="caption"/>
                 </style>
               </object>
             </child>
@@ -93,13 +75,12 @@
           <object class="GtkBox" id="button_box">
             <property name="halign">end</property>
             <property name="valign">center</property>
-            <property name="hexpand">1</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkBox" id="action_box">
-                <property name="halign">center</property>
-                <property name="valign">center</property>
+                <property name="halign">end</property>
+                <property name="valign">end</property>
                 <property name="spacing">3</property>
                 <child>
                   <object class="GtkToggleButton" id="action_togglebutton">
@@ -113,15 +94,16 @@
             </child>
             <child>
               <object class="GtkLabel" id="size_label">
+                <property name="halign">end</property>
                 <style>
                   <class name="dim-label"/>
-                  <class name="size-label"/>
+                  <class name="caption"/>
                 </style>
               </object>
             </child>
           </object>
         </child>
       </object>
-    </property>
+    </child>
   </template>
 </interface>

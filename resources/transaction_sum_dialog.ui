@@ -5,23 +5,35 @@
   <template class="PamacTransactionSumDialog" parent="AdwMessageDialog">
     <property name="heading" translatable="yes">Transaction Summary</property>
     <property name="resizable">1</property>
+    <property name="default_width">600</property>
+    <property name="default_height">600</property>
     <property name="extra_child">
-      <object class="GtkScrolledWindow" id="scrolledwindow">
-        <property name="hscrollbar-policy">never</property>
-        <property name="min_content_width">200</property>
-        <property name="min_content_height">400</property>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="margin_top">16</property>
+        <property name="margin_bottom">16</property>
+        <property name="margin_start">16</property>
+        <property name="margin_end">16</property>
+        <property name="spacing">12</property>
         <child>
-          <object class="AdwClamp">
+          <object class="GtkLabel" id="label">
+            <property name="wrap">1</property>
+            <property name="use_markup">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow">
+            <property name="hscrollbar-policy">never</property>
             <property name="vexpand">1</property>
-            <property name="maximum_size">700</property>
-            <property name="margin_top">16</property>
-            <property name="margin_bottom">16</property>
-            <property name="margin_start">16</property>
-            <property name="margin_end">16</property>
             <child>
-              <object class="GtkBox" id="box">
-                <property name="orientation">vertical</property>
-                <property name="spacing">12</property>
+              <object class="AdwClamp">
+                <property name="maximum_size">700</property>
+                <child>
+                  <object class="GtkBox" id="box">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

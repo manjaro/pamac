@@ -20,7 +20,7 @@
 namespace Pamac {
 
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/history_dialog.ui")]
-	class HistoryDialog : Gtk.Window {
+	class HistoryDialog : Adw.Window {
 
 		[GtkChild]
 		unowned Gtk.TextView textview;

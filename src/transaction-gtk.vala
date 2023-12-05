@@ -35,15 +35,13 @@ namespace Pamac {
 		public LocalConfig local_config { get; construct; }
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
-		// mobile
-		public bool mobile { get; construct; }
 		bool summary_shown;
 		public bool commit_transaction_answer;
 
 		public signal void transaction_sum_populated ();
 
-		public TransactionGtk (Database database, LocalConfig local_config, Gtk.Application? application, bool mobile) {
-			Object (database: database, local_config: local_config, application: application, mobile: mobile);
+		public TransactionGtk (Database database, LocalConfig local_config, Gtk.Application? application) {
+			Object (database: database, local_config: local_config, application: application);
 		}
 
 		construct {
@@ -192,9 +190,6 @@ namespace Pamac {
 		public ChoosePkgsDialog create_choose_pkgs_dialog () {
 			var application_window = application.active_window;
 			var dialog = new ChoosePkgsDialog (application_window);
-			if (!mobile) {
-				dialog.default_width = 400;
-			}
 			return dialog;
 		}
 
@@ -229,9 +224,6 @@ namespace Pamac {
 				}
 			}
 			choose_provider_dialog.add_providers (pkgs);
-			if (!mobile) {
-				choose_provider_dialog.default_width = 400;
-			}
 			int index = yield choose_provider_dialog.choose_provider ();
 			return index;
 		}
@@ -258,9 +250,7 @@ namespace Pamac {
 			textbuffer.append (" ?");
 			dialog.body = textbuffer.str;
 			dialog.resizable = true;
-			if (!mobile) {
-				dialog.default_width = 800;
-			}
+			dialog.default_width = 800;
 			dialog.default_height = 150;
 			// run
 			string response_id = yield dialog.choose (null);
@@ -682,6 +672,7 @@ namespace Pamac {
 					i++;
 				}
 				var button = new Gtk.Button.with_label (dgettext (null, "Edit build files"));
+				button.can_shrink = true;
 				button.halign = Gtk.Align.END;
 				button.margin_top = 6;
 				button.clicked.connect (() => {
@@ -739,8 +730,7 @@ namespace Pamac {
 				}
 			}
 			if (dsize > 0) {
-				transaction_sum_dialog.body = "<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize));
-				transaction_sum_dialog.body_use_markup = true;
+				transaction_sum_dialog.label.label = "<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize));
 			}
 			if (transaction_summary_length () == 0) {
 				// empty summary comes in case of transaction preparation failure
@@ -757,6 +747,7 @@ namespace Pamac {
 					label.label = dgettext (null, "Failed to prepare transaction");
 				}
 				var button = new Gtk.Button.with_label (dgettext (null, "Edit build files"));
+				button.can_shrink = true;
 				button.margin_top = 6;
 				button.clicked.connect (() => {
 					// call edit response will edit build files
@@ -766,9 +757,6 @@ namespace Pamac {
 				box.append (button);
 			} else {
 				yield show_warnings ();
-			}
-			if (!mobile) {
-				transaction_sum_dialog.default_width = 600 ;
 			}
 			string response = yield transaction_sum_dialog.choose (null);
 			if (response == "apply") {
@@ -803,9 +791,7 @@ namespace Pamac {
 				// add notebook to the dialog
 				dialog.extra_child = build_files_notebook;
 				dialog.resizable = true;
-				if (!mobile) {
-					dialog.default_width = 700;
-				}
+				dialog.default_width = 700;
 				dialog.default_height = 500;
 				// run
 				string response_id = yield dialog.choose (null);
@@ -966,9 +952,7 @@ namespace Pamac {
 					scrolledwindow.hexpand = true;
 					scrolledwindow.vexpand = true;
 					dialog.extra_child = scrolledwindow;
-					if (mobile) {
-						dialog.default_width = 600;
-					}
+					dialog.default_width = 600;
 					dialog.default_height = 300;
 				}
 				dialog.resizable = true;
@@ -1017,9 +1001,7 @@ namespace Pamac {
 			scrolledwindow.vexpand = true;
 			dialog.extra_child = scrolledwindow;
 			dialog.resizable = true;
-			if (mobile) {
-				dialog.default_width = 600;
-			}
+			dialog.default_width = 600;
 			dialog.default_height = 300;
 			// run
 			Timeout.add (1000, () => {
@@ -1048,9 +1030,7 @@ namespace Pamac {
 			textbuffer.append (" ?");
 			dialog.body = textbuffer.str;
 			dialog.resizable = true;
-			if (mobile) {
-				dialog.default_width = 900;
-			}
+			dialog.default_width = 900;
 			dialog.default_height = 150;
 			// run
 			string response_id = yield dialog.choose (null);

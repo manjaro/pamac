@@ -19,7 +19,7 @@
 
 namespace Pamac {
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/updates_dialog.ui")]
-	class UpdatesDialog : Gtk.Window {
+	class UpdatesDialog : Adw.Window {
 		[GtkChild]
 		public unowned Gtk.Label label;
 		[GtkChild]

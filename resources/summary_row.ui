@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.24"/>
+  <requires lib="gtk" version="4.0"/>
   <template class="PamacSummaryRow" parent="GtkListBoxRow">
     <property name="visible">1</property>
     <child>
@@ -28,7 +28,7 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="name_label">
-                    <property name="ellipsize">end</property>
+                    <property name="wrap">1</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -37,7 +37,7 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="version_label">
-                    <property name="ellipsize">end</property>
+                    <property name="wrap">1</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -48,13 +48,13 @@
             </child>
             <child>
               <object class="GtkLabel" id="infos_label">
-                <property name="ellipsize">end</property>
+                <property name="wrap">1</property>
                 <property name="xalign">0</property>
               </object>
             </child>
             <child>
               <object class="GtkLabel" id="repo_label">
-                <property name="ellipsize">end</property>
+                <property name="wrap">1</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="dim-label"/>
@@ -65,7 +65,7 @@
         </child>
         <child>
           <object class="GtkLabel" id="size_label">
-            <property name="ellipsize">end</property>
+            <property name="wrap">1</property>
             <property name="xalign">1</property>
             <property name="hexpand">1</property>
           </object>

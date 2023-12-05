@@ -7,7 +7,7 @@ libpamac = dependency('pamac', version : '>=11.6')
 
 gtk3 = dependency('gtk+-3.0', version : '>=3.24')
 gtk4 = dependency('gtk4', version : '>=4.10')
-libadwaita = dependency('libadwaita-1', version : '>=1.3')
+libadwaita = dependency('libadwaita-1', version : '>=1.4')
 
 
 common_vala_args = ['--pkg=posix', '--vapidir=' + join_paths(meson.source_root(), 'vapi')]

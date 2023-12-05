@@ -27,11 +27,11 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.ComboRow refresh_period_comborow;
 		[GtkChild]
-		unowned Gtk.Switch no_update_hide_icon_button;
+		unowned Adw.SwitchRow no_update_hide_icon_button;
 		[GtkChild]
-		unowned Gtk.Switch download_updates_button;
+		unowned Adw.SwitchRow download_updates_button;
 		[GtkChild]
-		unowned Gtk.Switch offline_upgrade_button;
+		unowned Adw.SwitchRow offline_upgrade_button;
 		[GtkChild]
 		unowned Adw.ComboRow parallel_downloads_comborow;
 		[GtkChild]
@@ -43,7 +43,7 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.ComboRow cache_keep_nb_comborow;
 		[GtkChild]
-		unowned Gtk.Switch cache_only_uninstalled_button;
+		unowned Adw.SwitchRow cache_only_uninstalled_button;
 		[GtkChild]
 		unowned Gtk.Label clean_cache_label;
 		[GtkChild]
@@ -51,13 +51,13 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.PreferencesPage advanced_preferences_page;
 		[GtkChild]
-		unowned Gtk.Switch check_space_button;
+		unowned Adw.SwitchRow check_space_button;
 		[GtkChild]
-		unowned Gtk.Switch remove_unrequired_deps_button;
+		unowned Adw.SwitchRow remove_unrequired_deps_button;
 		[GtkChild]
-		unowned Gtk.Switch simple_install_button;
+		unowned Adw.SwitchRow simple_install_button;
 		[GtkChild]
-		unowned Gtk.Switch enable_downgrade_button;
+		unowned Adw.SwitchRow enable_downgrade_button;
 		[GtkChild]
 		unowned Gtk.ListBox ignorepkgs_listbox;
 		[GtkChild]
@@ -69,11 +69,11 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.Button aur_build_dir_file_chooser;
 		[GtkChild]
-		unowned Gtk.Switch keep_built_pkgs_button;
+		unowned Adw.SwitchRow keep_built_pkgs_button;
 		[GtkChild]
-		unowned Gtk.Switch check_aur_updates_button;
+		unowned Adw.SwitchRow check_aur_updates_button;
 		[GtkChild]
-		unowned Gtk.Switch check_aur_vcs_updates_button;
+		unowned Adw.SwitchRow check_aur_vcs_updates_button;
 		[GtkChild]
 		unowned Gtk.Button clean_build_files_button;
 		[GtkChild]
@@ -83,11 +83,11 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.ExpanderRow enable_flatpak_expander;
 		[GtkChild]
-		unowned Gtk.Switch check_flatpak_updates_button;
+		unowned Adw.SwitchRow check_flatpak_updates_button;
 		[GtkChild]
 		unowned Adw.PreferencesGroup snap_preferences_group;
 		[GtkChild]
-		unowned Gtk.Switch enable_snap_button;
+		unowned Adw.SwitchRow enable_snap_button;
 
 		unowned LocalConfig local_config;
 		unowned Config config;
@@ -405,7 +405,7 @@ namespace Pamac {
 			label.margin_start = 12;
 			label.halign = Gtk.Align.START;
 			label.hexpand = true;
-			label.ellipsize = Pango.EllipsizeMode.END;
+			label.wrap = true;
 			box.append (label);
 			var button = new Gtk.Button ();
 			button.margin_end = 12;

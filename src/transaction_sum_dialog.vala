@@ -22,6 +22,8 @@ namespace Pamac {
 	class TransactionSumDialog : Adw.MessageDialog {
 		[GtkChild]
 		public unowned Gtk.Box box;
+		[GtkChild]
+		public unowned Gtk.Label label;
 
 		public TransactionSumDialog (Gtk.Window? window) {
 			Object (transient_for: window);

@@ -36,7 +36,11 @@ namespace Pamac {
 		}
 
 		public void add_pkg (string pkgname) {
-			var radiobutton = new Gtk.CheckButton.with_label (pkgname);
+			var radiobutton = new Gtk.CheckButton ();
+			// add label manually to make it wrapable
+			var label = new Gtk.Label (pkgname);
+			label.wrap = true;
+			radiobutton.set_child (label);
 			radiobutton.add_css_class ("selection-mode");
 			listbox.append (radiobutton);
 		}

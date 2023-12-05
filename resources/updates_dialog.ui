@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libadwaita" version="1.0"/>
-  <template class="PamacUpdatesDialog" parent="GtkWindow">
+  <requires lib="libadwaita" version="1.4"/>
+  <template class="PamacUpdatesDialog" parent="AdwWindow">
     <property name="title" translatable="yes">OS Updates</property>
-    <child>
-      <object class="GtkBox">
-        <property name="orientation">vertical</property>
-        <child>
+    <property name="default-width">500</property>
+    <property name="default-height">500</property>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+          </object>
+        </child>
+        <property name="content">
           <object class="GtkScrolledWindow" id="scrolledwindow">
             <property name="hscrollbar-policy">never</property>
             <child>
@@ -19,7 +24,7 @@
                 <property name="margin-start">16</property>
                 <property name="margin-end">16</property>
                 <child>
-                  <object class="GtkBox" id="box">
+                  <object class="GtkBox">
                     <property name="orientation">vertical</property>
                     <property name="spacing">16</property>
                     <child>
@@ -30,7 +35,7 @@
                     </child>
                     <child>
                       <object class="GtkListBox" id="listbox">
-                        <property name="selection-mode">none</property>
+                        <property name="selection-mode">single</property>
                         <property name="activate-on-single-click">0</property>
                         <style>
                           <class name="boxed-list"/>
@@ -42,8 +47,8 @@
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
-    </child>
+    </property>
   </template>
 </interface>

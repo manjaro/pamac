@@ -25,7 +25,6 @@ namespace Pamac {
 		uint search_provider_id;
 		bool version;
 		bool updates;
-		bool mobile;
 		string? pkgname;
 		string? app_id;
 		string? search;
@@ -41,14 +40,12 @@ namespace Pamac {
 			pkgname = null;
 			app_id = null;
 			search = null;
-			mobile = false;
 			options = new OptionEntry[6];
 			options[0] = { "version", 0, 0, OptionArg.NONE, ref version, "Display version number", null };
 			options[1] = { "updates", 0, 0, OptionArg.NONE, ref updates, "Display updates", null };
 			options[2] = { "details", 0, 0, OptionArg.STRING, ref pkgname, "Display package details", "PACKAGE_NAME" };
 			options[3] = { "details-id", 0, 0, OptionArg.STRING, ref app_id, "Display package details", "APP_ID" };
 			options[4] = { "search", 0, 0, OptionArg.STRING, ref search, "Search packages", "SEARCH" };
-			options[5] = { "mobile", 0, 0, OptionArg.NONE, ref mobile, "Mobile version", null };
 			add_main_option_entries (options);
 
 			search_provider_id = 0;
@@ -68,6 +65,7 @@ namespace Pamac {
 				manager_window.display_package_queue.clear ();
 				manager_window.search_button.clicked ();
 				manager_window.search_entry.set_text (str_builder.str);
+				manager_window.on_search_entry_activated ();
 				manager_window.present_with_time (timestamp);
 			});
 		}
@@ -86,8 +84,8 @@ namespace Pamac {
 			action.activate.connect (() => {
 				var manager_window = get_manager_window ();
 				manager_window.display_package_queue.clear ();
-				manager_window.main_details_box.visible = false;
 				manager_window.main_stack.visible_child_name = "browse";
+				manager_window.browse_stack.visible_child_name = "packages";
 				manager_window.view_stack.visible_child_name = "updates";
 				manager_window.activate_action ("back", null);
 				manager_window.present ();
@@ -102,10 +100,7 @@ namespace Pamac {
 				if (pkg != null) {
 					manager_window.display_package_details (pkg);
 					manager_window.main_stack.visible_child_name = "browse";
-					manager_window.packages_leaflet.visible_child_name = "details";
-					manager_window.main_details_box.visible = true;
-					manager_window.browse_flap.visible = false;
-					manager_window.set_adaptative_details (true);
+					manager_window.browse_stack.visible_child_name = "details";
 					manager_window.view_stack_switcher.visible = false;
 					manager_window.search_button.visible = false;
 					manager_window.button_back.visible = true;
@@ -122,10 +117,7 @@ namespace Pamac {
 				if (pkg != null) {
 					manager_window.display_details (pkg);
 					manager_window.main_stack.visible_child_name = "browse";
-					manager_window.packages_leaflet.visible_child_name = "details";
-					manager_window.main_details_box.visible = true;
-					manager_window.browse_flap.visible = false;
-					manager_window.set_adaptative_details (true);
+					manager_window.browse_stack.visible_child_name = "details";
 					manager_window.view_stack_switcher.visible = false;
 					manager_window.search_button.visible = false;
 					manager_window.button_back.visible = true;
@@ -150,7 +142,7 @@ namespace Pamac {
 			ManagerWindow manager_window;
 			unowned Gtk.Window window = this.active_window;
 			if (window == null) {
-				manager_window = new ManagerWindow (this, database, mobile);
+				manager_window = new ManagerWindow (this, database);
 				database.window = manager_window;
 			} else {
 				manager_window = window as ManagerWindow;

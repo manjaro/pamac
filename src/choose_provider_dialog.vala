@@ -31,7 +31,11 @@ namespace Pamac {
 			unowned Gtk.CheckButton? last_radiobutton = null;
 			foreach (unowned Package pkg in pkgs) {
 				string provider = "%s  %s  %s".printf (pkg.name, pkg.version, pkg.repo);
-				var radiobutton = new Gtk.CheckButton.with_label (provider);
+				var radiobutton = new Gtk.CheckButton ();
+				// add label manually to make it wrapable
+				var label = new Gtk.Label (provider);
+				label.wrap = true;
+				radiobutton.set_child (label);
 				radiobutton.add_css_class ("selection-mode");
 				// active first provider
 				if (last_radiobutton == null) {

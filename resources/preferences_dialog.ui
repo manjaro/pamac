@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libadwaita" version="1.0"/>
+  <requires lib="libadwaita" version="1.4"/>
   <template class="PamacPreferencesWindow" parent="AdwPreferencesWindow">
     <property name="can-navigate-back">1</property>
     <child>
@@ -21,33 +21,18 @@
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="download_updates_button">
                     <property name="title" translatable="yes">Automatically download updates</property>
-                    <child>
-                      <object class="GtkSwitch" id="download_updates_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="offline_upgrade_button">
                     <property name="title" translatable="yes">Upgrade the system at shutdown</property>
-                    <child>
-                      <object class="GtkSwitch" id="offline_upgrade_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="no_update_hide_icon_button">
                     <property name="title" translatable="yes">Hide tray icon when no update</property>
-                    <child>
-                      <object class="GtkSwitch" id="no_update_hide_icon_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>
@@ -91,13 +76,8 @@
               </object>
             </child>
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwSwitchRow" id="cache_only_uninstalled_button">
                 <property name="title" translatable="yes">Remove only the uninstalled packages</property>
-                <child>
-                  <object class="GtkSwitch" id="cache_only_uninstalled_button">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
             <child>
@@ -137,43 +117,23 @@
             <property name="description" translatable="yes">Misconfiguration of these options can lead to system breakage.
 Modify them only if you know what you are doing.</property>
               <child>
-                <object class="AdwActionRow">
+                <object class="AdwSwitchRow" id="check_space_button">
                   <property name="title" translatable="yes">Check available disk space</property>
-                  <child>
-                    <object class="GtkSwitch" id="check_space_button">
-                      <property name="valign">center</property>
-                    </object>
-                  </child>
                 </object>
               </child>
               <child>
-                <object class="AdwActionRow">
+                <object class="AdwSwitchRow" id="remove_unrequired_deps_button">
                   <property name="title" translatable="yes">Remove unrequired dependencies</property>
-                  <child>
-                    <object class="GtkSwitch" id="remove_unrequired_deps_button">
-                      <property name="valign">center</property>
-                    </object>
-                  </child>
                 </object>
               </child>
               <child>
-                <object class="AdwActionRow">
+                <object class="AdwSwitchRow" id="simple_install_button">
                   <property name="title" translatable="yes">Do not check for updates when installing</property>
-                  <child>
-                    <object class="GtkSwitch" id="simple_install_button">
-                      <property name="valign">center</property>
-                    </object>
-                  </child>
                 </object>
               </child>
               <child>
-                <object class="AdwActionRow">
+                <object class="AdwSwitchRow" id="enable_downgrade_button">
                   <property name="title" translatable="yes">Enable downgrade</property>
-                  <child>
-                    <object class="GtkSwitch" id="enable_downgrade_button">
-                      <property name="valign">center</property>
-                    </object>
-                  </child>
                 </object>
               </child>
               <child>
@@ -220,33 +180,18 @@ All AUR users should be familiar with the build process.</property>
                 <property name="show_enable_switch">1</property>
                 <property name="title" translatable="yes">Enable AUR support</property>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="keep_built_pkgs_button">
                     <property name="title" translatable="yes">Keep built packages</property>
-                    <child>
-                      <object class="GtkSwitch" id="keep_built_pkgs_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="check_aur_updates_button">
                     <property name="title" translatable="yes">Check for updates</property>
-                    <child>
-                      <object class="GtkSwitch" id="check_aur_updates_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="check_aur_vcs_updates_button">
                     <property name="title" translatable="yes">Check for development packages updates</property>
-                    <child>
-                      <object class="GtkSwitch" id="check_aur_vcs_updates_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
                 <child>
@@ -320,13 +265,8 @@ All AUR users should be familiar with the build process.</property>
                 <property name="show_enable_switch">1</property>
                 <property name="title" translatable="yes">Enable Flatpak support</property>
                 <child>
-                  <object class="AdwActionRow">
+                  <object class="AdwSwitchRow" id="check_flatpak_updates_button">
                     <property name="title" translatable="yes">Check for updates</property>
-                    <child>
-                      <object class="GtkSwitch" id="check_flatpak_updates_button">
-                        <property name="valign">center</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>
@@ -338,13 +278,8 @@ All AUR users should be familiar with the build process.</property>
             <property name="title" translatable="yes">Snap</property>
             <property name="description" translatable="yes">Snap packages are maintained by their publisher.</property>
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwSwitchRow" id="enable_snap_button">
                 <property name="title" translatable="yes">Enable Snap support</property>
-                <child>
-                  <object class="GtkSwitch" id="enable_snap_button">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
               </object>
             </child>
           </object>

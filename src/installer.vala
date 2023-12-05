@@ -57,7 +57,7 @@ namespace Pamac {
 			// set translated title
 			var appinfo = new DesktopAppInfo ("pamac-installer.desktop");
 			progress_dialog.title = appinfo.get_name ();
-			transaction = new TransactionGtk (database, local_config, this, false);
+			transaction = new TransactionGtk (database, local_config, this);
 			transaction.start_waiting.connect (on_start_waiting);
 			transaction.stop_waiting.connect (on_stop_waiting);
 			transaction.start_preparing.connect (on_start_preparing);

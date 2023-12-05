@@ -5,9 +5,10 @@
   <template class="PamacChooseProviderDialog" parent="AdwMessageDialog">
     <property name="heading" translatable="yes">Choose a Provider</property>
     <property name="resizable">1</property>
+    <property name="default_width">350</property>
+    <property name="default_height">300</property>
     <property name="extra_child">
       <object class="GtkScrolledWindow">
-        <property name="min_content_height">200</property>
         <child>
           <object class="GtkBox" id="box">
             <property name="orientation">vertical</property>

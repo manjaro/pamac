@@ -18,18 +18,14 @@
  */
 
 namespace Pamac {
-
 	[GtkTemplate (ui = "/org/manjaro/pamac/manager/package_row.ui")]
-	public class PackageRow : Gtk.FlowBoxChild {
-
+	public class PackageRow : Gtk.ListBoxRow {
 		[GtkChild]
 		public unowned Gtk.Image app_icon;
 		[GtkChild]
 		public unowned Gtk.Label name_label;
 		[GtkChild]
 		public unowned Gtk.Label desc_label;
-		[GtkChild]
-		public unowned Gtk.Label old_version_label;
 		[GtkChild]
 		public unowned Gtk.Label version_label;
 		[GtkChild]
@@ -43,15 +39,8 @@ namespace Pamac {
 
 		public Package? pkg;
 
-		public PackageRow (Package? pkg, bool mobile) {
+		public PackageRow (Package? pkg) {
 			this.pkg = pkg;
-			if (mobile) {
-				desc_label.width_chars = -1;
-				version_label.ellipsize = Pango.EllipsizeMode.END;
-				old_version_label.ellipsize = Pango.EllipsizeMode.END;
-			}
 		}
-
 	}
-
 }
