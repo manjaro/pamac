@@ -330,6 +330,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.HeaderBar headerbar;
 		[GtkChild]
+		unowned Gtk.Box header_center_buttonbox;
+		[GtkChild]
 		public unowned Gtk.Stack main_stack;
 		[GtkChild]
 		public unowned Gtk.Button button_back;
@@ -390,6 +392,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.ScrolledWindow details_scrolledwindow;
 		[GtkChild]
+		unowned Gtk.Box actions_button_box;
+		[GtkChild]
 		unowned Gtk.Stack properties_stack;
 		[GtkChild]
 		unowned Gtk.StackSwitcher properties_stack_switcher;
@@ -443,6 +447,8 @@ namespace Pamac {
 		unowned Gtk.Button cancel_button;
 		[GtkChild]
 		public unowned Gtk.Revealer infobox_revealer;
+		[GtkChild]
+		public unowned Adw.ViewSwitcherBar switcher_bar;
 
 		public Queue<Package> display_package_queue;
 		Package current_package_displayed;
@@ -518,6 +524,84 @@ namespace Pamac {
 				this.maximize ();
 			}
 
+			// Breakpoints
+			// actions when width is below 700
+			var condition = new Adw.BreakpointCondition.length (Adw.BreakpointConditionLengthType.MAX_WIDTH, 700, Adw.LengthUnit.SP);
+			var breakpoint = new Adw.Breakpoint (condition);
+			breakpoint.apply.connect (() => {
+				browse_splitview.collapsed = true;
+				if (browse_splitview.show_sidebar) {
+					reveal_sidebar_button.visible = true;
+					browse_splitview.show_sidebar = false;
+				}
+				properties_stack_switcher.orientation = Gtk.Orientation.VERTICAL;
+				actions_button_box.orientation = Gtk.Orientation.VERTICAL;
+			});
+			breakpoint.unapply.connect (() => {
+				browse_splitview.collapsed = false;
+				reveal_sidebar_button.visible = false;
+				switch (view_stack.visible_child_name) {
+					case "browse":
+						browse_splitview.show_sidebar = true;
+						break;
+					case "installed":
+						browse_splitview.show_sidebar = !local_config.software_mode;
+						break;
+					case "search":
+						browse_splitview.show_sidebar = !local_config.software_mode;
+						break;
+					case "updates":
+						browse_splitview.show_sidebar = !local_config.software_mode;
+						break;
+					default:
+						break;
+				}
+				properties_stack_switcher.orientation = Gtk.Orientation.HORIZONTAL;
+				actions_button_box.orientation = Gtk.Orientation.HORIZONTAL;
+			});
+			this.add_breakpoint (breakpoint);
+			// actions when width is below 550
+			var condition2 = new Adw.BreakpointCondition.length (Adw.BreakpointConditionLengthType.MAX_WIDTH, 550, Adw.LengthUnit.SP);
+			var breakpoint2 = new Adw.Breakpoint (condition2);
+			breakpoint2.apply.connect (() => {
+				browse_splitview.collapsed = true;
+				if (browse_splitview.show_sidebar) {
+					reveal_sidebar_button.visible = true;
+					browse_splitview.show_sidebar = false;
+				}
+				properties_stack_switcher.orientation = Gtk.Orientation.VERTICAL;
+				actions_button_box.orientation = Gtk.Orientation.VERTICAL;
+				headerbar.title_widget = null;
+				if (!search_entry.visible) {
+					switcher_bar.reveal = true;
+				}
+			});
+			breakpoint2.unapply.connect (() => {
+				browse_splitview.collapsed = false;
+				reveal_sidebar_button.visible = false;
+				switch (view_stack.visible_child_name) {
+					case "browse":
+						browse_splitview.show_sidebar = true;
+						break;
+					case "installed":
+						browse_splitview.show_sidebar = !local_config.software_mode;
+						break;
+					case "search":
+						browse_splitview.show_sidebar = !local_config.software_mode;
+						break;
+					case "updates":
+						browse_splitview.show_sidebar = !local_config.software_mode;
+						break;
+					default:
+						break;
+				}
+				properties_stack_switcher.orientation = Gtk.Orientation.HORIZONTAL;
+				actions_button_box.orientation = Gtk.Orientation.HORIZONTAL;
+				headerbar.title_widget = header_center_buttonbox;
+				switcher_bar.reveal = false;
+			});
+			this.add_breakpoint (breakpoint2);
+
 			button_back.visible = false;
 			remove_all_button.visible = false;
 			install_all_button.visible = false;
@@ -570,6 +654,7 @@ namespace Pamac {
 					|| view_stack.visible_child_name == "installed")) {
 					search_button.visible = false;
 					view_stack_switcher.visible = false;
+					switcher_bar.reveal = false;
 					search_entry.visible = true;
 					button_back.visible = true;
 					previous_view_stack_visible_child_name = view_stack.visible_child_name;
@@ -608,6 +693,9 @@ namespace Pamac {
 							search_entry.set_text ("");
 							search_string = null;
 							view_stack.visible_child_name = previous_view_stack_visible_child_name;
+							if (headerbar.title_widget == null) {
+								switcher_bar.reveal = true;
+							}
 							view_stack_switcher.visible = true;
 							search_button.visible = true;
 							refresh_packages_list ();
@@ -909,7 +997,6 @@ namespace Pamac {
 				reveal_sidebar_button.visible = visible;
 			} else {
 				browse_splitview.show_sidebar = visible;
-				reveal_sidebar_button.visible = visible;
 			}
 		}
 
@@ -3464,6 +3551,7 @@ namespace Pamac {
 					search_all_pkgs.begin ((obj, res) => {
 						var pkgs = search_all_pkgs.end (res);
 						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_all_%s".printf (search_string)) {
+							this.title = dgettext (null, "Search");
 							populate_packages_list (pkgs);
 						} else {
 							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -3475,6 +3563,7 @@ namespace Pamac {
 					database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
 						var pkgs = database.search_installed_pkgs_async.end (res);
 						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_installed_%s".printf (search_string)) {
+							this.title = dgettext (null, "Installed");
 							populate_packages_list (pkgs);
 						} else {
 							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -3486,6 +3575,7 @@ namespace Pamac {
 					database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
 						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_repos_%s".printf (search_string)) {
 							var pkgs = database.search_repos_pkgs_async.end (res);
+							this.title = dgettext (null, "Repositories");
 							populate_packages_list (pkgs);
 						} else {
 							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -3506,6 +3596,7 @@ namespace Pamac {
 						database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
 							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_aur_%s".printf (search_string)) {
 								var pkgs = database.search_aur_pkgs_async.end (res);
+								this.title = dgettext (null, "AUR");
 								populate_aur_list (pkgs);
 							} else {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -3516,6 +3607,7 @@ namespace Pamac {
 						database.search_snaps_async.begin (search_string, (obj, res) => {
 							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_snap_%s".printf (search_string)) {
 								var pkgs = database.search_snaps_async.end (res);
+								this.title = dgettext (null, "Snap");
 								populate_packages_list (pkgs);
 							} else {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -3526,6 +3618,7 @@ namespace Pamac {
 						database.search_flatpaks_async.begin (search_string, (obj, res) => {
 							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_flatpak_%s".printf (search_string)) {
 								var pkgs = database.search_flatpaks_async.end (res);
+								this.title = dgettext (null, "Flatpak");
 								populate_packages_list (pkgs);
 							} else {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
@@ -3539,6 +3632,10 @@ namespace Pamac {
 			install_all_button.visible = false;
 			remove_all_button.visible = false;
 			ignore_all_button.visible = false;
+			// hide sidebar in collapsed mode
+			if (browse_splitview.collapsed && browse_splitview.show_sidebar) {
+				browse_splitview.show_sidebar = false;
+			}
 		}
 
 
