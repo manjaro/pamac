@@ -196,6 +196,7 @@ Categories=GNOME;GTK;System;PackageManager;Settings;X-XFCE-SettingsDialog;X-XFCE
 StartupNotify=true
 MimeType=x-scheme-handler/appstream;x-scheme-handler/snap;application/vnd.flatpak;application/vnd.flatpak.repo;application/vnd.flatpak.ref;application/vnd.snap;
 X-GNOME-UsesNotifications=true
+X-Purism-FormFactor=Workstation;Mobile;
 StartupWMClass=pamac-manager
 DBusActivatable=true
 Actions=updates;
