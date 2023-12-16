@@ -52,8 +52,10 @@ namespace Pamac {
 				unowned Gtk.ListBoxRow row = widget as Gtk.ListBoxRow;
 				unowned Gtk.Widget child = row.get_child ();
 				unowned Gtk.CheckButton radiobutton = child as Gtk.CheckButton;
+				child = radiobutton.get_child ();
+				unowned Gtk.Label label = child as Gtk.Label;
 				if (radiobutton.active) {
-					selected.add (radiobutton.label);
+					selected.add (label.label);
 				}
 				widget = widget.get_next_sibling ();
 			}

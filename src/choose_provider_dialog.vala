@@ -51,15 +51,14 @@ namespace Pamac {
 		public async int choose_provider () {
 			int index = 0;
 			yield this.choose (null);
-			unowned Gtk.Widget child = box.get_first_child ();
-			var radiobutton = child as Gtk.CheckButton;
-			while (radiobutton != null) {
+			unowned Gtk.Widget? widget = box.get_first_child ();
+			while (widget != null) {
+				unowned Gtk.CheckButton radiobutton = widget as Gtk.CheckButton;
 				if (radiobutton.active) {
 					break;
 				}
 				index++;
-				child = radiobutton.get_next_sibling ();
-				radiobutton = child as Gtk.CheckButton;
+				widget = radiobutton.get_next_sibling ();
 			}
 			return index;
 		}
