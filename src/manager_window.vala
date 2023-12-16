@@ -382,8 +382,6 @@ namespace Pamac {
 		[GtkChild]
 		unowned Gtk.ScrolledWindow packages_scrolledwindow;
 		[GtkChild]
-		unowned Gtk.ScrolledWindow files_scrolledwindow;
-		[GtkChild]
 		unowned Adw.StatusPage updated_page;
 		[GtkChild]
 		unowned Adw.StatusPage no_item_page;
@@ -2111,7 +2109,6 @@ namespace Pamac {
 							current_files = current_package_displayed.name;
 						});
 						files_textview.buffer.set_text ("", 0);
-						files_scrolledwindow.vadjustment.value = 0;
 					}
 					break;
 				case "build_files":

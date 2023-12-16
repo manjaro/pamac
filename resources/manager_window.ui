@@ -556,9 +556,10 @@
                               <object class="GtkStackPage">
                                 <property name="name">details</property>
                                 <property name="child">
-                                  <object class="GtkBox" id="main_details_box">
-                                    <child>
-                                      <object class="GtkBox" id="main_details_box2">
+                                  <object class="GtkScrolledWindow" id="details_scrolledwindow">
+                                    <property name="hscrollbar-policy">never</property>
+                                    <property name="child">
+                                      <object class="GtkBox" id="main_details_box">
                                         <property name="orientation">vertical</property>
                                         <property name="spacing">6</property>
                                         <property name="hexpand">1</property>
@@ -681,111 +682,106 @@
                                                 <property name="name">details</property>
                                                 <property name="title" translatable="yes">Details</property>
                                                 <property name="child">
-                                                  <object class="GtkScrolledWindow" id="details_scrolledwindow">
-                                                    <property name="hscrollbar-policy">never</property>
-                                                    <property name="child">
-                                                      <object class="GtkBox" id="details_box">
-                                                        <property name="orientation">vertical</property>
-                                                        <property name="spacing">12</property>
-                                                        <child>
-                                                          <object class="GtkOverlay" id="screenshots_overlay">
-                                                            <property name="child">
-                                                              <object class="GtkBox" id="screenshots_box">
+                                                  <object class="GtkBox" id="details_box">
+                                                    <property name="orientation">vertical</property>
+                                                    <property name="spacing">12</property>
+                                                    <child>
+                                                      <object class="GtkOverlay" id="screenshots_overlay">
+                                                        <property name="child">
+                                                          <object class="GtkBox" id="screenshots_box">
+                                                            <property name="valign">center</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="height_request">400</property>
+                                                            <child>
+                                                              <object class="AdwCarousel" id="screenshots_carousel">
+                                                                <property name="margin_top">12</property>
+                                                                <property name="margin_bottom">6</property>
+                                                                <property name="spacing">22</property>
+                                                                <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
+                                                              </object>
+                                                            </child>
+                                                            <child>
+                                                              <object class="AdwCarouselIndicatorDots" id="screenshots_indicator">
+                                                                <property name="margin_bottom">6</property>
+                                                                <property name="carousel">screenshots_carousel</property>
+                                                              </object>
+                                                            </child>
+                                                            <style>
+                                                              <class name="screenshots-box"/>
+                                                            </style>
+                                                          </object>
+                                                        </property>
+                                                        <child type="overlay">
+                                                          <object class="GtkBox" id="screenshots_buttons_box">
+                                                            <child>
+                                                              <object class="GtkButton" id="previous_screenshot_button">
+                                                                <property name="halign">start</property>
                                                                 <property name="valign">center</property>
-                                                                <property name="orientation">vertical</property>
-                                                                <property name="height_request">400</property>
+                                                                <property name="margin-start">12</property>
+                                                                <signal name="clicked" handler="on_previous_screenshot_button_clicked" swapped="no"/>
                                                                 <child>
-                                                                  <object class="AdwCarousel" id="screenshots_carousel">
-                                                                    <property name="margin_top">12</property>
-                                                                    <property name="margin_bottom">6</property>
-                                                                    <property name="spacing">22</property>
-                                                                    <signal name="page-changed" handler="on_screenshots_carousel_page_changed" swapped="no"/>
-                                                                  </object>
-                                                                </child>
-                                                                <child>
-                                                                  <object class="AdwCarouselIndicatorDots" id="screenshots_indicator">
-                                                                    <property name="margin_bottom">6</property>
-                                                                    <property name="carousel">screenshots_carousel</property>
+                                                                  <object class="GtkImage" id="previous_screenshot_image">
+                                                                    <property name="icon-name">go-previous-symbolic</property>
                                                                   </object>
                                                                 </child>
                                                                 <style>
-                                                                  <class name="screenshots-box"/>
+                                                                  <class name="osd"/>
+                                                                  <class name="circular"/>
                                                                 </style>
                                                               </object>
-                                                            </property>
-                                                            <child type="overlay">
-                                                              <object class="GtkBox" id="screenshots_buttons_box">
+                                                            </child>
+                                                            <child>
+                                                              <object class="GtkButton" id="next_screenshot_button">
+                                                                <property name="halign">end</property>
+                                                                <property name="valign">center</property>
+                                                                <property name="margin-end">12</property>
+                                                                <property name="hexpand">1</property>
+                                                                <signal name="clicked" handler="on_next_screenshot_button_clicked" swapped="no"/>
                                                                 <child>
-                                                                  <object class="GtkButton" id="previous_screenshot_button">
-                                                                    <property name="halign">start</property>
-                                                                    <property name="valign">center</property>
-                                                                    <property name="margin-start">12</property>
-                                                                    <signal name="clicked" handler="on_previous_screenshot_button_clicked" swapped="no"/>
-                                                                    <child>
-                                                                      <object class="GtkImage" id="previous_screenshot_image">
-                                                                        <property name="icon-name">go-previous-symbolic</property>
-                                                                      </object>
-                                                                    </child>
-                                                                    <style>
-                                                                      <class name="osd"/>
-                                                                      <class name="circular"/>
-                                                                    </style>
+                                                                  <object class="GtkImage" id="next_screenshot_image">
+                                                                    <property name="icon-name">go-next-symbolic</property>
                                                                   </object>
                                                                 </child>
-                                                                <child>
-                                                                  <object class="GtkButton" id="next_screenshot_button">
-                                                                    <property name="halign">end</property>
-                                                                    <property name="valign">center</property>
-                                                                    <property name="margin-end">12</property>
-                                                                    <property name="hexpand">1</property>
-                                                                    <signal name="clicked" handler="on_next_screenshot_button_clicked" swapped="no"/>
-                                                                    <child>
-                                                                      <object class="GtkImage" id="next_screenshot_image">
-                                                                        <property name="icon-name">go-next-symbolic</property>
-                                                                      </object>
-                                                                    </child>
-                                                                    <style>
-                                                                      <class name="osd"/>
-                                                                      <class name="circular"/>
-                                                                    </style>
-                                                                  </object>
-                                                                </child>
-                                                              </object>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkBox" id="details_box2">
-                                                            <property name="margin-start">24</property>
-                                                            <property name="margin-end">24</property>
-                                                            <property name="margin-bottom">24</property>
-                                                            <property name="halign">center</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">24</property>
-                                                            <child>
-                                                              <object class="GtkLabel" id="long_desc_label">
-                                                                <property name="wrap">1</property>
-                                                                <property name="max-width-chars">200</property>
-                                                                <property name="xalign">0</property>
-                                                              </object>
-                                                            </child>
-                                                            <child>
-                                                              <object class="GtkLabel" id="link_label">
-                                                                <property name="wrap">1</property>
-                                                                <property name="xalign">0</property>
-                                                              </object>
-                                                            </child>
-                                                            <child>
-                                                              <object class="GtkGrid" id="details_grid">
-                                                                <property name="margin-bottom">12</property>
-                                                                <property name="row-spacing">18</property>
-                                                                <property name="column-spacing">18</property>
+                                                                <style>
+                                                                  <class name="osd"/>
+                                                                  <class name="circular"/>
+                                                                </style>
                                                               </object>
                                                             </child>
                                                           </object>
                                                         </child>
                                                       </object>
-                                                    </property>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkBox" id="details_box2">
+                                                        <property name="margin-start">24</property>
+                                                        <property name="margin-end">24</property>
+                                                        <property name="margin-bottom">24</property>
+                                                        <property name="halign">center</property>
+                                                        <property name="orientation">vertical</property>
+                                                        <property name="spacing">24</property>
+                                                        <child>
+                                                          <object class="GtkLabel" id="long_desc_label">
+                                                            <property name="wrap">1</property>
+                                                            <property name="max-width-chars">200</property>
+                                                            <property name="xalign">0</property>
+                                                          </object>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkLabel" id="link_label">
+                                                            <property name="wrap">1</property>
+                                                            <property name="xalign">0</property>
+                                                          </object>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkGrid" id="details_grid">
+                                                            <property name="margin-bottom">12</property>
+                                                            <property name="row-spacing">18</property>
+                                                            <property name="column-spacing">18</property>
+                                                          </object>
+                                                        </child>
+                                                      </object>
+                                                    </child>
                                                   </object>
                                                 </property>
                                               </object>
@@ -795,18 +791,13 @@
                                                 <property name="name">deps</property>
                                                 <property name="title" translatable="yes">Dependencies</property>
                                                 <property name="child">
-                                                  <object class="GtkScrolledWindow" id="deps_scrolledwindow">
-                                                    <property name="hscrollbar-policy">never</property>
-                                                    <property name="child">
-                                                      <object class="GtkBox" id="deps_box">
-                                                        <property name="halign">center</property>
-                                                        <property name="margin-start">24</property>
-                                                        <property name="margin-end">24</property>
-                                                        <property name="margin-bottom">24</property>
-                                                        <property name="orientation">vertical</property>
-                                                        <property name="spacing">12</property>
-                                                      </object>
-                                                    </property>
+                                                  <object class="GtkBox" id="deps_box">
+                                                    <property name="halign">center</property>
+                                                    <property name="margin-start">24</property>
+                                                    <property name="margin-end">24</property>
+                                                    <property name="margin-bottom">24</property>
+                                                    <property name="orientation">vertical</property>
+                                                    <property name="spacing">12</property>
                                                   </object>
                                                 </property>
                                               </object>
@@ -817,7 +808,7 @@
                                                 <property name="title" translatable="yes">Files</property>
                                                 <property name="child">
                                                   <object class="GtkScrolledWindow" id="files_scrolledwindow">
-                                                    <property name="hscrollbar-policy">never</property>
+                                                    <property name="vscrollbar-policy">never</property>
                                                     <property name="child">
                                                       <object class="GtkTextView" id="files_textview">
                                                         <property name="margin-start">24</property>
@@ -840,7 +831,7 @@
                                                 <property name="title" translatable="yes">Build files</property>
                                                 <property name="child">
                                                   <object class="GtkScrolledWindow" id="build_files_scrolledwindow">
-                                                    <property name="hscrollbar-policy">never</property>
+                                                    <property name="vscrollbar-policy">never</property>
                                                     <property name="child">
                                                       <object class="GtkBox" id="build_files_box">
                                                         <property name="orientation">vertical</property>
@@ -865,7 +856,7 @@
                                           </object>
                                         </child>
                                       </object>
-                                    </child>
+                                    </property>
                                   </object>
                                 </property>
                               </object>
