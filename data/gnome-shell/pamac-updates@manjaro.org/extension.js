@@ -2,7 +2,7 @@
  *  pamac-vala
  *
  *  Copyright 2016-2023 Raphaël Rochet
- *  Copyright (C) 2018-2023 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018-2024 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -39,7 +39,6 @@ let HIDE_NO_UPDATE     = false;
 let BOOT_WAIT          = 30;  // 30s
 let CHECK_INTERVAL     = 1;   // 1h
 let NOTIFY             = true;
-let TRANSIENT          = true;
 let UPDATER_CMD        = "pamac-manager --updates";
 let MANAGER_CMD        = "pamac-manager";
 
@@ -77,7 +76,7 @@ const PamacUpdateIndicator = GObject.registerClass(
 class PamacUpdateIndicator extends Button {
 
 	_init(ext) {
-		super._init(0);
+		super._init(0.5);
 
 		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", style_class: 'system-status-icon'});
 
@@ -103,6 +102,10 @@ class PamacUpdateIndicator extends Button {
 		this.menu.connect('open-state-changed', this._onMenuOpened.bind(this));
 		this.managerMenuItem.connect('activate', this._openManager.bind(this));
 
+		// Restore previous updates list if any
+		this._updateList = UPDATES_LIST;
+		this._updateStatus(false);
+
 		if (FIRST_BOOT && CHECK_INTERVAL > 0) {
 			// This won't be run again if extension is disabled/enabled (like when screen is locked)
 			this._updatesChecker = new Pamac.UpdatesChecker();
@@ -116,10 +119,6 @@ class PamacUpdateIndicator extends Button {
 				FIRST_BOOT = 0;
 				return false; // Run once
 			});
-		} else {
-			// Restore previous state
-			this._updateList = UPDATES_LIST;
-			this._updateStatus(UPDATES_PENDING);
 		}
 	}
 
@@ -176,26 +175,21 @@ class PamacUpdateIndicator extends Button {
 		this.menuExpander.setSubmenuShown(false);
 	}
 
-	_updateStatus(updatesCount) {
-		updatesCount = typeof updatesCount === 'number' ? updatesCount : UPDATES_PENDING;
-		if (updatesCount > 0) {
+	_updateStatus(notify) {
+		if (UPDATES_PENDING > 0) {
 			// Updates pending
 			this.updateIcon.set_icon_name("pamac-tray-update");
-			this._updateMenuExpander(true, __( "%u available update", "%u available updates", updatesCount ).replace("%u", updatesCount.toString()));
-			if (NOTIFY && UPDATES_PENDING < updatesCount) {
+			this._updateMenuExpander(true, __( "%u available update", "%u available updates", UPDATES_PENDING ).replace("%u", UPDATES_PENDING.toString()));
+			if (notify) {
 				this._showNotification(
 					_("Updates Available")
 				);
 			}
-			// Store the new list
-			UPDATES_LIST = this._updateList;
 		} else {
 			// Up to date
 			this.updateIcon.set_icon_name("pamac-tray-no-update");
 			this._updateMenuExpander(false, _("Your system is up to date"));
-			UPDATES_LIST = []; // Reset stored list
 		}
-		UPDATES_PENDING = updatesCount;
 		this._checkShowHide();
 	}
 
@@ -203,16 +197,16 @@ class PamacUpdateIndicator extends Button {
 		this.menuExpander.menu.box.destroy_all_children();
 		if (label == "") {
 			// No text, hide the menuitem
-			this.menuExpander.actor.visible = false;
+			this.menuExpander.visible = false;
 		} else {
 		// We make our expander look like a regular menu label if disabled
-			this.menuExpander.actor.reactive = enabled;
+			this.menuExpander.reactive = enabled;
 			this.menuExpander._triangle.visible = enabled;
 			this.menuExpander.label.set_text(label);
-			this.menuExpander.actor.visible = true;
+			this.menuExpander.visible = true;
 			if (enabled && this._updateList.length > 0) {
 				this._updateList.forEach( item => {
-					this.menuExpander.menu.box.add( this._createPackageLabel(item) );
+					this.menuExpander.menu.box.add_child( this._createPackageLabel(item) );
 				} );
 			}
 		}
@@ -232,32 +226,39 @@ class PamacUpdateIndicator extends Button {
 
 	_onUpdatesAvailable(obj, updatesCount) {
 		this._updateList = this._updatesChecker.updates_list;
-		this._updateStatus(updatesCount);
+		// Store the new list
+		UPDATES_LIST = this._updateList;
+		UPDATES_PENDING = this._updateList.length;
+		this._updateStatus(NOTIFY);
 	}
 
 	_showNotification(message) {
+		// Destroy previous notification if still there
+		if (this._notification) {
+			this._notification.destroy(MessageTray.NotificationDestroyedReason.REPLACED);
+		}
+		// Prepare a notification Source with our name and icon
+		// It looks like notification Sources are destroyed when empty so we check every time
 		if (this._notifSource == null) {
 			// We have to prepare this only once
-			this._notifSource = new MessageTray.SystemNotificationSource();
-			this._notifSource.createIcon = function() {
-				return new St.Icon({ icon_name: "system-software-install-symbolic" });
-			};
-			// Take care of note leaving unneeded sources
+			this._notifSource = new MessageTray.Source({
+				title: _("Package Manager"),
+				icon: Gio.icon_new_for_string("system-software-install-symbolic"),
+			});
+			// Take care of not leaving unneeded sources
 			this._notifSource.connect('destroy', ()=>{this._notifSource = null;});
 			Main.messageTray.add(this._notifSource);
 		}
-		let notification = null;
-		// We do not want to have multiple notifications stacked
-		// instead we will update previous
-		if (this._notifSource.notifications.length == 0) {
-			notification = new MessageTray.Notification(this._notifSource, _("Package Manager"), message);
-			notification.addAction( _("Details") , ()=>{this._openManager();} );
-		} else {
-			notification = this._notifSource.notifications[0];
-			notification.update(_("Package Manager"), message, { clear: true });
-		}
-		notification.setTransient(TRANSIENT);
-		this._notifSource.showNotification(notification);
+		// Creates a new notification
+		this._notification = new MessageTray.Notification({
+			source: this._notifSource,
+			//title: _("Package Manager"),
+			body: message
+		});
+		this._notification.gicon = Gio.icon_new_for_string("pamac-tray-update");
+		this._notification.addAction( _("Details") , ()=>{this._openManager();} );
+		this._notification.connect('destroy', ()=>{this._notification = null;});
+		this._notifSource.addNotification(this._notification);
 	}
 
 });
