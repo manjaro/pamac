@@ -3,7 +3,7 @@ gio = dependency('gio-2.0')
 libnotify = dependency('libnotify')
 gio_unix = dependency('gio-unix-2.0')
 
-libpamac = dependency('pamac', version : '>=11.6')
+libpamac = dependency('pamac', version : '>=11.7')
 
 gtk3 = dependency('gtk+-3.0', version : '>=3.24')
 gtk4 = dependency('gtk4', version : '>=4.10')

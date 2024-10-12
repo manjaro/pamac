@@ -2885,7 +2885,7 @@ namespace Pamac {
 					if (updates_checked) {
 						populate_updates ();
 					} else {
-						refresh_updates (true);
+						refresh_updates (false);
 					}
 					break;
 				default:
@@ -3977,45 +3977,81 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_refresh_button_clicked () {
-			refresh_updates (false);
+			refresh_updates (true);
 		}
 
-		void refresh_updates (bool use_timestamp) {
+		void refresh_updates (bool refresh_dbs) {
 			packages_stack.visible_child_name = "checking";
 			this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 			bool check_aur_updates_backup = database.config.check_aur_updates;
 			database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
-			database.get_updates_async.begin (use_timestamp, (obj, res) => {
-				database.config.check_aur_updates = check_aur_updates_backup;
-				var updates = database.get_updates_async.end (res);
-				// copy updates in lists
-				repos_updates = new GenericArray<AlpmPackage> ();
-				foreach (unowned AlpmPackage pkg in updates.repos_updates) {
-					repos_updates.add (pkg);
-				}
-				foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
-					repos_updates.add (pkg);
-					temporary_ignorepkgs.add (pkg.name);
-				}
-				aur_updates = new GenericArray<AURPackage> ();
-				foreach (unowned AURPackage pkg in updates.aur_updates) {
-					aur_updates.add (pkg);
-				}
-				foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
-					aur_updates.add (pkg);
-					temporary_ignorepkgs.add (pkg.name);
-				}
-				flatpak_updates = new GenericArray<FlatpakPackage> ();
-				foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
-					flatpak_updates.add (pkg);
-				}
-				updates_checked = true;
-				if (view_stack.visible_child_name == "updates") {
-					populate_updates ();
-				} else {
-					this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-				}
-			});
+			if (refresh_dbs) {
+				transaction.refresh_dbs_async.begin (()=> {
+					database.get_updates_async.begin ((obj, res) => {
+						database.config.check_aur_updates = check_aur_updates_backup;
+						var updates = database.get_updates_async.end (res);
+						// copy updates in lists
+						repos_updates = new GenericArray<AlpmPackage> ();
+						foreach (unowned AlpmPackage pkg in updates.repos_updates) {
+							repos_updates.add (pkg);
+						}
+						foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+							repos_updates.add (pkg);
+							temporary_ignorepkgs.add (pkg.name);
+						}
+						aur_updates = new GenericArray<AURPackage> ();
+						foreach (unowned AURPackage pkg in updates.aur_updates) {
+							aur_updates.add (pkg);
+						}
+						foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+							aur_updates.add (pkg);
+							temporary_ignorepkgs.add (pkg.name);
+						}
+						flatpak_updates = new GenericArray<FlatpakPackage> ();
+						foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
+							flatpak_updates.add (pkg);
+						}
+						updates_checked = true;
+						if (view_stack.visible_child_name == "updates") {
+							populate_updates ();
+						} else {
+							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+						}
+					});
+				});
+			} else {
+				database.get_updates_async.begin ((obj, res) => {
+					database.config.check_aur_updates = check_aur_updates_backup;
+					var updates = database.get_updates_async.end (res);
+					// copy updates in lists
+					repos_updates = new GenericArray<AlpmPackage> ();
+					foreach (unowned AlpmPackage pkg in updates.repos_updates) {
+						repos_updates.add (pkg);
+					}
+					foreach (unowned AlpmPackage pkg in updates.ignored_repos_updates) {
+						repos_updates.add (pkg);
+						temporary_ignorepkgs.add (pkg.name);
+					}
+					aur_updates = new GenericArray<AURPackage> ();
+					foreach (unowned AURPackage pkg in updates.aur_updates) {
+						aur_updates.add (pkg);
+					}
+					foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+						aur_updates.add (pkg);
+						temporary_ignorepkgs.add (pkg.name);
+					}
+					flatpak_updates = new GenericArray<FlatpakPackage> ();
+					foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
+						flatpak_updates.add (pkg);
+					}
+					updates_checked = true;
+					if (view_stack.visible_child_name == "updates") {
+						populate_updates ();
+					} else {
+						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+					}
+				});
+			}
 		}
 
 		void on_get_updates_progress (uint percent) {
