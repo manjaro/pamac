@@ -827,7 +827,7 @@ namespace Pamac {
 				about.copyright = "Copyright © 2023 Guillaume Benoit";
 				about.version = VERSION;
 				about.license_type = Gtk.License.GPL_3_0;
-				about.website = "https://gitlab.manjaro.org/applications/pamac";
+				about.website = "https://github.com/manjaro/pamac";
 				about.show ();
 			});
 			this.add_action (action);
