@@ -10,7 +10,7 @@ gtk4 = dependency('gtk4', version : '>=4.10')
 libadwaita = dependency('libadwaita-1', version : '>=1.4')
 
 
-common_vala_args = ['--pkg=posix', '--vapidir=' + join_paths(meson.source_root(), 'vapi')]
+common_vala_args = ['--pkg=posix', '--vapidir=' + join_paths(meson.global_source_root(), 'vapi')]
 common_c_args = ['-DGETTEXT_PACKAGE="pamac"']
 
 executable('pamac-tray',
