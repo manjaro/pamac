@@ -1,1 +1,4 @@
 option('enable-fake-gnome-software', type : 'boolean', value : false, description : 'simulate gnome-software')
+
+option('jemalloc', type : 'combo', choices : ['true', 'false', 'auto'], value : 'auto',
+       description: 'Use jemalloc memory allocator if available (auto = enable if found)')
