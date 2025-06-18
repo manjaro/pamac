@@ -3041,12 +3041,15 @@ namespace Pamac {
 			}
 			string? depstring = null;
 			unowned Gtk.Widget? child = row.get_first_child ();
-			while (child != null) {
+			if (child is Gtk.Label) {
 				var dep_label = child as Gtk.Label;
-				if (dep_label != null) {
+				depstring = dep_label.label;
+			} else if (child is Gtk.Box) {
+				unowned Gtk.Widget? child2 = child.get_first_child ();
+				if (child2 is Gtk.Label) {
+					var dep_label = child2 as Gtk.Label;
 					depstring = dep_label.label;
 				}
-				child = child.get_next_sibling ();
 			}
 			if (depstring == null) {
 				return;
