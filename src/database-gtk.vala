@@ -41,11 +41,6 @@ namespace Pamac {
 				// run
 				dialog.present ();
 			});
-			// load dbs
-			string needle = "firefox";
-			search_pkgs_async.begin (needle);
-			search_aur_pkgs_async.begin (needle);
-			search_snaps_async.begin (needle);
 		}
 	}
 }
