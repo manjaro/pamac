@@ -36,6 +36,7 @@ namespace Pamac {
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
+		bool reboot_needed;
 		public bool commit_transaction_answer;
 
 		public signal void transaction_sum_populated ();
@@ -99,6 +100,7 @@ namespace Pamac {
 			// ask_confirmation option
 			no_confirm_upgrade = false;
 			summary_shown = false;
+			reboot_needed = false;
 			commit_transaction_answer = false;
 			// check_dbs and refresh flatpak appstream_data
 			var loop = new MainLoop ();
@@ -290,7 +292,7 @@ namespace Pamac {
 				if (no_confirm_upgrade
 					&& !must_confirm
 					&& summary.to_upgrade.length != 0) {
-					yield show_warnings ();
+					yield show_warnings (false);
 					commit_transaction_answer = true;
 					return true;
 				}
@@ -756,7 +758,7 @@ namespace Pamac {
 				});
 				box.append (button);
 			} else {
-				yield show_warnings ();
+				yield show_warnings (false);
 			}
 			string response = yield transaction_sum_dialog.choose (null);
 			if (response == "apply") {
@@ -924,7 +926,7 @@ namespace Pamac {
 			warning_textbuffer = new StringBuilder ();
 		}
 
-		public async void show_warnings () {
+		public async void show_warnings (bool show_restart = true) {
 			if (warning_textbuffer.len > 0) {
 				var application_window = application.active_window;
 				var dialog = new Adw.MessageDialog (application_window, dgettext (null, "Warning"), null);
@@ -933,10 +935,15 @@ namespace Pamac {
 				dialog.add_response (close_id, dgettext (null, "_Close"));
 				dialog.default_response = close_id;
 				dialog.close_response = close_id;
-				if (warning_textbuffer.replace (dgettext (null, "A restart is required for the changes to take effect") + ".", "", 1) > 0) {
-					dialog.body = dgettext (null, "A restart is required for the changes to take effect");
-					dialog.add_response (restart_id, dgettext (null, "Restart"));
-					dialog.set_response_appearance (restart_id, Adw.ResponseAppearance.SUGGESTED);
+				if (reboot_needed || (warning_textbuffer.replace (dgettext (null, "A restart is required for the changes to take effect") + ".", "", 1) > 0)) {
+					if (!show_restart) {
+						reboot_needed = true;
+					} else {
+						dialog.body = dgettext (null, "A restart is required for the changes to take effect");
+						dialog.add_response (restart_id, dgettext (null, "Restart"));
+						dialog.set_response_appearance (restart_id, Adw.ResponseAppearance.SUGGESTED);
+						reboot_needed = false;
+					}
 				}
 				// set details
 				// empty string has a length of 1
