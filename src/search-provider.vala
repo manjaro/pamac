@@ -2,7 +2,7 @@
  *  pamac-vala
  *
  *  Copyright (C) 2014  Paolo Borelli <pborelli@gnome.org>
- *  Copyright (C) 2018-2023 Guillaume Benoit <guillaume@manjaro.org>
+ *  Copyright (C) 2018-2025 Guillaume Benoit <guillaume@manjaro.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -81,18 +81,7 @@ namespace Pamac {
 					try {
 						icon = new Gdk.Pixbuf.from_file (pkg_data[3]);
 					} catch (Error e) {
-						// some icons are not in the right repo
-						string icon_path = pkg_data[2];
-						if ("extra" in icon_path) {
-							icon_path = icon_path.replace ("extra", "community");
-						} else if ("community" in icon_path) {
-							icon_path = icon_path.replace ("community", "extra");
-						}
-						try {
-							icon = new Gdk.Pixbuf.from_file (icon_path);
-						} catch (Error e) {
-							icon = new ThemedIcon ("package-x-generic");
-						}
+						icon = new ThemedIcon ("package-x-generic");
 					}
 				} else {
 					icon = new ThemedIcon ("package-x-generic");
