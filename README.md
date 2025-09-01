@@ -22,4 +22,4 @@ In the source directory run:
 
 #### Translation
 
-If you want to contribute in Pamac translations, use [Transifex](https://www.transifex.com/manjarolinux/manjaro-pamac).
+If you want to contribute in Pamac translations, use [Transifex](https://app.transifex.com/manjarolinux/manjaro-pamac).
