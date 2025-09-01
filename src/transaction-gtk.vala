@@ -961,6 +961,9 @@ namespace Pamac {
 					dialog.extra_child = scrolledwindow;
 					dialog.default_width = 600;
 					dialog.default_height = 300;
+				} else if (reboot_needed) {
+					// warning_textbuffer is empty so don't show dialog
+					return;
 				}
 				dialog.resizable = true;
 				// run
