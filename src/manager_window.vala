@@ -525,7 +525,7 @@ namespace Pamac {
 			// Breakpoints
 			// actions when width is below 700
 			var condition = new Adw.BreakpointCondition.length (Adw.BreakpointConditionLengthType.MAX_WIDTH, 700, Adw.LengthUnit.SP);
-			var breakpoint = new Adw.Breakpoint (condition);
+			var breakpoint = new Adw.Breakpoint ((owned) condition);
 			breakpoint.apply.connect (() => {
 				browse_splitview.collapsed = true;
 				if (browse_splitview.show_sidebar) {
@@ -560,7 +560,7 @@ namespace Pamac {
 			this.add_breakpoint (breakpoint);
 			// actions when width is below 550
 			var condition2 = new Adw.BreakpointCondition.length (Adw.BreakpointConditionLengthType.MAX_WIDTH, 550, Adw.LengthUnit.SP);
-			var breakpoint2 = new Adw.Breakpoint (condition2);
+			var breakpoint2 = new Adw.Breakpoint ((owned) condition2);
 			breakpoint2.apply.connect (() => {
 				browse_splitview.collapsed = true;
 				if (browse_splitview.show_sidebar) {
