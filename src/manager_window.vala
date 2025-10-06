@@ -1,20 +1,20 @@
 /*
- *  pamac-vala
+ * pamac-vala
  *
- *  Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
+ * Copyright (C) 2014-2023 Guillaume Benoit <guillaume@manjaro.org>
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a get of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a get of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Pamac {
@@ -3895,7 +3895,7 @@ namespace Pamac {
 			transaction.no_confirm_upgrade = no_confirm_upgrade;
 			transaction_running = true;
 			apply_button.sensitive = false;
-			cancel_button.sensitive = false;
+			cancel_button.sensitive = true;
 			foreach (unowned string name in to_install) {
 				transaction.add_pkg_to_install (name);
 				previous_to_install.add (name);
@@ -4149,7 +4149,6 @@ namespace Pamac {
 		}
 
 		void on_stop_preparing () {
-			cancel_button.sensitive = false;
 			this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 		}
 
@@ -4158,7 +4157,6 @@ namespace Pamac {
 		}
 
 		void on_stop_downloading () {
-			cancel_button.sensitive = false;
 		}
 
 		void on_start_building () {
@@ -4166,7 +4164,6 @@ namespace Pamac {
 		}
 
 		void on_stop_building () {
-			cancel_button.sensitive = false;
 		}
 
 		void on_important_details_outpout (bool must_show) {
