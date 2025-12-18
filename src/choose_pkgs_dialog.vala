@@ -69,7 +69,9 @@ namespace Pamac {
 				listbox.set_filter_func ((row) => {
 					unowned Gtk.Widget child = row.get_child ();
 					unowned Gtk.CheckButton radiobutton = child as Gtk.CheckButton;
-					if (radiobutton.label.has_prefix (search_string)) {
+					child = radiobutton.get_child ();
+					unowned Gtk.Label label = child as Gtk.Label;
+					if (label.label.has_prefix (search_string)) {
 						return true;
 					}
 					return false;
