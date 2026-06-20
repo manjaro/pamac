@@ -1219,6 +1219,8 @@ namespace Pamac {
 				box.homogeneous = false;
 				var label2 = new Gtk.Label (detail);
 				label2.visible = true;
+				label2.wrap = true;
+				label2.max_width_chars = 50;
 				label2.halign = Gtk.Align.START;
 				box.add (label2);
 				var mark_explicit_button = new Gtk.Button.with_label (dgettext (null, "Mark as explicitly installed"));
@@ -1231,6 +1233,8 @@ namespace Pamac {
 			} else {
 				var label2 = new Gtk.Label (detail);
 				label2.visible = true;
+				label2.wrap = true;
+				label2.max_width_chars = 50;
 				label2.use_markup = true;
 				label2.halign = Gtk.Align.START;
 				details_grid.attach_next_to (label2, label, Gtk.PositionType.RIGHT);
