@@ -80,7 +80,7 @@ class PamacUpdateIndicator extends Button {
 
 		this.updateIcon = new St.Icon({icon_name: "pamac-tray-no-update", style_class: 'system-status-icon'});
 
-		let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
+		let box = new St.BoxLayout({ orientation: Clutter.Orientation.VERTICAL = 0, style_class: 'panel-status-menu-box' });
 
 		box.add_child(this.updateIcon);
 		this.add_child(box);
