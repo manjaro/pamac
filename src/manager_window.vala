@@ -1472,7 +1472,7 @@ namespace Pamac {
 				if (icon != null) {
 					var file = File.new_for_path (icon);
 					if (file.query_exists ()) {
-						app_image.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+						app_image.paintable = transaction.get_icon_paintable (file, package_paintable);
 					} else {
 						// some icons are not in the right repo
 						string new_icon = icon;
@@ -1482,8 +1482,8 @@ namespace Pamac {
 							new_icon = icon.replace ("community", "extra");
 						}
 						var new_file = File.new_for_path (new_icon);
-						if (file.query_exists ()) {
-							app_image.paintable = new Gtk.IconPaintable.for_file (new_file, 64, 1);
+						if (new_file.query_exists ()) {
+							app_image.paintable = transaction.get_icon_paintable (new_file, package_paintable);
 						} else {
 							app_image.paintable = package_paintable;
 						}
@@ -1894,13 +1894,13 @@ namespace Pamac {
 					transaction.get_icon_file.begin (icon, (obj, res) => {
 						var file = transaction.get_icon_file.end (res);
 						if (file.query_exists ()) {
-							app_image.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+							app_image.paintable = transaction.get_icon_paintable (file, package_paintable);
 						}
 					});
 				} else {
 					var file = File.new_for_path (icon);
 					if (file.query_exists ()) {
-						app_image.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+						app_image.paintable = transaction.get_icon_paintable (file, package_paintable);
 					} else {
 						app_image.paintable = package_paintable;
 						// try to retrieve icon
@@ -1908,7 +1908,7 @@ namespace Pamac {
 							string downloaded_image_path = database.get_installed_snap_icon_async.end (res);
 							var new_file = File.new_for_path (downloaded_image_path);
 							if (new_file.query_exists ()) {
-								app_image.paintable = new Gtk.IconPaintable.for_file (new_file, 64, 1);
+								app_image.paintable = transaction.get_icon_paintable (new_file, package_paintable);
 							}
 						});
 					}
@@ -2034,7 +2034,7 @@ namespace Pamac {
 			if (icon != null) {
 				var file = File.new_for_path (icon);
 				if (file.query_exists ()) {
-					app_image.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+					app_image.paintable = transaction.get_icon_paintable (file, package_paintable);
 				} else {
 					app_image.paintable = package_paintable;
 				}
@@ -2379,27 +2379,27 @@ namespace Pamac {
 		}
 
 		void set_row_app_icon (PackageRow row, Package pkg) {
-			Gtk.IconPaintable paintable = package_paintable;
+			Gdk.Paintable paintable = package_paintable;
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
 				if (icon.has_prefix ("http")) {
 					transaction.get_icon_file.begin (icon, (obj, res) => {
 						var file = transaction.get_icon_file.end (res);
 						if (file.query_exists ()) {
-							row.app_icon.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+							row.app_icon.paintable = transaction.get_icon_paintable (file, package_paintable);
 						}
 					});
 				} else {
 					var file = File.new_for_path (icon);
 					if (file.query_exists ()) {
-						paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+						paintable = transaction.get_icon_paintable (file, package_paintable);
 					} else if (pkg is SnapPackage && pkg.installed_version != null) {
 						// try to retrieve icon
 						database.get_installed_snap_icon_async.begin (pkg.name, (obj, res) => {
 							string downloaded_image_path = database.get_installed_snap_icon_async.end (res);
 							var new_file = File.new_for_path (downloaded_image_path);
 							if (new_file.query_exists ()) {
-								row.app_icon.paintable = new Gtk.IconPaintable.for_file (new_file, 64, 1);
+								row.app_icon.paintable = transaction.get_icon_paintable (new_file, package_paintable);
 							}
 						});
 					} else {
@@ -2412,7 +2412,7 @@ namespace Pamac {
 						}
 						var new_file = File.new_for_path (new_icon);
 						if (new_file.query_exists ()) {
-							paintable = new Gtk.IconPaintable.for_file (new_file, 64, 1);
+							paintable = transaction.get_icon_paintable (new_file, package_paintable);
 						}
 					}
 				}

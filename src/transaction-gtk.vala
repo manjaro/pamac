@@ -366,29 +366,39 @@ namespace Pamac {
 			return cached_icon;
 		}
 
+		public Gdk.Paintable get_icon_paintable (File file, Gdk.Paintable fallback) {
+			// Gtk.IconPaintable.for_file does not support all image formats (e.g. JPEG XL)
+			try {
+				return Gdk.Texture.from_file (file);
+			} catch (Error e) {
+				warning ("%s: %s", file.get_path (), e.message);
+				return fallback;
+			}
+		}
+
 		void set_row_app_icon (SummaryRow row, Package pkg) {
 			var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
-			Gtk.IconPaintable paintable = icon_theme.lookup_icon ("package-x-generic", null, 64, 1, 0, 0);
+			Gdk.Paintable paintable = icon_theme.lookup_icon ("package-x-generic", null, 64, 1, 0, 0);
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
 				if ("http" in icon) {
 					get_icon_file.begin (icon, (obj, res) => {
 						var file = get_icon_file.end (res);
 						if (file.query_exists ()) {
-							row.app_icon.paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+							row.app_icon.paintable = get_icon_paintable (file, paintable);
 						}
 					});
 				} else {
 					var file = File.new_for_path (icon);
 					if (file.query_exists ()) {
-						paintable = new Gtk.IconPaintable.for_file (file, 64, 1);
+						paintable = get_icon_paintable (file, paintable);
 					} else if (pkg is SnapPackage && pkg.installed_version != null) {
 						// try to retrieve icon
 						database.get_installed_snap_icon_async.begin (pkg.name, (obj, res) => {
 							string downloaded_image_path = database.get_installed_snap_icon_async.end (res);
 							var new_file = File.new_for_path (downloaded_image_path);
 							if (new_file.query_exists ()) {
-								row.app_icon.paintable = new Gtk.IconPaintable.for_file (new_file, 64, 1);
+								row.app_icon.paintable = get_icon_paintable (new_file, paintable);
 							}
 						});
 					} else {
@@ -401,7 +411,7 @@ namespace Pamac {
 						}
 						var new_file = File.new_for_path (new_icon);
 						if (new_file.query_exists ()) {
-							paintable = new Gtk.IconPaintable.for_file (new_file, 64, 1);
+							paintable = get_icon_paintable (new_file, paintable);
 						}
 					}
 				}
