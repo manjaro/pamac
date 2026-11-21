@@ -49,7 +49,43 @@ namespace Pamac {
 	}
 }
 
+#if HAVE_XAPP
+bool is_cinnamon_desktop () {
+	string? desktops = Environment.get_variable ("XDG_CURRENT_DESKTOP");
+	if (desktops == null) {
+		desktops = Environment.get_variable ("XDG_SESSION_DESKTOP");
+	}
+	if (desktops != null) {
+		foreach (string desktop in desktops.down ().split (":")) {
+			if (desktop == "cinnamon" || desktop == "x-cinnamon") {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+#endif
+
+// Choose the display backend before GTK initializes. Retain X11 for
+// non-Cinnamon sessions; only Cinnamon Wayland with an XApp monitor
+// needs the native Wayland backend.
+Pamac.TrayIcon create_tray_icon () {
+	string? backend = Environment.get_variable ("GDK_BACKEND");
+#if HAVE_XAPP
+	if (Environment.get_variable ("XDG_SESSION_TYPE") == "wayland" &&
+	    is_cinnamon_desktop () &&
+	    (backend == null || backend == "wayland") &&
+	    XApp.StatusIcon.any_monitors ()) {
+		return new Pamac.XAppTrayIcon ();
+	}
+#endif
+	if (backend == null) {
+		Environment.set_variable ("GDK_BACKEND", "x11", false);
+	}
+	return new Pamac.GtkTrayIcon ();
+}
+
 int main (string[] args) {
-	var tray_icon = new Pamac.GtkTrayIcon();
+	var tray_icon = create_tray_icon ();
 	return tray_icon.run (args);
 }
