@@ -106,20 +106,66 @@ class PamacUpdateIndicator extends Button {
 		this._updateList = UPDATES_LIST;
 		this._updateStatus(false);
 
-		if (FIRST_BOOT && CHECK_INTERVAL > 0) {
-			// This won't be run again if extension is disabled/enabled (like when screen is locked)
+		if (CHECK_INTERVAL > 0) {
 			this._updatesChecker = new Pamac.UpdatesChecker();
 			this._updatesChecker.connect('updates-available', this._onUpdatesAvailable.bind(this));
 			this._applyConfig();
-			this._updateMenuExpander(false, _("Your system is up to date"));
-			let that = this;
-			this._FirstTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, BOOT_WAIT, function () {
-				that._checkUpdates();
-				that._FirstTimeoutId = null;
-				FIRST_BOOT = 0;
-				return false; // Run once
-			});
+			this._setupWatchers();
+			if (FIRST_BOOT) {
+				// This won't be run again if extension is disabled/enabled (like when screen is locked)
+				this._updateMenuExpander(false, _("Your system is up to date"));
+				let that = this;
+				this._FirstTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, BOOT_WAIT, function () {
+					that._checkUpdates();
+					that._FirstTimeoutId = null;
+					FIRST_BOOT = 0;
+					return false; // Run once
+				});
+			}
 		}
+	}
+
+	_setupWatchers() {
+		const refreshSignals = new Set([
+			'TransRunFinished',
+			'SnapTransRunFinished',
+			'FlatpakTransRunFinished',
+		]);
+		this._dbusSubId = Gio.DBus.system.signal_subscribe(
+			'org.manjaro.pamac.daemon',
+			'org.manjaro.pamac.daemon',
+			null,
+			'/org/manjaro/pamac/daemon',
+			null,
+			Gio.DBusSignalFlags.NONE,
+			(_conn, _sender, _path, _iface, signalName) => {
+				if (refreshSignals.has(signalName)) {
+					this._scheduleCheckUpdates();
+				}
+			}
+		);
+
+		try {
+			const pacmanLocalDir = Gio.File.new_for_path('/var/lib/pacman/local');
+			this._pacmanMonitor = pacmanLocalDir.monitor_directory(Gio.FileMonitorFlags.NONE, null);
+			this._pacmanMonitor.connect('changed', () => {
+				this._scheduleCheckUpdates();
+			});
+		} catch (e) {
+			logError(e, 'pamac-updates: failed to monitor /var/lib/pacman/local');
+		}
+	}
+
+	_scheduleCheckUpdates() {
+		if (this._debounceTimeoutId) {
+			GLib.source_remove(this._debounceTimeoutId);
+			this._debounceTimeoutId = null;
+		}
+		this._debounceTimeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2, () => {
+			this._debounceTimeoutId = null;
+			this._checkUpdates();
+			return GLib.SOURCE_REMOVE;
+		});
 	}
 
 	_openManager() {
@@ -157,6 +203,18 @@ class PamacUpdateIndicator extends Button {
 		if (this._TimeoutId) {
 			GLib.source_remove(this._TimeoutId);
 			this._TimeoutId = null;
+		}
+		if (this._debounceTimeoutId) {
+			GLib.source_remove(this._debounceTimeoutId);
+			this._debounceTimeoutId = null;
+		}
+		if (this._dbusSubId) {
+			Gio.DBus.system.signal_unsubscribe(this._dbusSubId);
+			this._dbusSubId = null;
+		}
+		if (this._pacmanMonitor) {
+			this._pacmanMonitor.cancel();
+			this._pacmanMonitor = null;
 		}
 		super.destroy();
 	}
