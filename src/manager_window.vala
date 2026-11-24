@@ -3986,12 +3986,9 @@ namespace Pamac {
 		void refresh_updates (bool refresh_dbs) {
 			packages_stack.visible_child_name = "checking";
 			this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
-			bool check_aur_updates_backup = database.config.check_aur_updates;
-			database.config.check_aur_updates = check_aur_updates_backup && !local_config.software_mode;
 			if (refresh_dbs) {
 				transaction.refresh_dbs_async.begin (()=> {
 					database.get_updates_async.begin ((obj, res) => {
-						database.config.check_aur_updates = check_aur_updates_backup;
 						var updates = database.get_updates_async.end (res);
 						// copy updates in lists
 						repos_updates = new GenericArray<AlpmPackage> ();
@@ -4003,12 +4000,15 @@ namespace Pamac {
 							temporary_ignorepkgs.add (pkg.name);
 						}
 						aur_updates = new GenericArray<AURPackage> ();
-						foreach (unowned AURPackage pkg in updates.aur_updates) {
-							aur_updates.add (pkg);
-						}
-						foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
-							aur_updates.add (pkg);
-							temporary_ignorepkgs.add (pkg.name);
+						// AUR updates are hidden in software mode
+						if (!local_config.software_mode) {
+							foreach (unowned AURPackage pkg in updates.aur_updates) {
+								aur_updates.add (pkg);
+							}
+							foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+								aur_updates.add (pkg);
+								temporary_ignorepkgs.add (pkg.name);
+							}
 						}
 						flatpak_updates = new GenericArray<FlatpakPackage> ();
 						foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
@@ -4024,7 +4024,6 @@ namespace Pamac {
 				});
 			} else {
 				database.get_updates_async.begin ((obj, res) => {
-					database.config.check_aur_updates = check_aur_updates_backup;
 					var updates = database.get_updates_async.end (res);
 					// copy updates in lists
 					repos_updates = new GenericArray<AlpmPackage> ();
@@ -4036,12 +4035,15 @@ namespace Pamac {
 						temporary_ignorepkgs.add (pkg.name);
 					}
 					aur_updates = new GenericArray<AURPackage> ();
-					foreach (unowned AURPackage pkg in updates.aur_updates) {
-						aur_updates.add (pkg);
-					}
-					foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
-						aur_updates.add (pkg);
-						temporary_ignorepkgs.add (pkg.name);
+					// AUR updates are hidden in software mode
+					if (!local_config.software_mode) {
+						foreach (unowned AURPackage pkg in updates.aur_updates) {
+							aur_updates.add (pkg);
+						}
+						foreach (unowned AURPackage pkg in updates.ignored_aur_updates) {
+							aur_updates.add (pkg);
+							temporary_ignorepkgs.add (pkg.name);
+						}
 					}
 					flatpak_updates = new GenericArray<FlatpakPackage> ();
 					foreach (unowned FlatpakPackage pkg in updates.flatpak_updates) {
