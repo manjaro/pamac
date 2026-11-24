@@ -26,7 +26,9 @@ namespace Pamac {
 		public ProgressBox progress_box;
 		uint pulse_timeout_id;
 		public Gtk.ScrolledWindow details_window;
-		double scroll_value;
+		bool details_auto_scroll;
+		bool details_programmatic_scroll;
+		uint details_scroll_idle_id;
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
 		// parent window
@@ -45,6 +47,13 @@ namespace Pamac {
 			Object (database: database, local_config: local_config, application: application);
 		}
 
+		~TransactionGtk () {
+			if (details_scroll_idle_id != 0) {
+				Source.remove (details_scroll_idle_id);
+				details_scroll_idle_id = 0;
+			}
+		}
+
 		construct {
 			// create dialogs
 			transaction_summary = new GenericSet<string?> (str_hash, str_equal);
@@ -57,6 +66,33 @@ namespace Pamac {
 			details_window = new Gtk.ScrolledWindow ();
 			details_window.hexpand = true;
 			details_window.vexpand = true;
+			details_auto_scroll = true;
+			details_programmatic_scroll = false;
+			details_scroll_idle_id = 0;
+			details_window.vadjustment.changed.connect (() => {
+				if (details_auto_scroll && details_scroll_idle_id == 0) {
+					details_scroll_idle_id = Idle.add_full (Priority.HIGH_IDLE + 20, () => {
+						details_scroll_idle_id = 0;
+						if (details_auto_scroll) {
+							var vadj = details_window.vadjustment;
+							double max_value = double.max (vadj.lower, vadj.upper - vadj.page_size);
+							if (vadj.value != max_value) {
+								details_programmatic_scroll = true;
+								vadj.value = max_value;
+								details_programmatic_scroll = false;
+							}
+						}
+						return Source.REMOVE;
+					});
+				}
+			});
+			details_window.vadjustment.value_changed.connect (() => {
+				if (!details_programmatic_scroll) {
+					var vadj = details_window.vadjustment;
+					double max_value = double.max (vadj.lower, vadj.upper - vadj.page_size);
+					details_auto_scroll = (vadj.value >= max_value - 1.0);
+				}
+			});
 			details_textview = new Gtk.TextView ();
 			details_textview.editable = false;
 			details_textview.wrap_mode = Gtk.WrapMode.NONE;
@@ -66,11 +102,6 @@ namespace Pamac {
 			details_textview.bottom_margin = 8;
 			details_textview.left_margin = 8;
 			details_textview.right_margin = 8;
-			Gtk.TextIter iter;
-			details_textview.buffer.get_end_iter (out iter);
-			// place a mark at iter, the mark will stay there after we
-			// insert some text at the end because it has right gravity.
-			details_textview.buffer.create_mark ("scroll", iter, false);
 			details_window.set_child (details_textview);
 			// create build files notebook
 			build_files_notebook = new Gtk.Notebook ();
@@ -115,11 +146,6 @@ namespace Pamac {
 			details_textview.buffer.get_end_iter (out iter);
 			details_textview.buffer.insert (ref iter, message, -1);
 			details_textview.buffer.insert (ref iter, "\n", 1);
-			if (details_window.vadjustment.value >= scroll_value) {
-				scroll_value = details_window.vadjustment.value;
-				// scroll the mark onscreen
-				details_textview.scroll_mark_onscreen (details_textview.buffer.get_mark ("scroll"));
-			}
 		}
 
 		void display_action (string action) {
