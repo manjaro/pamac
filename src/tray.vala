@@ -27,6 +27,8 @@ namespace Pamac {
 		unowned string update_info = _("Updates Available");
 		unowned string noupdate_info = _("Your system is up to date");
 		Notify.Notification notification;
+		// number of updates the last notification was shown for
+		uint notified_updates_nb;
 		Gtk3.IconTheme icon_theme;
 		protected UpdatesChecker updates_checker;
 
@@ -39,6 +41,7 @@ namespace Pamac {
 					set_icon (noupdate_icon_name);
 					set_tooltip (noupdate_info);
 					set_icon_visible (!updates_checker.no_update_hide_icon);
+					notified_updates_nb = 0;
 					close_notification ();
 				} else {
 					show_or_update_notification (updates_checker.updates_nb);
@@ -96,7 +99,12 @@ namespace Pamac {
 			set_icon (update_icon_name);
 			set_tooltip (info);
 			set_icon_visible (true);
-			update_notification (update_info);
+			// notify again only when available updates changed,
+			// not at each hourly check
+			if (updates_nb != notified_updates_nb) {
+				notified_updates_nb = updates_nb;
+				update_notification (update_info);
+			}
 		}
 
 		void show_notification (string info) {
@@ -113,12 +121,12 @@ namespace Pamac {
 
 		void update_notification (string info) {
 			try {
-				if (notification != null) {
-					if (notification.get_closed_reason () == -1 && notification.body != info) {
-						notification.update (_("Package Manager"), info, "system-software-install-symbolic");
-						notification.show ();
-					}
+				// get_closed_reason () is -1 while the notification is still displayed
+				if (notification != null && notification.get_closed_reason () == -1) {
+					notification.update (_("Package Manager"), info, "system-software-install-symbolic");
+					notification.show ();
 				} else {
+					// no notification yet, or it expired or was dismissed: show a new one
 					show_notification (info);
 				}
 			} catch (Error e) {
@@ -128,8 +136,11 @@ namespace Pamac {
 
 		void close_notification () {
 			try {
-				if (notification != null && notification.get_closed_reason () == -1) {
-					notification.close ();
+				if (notification != null) {
+					if (notification.get_closed_reason () == -1) {
+						notification.close ();
+					}
+					// also forget an expired or dismissed notification
 					notification = null;
 				}
 			} catch (Error e) {
