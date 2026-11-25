@@ -295,7 +295,27 @@ namespace Pamac {
 			var textbuffer = new StringBuilder ();
 			textbuffer.append (dgettext (null, "The PGP key %1$s is needed to verify %2$s source files").printf (key, pkgname));
 			textbuffer.append (".\n");
-			textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
+			PGPKey? pgp_key = get_pgp_key (key);
+			if (pgp_key != null) {
+				// give all the informations needed to decide to trust the key
+				textbuffer.append ("\n");
+				foreach (unowned string detail in pgp_key.get_details ()) {
+					textbuffer.append (detail);
+					textbuffer.append ("\n");
+				}
+				textbuffer.append ("\n");
+				foreach (unowned string warning in pgp_key.get_warnings ()) {
+					textbuffer.append ("⚠ ");
+					textbuffer.append (warning);
+					textbuffer.append (".\n");
+				}
+				textbuffer.append ("\n");
+			}
+			if (owner == null) {
+				textbuffer.append (dgettext (null, "Import the PGP key"));
+			} else {
+				textbuffer.append (dgettext (null, "Trust %s and import the PGP key").printf (owner));
+			}
 			textbuffer.append (" ?");
 			var label = new Gtk.Label (textbuffer.str);
 			label.visible = true;
