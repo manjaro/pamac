@@ -127,6 +127,10 @@ class PamacUpdateIndicator extends Button {
 
 	_setupWatchers() {
 		const refreshSignals = new Set([
+			// broadcast by the daemon after alpm, snap and flatpak transactions
+			'TransactionFinished',
+			// the *TransRunFinished signals are now only sent to the client
+			// which ran the transaction: kept for older daemons broadcasting them
 			'TransRunFinished',
 			'SnapTransRunFinished',
 			'FlatpakTransRunFinished',
