@@ -286,13 +286,33 @@ namespace Pamac {
 			string cancel_id = "cancel";
 			dialog.add_response (cancel_id, dgettext (null, "_Cancel"));
 			dialog.add_response (import_id, dgettext (null, "Trust and Import"));
-			dialog.set_response_appearance (import_id, Adw.ResponseAppearance.SUGGESTED);
+			PGPKey? pgp_key = get_pgp_key (key);
+			if (pgp_key != null && (pgp_key.revoked || pgp_key.expired || pgp_key.disabled || !pgp_key.match_key ())) {
+				dialog.set_response_appearance (import_id, Adw.ResponseAppearance.DESTRUCTIVE);
+			} else {
+				dialog.set_response_appearance (import_id, Adw.ResponseAppearance.SUGGESTED);
+			}
 			dialog.default_response = cancel_id;
 			dialog.close_response = cancel_id;
 			// set body message
 			var textbuffer = new StringBuilder ();
 			textbuffer.append (dgettext (null, "The PGP key %s is needed to verify %s source files").printf (key, pkgname));
 			textbuffer.append (".\n");
+			if (pgp_key != null) {
+				// give all the informations needed to decide to trust the key
+				textbuffer.append ("\n");
+				foreach (unowned string detail in pgp_key.get_details ()) {
+					textbuffer.append (detail);
+					textbuffer.append ("\n");
+				}
+				textbuffer.append ("\n");
+				foreach (unowned string warning in pgp_key.get_warnings ()) {
+					textbuffer.append ("⚠ ");
+					textbuffer.append (warning);
+					textbuffer.append (".\n");
+				}
+				textbuffer.append ("\n");
+			}
 			if (owner == null) {
 				textbuffer.append (dgettext (null, "Import the PGP key"));
 			} else {
