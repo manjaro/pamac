@@ -1221,7 +1221,9 @@ namespace Pamac {
 			});
 		}
 
-		Gtk.Widget populate_details_grid (string detail_type, string? detail, Gtk.Widget? previous_widget) {
+		// detail comes from package metadata (AUR, third-party repos, flatpak, snap):
+		// it is escaped unless is_markup is set, in which case the caller must escape it
+		Gtk.Widget populate_details_grid (string detail_type, string? detail, Gtk.Widget? previous_widget, bool is_markup = false) {
 			var label = new Gtk.Label ("<b>%s:</b>".printf (detail_type));
 			label.wrap = true;
 			label.use_markup = true;
@@ -1251,7 +1253,7 @@ namespace Pamac {
 				box.append (mark_explicit_button);
 				details_grid.attach_next_to (box, label, Gtk.PositionType.RIGHT);
 			} else {
-				var label2 = new Gtk.Label (detail);
+				var label2 = new Gtk.Label (is_markup ? detail : Markup.escape_text (detail));
 				label2.wrap = true;
 				label2.use_markup = true;
 				label2.halign = Gtk.Align.START;
@@ -1449,13 +1451,13 @@ namespace Pamac {
 			}
 			unowned string? app_name = pkg.app_name;
 			if (app_name == null) {
-				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (pkg.name, version));
+				name_label.set_markup (Markup.printf_escaped ("<big><b>%s  %s</b></big>", pkg.name, version));
 				app_image.paintable = package_paintable;
 			} else {
 				if (software_mode) {
-					name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (app_name), version));
+					name_label.set_markup (Markup.printf_escaped ("<big><b>%s  %s</b></big>", app_name, version));
 				} else {
-					name_label.set_markup ("<big><b>%s (%s)  %s</b></big>".printf (Markup.escape_text (app_name), pkg.name, version));
+					name_label.set_markup (Markup.printf_escaped ("<big><b>%s (%s)  %s</b></big>", app_name, pkg.name, version));
 				}
 				unowned string? icon = pkg.icon;
 				if (icon != null) {
@@ -1532,7 +1534,7 @@ namespace Pamac {
 						// always show build button
 						build_togglebutton.visible = true;
 						build_togglebutton.active = to_build.contains (pkg.name);
-						string aur_url = "http://aur.archlinux.org/packages/" + pkg.name;
+						string aur_url = Markup.escape_text ("http://aur.archlinux.org/packages/" + pkg.name);
 						if (escaped_url != null) {
 							link_label.set_markup ("<a href=\"%s\">%s</a>\n\n<a href=\"%s\">%s</a>".printf (escaped_url, escaped_url, aur_url, aur_url));
 						} else {
@@ -1612,8 +1614,8 @@ namespace Pamac {
 				unowned string packager_name = splitted[0];
 				if (splitted.length > 1) {
 					string packager_mail = splitted[1].split (">", 2)[0];
-					string packager_detail = "%s\n <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
-					previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
+					string packager_detail = Markup.printf_escaped ("%s\n <a href=\"mailto:%s\">%s</a>", packager_name, packager_mail, packager_mail);
+					previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget, true);
 				} else {
 					previous_widget = populate_details_grid (dgettext (null, "Packager"), pkg.packager, previous_widget);
 				}
@@ -1722,7 +1724,7 @@ namespace Pamac {
 			reinstall_togglebutton.visible = false;
 			install_togglebutton.visible = false;
 			// first infos
-			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (aur_pkg.name, aur_pkg.version));
+			name_label.set_markup (Markup.printf_escaped ("<big><b>%s  %s</b></big>", aur_pkg.name, aur_pkg.version));
 			app_image.paintable = package_paintable;
 			desc_label.set_text (aur_pkg.desc);
 			long_desc_label.visible = false;
@@ -1742,7 +1744,7 @@ namespace Pamac {
 				}
 			}
 			// infos
-			string aur_url = "http://aur.archlinux.org/packages/" + aur_pkg.name;
+			string aur_url = Markup.escape_text ("http://aur.archlinux.org/packages/" + aur_pkg.name);
 			unowned string? url = aur_pkg.url;
 			if (url != null) {
 				string escaped_url = Markup.escape_text (url);
@@ -1783,8 +1785,8 @@ namespace Pamac {
 					unowned string packager_name = splitted[0];
 					if (splitted.length > 1) {
 						string packager_mail = splitted[1].split (">", 2)[0];
-						string packager_detail = "%s <a href=\"mailto:%s\">%s</a>".printf (packager_name, packager_mail, packager_mail);
-						previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget);
+						string packager_detail = Markup.printf_escaped ("%s <a href=\"mailto:%s\">%s</a>", packager_name, packager_mail, packager_mail);
+						previous_widget = populate_details_grid (dgettext (null, "Packager"), packager_detail, previous_widget, true);
 					} else {
 						previous_widget = populate_details_grid (dgettext (null, "Packager"), aur_pkg.packager, previous_widget);
 					}
@@ -1875,7 +1877,7 @@ namespace Pamac {
 			clear_screenshots_carousel ();
 			set_screenshots (snap_pkg);
 			// infos
-			name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (snap_pkg.app_name), snap_pkg.version));
+			name_label.set_markup (Markup.printf_escaped ("<big><b>%s  %s</b></big>", snap_pkg.app_name, snap_pkg.version));
 			unowned string? icon = snap_pkg.icon;
 			if (icon != null) {
 				if (icon.has_prefix ("http")) {
@@ -2015,9 +2017,9 @@ namespace Pamac {
 			// infos
 			unowned string? app_name = flatpak_pkg.app_name;
 			if (app_name == null) {
-				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (flatpak_pkg.name, flatpak_pkg.version));
+				name_label.set_markup (Markup.printf_escaped ("<big><b>%s  %s</b></big>", flatpak_pkg.name, flatpak_pkg.version));
 			} else {
-				name_label.set_markup ("<big><b>%s  %s</b></big>".printf (Markup.escape_text (app_name), flatpak_pkg.version));
+				name_label.set_markup (Markup.printf_escaped ("<big><b>%s  %s</b></big>", app_name, flatpak_pkg.version));
 			}
 			unowned string? icon = flatpak_pkg.icon;
 			if (icon != null) {
@@ -2656,9 +2658,9 @@ namespace Pamac {
 			AlpmPackage? alpm_pkg = pkg as AlpmPackage;
 			bool software_mode = local_config.software_mode;
 			if (app_name == null) {
-				row.name_label.set_markup ("<b>%s</b>".printf (pkg.name));
+				row.name_label.set_markup (Markup.printf_escaped ("<b>%s</b>", pkg.name));
 			} else if (alpm_pkg != null && !software_mode) {
-				row.name_label.set_markup ("<b>%s (%s)</b>".printf (Markup.escape_text (app_name), pkg.name));
+				row.name_label.set_markup (Markup.printf_escaped ("<b>%s (%s)</b>", app_name, pkg.name));
 			} else {
 				row.name_label.set_markup ("<b>%s</b>".printf (Markup.escape_text (app_name)));
 			}
@@ -2683,17 +2685,17 @@ namespace Pamac {
 					if (software_mode) {
 						row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
 					} else {
-						row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Official Repositories"), pkg.repo));
+						row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s (%s)</span>", dgettext (null, "Official Repositories"), pkg.repo));
 					}
 				} else if (pkg.repo == dgettext (null, "AUR")) {
-					row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+					row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s</span>", pkg.repo));
 				} else if (pkg.repo != null) {
-					row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Repositories"), pkg.repo));
+					row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s (%s)</span>", dgettext (null, "Repositories"), pkg.repo));
 				}
 			} else if (pkg is FlatpakPackage) {
-				row.repo_label.set_markup ("<span foreground='grey'>%s (%s)</span>".printf (dgettext (null, "Flatpak"), pkg.repo));
+				row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s (%s)</span>", dgettext (null, "Flatpak"), pkg.repo));
 			} else {
-				row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (pkg.repo));
+				row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s</span>", pkg.repo));
 			}
 			set_row_app_icon (row, pkg);
 			if (transaction.transaction_summary_contains (pkg.id)) {
