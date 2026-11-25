@@ -947,20 +947,6 @@ namespace Pamac {
 
 			// enable "type to search"
 			search_entry.set_key_capture_widget (this);
-
-			// create screenshots and icons tmp dir
-			string[] tmp_dirs = {"/tmp/pamac-app-screenshots", "/tmp/pamac-app-icons"};
-			foreach (unowned string tmp_dir in tmp_dirs) {
-				var file = GLib.File.new_for_path (tmp_dir);
-				if (!file.query_exists ()) {
-					try {
-						Process.spawn_command_line_sync ("mkdir -p %s".printf (tmp_dir));
-						Process.spawn_command_line_sync ("chmod -R a+w %s".printf (tmp_dir));
-					} catch (SpawnError e) {
-						warning (e.message);
-					}
-				}
-			}
 		}
 
 		void update_icons () {
@@ -1378,7 +1364,7 @@ namespace Pamac {
 			foreach (unowned string url in urls) {
 				Gtk.Picture? picture = null;
 				var uri = File.new_for_uri (url);
-				var cached_screenshot = File.new_for_path ("/tmp/pamac-app-screenshots/%s".printf (uri.get_basename ()));
+				var cached_screenshot = File.new_for_path (Path.build_filename (get_private_cache_dir ("app-screenshots"), uri.get_basename ()));
 				if (cached_screenshot.query_exists ()) {
 					picture = new Gtk.Picture.for_file (cached_screenshot);
 					picture.can_shrink = true;
@@ -1389,9 +1375,12 @@ namespace Pamac {
 					try {
 						var inputstream = yield database.get_url_stream (url);
 						var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (inputstream, -1, 300, true);
-						// save scaled image in tmp
-						FileOutputStream os = cached_screenshot.append_to (FileCreateFlags.NONE);
-						pixbuf.save_to_stream (os, "png");
+						// save scaled image in cache
+						// written to a temporary file then renamed: no partial image is left on error
+						uint8[] buffer;
+						pixbuf.save_to_buffer (out buffer, "png");
+						string? new_etag;
+						cached_screenshot.replace_contents (buffer, null, false, FileCreateFlags.PRIVATE, out new_etag);
 						picture = new Gtk.Picture.for_pixbuf (pixbuf);
 						picture.can_shrink = true;
 						picture.halign = Gtk.Align.CENTER;

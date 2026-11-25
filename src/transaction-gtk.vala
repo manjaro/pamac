@@ -18,6 +18,14 @@
  */
 
 namespace Pamac {
+	// keep downloaded images in a private per-user cache: in a shared /tmp directory,
+	// another user could plant fake images or symlinks to make us write elsewhere
+	public string get_private_cache_dir (string name) {
+		string path = Path.build_filename (Environment.get_user_cache_dir (), "pamac", name);
+		DirUtils.create_with_parents (path, 0700);
+		return path;
+	}
+
 	public class TransactionGtk: Transaction {
 		// dialogs
 		GenericSet<string?> transaction_summary;
@@ -345,7 +353,7 @@ namespace Pamac {
 
 		public async File get_icon_file (string url) {
 			var uri = File.new_for_uri (url);
-			var cached_icon = File.new_for_path ("/tmp/pamac-app-icons/%s".printf (uri.get_basename ()));
+			var cached_icon = File.new_for_path (Path.build_filename (get_private_cache_dir ("app-icons"), uri.get_basename ()));
 			try {
 				if (!cached_icon.query_exists ()) {
 					// download icon
@@ -356,9 +364,12 @@ namespace Pamac {
 					if (width > 64) {
 						pixbuf = pixbuf.scale_simple (64, 64, Gdk.InterpType.BILINEAR);
 					}
-					// save scaled image in tmp
-					FileOutputStream os = cached_icon.append_to (FileCreateFlags.NONE);
-					pixbuf.save_to_stream (os, "png");
+					// save scaled image in cache
+					// written to a temporary file then renamed: no partial icon is left on error
+					uint8[] buffer;
+					pixbuf.save_to_buffer (out buffer, "png");
+					string? new_etag;
+					cached_icon.replace_contents (buffer, null, false, FileCreateFlags.PRIVATE, out new_etag);
 				}
 			} catch (Error e) {
 				warning ("%s: %s", url, e.message);
