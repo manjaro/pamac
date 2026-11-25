@@ -32,33 +32,40 @@ namespace Pamac {
 		public HistoryDialog (Gtk.ApplicationWindow window) {
 			Object (transient_for: window);
 
-			// populate history
-			var file = GLib.File.new_for_path ("/var/log/pacman.log");
-			if (!file.query_exists ()) {
-				GLib.stderr.printf ("File '%s' doesn't exist.\n", file.get_path ());
-			} else {
-				try {
-					StringBuilder text = new StringBuilder ();
-					// Open file for reading and wrap returned FileInputStream into a
-					// DataInputStream, so we can read line by line
-					var dis = new DataInputStream (file.read ());
-					string line;
-					// Read lines until end of file (null) is reached
-					while ((line = dis.read_line ()) != null) {
-						// construct text in reverse order
-						if ("installed" in line
-							|| "removed" in line
-							|| "upgraded" in line
-							|| "downgraded" in line) {
-							text.prepend (line + "\n");
-						}
-					}
-					textview.buffer.set_text (text.str, -1);
-				} catch (Error e) {
-					warning (e.message);
-				}
-			}
 			set_cursor_at_start ();
+			populate_history.begin ();
+		}
+
+		// pacman.log can be large: read it asynchronously, and build the
+		// reversed text from a list instead of prepending each line
+		async void populate_history () {
+			var file = GLib.File.new_for_path ("/var/log/pacman.log");
+			// keep a reference: the dialog can be closed while loading
+			Gtk.TextView view = textview;
+			try {
+				uint8[] contents;
+				yield file.load_contents_async (null, out contents, null);
+				// load_contents adds a trailing nul byte
+				string[] lines = ((string) contents).split ("\n");
+				var text = new StringBuilder.sized (contents.length);
+				// construct text in reverse order
+				for (int i = lines.length - 1; i >= 0; i--) {
+					unowned string line = lines[i];
+					if ("installed" in line
+						|| "removed" in line
+						|| "upgraded" in line
+						|| "downgraded" in line) {
+						text.append (line);
+						text.append_c ('\n');
+					}
+				}
+				view.buffer.set_text (text.str, (int) text.len);
+			} catch (Error e) {
+				warning ("%s: %s", file.get_path (), e.message);
+			}
+			// setting the text invalidates search_start
+			view.buffer.get_start_iter (out search_start);
+			view.buffer.place_cursor (search_start);
 		}
 
 		[GtkCallback]
