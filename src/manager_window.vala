@@ -2192,7 +2192,23 @@ namespace Pamac {
 		[GtkCallback]
 		void on_reset_files_button_clicked () {
 			var aur_pkg = current_package_displayed as AURPackage;
-			transaction.populate_build_files_async.begin (aur_pkg.packagebase, true, true);
+			if (aur_pkg != null) {
+				transaction.populate_build_files_async.begin (aur_pkg.packagebase, true, true);
+				return;
+			}
+			// build files are also shown for installed AUR packages,
+			// displayed as AlpmPackage: retrieve their AUR infos like on tab switch
+			this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
+			database.get_aur_pkg_async.begin (current_package_displayed.name, (obj, res) => {
+				AURPackage? pkg = database.get_aur_pkg_async.end (res);
+				if (pkg != null) {
+					transaction.populate_build_files_async.begin (pkg.packagebase, true, true, () => {
+						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+					});
+				} else {
+					this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+				}
+			});
 		}
 
 		[GtkCallback]
