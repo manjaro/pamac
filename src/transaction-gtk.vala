@@ -890,12 +890,9 @@ namespace Pamac {
 				if ("PKGBUILD" in path) {
 					yield create_build_files_tab (path);
 					// add diff after PKGBUILD, do not failed if no diff
-					string diff_path;
-					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						diff_path = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
-					} else {
-						diff_path = Path.build_filename (database.config.aur_build_dir, pkgname, "diff");
-					}
+					// use the build directory really used by libpamac: it may fall back
+					// to a private one if the shared /var/tmp/pamac-build-<user> is not ours
+					string diff_path = Path.build_filename (database.get_real_aur_build_dir (), pkgname, "diff");
 					var diff_file = File.new_for_path (diff_path);
 					if (diff_file.query_exists ()) {
 						yield create_build_files_tab (diff_path, false);
@@ -916,12 +913,8 @@ namespace Pamac {
 				var scrolled_window = child as Gtk.ScrolledWindow;
 				var textview = scrolled_window.get_child () as Gtk.TextView;
 				if (textview.buffer.get_modified () == true) {
-					string file_name;
-					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						file_name = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, build_files_notebook.get_tab_label_text (child));
-					} else {
-						file_name = Path.build_filename (database.config.aur_build_dir, pkgname, build_files_notebook.get_tab_label_text (child));
-					}
+					// save in the build directory really used by libpamac
+					string file_name = Path.build_filename (database.get_real_aur_build_dir (), pkgname, build_files_notebook.get_tab_label_text (child));
 					var file = File.new_for_path (file_name);
 					Gtk.TextIter start_iter;
 					Gtk.TextIter end_iter;
