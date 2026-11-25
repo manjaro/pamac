@@ -24,8 +24,10 @@ namespace Pamac {
 	public abstract class TrayIcon: Gtk3.Application {
 		string update_icon_name = "pamac-tray-update";
 		string noupdate_icon_name = "pamac-tray-no-update";
-		unowned string update_info = _("Updates Available");
-		unowned string noupdate_info = _("Your system is up to date");
+		// translated when used: field initializers run in the constructor,
+		// before setlocale () is called in startup ()
+		const string update_info = N_("Updates Available");
+		const string noupdate_info = N_("Your system is up to date");
 		Notify.Notification notification;
 		// number of updates the last notification was shown for
 		uint notified_updates_nb;
@@ -39,7 +41,7 @@ namespace Pamac {
 			updates_checker.updates_available.connect ((updates_nb) => {
 				if (updates_nb == 0) {
 					set_icon (noupdate_icon_name);
-					set_tooltip (noupdate_info);
+					set_tooltip (_(noupdate_info));
 					set_icon_visible (!updates_checker.no_update_hide_icon);
 					notified_updates_nb = 0;
 					close_notification ();
@@ -103,7 +105,7 @@ namespace Pamac {
 			// not at each hourly check
 			if (updates_nb != notified_updates_nb) {
 				notified_updates_nb = updates_nb;
-				update_notification (update_info);
+				update_notification (_(update_info));
 			}
 		}
 
@@ -182,7 +184,7 @@ namespace Pamac {
 			icon_theme.changed.connect (on_icon_theme_changed);
 			init_status_icon ();
 			set_icon (noupdate_icon_name);
-			set_tooltip (noupdate_info);
+			set_tooltip (_(noupdate_info));
 			set_icon_visible (!updates_checker.no_update_hide_icon);
 
 			Notify.init (_("Package Manager"));
