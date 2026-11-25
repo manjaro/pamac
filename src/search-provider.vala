@@ -23,6 +23,9 @@ namespace Pamac {
 	[DBus (name = "org.gnome.Shell.SearchProvider2")]
 	public class SearchProvider : Object {
 		Database database;
+		// results returned to the caller: GetResultMetas and ActivateResult
+		// only accept these, never data built by another D-Bus client
+		GenericSet<string> known_results;
 
 		[DBus (visible = false)]
 		public signal void show_details (string app_id, uint32 timestamp);
@@ -31,6 +34,7 @@ namespace Pamac {
 
 		public SearchProvider (Database database) {
 			this.database = database;
+			known_results = new GenericSet<string> (str_hash, str_equal);
 		}
 
 		GenericArray<string> normalize_terms (string[] terms) {
@@ -53,12 +57,14 @@ namespace Pamac {
 				data_builder.append (pkg.long_desc);
 				data_builder.append (";");
 				data_builder.append (pkg.icon);
+				known_results.add (data_builder.str);
 				result.add (data_builder.str);
 			}
 			return result.data;
 		}
 
 		public async string[] get_initial_result_set (string[] terms) throws Error {
+			known_results.remove_all ();
 			var normalized_terms = normalize_terms (terms);
 			return search_pkgs (normalized_terms);
 		}
@@ -71,8 +77,14 @@ namespace Pamac {
 		public HashTable<string, Variant>[] get_result_metas (string[] results) throws Error {
 			var result = new GenericArray<HashTable<string, Variant>> ();
 			foreach (unowned string str in results) {
-				var meta = new HashTable<string, Variant> (str_hash, str_equal);
+				if (!known_results.contains (str)) {
+					continue;
+				}
 				string[] pkg_data = str.split (";", 4);
+				if (pkg_data.length != 4) {
+					continue;
+				}
+				var meta = new HashTable<string, Variant> (str_hash, str_equal);
 				meta.insert ("id", pkg_data[0]);
 				meta.insert ("name", pkg_data[1]);
 				meta.insert ("description", pkg_data[2]);
@@ -95,7 +107,11 @@ namespace Pamac {
 		}
 
 		public void activate_result (string result, string[] terms, uint32 timestamp) throws Error {
-			show_details (result, timestamp);
+			if (!known_results.contains (result)) {
+				return;
+			}
+			// the result is "app_id;app_name;long_desc;icon"
+			show_details (result.split (";", 2)[0], timestamp);
 		}
 
 		public void launch_search (string[] terms, uint32 timestamp) throws Error {

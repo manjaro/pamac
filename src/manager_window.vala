@@ -947,6 +947,21 @@ namespace Pamac {
 
 			// enable "type to search"
 			search_entry.set_key_capture_widget (this);
+
+			// package urls come from package metadata
+			link_label.activate_link.connect (on_activate_link);
+		}
+
+		// only open web and mail links: other schemes (file://, custom handlers…)
+		// found in package metadata could open local files or launch other applications
+		bool on_activate_link (string uri) {
+			string? scheme = Uri.peek_scheme (uri);
+			if (scheme == "http" || scheme == "https" || scheme == "mailto") {
+				// let the default handler open it
+				return false;
+			}
+			warning ("refusing to open link with unsupported scheme: %s", uri);
+			return true;
 		}
 
 		void update_icons () {
@@ -1256,6 +1271,7 @@ namespace Pamac {
 				var label2 = new Gtk.Label (is_markup ? detail : Markup.escape_text (detail));
 				label2.wrap = true;
 				label2.use_markup = true;
+				label2.activate_link.connect (on_activate_link);
 				label2.halign = Gtk.Align.START;
 				details_grid.attach_next_to (label2, label, Gtk.PositionType.RIGHT);
 			}

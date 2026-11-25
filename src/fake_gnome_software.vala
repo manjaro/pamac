@@ -34,8 +34,11 @@ class Software : Application {
 		var action =  new SimpleAction ("details", new VariantType ("(ss)"));
 		action.activate.connect  ((parameter) => {
 			unowned string details = parameter.get_child_value (0).get_string ();
+			// details comes from D-Bus: pass it as a single argument,
+			// never through a command line parsed into several arguments
+			string[] argv = {"pamac-manager", "--details-id=%s".printf (details)};
 			try {
-				Process.spawn_command_line_async ("pamac-manager --details-id=%s".printf (details));
+				Process.spawn_async (null, argv, null, SpawnFlags.SEARCH_PATH, null, null);
 			} catch (SpawnError e) {
 				warning (e.message);
 			}
