@@ -875,6 +875,11 @@ namespace Pamac {
 
 			// enable "type to search"
 			this.key_press_event.connect ((event) => {
+				// let text widgets get the keys, e.g. to edit build files
+				unowned Gtk.Widget? focus_widget = get_focus ();
+				if (focus_widget is Gtk.TextView || focus_widget is Gtk.Editable) {
+					return false;
+				}
 				if (main_stack.visible_child_name == "browse"
 					&& browse_flap.visible && packages_leaflet.visible_child_name == "list"
 					&& (view_stack.visible_child_name == "browse"
@@ -2178,8 +2183,8 @@ namespace Pamac {
 		void on_build_togglebutton_toggled () {
 			if (build_togglebutton.active) {
 				to_build.add (current_package_displayed.name);
-				if (properties_stack.visible_child_name == "build_files") {
-					transaction.save_build_files_async.begin (current_package_displayed.name);
+				if (properties_stack.visible_child_name == "build_files" && transaction.build_files_pkgbase != null) {
+					transaction.save_build_files_async.begin (transaction.build_files_pkgbase);
 				}
 			} else {
 				to_build.remove (current_package_displayed.name);
@@ -2191,7 +2196,23 @@ namespace Pamac {
 		[GtkCallback]
 		void on_reset_files_button_clicked () {
 			var aur_pkg = current_package_displayed as AURPackage;
-			transaction.populate_build_files_async.begin (aur_pkg.packagebase, true, true);
+			if (aur_pkg != null) {
+				transaction.populate_build_files_async.begin (aur_pkg.packagebase, true, true);
+				return;
+			}
+			// build files are also shown for installed AUR packages,
+			// displayed as AlpmPackage: retrieve their AUR infos like on tab switch
+			this.get_window ().set_cursor (new Gdk.Cursor.for_display (Gdk.Display.get_default (), Gdk.CursorType.WATCH));
+			database.get_aur_pkg_async.begin (current_package_displayed.name, (obj, res) => {
+				AURPackage? pkg = database.get_aur_pkg_async.end (res);
+				if (pkg != null) {
+					transaction.populate_build_files_async.begin (pkg.packagebase, true, true, () => {
+						this.get_window ().set_cursor (null);
+					});
+				} else {
+					this.get_window ().set_cursor (null);
+				}
+			});
 		}
 
 		[GtkCallback]
@@ -3980,9 +4001,12 @@ namespace Pamac {
 			details_button.sensitive = true;
 			if (view_stack.visible_child_name == "updates") {
 				run_sysupgrade ();
-			} else if (packages_leaflet.visible_child_name == "details" &&
-				properties_stack.visible_child_name == "build_files") {
-				transaction.save_build_files_async.begin (current_package_displayed.name, () => {
+			} else if (properties_stack.visible_child_name == "build_files" &&
+				transaction.build_files_pkgbase != null) {
+				// don't check packages_leaflet visible child: it stays "list"
+				// when the leaflet is unfolded and details are displayed beside
+				// only modified build files are saved
+				transaction.save_build_files_async.begin (transaction.build_files_pkgbase, () => {
 					run_transaction ();
 				});
 			} else {

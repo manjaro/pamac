@@ -29,6 +29,9 @@ namespace Pamac {
 		double scroll_value;
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
+		// package base whose files are in build_files_notebook: it can differ
+		// from the displayed package name for split packages
+		public string? build_files_pkgbase { get; private set; }
 		// parent window
 		public Gtk.Application? application { get; construct; }
 		// local config
@@ -987,6 +990,7 @@ namespace Pamac {
 			for (int i = num_pages - 1; i >= 0; i--) {
 				build_files_notebook.remove_page (i);
 			}
+			build_files_pkgbase = pkgname;
 			if (clone) {
 				File? clone_dir = yield database.clone_build_files_async (pkgname, overwrite);
 				if (clone_dir == null) {
@@ -1001,12 +1005,9 @@ namespace Pamac {
 				if ("PKGBUILD" in path) {
 					yield create_build_files_tab (path);
 					// add diff after PKGBUILD, do not failed if no diff
-					string diff_path;
-					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						diff_path = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, "diff");
-					} else {
-						diff_path = Path.build_filename (database.config.aur_build_dir, pkgname, "diff");
-					}
+					// use the build directory really used by libpamac: it may fall back
+					// to a private one if the shared /var/tmp/pamac-build-<user> is not ours
+					string diff_path = Path.build_filename (database.get_real_aur_build_dir (), pkgname, "diff");
 					var diff_file = File.new_for_path (diff_path);
 					if (diff_file.query_exists ()) {
 						yield create_build_files_tab (diff_path, false);
@@ -1027,12 +1028,8 @@ namespace Pamac {
 				var scrolled_window = child as Gtk.ScrolledWindow;
 				var textview = scrolled_window.get_child () as Gtk.TextView;
 				if (textview.buffer.get_modified () == true) {
-					string file_name;
-					if (database.config.aur_build_dir == "/var/tmp" || database.config.aur_build_dir == "/tmp") {
-						file_name = Path.build_filename (database.config.aur_build_dir, "pamac-build-%s".printf (Environment.get_user_name ()), pkgname, build_files_notebook.get_tab_label_text (child));
-					} else {
-						file_name = Path.build_filename (database.config.aur_build_dir, pkgname, build_files_notebook.get_tab_label_text (child));
-					}
+					// save in the build directory really used by libpamac
+					string file_name = Path.build_filename (database.get_real_aur_build_dir (), pkgname, build_files_notebook.get_tab_label_text (child));
 					var file = File.new_for_path (file_name);
 					Gtk.TextIter start_iter;
 					Gtk.TextIter end_iter;
@@ -1046,6 +1043,8 @@ namespace Pamac {
 						// writing a string to the stream
 						string text = textview.buffer.get_text (start_iter, end_iter, false);
 						yield fos.write_all_async (text.data, Priority.DEFAULT, null, null);
+						// saved: don't write it again if nothing changes
+						textview.buffer.set_modified (false);
 					} catch (Error e) {
 						warning (e.message);
 					}
