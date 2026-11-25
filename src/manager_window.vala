@@ -2502,19 +2502,21 @@ namespace Pamac {
 			if (is_update) {
 				row.action_icon.icon_name = "software-update-symbolic";
 				row.action_togglebutton.add_css_class ("suggested-action");
-				if (!(pkg.id in temporary_ignorepkgs)) {
+				// updates are tracked by name: pkg.id is the app id for apps
+				// and is not what run_sysupgrade passes to libpamac
+				if (!(pkg.name in temporary_ignorepkgs)) {
 					row.action_togglebutton.active = true;
 					row.action_icon.icon_name = "software-select-symbolic";
 				}
 				row.action_togglebutton.toggled.connect ((button) => {
 					if (button.active) {
-						to_update.add (pkg.id);
-						temporary_ignorepkgs.remove (pkg.id);
+						to_update.add (pkg.name);
+						temporary_ignorepkgs.remove (pkg.name);
 						// remove from config.ignorepkgs to override config
-						database.config.ignorepkgs.remove (pkg.id);
+						database.config.ignorepkgs.remove (pkg.name);
 					} else {
-						to_update.remove (pkg.id);
-						temporary_ignorepkgs.add (pkg.id);
+						to_update.remove (pkg.name);
+						temporary_ignorepkgs.add (pkg.name);
 					}
 					updates_ignored_row.visible = temporary_ignorepkgs.length > 0;
 					refresh_listbox_buttons ();
@@ -2795,7 +2797,7 @@ namespace Pamac {
 				} else if (pkg is FlatpakPackage) {
 					if (pkg.id in flatpak_to_install ||
 						pkg.id in flatpak_to_remove ||
-						pkg.id in to_update) {
+						pkg.name in to_update) {
 						pamac_row.action_togglebutton.active = true;
 						pamac_row.action_icon.icon_name = "software-select-symbolic";
 					} else if (pkg.installed_version == null) {
