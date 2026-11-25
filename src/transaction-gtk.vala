@@ -37,6 +37,9 @@ namespace Pamac {
 		double scroll_value;
 		public Gtk.TextView details_textview;
 		public Gtk.Notebook build_files_notebook;
+		// package base whose files are in build_files_notebook: it can differ
+		// from the displayed package name for split packages
+		public string? build_files_pkgbase { get; private set; }
 		// parent window
 		public Gtk.Application? application { get; construct; }
 		// local config
@@ -876,6 +879,7 @@ namespace Pamac {
 			for (int i = num_pages - 1; i >= 0; i--) {
 				build_files_notebook.remove_page (i);
 			}
+			build_files_pkgbase = pkgname;
 			if (clone) {
 				File? clone_dir = yield database.clone_build_files_async (pkgname, overwrite);
 				if (clone_dir == null) {

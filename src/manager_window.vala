@@ -2179,8 +2179,8 @@ namespace Pamac {
 		void on_build_togglebutton_toggled () {
 			if (build_togglebutton.active) {
 				to_build.add (current_package_displayed.name);
-				if (properties_stack.visible_child_name == "build_files") {
-					transaction.save_build_files_async.begin (current_package_displayed.name);
+				if (properties_stack.visible_child_name == "build_files" && transaction.build_files_pkgbase != null) {
+					transaction.save_build_files_async.begin (transaction.build_files_pkgbase);
 				}
 			} else {
 				to_build.remove (current_package_displayed.name);
@@ -3907,8 +3907,9 @@ namespace Pamac {
 			if (view_stack.visible_child_name == "updates") {
 				run_sysupgrade ();
 			} else if (browse_stack.visible_child_name == "details" &&
-				properties_stack.visible_child_name == "build_files") {
-				transaction.save_build_files_async.begin (current_package_displayed.name, () => {
+				properties_stack.visible_child_name == "build_files" &&
+				transaction.build_files_pkgbase != null) {
+				transaction.save_build_files_async.begin (transaction.build_files_pkgbase, () => {
 					run_transaction ();
 				});
 			} else {
