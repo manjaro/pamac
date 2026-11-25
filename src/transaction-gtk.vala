@@ -144,7 +144,7 @@ namespace Pamac {
 			summary_shown = false;
 			reboot_needed = false;
 			commit_transaction_answer = false;
-			// check_dbs and refresh flatpak appstream_data
+			// check_dbs
 			var loop = new MainLoop ();
 			check_dbs.begin ((obj, res) => {
 				loop.quit ();

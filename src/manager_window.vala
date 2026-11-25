@@ -846,7 +846,7 @@ namespace Pamac {
 			});
 
 			// sort action
-			sort_action = new SimpleAction.stateful ("sort-action", new GLib.VariantType("s"), new Variant.string (dgettext (null, "relevance")));
+			sort_action = new SimpleAction.stateful ("sort-action", new GLib.VariantType("s"), new Variant.string ("relevance"));
 			sort_action.change_state.connect ((new_state) => {
 				unowned string sortby = new_state.get_string ();
 				sort_action.set_state (new_state);

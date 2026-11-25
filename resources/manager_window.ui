@@ -462,7 +462,7 @@
                                                     <property name="can-shrink">1</property>
                                                     <property name="margin-top">6</property>
                                                     <property name="margin-bottom">6</property>
-                                                    <property name="icon-name" translatable="yes">view-list-symbolic</property>
+                                                    <property name="icon-name">view-list-symbolic</property>
                                                     <property name="always-show-arrow">1</property>
                                                     <property name="menu-model">sort-menu</property>
                                                   </object>
