@@ -19,8 +19,23 @@
 
 namespace Pamac {
 
+	delegate void ManagerWindowFunc (ManagerWindow manager_window);
+
+	class PendingWindowCall {
+		public ManagerWindowFunc func;
+
+		public PendingWindowCall (owned ManagerWindowFunc func) {
+			this.func = (owned) func;
+		}
+	}
+
 	class Manager : Gtk.Application {
 		DatabaseGtk database;
+		// ManagerWindow construction runs a nested main loop (in TransactionGtk constructor),
+		// so activations can be dispatched while the window is not fully built yet.
+		// Calls received during construction are queued and run once it is finished.
+		bool constructing_window;
+		GenericArray<PendingWindowCall> pending_window_calls;
 		SearchProvider search_provider;
 		uint search_provider_id;
 		bool version;
@@ -34,6 +49,8 @@ namespace Pamac {
 		public Manager (DatabaseGtk database) {
 			Object (application_id: "org.manjaro.pamac.manager", flags: ApplicationFlags.HANDLES_OPEN);
 			this.database = database;
+			constructing_window = false;
+			pending_window_calls = new GenericArray<PendingWindowCall> ();
 
 			version = false;
 			updates = false;
@@ -61,12 +78,14 @@ namespace Pamac {
 					}
 					str_builder.append (str);
 				}
-				var manager_window = get_manager_window ();
-				manager_window.display_package_queue.clear ();
-				manager_window.search_button.clicked ();
-				manager_window.search_entry.set_text (str_builder.str);
-				manager_window.on_search_entry_activated ();
-				manager_window.present_with_time (timestamp);
+				string search_terms = str_builder.str;
+				with_manager_window ((manager_window) => {
+					manager_window.display_package_queue.clear ();
+					manager_window.search_button.clicked ();
+					manager_window.search_entry.set_text (search_terms);
+					manager_window.on_search_entry_activated ();
+					manager_window.present_with_time (timestamp);
+				});
 			});
 		}
 
@@ -82,72 +101,88 @@ namespace Pamac {
 			// updates
 			var action = new SimpleAction ("updates", null);
 			action.activate.connect (() => {
-				var manager_window = get_manager_window ();
-				manager_window.display_package_queue.clear ();
-				manager_window.main_stack.visible_child_name = "browse";
-				manager_window.browse_stack.visible_child_name = "packages";
-				manager_window.view_stack.visible_child_name = "updates";
-				manager_window.activate_action ("back", null);
-				manager_window.present ();
+				with_manager_window ((manager_window) => {
+					manager_window.display_package_queue.clear ();
+					manager_window.main_stack.visible_child_name = "browse";
+					manager_window.browse_stack.visible_child_name = "packages";
+					manager_window.view_stack.visible_child_name = "updates";
+					manager_window.activate_action ("back", null);
+					manager_window.present ();
+				});
 			});
 			this.add_action (action);
 			// details
 			action = new SimpleAction ("details", new VariantType ("s"));
 			action.activate.connect  ((parameter) => {
-				var manager_window = get_manager_window ();
-				pkgname = parameter.get_string ();
-				AlpmPackage? pkg = this.database.get_pkg (pkgname);
-				if (pkg != null) {
-					manager_window.display_package_details (pkg);
-					manager_window.main_stack.visible_child_name = "browse";
-					manager_window.browse_stack.visible_child_name = "details";
-					manager_window.view_stack_switcher.visible = false;
-					manager_window.search_button.visible = false;
-					manager_window.button_back.visible = true;
-				}
-				manager_window.present ();
+				with_manager_window ((manager_window) => {
+					pkgname = parameter.get_string ();
+					AlpmPackage? pkg = this.database.get_pkg (pkgname);
+					if (pkg != null) {
+						manager_window.display_package_details (pkg);
+						manager_window.main_stack.visible_child_name = "browse";
+						manager_window.browse_stack.visible_child_name = "details";
+						manager_window.view_stack_switcher.visible = false;
+						manager_window.search_button.visible = false;
+						manager_window.button_back.visible = true;
+					}
+					manager_window.present ();
+				});
 			});
 			this.add_action (action);
 			// details_id
 			action = new SimpleAction ("details-id", new VariantType ("s"));
 			action.activate.connect  ((parameter) => {
-				var manager_window = get_manager_window ();
-				app_id = parameter.get_string ();
-				Package? pkg = this.database.get_app_by_id (app_id);
-				if (pkg != null) {
-					manager_window.display_details (pkg);
-					manager_window.main_stack.visible_child_name = "browse";
-					manager_window.browse_stack.visible_child_name = "details";
-					manager_window.view_stack_switcher.visible = false;
-					manager_window.search_button.visible = false;
-					manager_window.button_back.visible = true;
-				}
-				manager_window.present ();
+				with_manager_window ((manager_window) => {
+					app_id = parameter.get_string ();
+					Package? pkg = this.database.get_app_by_id (app_id);
+					if (pkg != null) {
+						manager_window.display_details (pkg);
+						manager_window.main_stack.visible_child_name = "browse";
+						manager_window.browse_stack.visible_child_name = "details";
+						manager_window.view_stack_switcher.visible = false;
+						manager_window.search_button.visible = false;
+						manager_window.button_back.visible = true;
+					}
+					manager_window.present ();
+				});
 			});
 			this.add_action (action);
 			// search
 			action = new SimpleAction ("search", new VariantType ("s"));
 			action.activate.connect  ((parameter) => {
-				var manager_window = get_manager_window ();
-				search = parameter.get_string ();
-				manager_window.display_package_queue.clear ();
-				manager_window.search_button.clicked ();
-				manager_window.search_entry.set_text (search);
-				manager_window.present ();
+				with_manager_window ((manager_window) => {
+					search = parameter.get_string ();
+					manager_window.display_package_queue.clear ();
+					manager_window.search_button.clicked ();
+					manager_window.search_entry.set_text (search);
+					manager_window.present ();
+				});
 			});
 			this.add_action (action);
 		}
 
-		ManagerWindow get_manager_window () {
-			ManagerWindow manager_window;
-			unowned Gtk.Window window = this.active_window;
-			if (window == null) {
-				manager_window = new ManagerWindow (this, database);
-				database.window = manager_window;
-			} else {
-				manager_window = window as ManagerWindow;
+		void with_manager_window (owned ManagerWindowFunc func) {
+			if (constructing_window) {
+				// the window is registered as active_window but not fully constructed yet
+				pending_window_calls.add (new PendingWindowCall ((owned) func));
+				return;
 			}
-			return manager_window;
+			unowned Gtk.Window? window = this.active_window;
+			if (window != null) {
+				func (window as ManagerWindow);
+				return;
+			}
+			constructing_window = true;
+			var manager_window = new ManagerWindow (this, database);
+			database.window = manager_window;
+			constructing_window = false;
+			func (manager_window);
+			// run calls received during construction
+			var pending = (owned) pending_window_calls;
+			pending_window_calls = new GenericArray<PendingWindowCall> ();
+			foreach (unowned PendingWindowCall call in pending) {
+				call.func (manager_window);
+			}
 		}
 
 		public override bool dbus_register (DBusConnection connection, string object_path) {
@@ -168,9 +203,10 @@ namespace Pamac {
 
 		protected override void activate () {
 			base.activate ();
-			var manager_window = get_manager_window ();
-			manager_window.refresh_packages_list ();
-			manager_window.present ();
+			with_manager_window ((manager_window) => {
+				manager_window.refresh_packages_list ();
+				manager_window.present ();
+			});
 		}
 
 		protected override int handle_local_options (VariantDict options) {
@@ -232,10 +268,9 @@ namespace Pamac {
 
 		public override void shutdown () {
 			base.shutdown ();
-			unowned Gtk.Window window = this.active_window;
-			if (!check_pamac_running () && window != null) {
+			unowned ManagerWindow? manager_window = this.active_window as ManagerWindow;
+			if (!check_pamac_running () && manager_window != null && manager_window.transaction != null) {
 				// stop system_daemon
-				var manager_window = get_manager_window ();
 				manager_window.transaction.quit_daemon ();
 			}
 		}
