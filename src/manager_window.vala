@@ -1379,6 +1379,9 @@ namespace Pamac {
 		}
 
 		async void get_screenshots_pictures (GenericArray<string> urls) {
+			// set_screenshots creates a new array for each displayed package:
+			// stop if another package was displayed while downloading
+			GenericArray<Gtk.Picture> screenshots = current_screenshots;
 			foreach (unowned string url in urls) {
 				Gtk.Picture? picture = null;
 				var uri = File.new_for_uri (url);
@@ -1406,6 +1409,9 @@ namespace Pamac {
 					} catch (Error e) {
 						warning ("%s: %s", url, e.message);
 					}
+				}
+				if (screenshots != current_screenshots) {
+					return;
 				}
 				// add images when they are ready
 				if (picture != null) {
@@ -2100,10 +2106,18 @@ namespace Pamac {
 			switch (properties_stack.visible_child_name) {
 				case "files":
 					if (current_files != current_package_displayed.name) {
-						this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 						var alpm_pkg = current_package_displayed as AlpmPackage;
+						if (alpm_pkg == null) {
+							break;
+						}
+						this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
 						alpm_pkg.get_files_async.begin ((obj, res) => {
 							var files = alpm_pkg.get_files_async.end (res);
+							// another package may have been displayed while loading
+							if (current_package_displayed != alpm_pkg) {
+								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+								return;
+							}
 							StringBuilder text = new StringBuilder ();
 							foreach (unowned string file in files) {
 								if (text.len > 0) {
@@ -2113,7 +2127,7 @@ namespace Pamac {
 							}
 							files_textview.buffer.set_text (text.str, (int) text.len);
 							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-							current_files = current_package_displayed.name;
+							current_files = alpm_pkg.name;
 						});
 						files_textview.buffer.set_text ("", 0);
 					}
@@ -2121,20 +2135,24 @@ namespace Pamac {
 				case "build_files":
 					if (current_build_files != current_package_displayed.name) {
 						this.set_cursor (new Gdk.Cursor.from_name ("progress", null));
-						database.get_aur_pkg_async.begin (current_package_displayed.name, (obj, res) => {
-							AURPackage pkg = database.get_aur_pkg_async.end (res);
-							if (pkg != null) {
-								transaction.populate_build_files_async.begin (pkg.packagebase, true, false, () => {
-									// get focus to the first file
-									unowned Gtk.Widget widget = transaction.build_files_notebook.get_nth_page (0);
-									unowned Gtk.ScrolledWindow scrolledwindow = widget as Gtk.ScrolledWindow;
-									scrolledwindow.get_child ().grab_focus ();
-									this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-								});
-							} else {
+						Package displayed_pkg = current_package_displayed;
+						database.get_aur_pkg_async.begin (displayed_pkg.name, (obj, res) => {
+							AURPackage? pkg = database.get_aur_pkg_async.end (res);
+							// another package may have been displayed while loading
+							if (pkg == null || current_package_displayed != displayed_pkg) {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+								return;
 							}
-							current_build_files = current_package_displayed.name;
+							current_build_files = displayed_pkg.name;
+							transaction.populate_build_files_async.begin (pkg.packagebase, true, false, (obj, res) => {
+								bool success = transaction.populate_build_files_async.end (res);
+								// get focus to the first file, there is none if clone failed
+								unowned Gtk.ScrolledWindow? scrolledwindow = transaction.build_files_notebook.get_nth_page (0) as Gtk.ScrolledWindow;
+								if (success && scrolledwindow != null) {
+									scrolledwindow.get_child ().grab_focus ();
+								}
+								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+							});
 						});
 					}
 					break;
