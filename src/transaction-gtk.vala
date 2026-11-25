@@ -253,18 +253,30 @@ namespace Pamac {
 			var choose_provider_dialog = new ChooseProviderDialog (application_window);
 			choose_provider_dialog.heading = dgettext (null, "Choose a provider for %s").printf (depend);
 			var pkgs = new GenericArray<Package> ();
-			foreach (unowned string provider in providers) {
+			// providers not found are not displayed: keep the index of each
+			// displayed provider in the providers list given by libpamac
+			var providers_indexes = new GenericArray<int> ();
+			for (int i = 0; i < providers.length; i++) {
+				unowned string provider = providers[i];
 				var pkg = database.get_sync_pkg (provider);
 				if (pkg == null)  {
 					pkg = database.get_aur_pkg (provider);
 				}
 				if (pkg != null)  {
 					pkgs.add (pkg);
+					providers_indexes.add (i);
 				}
+			}
+			if (pkgs.length == 0) {
+				// nothing to choose: let libpamac use the first provider
+				return 0;
 			}
 			choose_provider_dialog.add_providers (pkgs);
 			int index = yield choose_provider_dialog.choose_provider ();
-			return index;
+			if (index < 0 || index >= providers_indexes.length) {
+				return 0;
+			}
+			return providers_indexes[index];
 		}
 
 		protected override async bool ask_import_key (string pkgname, string key, string? owner) {
@@ -421,7 +433,7 @@ namespace Pamac {
 			Gdk.Paintable paintable = icon_theme.lookup_icon ("package-x-generic", null, 64, 1, 0, 0);
 			unowned string? icon = pkg.icon;
 			if (icon != null) {
-				if ("http" in icon) {
+				if (icon.has_prefix ("http://") || icon.has_prefix ("https://")) {
 					get_icon_file.begin (icon, (obj, res) => {
 						var file = get_icon_file.end (res);
 						if (file.query_exists ()) {
@@ -818,12 +830,15 @@ namespace Pamac {
 		}
 
 		protected override async void edit_build_files (GenericArray<string> pkgnames) {
-			// remove noteboook from manager_window properties stack
-			unowned Gtk.Box manager_box = build_files_notebook.get_parent () as Gtk.Box;
-			manager_box.remove (build_files_notebook);
+			// remove noteboook from manager_window properties stack,
+			// it has no parent in pamac-installer
+			unowned Gtk.Box? manager_box = build_files_notebook.get_parent () as Gtk.Box;
+			if (manager_box != null) {
+				manager_box.remove (build_files_notebook);
+			}
 			// run edit dialog for each pkgname
 			foreach (unowned string pkgname in pkgnames) {
-				string action = dgettext (null, "Edit %s build files".printf (pkgname));
+				string action = dgettext (null, "Edit %s build files").printf (pkgname);
 				display_action (action);
 				// populate notebook
 				bool success = yield populate_build_files_async (pkgname, false, false);
@@ -852,10 +867,12 @@ namespace Pamac {
 					yield save_build_files_async (pkgname);
 				}
 				// remove build_files_notebook from the dialog
-				build_files_notebook.unparent ();
+				dialog.extra_child = null;
 			}
 			// re-add noteboook to manager_window properties stack
-			manager_box.append (build_files_notebook);
+			if (manager_box != null) {
+				manager_box.append (build_files_notebook);
+			}
 		}
 
 		async void create_build_files_tab (string filename, bool editable = true) {
