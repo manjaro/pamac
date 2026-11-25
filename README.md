@@ -10,6 +10,19 @@ Pamac is a Gtk and CLI front ends of [libpamac](https://github.com/manjaro/libpa
 #### Installing from source
 
 Pamac uses [Meson](http://mesonbuild.com/index.html) build system.
+
+Build dependencies:
+
+ - meson
+ - vala
+ - [libpamac](https://github.com/manjaro/libpamac) >= 11.7
+ - gtk3 >= 3.24
+ - gtk4 >= 4.10
+ - libadwaita >= 1.4
+ - libnotify
+
+Optional: xapp (native tray icon on Cinnamon), jemalloc (memory allocator, disable it with `-Djemalloc=false`).
+
 In the source directory run:
 
 `mkdir builddir && cd builddir`
