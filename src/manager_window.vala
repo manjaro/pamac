@@ -1384,8 +1384,9 @@ namespace Pamac {
 			GenericArray<Gtk.Picture> screenshots = current_screenshots;
 			foreach (unowned string url in urls) {
 				Gtk.Picture? picture = null;
-				var uri = File.new_for_uri (url);
-				var cached_screenshot = File.new_for_path (Path.build_filename (get_private_cache_dir ("app-screenshots"), uri.get_basename ()));
+				// Different applications often use the same screenshot basename.
+				var cache_key = Checksum.compute_for_string (ChecksumType.SHA256, url);
+				var cached_screenshot = File.new_for_path (Path.build_filename (get_private_cache_dir ("app-screenshots"), cache_key + ".png"));
 				if (cached_screenshot.query_exists ()) {
 					picture = new Gtk.Picture.for_file (cached_screenshot);
 					picture.can_shrink = true;
