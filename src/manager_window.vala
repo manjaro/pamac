@@ -486,7 +486,7 @@ namespace Pamac {
 		int current_filters_index;
 		string previous_view_stack_visible_child_name;
 		string current_packages_list_name;
-		GenericArray<unowned Package> current_packages_list;
+		GenericArray<Package> current_packages_list;
 		uint current_packages_list_length;
 		uint current_packages_list_index;
 		GenericArray<Gtk.Picture> current_screenshots;
@@ -2330,7 +2330,7 @@ namespace Pamac {
 			this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 		}
 
-		void sort_aur_list (ref GenericArray<unowned Package> pkgs) {
+		void sort_aur_list (ref GenericArray<Package> pkgs) {
 			Variant state = sort_action.get_state ();
 			unowned string sortby = state.get_string ();
 			if (sortby == "relevance") {
@@ -2346,7 +2346,7 @@ namespace Pamac {
 			}
 		}
 
-		void populate_aur_list (GenericArray<unowned Package> pkgs) {
+		void populate_aur_list (GenericArray<Package> pkgs) {
 			current_packages_list = pkgs;
 			current_packages_list_index = 0;
 			current_packages_list_length = current_packages_list.length;
@@ -2354,7 +2354,7 @@ namespace Pamac {
 			populate_listbox ();
 		}
 
-		void sort_packages_list (ref GenericArray<unowned Package> pkgs) {
+		void sort_packages_list (ref GenericArray<Package> pkgs) {
 			Variant state = sort_action.get_state ();
 			unowned string sortby = state.get_string ();
 			if (sortby == "relevance") {
@@ -2378,7 +2378,7 @@ namespace Pamac {
 			}
 		}
 
-		void populate_packages_list (GenericArray<unowned Package> pkgs) {
+		void populate_packages_list (GenericArray<Package> pkgs) {
 			current_packages_list = pkgs;
 			current_packages_list_index = 0;
 			current_packages_list_length = current_packages_list.length;
@@ -3112,14 +3112,14 @@ namespace Pamac {
 			}
 		}
 
-		async GenericArray<unowned AURPackage> get_pending_aur_pkgs () {
-			var aur_pkgs = new GenericArray<unowned AURPackage> ();
+		async GenericArray<AURPackage> get_pending_aur_pkgs () {
+			var aur_pkgs = new GenericArray<AURPackage> ();
 			var to_build_array = new GenericArray<string> (to_build.length);
 			foreach (unowned string name in to_build)  {
 				to_build_array.add (name);
 			}
 			var table = yield database.get_aur_pkgs_async (to_build_array);
-			var iter = HashTableIter<string, unowned AURPackage?> (table);
+			var iter = HashTableIter<string, AURPackage?> (table);
 			unowned AURPackage? aur_pkg;
 			while (iter.next (null, out aur_pkg)) {
 				if (aur_pkg != null) {
@@ -3129,8 +3129,8 @@ namespace Pamac {
 			return aur_pkgs;
 		}
 
-		async GenericArray<unowned Package> get_pending_pkgs () {
-			var pkgs = new GenericArray<unowned Package> ();
+		async GenericArray<Package> get_pending_pkgs () {
+			var pkgs = new GenericArray<Package> ();
 			foreach (unowned string pkgname in to_install) {
 				var pkg = database.get_installed_pkg (pkgname);
 				if (pkg == null) {
@@ -3173,11 +3173,11 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		async GenericArray<unowned Package> search_all_pkgs () {
-			var pkgs = new GenericArray<unowned Package> ();
-			var aur_pkgs = new GenericArray<unowned AURPackage> ();
-			var snaps = new GenericArray<unowned SnapPackage> ();
-			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
+		async GenericArray<Package> search_all_pkgs () {
+			var pkgs = new GenericArray<Package> ();
+			var aur_pkgs = new GenericArray<AURPackage> ();
+			var snaps = new GenericArray<SnapPackage> ();
+			var flatpaks = new GenericArray<FlatpakPackage> ();
 			database.search_pkgs_async.begin (search_string, (obj, res) => {
 				pkgs = database.search_pkgs_async.end (res);
 				search_all_pkgs.callback ();
@@ -3450,10 +3450,10 @@ namespace Pamac {
 			}
 		}
 
-		async GenericArray<unowned Package> get_all_installed () {
-			var pkgs = new GenericArray<unowned Package> ();
-			var snaps = new GenericArray<unowned SnapPackage> ();
-			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
+		async GenericArray<Package> get_all_installed () {
+			var pkgs = new GenericArray<Package> ();
+			var snaps = new GenericArray<SnapPackage> ();
+			var flatpaks = new GenericArray<FlatpakPackage> ();
 			database.get_installed_pkgs_async.begin ((obj, res) => {
 				pkgs = database.get_installed_pkgs_async.end (res);
 				get_all_installed.callback ();
@@ -3689,7 +3689,7 @@ namespace Pamac {
 			switch (index) {
 				case 0: // all
 					current_packages_list_name = "all_updates";
-					var pkgs = new GenericArray<unowned Package> ();
+					var pkgs = new GenericArray<Package> ();
 					foreach (unowned AlpmPackage pkg in repos_updates) {
 						pkgs.add (pkg);
 					}
@@ -3711,7 +3711,7 @@ namespace Pamac {
 					break;
 				case 1: // repos
 					current_packages_list_name = "repos_updates";
-					var pkgs = new GenericArray<unowned AlpmPackage> ();
+					var pkgs = new GenericArray<AlpmPackage> ();
 					foreach (unowned AlpmPackage pkg in repos_updates) {
 						if (!temporary_ignorepkgs.contains (pkg.name)) {
 							pkgs.add (pkg);
@@ -3738,7 +3738,7 @@ namespace Pamac {
 					unowned string title = simple_row.title;
 					if (title == dgettext (null, "AUR")) {
 						current_packages_list_name = "aur_updates";
-						var pkgs = new GenericArray<unowned AURPackage> ();
+						var pkgs = new GenericArray<AURPackage> ();
 						foreach (unowned AURPackage pkg in aur_updates) {
 							if (!temporary_ignorepkgs.contains (pkg.name)) {
 								pkgs.add (pkg);
@@ -3755,7 +3755,7 @@ namespace Pamac {
 						}
 					} else if (title == dgettext (null, "Flatpak")) {
 						current_packages_list_name = "flatpak_updates";
-						var pkgs = new GenericArray<unowned FlatpakPackage> ();
+						var pkgs = new GenericArray<FlatpakPackage> ();
 						foreach (unowned FlatpakPackage pkg in flatpak_updates) {
 							if (!temporary_ignorepkgs.contains (pkg.name)) {
 								pkgs.add (pkg);
@@ -3772,7 +3772,7 @@ namespace Pamac {
 						}
 					} else if (title == dgettext (null, "Ignored")) {
 						current_packages_list_name = "ignored_updates";
-						var pkgs = new GenericArray<unowned Package> ();
+						var pkgs = new GenericArray<Package> ();
 						foreach (unowned AlpmPackage pkg in repos_updates) {
 							if (temporary_ignorepkgs.contains (pkg.name)) {
 								pkgs.add (pkg);
@@ -3884,13 +3884,13 @@ namespace Pamac {
 			main_stack.visible_child_name = "term";
 		}
 
-		async GenericArray<unowned Package> get_category_pkgs (string category) {
+		async GenericArray<Package> get_category_pkgs (string category) {
 			if (category == "Pending") {
 				return yield get_pending_pkgs ();
 			}
-			var pkgs = new GenericArray<unowned Package> ();
-			var snaps = new GenericArray<unowned SnapPackage> ();
-			var flatpaks = new GenericArray<unowned FlatpakPackage> ();
+			var pkgs = new GenericArray<Package> ();
+			var snaps = new GenericArray<SnapPackage> ();
+			var flatpaks = new GenericArray<FlatpakPackage> ();
 			database.get_category_pkgs_async.begin (category, (obj, res) => {
 				pkgs = database.get_category_pkgs_async.end (res);
 				get_category_pkgs.callback ();

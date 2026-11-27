@@ -46,7 +46,7 @@ namespace Pamac {
 		}
 
 		string[] search_pkgs (GenericArray<string> normalized_terms) {
-			GenericArray<unowned Package> pkgs = database.search_uninstalled_apps (normalized_terms);
+			GenericArray<Package> pkgs = database.search_uninstalled_apps (normalized_terms);
 			var result = new GenericArray<string> ();
 			foreach (unowned Package pkg in pkgs) {
 				// concat data into a string
