@@ -75,6 +75,8 @@ namespace Pamac {
 		[GtkChild]
 		unowned Adw.SwitchRow check_aur_vcs_updates_button;
 		[GtkChild]
+		unowned Adw.SpinRow aur_update_delay_spinrow;
+		[GtkChild]
 		unowned Gtk.Button clean_build_files_button;
 		[GtkChild]
 		unowned Gtk.Label clean_build_files_label;
@@ -263,6 +265,9 @@ namespace Pamac {
 			config.bind_property ("check_aur_updates", check_aur_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_vcs_updates", check_aur_vcs_updates_button, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 			config.bind_property ("check_aur_updates", check_aur_vcs_updates_button, "sensitive", BindingFlags.SYNC_CREATE);
+			aur_update_delay_spinrow.value = config.aur_update_delay_days;
+			config.bind_property ("check_aur_updates", aur_update_delay_spinrow, "sensitive", BindingFlags.SYNC_CREATE);
+			aur_update_delay_spinrow.notify["value"].connect (on_aur_update_delay_spinrow_changed);
 			if (config.support_aur) {
 				aur_build_dir_file_chooser.label = Path.get_basename (config.aur_build_dir);
 				refresh_clean_build_files_button.begin ();
@@ -361,6 +366,10 @@ namespace Pamac {
 
 		void on_cache_only_uninstalled_button_changed () {
 			refresh_clean_cache_button.begin ();
+		}
+
+		void on_aur_update_delay_spinrow_changed () {
+			config.aur_update_delay_days = (uint64) aur_update_delay_spinrow.value;
 		}
 
 		[GtkCallback]
