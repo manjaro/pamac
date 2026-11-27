@@ -183,7 +183,7 @@ namespace Pamac {
 
 		bool check_build_pkgs (GenericArray<string> targets) {
 			var aur_pkgs = database.get_aur_pkgs (targets);
-			var iter = HashTableIter<string, unowned AURPackage?> (aur_pkgs);
+			var iter = HashTableIter<string, AURPackage?> (aur_pkgs);
 			unowned string pkgname;
 			unowned AURPackage? aur_pkg;
 			while (iter.next (out pkgname, out aur_pkg)) {
