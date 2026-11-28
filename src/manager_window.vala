@@ -19,6 +19,8 @@
 
 namespace Pamac {
 
+	delegate void SearchResultsFunc (GenericArray<Package> pkgs);
+
 	string search_string;
 	GenericArray<string> repos_names;
 	GenericSet<string?> to_install;
@@ -463,6 +465,8 @@ namespace Pamac {
 
 		public bool important_details;
 		public bool transaction_running;
+		// the user asked to close the window during a transaction
+		bool close_after_transaction;
 		public bool generate_mirrors_list;
 		bool waiting;
 
@@ -971,7 +975,14 @@ namespace Pamac {
 
 		[GtkCallback]
 		bool on_window_close_request () {
-			if (transaction_running || generate_mirrors_list) {
+			if (transaction_running) {
+				// closing would stop the transaction: close the window when it is successfully finished
+				if (!close_after_transaction) {
+					close_after_transaction = true;
+					show_in_app_notification (dgettext (null, "The window will be closed at the end of the transaction"));
+				}
+				return true;
+			} else if (generate_mirrors_list) {
 				// do not close window
 				return true;
 			} else {
@@ -1072,6 +1083,11 @@ namespace Pamac {
 				if (view_stack.visible_child_name == "updates") {
 					uint64 total_dsize = 0;
 					foreach (unowned AlpmPackage pkg in repos_updates) {
+						if (pkg.name in to_update) {
+							total_dsize += pkg.download_size;
+						}
+					}
+					foreach (unowned FlatpakPackage pkg in flatpak_updates) {
 						if (pkg.name in to_update) {
 							total_dsize += pkg.download_size;
 						}
@@ -3173,51 +3189,87 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		async GenericArray<Package> search_all_pkgs () {
-			var pkgs = new GenericArray<Package> ();
-			var aur_pkgs = new GenericArray<AURPackage> ();
-			var snaps = new GenericArray<SnapPackage> ();
-			var flatpaks = new GenericArray<FlatpakPackage> ();
+		// search in all enabled sources and display results as soon as a source answers:
+		// slow sources (AUR, Snap, Flatpak) do not delay the results of the others
+		void search_all_pkgs () {
+			string list_name = "search_all_%s".printf (search_string);
+			current_packages_list_name = list_name;
+			bool enable_snap = database.config.enable_snap;
+			bool enable_flatpak = database.config.enable_flatpak;
+			uint pending = 1;
+			if (enable_aur) {
+				pending++;
+			}
+			if (enable_snap) {
+				pending++;
+			}
+			if (enable_flatpak) {
+				pending++;
+			}
+			var results = new GenericArray<Package> ();
+			bool displayed = false;
+			SearchResultsFunc on_results = (pkgs) => {
+				pending--;
+				if (view_stack.visible_child_name != "search" || current_packages_list_name != list_name) {
+					// obsolete search
+					if (view_stack.visible_child_name != "search") {
+						this.set_cursor (new Gdk.Cursor.from_name ("default", null));
+					}
+					return;
+				}
+				foreach (unowned Package pkg in pkgs) {
+					results.add (pkg);
+				}
+				if (!displayed) {
+					// do not display "no results" while some sources are still searching
+					if (results.length > 0 || pending == 0) {
+						displayed = true;
+						this.title = dgettext (null, "Search");
+						populate_packages_list (results);
+					}
+				} else if (pkgs.length > 0) {
+					if (packages_scrolledwindow.vadjustment.value == 0) {
+						// not scrolled yet: sort again with the new results
+						populate_packages_list (results);
+					} else {
+						// keep the scroll position: new results are added at the end of the list,
+						// current_packages_list is results, already sorted
+						bool all_displayed = current_packages_list_index == current_packages_list_length;
+						current_packages_list_length = current_packages_list.length;
+						if (all_displayed) {
+							complete_packages_list ();
+						}
+					}
+				}
+				// populate_listbox restores the default cursor
+				this.set_cursor (new Gdk.Cursor.from_name (pending == 0 ? "default" : "progress", null));
+			};
 			database.search_pkgs_async.begin (search_string, (obj, res) => {
-				pkgs = database.search_pkgs_async.end (res);
-				search_all_pkgs.callback ();
+				on_results (database.search_pkgs_async.end (res));
 			});
 			if (enable_aur) {
 				database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
-					aur_pkgs = database.search_aur_pkgs_async.end (res);
-					search_all_pkgs.callback ();
+					var aur_pkgs = database.search_aur_pkgs_async.end (res);
+					// installed AUR packages are already found by search_pkgs
+					var pkgs = new GenericArray<Package> ();
+					foreach (unowned AURPackage pkg in aur_pkgs) {
+						if (pkg.installed_version == null) {
+							pkgs.add (pkg);
+						}
+					}
+					on_results (pkgs);
 				});
 			}
-			if (database.config.enable_snap) {
+			if (enable_snap) {
 				database.search_snaps_async.begin (search_string, (obj, res) => {
-					snaps = database.search_snaps_async.end (res);
-					search_all_pkgs.callback ();
+					on_results (database.search_snaps_async.end (res));
 				});
 			}
-			if (database.config.enable_flatpak) {
+			if (enable_flatpak) {
 				database.search_flatpaks_async.begin (search_string, (obj, res) => {
-					flatpaks = database.search_flatpaks_async.end (res);
-					search_all_pkgs.callback ();
+					on_results (database.search_flatpaks_async.end (res));
 				});
 			}
-			yield;
-			if (enable_aur) {
-				yield;
-			}
-			if (database.config.enable_snap) {
-				yield;
-			}
-			if (database.config.enable_flatpak) {
-				yield;
-			}
-			foreach (unowned AURPackage pkg in aur_pkgs) {
-				if (pkg.installed_version == null) {
-					pkgs.add (pkg);
-				}
-			}
-			pkgs.extend (snaps, null);
-			pkgs.extend (flatpaks, null);
-			return pkgs;
 		}
 
 		[GtkCallback]
@@ -3267,7 +3319,32 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_search_entry_search_changed () {
-			//on_search_entry_activated ();
+			// search as you type: search-changed is emitted after the search-delay,
+			// it runs the same search as activate, in all enabled sources
+			// (repositories, AUR, Snap and Flatpak)
+			if (!search_entry.visible || main_stack.visible_child_name != "browse") {
+				return;
+			}
+			string tmp_search_string = search_entry.get_text ().strip ();
+			if (tmp_search_string.char_count () < 2) {
+				return;
+			}
+			if (view_stack.visible_child_name == "search" && tmp_search_string.down () == search_string) {
+				// already searched, for example after only adding a trailing space
+				return;
+			}
+			on_search_entry_activated ();
+		}
+
+		// give focus to the search entry without selecting its text,
+		// else the next typed character would replace the whole search
+		void focus_search_entry () {
+			var text = search_entry.get_delegate () as Gtk.Text;
+			if (text == null) {
+				search_entry.grab_focus ();
+			} else if (!text.has_focus) {
+				text.grab_focus_without_selecting ();
+			}
 		}
 
 		[GtkCallback]
@@ -3280,7 +3357,7 @@ namespace Pamac {
 			}
 			if (view_stack.visible_child_name == "browse"
 				|| view_stack.visible_child_name == "installed") {
-				search_entry.grab_focus ();
+				focus_search_entry ();
 				search_button.clicked ();
 			}
 		}
@@ -3582,7 +3659,7 @@ namespace Pamac {
 
 		[GtkCallback]
 		void on_search_listbox_row_activated (Gtk.ListBoxRow row) {
-			search_entry.grab_focus ();
+			focus_search_entry ();
 			if (search_string == null) {
 				return;
 			}
@@ -3590,16 +3667,7 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // all
-					current_packages_list_name = "search_all_%s".printf (search_string);
-					search_all_pkgs.begin ((obj, res) => {
-						var pkgs = search_all_pkgs.end (res);
-						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_all_%s".printf (search_string)) {
-							this.title = dgettext (null, "Search");
-							populate_packages_list (pkgs);
-						} else {
-							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
-						}
-					});
+					search_all_pkgs ();
 					break;
 				case 1: // installed
 					current_packages_list_name = "search_installed_%s".printf (search_string);
@@ -4119,21 +4187,18 @@ namespace Pamac {
 				if (last_refresh_time == null) {
 					updated_page.description = "";
 				} else {
-					// round at minute
-					int64 elasped_time = last_refresh_time.to_unix ();
-					int64 elasped_day = elasped_time / TimeSpan.DAY;
+					DateTime refresh_time = last_refresh_time.to_local ();
+					var now = new DateTime.now_local ();
+					var today = new DateTime.local (now.get_year (), now.get_month (), now.get_day_of_month (), 0, 0, 0);
 					string time_format;
-					// check if last refresh was less than 24 hours ago
-					if (elasped_day < 1) {
-						// check if last refresh was the same day
-						var now = new DateTime.now_local ();
-						if (last_refresh_time.get_day_of_week () == now.get_day_of_week ()) {
-							time_format = last_refresh_time.format ("%X");
-						} else {
-							time_format = last_refresh_time.format ("%c");
-						}
+					if (refresh_time.compare (today) >= 0) {
+						// today: the time is enough
+						time_format = refresh_time.format ("%X");
+					} else if (refresh_time.compare (today.add_days (-6)) >= 0) {
+						// during the last week: day name and time
+						time_format = refresh_time.format ("%A %X");
 					} else {
-						time_format = last_refresh_time.format ("%x");
+						time_format = refresh_time.format ("%x");
 					}
 					updated_page.description = "%s : %s".printf (dgettext (null, "Last refresh"), time_format);
 				}
@@ -4234,8 +4299,20 @@ namespace Pamac {
 				} else {
 					transaction.show_notification (dgettext (null, "Transaction successfully finished"));
 				}
-				transaction.show_warnings.begin ();
+				if (close_after_transaction) {
+					// let the user read the warnings and answer a restart request before closing
+					transaction.show_warnings.begin (true, () => {
+						if (close_after_transaction && !transaction_running) {
+							close_after_transaction = false;
+							this.close ();
+						}
+					});
+				} else {
+					transaction.show_warnings.begin ();
+				}
 			} else {
+				// keep the window open to show what failed
+				close_after_transaction = false;
 				transaction.clear_warnings ();
 				foreach (unowned string name in previous_to_install) {
 					if (!database.is_installed_pkg (name)) {

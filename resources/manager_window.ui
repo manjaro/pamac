@@ -133,6 +133,7 @@
                 <property name="max-width-chars">30</property>
                 <property name="placeholder-text" translatable="yes">Search</property>
                 <property name="visible">0</property>
+                <property name="search-delay">300</property>
                 <signal name="changed" handler="on_search_entry_changed" swapped="no"/>
                 <signal name="search-changed" handler="on_search_entry_search_changed" swapped="no"/>
                 <signal name="activate" handler="on_search_entry_activated" swapped="no"/>

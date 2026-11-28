@@ -491,7 +491,7 @@ namespace Pamac {
 			row.app_icon.paintable = paintable;
 		}
 
-		SummaryRow? create_summary_row (Package pkg, AlpmPackage? full_alpm_pkg, string? infos_string) {
+		SummaryRow? create_summary_row (Package pkg, AlpmPackage? full_alpm_pkg, string? infos_string, bool show_installed_version) {
 			var row = new SummaryRow ();
 			bool software_mode = local_config.software_mode;
 			// populate infos
@@ -512,7 +512,12 @@ namespace Pamac {
 				row.infos_label.label = infos_string;
 			}
 			if (!software_mode) {
-				row.version_label.label = pkg.version;
+				unowned string? installed_version = pkg.installed_version;
+				if (show_installed_version && installed_version != null && installed_version != pkg.version) {
+					row.version_label.label = "%s → %s".printf (installed_version, pkg.version);
+				} else {
+					row.version_label.label = pkg.version;
+				}
 			}
 			uint64 download_size = pkg.download_size;
 			if (download_size > 0) {
@@ -556,7 +561,7 @@ namespace Pamac {
 			return pkgname;
 		}
 
-		void add_infos_to_summary (Gtk.ListBox listbox, Package pkg, string? infos_string) {
+		void add_infos_to_summary (Gtk.ListBox listbox, Package pkg, string? infos_string, bool show_installed_version = false) {
 			unowned string id;
 			var alpm_pkg = get_full_alpm_pkg (pkg);
 			if (alpm_pkg != null) {
@@ -565,7 +570,7 @@ namespace Pamac {
 				id = pkg.id;
 			}
 			transaction_summary_add (id);
-			SummaryRow? row = create_summary_row (pkg, alpm_pkg, infos_string);
+			SummaryRow? row = create_summary_row (pkg, alpm_pkg, infos_string, show_installed_version);
 			// row null for standard pkg in software_mode
 			if (row != null) {
 				listbox.append (row);
@@ -607,8 +612,7 @@ namespace Pamac {
 		}
 
 		void add_downgrade_to_summary (Gtk.ListBox listbox, Package pkg) {
-			string? infos = null;
-			add_infos_to_summary (listbox, pkg, infos);
+			add_infos_to_summary (listbox, pkg, null, true);
 		}
 
 		void add_build_to_summary (Gtk.ListBox listbox, Package pkg) {
@@ -662,8 +666,28 @@ namespace Pamac {
 		}
 
 		void add_upgrade_to_summary (Gtk.ListBox listbox, Package pkg) {
-			string? infos = null;
-			add_infos_to_summary (listbox, pkg, infos);
+			add_infos_to_summary (listbox, pkg, null, true);
+		}
+
+		// installed size of the package version currently installed, 0 if unknown
+		uint64 get_installed_pkg_size (Package pkg) {
+			if (!(pkg is AlpmPackage)) {
+				return 0;
+			}
+			AlpmPackage? installed_pkg = database.get_installed_pkg (pkg.name);
+			if (installed_pkg == null) {
+				return 0;
+			}
+			return installed_pkg.installed_size;
+		}
+
+		// change of used disk space if pkg replaces the installed version, only for alpm packages:
+		// Snap and Flatpak sizes are not comparable and packages to build have no known size
+		int64 get_installed_size_delta (Package pkg) {
+			if (!(pkg is AlpmPackage)) {
+				return 0;
+			}
+			return (int64) pkg.installed_size - (int64) get_installed_pkg_size (pkg);
 		}
 
 		Gtk.ListBox create_listbox (Gtk.Box box, string action, uint length) {
@@ -813,8 +837,46 @@ namespace Pamac {
 					}
 				}
 			}
+			// change of used disk space, upgrades are counted only if they are listed
+			int64 isize_delta = 0;
+			foreach (unowned Package remove_pkg in summary.to_remove) {
+				if (remove_pkg is AlpmPackage) {
+					isize_delta -= (int64) remove_pkg.installed_size;
+				}
+			}
+			foreach (unowned Package remove_pkg in conflict_pkgs) {
+				if (remove_pkg is AlpmPackage) {
+					isize_delta -= (int64) remove_pkg.installed_size;
+				}
+			}
+			foreach (unowned Package add_pkg in summary.to_install) {
+				isize_delta += get_installed_size_delta (add_pkg);
+			}
+			foreach (unowned Package add_pkg in summary.to_reinstall) {
+				isize_delta += get_installed_size_delta (add_pkg);
+			}
+			foreach (unowned Package add_pkg in summary.to_downgrade) {
+				isize_delta += get_installed_size_delta (add_pkg);
+			}
+			if (!no_confirm_upgrade) {
+				foreach (unowned Package add_pkg in summary.to_upgrade) {
+					isize_delta += get_installed_size_delta (add_pkg);
+				}
+			}
+			var sizes_text = new StringBuilder ();
 			if (dsize > 0) {
-				transaction_sum_dialog.label.label = "<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize));
+				sizes_text.append ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
+			}
+			if (isize_delta != 0) {
+				if (sizes_text.len > 0) {
+					sizes_text.append_c ('\n');
+				}
+				string sign = isize_delta > 0 ? "+" : "−";
+				uint64 abs_delta = (uint64) (isize_delta > 0 ? isize_delta : -isize_delta);
+				sizes_text.append ("<b>%s: %s%s</b>".printf (dgettext (null, "Total installed size"), sign, format_size (abs_delta)));
+			}
+			if (sizes_text.len > 0) {
+				transaction_sum_dialog.label.label = sizes_text.str;
 			}
 			if (transaction_summary_length () == 0) {
 				// empty summary comes in case of transaction preparation failure
@@ -1003,6 +1065,30 @@ namespace Pamac {
 			}
 		}
 
+		// ask logind to reboot: it applies polkit rules and inhibitors
+		// like the restart button of the desktop, the reboot command is a fallback
+		void reboot () {
+			try {
+				var connection = Bus.get_sync (BusType.SYSTEM);
+				connection.call_sync ("org.freedesktop.login1",
+									"/org/freedesktop/login1",
+									"org.freedesktop.login1.Manager",
+									"Reboot",
+									new Variant ("(b)", true),
+									null,
+									DBusCallFlags.ALLOW_INTERACTIVE_AUTHORIZATION,
+									-1);
+				return;
+			} catch (Error e) {
+				warning (e.message);
+			}
+			try {
+				Process.spawn_command_line_async ("reboot");
+			} catch (SpawnError e) {
+				warning (e.message);
+			}
+		}
+
 		public void clear_warnings () {
 			warning_textbuffer = new StringBuilder ();
 		}
@@ -1051,12 +1137,7 @@ namespace Pamac {
 				string response_id = yield dialog.choose (null);
 				warning_textbuffer = new StringBuilder ();
 				if (response_id == restart_id) {
-					// restart
-					try {
-						Process.spawn_command_line_sync ("reboot");
-					} catch (SpawnError e) {
-						warning (e.message);
-					}
+					reboot ();
 				}
 			}
 		}
@@ -1115,7 +1196,7 @@ namespace Pamac {
 			var textbuffer = new StringBuilder ();
 			textbuffer.append (dgettext (null, "The snap %s was published using classic confinement").printf (name));
 			textbuffer.append (".\n");
-			textbuffer.append ("It thus may perform arbitrary system changes outside of the security sandbox that snaps are usually confined to, which may put your system at risk");
+			textbuffer.append (dgettext (null, "It thus may perform arbitrary system changes outside of the security sandbox that snaps are usually confined to, which may put your system at risk"));
 			textbuffer.append (".\n");
 			textbuffer.append (dgettext (null, "Install %s anyway").printf (name));
 			textbuffer.append (" ?");

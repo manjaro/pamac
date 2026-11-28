@@ -105,14 +105,41 @@ namespace Pamac {
 			// not at each hourly check
 			if (updates_nb != notified_updates_nb) {
 				notified_updates_nb = updates_nb;
-				update_notification (_(update_info));
+				update_notification (_(update_info), get_notification_body (info));
 			}
 		}
 
-		void show_notification (string info) {
+		// number of updates followed by the names of the first updated packages
+		string get_notification_body (string info) {
+			const uint MAX_NAMES = 5;
+			var names = new StringBuilder ();
+			uint names_nb = 0;
+			foreach (unowned string line in updates_checker.updates_list) {
+				// lines are "name  version" or "name  installed_version -> version"
+				string name = line.split (" ", 2)[0];
+				if (name == "") {
+					continue;
+				}
+				if (names_nb == MAX_NAMES) {
+					names.append (", …");
+					break;
+				}
+				if (names_nb > 0) {
+					names.append (", ");
+				}
+				names.append (Markup.escape_text (name));
+				names_nb++;
+			}
+			if (names_nb == 0) {
+				return info;
+			}
+			return "%s\n%s".printf (info, names.str);
+		}
+
+		void show_notification (string summary, string body) {
 			try {
 				close_notification ();
-				notification = new Notify.Notification (_("Package Manager"), info, "system-software-install-symbolic");
+				notification = new Notify.Notification (summary, body, "system-software-install-symbolic");
 				notification.set_timeout (Notify.EXPIRES_DEFAULT);
 				notification.add_action ("default", _("Details"), execute_updater);
 				notification.show ();
@@ -121,15 +148,15 @@ namespace Pamac {
 			}
 		}
 
-		void update_notification (string info) {
+		void update_notification (string summary, string body) {
 			try {
 				// get_closed_reason () is -1 while the notification is still displayed
 				if (notification != null && notification.get_closed_reason () == -1) {
-					notification.update (_("Package Manager"), info, "system-software-install-symbolic");
+					notification.update (summary, body, "system-software-install-symbolic");
 					notification.show ();
 				} else {
 					// no notification yet, or it expired or was dismissed: show a new one
-					show_notification (info);
+					show_notification (summary, body);
 				}
 			} catch (Error e) {
 				warning (e.message);
