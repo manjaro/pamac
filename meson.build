@@ -2,7 +2,7 @@ project('pamac', 'c', 'vala',
 		default_options : [
 		'prefix=/usr',
 		'sysconfdir=/etc',],
-		version : '11.7.5')
+		version : '12.0.0')
 
 # jemalloc option handling
 jemalloc_opt = get_option('jemalloc')

@@ -15,7 +15,7 @@ Build dependencies:
 
  - meson
  - vala
- - [libpamac](https://github.com/manjaro/libpamac) >= 11.7
+ - [libpamac](https://github.com/manjaro/libpamac) >= 12.0
  - gtk3 >= 3.24
  - gtk4 >= 4.10
  - libadwaita >= 1.4
