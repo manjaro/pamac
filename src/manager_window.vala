@@ -472,6 +472,8 @@ namespace Pamac {
 
 		public bool important_details;
 		public bool transaction_running;
+		// cancelled when a new search starts or when leaving the search
+		Cancellable search_cancellable = new Cancellable ();
 		public bool generate_mirrors_list;
 		bool waiting;
 
@@ -640,6 +642,7 @@ namespace Pamac {
 							search_entry.visible = false;
 							search_entry.set_text ("");
 							search_string = null;
+							search_cancellable.cancel ();
 							view_stack.visible_child_name = previous_view_stack_visible_child_name;
 							view_stack_switcher.visible = true;
 							search_button.visible = true;
@@ -3195,30 +3198,44 @@ namespace Pamac {
 			return pkgs;
 		}
 
-		async GenericArray<Package> search_all_pkgs () {
+		// returns null if cancellable is cancelled
+		async GenericArray<Package>? search_all_pkgs (Cancellable cancellable) {
 			var pkgs = new GenericArray<Package> ();
 			var aur_pkgs = new GenericArray<AURPackage> ();
 			var snaps = new GenericArray<SnapPackage> ();
 			var flatpaks = new GenericArray<FlatpakPackage> ();
-			database.search_pkgs_async.begin (search_string, (obj, res) => {
-				pkgs = database.search_pkgs_async.end (res);
+			// a cancelled search returns null
+			database.search_pkgs_async.begin (search_string, cancellable, (obj, res) => {
+				var result = database.search_pkgs_async.end (res);
+				if (result != null) {
+					pkgs = result;
+				}
 				search_all_pkgs.callback ();
 			});
 			if (enable_aur) {
-				database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
-					aur_pkgs = database.search_aur_pkgs_async.end (res);
+				database.search_aur_pkgs_async.begin (search_string, cancellable, (obj, res) => {
+					var result = database.search_aur_pkgs_async.end (res);
+					if (result != null) {
+						aur_pkgs = result;
+					}
 					search_all_pkgs.callback ();
 				});
 			}
 			if (database.config.enable_snap) {
-				database.search_snaps_async.begin (search_string, (obj, res) => {
-					snaps = database.search_snaps_async.end (res);
+				database.search_snaps_async.begin (search_string, cancellable, (obj, res) => {
+					var result = database.search_snaps_async.end (res);
+					if (result != null) {
+						snaps = result;
+					}
 					search_all_pkgs.callback ();
 				});
 			}
 			if (database.config.enable_flatpak) {
-				database.search_flatpaks_async.begin (search_string, (obj, res) => {
-					flatpaks = database.search_flatpaks_async.end (res);
+				database.search_flatpaks_async.begin (search_string, cancellable, (obj, res) => {
+					var result = database.search_flatpaks_async.end (res);
+					if (result != null) {
+						flatpaks = result;
+					}
 					search_all_pkgs.callback ();
 				});
 			}
@@ -3239,7 +3256,22 @@ namespace Pamac {
 			}
 			pkgs.extend (snaps, null);
 			pkgs.extend (flatpaks, null);
+			if (cancellable.is_cancelled ()) {
+				return null;
+			}
 			return pkgs;
+		}
+
+		// cancel the previous search and return the cancellable of a new one
+		Cancellable new_search_cancellable () {
+			search_cancellable.cancel ();
+			search_cancellable = new Cancellable ();
+			return search_cancellable;
+		}
+
+		// the displayed list is still the one of this search
+		bool is_current_search (string list_name) {
+			return view_stack.visible_child_name == "search" && current_packages_list_name == list_name;
 		}
 
 		[GtkCallback]
@@ -3639,34 +3671,37 @@ namespace Pamac {
 			int index = row.get_index ();
 			switch (index) {
 				case 0: // all
-					current_packages_list_name = "search_all_%s".printf (search_string);
-					search_all_pkgs.begin ((obj, res) => {
+					string list_name = "search_all_%s".printf (search_string);
+					current_packages_list_name = list_name;
+					search_all_pkgs.begin (new_search_cancellable (), (obj, res) => {
 						var pkgs = search_all_pkgs.end (res);
-						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_all_%s".printf (search_string)) {
+						if (pkgs != null && is_current_search (list_name)) {
 							populate_packages_list (pkgs);
-						} else {
+						} else if (view_stack.visible_child_name != "search") {
 							this.get_window ().set_cursor (null);
 						}
 					});
 					break;
 				case 1: // installed
-					current_packages_list_name = "search_installed_%s".printf (search_string);
-					database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+					string list_name = "search_installed_%s".printf (search_string);
+					current_packages_list_name = list_name;
+					database.search_installed_pkgs_async.begin (search_string, new_search_cancellable (), (obj, res) => {
 						var pkgs = database.search_installed_pkgs_async.end (res);
-						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_installed_%s".printf (search_string)) {
+						if (pkgs != null && is_current_search (list_name)) {
 							populate_packages_list (pkgs);
-						} else {
+						} else if (view_stack.visible_child_name != "search") {
 							this.get_window ().set_cursor (null);
 						}
 					});
 					break;
 				case 2: // repos
-					current_packages_list_name = "search_repos_%s".printf (search_string);
-					database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
-						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_repos_%s".printf (search_string)) {
-							var pkgs = database.search_repos_pkgs_async.end (res);
+					string list_name = "search_repos_%s".printf (search_string);
+					current_packages_list_name = list_name;
+					database.search_repos_pkgs_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+						var pkgs = database.search_repos_pkgs_async.end (res);
+						if (pkgs != null && is_current_search (list_name)) {
 							populate_packages_list (pkgs);
-						} else {
+						} else if (view_stack.visible_child_name != "search") {
 							this.get_window ().set_cursor (null);
 						}
 					});
@@ -3681,32 +3716,35 @@ namespace Pamac {
 					}
 					unowned string title = simple_row.title;
 					if (title == dgettext (null, "AUR")) {
-						current_packages_list_name = "search_aur_%s".printf (search_string);
-						database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
-							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_aur_%s".printf (search_string)) {
-								var pkgs = database.search_aur_pkgs_async.end (res);
+						string list_name = "search_aur_%s".printf (search_string);
+						current_packages_list_name = list_name;
+						database.search_aur_pkgs_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+							var pkgs = database.search_aur_pkgs_async.end (res);
+							if (pkgs != null && is_current_search (list_name)) {
 								populate_aur_list (pkgs);
-							} else {
+							} else if (view_stack.visible_child_name != "search") {
 								this.get_window ().set_cursor (null);
 							}
 						});
 					} else if (title == dgettext (null, "Snap")) {
-						current_packages_list_name = "search_snap_%s".printf (search_string);
-						database.search_snaps_async.begin (search_string, (obj, res) => {
-							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_snap_%s".printf (search_string)) {
-								var pkgs = database.search_snaps_async.end (res);
+						string list_name = "search_snap_%s".printf (search_string);
+						current_packages_list_name = list_name;
+						database.search_snaps_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+							var pkgs = database.search_snaps_async.end (res);
+							if (pkgs != null && is_current_search (list_name)) {
 								populate_packages_list (pkgs);
-							} else {
+							} else if (view_stack.visible_child_name != "search") {
 								this.get_window ().set_cursor (null);
 							}
 						});
 					} else if (title == dgettext (null, "Flatpak")) {
-						current_packages_list_name = "search_flatpak_%s".printf (search_string);
-						database.search_flatpaks_async.begin (search_string, (obj, res) => {
-							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_flatpak_%s".printf (search_string)) {
-								var pkgs = database.search_flatpaks_async.end (res);
+						string list_name = "search_flatpak_%s".printf (search_string);
+						current_packages_list_name = list_name;
+						database.search_flatpaks_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+							var pkgs = database.search_flatpaks_async.end (res);
+							if (pkgs != null && is_current_search (list_name)) {
 								populate_packages_list (pkgs);
-							} else {
+							} else if (view_stack.visible_child_name != "search") {
 								this.get_window ().set_cursor (null);
 							}
 						});
