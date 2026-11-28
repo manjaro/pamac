@@ -1597,7 +1597,7 @@ namespace Pamac {
 				previous_widget = populate_details_grid (dgettext (null, "Licenses"), dgettext (null, "Unknown"), previous_widget);
 			}
 			if (software_mode) {
-				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
+				if (pkg.source == PackageSource.REPO && database.is_official_repo (pkg.repo)) {
 					previous_widget = populate_details_grid (dgettext (null, "Repository"), dgettext (null, "Official Repositories"), previous_widget);
 				} else {
 					previous_widget = populate_details_grid (dgettext (null, "Repository"), pkg.repo, previous_widget);
@@ -2526,24 +2526,9 @@ namespace Pamac {
 					row.size_label.label = GLib.format_size (pkg.installed_size);
 				}
 			}
-			if (pkg.repo != null) {
-				if (alpm_pkg != null) {
-					if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-						if (software_mode) {
-							row.repo_label.label = dgettext (null, "Official Repositories");
-						} else {
-							row.repo_label.label = "%s (%s)".printf (dgettext (null, "Official Repositories"), pkg.repo);
-						}
-					} else if (pkg.repo == dgettext (null, "AUR")) {
-						row.repo_label.label = pkg.repo;
-					} else {
-						row.repo_label.label = "%s (%s)".printf (dgettext (null, "Repositories"), pkg.repo);
-					}
-				} else if (pkg is FlatpakPackage) {
-					row.repo_label.label = "%s (%s)".printf (dgettext (null, "Flatpak"), pkg.repo);
-				} else {
-					row.repo_label.label = pkg.repo;
-				}
+			string? repo_name = transaction.get_repo_display_name (pkg);
+			if (repo_name != null) {
+				row.repo_label.label = repo_name;
 			}
 			set_row_app_icon (row, pkg);
 			if (transaction.transaction_summary_contains (pkg.id)) {
@@ -2748,22 +2733,9 @@ namespace Pamac {
 			} else {
 				row.size_label.set_markup ("<span foreground='grey'>%s</span>".printf (GLib.format_size (pkg.download_size)));
 			}
-			if (alpm_pkg != null && pkg.repo != null) {
-				if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-					if (software_mode) {
-						row.repo_label.set_markup ("<span foreground='grey'>%s</span>".printf (dgettext (null, "Official Repositories")));
-					} else {
-						row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s (%s)</span>", dgettext (null, "Official Repositories"), pkg.repo));
-					}
-				} else if (pkg.repo == dgettext (null, "AUR")) {
-					row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s</span>", pkg.repo));
-				} else if (pkg.repo != null) {
-					row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s (%s)</span>", dgettext (null, "Repositories"), pkg.repo));
-				}
-			} else if (pkg is FlatpakPackage) {
-				row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s (%s)</span>", dgettext (null, "Flatpak"), pkg.repo));
-			} else {
-				row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s</span>", pkg.repo));
+			string? repo_name = transaction.get_repo_display_name (pkg);
+			if (repo_name != null) {
+				row.repo_label.set_markup (Markup.printf_escaped ("<span foreground='grey'>%s</span>", repo_name));
 			}
 			set_row_app_icon (row, pkg);
 			if (transaction.transaction_summary_contains (pkg.id)) {
@@ -3017,7 +2989,7 @@ namespace Pamac {
 				properties_stack.visible_child_name = "details";
 			}
 			AURPackage? aur_pkg = null;
-			if (pkg.repo == dgettext (null, "AUR")) {
+			if (pkg.source == PackageSource.AUR) {
 				aur_pkg = database.get_aur_pkg (pkg.name);
 			}
 			files_page.visible = true;

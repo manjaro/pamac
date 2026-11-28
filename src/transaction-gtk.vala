@@ -521,24 +521,9 @@ namespace Pamac {
 			if (download_size > 0) {
 				row.size_label.label = format_size (download_size);
 			}
-			if (pkg.repo != null) {
-				if (full_alpm_pkg != null) {
-					if (pkg.repo == "community" || pkg.repo == "extra" || pkg.repo == "core" || pkg.repo == "multilib") {
-						if (software_mode) {
-							row.repo_label.label = dgettext (null, "Official Repositories");
-						} else {
-							row.repo_label.label = "%s (%s)".printf (dgettext (null, "Official Repositories"), pkg.repo);
-						}
-					} else if (pkg.repo == dgettext (null, "AUR")) {
-						row.repo_label.label = pkg.repo;
-					} else {
-						row.repo_label.label = "%s (%s)".printf (dgettext (null, "Repositories"), pkg.repo);
-					}
-				} else if (pkg is FlatpakPackage) {
-					row.repo_label.label = "%s (%s)".printf (dgettext (null, "Flatpak"), pkg.repo);
-				} else {
-					row.repo_label.label = pkg.repo;
-				}
+			string? repo_name = get_repo_display_name (pkg);
+			if (repo_name != null) {
+				row.repo_label.label = repo_name;
 			}
 			if (full_alpm_pkg != null) {
 				set_row_app_icon (row, full_alpm_pkg);
@@ -546,6 +531,30 @@ namespace Pamac {
 				set_row_app_icon (row, pkg);
 			}
 			return row;
+		}
+
+		// where the package comes from, null if unknown
+		public string? get_repo_display_name (Package pkg) {
+			unowned string? repo = pkg.repo;
+			switch (pkg.source) {
+				case PackageSource.REPO:
+					if (database.is_official_repo (repo)) {
+						if (local_config.software_mode) {
+							return dgettext (null, "Official Repositories");
+						}
+						return "%s (%s)".printf (dgettext (null, "Official Repositories"), repo);
+					}
+					return "%s (%s)".printf (dgettext (null, "Repositories"), repo);
+				case PackageSource.AUR:
+					return dgettext (null, "AUR");
+				case PackageSource.FLATPAK:
+					if (repo == null) {
+						return dgettext (null, "Flatpak");
+					}
+					return "%s (%s)".printf (dgettext (null, "Flatpak"), repo);
+				default:
+					return repo;
+			}
 		}
 
 		string get_pkgname_display_name (string pkgname) {
