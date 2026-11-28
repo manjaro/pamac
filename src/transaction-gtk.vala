@@ -577,117 +577,40 @@ namespace Pamac {
 			}
 		}
 
-		void add_remove_to_summary (Gtk.ListBox listbox, Package pkg) {
-			string? infos = null;
-			// check for remove reason to display in place of installed_version
-			var alpm_pkg = pkg as AlpmPackage;
-			if (alpm_pkg != null) {
-				unowned GenericArray<string> dep_list = alpm_pkg.depends;
-				if (dep_list.length != 0) {
-					// depends list populated in alpm_utils/get_transaction_summary, it contains only one element.
-					infos = "%s: %s".printf (dgettext (null, "Depends On"), get_pkgname_display_name (dep_list[0]));
-				} else {
-					unowned GenericArray<string> requiredby_list = alpm_pkg.requiredby;
-					if (requiredby_list.length != 0) {
-						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						infos = "%s: %s".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (requiredby_list[0]));
-					}
-				}
+		// why the package is in the transaction, null if it is requested
+		string? get_reason_infos (TransactionSummary summary, Package pkg) {
+			SummaryItem? item = summary.get_item (pkg);
+			if (item == null || item.related == null) {
+				return null;
 			}
-			add_infos_to_summary (listbox, pkg, infos);
-		}
-
-		void add_conflict_to_summary (Gtk.ListBox listbox, Package pkg) {
-			string? infos = null;
-			var alpm_pkg = pkg as AlpmPackage;
-			if (alpm_pkg != null) {
-				// check for conflict to display in place of installed_version
-				unowned GenericArray<string> dep_list = alpm_pkg.conflicts;
-				if (dep_list.length != 0) {
-					// conflicts list populated in alpm_utils/get_transaction_summary, it contains only one element.
-					infos = "(%s: %s)".printf (dgettext (null, "Conflicts With"), get_pkgname_display_name (dep_list[0]));
-				}
+			unowned string related = item.related;
+			switch (item.reason) {
+				case SummaryReason.DEPENDENCY:
+					return "%s: %s".printf (dgettext (null, "Required By"), get_pkgname_display_name (related));
+				case SummaryReason.REPLACE:
+					return "%s: %s".printf (dgettext (null, "Replaces"), get_pkgname_display_name (related));
+				case SummaryReason.CONFLICT:
+					return "%s: %s".printf (dgettext (null, "Conflicts With"), get_pkgname_display_name (related));
+				case SummaryReason.DEPENDS_ON_REMOVED:
+					return "%s: %s".printf (dgettext (null, "Depends On"), get_pkgname_display_name (related));
+				case SummaryReason.ORPHAN:
+					return "%s: %s".printf (dgettext (null, "Orphan Of"), get_pkgname_display_name (related));
+				default:
+					return null;
 			}
-			add_infos_to_summary (listbox, pkg, infos);
 		}
 
-		void add_downgrade_to_summary (Gtk.ListBox listbox, Package pkg) {
-			add_infos_to_summary (listbox, pkg, null, true);
-		}
-
-		void add_build_to_summary (Gtk.ListBox listbox, Package pkg) {
-			string? infos = null;
-			if (pkg.installed_version != null) {
-				if (pkg.installed_version != pkg.version) {
-					infos = "%s".printf (pkg.installed_version);
-				}
-			} else {
-				// check for requiredby to display in place of installed_version
-				var alpm_pkg = pkg as AlpmPackage;
-				if (alpm_pkg != null) {
-					unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
-					if (dep_list.length != 0) {
-						// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						infos = "%s: %s".printf (dgettext (null, "Required By"), dep_list[0]);
-					}
-				}
+		// add the packages to a new list titled action, or to listbox if given, returns the list
+		Gtk.ListBox? add_pkgs_to_summary (Gtk.Box box, string action, GenericArray<Package> pkgs, TransactionSummary summary,
+										bool show_installed_version, Gtk.ListBox? listbox = null, uint extra_length = 0) {
+			if (pkgs.length == 0) {
+				return listbox;
 			}
-			add_infos_to_summary (listbox, pkg, infos);
-		}
-
-		void add_install_to_summary (Gtk.ListBox listbox, Package pkg) {
-			// check for requiredby/replace to display in place of installed_version
-			string? infos = null;
-			var alpm_pkg = pkg as AlpmPackage;
-			if (alpm_pkg != null) {
-				bool requiredby_found = false;
-				// 1 - check for required dep
-				unowned GenericArray<string> dep_list = alpm_pkg.requiredby;
-				if (dep_list.length != 0) {
-					requiredby_found = true;
-					// requiredby list populated in alpm_utils/get_transaction_summary, it contains only one element.
-					infos = "%s: %s".printf (dgettext (null, "Required By"), get_pkgname_display_name (dep_list[0]));
-				}
-				// 2 - check for replaces
-				if (!requiredby_found) {
-					dep_list = alpm_pkg.replaces;
-					if (dep_list.length != 0) {
-						// replaces list populated in alpm_utils/get_transaction_summary, it contains only one element.
-						infos = "%s: %s".printf (dgettext (null, "Replaces"), get_pkgname_display_name (dep_list[0]));
-					}
-				}
+			Gtk.ListBox list = listbox ?? create_listbox (box, action, pkgs.length + extra_length);
+			foreach (unowned Package pkg in pkgs) {
+				add_infos_to_summary (list, pkg, get_reason_infos (summary, pkg), show_installed_version);
 			}
-			add_infos_to_summary (listbox, pkg, infos);
-		}
-
-		void add_reinstall_to_summary (Gtk.ListBox listbox, Package pkg) {
-			string? infos = null;
-			add_infos_to_summary (listbox, pkg, infos);
-		}
-
-		void add_upgrade_to_summary (Gtk.ListBox listbox, Package pkg) {
-			add_infos_to_summary (listbox, pkg, null, true);
-		}
-
-		// installed size of the package version currently installed, 0 if unknown
-		uint64 get_installed_pkg_size (Package pkg) {
-			if (!(pkg is AlpmPackage)) {
-				return 0;
-			}
-			AlpmPackage? installed_pkg = database.get_installed_pkg (pkg.name);
-			if (installed_pkg == null) {
-				return 0;
-			}
-			return installed_pkg.installed_size;
-		}
-
-		// change of used disk space if pkg replaces the installed version, only for alpm packages:
-		// Snap and Flatpak sizes are not comparable and packages to build have no known size
-		int64 get_installed_size_delta (Package pkg) {
-			if (!(pkg is AlpmPackage)) {
-				return 0;
-			}
-			return (int64) pkg.installed_size - (int64) get_installed_pkg_size (pkg);
+			return list;
 		}
 
 		Gtk.ListBox create_listbox (Gtk.Box box, string action, uint length) {
@@ -711,74 +634,16 @@ namespace Pamac {
 		}
 
 		async string show_summary (TransactionSummary summary) {
-			uint64 dsize = 0;
 			transaction_summary_remove_all ();
 			var application_window = application.active_window;
 			var transaction_sum_dialog = new TransactionSumDialog (application_window);
 			unowned Gtk.Box box = transaction_sum_dialog.box;
-			unowned GenericArray<Package> pkgs;
-			unowned GenericArray<Package> conflict_pkgs;
-			unowned Package pkg;
-			uint i;
-			uint length;
-			uint conflicts_length;
-			Gtk.ListBox remove_listbox = null;
-			conflict_pkgs = summary.conflicts_to_remove;
-			conflicts_length = conflict_pkgs.length;
-			pkgs = summary.to_remove;
-			length = pkgs.length;
-			if (length > 0) {
-				remove_listbox = create_listbox (box, "To remove", length + conflicts_length);
-				pkg = pkgs[0];
-				add_remove_to_summary (remove_listbox, pkg);
-				i = 1;
-				while (i < length) {
-					pkg = pkgs[i];
-					add_remove_to_summary (remove_listbox, pkg);
-					i++;
-				}
-			}
-			if (conflicts_length > 0) {
-				// if length > 0, remove_listbox already created
-				if (length == 0) {
-					remove_listbox = create_listbox (box, "To remove", conflicts_length);
-				}
-				pkg = conflict_pkgs[0];
-				add_conflict_to_summary (remove_listbox, pkg);
-				i = 1;
-				while (i < conflicts_length) {
-					pkg = conflict_pkgs[i];
-					add_conflict_to_summary (remove_listbox, pkg);
-					i++;
-				}
-			}
-			pkgs = summary.to_downgrade;
-			length = pkgs.length;
-			if (length > 0) {
-				var listbox = create_listbox (box, "To downgrade", length);
-				pkg = pkgs[0];
-				dsize += pkg.download_size;
-				add_downgrade_to_summary (listbox, pkg);
-				i = 1;
-				while (i < length) {
-					pkg = pkgs[i];
-					dsize += pkg.download_size;
-					add_downgrade_to_summary (listbox, pkg);
-					i++;
-				}
-			}
-			pkgs = summary.to_build;
-			length = pkgs.length;
-			if (length > 0) {
-				var listbox = create_listbox (box, "To build", length);
-				pkg = pkgs[0];
-				add_build_to_summary (listbox, pkg);
-				i = 1;
-				while (i < length) {
-					pkg = pkgs[i];
-					add_build_to_summary (listbox, pkg);
-					i++;
-				}
+			// removed packages and conflicts in the same list
+			Gtk.ListBox? remove_listbox = add_pkgs_to_summary (box, "To remove", summary.to_remove, summary, false,
+																null, summary.conflicts_to_remove.length);
+			add_pkgs_to_summary (box, "To remove", summary.conflicts_to_remove, summary, false, remove_listbox);
+			add_pkgs_to_summary (box, "To downgrade", summary.to_downgrade, summary, true);
+			if (add_pkgs_to_summary (box, "To build", summary.to_build, summary, true) != null) {
 				var button = new Gtk.Button.with_label (dgettext (null, "Edit build files"));
 				button.can_shrink = true;
 				button.halign = Gtk.Align.END;
@@ -790,83 +655,16 @@ namespace Pamac {
 				});
 				box.append (button);
 			}
-			pkgs = summary.to_install;
-			length = pkgs.length;
-			if (length > 0) {
-				var listbox = create_listbox (box, "To install", length);
-				pkg = pkgs[0];
-				dsize += pkg.download_size;
-				add_install_to_summary (listbox, pkg);
-				i = 1;
-				while (i < length) {
-					pkg = pkgs[i];
-					dsize += pkg.download_size;
-					add_install_to_summary (listbox, pkg);
-					i++;
-				}
-			}
-			pkgs = summary.to_reinstall;
-			length = pkgs.length;
-			if (length > 0) {
-				var listbox = create_listbox (box, "To reinstall", length);
-				pkg = pkgs[0];
-				dsize += pkg.download_size;
-				add_reinstall_to_summary (listbox, pkg);
-				i = 1;
-				while (i < length) {
-					pkg = pkgs[i];
-					dsize += pkg.download_size;
-					add_reinstall_to_summary (listbox, pkg);
-					i++;
-				}
-			}
-			pkgs = summary.to_upgrade;
-			length = pkgs.length;
-			if (length > 0) {
-				if (!no_confirm_upgrade) {
-					var listbox = create_listbox (box, "To upgrade", length);
-					pkg = pkgs[0];
-					dsize += pkg.download_size;
-					add_upgrade_to_summary (listbox, pkg);
-					i = 1;
-					while (i < length) {
-						pkg = pkgs[i];
-						dsize += pkg.download_size;
-						add_upgrade_to_summary (listbox, pkg);
-						i++;
-					}
-				}
-			}
-			// change of used disk space, upgrades are counted only if they are listed
-			int64 isize_delta = 0;
-			foreach (unowned Package remove_pkg in summary.to_remove) {
-				if (remove_pkg is AlpmPackage) {
-					isize_delta -= (int64) remove_pkg.installed_size;
-				}
-			}
-			foreach (unowned Package remove_pkg in conflict_pkgs) {
-				if (remove_pkg is AlpmPackage) {
-					isize_delta -= (int64) remove_pkg.installed_size;
-				}
-			}
-			foreach (unowned Package add_pkg in summary.to_install) {
-				isize_delta += get_installed_size_delta (add_pkg);
-			}
-			foreach (unowned Package add_pkg in summary.to_reinstall) {
-				isize_delta += get_installed_size_delta (add_pkg);
-			}
-			foreach (unowned Package add_pkg in summary.to_downgrade) {
-				isize_delta += get_installed_size_delta (add_pkg);
-			}
+			add_pkgs_to_summary (box, "To install", summary.to_install, summary, false);
+			add_pkgs_to_summary (box, "To reinstall", summary.to_reinstall, summary, false);
 			if (!no_confirm_upgrade) {
-				foreach (unowned Package add_pkg in summary.to_upgrade) {
-					isize_delta += get_installed_size_delta (add_pkg);
-				}
+				add_pkgs_to_summary (box, "To upgrade", summary.to_upgrade, summary, true);
 			}
 			var sizes_text = new StringBuilder ();
-			if (dsize > 0) {
-				sizes_text.append ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (dsize)));
+			if (summary.download_size > 0) {
+				sizes_text.append ("<b>%s: %s</b>".printf (dgettext (null, "Total download size"), format_size (summary.download_size)));
 			}
+			int64 isize_delta = summary.installed_size_delta;
 			if (isize_delta != 0) {
 				if (sizes_text.len > 0) {
 					sizes_text.append_c ('\n');
