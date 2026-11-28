@@ -109,8 +109,29 @@ namespace Pamac {
 			}
 		}
 
-		// number of updates followed by the names of the first updated packages
+		// number of updates and download size, number of updates by source if there are several,
+		// names of the first updated packages and the need of a restart
 		string get_notification_body (string info) {
+			var body = new StringBuilder (info);
+			uint64 download_size = updates_checker.download_size;
+			if (download_size > 0) {
+				body.append (" (%s)".printf (format_size (download_size)));
+			}
+			// number of updates by source
+			string[] sources = {};
+			if (updates_checker.repos_updates_nb > 0) {
+				sources += "%s: %u".printf (_("Repositories"), updates_checker.repos_updates_nb);
+			}
+			if (updates_checker.aur_updates_nb > 0) {
+				sources += "%s: %u".printf (_("AUR"), updates_checker.aur_updates_nb);
+			}
+			if (updates_checker.flatpak_updates_nb > 0) {
+				sources += "%s: %u".printf (_("Flatpak"), updates_checker.flatpak_updates_nb);
+			}
+			if (sources.length > 1) {
+				body.append_c ('\n');
+				body.append (Markup.escape_text (string.joinv (", ", sources)));
+			}
 			const uint MAX_NAMES = 5;
 			var names = new StringBuilder ();
 			uint names_nb = 0;
@@ -130,10 +151,15 @@ namespace Pamac {
 				names.append (Markup.escape_text (name));
 				names_nb++;
 			}
-			if (names_nb == 0) {
-				return info;
+			if (names_nb > 0) {
+				body.append_c ('\n');
+				body.append (names.str);
 			}
-			return "%s\n%s".printf (info, names.str);
+			if (updates_checker.reboot_required) {
+				body.append_c ('\n');
+				body.append (Markup.escape_text (_("A restart will be required")));
+			}
+			return body.str;
 		}
 
 		void show_notification (string summary, string body) {
