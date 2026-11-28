@@ -467,6 +467,8 @@ namespace Pamac {
 		public bool transaction_running;
 		// the user asked to close the window during a transaction
 		bool close_after_transaction;
+		// cancelled when a new search starts or when leaving the search
+		Cancellable search_cancellable = new Cancellable ();
 		public bool generate_mirrors_list;
 		bool waiting;
 
@@ -694,6 +696,7 @@ namespace Pamac {
 							search_entry.visible = false;
 							search_entry.set_text ("");
 							search_string = null;
+							search_cancellable.cancel ();
 							view_stack.visible_child_name = previous_view_stack_visible_child_name;
 							if (headerbar.title_widget == null) {
 								switcher_bar.reveal = true;
@@ -3180,6 +3183,7 @@ namespace Pamac {
 			}
 			var results = new GenericArray<Package> ();
 			bool displayed = false;
+			var cancellable = new_search_cancellable ();
 			SearchResultsFunc on_results = (pkgs) => {
 				pending--;
 				if (view_stack.visible_child_name != "search" || current_packages_list_name != list_name) {
@@ -3216,12 +3220,19 @@ namespace Pamac {
 				// populate_listbox restores the default cursor
 				this.set_cursor (new Gdk.Cursor.from_name (pending == 0 ? "default" : "progress", null));
 			};
-			database.search_pkgs_async.begin (search_string, (obj, res) => {
-				on_results (database.search_pkgs_async.end (res));
+			database.search_pkgs_async.begin (search_string, cancellable, (obj, res) => {
+				var pkgs = database.search_pkgs_async.end (res);
+				if (pkgs != null) {
+					on_results (pkgs);
+				}
 			});
 			if (enable_aur) {
-				database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
+				database.search_aur_pkgs_async.begin (search_string, cancellable, (obj, res) => {
 					var aur_pkgs = database.search_aur_pkgs_async.end (res);
+					if (aur_pkgs == null) {
+						// cancelled
+						return;
+					}
 					// installed AUR packages are already found by search_pkgs
 					var pkgs = new GenericArray<Package> ();
 					foreach (unowned AURPackage pkg in aur_pkgs) {
@@ -3233,15 +3244,33 @@ namespace Pamac {
 				});
 			}
 			if (enable_snap) {
-				database.search_snaps_async.begin (search_string, (obj, res) => {
-					on_results (database.search_snaps_async.end (res));
+				database.search_snaps_async.begin (search_string, cancellable, (obj, res) => {
+					var pkgs = database.search_snaps_async.end (res);
+					if (pkgs != null) {
+						on_results (pkgs);
+					}
 				});
 			}
 			if (enable_flatpak) {
-				database.search_flatpaks_async.begin (search_string, (obj, res) => {
-					on_results (database.search_flatpaks_async.end (res));
+				database.search_flatpaks_async.begin (search_string, cancellable, (obj, res) => {
+					var pkgs = database.search_flatpaks_async.end (res);
+					if (pkgs != null) {
+						on_results (pkgs);
+					}
 				});
 			}
+		}
+
+		// cancel the previous search and return the cancellable of a new one
+		Cancellable new_search_cancellable () {
+			search_cancellable.cancel ();
+			search_cancellable = new Cancellable ();
+			return search_cancellable;
+		}
+
+		// the displayed list is still the one of this search
+		bool is_current_search (string list_name) {
+			return view_stack.visible_child_name == "search" && current_packages_list_name == list_name;
 		}
 
 		[GtkCallback]
@@ -3642,25 +3671,27 @@ namespace Pamac {
 					search_all_pkgs ();
 					break;
 				case 1: // installed
-					current_packages_list_name = "search_installed_%s".printf (search_string);
-					database.search_installed_pkgs_async.begin (search_string, (obj, res) => {
+					string list_name = "search_installed_%s".printf (search_string);
+					current_packages_list_name = list_name;
+					database.search_installed_pkgs_async.begin (search_string, new_search_cancellable (), (obj, res) => {
 						var pkgs = database.search_installed_pkgs_async.end (res);
-						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_installed_%s".printf (search_string)) {
+						if (pkgs != null && is_current_search (list_name)) {
 							this.title = dgettext (null, "Installed");
 							populate_packages_list (pkgs);
-						} else {
+						} else if (view_stack.visible_child_name != "search") {
 							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 						}
 					});
 					break;
 				case 2: // repos
-					current_packages_list_name = "search_repos_%s".printf (search_string);
-					database.search_repos_pkgs_async.begin (search_string, (obj, res) => {
-						if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_repos_%s".printf (search_string)) {
-							var pkgs = database.search_repos_pkgs_async.end (res);
+					string list_name = "search_repos_%s".printf (search_string);
+					current_packages_list_name = list_name;
+					database.search_repos_pkgs_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+						var pkgs = database.search_repos_pkgs_async.end (res);
+						if (pkgs != null && is_current_search (list_name)) {
 							this.title = dgettext (null, "Repositories");
 							populate_packages_list (pkgs);
-						} else {
+						} else if (view_stack.visible_child_name != "search") {
 							this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 						}
 					});
@@ -3675,35 +3706,38 @@ namespace Pamac {
 					}
 					unowned string title = simple_row.title;
 					if (title == dgettext (null, "AUR")) {
-						current_packages_list_name = "search_aur_%s".printf (search_string);
-						database.search_aur_pkgs_async.begin (search_string, (obj, res) => {
-							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_aur_%s".printf (search_string)) {
-								var pkgs = database.search_aur_pkgs_async.end (res);
+						string list_name = "search_aur_%s".printf (search_string);
+						current_packages_list_name = list_name;
+						database.search_aur_pkgs_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+							var pkgs = database.search_aur_pkgs_async.end (res);
+							if (pkgs != null && is_current_search (list_name)) {
 								this.title = dgettext (null, "AUR");
 								populate_aur_list (pkgs);
-							} else {
+							} else if (view_stack.visible_child_name != "search") {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 							}
 						});
 					} else if (title == dgettext (null, "Snap")) {
-						current_packages_list_name = "search_snap_%s".printf (search_string);
-						database.search_snaps_async.begin (search_string, (obj, res) => {
-							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_snap_%s".printf (search_string)) {
-								var pkgs = database.search_snaps_async.end (res);
+						string list_name = "search_snap_%s".printf (search_string);
+						current_packages_list_name = list_name;
+						database.search_snaps_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+							var pkgs = database.search_snaps_async.end (res);
+							if (pkgs != null && is_current_search (list_name)) {
 								this.title = dgettext (null, "Snap");
 								populate_packages_list (pkgs);
-							} else {
+							} else if (view_stack.visible_child_name != "search") {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 							}
 						});
 					} else if (title == dgettext (null, "Flatpak")) {
-						current_packages_list_name = "search_flatpak_%s".printf (search_string);
-						database.search_flatpaks_async.begin (search_string, (obj, res) => {
-							if (view_stack.visible_child_name == "search" && current_packages_list_name == "search_flatpak_%s".printf (search_string)) {
-								var pkgs = database.search_flatpaks_async.end (res);
+						string list_name = "search_flatpak_%s".printf (search_string);
+						current_packages_list_name = list_name;
+						database.search_flatpaks_async.begin (search_string, new_search_cancellable (), (obj, res) => {
+							var pkgs = database.search_flatpaks_async.end (res);
+							if (pkgs != null && is_current_search (list_name)) {
 								this.title = dgettext (null, "Flatpak");
 								populate_packages_list (pkgs);
-							} else {
+							} else if (view_stack.visible_child_name != "search") {
 								this.set_cursor (new Gdk.Cursor.from_name ("default", null));
 							}
 						});
