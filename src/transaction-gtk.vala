@@ -49,7 +49,6 @@ namespace Pamac {
 		// ask_confirmation option
 		public bool no_confirm_upgrade { get; set; }
 		bool summary_shown;
-		bool reboot_needed;
 		public bool commit_transaction_answer;
 
 		public signal void transaction_sum_populated ();
@@ -142,7 +141,6 @@ namespace Pamac {
 			// ask_confirmation option
 			no_confirm_upgrade = false;
 			summary_shown = false;
-			reboot_needed = false;
 			commit_transaction_answer = false;
 			// check_dbs
 			var loop = new MainLoop ();
@@ -673,6 +671,12 @@ namespace Pamac {
 				uint64 abs_delta = (uint64) (isize_delta > 0 ? isize_delta : -isize_delta);
 				sizes_text.append ("<b>%s: %s%s</b>".printf (dgettext (null, "Total installed size"), sign, format_size (abs_delta)));
 			}
+			if (summary.requires_reboot) {
+				if (sizes_text.len > 0) {
+					sizes_text.append_c ('\n');
+				}
+				sizes_text.append (Markup.escape_text (dgettext (null, "A restart is required for the changes to take effect")));
+			}
 			if (sizes_text.len > 0) {
 				transaction_sum_dialog.label.label = sizes_text.str;
 			}
@@ -891,52 +895,49 @@ namespace Pamac {
 			warning_textbuffer = new StringBuilder ();
 		}
 
+		// show_restart: propose to restart if the last transaction requires it
 		public async void show_warnings (bool show_restart = true) {
+			// the restart is proposed with a button, do not show its warning
+			string reboot_warning = dgettext (null, "A restart is required for the changes to take effect") + ".\n";
+			warning_textbuffer.replace (reboot_warning, "", 0);
+			bool propose_restart = show_restart && reboot_required;
+			if (warning_textbuffer.len == 0 && !propose_restart) {
+				return;
+			}
+			var application_window = application.active_window;
+			var dialog = new Adw.MessageDialog (application_window, dgettext (null, "Warning"), null);
+			string restart_id = "restart";
+			string close_id = "close";
+			dialog.add_response (close_id, dgettext (null, "_Close"));
+			dialog.default_response = close_id;
+			dialog.close_response = close_id;
+			if (propose_restart) {
+				dialog.body = dgettext (null, "A restart is required for the changes to take effect");
+				dialog.add_response (restart_id, dgettext (null, "Restart"));
+				dialog.set_response_appearance (restart_id, Adw.ResponseAppearance.SUGGESTED);
+			}
+			// set details
 			if (warning_textbuffer.len > 0) {
-				var application_window = application.active_window;
-				var dialog = new Adw.MessageDialog (application_window, dgettext (null, "Warning"), null);
-				string restart_id = "restart";
-				string close_id = "close";
-				dialog.add_response (close_id, dgettext (null, "_Close"));
-				dialog.default_response = close_id;
-				dialog.close_response = close_id;
-				if (reboot_needed || (warning_textbuffer.replace (dgettext (null, "A restart is required for the changes to take effect") + ".", "", 1) > 0)) {
-					if (!show_restart) {
-						reboot_needed = true;
-					} else {
-						dialog.body = dgettext (null, "A restart is required for the changes to take effect");
-						dialog.add_response (restart_id, dgettext (null, "Restart"));
-						dialog.set_response_appearance (restart_id, Adw.ResponseAppearance.SUGGESTED);
-						reboot_needed = false;
-					}
-				}
-				// set details
-				// empty string has a length of 1
-				if (warning_textbuffer.len > 1) {
-					var scrolledwindow = new Gtk.ScrolledWindow ();
-					var label = new Gtk.Label (warning_textbuffer.str);
-					label.selectable = true;
-					label.margin_top = 12;
-					label.margin_bottom = 12;
-					label.margin_start = 12;
-					label.margin_end = 12;
-					scrolledwindow.set_child (label);
-					scrolledwindow.hexpand = true;
-					scrolledwindow.vexpand = true;
-					dialog.extra_child = scrolledwindow;
-					dialog.default_width = 600;
-					dialog.default_height = 300;
-				} else if (reboot_needed) {
-					// warning_textbuffer is empty so don't show dialog
-					return;
-				}
-				dialog.resizable = true;
-				// run
-				string response_id = yield dialog.choose (null);
-				warning_textbuffer = new StringBuilder ();
-				if (response_id == restart_id) {
-					reboot ();
-				}
+				var scrolledwindow = new Gtk.ScrolledWindow ();
+				var label = new Gtk.Label (warning_textbuffer.str);
+				label.selectable = true;
+				label.margin_top = 12;
+				label.margin_bottom = 12;
+				label.margin_start = 12;
+				label.margin_end = 12;
+				scrolledwindow.set_child (label);
+				scrolledwindow.hexpand = true;
+				scrolledwindow.vexpand = true;
+				dialog.extra_child = scrolledwindow;
+				dialog.default_width = 600;
+				dialog.default_height = 300;
+			}
+			dialog.resizable = true;
+			// run
+			string response_id = yield dialog.choose (null);
+			warning_textbuffer = new StringBuilder ();
+			if (response_id == restart_id) {
+				reboot ();
 			}
 		}
 
