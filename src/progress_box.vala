@@ -26,6 +26,9 @@ namespace Pamac {
 		public unowned Gtk.ProgressBar progressbar;
 		[GtkChild]
 		public unowned Gtk.Label action_label;
+		// the progress of the whole step: downloads, packages or hooks
+		[GtkChild]
+		public unowned Gtk.Label step_label;
 
 		public ProgressBox () {
 			Object ();

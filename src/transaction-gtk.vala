@@ -125,6 +125,7 @@ namespace Pamac {
 			emit_action_progress.connect (display_action_progress);
 			emit_download_progress.connect (display_action_progress);
 			emit_hook_progress.connect (display_hook_progress);
+			emit_transaction_progress.connect (display_transaction_progress);
 			emit_script_output.connect (show_details);
 			emit_warning.connect ((msg) => {
 				show_details (msg);
@@ -196,10 +197,39 @@ namespace Pamac {
 			}
 		}
 
+		void display_transaction_progress (TransactionStep step, uint64 current, uint64 total) {
+			string step_name;
+			string count;
+			switch (step) {
+				case TransactionStep.DOWNLOADING:
+					step_name = dgettext (null, "Downloading packages");
+					count = "%s / %s".printf (format_size (current), format_size (total));
+					break;
+				case TransactionStep.PROCESSING:
+					step_name = dgettext (null, "Processing packages");
+					count = "%s/%s".printf (current.to_string (), total.to_string ());
+					break;
+				case TransactionStep.RUNNING_HOOKS:
+					step_name = dgettext (null, "Running hooks");
+					count = "%s/%s".printf (current.to_string (), total.to_string ());
+					break;
+				case TransactionStep.BUILDING:
+					step_name = dgettext (null, "Building packages");
+					count = "%s/%s".printf (current.to_string (), total.to_string ());
+					break;
+				default:
+					return;
+			}
+			progress_box.step_label.label = "%s: %s".printf (step_name, count);
+			progress_box.step_label.visible = true;
+		}
+
 		public void reset_progress_box () {
 			lock (current_action) {
 				current_action = "";
 				progress_box.action_label.label = "";
+				progress_box.step_label.label = "";
+				progress_box.step_label.visible = false;
 				stop_progressbar_pulse ();
 				progress_box.progressbar.fraction = 0;
 				progress_box.progressbar.text = "";

@@ -17,5 +17,16 @@
         <property name="ellipsize">middle</property>
       </object>
     </child>
+    <child>
+      <object class="GtkLabel" id="step_label">
+        <property name="visible">0</property>
+        <property name="ellipsize">middle</property>
+        <property name="single-line-mode">1</property>
+        <style>
+          <class name="dim-label"/>
+          <class name="caption"/>
+        </style>
+      </object>
+    </child>
   </template>
 </interface>
